@@ -1,0 +1,29 @@
+{
+  "source": "Connected SUP-AL90 home screen, 2026-10-08",
+  "privateOriginal": "reference/private/frames/phone-home-2026-10-08.png",
+  "size": [
+    1320,
+    2760
+  ],
+  "crop": [
+    0,
+    146,
+    1320,
+    2694
+  ],
+  "output": "apps/web/public/reference-assets/phone-home.png",
+  "sha256": "6f639cf981a733fbf2859743c421bd1b8f3ddc3cc724de7c67d352f10d65c111",
+  "review": "Wallpaper and launcher icons only; excludes status bar and system gesture line. Static decorative image, no real app launch.",
+  "edgeExtensions": [
+    {
+      "file": "apps/web/public/reference-assets/phone-home-top.png",
+      "sourceRow": 0,
+      "sha256": "37d81cb2d9e712265d0e334ee42f1577d1b1b4d4046308cafd51253367215236"
+    },
+    {
+      "file": "apps/web/public/reference-assets/phone-home-bottom.png",
+      "sourceRow": 2547,
+      "sha256": "24e860a2a1a8ef1de5150a52e0f32ad834be734cb2783ba7238b3b4359dd0d33"
+    }
+  ]
+}

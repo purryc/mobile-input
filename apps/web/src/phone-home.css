@@ -1,0 +1,6 @@
+.phone-home{position:fixed;inset:0;background:#86cbd4;overflow:hidden;padding:var(--native-top,0px) var(--native-right,0px) var(--native-bottom,0px) var(--native-left,0px);user-select:none}
+.phone-home img{display:block;width:100%;height:100%;object-fit:fill;pointer-events:none}
+
+.phone-home:before,.phone-home:after{content:'';position:absolute;left:0;right:0;pointer-events:none;background-size:100% 100%}
+.phone-home:before{top:0;height:var(--native-top,0px);background-image:url('/reference-assets/phone-home-top.png')}
+.phone-home:after{bottom:0;height:var(--native-bottom,0px);background-image:url('/reference-assets/phone-home-bottom.png')}

@@ -3,18 +3,18 @@ import json,sys
 if '--regenerate' not in sys.argv:
  sys.exit('Bootstrap only: source already exists. Use build-hap.py; --regenerate overwrites shells.')
 root=Path(__file__).resolve().parents[1]/'apps/harmony'
-for role,name in [('tablet','手机 Input'),('phone','Mobile 输入')]:
+for role,name in [('tablet','Input Agent'),('phone','Input Agent')]:
  p=root/role
  files={
  'oh-package.json5':{'modelVersion':'6.0.2','name':f'mobile-input-{role}','version':'1.0.0','dependencies':{},'devDependencies':{}},
  'hvigor/hvigor-config.json5':{'modelVersion':'6.0.2','dependencies':{}},
  'build-profile.example.json5':{'app':{'signingConfigs':[],'products':[{'name':'default','compatibleSdkVersion':'6.0.2(22)','targetSdkVersion':'6.0.2(22)','runtimeOS':'HarmonyOS'}]},'modules':[{'name':'entry','srcPath':'./entry','targets':[{'name':'default','applyToProducts':['default']}]}]},
- 'AppScope/app.json5':{'app':{'bundleName':f'com.hmilab.mobileinput.{role}','vendor':'hmilab','versionCode':1000000,'versionName':'1.0.0','icon':'$media:app_icon','label':'$string:app_name'}},
+ 'AppScope/app.json5':{'app':{'bundleName':f'com.hmilab.mobileinput.{role}','vendor':'hmilab','versionCode':1001000,'versionName':'1.1.0','icon':'$media:app_icon','label':'$string:app_name'}},
  'AppScope/resources/base/element/string.json':{'string':[{'name':'app_name','value':name}]},
  'entry/build-profile.json5':{'apiType':'stageMode','buildOption':{}},
  'entry/oh-package.json5':{'name':'entry','version':'1.0.0','dependencies':{}},
  'entry/src/main/resources/base/profile/main_pages.json':{'src':['pages/Index']},
- 'entry/src/main/resources/base/element/string.json':{'string':[{'name':'app_name','value':name},{'name':'module_desc','value':'Mobile Input'},{'name':'mic_reason','value':'将您说的话转成可编辑文字'},{'name':'camera_reason','value':'扫描平板配对码'}]},
+ 'entry/src/main/resources/base/element/string.json':{'string':[{'name':'app_name','value':name},{'name':'module_desc','value':'Input Agent'},{'name':'mic_reason','value':'将您说的话转成可编辑文字'},{'name':'camera_reason','value':'扫描平板配对码'}]},
  'entry/src/main/resources/base/element/color.json':{'color':[{'name':'start_window_background','value':'#F3F5F9'}]},
  'entry/src/main/module.json5':{'module':{'name':'entry','type':'entry','description':'$string:module_desc','mainElement':'EntryAbility','deviceTypes':['tablet','phone'],'deliveryWithInstall':True,'installationFree':False,'pages':'$profile:main_pages','abilities':[{'name':'EntryAbility','srcEntry':'./ets/entryability/EntryAbility.ets','icon':'$media:app_icon','label':'$string:app_name','startWindowIcon':'$media:app_icon','startWindowBackground':'$color:start_window_background','exported':True,'skills':[{'entities':['entity.system.home'],'actions':['action.system.home']}]}],'requestPermissions':[{'name':'ohos.permission.INTERNET'},{'name':'ohos.permission.GET_NETWORK_INFO'},{'name':'ohos.permission.MICROPHONE','reason':'$string:mic_reason','usedScene':{'abilities':['EntryAbility'],'when':'inuse'}},{'name':'ohos.permission.CAMERA','reason':'$string:camera_reason','usedScene':{'abilities':['EntryAbility'],'when':'inuse'}}]}}
  }

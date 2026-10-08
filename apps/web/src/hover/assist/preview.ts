@@ -3,6 +3,7 @@ import type { Action } from "./types";
 type Fixture = { field: string; original: string | null; value: string };
 /** Authored screen content. Never feed these illustrative values into intent extraction. */
 export function previewFields(action: Action): Action["fields"] {
+  if(action.recordKey?.includes('boss-sales-meeting-v2'))return action.fields;
   const entries = (fixtures as Record<string, Fixture[]>)[action.id] || [];
   const fields = action.fields.map(([key, value]): [string, string] => {
     const fixture = entries.find(

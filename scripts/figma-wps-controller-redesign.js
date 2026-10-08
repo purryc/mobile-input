@@ -1,0 +1,54 @@
+// Inputs ICON_SVGS, SPECS. Existing roots are updated in place; new states are named.
+await figma.setCurrentPageAsync(await figma.getNodeByIdAsync('0:1'));
+for(const style of ['Regular','Medium','Bold'])await figma.loadFontAsync({family:'Noto Sans SC',style});
+const get=id=>figma.getNodeByIdAsync(id),created=[],removed=[],mutated=[],screens={},controls={},links=[];
+const main=await get('5:9875'),header=await get('41:9570');
+const baseFills=JSON.parse(JSON.stringify(main.fills));
+const ink={r:.07,g:.19,b:.23},muted={r:.31,g:.41,b:.45},accent={r:.78,g:.27,b:.16};
+const solid=(color,opacity=1)=>({type:'SOLID',color,opacity});
+const iconIds={laser:'4:150',pen:'4:157',calibrate:'4:166',left:'4:111',right:'4:108',mic:'4:78',volume:'4:282',close:'4:136',undo:'4:65',clear:'4:161',settings:'4:170',check:'4:133',app:'19:5988',retry:'4:271'};
+const iconComps={};for(const [k,id]of Object.entries(iconIds))iconComps[k]=await get(id);
+function mark(n){created.push(n.id);return n;}
+function frame(parent,name,x,y,w,h,glass=false){const n=mark(figma.createFrame());n.name=name;parent.appendChild(n);n.x=x;n.y=y;n.resize(w,h);n.fills=glass?[solid({r:1,g:1,b:1},.48)]:[];n.clipsContent=false;if(glass){n.cornerRadius=24;n.strokes=[solid({r:1,g:1,b:1},.9)];n.strokeWeight=1;n.effects=[{type:'INNER_SHADOW',visible:true,color:{r:1,g:1,b:1,a:.65},offset:{x:0,y:1},radius:1,spread:0,blendMode:'NORMAL'}];}return n;}
+function auto(parent,name,x,y,w,h,gap=8){const n=mark(figma.createAutoLayout('HORIZONTAL'));parent.appendChild(n);n.name=name;n.x=x;n.y=y;n.resize(w,h);n.fills=[];n.primaryAxisSizingMode='FIXED';n.counterAxisSizingMode='FIXED';n.itemSpacing=gap;n.counterAxisAlignItems='CENTER';return n;}
+function text(parent,name,value,x,y,size=14,color=ink,w=0,line=0){const n=mark(figma.createText());parent.appendChild(n);n.name=name;n.fontName={family:'Noto Sans SC',style:'Regular'};n.fontSize=size;n.lineHeight={unit:'PIXELS',value:line||Math.round(size*1.5)};n.fills=[solid(color)];n.characters=value;n.x=x;n.y=y;if(w){n.textAutoResize='HEIGHT';n.resize(w,n.height);}return n;}
+function icon(parent,name,size=22){let n;if(iconComps[name])n=iconComps[name].createInstance();else n=figma.createNodeFromSvg(ICON_SVGS[name]);mark(n);parent.appendChild(n);n.name='Icon / '+name;n.resize(size,size);return n;}
+function button(parent,name,label,ico,w,h=52,active=false){const b=auto(parent,name,0,0,w,h,8);b.primaryAxisAlignItems='CENTER';b.cornerRadius=22;b.fills=[solid(active?accent:{r:1,g:1,b:1},active?.15:.32)];b.strokes=[solid({r:1,g:1,b:1},.9)];b.strokeWeight=1;if(ico)icon(b,ico);if(label)text(b,'Label',label,0,0,14);return b;}
+function rect(parent,name,x,y,w,h,color,opacity=1,radius=0){const n=mark(figma.createRectangle());parent.appendChild(n);n.name=name;n.x=x;n.y=y;n.resize(w,h);n.fills=[solid(color,opacity)];n.cornerRadius=radius;return n;}
+function link(n,key,event='ON_CLICK',extra={}){links.push({id:n.id,key,event,...extra});}
+const notesText='这一页重点介绍本季度的增长。先看客户留存，再看新业务机会。\n\n老客户的持续合作，为本季度提供了稳定的基础。这里先说明客户反馈，再解释我们做了哪些改进。\n\n新增机会集中在已有产品的延伸应用。结合右侧数据，说明机会来自哪些需求，以及接下来如何验证。\n\n下一季度，我们会优先跟进已经明确意向的客户，把交付进度、负责人和下一次沟通时间落实下来。\n\n讲到这里稍作停顿，留出时间回应现场问题。最后总结三个行动：保持跟进、验证需求、按时复盘。';
+for(const spec of SPECS){
+ let root=spec.id?await get(spec.id):null;if(!root){root=mark(figma.createFrame());main.parent.appendChild(root);root.x=2000+Object.keys(screens).length*430;root.y=72;}
+ const keep=root.id==='5:9875'?['41:9570']:[];for(const n of [...root.children])if(!keep.includes(n.id)){removed.push(n.id);n.remove();}
+ root.name='presentation-'+spec.key;root.resize(390,844);root.cornerRadius=36;root.clipsContent=true;root.fills=baseFills;root.reactions=[];mutated.push(root.id);screens[spec.key]=root.id;
+ const h=root.id==='5:9875'?header:header.clone();if(h.parent!==root){root.appendChild(h);created.push(h.id);}h.x=24;h.y=18;
+ const app=button(root,'Presentation / app switch','','app',48,48);app.x=320;app.y=18;link(app,'chooser');
+ if(spec.disconnected){for(const n of h.findAll(n=>n.type==='TEXT'))if(n.characters==='已连接')n.characters='未连接';}
+ const title=text(root,'Presentation / title','季度业务回顾',24,74,20,ink);title.fontName={family:'Noto Sans SC',style:'Bold'};
+ const page=spec.page||4;const meta=text(root,'Presentation / page',String(page).padStart(2,'0')+' / 12',24,110,12,accent);text(root,'Presentation / timer','08:42',317,110,12,muted);
+ const isInk=!!spec.ink,nh=isInk?344:416;const notes=frame(root,'Presentation / notes',22,140,346,nh,true);
+ text(notes,'Notes heading','演讲备注',18,14,11,muted);if(spec.laser)text(notes,'Pointer status','激光笔已开启',223,14,11,accent);
+ if(spec.fullscreen===false)text(notes,'Presentation status','放映已结束',232,14,11,muted);
+ const scroll=frame(notes,'Presentation / scrollable notes',18,42,310,nh-58);scroll.clipsContent=true;scroll.overflowDirection='VERTICAL';const body=text(scroll,'Notes body',notesText,0,0,16,ink,310,26);if(spec.page===5)body.characters='接下来讨论下一季度的行动安排。\n\n先确认优先级，再明确负责人和时间节点。\n\n每一项任务都需要有可验证的结果。对于尚未确认的需求，安排下一次沟通后再进入交付。\n\n最后回到客户视角，确认这些安排是否回应了他们最关心的问题。';
+ const ny=140+nh+12,nav=auto(root,'Presentation / navigation',22,ny,346,52,12);const prev=button(nav,'Previous slide','上一页','left',167),next=button(nav,'Next slide','下一页','right',167);if(page===1||spec.disconnected)prev.opacity=.35;else link(prev,spec.page===5?'default':spec.page===3?'first':'previous');if(page===12||spec.disconnected)next.opacity=.35;else link(next,spec.key==='next'?'last':'next');
+ const cy=ny+64,caption=frame(root,'Presentation / live captions',22,cy,346,48,true);caption.cornerRadius=18;const ci=icon(caption,'Captions',21);ci.x=15;ci.y=14;
+ const on=!!spec.caption&&spec.caption!=='error';const captionTitle=text(caption,'Caption label','实时字幕',48,spec.caption?4:13,14);if(spec.caption)text(caption,'Caption status',spec.caption==='listening'?'手机正在收音':spec.caption==='error'?'麦克风不可用':'正在转写',48,26,10,spec.caption==='error'?accent:muted);
+ const toggle=frame(caption,'Captions / toggle',286,0,48,48);rect(toggle,'Switch track',0,10,48,28,spec.caption==='error'?muted:on?accent:muted,on?.9:.2,14);const knob=mark(figma.createEllipse());toggle.appendChild(knob);knob.resize(22,22);knob.x=on?23:3;knob.y=13;knob.fills=[solid({r:1,g:1,b:1})];link(toggle,on?(isInk?'ink':'default'):(isInk?'ink-caption':'caption-listening'));if(spec.disconnected){caption.opacity=.4;links.splice(links.findIndex(l=>l.id===toggle.id),1);}
+ if(spec.caption==='error'){captionTitle.characters='实时字幕';await toggle.setReactionsAsync([]);const retry=button(caption,'Captions / retry','','retry',48,48);retry.x=238;link(retry,'caption-listening');}
+ const vy=cy+60,volume=frame(root,'Presentation / tablet volume',22,vy,346,48);const level=spec.volume===undefined?60:spec.volume;const mute=button(volume,'Volume / mute','',level===0?'VolumeX':'volume',48,48);link(mute,level===0?'default':'muted');text(volume,'Volume heading','平板音量',58,1,11,muted);text(volume,'Volume value',level+'%',300,1,11,muted);
+ rect(volume,'Volume rail',58,30,266,4,muted,.17,2);rect(volume,'Volume fill',58,30,Math.max(1,266*level/100),4,accent,.75,2);const thumb=mark(figma.createEllipse());volume.appendChild(thumb);thumb.resize(16,16);thumb.x=50+266*level/100;thumb.y=24;thumb.fills=[solid({r:1,g:1,b:1})];thumb.strokes=[solid(accent,.4)];
+ const range=auto(volume,'Volume / hit regions',50,0,288,48,0);for(const value of [0,25,50,75,100]){const hit=frame(range,'Volume / '+value,0,0,57.6,48);link(hit,value===0?'muted':'volume-'+value);link(hit,value===0?'muted':'volume-'+value,'ON_DRAG');}
+ const toolrow=auto(root,'Presentation / fixed tools',22,756,346,56,16);const laser=button(toolrow,'Tool / laser','','laser',74.5,56,spec.laser),pen=button(toolrow,'Tool / pen','','pen',74.5,56,isInk),full=button(toolrow,'Tool / fullscreen','',spec.fullscreen===false?'Maximize':'Minimize',74.5,56),center=button(toolrow,'Tool / calibration','','calibrate',74.5,56);
+ link(laser,spec.laser?'default':'laser');link(pen,isInk?(spec.blue?'settings-blue':spec.thick?'thick':'settings'):'ink');link(full,spec.fullscreen===false?'default':'fullscreen-off');link(center,'calibrated');
+ if(isInk){if(spec.blue||spec.color||spec.thick)text(notes,'Pen status',spec.blue?'蓝色 · 3 px':spec.thick?'橙红 · 6 px':spec.color==='black'?'墨黑 · 3 px':'金色 · 3 px',220,14,11,accent);const hold=button(root,'Presentation / hold to draw',spec.drawing?'正在绘制':'按住绘制','pen',346,64,true);hold.x=22;hold.y=680;if(spec.drawing){hold.fills=[solid(accent,.28)];link(hold,spec.blue?'blue':spec.thick?'ink-thick':'ink','MOUSE_UP');link(hold,spec.blue?'blue':spec.thick?'ink-thick':'ink','MOUSE_LEAVE');}else{link(hold,spec.blue?'drawing-blue':spec.thick?'drawing-thick':'drawing','MOUSE_DOWN');}controls[spec.key]={hold:hold.id};}
+ if(spec.cleared){text(notes,'Ink status','标注已清空',232,14,11,accent);}if(spec.calibrated){const toast=frame(root,'Calibration status',117,700,156,36,true);text(toast,'Message','指向已居中',30,7,13,accent);link(root,'default','AFTER_TIMEOUT',{timeout:1});}
+ if(spec.disconnected){const reconnect=button(root,'Presentation / reconnect','重新连接','retry',186,48);reconnect.x=102;reconnect.y=500;link(reconnect,'default');for(const b of [laser,pen,full,center]){b.opacity=.35;for(let i=links.length-1;i>=0;i--)if(links[i].id===b.id)links.splice(i,1);}}
+ if(spec.settings){const panel=frame(root,'Presentation / pen settings',22,460,346,204,true);panel.fills=[solid({r:.98,g:.98,b:.97},.97)];text(panel,'Settings heading','画笔设置',18,14,15);const close=button(panel,'Settings / close','','close',48,48);close.x=288;close.y=0;link(close,spec.blue?'blue':spec.thick?'ink-thick':'ink');
+  const colors=auto(panel,'Pen / colors',18,54,224,48,10);for(const [name,color]of [['橙红',accent],['蓝色',{r:.16,g:.49,b:.9}],['墨黑',ink],['金色',{r:.89,g:.66,b:.23}]]){const b=button(colors,'Pen color / '+name,'',null,48,48);const dot=mark(figma.createEllipse());b.appendChild(dot);dot.resize(22,22);dot.fills=[solid(color)];link(b,name==='蓝色'?'blue':name==='墨黑'?'black':name==='金色'?'gold':'ink');}
+  const options=auto(panel,'Pen / edit tools',18,128,310,52,8);for(const [label,ico,key]of [[spec.thick?'6 px':'3 px','settings',spec.thick?'settings':'thick'],['撤销','undo','cleared'],['清空','clear','cleared']]){const b=button(options,'Pen / '+label,label,ico,98,52);link(b,key);}
+ }
+ if(spec.caption==='listening')link(root,'caption-partial','AFTER_TIMEOUT',{timeout:1});if(spec.caption==='partial')link(root,'caption-final','AFTER_TIMEOUT',{timeout:1.2});
+ rect(root,'Home indicator',135,831,120,5,ink,.2,3);
+ controls[spec.key]={...controls[spec.key],notes:notes.id,scroll:scroll.id,body:body.id,previous:prev.id,next:next.id,caption:toggle.id,volume:range.id,laser:laser.id,pen:pen.id,fullscreen:full.id,calibrate:center.id,appSwitch:app.id};
+}
+return {createdNodeIds:created,removedNodeIds:removed,mutatedNodeIds:mutated,screens,controls,links};

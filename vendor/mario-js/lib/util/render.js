@@ -55,7 +55,7 @@ const render = {
     data.canvas.ctx.font = `${text.size} ${text.font}`;
     data.canvas.ctx.fillStyle = text.color;
     data.canvas.ctx.fillText(
-      `Score: ${text.value}`, text.xPos - (data.viewport.width / 3), text.yPos,
+      `得分：${text.value}`, text.xPos - (data.viewport.width / 3), text.yPos,
     );
   },
 };

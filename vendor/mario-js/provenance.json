@@ -6,6 +6,7 @@
     "Direct held-key input",
     "Pause, watchdog and parent bridge",
     "Fixed timestep",
-    "Modern offline bundle; no external jQuery dependency"
+    "Modern offline bundle; no external jQuery dependency",
+    "Chinese score label; host uses fullscreen aspect-preserving canvas"
   ]
 }

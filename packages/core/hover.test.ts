@@ -4,7 +4,8 @@ import {LocalIntentProvider} from '../../apps/web/src/hover/assist/intents';
 import {initialChats} from './interactions';
 import cases from '../../apps/web/src/hover/data/intent-cases.json' with {type:'json'};
 const provider=new LocalIntentProvider();
-const chats=initialChats();
+import scenarios from '../../apps/web/src/hover/data/scenarios.json' with {type:'json'};
+const chats=initialChats();chats.messages['wx-boss']=scenarios.chats.boss.messages;
 function recommend(conversationId:string,mid:string,context=chats.messages[conversationId]){const m=context.find(m=>m.id===mid)!;return provider.recommend({conversationId,context,question:'',tool:'ask',target:{id:mid,messageId:mid,text:m.text,kind:'message',rect:{x:0,y:0,width:0,height:0}}});}
 test('all existing Hover action cases are reachable and capped at three',()=>{
  const apps=new Set<string>();for(const c of cases){const mid=c.targets[0],id=Object.keys(chats.messages).find(id=>chats.messages[id].some(m=>m.id===mid))!;assert.ok(id,c.id);const actions=recommend(id,mid);assert.ok(actions.length>0&&actions.length<=3);actions.forEach(a=>apps.add(a.app));}

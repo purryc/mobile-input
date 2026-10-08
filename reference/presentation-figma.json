@@ -1,0 +1,263 @@
+{
+  "fileKey": "ApFLno64NcMoA17MiPFfZh",
+  "section": "109:5269",
+  "frames": [
+    "5:9875",
+    "5:10065",
+    "143:9906"
+  ],
+  "referenceSize": [
+    390,
+    844
+  ],
+  "assets": [
+    {
+      "file": "apps/web/public/assets/figma/presentation/volume.svg",
+      "source": "https://www.figma.com/api/mcp/asset/f6b1377b-7187-41f1-be0d-3bfe6ba179e4.svg",
+      "frame": "5:9875",
+      "sha256": "b6214cee12097d7d702f95a2b62545125d0f96f2ade09e8115d0f179838c11b3",
+      "root": "<svg preserveAspectRatio=\"none\" overflow=\"visible\" style=\"display: block;\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\""
+    },
+    {
+      "file": "apps/web/public/assets/figma/presentation/volume-thumb.svg",
+      "source": "https://www.figma.com/api/mcp/asset/9c956ce6-1759-43b9-a444-008d98233d6d.svg",
+      "frame": "5:9875",
+      "sha256": "1cab257f8bafb5d0c28fbe07ddaf017f0bb78ac83c2cde84620fece3026535c7",
+      "root": "<svg preserveAspectRatio=\"none\" overflow=\"visible\" style=\"display: block;\" width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\""
+    },
+    {
+      "file": "apps/web/public/assets/figma/presentation/close.svg",
+      "source": "https://www.figma.com/api/mcp/asset/fcc5ea55-4841-42f6-9d26-48d9d48f50b3.svg",
+      "frame": "7:5312",
+      "sha256": "225e182dfcf4a2beab89555bdfd7859334e7ec28e8849fbedc3be0876b696b65",
+      "root": "<svg preserveAspectRatio=\"none\" overflow=\"visible\" style=\"display: block;\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\""
+    },
+    {
+      "file": "apps/web/public/assets/figma/presentation/maximize.svg",
+      "source": "https://www.figma.com/api/mcp/asset/d6653c44-3788-4991-9afd-546cef54fd3d.svg",
+      "frame": "143:9654",
+      "sha256": "b1d61f50c322c2c2c1d229d154f94cccc60989cd117a7ba539c158abd756d773",
+      "root": "<svg preserveAspectRatio=\"none\" overflow=\"visible\" style=\"display: block;\" width=\"22\" height=\"22\" viewBox=\"0 0 22 22\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\""
+    },
+    {
+      "file": "apps/web/public/assets/figma/presentation/eraser.svg",
+      "source": "https://www.figma.com/api/mcp/asset/828d4eb0-def1-4333-9afc-46cfe8df8816.svg",
+      "frame": "5:10065",
+      "sha256": "2c1de729b5e460e7301eb887e1fc6ddd222b09f6bf09c1ae5c82dc4b51303f7d",
+      "root": "<svg preserveAspectRatio=\"none\" overflow=\"visible\" style=\"display: block;\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\""
+    },
+    {
+      "file": "apps/web/public/assets/figma/presentation/undo.svg",
+      "source": "https://www.figma.com/api/mcp/asset/b9ebb7c1-bc58-412d-a39e-b72a3bcefec7.svg",
+      "frame": "5:10065",
+      "sha256": "f081803c95c8733bd63be45be87d94183867fc6e871f86a53e54d54accf94820",
+      "root": "<svg preserveAspectRatio=\"none\" overflow=\"visible\" style=\"display: block;\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\""
+    },
+    {
+      "file": "apps/web/public/assets/figma/presentation/pencil.svg",
+      "source": "https://www.figma.com/api/mcp/asset/c432e3ce-5985-41b8-9440-faaf5fb8f0d4.svg",
+      "frame": "5:10065",
+      "sha256": "0e46db842a9e446492bf872f99e1dccab638e60d7f0502ca7be7d931213947e0",
+      "root": "<svg preserveAspectRatio=\"none\" overflow=\"visible\" style=\"display: block;\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\""
+    },
+    {
+      "file": "apps/web/public/assets/figma/presentation/crosshair.svg",
+      "source": "https://www.figma.com/api/mcp/asset/03cc4702-1d33-4e8f-976b-9ecb33d8dc65.svg",
+      "frame": "5:10065",
+      "sha256": "308fd8950f875faac351ce4c3e5b37f99d50d7800c5a89b0a447571a45ef1546",
+      "root": "<svg preserveAspectRatio=\"none\" overflow=\"visible\" style=\"display: block;\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\""
+    },
+    {
+      "file": "apps/web/public/assets/figma/presentation/right.svg",
+      "source": "https://www.figma.com/api/mcp/asset/fc6ba4b3-2ac6-42ee-9648-8c791376748c.svg",
+      "frame": "5:10065",
+      "sha256": "de8e692cddbba3ed32c60547ea005d662dd2b82a4dec2c0c6556bec0a7c318c0",
+      "root": "<svg preserveAspectRatio=\"none\" overflow=\"visible\" style=\"display: block;\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\""
+    },
+    {
+      "file": "apps/web/public/assets/figma/presentation/left.svg",
+      "source": "https://www.figma.com/api/mcp/asset/b9dd3388-21ce-46ca-aa1c-f8141fce1e0d.svg",
+      "frame": "5:10065",
+      "sha256": "f8637cd4984775792eba53bbad791c4d06ae15d61f2576359dd5ebfa03236e26",
+      "root": "<svg preserveAspectRatio=\"none\" overflow=\"visible\" style=\"display: block;\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\""
+    },
+    {
+      "file": "apps/web/public/assets/figma/presentation/app-switch.svg",
+      "source": "https://www.figma.com/api/mcp/asset/367bac68-67d8-4569-8060-b559ecba1523.svg",
+      "frame": "5:10065",
+      "sha256": "f3ef5acb4897739719f4a32f6bcba4b5e6f03b73dff3910caf7b9f62a76f4bb4",
+      "root": "<svg preserveAspectRatio=\"none\" overflow=\"visible\" style=\"display: block;\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\""
+    },
+    {
+      "file": "apps/web/public/assets/figma/presentation/status.svg",
+      "source": "https://www.figma.com/api/mcp/asset/d47e5562-2a7a-44c1-9af0-d727dfd3e1bb.svg",
+      "frame": "5:10065",
+      "sha256": "6abbba140c97efa1db34947434fcfaa4868a0cc8606e7fae16c2bb2e56b30ea4",
+      "root": "<svg preserveAspectRatio=\"none\" overflow=\"visible\" style=\"display: block;\" width=\"7\" height=\"7\" viewBox=\"0 0 7 7\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\""
+    },
+    {
+      "file": "apps/web/public/assets/figma/presentation/minimize.svg",
+      "source": "https://www.figma.com/api/mcp/asset/4542bc98-ef4e-43b0-bb10-d47d6cf9438c.svg",
+      "frame": "5:10065",
+      "sha256": "0aa616df5e529b1a96dbb4db9ed06863bdb4ca1f6181d137b251d399dd90438a",
+      "root": "<svg preserveAspectRatio=\"none\" overflow=\"visible\" style=\"display: block;\" width=\"22\" height=\"22\" viewBox=\"0 0 22 22\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\""
+    },
+    {
+      "file": "apps/web/public/assets/figma/presentation/captions.svg",
+      "source": "https://www.figma.com/api/mcp/asset/a7edc110-d5a9-4c22-b289-089d8f8f830e.svg",
+      "frame": "5:10065",
+      "sha256": "4ad1cd4f27f454c34ae824a5268a63f3e240a434dc3b69b4282d3a7b9731cb14",
+      "root": "<svg preserveAspectRatio=\"none\" overflow=\"visible\" style=\"display: block;\" width=\"22\" height=\"22\" viewBox=\"0 0 22 22\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\""
+    }
+  ],
+  "fonts": [
+    {
+      "weight": 400,
+      "source": "https://fonts.google.com/noto/specimen/Noto+Sans+SC",
+      "file": "apps/web/public/assets/figma/presentation/noto-sans-sc-400.woff2",
+      "sha256": "f81fe48daeb87bb696f9b57a303dbe52f1b92b18a9a6aba4a7a2748d1a5597d5"
+    },
+    {
+      "weight": 500,
+      "source": "https://fonts.google.com/noto/specimen/Noto+Sans+SC",
+      "file": "apps/web/public/assets/figma/presentation/noto-sans-sc-500.woff2",
+      "sha256": "143fab099ebcdb67762684d754758744568a40bf7e91f8590b3aabb4efcc85ba"
+    },
+    {
+      "weight": 700,
+      "source": "https://fonts.google.com/noto/specimen/Noto+Sans+SC",
+      "file": "apps/web/public/assets/figma/presentation/noto-sans-sc-700.woff2",
+      "sha256": "a0dd8e34ea269f06e73e37acff7b77ad2b5743f5dd28cc60bcff12d9d2cbe550"
+    }
+  ],
+  "fontLicense": "apps/web/public/assets/figma/fc/font-license.txt",
+  "revision": "2026-10-08 updated persistent pen panel, no volume; editor first page and screen-up IMU hover",
+  "squarePanelRevision": {
+    "checkedAt": "2026-10-08",
+    "frames": [
+      "5:9875",
+      "5:10065",
+      "143:9906",
+      "178:2674"
+    ],
+    "inkNotesHeight": 360,
+    "inkNotesViewportHeight": 286,
+    "inkNavigationY": 512,
+    "squarePanels": {
+      "y": 576,
+      "size": 168,
+      "leftX": 22,
+      "rightX": 200
+    },
+    "assets": [
+      {
+        "file": "apps/web/public/assets/figma/presentation/pencil-pressed.svg",
+        "sha256": "78edbb2e9e51d13074fad838c10e2ee7cf771ea79c6ad569b6adaf65bcb6d68e",
+        "root": "<svg preserveAspectRatio=\"none\" overflow=\"visible\" style=\"display: block;\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">",
+        "unchanged": false
+      },
+      {
+        "file": "apps/web/public/assets/figma/presentation/color-red-selected.svg",
+        "sha256": "62c94672e2e60e6f8483e084ff25c7c122cb787464d84da6d6f0c32c9f15ec38",
+        "root": "<svg preserveAspectRatio=\"none\" overflow=\"visible\" style=\"display: block;\" width=\"28\" height=\"28\" viewBox=\"0 0 28 28\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">",
+        "unchanged": false
+      },
+      {
+        "file": "apps/web/public/assets/figma/presentation/color-red.svg",
+        "sha256": "a9d306b5c932d8ba3ff0066aaeccb4297a4d257198099dd5f0c05de7c6006d58",
+        "root": "<svg preserveAspectRatio=\"none\" overflow=\"visible\" style=\"display: block;\" width=\"18\" height=\"18\" viewBox=\"0 0 18 18\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">",
+        "unchanged": false
+      },
+      {
+        "file": "apps/web/public/assets/figma/presentation/color-blue.svg",
+        "sha256": "7af1ed325c6461355b2ec0f23aebb76f70eadddbad6807d30338bc510978b82f",
+        "root": "<svg preserveAspectRatio=\"none\" overflow=\"visible\" style=\"display: block;\" width=\"30.4\" height=\"40\" viewBox=\"0 0 30.4 40\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">",
+        "unchanged": false
+      },
+      {
+        "file": "apps/web/public/assets/figma/presentation/color-black.svg",
+        "sha256": "1d67ed3c72878b210d11a523831315e2913ccac1da66e4fc5906b290eb9b70ba",
+        "root": "<svg preserveAspectRatio=\"none\" overflow=\"visible\" style=\"display: block;\" width=\"30.4\" height=\"40\" viewBox=\"0 0 30.4 40\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">",
+        "unchanged": false
+      },
+      {
+        "file": "apps/web/public/assets/figma/presentation/color-gold.svg",
+        "sha256": "c775af96b5dc56c36d0721af5238812e8f7f884ef2cf45f3ddc1eca52d8a2de8",
+        "root": "<svg preserveAspectRatio=\"none\" overflow=\"visible\" style=\"display: block;\" width=\"30.4\" height=\"40\" viewBox=\"0 0 30.4 40\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">",
+        "unchanged": false
+      },
+      {
+        "file": "apps/web/public/assets/figma/presentation/color-green.svg",
+        "sha256": "2d0cf954f2b944cd67582e4bfcb9f9332ffc545d087b49d6b3d67eea698e6e6f",
+        "root": "<svg preserveAspectRatio=\"none\" overflow=\"visible\" style=\"display: block;\" width=\"30.4\" height=\"40\" viewBox=\"0 0 30.4 40\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">",
+        "unchanged": false
+      },
+      {
+        "file": "apps/web/public/assets/figma/presentation/brush-thumb.svg",
+        "sha256": "9249e55bfd5fde680f792b6caab60db3d737bbd875f2b1991c98ae643e1e7575",
+        "root": "<svg preserveAspectRatio=\"none\" overflow=\"visible\" style=\"display: block;\" width=\"20\" height=\"20\" viewBox=\"0 0 20 20\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">",
+        "unchanged": false
+      },
+      {
+        "file": "apps/web/public/assets/figma/presentation/pencil.svg",
+        "sha256": "0e46db842a9e446492bf872f99e1dccab638e60d7f0502ca7be7d931213947e0",
+        "root": "<svg preserveAspectRatio=\"none\" overflow=\"visible\" style=\"display: block;\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">",
+        "unchanged": true
+      },
+      {
+        "file": "apps/web/public/assets/figma/presentation/crosshair.svg",
+        "sha256": "308fd8950f875faac351ce4c3e5b37f99d50d7800c5a89b0a447571a45ef1546",
+        "root": "<svg preserveAspectRatio=\"none\" overflow=\"visible\" style=\"display: block;\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">",
+        "unchanged": true
+      },
+      {
+        "file": "apps/web/public/assets/figma/presentation/right.svg",
+        "sha256": "de8e692cddbba3ed32c60547ea005d662dd2b82a4dec2c0c6556bec0a7c318c0",
+        "root": "<svg preserveAspectRatio=\"none\" overflow=\"visible\" style=\"display: block;\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">",
+        "unchanged": true
+      },
+      {
+        "file": "apps/web/public/assets/figma/presentation/left.svg",
+        "sha256": "f8637cd4984775792eba53bbad791c4d06ae15d61f2576359dd5ebfa03236e26",
+        "root": "<svg preserveAspectRatio=\"none\" overflow=\"visible\" style=\"display: block;\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">",
+        "unchanged": true
+      },
+      {
+        "file": "apps/web/public/assets/figma/presentation/app-switch.svg",
+        "sha256": "f3ef5acb4897739719f4a32f6bcba4b5e6f03b73dff3910caf7b9f62a76f4bb4",
+        "root": "<svg preserveAspectRatio=\"none\" overflow=\"visible\" style=\"display: block;\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">",
+        "unchanged": true
+      },
+      {
+        "file": "apps/web/public/assets/figma/presentation/status.svg",
+        "sha256": "6abbba140c97efa1db34947434fcfaa4868a0cc8606e7fae16c2bb2e56b30ea4",
+        "root": "<svg preserveAspectRatio=\"none\" overflow=\"visible\" style=\"display: block;\" width=\"7\" height=\"7\" viewBox=\"0 0 7 7\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">",
+        "unchanged": true
+      },
+      {
+        "file": "apps/web/public/assets/figma/presentation/minimize.svg",
+        "sha256": "0aa616df5e529b1a96dbb4db9ed06863bdb4ca1f6181d137b251d399dd90438a",
+        "root": "<svg preserveAspectRatio=\"none\" overflow=\"visible\" style=\"display: block;\" width=\"22\" height=\"22\" viewBox=\"0 0 22 22\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">",
+        "unchanged": true
+      },
+      {
+        "file": "apps/web/public/assets/figma/presentation/captions.svg",
+        "sha256": "4ad1cd4f27f454c34ae824a5268a63f3e240a434dc3b69b4282d3a7b9731cb14",
+        "root": "<svg preserveAspectRatio=\"none\" overflow=\"visible\" style=\"display: block;\" width=\"22\" height=\"22\" viewBox=\"0 0 22 22\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">",
+        "unchanged": true
+      },
+      {
+        "file": "apps/web/public/assets/figma/presentation/undo.svg",
+        "sha256": "f081803c95c8733bd63be45be87d94183867fc6e871f86a53e54d54accf94820",
+        "root": "<svg preserveAspectRatio=\"none\" overflow=\"visible\" style=\"display: block;\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">",
+        "unchanged": true
+      },
+      {
+        "file": "apps/web/public/assets/figma/presentation/eraser.svg",
+        "sha256": "2c1de729b5e460e7301eb887e1fc6ddd222b09f6bf09c1ae5c82dc4b51303f7d",
+        "root": "<svg preserveAspectRatio=\"none\" overflow=\"visible\" style=\"display: block;\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">",
+        "unchanged": true
+      }
+    ]
+  }
+}

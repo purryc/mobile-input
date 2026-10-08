@@ -1,0 +1,162 @@
+{
+  "fileKey": "ApFLno64NcMoA17MiPFfZh",
+  "section": "109:5273",
+  "frame": "5:10639",
+  "pausedFrame": "5:10817",
+  "disconnectedFrame": "5:10915",
+  "canvas": {
+    "width": 844,
+    "height": 390
+  },
+  "assets": [
+    {
+      "file": "apps/web/public/assets/figma/fc/app-switch.svg",
+      "sha256": "f3ef5acb4897739719f4a32f6bcba4b5e6f03b73dff3910caf7b9f62a76f4bb4",
+      "bytes": 658,
+      "root_dimensions": {
+        "width": "24",
+        "height": "24",
+        "viewBox": "0 0 24 24"
+      },
+      "source_nodes": [
+        "118:5255",
+        "19:5989"
+      ]
+    },
+    {
+      "file": "apps/web/public/assets/figma/fc/connected-dot.svg",
+      "sha256": "6abbba140c97efa1db34947434fcfaa4868a0cc8606e7fae16c2bb2e56b30ea4",
+      "bytes": 233,
+      "root_dimensions": {
+        "width": "7",
+        "height": "7",
+        "viewBox": "0 0 7 7"
+      },
+      "source_nodes": [
+        "I5:10641;4:464"
+      ]
+    },
+    {
+      "file": "apps/web/public/assets/figma/fc/dpad-base.svg",
+      "sha256": "1e5573265e672c0c98a5cfcbed87be351b052a6438b1e98d9d85ee844ee48400",
+      "bytes": 252,
+      "root_dimensions": {
+        "width": "180",
+        "height": "180",
+        "viewBox": "0 0 180 180"
+      },
+      "source_nodes": [
+        "5:10671"
+      ]
+    },
+    {
+      "file": "apps/web/public/assets/figma/fc/arrow-up.svg",
+      "sha256": "9ccef830e8cc1081cf0966b515ba5288d190b1857976ccb8f62a1d6d8f242147",
+      "bytes": 440,
+      "root_dimensions": {
+        "width": "24",
+        "height": "24",
+        "viewBox": "0 0 24 24"
+      },
+      "source_nodes": [
+        "4:118"
+      ]
+    },
+    {
+      "file": "apps/web/public/assets/figma/fc/arrow-left.svg",
+      "sha256": "912a6a7e531e15c92c020d57718382ee9d1d8b18fe20e9689797cac4db5bac56",
+      "bytes": 440,
+      "root_dimensions": {
+        "width": "24",
+        "height": "24",
+        "viewBox": "0 0 24 24"
+      },
+      "source_nodes": [
+        "4:126"
+      ]
+    },
+    {
+      "file": "apps/web/public/assets/figma/fc/arrow-right.svg",
+      "sha256": "c46c5d74828a2ccb419d1d552e2d1c36f16fc8180a976acb7aae5504ea04118e",
+      "bytes": 441,
+      "root_dimensions": {
+        "width": "24",
+        "height": "24",
+        "viewBox": "0 0 24 24"
+      },
+      "source_nodes": [
+        "4:130"
+      ]
+    },
+    {
+      "file": "apps/web/public/assets/figma/fc/arrow-down.svg",
+      "sha256": "1b27138d28f3cd28daf22f71df51a84c4eed1b8f37419887d656f4fafa585919",
+      "bytes": 441,
+      "root_dimensions": {
+        "width": "24",
+        "height": "24",
+        "viewBox": "0 0 24 24"
+      },
+      "source_nodes": [
+        "4:122"
+      ]
+    },
+    {
+      "file": "apps/web/public/assets/figma/fc/button-light.svg",
+      "sha256": "8d4f2f2b70a019c2c7afccfe4807f3387963209f2b6274910dbc46e2ebec547e",
+      "bytes": 993,
+      "root_dimensions": {
+        "width": "64",
+        "height": "24",
+        "viewBox": "0 0 64 24"
+      },
+      "source_nodes": [
+        "41:9612",
+        "41:9613"
+      ]
+    },
+    {
+      "file": "apps/web/public/assets/figma/fc/reconnect.svg",
+      "sha256": "791b5aacd8931f5e4398972208e564e16cc7782e8f0cdd0b4b42c7ea117cd1d0",
+      "bytes": 910,
+      "root_dimensions": {
+        "width": "24",
+        "height": "24",
+        "viewBox": "0 0 24 24"
+      },
+      "source_nodes": [
+        "4:272"
+      ]
+    },
+    {
+      "file": "apps/web/public/assets/figma/fc/disconnected-dot.svg",
+      "sha256": "d87affb54923e594dd8f1d26d613c95d9b1cdb55876756873f3b16cf101b572d",
+      "bytes": 233,
+      "root_dimensions": {
+        "width": "7",
+        "height": "7",
+        "viewBox": "0 0 7 7"
+      },
+      "source_nodes": [
+        "I5:10917;4:464"
+      ]
+    }
+  ],
+  "fonts": [
+    {
+      "file": "apps/web/public/assets/figma/fc/noto-sans-sc-500.woff2",
+      "url": "https://fonts.gstatic.com/l/font?kit=k3kCo84MPvpLmixcA63oeAL7Iqp5IZJF9bmaG-3FnYxVKdSSvjMNtX4gYQW6BpcFda2iXuSdM9ev6hA7vCTAPfjYZJy6PAmXUcpxCLM2zqCZAEzYdUAcNgqItlbLjZtIVR7j&skey=cf0bb10b5602fdc3&v=v41",
+      "weight": "500",
+      "bytes": 7964,
+      "sha256": "835a479123a1d9ebe1d9e7eedcb35faf1b91cc9cb9f7652706075b1e2afdbe11"
+    },
+    {
+      "file": "apps/web/public/assets/figma/fc/noto-sans-sc-700.woff2",
+      "url": "https://fonts.gstatic.com/l/font?kit=k3kCo84MPvpLmixcA63oeAL7Iqp5IZJF9bmaGzjCnYxVKdSSvjMNtX4gYQW6BpcFda2iXuSdM9ev6hA7vCTAPfjYZJy6PAmXUcpxCLM2zqCZAEzYdUAcNgqItlbLjZtIVR7j&skey=cf0bb10b5602fdc3&v=v41",
+      "weight": "700",
+      "bytes": 7956,
+      "sha256": "e0b67b9399a93ecf1caa9e05432ff7928b39eb103a40c0d62020b608a2efcc5f"
+    }
+  ],
+  "font_css_source": "https://fonts.googleapis.com/css2?family=Noto+Sans+SC%3Awght%40500%3B700&text=%E5%B7%B2%E8%BF%9E%E6%8E%A5%E8%B6%85%E7%BA%A7%E7%8E%9B%E4%B8%BD%E6%96%AD%E5%BC%80%E4%B8%AD%E9%94%AE%E9%87%8A%E6%94%BE%E9%87%8D%E6%96%B0%E6%8C%89+%C2%B7SELECTSTARTABPAUSEDDISCONNECTED"
+}

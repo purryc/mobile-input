@@ -1,0 +1,17 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="64" height="24" viewBox="0 0 64 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="FC / button reflected light" filter="url(#filter0_f_0_77)">
+<ellipse cx="32" cy="12" rx="29" ry="9" fill="url(#paint0_linear_0_77)"/>
+</g>
+<defs>
+<filter id="filter0_f_0_77" x="0" y="0" width="64" height="24" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+<feGaussianBlur stdDeviation="1.5" result="effect1_foregroundBlur_0_77"/>
+</filter>
+<linearGradient id="paint0_linear_0_77" x1="10.5934" y1="5.75837" x2="18.2395" y2="29.3692" gradientUnits="userSpaceOnUse">
+<stop stop-color="#FFF7DF" stop-opacity="0.57"/>
+<stop offset="0.5" stop-color="white" stop-opacity="0.13"/>
+<stop offset="1" stop-color="white" stop-opacity="0"/>
+</linearGradient>
+</defs>
+</svg>

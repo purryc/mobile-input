@@ -337,7 +337,7 @@ export default function MockApp({
                     <p>云文档 / 草稿</p>
                     <h2>{action.title}</h2>
                     <div className="mock-document-body">
-                      {action.id === "fee" ? (
+                      {action.recordKey?.includes("boss-sales-meeting-v2") ? <>{fields.map(([key,value])=><p key={key}><strong>{key}</strong><br/>{value}</p>)}</> : action.id === "fee" ? (
                         <>
                           <strong>Sample cost breakdown</strong>
                           <p>Prepared for Alex Morgan · September 30</p>

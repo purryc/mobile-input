@@ -5,7 +5,7 @@ import {command} from './runtime';
 
 const asset=(name:string)=>`./reference-assets/${name}.png`;
 const appAssets:Partial<Record<AppId,string>>={mail:'mail',wechat:'wechat',notes:'notes',paint:'paint',workbuddy:'workbuddy',doubao:'doubao',xiaoyi:'xiaoyi',bilibili:'bilibili',douyin:'douyin',red:'red',read:'read'};
-export function AppIcon({id,size=48}:{id:AppId;size?:number}){if(id==='wps')return <span className="wps-folder-icon" style={{width:size,height:size}}>{(['sheet','word','slides'] as AppId[]).map(a=><AppIcon key={a} id={a} size={size*.36}/>)}</span>;if(id==='mario')return <svg className="original-icon mario-game-icon" width={size} height={size} viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#5c94fc"/><svg x="10" y="8" width="44" height="48" viewBox="354 44 16 16" overflow="hidden"><image href="./mario/img/characters.gif" width="513" height="401" style={{imageRendering:'pixelated'}}/></svg></svg>;const clean:Partial<Record<AppId,string>>={mail:'mail',wechat:'wechat',notes:'huawei-handwriting',paint:'gopaint',doubao:'doubao'};if(clean[id])return <img className='original-icon clean-icon' width={size} height={size} src={'./assets/apps/'+clean[id]+'.png'} alt=''/>;const file=appAssets[id];return file?<img className="original-icon" width={size} height={size} src={asset(file)} alt=""/>:<span aria-hidden="true" className={'document-app-icon '+id} style={{width:size,height:size,fontSize:Math.min(30,size*.6)}}>{id==='sheet'?'S':id==='word'?'W':'P'}</span>;}
+export function AppIcon({id,size=48}:{id:AppId;size?:number}){if(id==='wps')return <img className="original-icon" width={size} height={size} src="./assets/apps/wps.svg" alt=""/>;if(id==='mario')return <svg className="original-icon mario-game-icon" width={size} height={size} viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#5c94fc"/><svg x="10" y="8" width="44" height="48" viewBox="354 44 16 16" overflow="hidden"><image href="./mario/img/characters.gif" width="513" height="401" style={{imageRendering:'pixelated'}}/></svg></svg>;const clean:Partial<Record<AppId,string>>={mail:'mail',wechat:'wechat',notes:'huawei-handwriting',paint:'gopaint',doubao:'doubao'};if(clean[id])return <img className='original-icon clean-icon' width={size} height={size} src={'./assets/apps/'+clean[id]+'.png'} alt=''/>;const file=appAssets[id];return file?<img className="original-icon" width={size} height={size} src={asset(file)} alt=""/>:<span aria-hidden="true" className={'document-app-icon '+id} style={{width:size,height:size,fontSize:Math.min(30,size*.6)}}>{id==='sheet'?'S':id==='word'?'W':'P'}</span>;}
 const place=(x:number,y:number,w:number,h:number):CSSProperties=>({left:`${x/14}%`,top:`${y/9.2}%`,width:`${w/14}%`,height:`${h/9.2}%`});
 const desktopEntries=['mail','wps','wechat','doubao','notes','paint','mario'] as const;
 export function Desktop(){
@@ -27,7 +27,7 @@ export function Desktop(){
    <div className="desktop-apps source-apps demo-apps">{desktopEntries.map((id,index)=>{
     const label=id==='wps'?'WPS':apps.find(a=>a[0]===id)![1];
     return <button key={id} aria-label={label} style={place(184+154*index,674,107,91)} onClick={()=>launch(id)}>
-     {id==='wps'?<span className="wps-folder-icon" aria-hidden="true">{(['sheet','word','slides'] as AppId[]).map(a=><AppIcon key={a} id={a} size={24}/>)}</span>:<AppIcon id={id} size={63}/>}
+     <AppIcon id={id} size={63}/>
      <span>{label}</span>
     </button>;
    })}</div>

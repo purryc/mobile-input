@@ -2,7 +2,7 @@ from pathlib import Path
 import zipfile,hashlib,json
 root=Path(__file__).resolve().parents[1]
 out=root/'artifacts/delivery';out.mkdir(parents=True,exist_ok=True)
-allowed=['AGENTS.md','README.md','.gitignore','package.json','package-lock.json','tsconfig.json','vite.config.ts','playwright.config.ts','apps','packages','scripts','tests','docs','samples','reference/README.md','reference/asset-manifest.json','reference/frame-map.json','reference/hover-import.json','reference/clean-icons.json','design-qa.md','vendor']
+allowed=['AGENTS.md','README.md','CHANGELOG.md','.gitignore','package.json','package-lock.json','tsconfig.json','vite.config.ts','playwright.config.ts','apps','packages','scripts','tests','docs','samples','reference/README.md','reference/asset-manifest.json','reference/frame-map.json','reference/hover-import.json','reference/clean-icons.json','reference/fc-figma.json','reference/wechat-avatars.json','reference/wps-icon.json','reference/presentation-figma.json','reference/phone-home.json','design-qa.md','vendor']
 skip_dirs={'node_modules','oh_modules','build','.hvigor','.git','private'}
 def permitted(p):
  rel=p.relative_to(root)
@@ -32,5 +32,5 @@ for p in sorted([*out.glob('*.zip'),*(root/'artifacts/hap').rglob('*.hap')]):
    for asset in (root/'dist').rglob('*'):
     if asset.is_file():assert z.read(prefix+str(asset.relative_to(root/'dist')))==asset.read_bytes(), 'stale web bundle: '+str(asset)
  records.append({'file':str(p.relative_to(root)),'bytes':p.stat().st_size,'sha256':hashlib.sha256(p.read_bytes()).hexdigest(),'signing':'unsigned' if p.name.endswith('-unsigned.hap') else 'signed' if p.suffix=='.hap' else 'not-applicable'})
-(out/'manifest.json').write_text(json.dumps({'status':'see-docs/validation.md-for-device-acceptance','files':records},ensure_ascii=False,indent=2)+'\n')
+(out/'manifest.json').write_text(json.dumps({'status':'see-docs/standby-reading-game-validation.md-for-device-acceptance','files':records},ensure_ascii=False,indent=2)+'\n')
 print(json.dumps(records,ensure_ascii=False,indent=2))

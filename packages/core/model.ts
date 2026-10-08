@@ -1,4 +1,6 @@
-import {initialChats,interaction,activate,type ChatState,type Switcher} from './interactions';
+import {salesSpeakerNotes} from './sales-speaker-notes';
+import {presentationState,presentationInteraction,pausePresentation,beginPresentation,releasePointer,type PresentationState} from './presentation';
+import {initialChats,interaction,activate,launch,type ChatState,type Switcher} from './interactions';
 export const apps=[['wps','WPS','#e7434c','FileText'],['mail','邮件','#4388ef','Mail'],['sheet','WPS 表格','#1b9561','Table2'],['word','WPS 文字','#3474cb','FileText'],['slides','WPS 演示','#e56838','Presentation'],['wechat','微信','#24b55a','MessageCircle'],['notes','笔记','#d6a539','NotebookPen'],['paint','天生会画','#303039','Paintbrush'],['workbuddy','WorkBuddy','#222c36','Sparkles'],['doubao','豆包','#448ae3','Bot'],['xiaoyi','小艺','#b472d5','Orbit'],['bilibili','哔哩哔哩','#ec7198','Tv'],['douyin','抖音','#161921','Music2'],['red','小红书','#ef3f52','Heart'],['read','阅读','#4298d7','BookOpen'],['mario','Super Mario','#e35439','Gamepad2']] as const;
 export type AppId=typeof apps[number][0]|'desktop';
 export interface Product {id:string;name:string;quantity:number;cost:number;price:number;discount:number;}
@@ -16,16 +18,16 @@ export const mails:Mail[]=[
 export interface Target {id:string;label:string;kind:'text'|'number'|'drawing'|'slide'|'media'|'game'|'message';app:AppId;revision:number;value:string;}
 export interface Slide {title:string;body:string;notes:string;}
 export const initialSlides:Slide[]=[
-{title:'让新办公室，准时开工',body:'澄星设计 · 办公设备采购项目\n销售进展汇报 / 陈朗 / 锐行办公',notes:'开场先说明客户的搬迁日期，核心目标是按时交付 30 套设备。'},
-{title:'30 个工位，同一套体验',body:'30 台商务笔记本\n30 台 27 英寸显示器\n30 个 USB-C 扩展坞\n预算上限 20 万元 · 10 月 28 日前验收',notes:'强调三件套的兼容性和统一配置，确认客户的预算及数量。'},
-{title:'供货确定性，优先于最低价',body:'云帆供应：7 个工作日，库存已确认\n远峰设备：10 个工作日，需二次确认\n建议：选择云帆，预留验收缓冲',notes:'这是虚构项目的供应比较，说明选择云帆的交期优势。'},
-{title:'报价可控，服务有余量',body:'批量采购优惠 5%\n设备配置与统一交付\n报价、成本和毛利按最新确认数据展示',notes:'报出更新后的总报价，解释优惠后仍保留合理毛利。'},
-{title:'把风险，留在交付之前',body:'10 月 17 日：锁定订单和库存\n10 月 24 日：设备到货\n10 月 26 日：配置与联调\n10 月 28 日：客户验收',notes:'库存变动是主要风险。客户确认后立即锁货，保留两天配置时间。'},
-{title:'下一步，推进确认',body:'陈朗 / 今天：发送修订报价\n林悦 / 周五：确认采购方案\n周宁 / 确认后：锁定库存\n交付团队 / 到货前：准备配置清单',notes:'结束时明确需要的决策：客户确认报价和交付日期。'}];
+{title:'让新办公室，准时开工',body:'澄星设计 · 办公设备采购项目\n销售进展汇报 / 陈朗 / 锐行办公',notes:salesSpeakerNotes[0]},
+{title:'30 个工位，同一套体验',body:'30 台商务笔记本\n30 台 27 英寸显示器\n30 个 USB-C 扩展坞\n预算上限 20 万元 · 10 月 28 日前验收',notes:salesSpeakerNotes[1]},
+{title:'供货确定性，优先于最低价',body:'云帆供应：7 个工作日，库存已确认\n远峰设备：10 个工作日，需二次确认\n建议：选择云帆，预留验收缓冲',notes:salesSpeakerNotes[2]},
+{title:'报价可控，服务有余量',body:'批量采购优惠 5%\n设备配置与统一交付\n报价、成本和毛利按最新确认数据展示',notes:salesSpeakerNotes[3]},
+{title:'把风险，留在交付之前',body:'10 月 17 日：锁定订单和库存\n10 月 24 日：设备到货\n10 月 26 日：配置与联调\n10 月 28 日：客户验收',notes:salesSpeakerNotes[4]},
+{title:'下一步，推进确认',body:'陈朗 / 今天：发送修订报价\n林悦 / 周五：确认采购方案\n周宁 / 确认后：锁定库存\n交付团队 / 到货前：准备配置清单',notes:salesSpeakerNotes[5]}];
 export interface Stroke {points:[number,number][];color:string;size:number;eraser:boolean;}
 export interface OfficeFile{id:string;kind:'sheet'|'word'|'slides';name:string;products?:Product[];paragraphs?:string[];slides?:Slide[];}
-export interface State {officeFiles:OfficeFile[];officeFile:string|null;chat:ChatState;switcher:Switcher|null;app:AppId;recent:AppId[];revision:number;target:Target|null;products:Product[];reportProducts:Product[];reportRevision:number;paragraphs:string[];slides:Slide[];slide:number;presenting:boolean;startedAt:number;mailId:string;draft:string;recipient:string;subject:string;mails:Mail[];texts:Record<string,string>;color:string;brush:number;eraser:boolean;strokes:Stroke[];noteStrokes:Stroke[];playing:boolean;progress:number;mediaIndex:number;gamePaused:boolean;gameEpoch:number;gameKeys:string[];gameHeartbeat:number;}
-export function initialState():State{const state:State={officeFiles:[],officeFile:null,chat:initialChats(),switcher:null,app:'desktop',recent:[],revision:0,target:null,products:structuredClone(initialProducts),reportProducts:structuredClone(initialProducts),reportRevision:0,paragraphs:['澄星设计办公设备采购方案','项目目标：为新办公室配置 30 套一致的办公设备，在 10 月 28 日前完成交付与验收。','产品配置：轻舟 Pro 商务笔记本、明境 27 英寸显示器、畅联 USB-C 扩展坞，每种各 30 件。','服务安排：统一配置、现场安装与售后联络。客户确认方案后锁定库存，按阶段完成验收。','交付安排：10 月 24 日到货，10 月 26 日完成配置，10 月 28 日客户验收。'],slides:structuredClone(initialSlides),slide:0,presenting:false,startedAt:0,mailId:'m1',draft:'',recipient:'lin.yue@example.com',subject:'回复：新办公室设备采购需求 · 30 套',mails:structuredClone(mails),texts:{'wechat-draft':'','notes-text':'澄星项目会议记录\n确认 30 套设备数量与到货时间。','ai-draft':'','media-comment':''},color:'#ed5b94',brush:8,eraser:false,strokes:[],noteStrokes:[],playing:false,progress:0,mediaIndex:0,gamePaused:false,gameEpoch:0,gameKeys:[],gameHeartbeat:0};state.officeFiles=[{id:'sample-sheet',kind:'sheet',name:'采购与客户报价.xlsx',products:structuredClone(state.products)},{id:'sample-word',kind:'word',name:'澄星设计采购方案.docx',paragraphs:[...state.paragraphs]},{id:'sample-slides',kind:'slides',name:'销售进展汇报.pptx',slides:structuredClone(state.slides)}];return state;}
+export interface State {presentation:PresentationState;officeFiles:OfficeFile[];officeFile:string|null;chat:ChatState;switcher:Switcher|null;app:AppId;recent:AppId[];revision:number;target:Target|null;products:Product[];reportProducts:Product[];reportRevision:number;paragraphs:string[];slides:Slide[];slide:number;presenting:boolean;startedAt:number;mailId:string;draft:string;recipient:string;subject:string;mails:Mail[];texts:Record<string,string>;color:string;brush:number;eraser:boolean;strokes:Stroke[];noteStrokes:Stroke[];playing:boolean;progress:number;mediaIndex:number;gamePaused:boolean;gameEpoch:number;gameKeys:string[];gameHeartbeat:number;}
+export function initialState():State{const state:State={presentation:presentationState(),officeFiles:[],officeFile:null,chat:initialChats(),switcher:null,app:'desktop',recent:[],revision:0,target:null,products:structuredClone(initialProducts),reportProducts:structuredClone(initialProducts),reportRevision:0,paragraphs:['澄星设计办公设备采购方案','项目目标：为新办公室配置 30 套一致的办公设备，在 10 月 28 日前完成交付与验收。','产品配置：轻舟 Pro 商务笔记本、明境 27 英寸显示器、畅联 USB-C 扩展坞，每种各 30 件。','服务安排：统一配置、现场安装与售后联络。客户确认方案后锁定库存，按阶段完成验收。','交付安排：10 月 24 日到货，10 月 26 日完成配置，10 月 28 日客户验收。'],slides:structuredClone(initialSlides),slide:0,presenting:false,startedAt:0,mailId:'m1',draft:'',recipient:'lin.yue@example.com',subject:'回复：新办公室设备采购需求 · 30 套',mails:structuredClone(mails),texts:{'speaker-notes-version':'2','wechat-draft':'','notes-text':'澄星项目会议记录\n确认 30 套设备数量与到货时间。','ai-draft':'','media-comment':''},color:'#ed5b94',brush:8,eraser:false,strokes:[],noteStrokes:[],playing:false,progress:0,mediaIndex:0,gamePaused:false,gameEpoch:0,gameKeys:[],gameHeartbeat:0};state.officeFiles=[{id:'sample-sheet',kind:'sheet',name:'采购与客户报价.xlsx',products:structuredClone(state.products)},{id:'sample-word',kind:'word',name:'澄星设计采购方案.docx',paragraphs:[...state.paragraphs]},{id:'sample-slides',kind:'slides',name:'销售进展汇报.pptx',slides:structuredClone(state.slides)}];return state;}
 export interface Command {id:string;type:string;app?:AppId;targetId?:string;targetRevision?:number;sessionId?:number;value?:unknown;}
 export interface Ack {id:string;ok:boolean;error?:string;revision:number;}
 export function select(s:State,id:string,label:string,kind:Target['kind'],value:string):State{return {...s,revision:s.revision+1,target:{id,label,kind,app:s.app,revision:s.revision+1,value}};}
@@ -36,10 +38,11 @@ export function apply(s:State,c:Command):{state:State;ack:Ack}{
  if(mutating.has(c.type)&&(!s.target||c.targetId!==s.target.id||c.targetRevision!==s.target.revision||c.app!==s.app))return fail('目标已变化，请重新确认后提交');
  if(c.app&&c.app!==s.app&&!['open','switch-step','switch-cancel','switch-commit','release'].includes(c.type))return fail('应用已切换');
  const n=structuredClone(s);const v=c.value;
- const handled=interaction(n,c);
- if(handled!==undefined){if(handled)return fail(handled);n.revision=s.revision+1;return {state:n,ack:{id:c.id,ok:true,revision:n.revision}};}
+ const handled=presentationInteraction(n,c);
+ const result=handled===undefined?interaction(n,c):handled;
+ if(result!==undefined){if(result)return fail(result);n.revision=s.revision+1;return {state:n,ack:{id:c.id,ok:true,revision:n.revision}};}
  switch(c.type){
- case 'open':{if(!['desktop',...apps.map(a=>a[0])].includes(String(v)))return fail('应用不存在');activate(n,v as AppId);break;}
+ case 'open':{if(!['desktop',...apps.map(a=>a[0])].includes(String(v)))return fail('应用不存在');launch(n,v as AppId);break;}
  case 'select':{const t=v as Target;if(!t?.id||!t.label||!['text','number','drawing','slide','media','game','message'].includes(t.kind))return fail('对象无效');n.target={...t,app:n.app,revision:s.revision+1};break;}
  case 'input':{
  const t=n.target!;const text=String(v??'');if(text.length>20000)return fail('内容过长');
@@ -62,15 +65,15 @@ export function apply(s:State,c:Command):{state:State;ack:Ack}{
  const updateSlide=(i:number,key:keyof Slide,value:string)=>{if(!n.texts[`edited:slide:${i}:${key}`])n.slides[i][key]=value;};
  updateParagraph(1,'项目目标：按已确认清单配置新办公室设备，在 10 月 28 日前完成交付与验收。');
  updateParagraph(2,'产品配置：'+inventory+'。');
- updateSlide(0,'notes','开场先说明客户的搬迁日期，核心目标是按已确认采购清单准时交付。');
  updateSlide(1,'title','办公设备，统一配置');
  updateSlide(1,'body',n.products.map(p=>`${p.quantity} 件 ${p.name}`).join('\n')+'\n预算上限 20 万元 · 10 月 28 日前验收');
  updateSlide(3,'body',n.products.map(p=>`${p.name} · 优惠 ${p.discount}%`).join('\n')+'\n设备配置与统一交付');
  for(const f of n.officeFiles){if(f.id==='sample-word')f.paragraphs=[...n.paragraphs];if(f.id==='sample-slides')f.slides=structuredClone(n.slides);}
  n.target=null;break;}
 
- case 'slide':if(typeof v!=='number'||!Number.isInteger(v))return fail('页码无效');n.slide=Math.max(0,Math.min(n.slides.length-1,v));n.target=null;break;
- case 'present':n.presenting=Boolean(v);n.target=null;n.startedAt=v?Date.now():0;break;
+ case 'slide':if(typeof v!=='number'||!Number.isInteger(v))return fail('页码无效');releasePointer(n);n.slide=Math.max(0,Math.min(n.slides.length-1,v));if(n.officeFile==='sample-slides')n.presentation.lastSlide=n.slide;n.target=null;break;
+ case 'presentation-active':if(n.app==='slides'&&n.presenting){if(v){if(!n.presentation.runningSince)n.presentation.runningSince=Date.now();}else pausePresentation(n);}break;
+ case 'present':if(v){beginPresentation(n);}else{pausePresentation(n);n.presenting=false;n.target=null;}break;
  case 'color':if(!/^#[0-9a-f]{6}$/i.test(String(v)))return fail('颜色无效');n.color=String(v);n.eraser=false;break;
  case 'brush':if(!Number.isFinite(Number(v)))return fail('笔刷大小无效');n.brush=Math.max(1,Math.min(40,Number(v)));break;
  case 'eraser':n.eraser=Boolean(v);break;
@@ -83,7 +86,7 @@ export function apply(s:State,c:Command):{state:State;ack:Ack}{
  case 'game-keys':if(n.app!=='mario')return fail('游戏未打开');if(!Array.isArray(v)||v.some(k=>!['ArrowLeft','ArrowRight','Space','Shift'].includes(k)))return fail('按键无效');n.gameKeys=v;n.gameHeartbeat=Date.now();break;
  case 'game-pause':n.gamePaused=Boolean(v);n.gameKeys=[];break;
  case 'game-reset':n.gameEpoch++;n.gamePaused=false;n.gameKeys=[];break;
- case 'release':n.gameKeys=[];n.switcher=null;break;
+ case 'release':n.presentation.captions={...n.presentation.captions,id:'',enabled:false,status:'off',text:'',error:''};n.chat.activation=null;n.gameKeys=[];n.switcher=null;releasePointer(n);if(n.chat.context?.readAt)n.chat.context.readAt=-Math.abs(n.chat.context.readAt);break;
  default:return fail('不支持的操作');
  }
  n.revision=s.revision+1;return {state:n,ack:{id:c.id,ok:true,revision:n.revision}};
@@ -97,4 +100,4 @@ export class Store {
  this.state=result.state;this.seen.set(c.id,result.ack);if(this.seen.size>1000)this.seen.delete(this.seen.keys().next().value!);return result.ack;}
 }
 
-export function describe(s:State){return {protocolVersion:2,app:s.app,documentId:({sheet:'sales-quote',word:'customer-proposal',slides:'sales-update',mail:s.mailId} as Record<string,string>)[s.app]||s.app,worksheet:s.app==='sheet'?'采购报价':undefined,object:s.target,revision:s.revision,presentationSession:s.presenting?s.startedAt:null,slide:s.app==='slides'?s.slide:undefined,operations:s.app==='mario'?['game-keys','game-pause','game-reset','release']:s.presenting?['slide','present']:s.target?['input','undo',...(s.app==='word'?['format']:[])]:['open','select']};}
+export function describe(s:State){return {protocolVersion:4,app:s.app,documentId:({sheet:'sales-quote',word:'customer-proposal',slides:'sales-update',mail:s.mailId} as Record<string,string>)[s.app]||s.app,worksheet:s.app==='sheet'?'采购报价':undefined,object:s.target,revision:s.revision,presentationSession:s.presenting?s.startedAt:null,slide:s.app==='slides'?s.slide:undefined,operations:s.app==='mario'?['game-keys','game-pause','game-reset','release']:s.presenting?['slide','present']:s.target?['input','undo',...(s.app==='word'?['format']:[])]:['open','select']};}

@@ -2,11 +2,11 @@
   "string": [
     {
       "name": "app_name",
-      "value": "Mobile 输入"
+      "value": "Input Agent"
     },
     {
       "name": "module_desc",
-      "value": "Mobile Input"
+      "value": "Input Agent"
     },
     {
       "name": "mic_reason",

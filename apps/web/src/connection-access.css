@@ -1,0 +1,27 @@
+.agent-shell{width:100%;height:100dvh;position:relative}
+.agent-workspace{height:100%;width:100%}
+.agent-status-area{position:fixed;z-index:180;top:0;right:0;height:48px;display:flex;align-items:center;padding:0 max(8px,var(--native-right,0px));pointer-events:none}
+.agent-connection{position:relative;width:48px;height:48px;border:0;border-radius:16px;background:transparent;color:#415566;justify-content:center;pointer-events:auto;flex-shrink:0}
+.agent-connection:hover{background:#dfe8ef80}.agent-connection:focus-visible{outline:2px solid #427cbd;outline-offset:-4px}
+.agent-connection i,.agent-link-state i{width:7px;height:7px;border-radius:50%;background:#d19139;box-shadow:0 0 0 2px #f4f7f9}
+.agent-connection i{position:absolute;right:9px;bottom:10px}
+.agent-connection[data-connected=true] i,.agent-link-state i[data-connected=true]{background:#209779}
+.agent-phone .agent-status-area{left:0;justify-content:space-between;background:#f0f5f9f2;backdrop-filter:blur(18px);padding-left:max(18px,var(--native-left,0px))}
+.agent-identity{display:flex;align-items:center;gap:10px;min-width:0;color:#27454e;font-size:12px}.agent-identity b{font-weight:600;white-space:nowrap}.agent-identity span{color:#647d87;font-size:10px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.agent-phone .agent-workspace{position:absolute;top:48px;bottom:0;height:auto;contain:layout;overflow:hidden}
+.agent-phone .phone,.agent-phone .glass-phone{height:100%;min-height:0}
+.agent-phone .fc-phone,.agent-phone .presentation-phone-shell{height:100%}
+.agent-tablet .systembar{height:48px;min-height:48px;padding-right:70px}
+.agent-tablet:has(.presenting) .agent-connection,.agent-tablet:has(.scene-mario) .agent-connection{background:#eff4f4e6;box-shadow:0 2px 12px #0002}
+.agent-connection-scrim{z-index:2000;padding:16px;backdrop-filter:blur(12px);overflow-y:auto}
+.agent-connection-panel{width:min(100%,360px);max-height:calc(100dvh - 32px);overflow:auto;background:#f9fbfd;border:1px solid #fff;border-radius:24px;padding:20px;box-shadow:0 24px 80px #102b4233;color:#243947;outline:none}
+.agent-connection-panel>header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}.agent-connection-panel h2{font-size:20px;margin:0}.agent-connection-panel>header button{width:48px;height:48px;justify-content:center;border-radius:50%;background:#eaf0f4}
+.agent-link-state{display:flex;align-items:center;gap:9px;font-size:13px;color:#607784;min-height:28px}.agent-link-state i{flex-shrink:0}
+.agent-connection-panel .connect-panel{padding:0;margin:16px 0 0;border:0;box-shadow:none;background:transparent}.agent-connection-panel .connect-panel input{min-width:0;width:100%}
+.agent-tablet-pair{display:flex;flex-direction:column;align-items:center;gap:8px;padding:12px 0}.agent-tablet-pair img{border-radius:12px}.agent-tablet-pair>span,.agent-tablet-pair small{color:#617785;font-size:12px}.agent-tablet-pair .pair-code{font-size:32px;letter-spacing:6px}
+@media(max-height:480px){.agent-connection-panel{padding:12px 20px}.agent-connection-panel>header{margin-bottom:0}.agent-connection-panel .connect-panel{margin-top:4px}.agent-connection-panel .connect-panel label{margin:6px 0}}
+/* ArkWeb draws edge-to-edge: place the app status row below the real OS status area. */
+.agent-phone .agent-status-area{top:var(--native-top,0px)}
+.agent-phone .agent-workspace{top:calc(48px + var(--native-top,0px))}
+.agent-phone .phone-home,.agent-phone .presentation-phone-shell,.agent-phone .fc-phone{padding-top:0}
+.agent-phone .phone-home:before{display:none}

@@ -1,0 +1,47 @@
+{
+  "source": "Hover wechat-point-and-ask; source project unchanged",
+  "avatars": [
+    {
+      "identity": "boss",
+      "source": "/Users/hmi/Documents/input agent/wechat-point-and-ask/public/assets/avatars/generated/boss.png",
+      "file": "apps/web/public/assets/avatars/boss.png",
+      "sha256": "1f3411b03cae87b04bbb414230ff525f8713dbb2f04738fe74be9042e95265f1"
+    },
+    {
+      "identity": "wife",
+      "source": "/Users/hmi/Documents/input agent/wechat-point-and-ask/public/assets/avatars/generated/wife.png",
+      "file": "apps/web/public/assets/avatars/wife.png",
+      "sha256": "b8e8e71854a1e753a464a44206d554f31d9cb8866362b9939e816fc6b17c7a13"
+    },
+    {
+      "identity": "alex",
+      "source": "/Users/hmi/Documents/input agent/wechat-point-and-ask/public/assets/avatars/generated/alex.png",
+      "file": "apps/web/public/assets/avatars/alex.png",
+      "sha256": "457afd3f6fc7276798ac1a01326791d26946fc8b076033f65b54385db76b275b"
+    },
+    {
+      "identity": "me",
+      "source": "/Users/hmi/Documents/input agent/wechat-point-and-ask/public/assets/neighborhood/avatars/zhao.jpg",
+      "file": "apps/web/public/assets/avatars/me.jpg",
+      "sha256": "185edf60f59747779b611c5fe69d413e10b1da7aa3b1b19c9f5dbffc20105427"
+    },
+    {
+      "identity": "mom",
+      "source": "/Users/hmi/Documents/input agent/wechat-point-and-ask/public/assets/neighborhood/avatars/wu.jpg",
+      "file": "apps/web/public/assets/avatars/mom.jpg",
+      "sha256": "4b0751811c498277b9f10d531c3717ea7494061441510738c5de411b72ac6389"
+    },
+    {
+      "identity": "dad",
+      "source": "/Users/hmi/Documents/input agent/wechat-point-and-ask/public/assets/neighborhood/avatars/liu.jpg",
+      "file": "apps/web/public/assets/avatars/dad.jpg",
+      "sha256": "c912e95500ea380661c74dcedba978348cfc2daffb3a7abcb585897a59592d6b"
+    },
+    {
+      "identity": "xu",
+      "source": "/Users/hmi/Documents/input agent/wechat-point-and-ask/public/assets/neighborhood/avatars/lin.jpg",
+      "file": "apps/web/public/assets/avatars/xu.jpg",
+      "sha256": "8dbcbf8a6830b3ce9a39f76636189c169190ed2680bc207d0a6973cd9ba621c0"
+    }
+  ]
+}

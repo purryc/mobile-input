@@ -1,9 +1,11 @@
+import { PresentationMotion } from './PresentationMotion';
 import { pasteboard } from '@kit.BasicServicesKit';
 import { socket, mdns, connection } from '@kit.NetworkKit';
 import { util } from '@kit.ArkTS';
 import { webview } from '@kit.ArkWeb';
 import { common } from '@kit.AbilityKit';
 import { scanBarcode } from '@kit.ScanKit';
+import { window } from '@kit.ArkUI';
 import { Speech } from './Speech';
 import { ROLE } from './Config';
 import { LOCAL_ORIGIN } from './LocalAssets';
@@ -16,15 +18,17 @@ export class NativeBridge {
  private peer:socket.TCPSocketConnection|null=null;
  private discovery:mdns.DiscoveryService|null=null;
  private speech:Speech;
+ private motion:PresentationMotion;
  private active:boolean=true;
+ private layoutVersion:number=0;
  private pin:string='';private authenticated:boolean=false;
  private buffer:Uint8Array=new Uint8Array(0);
  private encoder:util.TextEncoder=new util.TextEncoder();
  private decoder:util.TextDecoder=new util.TextDecoder('utf-8');
- private service:mdns.LocalServiceInfo={serviceType:'_mobileinput._tcp',serviceName:'Mobile Workbench',port:39871};
+ private service:mdns.LocalServiceInfo={serviceType:'_mobileinput._tcp',serviceName:'Input Agent',port:39871};
  private context:common.UIAbilityContext;
  private controller:webview.WebviewController;
- constructor(context:common.UIAbilityContext,controller:webview.WebviewController){AppStorage.setOrCreate<string>('pasteRequest','');this.context=context;this.controller=controller;this.speech=new Speech(context,controller);}
+ constructor(context:common.UIAbilityContext,controller:webview.WebviewController){AppStorage.setOrCreate<string>('pasteRequest','');this.context=context;this.controller=controller;this.speech=new Speech(context,controller);this.motion=new PresentationMotion(controller);}
  clipboard(id:string,operation:string,text:string):string {
   if(!this.allowed())return 'unavailable';
   const result:ClipboardResult={id,ok:false,text:'',error:''};
@@ -42,6 +46,31 @@ export class NativeBridge {
  }
  cancelPaste(id:string):void {const result:ClipboardResult={id,ok:false,text:'',error:'已取消粘贴'};this.emit('native-clipboard',JSON.stringify(result));}
  role():string{return ROLE;}
+ gameLayout(enabled:boolean):string {
+  if(!this.allowed()||ROLE!=='phone')return 'unavailable';
+  const version=++this.layoutVersion;
+  window.getLastWindow(this.context).then((w:window.Window)=>{
+   if(version!==this.layoutVersion)return;
+   w.setPreferredOrientation(enabled?window.Orientation.LANDSCAPE:window.Orientation.AUTO_ROTATION).catch(()=>this.status('error','无法旋转屏幕，请横放手机'));
+  }).catch(()=>this.status('error','无法旋转屏幕，请横放手机'));
+  return 'requested';
+ }
+ layoutInsets():string {
+  if(!this.allowed()||ROLE!=='phone')return 'unavailable';
+  window.getLastWindow(this.context).then((w:window.Window)=>{
+   const rect=w.getWindowProperties().windowRect;
+   const system=w.getWindowAvoidArea(window.AvoidAreaType.TYPE_SYSTEM);
+   const nav=w.getWindowAvoidArea(window.AvoidAreaType.TYPE_NAVIGATION_INDICATOR);
+   const cutout=w.getWindowAvoidArea(window.AvoidAreaType.TYPE_CUTOUT);
+   this.emit('native-insets',JSON.stringify({width:rect.width,height:rect.height,
+    top:Math.max(system.topRect.height,nav.topRect.height,cutout.topRect.height),
+    bottom:Math.max(system.bottomRect.height,nav.bottomRect.height,cutout.bottomRect.height),
+    left:Math.max(system.leftRect.width,nav.leftRect.width,cutout.leftRect.width),
+    right:Math.max(system.rightRect.width,nav.rightRect.width,cutout.rightRect.width)}));
+  }).catch(()=>{});
+  return 'requested';
+ }
+ presentationMotion(id:string,operation:string):string{if(!this.allowed()||ROLE!=='phone'||!this.active)return 'unavailable';return this.motion.control(id,operation);}
  ready():void {this.emit('native-ready','{}');}
  private allowed():boolean {try{return this.controller.getUrl().startsWith(LOCAL_ORIGIN);}catch{return false;}}
  private emit(name:string,data:string):void {this.controller.runJavaScript(`window.dispatchEvent(new CustomEvent('${name}',{detail:JSON.parse(${JSON.stringify(data)})}));`).catch(()=>{});}
@@ -82,11 +111,11 @@ export class NativeBridge {
  }
  private write(e:Envelope):void{const body=this.encoder.encodeInto(JSON.stringify(e));const packet=new Uint8Array(body.length+4);new DataView(packet.buffer).setUint32(0,body.length);packet.set(body,4);if(this.peer)this.peer.send({data:packet.buffer}).catch(()=>this.disconnect());else if(this.client)this.client.send({data:packet.buffer}).catch(()=>this.disconnect());}
  send(payload:string):string{if(!this.allowed()||!this.authenticated)return 'disconnected';this.write({kind:'data',pin:'',payload});return 'sent';}
- private disconnect():void{this.peer?.close();this.client?.close();this.peer=null;this.client=null;this.authenticated=false;this.buffer=new Uint8Array(0);this.status('disconnected');}
+ private disconnect():void{this.motion.stop();this.peer?.close();this.client?.close();this.peer=null;this.client=null;this.authenticated=false;this.buffer=new Uint8Array(0);this.status('disconnected');}
  scan():string{if(!this.allowed())return 'unavailable';scanBarcode.startScanForResult(this.context,{}).then((r:scanBarcode.ScanResult)=>{this.emit('native-scan',JSON.stringify(r.originalValue));}).catch(()=>this.status('error','未读取到配对码，可重新扫描'));return 'scanning';}
  startRecognition(id:string,online:boolean):string{if(!this.allowed())return 'unavailable';return this.speech.startRecognition(id,online);}
  stopRecognition(id:string):string{return this.speech.stopRecognition(id);}
  cancelRecognition(id:string):string{return this.speech.cancelRecognition(id);}
- foreground(value:boolean):void{this.active=value;this.emit('native-foreground',JSON.stringify(value));if(!value){this.speech.cancelRecognition('');this.disconnect();}}
+ foreground(value:boolean):void{this.active=value;this.emit('native-foreground',JSON.stringify(value));if(!value){this.motion.stop();this.speech.cancelRecognition('');this.disconnect();}}
  close():void{this.disconnect();this.server?.close();this.server=null;this.discovery?.stopSearchingMDNS();mdns.removeLocalService(this.context,this.service).catch(()=>{});this.speech.cancelRecognition('');}
 }
