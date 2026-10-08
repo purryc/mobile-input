@@ -1,0 +1,24 @@
+{
+  "string": [
+    {
+      "name": "app_name",
+      "value": "Mobile 输入"
+    },
+    {
+      "name": "module_desc",
+      "value": "Mobile Input"
+    },
+    {
+      "name": "mic_reason",
+      "value": "将您说的话转成可编辑文字"
+    },
+    {
+      "name": "camera_reason",
+      "value": "扫描平板配对码"
+    },
+    {
+      "name": "paste_reason",
+      "value": "将您复制的文字粘贴到当前回复草稿"
+    }
+  ]
+}

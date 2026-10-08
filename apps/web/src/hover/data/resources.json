@@ -1,0 +1,58 @@
+[
+  {
+    "id": "client-background",
+    "app": "wechat",
+    "kind": "document",
+    "title": "客户背景",
+    "subtitle": "会前资料整理，供内部讨论。",
+    "summary": "会前资料整理，供内部讨论。 明确合作业务范围、项目窗口和参与决策的团队。公司公开数据需在会前核对，不将讨论假设写成已确认事实。",
+    "author": "陈总",
+    "date": "2026-09-30",
+    "contentId": "client-background",
+    "cover": "research",
+    "format": "md",
+    "conversationId": "wx-boss"
+  },
+  {
+    "id": "meeting-agenda",
+    "app": "wechat",
+    "kind": "document",
+    "title": "会面议程",
+    "subtitle": "10月6日 14:00—15:00 · 上海。",
+    "summary": "10月6日 14:00—15:00 · 上海。 14:40—15:00，整理待确认问题、责任人和后续时间。报价以正式确认版本为准。",
+    "author": "陈总",
+    "date": "2026-09-30",
+    "contentId": "meeting-agenda",
+    "cover": "research",
+    "format": "md",
+    "conversationId": "wx-boss"
+  },
+  {
+    "id": "cooperation-draft",
+    "app": "wechat",
+    "kind": "document",
+    "title": "合作方案讨论稿",
+    "subtitle": "内部讨论版 · 报价尚未最终确认。",
+    "summary": "内部讨论版 · 报价尚未最终确认。 陈总审阅后再发给王总。当前文件为讨论稿，不代表正式报价或商务承诺。",
+    "author": "陈总",
+    "date": "2026-09-30",
+    "contentId": "cooperation-draft",
+    "cover": "research",
+    "format": "md",
+    "conversationId": "wx-boss"
+  },
+  {
+    "id": "weekend-list",
+    "app": "wechat",
+    "kind": "document",
+    "title": "周末出行清单",
+    "subtitle": "苏州园林 · 轻装出行。",
+    "summary": "苏州园林 · 轻装出行。 从上海出发，到苏州后前往拙政园。具体高铁班次和入园日期确认后再预订。",
+    "author": "我",
+    "date": "2026-09-30",
+    "contentId": "weekend-list",
+    "cover": "research",
+    "format": "md",
+    "conversationId": "wx-files"
+  }
+]

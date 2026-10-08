@@ -1,0 +1,15 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="App icon / xiaoyi">
+<rect width="24" height="24" rx="5" fill="#F4F1FF"/>
+<circle id="Xiaoyi light" cx="12" cy="12" r="10" fill="url(#paint0_linear_0_115)"/>
+<ellipse id="Pearl" opacity="0.75" cx="13.08" cy="10.56" rx="5.4" ry="5.04" fill="white"/>
+</g>
+<defs>
+<linearGradient id="paint0_linear_0_115" x1="2" y1="12" x2="22" y2="12" gradientUnits="userSpaceOnUse">
+<stop stop-color="#45CBE2"/>
+<stop offset="0.46" stop-color="#0A59F7"/>
+<stop offset="0.77" stop-color="#8E64E9"/>
+<stop offset="1" stop-color="#F0A4D2"/>
+</linearGradient>
+</defs>
+</svg>

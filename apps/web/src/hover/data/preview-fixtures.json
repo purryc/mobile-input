@@ -1,0 +1,114 @@
+{
+  "free": [
+    {
+      "field": "14:00",
+      "original": "与王总会面 · 待安排",
+      "value": "与王总会面 · 14:00–15:00"
+    },
+    {
+      "field": "日历检查",
+      "original": "未读取本机日历，请在日历中确认",
+      "value": "13:00–14:00 空闲；15:30 团队周会"
+    }
+  ],
+  "event": [
+    {
+      "field": "日历",
+      "original": "本机 · 工作",
+      "value": "工作"
+    }
+  ],
+  "company": [
+    {
+      "field": "资料状态",
+      "original": "待检索并核对来源",
+      "value": "会前简报 · 9月30日整理"
+    },
+    {
+      "field": "主营业务",
+      "original": null,
+      "value": "乘用车研发、制造与销售；新能源汽车与智能出行"
+    },
+    {
+      "field": "合作关注点",
+      "original": null,
+      "value": "座舱体验、用户研究与服务设计"
+    }
+  ],
+  "brief": [
+    {
+      "field": "文档结构",
+      "original": "公司概况 / 合作议题 / 待确认",
+      "value": "公司概况 / 合作议题 / 会议问题"
+    },
+    {
+      "field": "状态",
+      "original": "资料待核实，保留引用位置",
+      "value": "讨论稿 · 9月30日更新"
+    }
+  ],
+  "email": [
+    {
+      "field": "收件人",
+      "original": "王总 · 邮箱待补充",
+      "value": "王晨 <wang.chen@example.com>"
+    },
+    {
+      "field": "附件",
+      "original": "合作方案 · 附件待选择",
+      "value": "合作方案讨论稿 v2.pdf · 2.4 MB"
+    }
+  ],
+  "proposal": [
+    {
+      "field": "文件",
+      "original": "合作方案 · 版本待确认",
+      "value": "合作方案讨论稿 v2.pdf"
+    },
+    {
+      "field": "附件状态",
+      "original": "等待选择与确认",
+      "value": "2.4 MB · 9月30日 09:15更新"
+    }
+  ],
+  "small": [
+    {
+      "field": "尺寸状态",
+      "original": "商品规格待查询",
+      "value": "小号 28 × 20 × 12 cm；肩带 105 cm"
+    }
+  ],
+  "ticket": [
+    {
+      "field": "演出日期 / 场馆",
+      "original": "进入场次页确认",
+      "value": "10月16日 19:30 · 上海音乐厅"
+    },
+    {
+      "field": "票务状态",
+      "original": "虚构演出示例，实际场次待查询",
+      "value": "10月2日 12:00 开售 · ¥180 / ¥280 / ¥380"
+    }
+  ],
+  "logistics": [
+    {
+      "field": "配送状态",
+      "original": "待核实，尚未查询真实物流",
+      "value": "运单信息已录入 · 等待寄件方确认揽收"
+    }
+  ],
+  "payment-mail": [
+    {
+      "field": "To",
+      "original": "Alex Morgan · email to confirm",
+      "value": "Alex Morgan <alex.morgan@example.com>"
+    }
+  ],
+  "tracking-notes": [
+    {
+      "field": "配送状态",
+      "original": "待核实",
+      "value": "运单信息已录入，等待揽收确认"
+    }
+  ]
+}

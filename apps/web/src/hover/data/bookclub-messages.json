@@ -1,0 +1,3504 @@
+[
+  {
+    "conversationId": "wx-club",
+    "messageId": "club-start",
+    "text": "周六的读书会准备得怎么样啦？我刚在楼下碰到两位邻居，她们说也想来坐坐。\n\n都是第一次参加，最先问的居然是要不要提前做读书笔记。听起来有点紧张，哈哈。\n\n需要带自己的书吗？如果现场能借阅，我就叫她们轻装过来。",
+    "translations": [
+      {
+        "zh": "周六的读书会准备得怎么样啦？我刚在楼下碰到两位邻居，她们说也想来坐坐。",
+        "en": "How are preparations for Saturday’s book club going? I just met two neighbors downstairs who would like to join us."
+      },
+      {
+        "zh": "都是第一次参加，最先问的居然是要不要提前做读书笔记。听起来有点紧张，哈哈。",
+        "en": "It will be their first time. Their first question was whether they needed to prepare reading notes—they sounded a little nervous, haha."
+      },
+      {
+        "zh": "需要带自己的书吗？如果现场能借阅，我就叫她们轻装过来。",
+        "en": "Should they bring their own books? If there are books to borrow, I will tell them to travel light."
+      }
+    ]
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-long-1",
+    "text": "不用准备读书笔记，带一本最近在翻的书就行。没带书也没关系，店里会留几本可以一起看的。\n\n我们周六下午两点开始，提前二十分钟可以签到。地点还是街角书屋一层，东侧的门比较好找。\n\n这次想聊聊书里的日常：一顿饭、一条街，或者一个熟悉的人。说一个很小的细节也可以，不用介绍整本书。\n\n想全程只听也欢迎。大概四点半结束，中途有事先走，跟身边的人打个招呼就好。",
+    "translations": [
+      {
+        "zh": "不用准备读书笔记，带一本最近在翻的书就行。没带书也没关系，店里会留几本可以一起看的。",
+        "en": "No reading notes needed. Bring a book you have been browsing, or come without one—we will set aside a few to share."
+      },
+      {
+        "zh": "我们周六下午两点开始，提前二十分钟可以签到。地点还是街角书屋一层，东侧的门比较好找。",
+        "en": "We start at two on Saturday afternoon, with sign-in twenty minutes earlier. The venue is still the ground floor of the corner bookshop; the east entrance is easier to find."
+      },
+      {
+        "zh": "这次想聊聊书里的日常：一顿饭、一条街，或者一个熟悉的人。说一个很小的细节也可以，不用介绍整本书。",
+        "en": "This time we would like to talk about everyday moments in books: a meal, a street, or someone familiar. One small detail is enough; there is no need to introduce the whole book."
+      },
+      {
+        "zh": "想全程只听也欢迎。大概四点半结束，中途有事先走，跟身边的人打个招呼就好。",
+        "en": "You are welcome just to listen. We expect to finish around half past four. If you need to leave early, simply say goodbye to the people next to you."
+      }
+    ]
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "club-reply",
+    "text": "我可以提前半小时到，帮忙布置桌椅和签到处。靠门的位置留出来，第一次来的朋友进门就能找到我们。\n\n对了，我家还有一包空白名牌，上次没用完的。一起带过去吧，写昵称也方便。\n\n纸笔和饮用水如果还缺，下午把清单发我。我出门前顺手带上，别临时再跑一趟。",
+    "translations": [
+      {
+        "zh": "我可以提前半小时到，帮忙布置桌椅和签到处。靠门的位置留出来，第一次来的朋友进门就能找到我们。",
+        "en": "I can arrive half an hour early to arrange the chairs and sign-in desk. Let us leave the entrance clear so first-time visitors can find us easily."
+      },
+      {
+        "zh": "对了，我家还有一包空白名牌，上次没用完的。一起带过去吧，写昵称也方便。",
+        "en": "By the way, I still have some blank name tags from last time. I will bring them along; people can write their nicknames."
+      },
+      {
+        "zh": "纸笔和饮用水如果还缺，下午把清单发我。我出门前顺手带上，别临时再跑一趟。",
+        "en": "Send me a list this afternoon if we still need pens, paper or water. I can pick them up before I leave and save us a last-minute trip."
+      }
+    ]
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "club-card",
+    "text": "把这次的筹备报告放在这里，桌椅怎么摆、谁负责签到，里面都归到一起了。\n\n先看自己负责的那一小段就好，不用从头读完。现场有调整，活动后我再补回同一份文档。\n\n采购的小票也先留着。费用按实际发生的记，没花掉的预算不用凑着用完。",
+    "translations": [
+      {
+        "zh": "把这次的筹备报告放在这里，桌椅怎么摆、谁负责签到，里面都归到一起了。",
+        "en": "Here is the preparation report. The seating plan and sign-in responsibilities are all in one place."
+      },
+      {
+        "zh": "先看自己负责的那一小段就好，不用从头读完。现场有调整，活动后我再补回同一份文档。",
+        "en": "Just read the section you are responsible for; there is no need to read the whole thing. I will update the same document after the event if anything changes."
+      },
+      {
+        "zh": "采购的小票也先留着。费用按实际发生的记，没花掉的预算不用凑着用完。",
+        "en": "Please keep the purchase receipts. We will record actual spending, without trying to use up the remaining budget."
+      }
+    ]
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "club-article",
+    "text": "刚看到这篇写社区书店的文章，想到我们上次聊的那个问题：一个人不买书，能不能在这里安静坐一下午？\n\n里面有一段写窗边的座位，我很喜欢。不是每个来到这里的人都要马上参与聊天，有个地方待着，本身就挺好。\n\n分享给大家，空了再看。周六想接着聊这个也可以。",
+    "translations": [
+      {
+        "zh": "刚看到这篇写社区书店的文章，想到我们上次聊的那个问题：一个人不买书，能不能在这里安静坐一下午？",
+        "en": "I just read this article about a neighborhood bookshop. It reminded me of our question last time: can someone spend a quiet afternoon here without buying a book?"
+      },
+      {
+        "zh": "里面有一段写窗边的座位，我很喜欢。不是每个来到这里的人都要马上参与聊天，有个地方待着，本身就挺好。",
+        "en": "I especially liked the part about the window seats. Not everyone who comes here needs to join a conversation immediately; simply having somewhere to stay is lovely."
+      },
+      {
+        "zh": "分享给大家，空了再看。周六想接着聊这个也可以。",
+        "en": "Sharing it for whenever you have time. We can continue this conversation on Saturday if you like."
+      }
+    ]
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "club-end",
+    "text": "这篇写得挺贴近我们想做的事情。第一次来的朋友直接来就好，不用先把往期文章都补完。\n\n我希望大家坐下来以后，能慢慢从陌生人变成认得脸的邻居。哪怕只交换了一个书名，也很值得。\n\n先别把流程排太满，留点闲聊的时间吧。店里那壶茶，坐着慢慢喝才香。",
+    "translations": [
+      {
+        "zh": "这篇写得挺贴近我们想做的事情。第一次来的朋友直接来就好，不用先把往期文章都补完。",
+        "en": "This article feels close to what we want to do. First-time visitors can simply come along without catching up on all the previous articles."
+      },
+      {
+        "zh": "我希望大家坐下来以后，能慢慢从陌生人变成认得脸的邻居。哪怕只交换了一个书名，也很值得。",
+        "en": "I hope people can slowly go from strangers to neighbors who recognize one another. Even exchanging a single book title would be worthwhile."
+      },
+      {
+        "zh": "先别把流程排太满，留点闲聊的时间吧。店里那壶茶，坐着慢慢喝才香。",
+        "en": "Let us leave room for casual conversation rather than packing the schedule. The tea at the shop tastes better when we can sit and enjoy it slowly."
+      }
+    ]
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-extended-1-q",
+    "text": "现在报名表有十六个人，里面五位是第一次参加。我们按多少人准备椅子？\n\n我想先把座位图画一下。\n\n临时搬椅子会挡住正在签到的人。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-extended-1-a",
+    "text": "先摆十八把，其中两把作为机动，别把场地一开始就塞满。靠入口留一条能并排经过的通道，书架前也不要挤成一圈。\n\n名单上确认参加和可能参加分开标记，周五晚上再做一次人数核对。第一次来的五位朋友不用分配发言顺序，签到时问一句怎么称呼、是否愿意分享就够了。\n\n如果临时来了更多人，先调整讨论形式，不能让后来的人坐在门口听不清。空间舒服比看起来热闹重要。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-extended-2-q",
+    "text": "主题叫“重新认识身边的日常”有点宽，参与者会不会不知道带什么书？\n\n我问了一个准备来的朋友，她第一反应是要带一本讲城市的书。\n\n好像我们的意思还没表达清楚。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-extended-2-a",
+    "text": "可以补上三个很具体的入口：书里的一顿饭、一条街，或者一个熟悉的人。每个人选其中一个就能准备，不要求找到整本书的核心观点。\n\n通知里举例时只用短句，避免大家以为必须做读书报告。有人带诗集、绘本，甚至自己抄的一段文字，都可以参与。\n\n主持人开场会先读一小段，把讨论拉到具体体验上。我们要留住主题的开放性，但把第一次开口的门槛降下来。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-extended-3-q",
+    "text": "我可以负责签到。第一次来的朋友，是不是需要单独介绍一遍？\n\n名牌和笔我都能带。\n\n只是担心一上来介绍职业，大家会突然拘谨。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-extended-3-a",
+    "text": "不用请新朋友依次站起来做自我介绍。签到时给每人一张可以手写名字的小卡，愿意写昵称也可以；进入座位区后，主持人用一句话说明今天没有强制发言。\n\n开场让相邻两个人聊聊今天怎么过来的，比面对全场报职业轻松。如果有人明显只想听，就不继续追问。\n\n我们会在休息时自然介绍书店和以往活动，避免新朋友一进门就被一群熟人围住，感觉自己像迟到的客人。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-extended-4-q",
+    "text": "海报上想写“带一本喜欢的书”，会不会让没准备书的人不敢来？\n\n我自己没读完一本时，也不太敢报名。\n\n海报最好别给人这种暗示。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-extended-4-a",
+    "text": "可以写成“带一本书，或带着好奇心来”。下面再用小字说明有现场书目可借阅，第一次参加无需准备发言。\n\n时间、地点和报名方式放在第一屏，别让读者滑到最后才知道哪天举办。视觉上保留书店灯光那张照片，去掉三段重复的活动理念。\n\n海报的任务是让人判断自己能否来、怎么来，真正的内容介绍放在群公告和公众号文章里。发布前我会发一个低分辨率预览，大家先核对信息。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-extended-5-q",
+    "text": "主持人开场要说多久？我怕介绍规则太长，把气氛弄得像上课。\n\n规则其实大家都能理解。\n\n想把那个正式宣布开始的感觉放轻一点。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-extended-5-a",
+    "text": "控制在三分钟以内。第一句欢迎大家，第二句说明主题，接着只讲三条约定：可以只听，分享时不打断，想回应先举手示意。\n\n再提醒洗手间和饮水位置，就直接进入一段短朗读。活动目的不需要长篇讲述，大家坐下来交流的过程就能感受到。\n\n主持人手边留详细流程，但不要逐条念出来。如果现场较安静，可以先邀请一位熟悉的成员分享一个生活细节，为新朋友提供自然的示范。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-extended-6-q",
+    "text": "我下午去量了一下地方，一圈坐十八个人有点远，听后排会费劲。\n\n我站在主持人的位置试了普通音量。\n\n走到最远那把椅子，就得稍微用力听。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-extended-6-a",
+    "text": "那就改成两个相邻的小半圆，中间留主持人的位置，所有椅子朝向大致一致。\n\n第一轮讨论仍然在同一空间进行，后半段再按两组交流。不要把桌子放在正中间变成讲台，饮水和书籍展示放在侧面。\n\n我们用普通说话音量试一次，最远的座位听不清就再向内收。书店当天仍有普通顾客，需要保留进出通路。\n\n布局图画出来后贴在报告里，周六负责摆椅子的同伴照着调整就行。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-extended-7-q",
+    "text": "我准备买些饼干和茶。食物需要问过敏情况吗？\n\n先别买太多口味。\n\n我怕配料混在一起，到了现场也说不清。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-extended-7-a",
+    "text": "可以在报名补充项里写“如有需要我们注意的饮食限制，可私信告知”，不要求每个人公开健康信息。现场准备独立包装、配料标签完整的小食，茶和常温水分开放，不把饮料倒进没有标识的壶。\n\n食物只是补充，不承担正餐；也不要因为有人没吃就不停劝。预算先按十八人计算，剩下的可留给书店工作人员。\n\n垃圾袋、纸巾和清洁布记得一起准备，这些小东西比多买一种点心更容易被漏掉。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-extended-8-q",
+    "text": "目前物料、饮水和点心加起来三百六十，原预算是四百，还要留什么？\n\n纸巾家里还有，能顺手带过去。\n\n那些摆桌子的装饰先不用买吧。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-extended-8-a",
+    "text": "剩下四十先不花，作为临时打印和补充饮水的机动。我们没有租场费，但要把书店提供的空间和工作人员协助写进致谢，不能在账面上当成没有成本。\n\n每笔采购记录负责人、金额和用途，电子小票放到同一文件夹。活动结束后只公开汇总，不在大群贴个人支付记录。\n\n若当天不需要机动款，就保留到下一次，不为了“把预算花完”临时买装饰。桌面清爽、座位舒服已经足够。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-extended-9-q",
+    "text": "我能拍几张现场照片，不过大家会不会介意被发到公众号？\n\n我想拍大家翻书的手和桌面。\n\n人物近照如果要用，再一张张确认。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-extended-9-a",
+    "text": "签到时放一张简短提示，说明会拍环境和活动照片，介意出镜的人可以告诉签到同伴。\n\n主持人开场再提醒一次，不需要让大家当众举手表态。拍摄优先选书页、手写卡和空间远景，近距离人物照在发布前单独确认。\n\n确认过也不代表每张都能随意使用。公众号文末只署同意公开的名字，儿童照片需要更谨慎处理。\n\n活动不是拍摄现场，讨论进入投入状态后就把相机收起来。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-extended-10-q",
+    "text": "有人私信我只能三点以后到，另外一位四点要走。会影响流程吗？\n\n他们提前说了时间，应该是怕给大家添麻烦。\n\n我们回复得轻松一点，他们也比较敢来。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-extended-10-a",
+    "text": "我们把两点半到三点二十的交流分成两个短轮次，三点二十休息十分钟，迟到的人正好在休息时加入。入口留一把靠边的椅子，签到同伴低声说明正在进行什么，不让主持人中断全场重新介绍。\n\n四点前需要离开的人可以在第二轮结束时走，提前告诉主持人就好。通知里写清允许中途加入和离开，大家会更容易安排生活。\n\n不要让参与一场读书会变成必须整段履约的承诺。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-extended-11-q",
+    "text": "如果大家都只说“写得很好”“我也喜欢”，主持人怎么把讨论往前带？\n\n我自己也常常一下说不出具体理由。\n\n要是能从书里的一个场景问起，也许好接一些。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-extended-11-a",
+    "text": "先追问一个具体细节，例如“你读到这里想起了谁”或“哪一个词让你停下来”。不要马上问作品的社会意义，那会把刚建立的轻松气氛拉远。\n\n也可以请分享者描述书里一个看得见的场景，再邀请别人回应自己的类似经历。主持人不用填满每一次沉默，留五秒钟很正常。\n\n若一段讨论确实没有展开，就感谢分享，换到下一个人。我们不是在现场证明每本书都值得深度分析，能够听见不同人的生活已经很好。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-extended-12-q",
+    "text": "有一位老成员特别热情，以前经常一个人说十几分钟，我该怎么提醒？\n\n他是很喜欢这里，可能只是没有察觉时间。\n\n希望提醒时别让他觉得被嫌弃。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-extended-12-a",
+    "text": "先在活动前私下说明这次新朋友较多，希望每段分享先控制在三分钟左右，也邀请他帮忙把话题传给别人。现场主持人可以用内容承接来结束：“你提到邻居的这个细节很有意思，想听听其他人有没有类似经历。”\n\n不要突然打断说超时了，更不要让大家一起看计时器。如果他仍然持续发言，主持人需要承担提醒责任。\n\n照顾热情的人，也要给安静的人留位置，两件事都属于主持工作。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-extended-13-q",
+    "text": "周五晚上又有四个人报名，名单现在二十人了，还能都接待吗？\n\n我不太想到了门口再告诉人家坐不下。\n\n今天能不能先把确认和候补分清？",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-extended-13-a",
+    "text": "我重新看了场地，二十人同时围坐会挡住书架通道。建议把本场确认名额保持十八，另两位先沟通候补，并说明如果临时有人取消会优先通知。\n\n不能因为不好意思拒绝，就让所有人的体验一起变差。下次可以增加一场小规模活动，别只扩大这一场。\n\n候补名单只由报名负责人维护，避免不同同伴分别答应名额。今天晚八点统一确认一次，之后不再在多个聊天里反复变更数字。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-extended-14-q",
+    "text": "目前看签到、摄影、主持都是你们几个在做，我还能接什么工作？\n\n我带的东西不多，还能提早来。\n\n主要想知道哪件事现在缺人接手。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-extended-14-a",
+    "text": "你负责签到和入口引导就很好，不需要再兼顾场内摄影。陈舟负责摆椅子与饮水，陆青负责主持，许知遥只在开场和休息时拍照，我负责报名变更与书店联络。\n\n每个人都有一个明确接手点：你签到结束后把到场人数告诉我，陈舟在开场前确认通道，许知遥拍完就参与讨论。有人临时离开时先找我协调，不在群里同时召唤所有人。\n\n分工表会保留一位替补，现场遇到问题不需要重新开会。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-extended-15-q",
+    "text": "时间信息被聊天刷上去了，能不能发一条最终群公告？\n\n我准备转给一起过来的朋友。\n\n信息太散，他可能会把上一版时间看成这次的。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-extended-15-a",
+    "text": "可以，最终公告只写确认过的内容：周六下午两点开始，提前二十分钟签到；地点是街角书屋一层，入口在东侧；带书或现场借阅都可以；预计四点半结束，允许中途加入或离开；有饮食限制或不希望出镜的朋友私信我。\n\n再附上本次活动报告和地图文字说明。\n\n之后如有变化，在这条公告下回复更新，不再另发一个看起来同样正式的新版本。我会把公告置顶，旧海报标记为已更新。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-extended-16-q",
+    "text": "我们周六一点能到。需要把整个流程彩排一遍吗？\n\n到得早的话，我可以陪你们试一下座位。\n\n完整演一遍感觉有点用不上。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-extended-16-a",
+    "text": "不必模拟完整的两小时半，先走三条真实路径：从门口找到签到位置，从座位去洗手间，从讨论区离开去取水。然后主持人站在预定位置说一段话，确认最远处听得见。\n\n检查书架通道、插座和饮水是否安全，不需要调暗书店灯光制造舞台。最后用五分钟核对每个人负责什么、谁保管采购记录。\n\n彩排如果发现椅子太密，就现场少放两把，不要为了匹配之前画的图而勉强。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-extended-17-q",
+    "text": "天气预报说明天下午会下雨，门口是不是得多做点准备？\n\n我家有个备用伞桶，可以带去。\n\n就是湿伞放在哪儿，不要正好挡住门。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-extended-17-a",
+    "text": "入口放一个能接住雨水的伞桶，地面有水及时擦干，签到桌不要紧贴门口。通知里提醒从东侧有顶棚的入口进来，附一句路面湿滑慢慢走。\n\n准备两条备用清洁布就够了，不需要重新做一整张雨天海报。若有人因为天气取消，直接表示理解，再从候补名单依次联系，不能在群里催他们“都报名了就来吧”。\n\n活动内容都在室内，真正要调整的是抵达和离开时的体验。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-extended-18-q",
+    "text": "我已经到门口了，现场比照片里小一点，签到台摆下以后通道有点窄。\n\n备用椅子和纸箱还在门边。\n\n我先不拆物料，等你说放到哪侧。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-extended-18-a",
+    "text": "先把签到台挪到侧面，只保留一张名牌和一支笔，包和物料箱放到桌下，不在入口堆备用椅子。\n\n有人到场时先让他进入室内再核对名单，避免大家停在门口形成队列。如果同时来了几位熟人，可以请他们先坐下，休息时再补签到。\n\n通道的顺畅比签到表完整更优先。摄影同伴暂时不要站在入口拍摄。\n\n你调整完发一句“入口已通”即可，不用边接待边拍照片证明。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-extended-19-q",
+    "text": "第一轮比预想活跃，已经用了五十分钟，后面那段共同阅读可能放不下。\n\n大家聊得挺投入的，我又舍不得突然截住。\n\n可后面有人要接孩子，不能一直往后拖。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-extended-19-a",
+    "text": "直接把共同阅读缩成一小段收尾，不要取消休息。大家连续坐了这么久，需要起来喝水，主持人也需要整理下一轮。\n\n第二轮可以围绕第一轮出现的一个共同问题展开，而不是重新开启三个话题。结束时间继续保持四点半，让已经安排接孩子或晚饭的人可以放心。\n\n流程表是帮助我们控制节奏的工具，不是必须逐项完成的清单。今天出现的好讨论值得保留，但不必用全体晚走来交换。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-extended-20-q",
+    "text": "最后十分钟想让大家留点反馈，有没有不那么像问卷的方式？\n\n不想让人一拿卡片，就以为要给活动打分。\n\n能不能写一句带走的东西就好？",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-extended-20-a",
+    "text": "每人一张小卡，只写“今天带走的一句话”和“下次希望多一点什么”。愿意读出来的人分享，不愿意的放在出口的小盒子里。\n\n不要要求现场给组织者打分，也不收集与改进无关的个人信息。主持人用两分钟说清下次消息会从哪里发布，再感谢书店和现场协助者。\n\n收尾之后让交流自然继续，不立刻把所有椅子收起来赶人。需要准时离开的同伴先走，其余人分工整理，别把感谢环节变成新的长发言。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-extended-21-q",
+    "text": "拍了四十二张，我先选出九张。有人脸的四张还在逐一确认。\n\n没回复的人，我先没放进相册。\n\n剩下几张环境照已经够排文章，不急着凑满。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-extended-21-a",
+    "text": "公众号先用已经确认的环境和书页照片，不因为排期着急跳过确认。\n\n相似画面只留一张，避免把每个参与者都当成必须出现的任务。配文写具体发生了什么，例如一位新朋友分享了祖母做饭的记忆，不把未经本人同意的个人经历写成故事。\n\n确认记录由你保留就好，不发进大群。文章完成后给被引用的人看相关段落，而不是要求他审阅整篇。\n\n剩下的照片只在本次组织范围内存放，不再另作宣传素材。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-extended-22-q",
+    "text": "采购最后花了三百七十二，纸巾和打印多了十二元，我把明细发给谁？\n\n小票都还在，我按日期拍好了。\n\n先发完整明细，不在群里贴个人付款截图。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-extended-22-a",
+    "text": "发给林夏归并即可，表里保留饮水、食物、打印和清洁四类。采购时已经垫付的分别列出，别把尚未发生的预算当作实际支出。\n\n余下二十八元继续留在活动机动项，结算后发一条汇总到群里，说明本次总额和剩余情况。个人收款信息单独沟通。\n\n也记录哪些物料还有剩余，下次先用库存，不重复买。我们希望每次准备越来越轻，而不是活动结束就把所有小经验重新清零。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-extended-23-q",
+    "text": "大家都在问下次什么时候。我觉得可以趁热闹马上宣布，但你们怎么看？\n\n候补的朋友也想再来，这个我记着。\n\n但具体日期好像还没问过店主。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-extended-23-a",
+    "text": "先给一个预计月份，不急着公布具体日期。我们还没有复盘场地容量、主持节奏和新朋友的感受，如果只因为现场热闹就立刻复制，问题也会一起复制。\n\n可以先发感谢和资料链接，说明一周内会整理下一次主题征集。大家愿意继续来当然值得珍惜，但组织者也需要可持续的节奏。\n\n等候补朋友的反馈、书店档期和同伴时间都确认后，再发正式报名。留一点空白不会让这次活动失去意义。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-extended-24-q",
+    "text": "我把大家的卡片整理好了，最常出现的词是“自在”和“想听更多普通人的故事”。\n\n还有一张只写了书里的一个地名，我觉得也挺好。\n\n不是每个人都非得总结出感受。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-extended-24-a",
+    "text": "那下一场保留小规模和可以只听的规则，减少主持人预先准备的讲解。\n\n需要改进的是入口签到和发言时长，前者换成更轻的核对方式，后者让主持人更早承接转场。\n\n预算、分工、照片确认和候补流程都已经写回报告，群公告里保留同一份入口，避免下次再到几十条消息里拼资料。今天大家说的具体故事不用全都记录下来，保护那种可以自在分享的感觉，比做一份看起来无所遗漏的总结更重要。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-extended-25-q",
+    "text": "两位临时没来的朋友问，有没有可以会后看的资料？\n\n我想先给一个能直接打开的目录。\n\n把几十张聊天截图转过去，他大概更不知道看哪份。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-extended-25-a",
+    "text": "可以分享书单、活动报告和大家同意公开的短句，不把现场所有讨论整理成逐字记录。没有到场的人也能知道这次聊了什么，但不需要被塑造成错过了一堂完整课程。\n\n书单列清书名与推荐理由，避免只放一张难以辨认的桌面合照。公众号文章完成后再补到同一条群公告，别连续发很多版本。\n\n有人想了解具体一本书，可以邀请原分享者自愿回应，组织者不替别人转述私人经历。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-extended-26-q",
+    "text": "上次候补的朋友希望下次有优先名额，这样安排公平吗？\n\n那两位上次确实一直在等消息。\n\n希望照顾到他们，也别让后面的人觉得规则突然变了。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-extended-26-a",
+    "text": "可以提前向两位候补询问意向，并给一个明确的确认时间；超过时间未回复，再按正常报名顺序开放。规则要在下一场报名时讲清楚，不由不同组织者各自临时承诺。\n\n优先不是永久保留，也不应让新朋友觉得所有位置早被熟人占满。我们可以把总名额中一部分留给首次参加者，其余按报名确认。\n\n最重要的是规则简单、可解释，并且每次一致执行，不让报名本身成为需要猜关系的过程。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-extended-27-q",
+    "text": "有位邻居问能不能带九岁的孩子来。我们目前没有专门的儿童环节。\n\n家长说孩子平时爱看书，但没参加过这种活动。\n\n我想把现场情况说实在一点。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-extended-27-a",
+    "text": "先说明活动以成人交流为主，没有独立看护或儿童教学安排。\n\n若家长判断孩子愿意安静参与，可以一起报名并计算座位，但需要由家长负责照看。不要因为欢迎家庭，就临时把志愿者变成照护人员。\n\n也可以在未来单独尝试亲子阅读场，使用适合孩子的时长和书目。现阶段把边界讲清楚，反而能让家长更准确地判断是否适合。\n\n不能只回复一句“当然欢迎”，到现场才发现大家对活动的想象不同。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-extended-28-q",
+    "text": "我发现活动结束后群里突然很安静，要不要每天发一个讨论题保持活跃？\n\n最近大家都挺忙，我自己也没空回每个话题。\n\n安静几天好像也没什么不对。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-extended-28-a",
+    "text": "不必追求每天有消息。大家有空时分享一本书或一个生活片段就够了，群安静也可能说明它没有占用太多注意力。\n\n组织者可以在资料整理完成、下次报名开启等明确节点发消息，其余时间让成员自由交流。如果确实想发讨论题，先试一周一次，并允许没有回应时自然结束。\n\n不要把每次沉默当作需要运营干预的问题。这个群的价值是需要时能找到人和资料，未必是始终保持热闹。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-extended-29-q",
+    "text": "名牌、笔和伞桶都能留下来，但下次谁知道放在哪儿？\n\n我收完以后也只记得大概放在柜子里。\n\n真让我再拿出来，估计还得问一圈。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-extended-29-a",
+    "text": "做一个很短的物料清单，记录名称、数量、存放位置和负责人。可重复使用的东西放进同一个透明箱，箱外贴清单，不把私人借来的物品混进去。\n\n活动后一周内归还借用品，消耗品记录剩余数量，下次采购前先检查库存。照片可以帮助认出箱子，但不能代替准确的位置描述。\n\n清单放在活动报告的固定附录里，下一位组织者能直接接手，不用在群里问“上次那包笔是谁带回家的”。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-extended-30-q",
+    "text": "下次我可能来不了，想请别的同伴主持，怎样交接比较轻？\n\n想把主持提纲留得简单点。\n\n对方有自己的说话方式，不用完全照着我来。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-extended-30-a",
+    "text": "把开场三句话、讨论的三个备用问题、时间提醒方式和几个容易出现的状况写在一页纸上，再用十五分钟聊一次就够了。新主持人可以用自己的表达，不需要模仿你的语气。\n\n把你遇到的困难也说出来，例如什么时候应该结束一段太长的分享，而不只给一份顺利的流程。当天安排一位熟悉场地的同伴做联络支持。\n\n轮换主持是让活动能够持续，不是要求每个人都达到同一种舞台表现。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-extended-31-q",
+    "text": "文章草稿里有一句“读书改变了所有人的生活”，我觉得有点空。\n\n现场最让我记住的，其实是两位邻居认出读过同一本书。\n\n不用写得那么大吧。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-extended-31-a",
+    "text": "可以换成现场真正发生的一件事，例如“有人第一次知道，隔壁楼的邻居也在读同一本书”。不要替参与者宣布巨大的变化，也不要把安静倾听的人写成被彻底打动。\n\n活动文章可以具体、朴素，记下怎样摆椅子、怎样传递一本书、怎样给第一次来的人留出位置。读者会从这些细节判断它是否值得参加。\n\n我们不需要把一场普通的周末相聚包装成必然改变人生的事件。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-extended-32-q",
+    "text": "下个月可能由新同伴接手。我把整个聊天转给他够不够？\n\n报告已经有了，但里面也保留着很多讨论过程。\n\n我想再给他一个能马上用的入口。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-extended-32-a",
+    "text": "聊天可以保留作背景，但先给他一页当前有效的信息：活动目标、场地联系人、名额与候补规则、物料位置、预算结余、照片发布约定，以及仍然待定的日期。\n\n完整报告放在同一入口，想追溯某个决定时再回来看讨论。\n\n交接时请他用自己的话说一遍准备顺序，看看哪里还不清楚。我们这次留下长会话，是为了保存决定如何形成，而不是让下一位组织者必须先读完七十条消息才能开始工作。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-01-1",
+    "text": "露台这周不能用了，木地板下雨会滑。\n\n雨停了也不能马上搬回露台。\n\n鞋底带着水，走到木板上还是打滑。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-01-2",
+    "text": "我上次拿书经过那里，扶着栏杆才站稳。\n\n听书时低着头，更顾不上脚下。\n\n湿木板这次就先避开吧。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-01-3",
+    "text": "把朗读区移到靠窗长桌，保留门口通道。\n\n长桌旁的落地灯还能用。\n\n座位别朝着窗反光的方向摆。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-01-4",
+    "text": "我先把桌上的花瓶挪开。\n\n有人带大开本的书，也能摊得下。\n\n书和茶都有地方放就行。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-01-5",
+    "text": "窗边只能放十四把椅子，报名上限同步调低。\n\n十四个人是连主持人一起算吗？\n\n我怕报名页只算来听的朋友。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-01-6",
+    "text": "人数把主持和记录的人都算进去吧。\n\n备用椅子先收着，不要临时塞到走道里。\n\n通道还是得留够。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-01-7",
+    "text": "周五晚再确认天气，临时变动只发一条置顶。\n\n天气确认后我改公告。\n\n大家出门前看同一条就行。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-01-8",
+    "text": "那我负责在入口带路。\n\n第一次来的朋友可能还会往露台走。\n\n别让人冒雨绕路。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-01-9",
+    "text": "旧海报里的露台照片可以留，但地点要改醒目。\n\n别让人到了才找我们。\n\n地点那行记得改。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-01-10",
+    "text": "周五我会再走一遍室内路线。\n\n要是雨还大，就从有顶棚的侧门进。\n\n室内见，也挺好。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-02-1",
+    "text": "上次选书太厚，有几位朋友读到一半就放下了。\n\n我自己也卡在中间那一章。\n\n每次想追进度，反而更不想翻开了。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-02-2",
+    "text": "短篇对下班以后读书的人友好些。\n\n坐两站地铁也能读完一段。\n\n我想把读书的劲儿找回来。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-02-3",
+    "text": "下一期读短篇集，每个人自由选一篇。\n\n选篇不用全都一样。\n\n有人喜欢结尾，有人记住开头，正好能接着聊。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-02-4",
+    "text": "我想选写早餐店的那篇。\n\n篇幅不长，但那几句对话特别像我家楼下。\n\n这篇我很想和你们聊。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-02-5",
+    "text": "提前标出篇名和页码，不要求从头读完。\n\n不同版本页码会不一样。\n\n除了页数，再写上篇名和第一句好吗？",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-02-6",
+    "text": "我把手里这个版本拍给你。\n\n书名页就够了，不用把整篇都拍上来。\n\n免得到现场翻错页。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-02-7",
+    "text": "活动后收集大家愿意继续读的篇目。\n\n没读完的人也能说说在哪儿停住。\n\n这个比硬赶到结尾更有意思。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-02-8",
+    "text": "那我把厚书先放回家。\n\n周末带这本小的，包终于轻一点。\n\n不用再追进度了。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-02-9",
+    "text": "下次书单里注明单篇大概多长。\n\n大家可以按自己的时间挑。\n\n这样选书会省心些。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-02-10",
+    "text": "会后我来收篇名。\n\n愿意再读的留下，不想继续的也不用解释。\n\n说不定能慢慢读完整本。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-03-1",
+    "text": "今天新来了三位邻居，不知道往期材料放在哪里。\n\n今天有人在群里翻了半天，还是没找到书单。\n\n那份资料的名字太像会议文件了。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-03-2",
+    "text": "我第一次进群时也没敢问。\n\n看大家都认识，怕自己打断聊天。\n\n有人带一下，确实不一样。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-03-3",
+    "text": "欢迎消息只放时间、地点和一份资料目录。\n\n目录开头写一句怎么找就够了。\n\n别一进来先发十几个链接。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-03-4",
+    "text": "可以按书单、活动安排、交通分三栏。\n\n我先试着整理一版给新朋友看看。\n\n整理好我先发你。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-03-5",
+    "text": "目录里保留书名，不放任何人的私人分享。\n\n上次讲到家人的那段就不要放进去了。\n\n现场愿意说，不等于愿意一直挂在目录里。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-03-6",
+    "text": "对，资料只留能公开的部分。\n\n有个人名字的地方，我会再检查一次。\n\n私人故事就留在现场。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-03-7",
+    "text": "第一次来的人由签到同伴带到座位。\n\n签到以后可以顺手带他看看饮水和洗手间。\n\n坐下来就不用再起身找。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-03-8",
+    "text": "我周六在入口。\n\n有人一个人来，我陪他走进去就好。\n\n不用专门介绍他是新人。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-03-9",
+    "text": "欢迎消息不用写得太隆重。\n\n像邻居打个招呼，读起来会轻松些。\n\n让人敢来就够了。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-03-10",
+    "text": "三位新朋友如果还有找不到的内容，让他们直接回这条。\n\n我来补目录，不再另开一堆入口。\n\n目录可以慢慢补。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-04-1",
+    "text": "借出的随笔有两本只写了名字，找不到联系方式。\n\n书在谁手里倒不着急，我只是担心找错人。\n\n群里有两位都叫小陈。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-04-2",
+    "text": "那两本封面很像吗？\n\n我家也有一本借来的随笔，回去先核对书名。\n\n我先别认错书。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-04-3",
+    "text": "借书卡由借阅者自己填写归还日期。\n\n归还日让借书的人自己写。\n\n赶不上时提前说一声，比填一个肯定做不到的日期好。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-04-4",
+    "text": "我周日会经过书店。\n\n确认是那本的话，就放进归还篮。\n\n这样顺路就还了。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-04-5",
+    "text": "群里只提醒书名，不公开手机号和住址。\n\n借书卡别拍到群里。\n\n有人把联系方式写在背面，翻一页就能看见。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-04-6",
+    "text": "群里写书名和归还位置就够了。\n\n需要核对身份，再单独联系。\n\n信息少一点也清楚。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-04-7",
+    "text": "周日闭店前核对书架上的归还篮。\n\n篮子满了就先搬到柜台后面。\n\n别直接塞回书架，漏掉登记。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-04-8",
+    "text": "我顺手贴一张“归还请放这里”。\n\n字写大一点，免得大家又放到展示桌上。\n\n省得店员再找一遍。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-04-9",
+    "text": "以后同名的借阅者可以加自己选的昵称。\n\n不要为了区分多收一串资料。\n\n名字写清就好。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-04-10",
+    "text": "周日核对完，我只发还有哪两本没回来。\n\n已经归还的就不再提醒了。\n\n不用让所有人跟着翻书包。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-05-1",
+    "text": "几位家长想带孩子，但担心打断大人的讨论。\n\n孩子坐久了肯定想动一动。\n\n只说欢迎来，却没有能待的地方，也难为家长。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-05-2",
+    "text": "我女儿喜欢翻绘本，但听大人聊天十分钟就坐不住了。\n\n能看见我，她会安心些。\n\n有个安静角落就好多了。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-05-3",
+    "text": "儿童角放在视线能到的矮书架旁。\n\n矮书架边别摆高凳。\n\n垫子留在地上，走动时也不容易碰倒。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-05-4",
+    "text": "我带两本耐翻的绘本。\n\n贵重或者容易撕的立体书先不拿。\n\n先带这些试试。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-05-5",
+    "text": "剪刀换成圆头款，胶水和纸统一放托盘。\n\n托盘别靠桌沿。\n\n孩子伸手去够时，整盒胶水容易一起带下来。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-05-6",
+    "text": "圆头剪刀也得有人陪着用。\n\n没做手工的时候先收回盒里。\n\n工具还是大人收着。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-05-7",
+    "text": "开始前由家长确认照看安排。\n\n家长想换人照看，现场彼此说清楚。\n\n不能以为旁边的志愿者已经接手了。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-05-8",
+    "text": "我会一直坐在儿童角旁边。\n\n要离开时先带孩子一起出去。\n\n我不让别人临时接手。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-05-9",
+    "text": "这场还是成人读书会。\n\n儿童角只是让家庭方便些，不临时加一套课程。\n\n先说清楚，家长才好判断。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-05-10",
+    "text": "结束后看看孩子真正用到了什么。\n\n下一次少带点无用的材料，大家收拾也轻松。\n\n下次就按实际需要带。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-06-1",
+    "text": "有位新朋友问能不能全程只听，不轮到自己说。\n\n他不是不喜欢讨论，只是还不熟悉大家。\n\n先坐着听一场也挺好。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-06-2",
+    "text": "我也是到第二次才开口。\n\n第一回光记人名就已经很忙了。\n\n熟悉起来需要一点时间。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-06-3",
+    "text": "主持人开场说明可以旁听，也可以写卡片。\n\n卡片可以只写一个词。\n\n想不到完整问题，也不用勉强凑一段。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-06-4",
+    "text": "那我在桌边放一叠空白卡。\n\n笔放中间，伸手就拿得到。\n\n不交卡片也没关系。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-06-5",
+    "text": "发言顺序允许跳过，不追问不说话的原因。\n\n轮到时摆摆手就跳过吧。\n\n主持人别接一句“真的不说两句吗”。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-06-6",
+    "text": "对，这句话听着客气，其实还是在劝。\n\n直接接下一位最自然。\n\n跳过去就好。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-06-7",
+    "text": "记录员把匿名卡片里的问题带入下一轮。\n\n匿名的问题读出来前先看一下。\n\n写着私人经历的，不一定适合念给全场听。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-06-8",
+    "text": "我可以负责收卡。\n\n有人想散场后再聊，就在背面做个自己认得的记号。\n\n我会先看一眼内容。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-06-9",
+    "text": "只听的人也在参与。\n\n他们不需要通过发言证明自己来过。\n\n听见别人也挺有收获。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-06-10",
+    "text": "活动后私下问一句坐得舒不舒服就好。\n\n不再追问今天为什么没讲话。\n\n不用把安静当成问题。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-07-1",
+    "text": "有人想把整场录下来，方便以后整理。\n\n手机放在桌上录音，大家讲话会变得谨慎。\n\n我也不想一边说一边想这句能不能留。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-07-2",
+    "text": "原来是为了整理方便，那我们换个记录办法。\n\n漏掉几句话没关系。\n\n整理可以简单些。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-07-3",
+    "text": "这次不做全程录音，只记经同意公开的书名。\n\n书名我可以随手记。\n\n想引用一句原话，再当场问本人。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-07-4",
+    "text": "我带纸笔，不开录音。\n\n记不准的就留空，别凭印象补成别人的话。\n\n记不住就先不记。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-07-5",
+    "text": "个人故事不出现在共享纪要中。\n\n尤其是工作和家里的事。\n\n有些细节在群外被看到，会让人很为难。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-07-6",
+    "text": "纪要把这部分删掉吧。\n\n书里引出的那个问题还可以保留，不用交代是谁经历过。\n\n人名也别顺手留下。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-07-7",
+    "text": "结束前让讲述者看一眼相关摘录。\n\n给人看摘录时，留一点修改的余地。\n\n不是递过去就等他点头。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-07-8",
+    "text": "我会把相关的一小段单独发给对方。\n\n不需要请人审整篇文章。\n\n只请他确认自己的部分。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-07-9",
+    "text": "这次没有录音也挺轻松。\n\n大家不用总盯着桌上的手机。\n\n我也能专心听了。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-07-10",
+    "text": "整理不出来的地方就写成开放问题。\n\n下次想起来了，再慢慢接着聊。\n\n聊过的话不一定都要存下来。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-08-1",
+    "text": "上次饼干剩很多，后半场杯子却不够。\n\n点心是大家不好意思拿，杯子却一直在找。\n\n桌面堆满包装，看着也乱。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-08-2",
+    "text": "我上次去倒水，发现干净杯子都在后厨。\n\n临时进去找有点打扰店员。\n\n水先备足吧。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-08-3",
+    "text": "点心减成小份，先保证热水和清洁杯子。\n\n先把水杯放到看得见的地方。\n\n饼干少拆几包，吃完再补。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-08-4",
+    "text": "我带自己的杯子。\n\n也在通知里顺带提一下，不把它写成硬要求。\n\n自己的杯子用着也舒服。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-08-5",
+    "text": "饮食限制由本人私信说明，不在名单公开。\n\n有人对坚果过敏的话，私信负责点心的人就行。\n\n不要把名字标在签到表上。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-08-6",
+    "text": "包装和配料表留着。\n\n大家想看，自己翻一下就知道。\n\n别把配料袋都丢掉。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-08-7",
+    "text": "活动后按实际人数修订采购量。\n\n人少的时候采购量也跟着减。\n\n别为了摆得好看，把下次的份都拆开。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-08-8",
+    "text": "剩下没开封的饼干留给店员吧。\n\n我把开封日期写在夹子上。\n\n没拆封的还能留着。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-08-9",
+    "text": "下次清单先写杯子、水和纸巾。\n\n点心排后面也来得及。\n\n清单不用太长。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-08-10",
+    "text": "我记一下这次实际用了多少杯。\n\n以后按这个备，比猜一大箱靠谱。\n\n这回就能有个底数了。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-09-1",
+    "text": "靠里那排晚上看书费劲，照片里也很暗。\n\n我坐里侧时，书页上的字有点发灰。\n\n拍照暗倒还好，读起来吃力才是真的。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-09-2",
+    "text": "晚上顶灯照不到书脊附近。\n\n刚好有人用的是偏黄的旧书纸，更难看清。\n\n读着不费劲就好。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-09-3",
+    "text": "借两盏可调角度的阅读灯。\n\n灯头别直接朝着对面的人。\n\n照亮桌面就行，不用把整个角落打亮。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-09-4",
+    "text": "我家有一盏夹灯，可以先带来试。\n\n夹在桌沿，不占放书的位置。\n\n先试，不合适再换。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-09-5",
+    "text": "灯线沿墙固定，不穿过座位通道。\n\n电线从椅子后面绕过去也不稳妥。\n\n大家起身时会勾到。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-09-6",
+    "text": "沿墙的部分我来固定。\n\n插座别压在地垫下面，散热也不好。\n\n走道别有线。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-09-7",
+    "text": "周五用实际书页试一遍亮度。\n\n试灯时拿两种纸的书来。\n\n白纸看得清，不代表旧书也合适。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-09-8",
+    "text": "我带那本小字版的散文。\n\n眼睛不费劲的话，大部分书应该都能读。\n\n看书的人舒服最重要。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-09-9",
+    "text": "拍出来亮不亮就先不管了。\n\n现场坐着舒服更要紧。\n\n不是为拍照片补光。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-09-10",
+    "text": "周五调好以后记一下灯的位置。\n\n周六摆桌子时别又挪到背光那头。\n\n灯调好了我就不乱动。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-10-1",
+    "text": "有人带的书写满批注，担心别人不喜欢。\n\n那些批注其实挺有趣，我翻旧书时会忍不住看。\n\n只是有人想要干净一点的版本，也能理解。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-10-2",
+    "text": "可以让双方先翻一翻再决定。\n\n不用把交换变成碰运气。\n\n翻过再换，心里也有数。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-10-3",
+    "text": "交换卡注明是否有笔记和缺页。\n\n书角有折痕也写在卡片上。\n\n缺一页和画了线，毕竟不是一回事。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-10-4",
+    "text": "我那本有铅笔批注。\n\n我会把最密的几页夹出来，让人一眼能找到。\n\n我会把情况说清楚。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-10-5",
+    "text": "有纪念意义的书可以只展示，不参加交换。\n\n毕业时朋友送的那本，我只想带来讲讲。\n\n写了赠言，就不参加交换了。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-10-6",
+    "text": "完全可以。\n\n摆在展示那一侧，卡片注明“只分享，不交换”。\n\n那本赠书就留下。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-10-7",
+    "text": "未换出的书由原主人带回。\n\n散场前留几分钟认领各自的书。\n\n不能默认没人换走的就捐给书店。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-10-8",
+    "text": "我带个布袋来装回去。\n\n哪怕一本没换成，也算听到了几个故事。\n\n没有交换也没白来。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-10-9",
+    "text": "卡片上别写“九成新”这种不好判断的话。\n\n直接说具体情况更清楚。\n\n书况写实在一点。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-10-10",
+    "text": "换完以后给对方留一句推荐理由吧。\n\n以后翻到这张卡，还会想起是谁带来的。\n\n推荐卡我会好好留着。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-11-1",
+    "text": "上次开场两个人读得太久，后面来不及讨论。\n\n一开场连着读很长，大家还没说话就有点累。\n\n我看最后两位一直拿着书等。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-11-2",
+    "text": "段落都喜欢，舍不得剪也正常。\n\n可以让分享者自己选最想读的部分。\n\n喜欢的段落慢慢挑。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-11-3",
+    "text": "每段朗读控制在三分钟左右。\n\n三分钟只是一个大概的界限。\n\n读到句子中间时不用突然掐住。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-11-4",
+    "text": "我先在家读一遍计时。\n\n总比现场一紧张，越读越长好。\n\n我先练习读短一点。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-11-5",
+    "text": "主持人用翻页卡提醒，不突然打断句子。\n\n翻页卡的颜色柔和一点。\n\n别做成举红牌，大家看着都紧张。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-11-6",
+    "text": "举卡以后等这句话读完。\n\n主持人再接着问，话题就顺过去了。\n\n等一句话说完。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-11-7",
+    "text": "现场留十分钟给未读完的人自由交流。\n\n剩下的部分可以在茶歇时给感兴趣的人看。\n\n不一定要全场都听完。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-11-8",
+    "text": "那十分钟我想留在窗边。\n\n有人想接着读，我陪他一起翻。\n\n这次终于能聊到后面了。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-11-9",
+    "text": "轮次排得松一点，后面的人也不用一直担心轮不到。\n\n听的时候才能专心。\n\n别让等待变成压力。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-11-10",
+    "text": "下次通知里提醒大家先挑短段落。\n\n不是删掉喜欢的内容，只是留些余味。\n\n留一点没读完的也好。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-12-1",
+    "text": "大桌声音混在一起，有人听不清问题。\n\n隔壁那组笑起来时，我们这边完全听不见。\n\n我都不好意思请他们小声点。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-12-2",
+    "text": "两组挨得太近，声音还是会混。\n\n位置可以再错开一点吗？\n\n别靠喊着讨论。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-12-3",
+    "text": "分成窗边与里侧两个小组。\n\n窗边那组朝里坐，里侧那组朝外坐。\n\n别让两位分享者正面对着喊。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-12-4",
+    "text": "我去最远的位置听一下。\n\n能听清普通音量再开始。\n\n我听完再告诉你。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-12-5",
+    "text": "每组留一位记录员，最后交换主要问题。\n\n记录员不用把每句话都写下来。\n\n最后能说明大家卡在哪个问题就够了。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-12-6",
+    "text": "我记关键词。\n\n把笔放下听一会儿，反而更容易抓住重点。\n\n记重点就够了。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-12-7",
+    "text": "下一次根据反馈决定是否继续分组。\n\n分组后也要留一个重新坐到一起的时间。\n\n不然只认识自己桌上的人。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-12-8",
+    "text": "最后每组说一个还没想通的问题吧。\n\n比汇报一堆结论轻松。\n\n问题留给下一组接着想。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-12-9",
+    "text": "如果有人更喜欢完整的一圈，下次也听听他的理由。\n\n分组不是做一次就固定下来。\n\n两种方式都试试。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-12-10",
+    "text": "今天先试。\n\n散场时问几位不同位置的人，比我们站在中间猜更准。\n\n坐过的人最有发言权。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-13-1",
+    "text": "邻居阿姨说打印的字号太小，戴眼镜也吃力。\n\n她没好意思当场说，回家才问有没有电子版。\n\n我想到自己递材料时还说字挺清楚，有点不好意思。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-13-2",
+    "text": "我爸也是这样，宁愿听别人读也不愿说看不见。\n\n提前备几份会好些。\n\n这个确实容易被忽略。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-13-3",
+    "text": "为核心段落准备十八号字版本。\n\n行距也放松一点。\n\n只有字号变大，挤在一起还是难读。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-13-4",
+    "text": "我把重点那两页先排出来。\n\n整本重印太多，先看最常用的部分。\n\n先印几张试读。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-13-5",
+    "text": "大字版保持原页码，讨论时能找到同一处。\n\n页码就保留原来的。\n\n主持人说翻到哪页，大家不用来回换算。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-13-6",
+    "text": "我会在页边注明原书页码。\n\n大字版自己有几张纸，就不另起编号了。\n\n页码对得上就方便了。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-13-7",
+    "text": "多余几份留在书架低层方便拿取。\n\n放低一点，别让人踮脚拿。\n\n旁边写“需要可自取”，不单独递给谁。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-13-8",
+    "text": "我给两种版本都留几份。\n\n想换的人自己拿，不用举手。\n\n不用谁来特别申请。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-13-9",
+    "text": "最好拿成品请阿姨看一下。\n\n我们在电脑上放大，和纸上读不是一回事。\n\n得让真正用的人看。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-13-10",
+    "text": "这次用完别马上丢。\n\n保存干净的几份，下次还有人能接着用。\n\n干净的先收好。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-14-1",
+    "text": "第一次来的轮椅使用者问门口台阶怎么走。\n\n我刚看了门口照片，正门的台阶确实明显。\n\n以前我们走惯了，都没留意。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-14-2",
+    "text": "侧门那条路我也只走过一次。\n\n先别凭印象说“应该可以”。\n\n确认过再答复他。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-14-3",
+    "text": "提前拍清楚侧门的平缓通道。\n\n照片从路边开始拍，一直拍到门口。\n\n光给门的近景，看不出怎么过去。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-14-4",
+    "text": "我下午去走一遍。\n\n转弯处和门槛都拍清楚，再请对方判断。\n\n我拍完整一点。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-14-5",
+    "text": "当天不把签到桌放在侧门，留出转弯空间。\n\n签到桌旁边还要给轮椅转向的余地。\n\n不是勉强能挤过去就算通畅。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-14-6",
+    "text": "我把那箱物料先搬走。\n\n侧门从活动前到结束都别堆东西。\n\n东西我来挪。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-14-7",
+    "text": "活动前请店主现场核对门宽和动线。\n\n门开到什么角度，也请店主一起看。\n\n活动当天别因为怕风，又锁上半扇。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-14-8",
+    "text": "需要帮忙时先问本人。\n\n我们别一看到轮椅就上手推。\n\n先问，别急着帮。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-14-9",
+    "text": "入口信息可以放进以后每场公告。\n\n这样下一位朋友不用重复来问。\n\n下次也能用得上。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-14-10",
+    "text": "现场核对后再回复他具体路线。\n\n还有不确定的地方就说明，别一口保证没问题。\n\n不确定就实话说。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-15-1",
+    "text": "连续几期都是林夏主持，大家容易等她安排。\n\n林夏每次都忙到最后，自己反而没空好好聊书。\n\n换个人带一场也挺好。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-15-2",
+    "text": "我愿意试，但还真有点紧张。\n\n最怕一句话问完，全场安静。\n\n我先试着带一场。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-15-3",
+    "text": "陈舟带下一场，林夏只负责计时。\n\n计时的时候提醒我就行，不用替我把话接完。\n\n我也得自己慢慢找感觉。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-15-4",
+    "text": "那我准备两个备用问题。\n\n实在卡住时看一眼，有个底。\n\n有备用问题就安心些。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-15-5",
+    "text": "提纲先给新主持人，不要求照稿逐字念。\n\n提纲只留关键词吧。\n\n写得太满，我肯定忍不住照着念。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-15-6",
+    "text": "开场那几句话我用自己的说法。\n\n大家听着不像在背通知就好。\n\n我不硬背稿子。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-15-7",
+    "text": "散场后用十分钟交流主持时的卡点。\n\n散场以后先让我坐会儿，再一起聊哪里卡住。\n\n别人还在收书时就复盘，我可能什么也想不起来。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-15-8",
+    "text": "我会记一处顺的和一处不顺的。\n\n十分钟够了，不开成长会。\n\n复盘也短一点吧。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-15-9",
+    "text": "换主持不等于每个人都要一样外向。\n\n安静一点的节奏也可以。\n\n不同的主持风格都可以。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-15-10",
+    "text": "下次轮到谁，再把这页纸传过去。\n\n把真正用得上的留下，没用到的慢慢删。\n\n这页纸就这样慢慢传。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-16-1",
+    "text": "聊到某个新闻后，原本的书几乎没再被提起。\n\n新闻一聊开确实很难停。\n\n我自己也差点忘了手里这本书还翻着。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-16-2",
+    "text": "直接打断又太生硬。\n\n能不能先把那个问题留下，告诉大家一会儿接着聊？\n\n别让话题一下断掉。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-16-3",
+    "text": "把临时话题写到白板角落，先回到段落。\n\n白板角落留一小块就行。\n\n别写成“跑题区”，听起来像在批评谁。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-16-4",
+    "text": "我写“茶歇接着聊”。\n\n这样大家知道话题没被丢掉。\n\n休息时还有地方接着说。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-16-5",
+    "text": "主持人只提醒当前问题，不评价话题价值。\n\n主持人可以指一下刚才那句话。\n\n问“书里这个人会怎么想”，就能接回来。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-16-6",
+    "text": "嗯，先回到人物。\n\n不用评价新闻比书重要，或者书比新闻重要。\n\n回到这一页就好。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-16-7",
+    "text": "茶歇时可以继续谈白板上的延伸话题。\n\n茶歇愿意继续的人自己凑过去。\n\n想安静翻书的人留在座位也舒服。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-16-8",
+    "text": "我记住那个关于城市变化的问题了。\n\n等休息时找你聊。\n\n茶歇我找你。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-16-9",
+    "text": "这次脱开的地方也挺有意思。\n\n只是不要让没看过新闻的人完全插不上话。\n\n也照顾没看新闻的人。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-16-10",
+    "text": "收尾前再看一眼白板。\n\n没人继续聊的就留着，不必逐个补完。\n\n没聊完的不用赶。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-17-1",
+    "text": "同一段人物描写引起两种完全相反的理解。\n\n我听完两边，觉得他们各自都有依据。\n\n好像不是谁漏读了一句话那么简单。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-17-2",
+    "text": "能不能先把那两句念出来？\n\n只说人物“自私”或者“勇敢”，很容易越说越远。\n\n先看原文怎么写。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-17-3",
+    "text": "先请双方指出各自依据的句子。\n\n把前后两行也带上吧。\n\n单独截一句，语气有时会变。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-17-4",
+    "text": "我先翻回那页。\n\n刚才我的记忆可能把两段放在一起了。\n\n我再读一遍。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-17-5",
+    "text": "不投票判谁正确，也不替作者宣布答案。\n\n不投票挺好。\n\n我不想举手以后，好像必须一直替那一边辩护。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-17-6",
+    "text": "理解可以中途改变。\n\n听到别人的细节，改主意也很正常。\n\n改主意不丢人。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-17-7",
+    "text": "纪要并排保留两条解读路径。\n\n纪要里把依据放在观点旁边。\n\n以后再读，能看见这两条路是怎么走出来的。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-17-8",
+    "text": "我来记两栏，不写支持人数。\n\n人多的一边不一定更有道理。\n\n不记输赢。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-17-9",
+    "text": "有些分歧今天留着也行。\n\n不需要合成一句大家都点头的话。\n\n两种理解先并排放着。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-17-10",
+    "text": "下次读到这个人物后面的选择，也许又会换个看法。\n\n先别急着收尾定性。\n\n下次再回头看。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-18-1",
+    "text": "合影里有朋友不想露脸，但又不想特意离开。\n\n他愿意留在现场，只是不想出现在文章里。\n\n每次合影让他站起来走开，确实有点尴尬。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-18-2",
+    "text": "拍照前把镜头范围说清楚吧。\n\n不入镜的人坐着也行，不一定要躲到另一边。\n\n不露脸也可以留在这里。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-18-3",
+    "text": "拍照前说明范围，留出不入镜的位置。\n\n角度先取窄一点。\n\n不要拍完以后才发现整排人都在背景里。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-18-4",
+    "text": "我先举一下相机示意。\n\n大家有时间调整，就不用突然被拍到了。\n\n我拍之前先打招呼。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-18-5",
+    "text": "发布前逐张征求被拍者意见。\n\n确认时发的是准备发布的那张。\n\n不能拿一张确认过，就默认整组都能用。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-18-6",
+    "text": "如果后面重新裁剪，也再看一眼。\n\n原本没露脸的人可能被放大到画面中央了。\n\n裁图也得留意。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-18-7",
+    "text": "对外文章优先用书页和桌面照片。\n\n书页和杯子也能讲当天的气氛。\n\n没有人脸，文章不一定就冷清。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-18-8",
+    "text": "我拍那张写满推荐书名的卡吧。\n\n上面有人名的地方先挡住。\n\n我把名字遮好。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-18-9",
+    "text": "不想出镜这件事，不需要在大群里说明理由。\n\n我们记住边界就行。\n\n不用当众解释。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-18-10",
+    "text": "发布前我再把照片逐张过一次。\n\n有一张没确认，就先空着那个位置。\n\n没确认的先不用。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-19-1",
+    "text": "帮忙收场的人不知道物料原来放在哪个柜子。\n\n我最后拎着一袋夹子，不知道该交给谁。\n\n大家各自带一点回家，下次就更难找了。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-19-2",
+    "text": "透明盒最好。\n\n隔着盖子能看到东西，不用每个都打开。\n\n透明盒确实省事。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-19-3",
+    "text": "给每个收纳盒贴图示标签。\n\n标签画个简单的小图，再写名字。\n\n忙着收场时，扫一眼就知道放哪里。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-19-4",
+    "text": "我带几张耐擦的贴纸。\n\n别直接拿马克笔写盒盖，以后改用途不好擦。\n\n标签以后还能改。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-19-5",
+    "text": "交接清单只写位置和数量，不增加复杂表格。\n\n数量只记大概会影响下次采购的东西。\n\n一支旧铅笔没必要来回清点。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-19-6",
+    "text": "笔、夹子和名牌分开装。\n\n纸巾剩半包就直接写半包，别折算得太精细。\n\n分开就好找了。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-19-7",
+    "text": "新同伴下次按标签试着独立收一次。\n\n新人试收一次，我们在旁边看着就好。\n\n别他刚拿起盒子，就急着替他放回去。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-19-8",
+    "text": "我愿意当那个新手。\n\n找不到的位置记下来，标签就知道该补在哪儿。\n\n我来试收一次。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-19-9",
+    "text": "柜子具体哪层也要写。\n\n光说“后面那个柜子”，到了现场还是要问。\n\n位置得说具体。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-19-10",
+    "text": "收好后拍一张开柜门的照片。\n\n下回看图取物，不用翻半天聊天记录。\n\n这张照片留在清单旁边。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-20-1",
+    "text": "活动结束已经九点，有人要转两趟公交。\n\n我那天陪他走到公交站，等车时已经挺冷了。\n\n活动聊得开心，也不能把回家变成赶路。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-20-2",
+    "text": "有些线路晚上班次少。\n\n只看地图上的路程，会以为时间还很宽裕。\n\n回家那段路也得算进去。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-20-3",
+    "text": "结束时间提前十五分钟，提问不无限延长。\n\n提前十五分钟结束，就按这个来吧。\n\n别在最后又加一轮“每人一句”。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-20-4",
+    "text": "我把结束时间写在主持提纲顶上。\n\n开始时也说一遍，大家心里有数。\n\n准点结束就按这个来。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-20-5",
+    "text": "主持人提前提示末班车相关出行安排。\n\n末班车信息请各自再确认。\n\n我们可以提醒，别替每个人保证赶得上。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-20-6",
+    "text": "对，住得远的人先走不用道歉。\n\n开门和收场也别刚好挡在他们前面。\n\n先走的朋友放心走。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-20-7",
+    "text": "愿意留下的人自行交流，不再算正式环节。\n\n留下聊天的人移到靠里那桌。\n\n准备离开的朋友能安静拿包。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-20-8",
+    "text": "我走得早，椅子提前帮你们搬几把。\n\n剩下的就麻烦留下的人了。\n\n剩下麻烦大家啦。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-20-9",
+    "text": "散场不再临时拍大合影吧。\n\n有人本来准备走，为了等照片又坐了十分钟。\n\n不再临时加一环。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-20-10",
+    "text": "下次报名时把大致结束时间一起写上。\n\n大家安排晚饭、接人也方便。\n\n时间讲清楚最省心。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-21-1",
+    "text": "一周发了四次提醒，有朋友开始静音。\n\n我也把群静音了，有时回来就漏掉真正重要的那条。\n\n不是不关心，是每次都以为又是同一个提醒。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-21-2",
+    "text": "两次通知足够。\n\n其他时间有人想聊书，群里也能轻一点。\n\n我也想少翻点通知。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-21-3",
+    "text": "活动通知集中在周一和周五。\n\n周一发安排，周五补最后确认。\n\n标题别每次都写“重要”，看久了反而分不出来。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-21-4",
+    "text": "我把这周那几条重复消息撤成一个入口。\n\n旧内容不再往上顶。\n\n旧消息就别再顶了。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-21-5",
+    "text": "报名变更编辑原消息，不重复刷屏。\n\n人数变动写在报名表里就行。\n\n每多一位都发一条，后面找地址会很难。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-21-6",
+    "text": "有人问过的细节补到原公告。\n\n不是让他再去翻整段对话。\n\n补到同一处就好。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-21-7",
+    "text": "紧急变更才另发，开头写清发生了什么。\n\n停电、换场地这类才单独通知。\n\n开头直接写变了什么，别先铺一段寒暄。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-21-8",
+    "text": "我来核对大家有没有看到临时变更。\n\n没看到的单独联系，不在群里连续艾特。\n\n没看到的我再联系。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-21-9",
+    "text": "少发一点，大家也许更愿意点开。\n\n安静不代表活动没人惦记。\n\n消息少一点也挺舒服。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-21-10",
+    "text": "这周先照两次试试。\n\n真有人漏掉关键消息，再看入口哪里不够清楚。\n\n先试这一周。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-22-1",
+    "text": "推荐列表混进了一本名字相近的书。\n\n那两本都叫这个名字，封面也都是浅蓝。\n\n我看到作者才发现拿错了。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-22-2",
+    "text": "我差点照着封面下单。\n\n幸好先问了，不然周六聊的是另一本。\n\n这次幸好没买错。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-22-3",
+    "text": "补齐作者、出版社和版本信息。\n\n出版社也写上吧。\n\n译本不同的话，关键那句话可能完全不一样。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-22-4",
+    "text": "我手边有实物，先拍版权页。\n\n网上商品标题有时把几套版本混在一起。\n\n认实物更放心。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-22-5",
+    "text": "不直接用封面颜色识别，同名书单独备注。\n\n群里的缩略图看不清颜色。\n\n别再说“买蓝色那本”，还是认作者最稳妥。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-22-6",
+    "text": "如果已有别的译本也能参加。\n\n提前说一下版本，讨论时好找对应段落。\n\n带现有的版本就行。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-22-7",
+    "text": "发出前两个人交叉核对目录。\n\n我核对作者，你核对篇目。\n\n两个人各看一个部分，不是一起快速扫过去。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-22-8",
+    "text": "那我今晚看目录页。\n\n有错先改好，明天再发新的书单。\n\n我核对完再回你。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-22-9",
+    "text": "已经买错的朋友别着急。\n\n现场还有共读材料，可以先来听。\n\n别因为买错就不来了。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-22-10",
+    "text": "正确版本确认以后，把旧链接旁边标上更新。\n\n不要只悄悄换图，让人不知道哪里变了。\n\n更新的地方写清楚。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-23-1",
+    "text": "邻居送来三箱旧教材，书架放不下。\n\n捐书的邻居是一番好意，三箱搬过来也不轻。\n\n可书架已经塞到拿一本就倒一排了。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-23-2",
+    "text": "先把箱子放干燥的地方吧。\n\n门口过夜万一下雨，书更难处理。\n\n先照顾好这几箱书。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-23-3",
+    "text": "先接收与社区阅读相关且保存完整的书。\n\n教材年份先看一下。\n\n内容已经不适用的，收进来以后也很少有人翻。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-23-4",
+    "text": "我周末有一小时，可以帮忙分。\n\n先别急着一本本录进目录。\n\n我有空来搭手。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-23-5",
+    "text": "不合适的书说明原因，请捐赠者决定去向。\n\n不接收的部分，和邻居当面讲清楚。\n\n我们不能没问就替他转送。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-23-6",
+    "text": "对，他可能还想留给亲戚。\n\n去向让他决定，我们帮着重新装好。\n\n去向还是让他决定。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-23-7",
+    "text": "每月整理一次接收范围，避免反复搬运。\n\n接收范围写得具体一点。\n\n完整、适合谁读，比“欢迎好书”容易理解。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-23-8",
+    "text": "我把这次常见的问题记下来。\n\n下回对方整理以前，先发给他看看。\n\n下回先沟通再搬。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-23-9",
+    "text": "空间有限这件事可以坦白说。\n\n不需要编一个所有旧书都能被读到的承诺。\n\n收不下也要说明白。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-23-10",
+    "text": "留下来的先上架一部分。\n\n摆得能翻阅，比一下子塞满三箱更有用。\n\n能被翻到才有用。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-24-1",
+    "text": "花瓶占了长桌中央，交流时彼此看不见。\n\n隔着花枝只能看见对方半张脸。\n\n我一直歪着头听，坐久了脖子酸。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-24-2",
+    "text": "花是好看的，放窗台也看得到。\n\n桌上少一点，书反而更显眼。\n\n窗台也看得到花。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-24-3",
+    "text": "花移到窗台，中央只保留书和水。\n\n水杯往每个人手边放。\n\n别所有人伸手都要越过桌子中间。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-24-4",
+    "text": "我把花瓶搬过去时垫块布。\n\n窗台窄，别一开窗就碰下来。\n\n搬过去我垫稳一点。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-24-5",
+    "text": "每个座位留出摊开一本书的宽度。\n\n大开本翻开比想象中占地方。\n\n两把椅子别紧挨着放。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-24-6",
+    "text": "我拿那本画册试一下距离。\n\n摊开还能放杯子，差不多就够了。\n\n大开本得有地方摊。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-24-7",
+    "text": "开场前坐到不同位置检查视线。\n\n最好坐在矮一点的位置也看一眼。\n\n站着看通透，坐下可能正好被书堆挡住。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-24-8",
+    "text": "我负责试最角落那张椅子。\n\n以前总是那个位置最难加入聊天。\n\n角落我来试坐。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-24-9",
+    "text": "装饰留一点就好。\n\n让人能看见彼此，比拍照层次丰富更重要。\n\n人比摆设重要。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-24-10",
+    "text": "开场前最后巡一圈桌面。\n\n谁的包还在椅子上，也提醒往身边挪挪。\n\n开场前再扫一眼。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-25-1",
+    "text": "有位老人不会扫码，报名页也没有电话入口。\n\n阿姨拿着手机试了好几次，页面还是没打开。\n\n她后来问能不能直接告诉店员名字。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-25-2",
+    "text": "可以有纸本吧。\n\n我宁愿多录一条，也不想让她为了报名专门学半天操作。\n\n纸本留着挺好。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-25-3",
+    "text": "允许在店内纸本登记，由值班同伴代录。\n\n登记时问她希望怎么联系就行。\n\n不要连住址和年龄也一起收。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-25-4",
+    "text": "我周五值班时放一本登记簿。\n\n表头写清这次活动，别和买书预订混在一起。\n\n我值班时看着。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-25-5",
+    "text": "只收必要信息，纸本锁进柜子。\n\n锁进柜子前把散页夹好。\n\n柜台上人来人往，很容易被拍进照片。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-25-6",
+    "text": "代录完成后做个小勾。\n\n别让下一位值班的人又录一次，占了两个位置。\n\n别把同一个人录两次。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-25-7",
+    "text": "登记后当面重复时间，避免只依赖群通知。\n\n时间当面说清楚，最好写张小纸条。\n\n她不常看群，不能只让她等通知。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-25-8",
+    "text": "我在纸条背面画一下入口。\n\n从街口过来先看见的不是正门。\n\n纸条我来写。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-25-9",
+    "text": "回访也用她能接到的方式。\n\n不一定非得拉进微信群才算报名完成。\n\n能联系到就行。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-25-10",
+    "text": "周六签到名单里把纸本登记的也合进去。\n\n到场以后别再请她重新扫一遍码。\n\n签到时别让她再折腾。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-26-1",
+    "text": "已经坐满的场次来了两位未报名朋友。\n\n那两位站在门边也挺尴尬的。\n\n里面看着有把空椅子，实际上是有人去洗手间了。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-26-2",
+    "text": "先说明一下座位情况，别让他们不知道在等什么。\n\n五分钟后也得给个明确答复。\n\n别让人一直干等。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-26-3",
+    "text": "先请候补者等五分钟，确认空位再入座。\n\n签到表核对完再安排入座。\n\n不能看谁先坐下，就默认谁有位置。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-26-4",
+    "text": "我去问问那把椅子的主人。\n\n确认以前先别把别人的包搬走。\n\n我先确认空位。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-26-5",
+    "text": "不让签到同伴自行超额加椅子。\n\n超额加椅子会挡住出口。\n\n这件事不能让入口的同伴一个人扛着拒绝。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-26-6",
+    "text": "主持人出来一起说明吧。\n\n规则是大家定的，不是签到的人故意拦着。\n\n这话大家一起说。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-26-7",
+    "text": "后续开放一个人数较少的补场。\n\n补场先确认店里档期。\n\n没有日期以前，不要当场答应“下周一定再办”。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-26-8",
+    "text": "我先留他们愿意接收通知的方式。\n\n安排确定了，再优先告诉他们。\n\n有日期再正式通知。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-26-9",
+    "text": "下次公告里写清需要确认名额。\n\n看见海报的人不一定知道还有报名这一步。\n\n入口规则写清楚。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-26-10",
+    "text": "今天进不来的朋友，可以带走书单。\n\n别让他们空站了十分钟，最后只有一句抱歉。\n\n至少给他留份书单。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-27-1",
+    "text": "上次问卷没人填，问题可能太抽象。\n\n那份问卷我自己都拖到忘了填。\n\n十个问题还要逐项打分，回家实在没那个精神。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-27-2",
+    "text": "只问一个具体问题，我倒愿意写。\n\n比如今天哪个话题还没聊够。\n\n一个问题更容易回答。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-27-3",
+    "text": "卡片只问最想继续聊的一件事。\n\n卡片留白大一点。\n\n不要问题只占一行，下面全是组织方的小字。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-27-4",
+    "text": "我写“下次想听大家聊哪一页”。\n\n不想写的人直接放过就好。\n\n不写也完全可以。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-27-5",
+    "text": "不用姓名，也不用给活动打分。\n\n没名字也能看出大家在意什么。\n\n我们不是要追着某个人解释分数。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-27-6",
+    "text": "盒子放出口边上。\n\n投入去时不用交给主持人，压力会小一点。\n\n投进去就不用解释。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-27-7",
+    "text": "把收到的问题分成选书和现场安排两类。\n\n选书的问题归一堆，座位和时间归另一堆。\n\n先别急着把每条都变成任务。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-27-8",
+    "text": "我来抄卡片上的原话。\n\n字不认识的就留问号，不替人润色成另一层意思。\n\n我照着原话记。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-27-9",
+    "text": "没收到多少也正常。\n\n几条具体的意见，比几十个满分有用。\n\n几条具体意见就很好。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-27-10",
+    "text": "下次挑一件真的改掉，再告诉大家。\n\n让他们知道那张小卡没有白写。\n\n改了以后告诉大家。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-28-1",
+    "text": "大家想办中秋场，但不想变成表演晚会。\n\n一说中秋活动，大家就开始问要不要排节目。\n\n我其实只想一起读点和家乡有关的东西。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-28-2",
+    "text": "月饼有一点就够了。\n\n别让不会做点心的人觉得自己空手来不好意思。\n\n空手来最轻松。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-28-3",
+    "text": "围绕故乡与食物选几段短文。\n\n短文里写饭桌的那几段很适合。\n\n每个人想起的味道都不一样。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-28-4",
+    "text": "我带一段写桂花的。\n\n读完再说说我家那边秋天是什么气味。\n\n我就带这一小段。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-28-5",
+    "text": "月饼只作分享点心，不把带礼物设成要求。\n\n点心切小块，口味标一下。\n\n有人不吃甜的，喝茶也一样参与。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-28-6",
+    "text": "送礼这一项就不要有了。\n\n组织者也不用回礼，简单聚一会儿。\n\n不用准备回礼。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-28-7",
+    "text": "主题介绍提前注明可以空手来。\n\n通知里把“可以空手来”写在正文。\n\n不要藏在评论里才解释。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-28-8",
+    "text": "我叫上楼下的阿姨。\n\n她总说没有合适的书，其实故事可多了。\n\n阿姨的故事我想听。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-28-9",
+    "text": "想家也未必都是热闹的事。\n\n有人只想听，给他留着安静的位置。\n\n节日也可以安静过。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-28-10",
+    "text": "结束以后把大家提到的篇目列出来。\n\n节日过去了，也还能翻到那几页。\n\n篇目留下来就好。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-29-1",
+    "text": "公园树荫不错，但风大会把纸吹走。\n\n树荫是舒服的，但我试着翻书，风一来整页都拍到脸上。\n\n桌上的便签更留不住。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-29-2",
+    "text": "夹板可以，我家有两个。\n\n夹得太紧会伤书页，别直接夹在薄纸上。\n\n书页别夹坏了。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-29-3",
+    "text": "使用夹板和可重复使用的固定夹。\n\n固定夹先夹复印的材料。\n\n自己的书怎么固定，让各自决定。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-29-4",
+    "text": "我带几块平整的小镇纸。\n\n放在桌上用，不放到草地里找不回来。\n\n镇纸我数好再带回。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-29-5",
+    "text": "准备室内备选点，出发前统一确认。\n\n室内备选点要能真的接待我们。\n\n不是地图上找家咖啡店就算安排好了。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-29-6",
+    "text": "我提前问店主。\n\n出发前统一发地点，已经出门的人也单独提醒。\n\n地点定了统一说。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-29-7",
+    "text": "结束后带走全部纸张和食品包装。\n\n收场时沿座位外圈走一遍。\n\n风吹出去的纸，坐着时可能看不见。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-29-8",
+    "text": "我带一个装垃圾的袋子。\n\n食物包装都装进去，回程顺路带走。\n\n垃圾袋交给我。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-29-9",
+    "text": "下雨也不算白准备。\n\n书和话题都还在，换个地方接着读就好。\n\n换地方不影响读书。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-29-10",
+    "text": "那天出门前看一次天气就定下来。\n\n别一路走一路在群里改地点。\n\n出发前说定就好。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-30-1",
+    "text": "几位发言者习惯低声说，后排一直侧耳听。\n\n后排那位一直把耳朵侧过来，我才发现他不是没兴趣。\n\n可能前半段根本没听清。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-30-2",
+    "text": "我声音也偏小。\n\n越提醒我大声一点，有时反而越紧张。\n\n距离近点我也敢说话。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-30-3",
+    "text": "把座位收成半圆，减少前后距离。\n\n半圆可以收近些。\n\n中间别隔一张空桌子，距离就短不少。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-30-4",
+    "text": "我挪到侧面，给后面的朋友让个更近的位置。\n\n坐舒服再接着聊。\n\n我先挪个位置。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-30-5",
+    "text": "先尝试自然声，不立即上麦克风。\n\n先不用麦克风也好。\n\n有的人一拿着它，就开始像正式发言。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-30-6",
+    "text": "我们让环境安静一点再试。\n\n咖啡机在响时，等它停了也没关系。\n\n等机器安静了再读。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-30-7",
+    "text": "仍听不清时由主持人征得同意再复述。\n\n复述前先问“我这样理解对吗”。\n\n不是把他的原话翻译成主持人的结论。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-30-8",
+    "text": "我听漏的时候就直接问。\n\n别一边没听清，一边跟着点头。\n\n没听清就问。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-30-9",
+    "text": "问题大概在哪个座位，可以记一下。\n\n下次布置时别只听前排反馈。\n\n后排也要照顾到。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-30-10",
+    "text": "散场前我再问问那位朋友。\n\n今天后半段有没有好一点，比我们猜重要。\n\n结束时再问问他。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-31-1",
+    "text": "有人想读一段外文，担心大家跟不上。\n\n我想读原文，是因为那个词翻成中文有点不一样。\n\n不是想考大家听力。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-31-2",
+    "text": "那就先听声音也很好。\n\n不懂每个词，仍然能感觉到节奏。\n\n先听节奏也不错。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-31-3",
+    "text": "保留原文朗读，再用中文说自己的理解。\n\n读完用自己的话说一遍就够了。\n\n没必要逐句做语法解释。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-31-4",
+    "text": "我把关键的两三个词圈出来。\n\n其他部分大家看译文就能跟上。\n\n词不用圈太多。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-31-5",
+    "text": "材料附简短译文，不考察语言水平。\n\n译文写得自然一点。\n\n太生硬的话，看中文反而比听原文费劲。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-31-6",
+    "text": "我先给不读外文的朋友看一眼。\n\n哪里不顺，就再改得口语些。\n\n译文顺一点就好。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-31-7",
+    "text": "讨论重点放在段落带来的感受。\n\n讨论可以从听到什么情绪开始。\n\n读音准不准，不作为今天的问题。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-31-8",
+    "text": "我可能只会讲那个停顿让我想到什么。\n\n也算是在接这段吧。\n\n感受没有标准答案。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-31-9",
+    "text": "不同译法都可以拿出来。\n\n只是说清这是自己的理解，不替所有人定一个版本。\n\n不同理解都能聊。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-31-10",
+    "text": "那我就带这一小段。\n\n不因为怕大家听不懂，把自己喜欢的部分全删掉了。\n\n那我放心带来了。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-32-1",
+    "text": "工作坊报了十六人，材料只有十二份。\n\n我把材料铺开才发现数量不够。\n\n单看报名表写十六，脑子还按上次十二个人在算。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-32-2",
+    "text": "可以两个人共用一套工具，但成品得各有一份。\n\n不然慢一点的人会没东西做。\n\n每个人有成品就好。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-32-3",
+    "text": "把材料切成可共享的小组套装。\n\n底纸先按尺寸切好。\n\n胶带和印章共享，别把每份都拆得很零碎。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-32-4",
+    "text": "我提前过去裁纸。\n\n先裁一张试做，再一口气裁剩下的。\n\n我先做一张试试。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-32-5",
+    "text": "每人最终都能带走一枚，不以抢先为准。\n\n每人选款时也不用抢。\n\n颜色少的可以轮换，别一直说“手快有手慢无”。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-32-6",
+    "text": "我留几张素色的纸。\n\n想画自己的图案，也有得选。\n\n素色也很好看。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-32-7",
+    "text": "下次按报名量加两份备用材料。\n\n备用两份够应对小失误。\n\n弄坏一张不用全桌停下来找替代材料。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-32-8",
+    "text": "我把剩下的尺寸记下来。\n\n下次采购时先看库存，免得又买错。\n\n剩料别丢掉。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-32-9",
+    "text": "今天做慢一点也行。\n\n大家是来坐坐，不是在规定时间交作业。\n\n不用赶着交作业。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-32-10",
+    "text": "收尾前确认每个人都装好自己的书签。\n\n晾着没干的，垫张纸再带走。\n\n没干的多垫一张纸。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-33-1",
+    "text": "活动说话声让普通顾客难以选书。\n\n我去书架找书时，旁边那组声音正好盖过店员说话。\n\n普通顾客也有点不知道该往哪走。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-33-2",
+    "text": "书店还在营业，这个得照顾到。\n\n不能我们一热闹，就把整个空间都占了。\n\n店里还要正常营业呢。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-33-3",
+    "text": "把分享时段避开傍晚结账高峰。\n\n分享避开结账高峰，讨论就不会一直被收银声打断。\n\n双方都舒服一点。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-33-4",
+    "text": "我先跟店员问清最忙的大概时段。\n\n别按我们自己的下班时间猜。\n\n我先问店员。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-33-5",
+    "text": "店员仍负责营业，志愿者承担活动签到。\n\n签到找志愿者就好。\n\n店员正忙着包书，不能还得帮我们找名单。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-33-6",
+    "text": "我穿个简单的名牌。\n\n来参加的人一眼能认出该问谁。\n\n来的人问我就行。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-33-7",
+    "text": "观察书架区域是否需要临时静音提示。\n\n安静提示别写得像禁令。\n\n靠近书架那边轻声说话，说明一下原因就行。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-33-8",
+    "text": "如果那块还是太吵，我来引导大家往里坐。\n\n先挪位置，不急着贴更多标语。\n\n吵了就先挪位置。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-33-9",
+    "text": "活动结束后问问店员有没有被打扰。\n\n我们坐在圈里，感受不到外面的情况。\n\n店员的感受也得听。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-33-10",
+    "text": "下次报名人数也参考营业空间。\n\n不是店里塞得下多少椅子，就能来多少人。\n\n名额别顶着上限开。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-34-1",
+    "text": "账本里有一笔打印费重复记在两期活动下。\n\n两张明细日期一样，我才反应过来是同一笔。\n\n不是又打印了一次，只是转发票据时重复录进去了。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-34-2",
+    "text": "那先别急着结算。\n\n我把手里的记录也对一遍，免得还有别的重复。\n\n先核对，再结算。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-34-3",
+    "text": "按票据日期逐条核对并冲回重复项。\n\n原票据留着，冲回那条做个说明。\n\n直接删掉，过两天大家又会问数字怎么少了。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-34-4",
+    "text": "我标一下重复录入的位置。\n\n金额先不要在几个表格里同时改。\n\n同一份表里改。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-34-5",
+    "text": "更正记录保留原条目和原因。\n\n更正以后总额也跟着算一次。\n\n单条改对了，汇总公式未必一起更新。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-34-6",
+    "text": "我来复核最后一行。\n\n确认后再把统一版本发出去。\n\n总数我再算一次。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-34-7",
+    "text": "下一次报销只提交一份统一明细。\n\n报销入口留一个就好。\n\n私聊发过的票据，不要再当新的一笔提交。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-34-8",
+    "text": "我把零散照片合到同一个文件夹。\n\n文件名写日期和用途，找起来快一些。\n\n票据别散着发了。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-34-9",
+    "text": "这次发现得早还好。\n\n以后不必等到活动结束才看账本。\n\n平时顺手记一点。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-34-10",
+    "text": "下次采购当晚顺手记一下。\n\n拖一个月，连买的是纸还是纸杯都想不起来。\n\n免得最后凭记忆对账。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-35-1",
+    "text": "有人读完就离开，后来到的人接不上内容。\n\n后来的人翻到中间，完全不知道前面为什么有人划了一条线。\n\n我解释了一会儿，读书时间就过去了。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-35-2",
+    "text": "提示卡可以薄一点，夹在当页。\n\n别写长篇梗概，翻开又要先读另一篇。\n\n卡片短一点就好。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-35-3",
+    "text": "接力书里放一张此前段落提示卡。\n\n写清上次读到哪里就够了。\n\n人物关系只补最必要的那一点。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-35-4",
+    "text": "我把页码和上一段发生的事写上。\n\n没读到的情节就不提前揭开。\n\n我不提前剧透。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-35-5",
+    "text": "卡片只概括情节，不替后来者写结论。\n\n尤其别把自己的判断写成结论。\n\n后来的人可能读出另一种意思。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-35-6",
+    "text": "我会用“我们当时在问什么”来写。\n\n不写“这一章告诉我们什么”。\n\n把问题留下。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-35-7",
+    "text": "每次接力结束补一句自己想问的问题。\n\n留下一个问题，比交代读后感更好接。\n\n下一位也知道从哪儿开始。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-35-8",
+    "text": "那我问那个角色为什么没回头。\n\n正好是我读到这里最在意的地方。\n\n看看下一位怎么想。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-35-9",
+    "text": "想接力的人不必按我们的速度赶。\n\n有人一天读两页，也能慢慢接上。\n\n两页也算接上了。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-35-10",
+    "text": "书回到架上前看一眼卡片还在不在。\n\n夹丢了就补，别让下一位又从头猜。\n\n卡片也跟着书走。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-36-1",
+    "text": "一周年想邀请大家，但人多会挤占通道。\n\n大家都想来，一次聚齐当然开心。\n\n可门口那条通道，十几个人站着就有点挤了。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-36-2",
+    "text": "分时段会轻松些。\n\n我可以选下午那场，不一定都挤在最热闹的时候。\n\n错开一点会舒服些。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-36-3",
+    "text": "全天分成三个短时段开放交流。\n\n三个时段各留一点缓冲。\n\n上一场还没拿好包，下一场别立刻排进来。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-36-4",
+    "text": "我帮忙把大致时间写清楚。\n\n早到的人可以先逛书，不围在门口等。\n\n时间我写清楚。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-36-5",
+    "text": "不同场次不重复签到收礼物。\n\n来两次也不用签两回领东西。\n\n纪念不是把每个人变成一条登记记录。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-36-6",
+    "text": "礼物简单一点就行。\n\n一本小册子，比为了凑数量买很多杂物好。\n\n礼物简单就好。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-36-7",
+    "text": "把祝福写在可带走的小册子里。\n\n祝福留出空白页。\n\n现场想起来一句，就写一句，不提前统一口号。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-36-8",
+    "text": "我想记下第一次走进店里时的事。\n\n两三行就够，不用写成纪念文章。\n\n写自己的小事就行。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-36-9",
+    "text": "有朋友不能来，也可以把话捎过来。\n\n但别催大家必须交一段感言。\n\n感言不用人人交。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-36-10",
+    "text": "那天结束后给店员留点收拾的时间。\n\n庆祝完不是把所有箱子都留给他们。\n\n收场也帮店员留点余地。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-37-1",
+    "text": "搬走的朋友希望偶尔线上加入。\n\n他搬走以后还会在群里回书单。\n\n隔得远了，能偶尔听见大家声音应该挺开心。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-37-2",
+    "text": "先试短一点吧。\n\n线上的人听现场闲聊，有时比我们想的更累。\n\n先短短地试一次。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-37-3",
+    "text": "试一次二十分钟的视频连线。\n\n二十分钟提前说好哪一段连线。\n\n别开着视频，让他一直等我们翻书。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-37-4",
+    "text": "我负责提醒时间。\n\n开始前先试一下能不能听见，不占正式讨论的时间。\n\n我来盯一下时间。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-37-5",
+    "text": "镜头只对主持人与书桌，不扫过其他人。\n\n镜头固定在桌面和主持人那边。\n\n有人走动，也不跟着转过去。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-37-6",
+    "text": "摄像范围开场说一下。\n\n不想入镜的人坐哪儿，心里就有数。\n\n镜头固定住。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-37-7",
+    "text": "连线结束后线下仍保留完整交流时间。\n\n断线了也别让全场停下来排查。\n\n我单独联系他，能接上就接，接不上下次再试。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-37-8",
+    "text": "结束时给他留一句话。\n\n不是时间一到，突然把屏幕关掉。\n\n道别也留点时间。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-37-9",
+    "text": "线下后半场照常聊，不需要围着设备坐到最后。\n\n电脑收起来大家也轻松。\n\n后半场安心聊书。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-37-10",
+    "text": "试完问问他实际听到了多少。\n\n我们觉得热闹，他那头可能只听到一片回声。\n\n先问他听得清不清。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-38-1",
+    "text": "孩子兴奋时来回跑，家长怕提醒太严厉。\n\n孩子一兴奋就追着跑，家长也跟着紧张。\n\n越喊别跑，整个场面越乱。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-38-2",
+    "text": "可以先告诉他们哪里能走动。\n\n只说不能做什么，确实不知道该去哪儿。\n\n说清去哪儿，比只说别跑有用。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-38-3",
+    "text": "开场一起约定走动路线和休息角。\n\n休息角别放在看不见的拐弯处。\n\n孩子想离开座位，家长抬头能找到。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-38-4",
+    "text": "我贴一个简单的路线箭头。\n\n不搞太多规则图，孩子看一眼能懂就好。\n\n箭头简单画。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-38-5",
+    "text": "提醒描述具体行为，不给孩子贴标签。\n\n提醒时说“这边有人端热水，走慢一点”。\n\n比说谁不乖，更知道该怎么改。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-38-6",
+    "text": "我们几个大人也统一一下。\n\n别这边让走，那边又催他赶快回来。\n\n大人说法先一致。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-38-7",
+    "text": "结束后问家长哪条规则最容易理解。\n\n问家长哪条最管用，哪条孩子没听懂。\n\n实际用起来的反馈才有意义。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-38-8",
+    "text": "我带孩子试走一次。\n\n卡在什么地方，他往往比我们看得早。\n\n孩子的反应最直观。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-38-9",
+    "text": "活动累了可以提前走。\n\n别把坚持坐到最后当成表现好。\n\n累了就回家。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-38-10",
+    "text": "下次先照这几条简单的试。\n\n能记住、做得到，再谈要不要加别的。\n\n规则能做到才算数。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-39-1",
+    "text": "一本共享绘本书脊松了，透明胶会伤纸。\n\n我翻的时候听见书脊轻轻响了一下，就先合上了。\n\n再借出去，怕有人没注意把整页扯下来。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-39-2",
+    "text": "我以前用透明胶补过，后来胶边黄得很明显。\n\n这回先别急着动手。\n\n这本先别贴胶了。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-39-3",
+    "text": "先暂停外借，请懂修复的邻居看材料。\n\n外借卡上注明暂时修补中。\n\n否则有人看到书还在，会以为已经可以拿。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-39-4",
+    "text": "我找那位做装帧的邻居问问。\n\n先拍损坏位置，不掰开给他看。\n\n我不把书掰开。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-39-5",
+    "text": "未确认前不自行贴胶或拆线。\n\n纸和胶怎么选，等他看过再说。\n\n网上一种办法，不一定适合这本书。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-39-6",
+    "text": "我把胶带从盒子里拿走。\n\n省得别人好心顺手就贴上了。\n\n等看过材料再动。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-39-7",
+    "text": "修好后在卡片记下可接受的翻阅方式。\n\n修好后也别大力压平。\n\n翻到哪一段需要托住，写一句在卡片上。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-39-8",
+    "text": "我可以做个薄纸套保护书脊。\n\n尺寸等修好再量，不提前硬塞。\n\n纸套也别太紧。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-39-9",
+    "text": "如果实在修不好，就留作店内阅读。\n\n共享也不一定非要能带回家。\n\n留店里读也很好。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-39-10",
+    "text": "处理结果再发给捐书的朋友。\n\n他惦记这本书，也让他知道我们有在照顾。\n\n让捐书的人放心。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-40-1",
+    "text": "有人建议请朋友讲工作，却担心变成招聘宣传。\n\n分享工作经验我想听，但一出现招聘二维码，气氛就变了。\n\n大家来这里又不是参加宣讲。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-40-2",
+    "text": "可以从书里的一个场景聊起。\n\n职业只是他的视角，不必把整段履历都讲一遍。\n\n从书里聊就自然。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-40-3",
+    "text": "只分享与一本书相关的职业观察。\n\n选一本自己真的读过的书。\n\n别拿书名当开头，后面全讲公司的产品。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-40-4",
+    "text": "我先请他挑一个具体片段。\n\n能从那段说出自己的观察，就很好了。\n\n一个具体片段就够。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-40-5",
+    "text": "主持前说明不推销课程和服务。\n\n课程和服务都不推销，这句话提前私下说明。\n\n别等讲到一半主持人才尴尬地拦。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-40-6",
+    "text": "对，边界先讲清。\n\n他如果觉得不合适，也可以不来做分享。\n\n先把边界说明白。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-40-7",
+    "text": "把现场问题整理为后续阅读线索。\n\n现场问题里，有些可以变成下次书单的方向。\n\n不一定都要当场请嘉宾回答。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-40-8",
+    "text": "我来记大家反复提的词。\n\n像值夜班、换工作这种，再找相应的阅读材料。\n\n线索我来记。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-40-9",
+    "text": "不同职业的人也都能接话。\n\n不是只有做同一行的人才有资格提问。\n\n外行也可以提问。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-40-10",
+    "text": "结束后自愿交换联系方式就行。\n\n组织者不统一收集大家的简历和名片。\n\n联系方式各自决定。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-41-1",
+    "text": "后排留了旁听席，却被误认为迟到区。\n\n后排那个“旁听席”牌子一放，好像坐在那里就是没准备好。\n\n有人一进来就往最远的地方走。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-41-2",
+    "text": "我其实喜欢后面一点，只是想靠着墙。\n\n位置不该替人说明参与程度。\n\n选座不代表态度。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-41-3",
+    "text": "把提示改成自由选择的位置说明。\n\n牌子改成自由选座就行。\n\n座位没有前后等级，不用分正式和旁听。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-41-4",
+    "text": "那张牌我收起来。\n\n入口口头提醒有空位都可以坐，更自然。\n\n牌子我先收了。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-41-5",
+    "text": "正式讨论开始后仍允许换到前排。\n\n开始以后想挪近一点也可以。\n\n别刚坐下就像位置固定了一整场。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-41-6",
+    "text": "我给侧面留一条小通道。\n\n换位置不用从别人书本前面挤过去。\n\n换位置留条路。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-41-7",
+    "text": "不在照片里区分新人与老成员。\n\n拍照时也别把后排裁掉，好像他们不算参加。\n\n不想被拍的人另说。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-41-8",
+    "text": "合影可以自愿站过来。\n\n不靠坐在哪儿判断谁是新朋友。\n\n合影自己愿意再来。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-41-9",
+    "text": "愿意只听的人，坐前面也一样可以。\n\n主持人别按距离远近点名。\n\n坐前面也可以只听。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-41-10",
+    "text": "今天试着把牌子撤掉看看。\n\n也许少一句说明，大家反而更放松。\n\n撤掉以后看看感觉。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-42-1",
+    "text": "海报写深度研读，让第一次来的人有压力。\n\n“深度研读”听起来像要做作业。\n\n我朋友看到标题就问，是不是没读完不能去。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-42-2",
+    "text": "名字可以轻一点。\n\n我们本来也就是周末坐下来读几页。\n\n标题别吓着人。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-42-3",
+    "text": "标题改成周末一起读几页。\n\n标题简单，内容不见得就浅。\n\n先让人愿意来，再看聊到了哪里。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-42-4",
+    "text": "我试着换成那句“周末一起读几页”。\n\n手机缩略图上也放得下。\n\n这句读着顺一点。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-42-5",
+    "text": "正文写清不用事先读完，也不设知识门槛。\n\n没有读完也能来这点，要在正文前面。\n\n有人看一眼就决定要不要报名了。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-42-6",
+    "text": "我把“无需准备发言”也留着。\n\n不是人人都擅长当众介绍一本书。\n\n不发言也能参加。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-42-7",
+    "text": "发布前请没来过的人读一遍看是否清楚。\n\n找没来过的人看，才知道有没有默认他们懂的词。\n\n我们看惯了容易跳过去。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-42-8",
+    "text": "我发给楼下邻居看看。\n\n先不解释，让他直接说以为会是什么样的活动。\n\n先听他怎么理解。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-42-9",
+    "text": "如果他的想象和实际差很多，就改文案。\n\n不是告诉他“你理解错了”。\n\n文案是写给第一次看的人。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-42-10",
+    "text": "改好以后再统一发。\n\n别让不同朋友圈挂着三个不同的活动名字。\n\n统一以后再发。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-43-1",
+    "text": "有朋友想把纪要发到公司公众号。\n\n公司公众号的读者和这个群不一样。\n\n有些话离开当时的聊天，意思会变得很重。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-43-2",
+    "text": "书单可以公开，私人经历先拿出来。\n\n不能因为纪要发过群，就当成已经授权转载。\n\n群里发过不等于能转载。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-43-3",
+    "text": "先区分可公开书目和私人讨论摘要。\n\n公开版和内部版分开保存。\n\n别让人下载时拿错一个相似文件名。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-43-4",
+    "text": "我先复制一份只留书目。\n\n引用人的段落等确认后再放进去。\n\n我先分两个版本。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-43-5",
+    "text": "涉及个人经历的段落重新征求同意。\n\n征求同意时说清要发在哪里。\n\n不是只问一句“这段能用吗”。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-43-6",
+    "text": "标题和上下文也一起给对方看。\n\n他可能同意原话，却不同意文章替他下的结论。\n\n上下文也让人看看。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-43-7",
+    "text": "转载版本单独留档，避免拿错草稿。\n\n最后发出的版本留档。\n\n以后有人问起，能知道当时用的是哪一段。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-43-8",
+    "text": "我把发布日期也记上。\n\n草稿不再和已发布稿放同一个文件夹里。\n\n稿子别混在一起。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-43-9",
+    "text": "没回复的人，就先不引用。\n\n不要把沉默当成默认同意。\n\n没回就先不放。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-43-10",
+    "text": "文章出来后发链接给当事人。\n\n哪处觉得不妥，还有机会及时沟通。\n\n链接记得给当事人。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-44-1",
+    "text": "连续举办活动后，店员没有完整休息时间。\n\n店员嘴上说没关系，收场时已经很累了。\n\n我们回家，他们还得继续关店。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-44-2",
+    "text": "留一个空周末挺必要的。\n\n没有活动，大家也能单纯来买本书。\n\n店员也该好好歇一歇。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-44-3",
+    "text": "每月留一个周末不办活动。\n\n那一周就真的空着。\n\n别因为有人提议，又临时加个“小型分享”。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-44-4",
+    "text": "我把日历先标出来。\n\n看到空档时记得，那是休息，不是等着填的空位。\n\n那个空档先留住。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-44-5",
+    "text": "提前把空档写在日历，不临时补节目。\n\n通知里说当周没有活动就够了。\n\n不需要为休息写一篇解释。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-44-6",
+    "text": "店里照常营业的话，也别约一大群人过去变成另一场聚会。\n\n店员能按平常的节奏做事，就挺好了。\n\n就按普通营业来。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-44-7",
+    "text": "观察大家是否仍愿意平日来坐坐。\n\n看看大家平日还会不会来坐坐。\n\n活动少一点，不等于这个地方失去吸引力。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-44-8",
+    "text": "我想那周自己去读书。\n\n不主持也不拍照，终于能安静待一下午。\n\n我也想只当读者。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-44-9",
+    "text": "志愿者也不用轮流值活动班。\n\n想来就来，不来不补工作。\n\n不来不欠活动班。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-44-10",
+    "text": "过一个月再问问店员感觉有没有轻松些。\n\n真能休息到，比日历上画个空格重要。\n\n一个月后再聊感受。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-45-1",
+    "text": "散场后桌上留下围巾和一本笔记。\n\n围巾我先放干净袋子里了。\n\n笔记本没翻，封面也没有写名字。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-45-2",
+    "text": "群里描述外观就行。\n\n别为了找主人，把里面几页拍出来。\n\n笔记本就别翻了。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-45-3",
+    "text": "只在群里描述物品特征，不翻看内容。\n\n颜色和大概位置让对方自己说。\n\n我们别一次把所有细节都发完。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-45-4",
+    "text": "我拍围巾的一小角，不拍笔记内容。\n\n确认以后再约来拿。\n\n认得外观再联系。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-45-5",
+    "text": "认领者自己说明颜色与放置位置。\n\n认领时能对上放在哪里，基本就清楚了。\n\n也不用像审问一样问一串问题。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-45-6",
+    "text": "如果对不上，先留着再确认。\n\n别因为着急清桌子就随便给出去。\n\n没对上就再等等。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-45-7",
+    "text": "暂存到月底，未认领再联系店主。\n\n暂存位置告诉店主。\n\n月底没来拿，再一起商量后续怎么办。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-45-8",
+    "text": "我把物品和发现日期写在袋子外面。\n\n这样换班的人也知道是哪一场留下的。\n\n袋子上写好日期。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-45-9",
+    "text": "回来拿的人不一定记得群消息。\n\n柜台可以留一句简单提示。\n\n柜台也留个提示。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-45-10",
+    "text": "领走以后在原消息下面补一句已找到主人。\n\n不再让大家继续转发寻找。\n\n找到了就在原处补一句。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-46-1",
+    "text": "推荐墙上的卡片越来越多，旧内容被遮住了。\n\n卡片叠起来以后，最早那几张完全看不到了。\n\n我还挺喜欢那张写外婆做饭的推荐。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-46-2",
+    "text": "可以轮换，别一直往上加。\n\n墙没有变大，信息却越来越密。\n\n轮换比一直往上贴好。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-46-3",
+    "text": "每月只展示八条，其余装订留存。\n\n八张留够一点间距。\n\n字少的也别故意放大，按原来的样子读挺好。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-46-4",
+    "text": "取下来的我装订成小册子。\n\n墙边留个可以翻阅的位置，不是撤下就消失了。\n\n旧卡我装订好。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-46-5",
+    "text": "按不同主题轮换，不按点赞数排序。\n\n主题可以换着来。\n\n按点赞排，安静的小故事永远没有机会被看见。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-46-6",
+    "text": "这次选一些关于街道的。\n\n下次再放食物和家里的书，慢慢轮到。\n\n不靠点赞排顺序。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-46-7",
+    "text": "入选前确认字迹和书名仍看得清。\n\n书名看不清就请原作者补一下。\n\n不要看图猜是哪一本。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-46-8",
+    "text": "我先把褪色那张重新描清楚。\n\n原来的卡保留，免得笔迹的味道都没了。\n\n原卡也留下。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-46-9",
+    "text": "旧推荐有人再问起来，能翻到就很好。\n\n没必要每次都重新征集。\n\n还能找到就很好。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-46-10",
+    "text": "月底我来换一次墙面。\n\n顺便看看站在门口，能不能舒服地读完一张。\n\n站远点也要看得清。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-47-1",
+    "text": "记录稿像逐字转写，阅读起来很费劲。\n\n稿子里连找水杯那几句都记下来了。\n\n我读到一半，已经忘了最初在聊哪本书。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-47-2",
+    "text": "全部保留看着认真，实际反而很难用。\n\n可以删掉不影响理解的过程。\n\n删短一点反而好读。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-47-3",
+    "text": "改成书目、分歧、未完问题三部分。\n\n三部分挺清楚。\n\n读者先知道书，再看到哪里有分歧，最后留一个能接着聊的问题。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-47-4",
+    "text": "我先把重复的回应合并。\n\n不是每个“我也觉得”都要单独占一行。\n\n重复回应合并吧。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-47-5",
+    "text": "保留原话时先问当事人是否愿意署名。\n\n原话要不要署名，让说话的人选。\n\n也可以只留这句话，不写身份。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-47-6",
+    "text": "涉及私人的那段先单独确认。\n\n哪怕写得很好，也不能因为舍不得就留着。\n\n私人的段落先确认。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-47-7",
+    "text": "完成后让未参加者试读找出缺失上下文。\n\n找没到场的人试读，很容易发现漏掉的背景。\n\n我们自己知道太多，常常看不出跳步。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-47-8",
+    "text": "我发给这次没来的朋友。\n\n他问“为什么突然说到这儿”，就是该补的地方。\n\n我找没来的人试读。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-47-9",
+    "text": "整理以后短一点没关系。\n\n留下可用的线索，比看起来完整重要。\n\n有用比完整重要。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-47-10",
+    "text": "改完别再叫逐字稿了。\n\n注明是经确认的讨论纪要，免得别人误以为每句话都原样记录。\n\n名字也改清楚。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-48-1",
+    "text": "老成员都报名了，新人没有机会加入。\n\n我看报名表一开就满了，都是熟面孔。\n\n还有人刚知道活动，就已经没位置了。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-48-2",
+    "text": "给第一次来的朋友留一些挺好。\n\n否则别人会觉得这是个进不去的小圈子。\n\n留位置给第一次来的人。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-48-3",
+    "text": "一半名额提前留给首次参与者。\n\n一半名额先保留到规定时间。\n\n到时候还有空，再向所有人开放。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-48-4",
+    "text": "我把时间点写在报名页上。\n\n老成员也提前知道，不用私下猜安排。\n\n时间点提前说。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-48-5",
+    "text": "候补按时间顺序联系，不临时找熟人顶替。\n\n候补按顺序联系就行。\n\n别刚空一个位置，就想到给自己的熟人留着。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-48-6",
+    "text": "联系后给一个明确的回复期限。\n\n对方一时没看手机，也有反应时间。\n\n候补也留回复时间。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-48-7",
+    "text": "两周后回看新人是否获得发言空间。\n\n来了以后能不能说上话，也得留意。\n\n只在人数上有新人，体验不一定就不同。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-48-8",
+    "text": "我负责签到时介绍一下相邻的朋友。\n\n别让他坐在一桌熟人中间干等。\n\n我带他认识旁边的人。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-48-9",
+    "text": "老成员可以多听一点，但不用故意把新朋友架到中央。\n\n愿意说再说。\n\n不用强推新人发言。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-48-10",
+    "text": "两周以后看看大家有没有自然继续交流。\n\n不要刚办完，就急着宣布招募很成功。\n\n过阵子再看变化。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-49-1",
+    "text": "大家想试不讨论的场次，又怕气氛尴尬。\n\n我有时候就是想和别人待在一起读书，不一定想总结读到了什么。\n\n一个人待家里又容易摸手机。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-49-2",
+    "text": "这种场次我想来。\n\n只要提前说清楚，安静就不会显得像没人主持。\n\n说清楚了就不尴尬。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-49-3",
+    "text": "前十分钟介绍规则，中间各读各的。\n\n规则十分钟够了。\n\n水在哪里、什么时候结束，说完就把书打开。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-49-4",
+    "text": "我选短一点的书带来。\n\n读不完也没关系，下次再接着。\n\n书读不完也没关系。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-49-5",
+    "text": "结束只分享一个书名，可以直接离开。\n\n最后分享书名可以自愿。\n\n想合上书直接走的人，不再被拦住留感想。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-49-6",
+    "text": "出口放张纸就行。\n\n愿意写书名的随手写，不逐个点名。\n\n离开前不必交感想。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-49-7",
+    "text": "用光线和座位反馈判断是否继续办。\n\n亮不亮、椅子坐得累不累，这次尤其重要。\n\n安静下来反而更容易感觉到这些。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-49-8",
+    "text": "我留意窗边那排。\n\n看书半小时以后，再问眼睛有没有累。\n\n坐久一点再问感觉。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-49-9",
+    "text": "别为了留照片中途让大家摆一下动作。\n\n读得投入时被打断，就很难回来。\n\n别打断读进去的人。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-49-10",
+    "text": "结束后用一句话问还想不想再来。\n\n不用把安静共读也做成一份很长的调查。\n\n一两句反馈就够。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-50-1",
+    "text": "活动办得多了，却说不清哪些值得留下。\n\n翻相册觉得每场都很热闹，但问哪一次真的想再办，我一时又说不出来。\n\n该慢一点回想。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-50-2",
+    "text": "我最想保留那次小组慢读。\n\n人数不多，可每个人都把话说完了。\n\n小场也值得留下。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-50-3",
+    "text": "各选一件愿意保留和一件想暂停的事。\n\n保留一件、暂停一件，比较容易开口。\n\n不是给所有活动排个名次。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-50-4",
+    "text": "我想暂停连着两周的密集安排。\n\n准备得太急，自己也没好好读书。\n\n我不想再赶着准备。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-50-5",
+    "text": "不以人数最多的场次自动判定成功。\n\n人数多当然开心，但不能只看这个。\n\n有人来了又匆匆走，未必是我们想留下的体验。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-50-6",
+    "text": "也听听一直只听不说的人。\n\n他记住的细节，可能和组织者完全不同。\n\n安静的朋友也问一问。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-50-7",
+    "text": "下季只承诺团队有余力持续做的安排。\n\n下一季先留团队真正能接住的几场。\n\n日历空着一点，临时生活也有余地。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-50-8",
+    "text": "我把自己能参与的月份写清楚。\n\n忙的时候提前说，不再靠临时硬撑。\n\n忙的时候提前说。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-50-9",
+    "text": "回顾里也写一下没做成的事。\n\n以后看到相同想法，就知道当时为什么停下。\n\n停下来的原因也有价值。",
+    "translations": []
+  },
+  {
+    "conversationId": "wx-club",
+    "messageId": "wx-club-archive-50-10",
+    "text": "那我们先把下一场做好。\n\n想延续的东西，一次次做出来，比一次许很多愿稳当。\n\n一场一场慢慢来。",
+    "translations": []
+  }
+]

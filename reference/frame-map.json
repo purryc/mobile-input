@@ -1,0 +1,83 @@
+{
+  "recording": "mobile-input-inspection-VID_1791414349_032.mp4",
+  "frameCount": 38627,
+  "variableFrameRate": true,
+  "scenes": [
+    {
+      "name": "主页",
+      "time": 608,
+      "comparison": "artifacts/visual-qa/desktop-home.jpg"
+    },
+    {
+      "name": "应用页",
+      "time": 2,
+      "comparison": "artifacts/visual-qa/desktop-apps.jpg"
+    },
+    {
+      "name": "工作页",
+      "time": 615,
+      "comparison": "artifacts/visual-qa/desktop-work.jpg"
+    },
+    {
+      "name": "豆包",
+      "time": 8,
+      "comparison": "artifacts/visual-qa/doubao.jpg"
+    },
+    {
+      "name": "微信",
+      "time": 42,
+      "comparison": "artifacts/visual-qa/wechat.jpg"
+    },
+    {
+      "name": "邮件",
+      "time": 120,
+      "comparison": "artifacts/visual-qa/mail.jpg"
+    },
+    {
+      "name": "邮件撰写",
+      "time": 142,
+      "comparison": "artifacts/visual-qa/mail-compose.jpg"
+    },
+    {
+      "name": "哔哩哔哩",
+      "time": 164,
+      "comparison": "artifacts/visual-qa/bilibili.jpg"
+    },
+    {
+      "name": "抖音",
+      "time": 222,
+      "comparison": "artifacts/visual-qa/douyin.jpg"
+    },
+    {
+      "name": "小红书",
+      "time": 281,
+      "comparison": "artifacts/visual-qa/red.jpg"
+    },
+    {
+      "name": "WorkBuddy",
+      "time": 320,
+      "comparison": "artifacts/visual-qa/workbuddy.jpg"
+    },
+    {
+      "name": "阅读",
+      "time": 418,
+      "comparison": "artifacts/visual-qa/read.jpg"
+    },
+    {
+      "name": "笔记",
+      "time": 472,
+      "comparison": "artifacts/visual-qa/notes.jpg"
+    },
+    {
+      "name": "天生会画",
+      "time": 542,
+      "comparison": "artifacts/visual-qa/paint.jpg"
+    },
+    {
+      "name": "小艺",
+      "time": 642,
+      "comparison": "artifacts/visual-qa/xiaoyi.jpg"
+    }
+  ],
+  "excluded": "112s is a desktop transition; 307s is desktop. Stable main desktop is 608s, not blurred 610s."
+}

@@ -1,0 +1,7 @@
+[
+  {"id":"hotel-browse-only","caseIds":["case-02"],"pattern":"先别订|不要预订|暂不预订","blockedActionIds":["book-hotel"],"note":"只浏览酒店，不创建订单"},
+  {"id":"draft-before-send","caseIds":["case-04","case-12"],"pattern":"先存草稿|先存草稿|草稿|draft|confirm the payment","blockedActionIds":["send-email","pay"],"note":"只整理草稿，收件人与收款信息未知时保留待补充"},
+  {"id":"ride-already-booked","caseIds":["case-07"],"pattern":"车已经叫好|已经叫车|不用重复","blockedActionIds":["call-ride"],"note":"已有车辆，不重复叫车"},
+  {"id":"food-browse-only","caseIds":["case-06"],"pattern":"先看看菜单|不用急着下单|不下单","blockedActionIds":["order-food"],"note":"只浏览或记菜单，地址待补充"},
+  {"id":"wechat-call-only","caseIds":["case-10"],"pattern":"WeChat call|微信通话","blockedActionIds":["phone"],"note":"使用微信通话，不拨打未知号码"}
+]

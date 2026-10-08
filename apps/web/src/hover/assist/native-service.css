@@ -1,0 +1,538 @@
+.hover-services {
+/* Figma 3895:30730: dimensions in 440px reference coordinates. */
+.status-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.design-settings {
+  width: 24px;
+  height: 22px;
+  display: grid;
+  place-items: center;
+  padding: 2px;
+  margin-top: -4px;
+  color: #626575;
+}
+.native-service.sheet-backdrop {
+  background: #17191d1a;
+}
+.native-service .sheet {
+  height: 106.8182cqw;
+  max-height: calc(100% - 38px);
+  padding: 0;
+  overflow: hidden;
+  border-radius: 6.3636cqw 6.3636cqw 0 0;
+  background: linear-gradient(125deg, #f4e7eb, #e4eafa 55%, #e4dcf4);
+  box-shadow: 0 -4px 30px #8f87b005;
+  position: relative;
+}
+.native-service .sheet-handle {
+  position: absolute;
+  top: 2.2727cqw;
+  left: 44.5455cqw;
+  width: 10.9091cqw;
+  height: 0.9091cqw;
+  background: #b8b7c0;
+  border-radius: 0.4545cqw;
+  margin: 0;
+}
+.native-service .sheet > header {
+  position: absolute;
+  top: 6.3636cqw;
+  left: 5.4545cqw;
+  right: 5.4545cqw;
+  height: 6.3636cqw;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  align-items: flex-start;
+}
+.native-service .sheet > header h2 {
+  display: flex;
+  gap: 1.8182cqw;
+  align-items: center;
+  font-weight: 500;
+  font-size: 3.8636cqw;
+  line-height: 5.9091cqw;
+  color: #292938;
+}
+.native-service .sheet > header h2:before {
+  content: "";
+  width: 5.4545cqw;
+  height: 5.4545cqw;
+  background: url("/assets/figma/imgAppIconXiaoyi.svg") center/contain no-repeat;
+  border-radius: 1.1364cqw;
+}
+.native-service.contact .sheet > header h2:before {
+  background: #20bd67 url("/assets/figma/native-phone.svg") center/75% no-repeat;
+}
+.native-service.calendar .sheet > header h2:before {
+  content: "2";
+  background: white;
+  border-top: 1.3636cqw solid #f04d50;
+  text-align: center;
+  line-height: 4.0909cqw;
+  color: #17191d;
+  font-size: 3.1818cqw;
+}
+.native-service .sheet > header .icon-button {
+  width: 6.3636cqw;
+  height: 6.3636cqw;
+  border: 0.1591cqw solid #ffffffa6;
+  border-radius: 50%;
+  background: #ffffff66 url("/assets/figma/imgIconClose.svg") center/3.6364cqw
+    no-repeat;
+  padding: 0;
+}
+.native-service .sheet > header .icon-button svg {
+  visibility: hidden;
+}
+.native-service .sheet-content {
+  position: absolute;
+  inset: 0;
+  padding: 0;
+  overflow: visible;
+  pointer-events: none;
+}
+.native-frame {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.native-frame button,
+.native-frame input {
+  pointer-events: auto;
+}
+.native-frame h3 {
+  position: absolute;
+  top: 18.1818cqw;
+  left: 5.4545cqw;
+  right: 5.4545cqw;
+  margin: 0;
+  font-size: 5cqw;
+  line-height: 7.5cqw;
+  font-weight: 500;
+  color: #292a34;
+}
+.native-service .native-title {
+  padding: 0;
+  text-align: left;
+  font: inherit;
+  color: inherit;
+  opacity: 1 !important;
+  cursor: text;
+}
+.native-service .native-title:disabled {
+  cursor: default;
+}
+.native-subtitle {
+  position: absolute;
+  top: 26.8182cqw;
+  left: 5.4545cqw;
+  right: 5.4545cqw;
+  font-size: 2.9545cqw;
+  line-height: 4.4318cqw;
+  color: #747488;
+}
+.native-fields {
+  position: absolute;
+  left: 5.4545cqw;
+  right: 5.4545cqw;
+  top: 34.0909cqw;
+  height: 45.4545cqw;
+  background: #ffffffdb;
+  border-radius: 4.5455cqw;
+  padding: 2.5cqw 3.6364cqw;
+  overflow: auto;
+  pointer-events: auto;
+}
+.native-fields label {
+  display: grid;
+  grid-template-columns: 21.3636cqw 1fr;
+  align-items: start;
+  min-height: 10cqw;
+  line-height: 4.7727cqw;
+  font-size: 3.1818cqw;
+  color: #292a34;
+}
+.native-fields label > span {
+  font-size: 2.7273cqw;
+  line-height: 4.0909cqw;
+  color: #77768a;
+  padding-top: 0.4545cqw;
+}
+.native-fields input {
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  color: inherit;
+  width: 100%;
+  line-height: inherit;
+  min-width: 0;
+  height: 4.7727cqw;
+  font-size: inherit;
+}
+.native-fields input:focus {
+  outline: 1px solid #0a59f7;
+  outline-offset: 3px;
+}
+.native-success {
+  position: absolute;
+  right: 7.0455cqw;
+  top: 17.5cqw;
+  color: #28bb75;
+  font-size: 9.0909cqw;
+  line-height: 9.5455cqw;
+}
+.native-service .native-cta {
+  position: absolute;
+  top: 89.3182cqw;
+  left: 5.4545cqw;
+  right: 5.4545cqw;
+  height: 10.4545cqw;
+  border-radius: 5.2273cqw;
+  background: #0a59f7;
+  color: white;
+  font-size: 3.1818cqw;
+  font-weight: 500;
+  text-align: center;
+  padding: 0;
+}
+.native-error {
+  position: absolute;
+  top: 81.5cqw;
+  left: 5.4545cqw;
+  right: 5.4545cqw;
+  color: #a82a45;
+  font-size: 2.8cqw;
+  line-height: 4cqw;
+}
+.native-service.notes .native-subtitle {
+  top: 27.5cqw;
+}
+.native-service.notes .native-fields {
+  top: 36.3636cqw;
+  height: 36.3636cqw;
+  padding-top: 2.9545cqw;
+}
+.native-service.notes .native-fields label {
+  min-height: 10.2273cqw;
+}
+.native-source {
+  position: absolute;
+  top: 77.2727cqw;
+  left: 5.4545cqw;
+  font-size: 2.9545cqw;
+  color: #747488;
+  line-height: 4.4318cqw;
+}
+.native-service.compact .native-fields {
+  top: 27.2727cqw;
+  height: auto;
+  padding: 3.1818cqw;
+}
+.native-service.compact .native-fields label {
+  grid-template-columns: 15.9091cqw 1fr;
+  min-height: 6.5909cqw;
+}
+.native-service.compact.is-saved .native-fields {
+  top: 34.0909cqw;
+}
+.native-editor .sheet {
+  height: 100%;
+  max-height: 100%;
+  border-radius: 0;
+  background: #f4f5f7;
+  padding: 0;
+}
+.native-editor .sheet > header,
+.native-editor .sheet-handle {
+  display: none;
+}
+.native-editor .sheet-content {
+  position: absolute;
+  inset: 0;
+  padding: 0;
+  overflow: auto;
+}
+.native-editor .editor-top {
+  height: 23.6364cqw;
+  padding: 9.0909cqw 4.5455cqw 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: white;
+  font-size: 4.5455cqw;
+}
+.native-editor .editor-top > button {
+  font-size: 3.6364cqw;
+  color: #0a59f7;
+  padding: 0;
+}
+.native-editor h2 {
+  position: absolute;
+  top: 30.6818cqw;
+  left: 5.4545cqw;
+  font-size: 6.3636cqw;
+  font-weight: 500;
+}
+.editor-subtitle {
+  position: absolute;
+  top: 41.3636cqw;
+  left: 5.4545cqw;
+  color: #9399a5;
+  font-size: 3.1818cqw;
+}
+.editor-rows {
+  margin: 32.7273cqw 4.5455cqw 0;
+  display: grid;
+  gap: 0.9091cqw;
+}
+.editor-rows label {
+  display: flex;
+  align-items: center;
+  gap: 4.0909cqw;
+  min-height: 14.5455cqw;
+  border-radius: 4.0909cqw;
+  background: white;
+  padding: 3.6364cqw;
+  font-size: 3.6364cqw;
+}
+.editor-rows label > span {
+  color: #737a86;
+  width: 20.9091cqw;
+  flex: none;
+}
+.editor-rows input {
+  border: 0;
+  background: transparent;
+  padding: 0;
+  width: 100%;
+  font-size: 3.6364cqw;
+  color: #20232b;
+}
+.editor-rows label > div {
+  flex: 1;
+  min-width: 0;
+}
+.editor-rows small {
+  display: block;
+  color: #9399a5;
+  margin-top: 2cqw;
+  font-size: 2.9545cqw;
+}
+.notes-editor .editor-rows {
+  margin-top: 27.5cqw;
+  gap: 2.5cqw;
+}
+.notes-editor .editor-rows label {
+  min-height: 17.7273cqw;
+}
+.notes-editor .editor-rows button {
+  border: 1.5px solid #a3adbd;
+  border-radius: 50%;
+  height: 4.5455cqw;
+  width: 4.5455cqw;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  flex: none;
+}
+.native-editor .editor-add {
+  position: absolute;
+  bottom: 13.4091cqw;
+  left: 22.7273cqw;
+  width: 54.5455cqw;
+  height: 10.9091cqw;
+  border-radius: 99px;
+  background: #e9edf5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.3636cqw;
+}
+.native-editor .editor-status {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 9.0909cqw;
+  background: white;
+  display: flex;
+  align-items: center;
+  padding: 0 5.4545cqw;
+  font-size: 3.1818cqw;
+  gap: 4.5455cqw;
+}
+.native-editor .editor-status img {
+  margin-left: auto;
+  width: 5.4545cqw;
+  height: 5.4545cqw;
+}
+.native-editor .editor-status i {
+  display: block;
+  width: 6.1364cqw;
+  height: 2.9545cqw;
+  border: 2px solid #202124;
+  border-radius: 3px;
+  background: linear-gradient(90deg, white 80%, #202124 80%);
+}
+.native-editor .editor-top img {
+  width: 5.4545cqw;
+  height: 5.4545cqw;
+}
+.native-editor.calendar-editor h2 {
+  left: 7.2727cqw;
+  top: 30.9091cqw;
+  font-size: 5.9091cqw;
+  line-height: 8.6364cqw;
+}
+.native-editor.calendar-editor .editor-subtitle {
+  left: 7.2727cqw;
+  top: 41.1364cqw;
+  font-size: 3.4091cqw;
+}
+.calendar-form label {
+  position: absolute;
+  left: 4.5455cqw;
+  right: 4.5455cqw;
+  height: 14.5455cqw;
+  border-radius: 3.1818cqw;
+  background: white;
+  display: flex;
+  align-items: center;
+  padding: 3.6364cqw;
+  gap: 1.1364cqw;
+  font-size: 3.4091cqw;
+  line-height: 5cqw;
+}
+.calendar-form label > span {
+  width: 23.8636cqw;
+  flex: none;
+  color: #686d76;
+}
+.calendar-form input {
+  width: 100%;
+  background: none;
+  border: 0;
+  padding: 0;
+  color: #191d26;
+  min-width: 0;
+}
+.calendar-form .editor-memo {
+  top: 155.4545cqw;
+  height: 31.8182cqw;
+  display: block;
+}
+.calendar-form .editor-memo span {
+  display: block;
+  font-size: 3.1818cqw;
+  color: #7c8793;
+}
+.calendar-form .editor-memo textarea {
+  display: block;
+  background: none;
+  border: 0;
+  padding: 0;
+  margin-top: 3.1818cqw;
+  width: 100%;
+  height: 16.8182cqw;
+  font-size: 3.4091cqw;
+  line-height: 5cqw;
+  color: #434b57;
+  resize: none;
+}
+.native-editor .editor-error {
+  position: absolute;
+  left: 5.4545cqw;
+  bottom: 6cqw;
+  color: #a82a45;
+  font-size: 3.1818cqw;
+}
+@media (max-height: 600px) {
+  .native-service .sheet {
+    overflow-y: auto;
+  }
+  .native-service .sheet-content {
+    min-height: 106.8182cqw;
+  }
+  .native-editor .sheet-content {
+    min-height: 100%;
+  }
+}
+
+.native-service,
+.native-editor {
+  font-family: "Noto Sans SC", "PingFang SC", sans-serif;
+}
+
+.native-editor.notes-editor h2 {
+  font-size: 7.2727cqw;
+  line-height: 9.5455cqw;
+  font-weight: 600;
+  top: 29.5455cqw;
+}
+.native-editor.notes-editor .editor-top strong {
+  margin-right: auto;
+  margin-left: 3.6364cqw;
+  font-weight: 500;
+}
+.native-editor.notes-editor .editor-top > button:first-child {
+  color: #202124;
+}
+.native-editor .editor-rows label {
+  padding: 3.1818cqw 3.6364cqw;
+}
+.native-editor .editor-rows input {
+  line-height: 5cqw;
+  height: 5cqw;
+}
+.native-editor .editor-rows small {
+  line-height: 4.0909cqw;
+  margin-top: 1.3636cqw;
+}
+
+.native-frame textarea {
+  pointer-events: auto;
+  border: 0;
+  resize: none;
+  background: transparent;
+  font: inherit;
+  color: inherit;
+  width: 100%;
+  line-height: 1.6;
+  padding: 0;
+  min-width: 0;
+  min-height: 0;
+  height: auto;
+}
+.native-frame textarea:focus {
+  outline: 1px solid #9c8de0;
+  outline-offset: 2px;
+}
+.native-service.notes .native-fields label {
+  grid-template-columns: 6cqw 1fr;
+  align-items: center;
+  padding: 2cqw 0;
+  border-bottom: 1px solid #ece9f2;
+}
+.native-service.notes .native-fields label:last-child {
+  border: 0;
+}
+.todo-check {
+  display: block;
+  width: 4cqw;
+  height: 4cqw;
+  border: 1.5px solid #aba5bd;
+  border-radius: 50%;
+}
+.native-service.notes .native-source {
+  color: #82798e;
+}
+.native-service.app-mail .sheet > header h2:before {
+  background: url("/assets/apps/mail.png") center/contain no-repeat;
+}
+
+}

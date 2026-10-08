@@ -1,0 +1,522 @@
+{
+  "free": {
+    "view": "native-preview",
+    "parameters": {
+      "时区": "中国标准时间 UTC+8",
+      "14:00": "与王总会面 · 待安排",
+      "日历检查": "未读取本机日历，请在日历中确认"
+    },
+    "parameterSource": "message extraction via action-provenance.json",
+    "displaySource": "authored demonstration; no live stock, route, price or business API",
+    "figmaFrameId": "4049:15531"
+  },
+  "event": {
+    "view": "native-preview",
+    "parameters": {
+      "日历": "本机 · 工作",
+      "开始": "2026.10.06 周二 14:00",
+      "结束": "2026.10.06 周二 15:00",
+      "地点": "国家会展中心洲际酒店"
+    },
+    "parameterSource": "message extraction via action-provenance.json",
+    "displaySource": "authored demonstration; no live stock, route, price or business API",
+    "figmaFrameId": "4049:15531"
+  },
+  "hotel": {
+    "view": "hotel-results",
+    "parameters": {
+      "目的地": "上海 · 国家会展中心",
+      "每晚预算": "¥800 以内",
+      "入住 / 退房": "请选择日期",
+      "当前状态": "先浏览，暂不预订"
+    },
+    "parameterSource": "message extraction via action-provenance.json",
+    "displaySource": "authored demonstration; no live stock, route, price or business API",
+    "figmaFrameId": "4007:15022"
+  },
+  "nearby": {
+    "view": "route",
+    "parameters": {
+      "中心位置": "国家会展中心洲际酒店",
+      "查看内容": "酒店、交通与餐饮"
+    },
+    "parameterSource": "message extraction via action-provenance.json",
+    "displaySource": "authored demonstration; no live stock, route, price or business API",
+    "figmaFrameId": "4007:15049"
+  },
+  "company": {
+    "view": "native-preview",
+    "parameters": {
+      "已识别公司": "吉利汽车",
+      "整理方向": "主营业务、合作关注点",
+      "资料状态": "待检索并核对来源"
+    },
+    "parameterSource": "message extraction via action-provenance.json",
+    "displaySource": "authored demonstration; no live stock, route, price or business API",
+    "figmaFrameId": "4007:14407"
+  },
+  "brief": {
+    "view": "document",
+    "parameters": {
+      "文档结构": "公司概况 / 合作议题 / 待确认",
+      "用途": "一页会前背景",
+      "状态": "资料待核实，保留引用位置"
+    },
+    "parameterSource": "message extraction via action-provenance.json",
+    "displaySource": "authored demonstration; no live stock, route, price or business API",
+    "figmaFrameId": "3866:11168"
+  },
+  "email": {
+    "view": "native-preview",
+    "parameters": {
+      "收件人": "王总 · 邮箱待补充",
+      "附件": "合作方案 · 附件待选择",
+      "正文": "王总您好，附件为讨论稿，报价尚未最终确认，供会前沟通参考。",
+      "发送要求": "先存草稿，陈总审阅后再发送"
+    },
+    "parameterSource": "message extraction via action-provenance.json",
+    "displaySource": "authored demonstration; no live stock, route, price or business API",
+    "figmaFrameId": "4049:15657"
+  },
+  "proposal": {
+    "view": "document",
+    "parameters": {
+      "文件": "合作方案 · 版本待确认",
+      "版本": "讨论稿",
+      "附件状态": "等待选择与确认"
+    },
+    "parameterSource": "message extraction via action-provenance.json",
+    "displaySource": "authored demonstration; no live stock, route, price or business API",
+    "figmaFrameId": "3866:11168"
+  },
+  "reply": {
+    "view": "wechat-compose",
+    "parameters": {
+      "消息": "王总您好，我先整理讨论版方案，内部确认后发您，期待下周二面谈。",
+      "状态": "待审阅"
+    },
+    "parameterSource": "message extraction via action-provenance.json",
+    "displaySource": "authored demonstration; no live stock, route, price or business API",
+    "figmaFrameId": "4030:15037"
+  },
+  "food": {
+    "view": "restaurant-results",
+    "parameters": {
+      "偏好": "粥、两个小菜",
+      "筛选": "清淡 / 附近 / 晚餐",
+      "送达位置": "请选择收餐地址"
+    },
+    "parameterSource": "message extraction via action-provenance.json",
+    "displaySource": "authored demonstration; no live stock, route, price or business API",
+    "figmaFrameId": "4018:14439"
+  },
+  "congee": {
+    "view": "restaurant-menu",
+    "parameters": {
+      "需求": "一份粥、两份清淡小菜",
+      "地址": "待补充",
+      "下单": "先看菜单，不下单"
+    },
+    "parameterSource": "message extraction via action-provenance.json",
+    "displaySource": "authored demonstration; no live stock, route, price or business API",
+    "figmaFrameId": "4007:14961"
+  },
+  "ride-route": {
+    "view": "route",
+    "parameters": {
+      "起点": "请选择出发地点",
+      "终点": "上海音乐厅",
+      "到达要求": "今天 18:30 前"
+    },
+    "parameterSource": "message extraction via action-provenance.json",
+    "displaySource": "authored demonstration; no live stock, route, price or business API",
+    "figmaFrameId": "4007:15049"
+  },
+  "size": {
+    "view": "native-preview",
+    "parameters": {
+      "从图片可见": "短手柄、肩带、拼接结构",
+      "尺寸": "仅凭图片无法确认实际尺寸",
+      "下一步": "查看商品规格，再比较小号款"
+    },
+    "parameterSource": "message extraction via action-provenance.json",
+    "displaySource": "authored demonstration; no live stock, route, price or business API",
+    "figmaFrameId": "4007:14407"
+  },
+  "similar": {
+    "view": "product-results",
+    "parameters": {
+      "图片线索": "蓝 / 橙 / 紫配色、拼接、金属扣",
+      "需求": "小一号，保留相近配色",
+      "匹配方式": "按外观搜索相似款"
+    },
+    "parameterSource": "message extraction via action-provenance.json",
+    "displaySource": "authored demonstration; no live stock, route, price or business API",
+    "figmaFrameId": "4007:14856"
+  },
+  "small": {
+    "view": "product-results",
+    "parameters": {
+      "筛选": "小号 / 彩色拼接 / 可肩背",
+      "需核对": "长宽高、材质、肩带长度",
+      "尺寸状态": "商品规格待查询"
+    },
+    "parameterSource": "message extraction via action-provenance.json",
+    "displaySource": "authored demonstration; no live stock, route, price or business API",
+    "figmaFrameId": "4007:14912"
+  },
+  "reminder": {
+    "view": "native-preview",
+    "parameters": {
+      "开售": "2026.10.02 周五 12:00",
+      "提醒": "2026.10.02 周五 11:50",
+      "时区": "中国标准时间 UTC+8"
+    },
+    "parameterSource": "message extraction via action-provenance.json",
+    "displaySource": "authored demonstration; no live stock, route, price or business API",
+    "figmaFrameId": "4049:15594"
+  },
+  "ticket": {
+    "view": "ticket-list",
+    "parameters": {
+      "开售时间": "10 月 2 日 12:00",
+      "城市": "上海",
+      "演出日期 / 场馆": "进入场次页确认",
+      "票务状态": "虚构演出示例，实际场次待查询"
+    },
+    "parameterSource": "message extraction via action-provenance.json",
+    "displaySource": "authored demonstration; no live stock, route, price or business API",
+    "figmaFrameId": "3893:11793"
+  },
+  "route": {
+    "view": "route",
+    "parameters": {
+      "起点": "上海虹桥站",
+      "终点": "上海市娄山关路 88 号",
+      "路线方式": "公共交通 / 驾车"
+    },
+    "parameterSource": "message extraction via action-provenance.json",
+    "displaySource": "authored demonstration; no live stock, route, price or business API",
+    "figmaFrameId": "4007:15049"
+  },
+  "location": {
+    "view": "draft",
+    "parameters": {
+      "地址": "88 Loushanguan Road, Shanghai",
+      "发送给": "Alex Morgan",
+      "附言": "Here is our office location."
+    },
+    "parameterSource": "message extraction via action-provenance.json",
+    "displaySource": "authored demonstration; no live stock, route, price or business API",
+    "figmaFrameId": "4030:15037"
+  },
+  "call": {
+    "view": "draft",
+    "parameters": {
+      "通话方式": "微信语音",
+      "议题": "Cooperation Draft v2 · 两个问题"
+    },
+    "parameterSource": "message extraction via action-provenance.json",
+    "displaySource": "authored demonstration; no live stock, route, price or business API",
+    "figmaFrameId": "4030:15037"
+  },
+  "logistics": {
+    "view": "logistics",
+    "parameters": {
+      "运单引用": "SF-DEMO-0930",
+      "配送状态": "待核实，尚未查询真实物流",
+      "下一步": "查看物流详情"
+    },
+    "parameterSource": "message extraction via action-provenance.json",
+    "displaySource": "authored demonstration; no live stock, route, price or business API",
+    "figmaFrameId": "3893:11135"
+  },
+  "logistics-reply": {
+    "view": "wechat-compose",
+    "parameters": {
+      "To": "Alex Morgan",
+      "Draft": "I will verify the tracking details and share an update once confirmed."
+    },
+    "parameterSource": "message extraction via action-provenance.json",
+    "displaySource": "authored demonstration; no live stock, route, price or business API",
+    "figmaFrameId": "4030:15037"
+  },
+  "fee": {
+    "view": "document",
+    "parameters": {
+      "Samples": "CNY 300",
+      "Shipping": "CNY 30",
+      "Total": "CNY 330"
+    },
+    "parameterSource": "message extraction via action-provenance.json",
+    "displaySource": "authored demonstration; no live stock, route, price or business API",
+    "figmaFrameId": "3866:11168"
+  },
+  "payment-mail": {
+    "view": "native-preview",
+    "parameters": {
+      "To": "Alex Morgan · email to confirm",
+      "Draft": "The total is CNY 330: CNY 300 for samples and CNY 30 for shipping. Payment details are still to be confirmed."
+    },
+    "parameterSource": "message extraction via action-provenance.json",
+    "displaySource": "authored demonstration; no live stock, route, price or business API",
+    "figmaFrameId": "4049:15657"
+  },
+  "document": {
+    "view": "document",
+    "parameters": {
+      "1": "核对合作方案与合同问题",
+      "2": "整理吉利汽车一页背景",
+      "3": "确认酒店入住日期与预算",
+      "4": "起草邮件，交陈总审阅"
+    },
+    "parameterSource": "message extraction via action-provenance.json",
+    "displaySource": "authored demonstration; no live stock, route, price or business API",
+    "figmaFrameId": "3866:11168"
+  },
+  "meeting-reminder": {
+    "view": "native-preview",
+    "parameters": {
+      "事项": "与吉利汽车王总会面",
+      "会议时间": "2026.10.06 14:00–15:00",
+      "提醒时间": "2026.10.06 13:30（提前30分钟）",
+      "地点": "国家会展中心洲际酒店"
+    },
+    "parameterSource": "message extraction via action-provenance.json",
+    "displaySource": "authored demonstration; no live stock, route, price or business API",
+    "figmaFrameId": "4049:15594"
+  },
+  "hotel-notes": {
+    "view": "native-preview",
+    "parameters": {
+      "预算": "每晚 800 元以内",
+      "偏好": "国家会展中心附近；交通方便",
+      "预订": "先别订；入住与退房日期待确认"
+    },
+    "parameterSource": "message extraction via action-provenance.json",
+    "displaySource": "authored demonstration; no live stock, route, price or business API",
+    "figmaFrameId": "3900:12032"
+  },
+  "dinner-notes": {
+    "view": "native-preview",
+    "parameters": {
+      "需求": "一份粥、两份清淡小菜",
+      "地址": "待补充",
+      "下单": "先看菜单，不下单"
+    },
+    "parameterSource": "message extraction via action-provenance.json",
+    "displaySource": "authored demonstration; no live stock, route, price or business API",
+    "figmaFrameId": "3900:12032"
+  },
+  "arrival-message": {
+    "view": "wechat-compose",
+    "parameters": {
+      "内容": "好的，到上海音乐厅后我给你发微信。",
+      "当前位置": "待补充",
+      "状态": "已有车辆，不再叫车"
+    },
+    "parameterSource": "message extraction via action-provenance.json",
+    "displaySource": "authored demonstration; no live stock, route, price or business API",
+    "figmaFrameId": "4030:15037"
+  },
+  "arrival-reminder": {
+    "view": "native-preview",
+    "parameters": {
+      "到达": "2026.09.30 18:30 前",
+      "提醒时间": "待确认",
+      "地点": "上海音乐厅"
+    },
+    "parameterSource": "message extraction via action-provenance.json",
+    "displaySource": "authored demonstration; no live stock, route, price or business API",
+    "figmaFrameId": "4049:15594"
+  },
+  "office-place": {
+    "view": "route",
+    "parameters": {
+      "地址": "上海市娄山关路 88 号",
+      "状态": "办公室"
+    },
+    "parameterSource": "message extraction via action-provenance.json",
+    "displaySource": "authored demonstration; no live stock, route, price or business API",
+    "figmaFrameId": "4007:15049"
+  },
+  "call-outline": {
+    "view": "native-preview",
+    "parameters": {
+      "方案": "Cooperation Draft v2",
+      "问题一": "待补充",
+      "问题二": "待补充"
+    },
+    "parameterSource": "message extraction via action-provenance.json",
+    "displaySource": "authored demonstration; no live stock, route, price or business API",
+    "figmaFrameId": "3900:12032"
+  },
+  "tracking-notes": {
+    "view": "native-preview",
+    "parameters": {
+      "运单引用": "SF-DEMO-0930",
+      "配送状态": "待核实",
+      "备注": "核实样品发货情况后，将追踪信息发给 Alex"
+    },
+    "parameterSource": "message extraction via action-provenance.json",
+    "displaySource": "authored demonstration; no live stock, route, price or business API",
+    "figmaFrameId": "3900:12032"
+  },
+  "contact": {
+    "view": "native-preview",
+    "parameters": {
+      "姓名": "王晨",
+      "公司／职位": "吉利汽车 · 商务经理",
+      "手机": "13800138000",
+      "备注": "上海会展对接"
+    },
+    "parameterSource": "message extraction via action-provenance.json",
+    "displaySource": "authored demonstration; no live stock, route, price or business API",
+    "figmaFrameId": "3866:10238"
+  },
+  "contact-copy": {
+    "view": "native-preview",
+    "parameters": {
+      "号码": "13800138000"
+    },
+    "parameterSource": "message extraction via action-provenance.json",
+    "displaySource": "authored demonstration; no live stock, route, price or business API",
+    "figmaFrameId": "4007:14407"
+  },
+  "contact-note": {
+    "view": "native-preview",
+    "parameters": {
+      "姓名": "王晨",
+      "单位": "吉利汽车 · 商务经理",
+      "电话": "13800138000"
+    },
+    "parameterSource": "message extraction via action-provenance.json",
+    "displaySource": "authored demonstration; no live stock, route, price or business API",
+    "figmaFrameId": "3900:12032"
+  },
+  "calendar-complete": {
+    "view": "native-preview",
+    "parameters": {
+      "日程": "与吉利汽车王总会面",
+      "时间": "2026年10月6日 14:00–15:00",
+      "地点": "国家会展中心洲际酒店",
+      "提醒": "提前30分钟"
+    },
+    "parameterSource": "message extraction via action-provenance.json",
+    "displaySource": "authored demonstration; no live stock, route, price or business API",
+    "figmaFrameId": "4049:15531"
+  },
+  "meeting-route": {
+    "view": "route",
+    "parameters": {
+      "目的地": "国家会展中心洲际酒店",
+      "出发地": "待补充"
+    },
+    "parameterSource": "message extraction via action-provenance.json",
+    "displaySource": "authored demonstration; no live stock, route, price or business API",
+    "figmaFrameId": "4007:15049"
+  },
+  "meeting-note": {
+    "view": "native-preview",
+    "parameters": {
+      "对象": "吉利汽车王总",
+      "时间": "10月6日 14:00–15:00",
+      "地点": "国家会展中心洲际酒店"
+    },
+    "parameterSource": "message extraction via action-provenance.json",
+    "displaySource": "authored demonstration; no live stock, route, price or business API",
+    "figmaFrameId": "3900:12032"
+  },
+  "notes": {
+    "view": "native-preview",
+    "parameters": {
+      "待办 1": "查公司背景",
+      "待办 2": "整理讨论稿",
+      "待办 3": "出发前确认交通与住宿"
+    },
+    "parameterSource": "message extraction via action-provenance.json",
+    "displaySource": "authored demonstration; no live stock, route, price or business API",
+    "figmaFrameId": "3900:12032"
+  },
+  "notes-summary": {
+    "view": "native-preview",
+    "parameters": {
+      "要点": "查背景、整理讨论稿、确认交通与住宿"
+    },
+    "parameterSource": "message extraction via action-provenance.json",
+    "displaySource": "authored demonstration; no live stock, route, price or business API",
+    "figmaFrameId": "4007:14407"
+  },
+  "notes-document": {
+    "view": "document",
+    "parameters": {
+      "待办 1": "查公司背景",
+      "待办 2": "整理讨论稿",
+      "待办 3": "出发前确认交通与住宿"
+    },
+    "parameterSource": "message extraction via action-provenance.json",
+    "displaySource": "authored demonstration; no live stock, route, price or business API",
+    "figmaFrameId": "3866:11168"
+  },
+  "ticket-notes": {
+    "view": "native-preview",
+    "parameters": {
+      "演出": "城市回声 · 上海",
+      "开售": "2026.10.02 12:00",
+      "提醒": "开售前10分钟"
+    },
+    "parameterSource": "message extraction via action-provenance.json",
+    "displaySource": "authored demonstration; no live stock, route, price or business API",
+    "figmaFrameId": "3900:12032"
+  },
+  "call-reply": {
+    "view": "wechat-compose",
+    "parameters": {
+      "Draft": "Let’s use WeChat. Could you share the two questions before the call?"
+    },
+    "parameterSource": "message extraction via action-provenance.json",
+    "displaySource": "authored demonstration; no live stock, route, price or business API",
+    "figmaFrameId": "4030:15037"
+  },
+  "fee-reply": {
+    "view": "wechat-compose",
+    "parameters": {
+      "Draft": "The total is CNY 330: CNY 300 for samples and CNY 30 for shipping. I will confirm the payment details separately."
+    },
+    "parameterSource": "message extraction via action-provenance.json",
+    "displaySource": "authored demonstration; no live stock, route, price or business API",
+    "figmaFrameId": "4030:15037"
+  },
+  "garden-intro": {
+    "view": "native-preview",
+    "parameters": {
+      "景点": "苏州拙政园",
+      "介绍": "以水景为中心，亭榭、曲廊与假山相互借景。可以慢慢走，留出半天看园林。"
+    },
+    "parameterSource": "message extraction via action-provenance.json",
+    "displaySource": "authored demonstration; no live stock, route, price or business API",
+    "figmaFrameId": "4007:14407"
+  },
+  "garden-ticket": {
+    "view": "attraction-tickets",
+    "parameters": {
+      "景点": "苏州拙政园",
+      "日期": "待选择",
+      "用途": "先看票种，不预订"
+    },
+    "parameterSource": "message extraction via action-provenance.json",
+    "displaySource": "authored demonstration; no live stock, route, price or business API",
+    "figmaFrameId": "4007:15038"
+  },
+  "garden-route": {
+    "view": "route",
+    "parameters": {
+      "起点": "上海",
+      "终点": "苏州拙政园",
+      "出行时间": "周末，具体日期待补充"
+    },
+    "parameterSource": "message extraction via action-provenance.json",
+    "displaySource": "authored demonstration; no live stock, route, price or business API",
+    "figmaFrameId": "4007:15049"
+  }
+}

@@ -1,0 +1,1516 @@
+{
+  "sourceRecording": "mobile-input-inspection-VID_1791414349_032.mp4",
+  "dimensions": [
+    2800,
+    1840
+  ],
+  "privacy": "Reviewed non-email desktop and application assets only; no original email pixels or data.",
+  "assets": [
+    {
+      "name": "appgallery",
+      "time": 608,
+      "rect": [
+        248,
+        1348,
+        126,
+        126
+      ],
+      "kind": "icon",
+      "file": "apps/web/public/reference-assets/appgallery.png",
+      "sha256": "83461e3f31c0446b0609ee60471422e54c24a1ab0bd5f1325c7e34eab5b2f765"
+    },
+    {
+      "name": "games",
+      "time": 608,
+      "rect": [
+        490,
+        1348,
+        126,
+        126
+      ],
+      "kind": "icon",
+      "file": "apps/web/public/reference-assets/games.png",
+      "sha256": "6de8caacc72a0e2885888d66ccf8fd4d3d6911858ee8bdc8016f2a84ec5c6eb9"
+    },
+    {
+      "name": "vmall",
+      "time": 608,
+      "rect": [
+        734,
+        1348,
+        126,
+        126
+      ],
+      "kind": "icon",
+      "file": "apps/web/public/reference-assets/vmall.png",
+      "sha256": "772b34707361a71b33a43d27dd15ecf3a733486291e00cc31cb86cb0218e54f5"
+    },
+    {
+      "name": "themes",
+      "time": 608,
+      "rect": [
+        976,
+        1348,
+        126,
+        126
+      ],
+      "kind": "icon",
+      "file": "apps/web/public/reference-assets/themes.png",
+      "sha256": "f4b3a71060a017b2c4bdb3b7a73571d1638537298e8e005b6aa8dc5a0a038404"
+    },
+    {
+      "name": "clock",
+      "time": 608,
+      "rect": [
+        1220,
+        1348,
+        126,
+        126
+      ],
+      "kind": "icon",
+      "file": "apps/web/public/reference-assets/clock.png",
+      "sha256": "a2f4bb7ebda894914f3bd21d8b77c9d731fce836172218b5e6226243a0eeba45"
+    },
+    {
+      "name": "paint",
+      "time": 608,
+      "rect": [
+        1462,
+        1348,
+        126,
+        126
+      ],
+      "kind": "icon",
+      "file": "apps/web/public/reference-assets/paint.png",
+      "sha256": "fa9a212ce922456d14bf14bbf5347be15f80e2f0a28b5df8771fe0d62db8d9c9"
+    },
+    {
+      "name": "mail",
+      "time": 608,
+      "rect": [
+        1704,
+        1348,
+        126,
+        126
+      ],
+      "kind": "icon",
+      "file": "apps/web/public/reference-assets/mail.png",
+      "sha256": "d751114a95f7a06f75a6a766f8394941371c17b749aa38a3f233e1019ea46819"
+    },
+    {
+      "name": "smartlife",
+      "time": 608,
+      "rect": [
+        1946,
+        1348,
+        126,
+        126
+      ],
+      "kind": "icon",
+      "file": "apps/web/public/reference-assets/smartlife.png",
+      "sha256": "eb4b00a5f5d42389940cb3ad375dcdc007135dfcacd4b4aa96b67ee8e24d166c"
+    },
+    {
+      "name": "meetime",
+      "time": 608,
+      "rect": [
+        2188,
+        1348,
+        126,
+        126
+      ],
+      "kind": "icon",
+      "file": "apps/web/public/reference-assets/meetime.png",
+      "sha256": "fb59ec4fd7053b9e5c61ae51746b0737784057833f6d1498aedb4f4dcd1dc867"
+    },
+    {
+      "name": "settings",
+      "time": 608,
+      "rect": [
+        2430,
+        1348,
+        126,
+        126
+      ],
+      "kind": "icon",
+      "file": "apps/web/public/reference-assets/settings.png",
+      "sha256": "0e9ca1f469ecc67145fafcc89a11087ddaa55b0558b62203cffd775610fdf81d"
+    },
+    {
+      "name": "myhuawei",
+      "time": 2,
+      "rect": [
+        248,
+        138,
+        126,
+        126
+      ],
+      "kind": "icon",
+      "file": "apps/web/public/reference-assets/myhuawei.png",
+      "sha256": "f8cb3310a2106f5433112cc2743945f61ef6e550cd53997e341f980ff4bf89fe"
+    },
+    {
+      "name": "health",
+      "time": 2,
+      "rect": [
+        492,
+        138,
+        126,
+        126
+      ],
+      "kind": "icon",
+      "file": "apps/web/public/reference-assets/health.png",
+      "sha256": "47ca43e6970bba1c3ce74ba406e8315f847dbffc64895ca474f38e44328182f0"
+    },
+    {
+      "name": "maps",
+      "time": 2,
+      "rect": [
+        734,
+        138,
+        126,
+        126
+      ],
+      "kind": "icon",
+      "file": "apps/web/public/reference-assets/maps.png",
+      "sha256": "66b7ec8fd31c606d9441d27778109b4fab964bbe9bfe50047e6aee64e20b6ec2"
+    },
+    {
+      "name": "clone",
+      "time": 2,
+      "rect": [
+        976,
+        138,
+        126,
+        126
+      ],
+      "kind": "icon",
+      "file": "apps/web/public/reference-assets/clone.png",
+      "sha256": "a9785dd84821b441a0e7396ca56fc2360763853033105f98d45d6b23c9e3b191"
+    },
+    {
+      "name": "calculator",
+      "time": 2,
+      "rect": [
+        248,
+        382,
+        126,
+        126
+      ],
+      "kind": "icon",
+      "file": "apps/web/public/reference-assets/calculator.png",
+      "sha256": "26215371e82a98f078001e6ff6bc68440c13ad9635139ad56d89e85efbd8dead"
+    },
+    {
+      "name": "recorder",
+      "time": 2,
+      "rect": [
+        492,
+        382,
+        126,
+        126
+      ],
+      "kind": "icon",
+      "file": "apps/web/public/reference-assets/recorder.png",
+      "sha256": "4e3432f9cad4d059a25de93a9cde8bba09d0ef66a92bf1558917ee46ddfb14b5"
+    },
+    {
+      "name": "xiaoyi",
+      "time": 2,
+      "rect": [
+        734,
+        382,
+        126,
+        126
+      ],
+      "kind": "icon",
+      "file": "apps/web/public/reference-assets/xiaoyi.png",
+      "sha256": "92e2bf716ee60fe8f10e8e27f60ecf744dd95de9ed167aa4df87532f30a560fa"
+    },
+    {
+      "name": "find",
+      "time": 2,
+      "rect": [
+        976,
+        382,
+        126,
+        126
+      ],
+      "kind": "icon",
+      "file": "apps/web/public/reference-assets/find.png",
+      "sha256": "767c5a76267c6b80c679f4005ee803f849a2c77ce6affa911dee379539a2a273"
+    },
+    {
+      "name": "douyin",
+      "time": 2,
+      "rect": [
+        248,
+        624,
+        126,
+        126
+      ],
+      "kind": "icon",
+      "file": "apps/web/public/reference-assets/douyin.png",
+      "sha256": "9d78db4eec5bc996d78a5a5b75126e5ded108f5a7689abcc85dad9b802335198"
+    },
+    {
+      "name": "red",
+      "time": 2,
+      "rect": [
+        492,
+        624,
+        126,
+        126
+      ],
+      "kind": "icon",
+      "file": "apps/web/public/reference-assets/red.png",
+      "sha256": "3623bd0395a05070d77533a50902b19d57d7afb1f2f5b763452c0ab4b18c316c"
+    },
+    {
+      "name": "kuaishou",
+      "time": 2,
+      "rect": [
+        734,
+        624,
+        126,
+        126
+      ],
+      "kind": "icon",
+      "file": "apps/web/public/reference-assets/kuaishou.png",
+      "sha256": "3b5cf992f2d0c0f74f8f41d3d0a3561d37159977340326eb1148864187411136"
+    },
+    {
+      "name": "homework",
+      "time": 2,
+      "rect": [
+        976,
+        624,
+        126,
+        126
+      ],
+      "kind": "icon",
+      "file": "apps/web/public/reference-assets/homework.png",
+      "sha256": "a62ad54ea499e033657c7bc1d4cd2ec513c72590185ae1576abe794a774d5718"
+    },
+    {
+      "name": "zhuoyi",
+      "time": 2,
+      "rect": [
+        1462,
+        624,
+        126,
+        126
+      ],
+      "kind": "icon",
+      "file": "apps/web/public/reference-assets/zhuoyi.png",
+      "sha256": "da14bee763541c133f34e4858d6a0d1a32ec0a571e236769ceea6ecf6d7bf978"
+    },
+    {
+      "name": "youth",
+      "time": 2,
+      "rect": [
+        1704,
+        624,
+        126,
+        126
+      ],
+      "kind": "icon",
+      "file": "apps/web/public/reference-assets/youth.png",
+      "sha256": "f35019a2f5df240193921ffaf2f106810f986c9fad30e2d8b4d6fb5a2540b84b"
+    },
+    {
+      "name": "petal",
+      "time": 2,
+      "rect": [
+        248,
+        866,
+        126,
+        126
+      ],
+      "kind": "icon",
+      "file": "apps/web/public/reference-assets/petal.png",
+      "sha256": "e5ff6f0eab80986c36e378c89c13be36033552d0d31b4e44218e0186deee67be"
+    },
+    {
+      "name": "ding",
+      "time": 2,
+      "rect": [
+        492,
+        866,
+        126,
+        126
+      ],
+      "kind": "icon",
+      "file": "apps/web/public/reference-assets/ding.png",
+      "sha256": "995fc8cddb0098bf5c970204b538e1c2f23263bfa6d8a4006932f98488710943"
+    },
+    {
+      "name": "qq",
+      "time": 2,
+      "rect": [
+        734,
+        866,
+        126,
+        126
+      ],
+      "kind": "icon",
+      "file": "apps/web/public/reference-assets/qq.png",
+      "sha256": "be289c723180b318357734e22156c74c08e26d30c529045eb308d304c3eba130"
+    },
+    {
+      "name": "doubao",
+      "time": 2,
+      "rect": [
+        976,
+        866,
+        126,
+        126
+      ],
+      "kind": "icon",
+      "file": "apps/web/public/reference-assets/doubao.png",
+      "sha256": "00dd43c02b1a6bbb2cbd062a2a6008493c72a0c385ab22c4ceb0ac5cde9bc016"
+    },
+    {
+      "name": "wechat",
+      "time": 2,
+      "rect": [
+        1220,
+        866,
+        126,
+        126
+      ],
+      "kind": "icon",
+      "file": "apps/web/public/reference-assets/wechat.png",
+      "sha256": "e220269b866b1c61fd8a91a679ca5d873e4227d241dc5f0389a20ac9d0ceaa6c"
+    },
+    {
+      "name": "taobao",
+      "time": 2,
+      "rect": [
+        1462,
+        866,
+        126,
+        126
+      ],
+      "kind": "icon",
+      "file": "apps/web/public/reference-assets/taobao.png",
+      "sha256": "cbae5bd739585527d7159953246afe0bfe1d3d70b7497aad68b7c32442273de4"
+    },
+    {
+      "name": "feishu",
+      "time": 2,
+      "rect": [
+        1704,
+        866,
+        126,
+        126
+      ],
+      "kind": "icon",
+      "file": "apps/web/public/reference-assets/feishu.png",
+      "sha256": "d7afd60eef33dd8c7e5ee3cf74bb9f5e62a45af4a1c3aa0a09c137dd2134efbc"
+    },
+    {
+      "name": "tencentdocs",
+      "time": 2,
+      "rect": [
+        248,
+        1110,
+        126,
+        126
+      ],
+      "kind": "icon",
+      "file": "apps/web/public/reference-assets/tencentdocs.png",
+      "sha256": "820fb1310aec8c4b2f032600108ff599cc4b94b612ba4126360c44683369094c"
+    },
+    {
+      "name": "tuxia",
+      "time": 2,
+      "rect": [
+        492,
+        1110,
+        126,
+        126
+      ],
+      "kind": "icon",
+      "file": "apps/web/public/reference-assets/tuxia.png",
+      "sha256": "b048184fa408a7f378b835e9b310c1c78e90848239ce029a52c20ccd06ae6485"
+    },
+    {
+      "name": "kimi",
+      "time": 2,
+      "rect": [
+        734,
+        1110,
+        126,
+        126
+      ],
+      "kind": "icon",
+      "file": "apps/web/public/reference-assets/kimi.png",
+      "sha256": "fb96903216cf9e2419b05df5d1568104f051f50ea63d18133d0af9b42eb0a01e"
+    },
+    {
+      "name": "sticky",
+      "time": 2,
+      "rect": [
+        976,
+        1110,
+        126,
+        126
+      ],
+      "kind": "icon",
+      "file": "apps/web/public/reference-assets/sticky.png",
+      "sha256": "05a2f93307d529a2ac10c0ac169ca6848ce9c8e3c3889658b43d858ac0c8f9dd"
+    },
+    {
+      "name": "quark",
+      "time": 2,
+      "rect": [
+        1220,
+        1110,
+        126,
+        126
+      ],
+      "kind": "icon",
+      "file": "apps/web/public/reference-assets/quark.png",
+      "sha256": "bb980bf20a9739e49588fa8728ab2f4dc2a08d087dd3a0b62c42d2d24ce80b62"
+    },
+    {
+      "name": "wolai",
+      "time": 2,
+      "rect": [
+        1462,
+        1110,
+        126,
+        126
+      ],
+      "kind": "icon",
+      "file": "apps/web/public/reference-assets/wolai.png",
+      "sha256": "110ade0b6e0b3f11f4f614cc175fa7b48c549f76577e54e5c337d9ecf08ad12f"
+    },
+    {
+      "name": "mubu",
+      "time": 2,
+      "rect": [
+        1704,
+        1110,
+        126,
+        126
+      ],
+      "kind": "icon",
+      "file": "apps/web/public/reference-assets/mubu.png",
+      "sha256": "8df9e06d03865ed04e2275f9d15d8956251344b1cdd110930fc8005accd0dabe"
+    },
+    {
+      "name": "pomodoro",
+      "time": 2,
+      "rect": [
+        1948,
+        1110,
+        126,
+        126
+      ],
+      "kind": "icon",
+      "file": "apps/web/public/reference-assets/pomodoro.png",
+      "sha256": "22da4cae4f723e5e5d9a5a35c6aadc34c0fcfc97be7403167bf31726a97322c9"
+    },
+    {
+      "name": "nano",
+      "time": 2,
+      "rect": [
+        2190,
+        1110,
+        126,
+        126
+      ],
+      "kind": "icon",
+      "file": "apps/web/public/reference-assets/nano.png",
+      "sha256": "6452f1af910eba7e1f38046124618dfb6a70f62650fba1d227d326d49c083af7"
+    },
+    {
+      "name": "ifly",
+      "time": 2,
+      "rect": [
+        2434,
+        1110,
+        126,
+        126
+      ],
+      "kind": "icon",
+      "file": "apps/web/public/reference-assets/ifly.png",
+      "sha256": "db12c4e42f93c20cfae114826d928fbb60ffa50118dff9c61f5f2d4857a2effa"
+    },
+    {
+      "name": "baidu",
+      "time": 2,
+      "rect": [
+        248,
+        1352,
+        126,
+        126
+      ],
+      "kind": "icon",
+      "file": "apps/web/public/reference-assets/baidu.png",
+      "sha256": "c4f69addac9e56c8674b72e855fd87687e953cf4f3cb91d3f603ce7e51838c3f"
+    },
+    {
+      "name": "sogou",
+      "time": 2,
+      "rect": [
+        492,
+        1352,
+        126,
+        126
+      ],
+      "kind": "icon",
+      "file": "apps/web/public/reference-assets/sogou.png",
+      "sha256": "ea30da0c9ac234bb5e03d2a856e42c23a3fa52e0136c22636853084e70ec4ee7"
+    },
+    {
+      "name": "baiduinput",
+      "time": 2,
+      "rect": [
+        734,
+        1352,
+        126,
+        126
+      ],
+      "kind": "icon",
+      "file": "apps/web/public/reference-assets/baiduinput.png",
+      "sha256": "fb6949f98aaddba0bb2221b7babde0f054250a99eae32e6529ef9dd5223d88c1"
+    },
+    {
+      "name": "shimo",
+      "time": 2,
+      "rect": [
+        1220,
+        1352,
+        126,
+        126
+      ],
+      "kind": "icon",
+      "file": "apps/web/public/reference-assets/shimo.png",
+      "sha256": "a6a2331f61c1c252271b66249ffc4daf6d314445fb8a22329af99d363fa073ea"
+    },
+    {
+      "name": "evernote",
+      "time": 2,
+      "rect": [
+        1462,
+        1352,
+        126,
+        126
+      ],
+      "kind": "icon",
+      "file": "apps/web/public/reference-assets/evernote.png",
+      "sha256": "ed7b73a61b4c8f53130175cf812817b24afe6e7b9e2444b249472293f4247cf2"
+    },
+    {
+      "name": "browser360",
+      "time": 2,
+      "rect": [
+        1948,
+        1352,
+        126,
+        126
+      ],
+      "kind": "icon",
+      "file": "apps/web/public/reference-assets/browser360.png",
+      "sha256": "be90c38a5751e1c45ebc0251ec5e7c84b837ce59eb563d6018b72fe2d3a9c805"
+    },
+    {
+      "name": "toutiao",
+      "time": 2,
+      "rect": [
+        2190,
+        1352,
+        126,
+        126
+      ],
+      "kind": "icon",
+      "file": "apps/web/public/reference-assets/toutiao.png",
+      "sha256": "225591b9ec09e8df699973fa0fa1e328017883b1cb65b6b9bfd176aa5f32d786"
+    },
+    {
+      "name": "xigua",
+      "time": 2,
+      "rect": [
+        2434,
+        1352,
+        126,
+        126
+      ],
+      "kind": "icon",
+      "file": "apps/web/public/reference-assets/xigua.png",
+      "sha256": "7f606f33227bf3a86fa990dfd92fc8a5c47aedd87687f3fea8b6cfc775e1c92a"
+    },
+    {
+      "name": "read",
+      "time": 615,
+      "rect": [
+        1220,
+        138,
+        126,
+        126
+      ],
+      "kind": "icon",
+      "file": "apps/web/public/reference-assets/read.png",
+      "sha256": "4166998b3785e35c871bda1868c35b2080e9d7b21372bd8b9552d3eb8ea37fbe"
+    },
+    {
+      "name": "xuexi",
+      "time": 615,
+      "rect": [
+        1462,
+        138,
+        126,
+        126
+      ],
+      "kind": "icon",
+      "file": "apps/web/public/reference-assets/xuexi.png",
+      "sha256": "ddf127cb2b9e67ef49b704931bf11c86ce43f72e71121141288b7227529d36ca"
+    },
+    {
+      "name": "tomatonovel",
+      "time": 615,
+      "rect": [
+        1704,
+        138,
+        126,
+        126
+      ],
+      "kind": "icon",
+      "file": "apps/web/public/reference-assets/tomatonovel.png",
+      "sha256": "fa8021fee7456f00112bcb72b04058314c48314e2aaeaf2a82aceb2371a67abe"
+    },
+    {
+      "name": "qqmusic",
+      "time": 615,
+      "rect": [
+        1948,
+        138,
+        126,
+        126
+      ],
+      "kind": "icon",
+      "file": "apps/web/public/reference-assets/qqmusic.png",
+      "sha256": "53f5b85541a3dee0118fd11f42be04c4702485e9d1cf57c80952f92633135b52"
+    },
+    {
+      "name": "demo",
+      "time": 615,
+      "rect": [
+        2190,
+        138,
+        126,
+        126
+      ],
+      "kind": "icon",
+      "file": "apps/web/public/reference-assets/demo.png",
+      "sha256": "78fcc41e99d2cc7a9cf9438027a15e8fdad9a602b0f400a95beff161fb95967f"
+    },
+    {
+      "name": "robotcontrol",
+      "time": 615,
+      "rect": [
+        2434,
+        138,
+        126,
+        126
+      ],
+      "kind": "icon",
+      "file": "apps/web/public/reference-assets/robotcontrol.png",
+      "sha256": "90c21bbed66b6eaeaba791dde7af23d2dc8821be0ca4b4abb9e3c3b9cb28e3ab"
+    },
+    {
+      "name": "minigames",
+      "time": 615,
+      "rect": [
+        1220,
+        382,
+        126,
+        126
+      ],
+      "kind": "icon",
+      "file": "apps/web/public/reference-assets/minigames.png",
+      "sha256": "c4b5d8bda518dd4cff6f3f35f043152ed82b992e0387c43c83c4f0b491172919"
+    },
+    {
+      "name": "penproject",
+      "time": 615,
+      "rect": [
+        1462,
+        382,
+        126,
+        126
+      ],
+      "kind": "icon",
+      "file": "apps/web/public/reference-assets/penproject.png",
+      "sha256": "756668489c05a3c4c1d4936653a6f3e394186d54a7cfd20a7b4930b25f7822c1"
+    },
+    {
+      "name": "qimao",
+      "time": 615,
+      "rect": [
+        1704,
+        382,
+        126,
+        126
+      ],
+      "kind": "icon",
+      "file": "apps/web/public/reference-assets/qimao.png",
+      "sha256": "1c1c74af097b3fb9f5061636884ab61b61b57e273adce7008a23a2c41f4f5560"
+    },
+    {
+      "name": "education",
+      "time": 615,
+      "rect": [
+        1948,
+        382,
+        126,
+        126
+      ],
+      "kind": "icon",
+      "file": "apps/web/public/reference-assets/education.png",
+      "sha256": "52a5984cdda5a9969920463a80fdcd8e7e9e17d25144e841fe4f21e0761f09cf"
+    },
+    {
+      "name": "study",
+      "time": 615,
+      "rect": [
+        2190,
+        382,
+        126,
+        126
+      ],
+      "kind": "icon",
+      "file": "apps/web/public/reference-assets/study.png",
+      "sha256": "747aa80bef647b0979125b085544d90d865409c1b4351f9127a5eb0401c45e7a"
+    },
+    {
+      "name": "workbuddy",
+      "time": 615,
+      "rect": [
+        2434,
+        382,
+        126,
+        126
+      ],
+      "kind": "icon",
+      "file": "apps/web/public/reference-assets/workbuddy.png",
+      "sha256": "33775eae05711eb2ce0ede2d01f3d76ab935878f69c11bb3f45248817bb8104a"
+    },
+    {
+      "name": "qianwen",
+      "time": 615,
+      "rect": [
+        248,
+        624,
+        126,
+        126
+      ],
+      "kind": "icon",
+      "file": "apps/web/public/reference-assets/qianwen.png",
+      "sha256": "ccbecdd5244f549797d355e58c57bf27a4461b550781abc21ecd87138d95115a"
+    },
+    {
+      "name": "qianwenoffice",
+      "time": 615,
+      "rect": [
+        492,
+        624,
+        126,
+        126
+      ],
+      "kind": "icon",
+      "file": "apps/web/public/reference-assets/qianwenoffice.png",
+      "sha256": "4726e00456abffde3b2e10fd656d32920b19ebac82b4c821d720948ea2d9e476"
+    },
+    {
+      "name": "eastmoney",
+      "time": 615,
+      "rect": [
+        734,
+        624,
+        126,
+        126
+      ],
+      "kind": "icon",
+      "file": "apps/web/public/reference-assets/eastmoney.png",
+      "sha256": "ac1e0c142538b6903c5e57329328c11b21341afe05e45dddf09837293d8df99c"
+    },
+    {
+      "name": "yuejia",
+      "time": 615,
+      "rect": [
+        1220,
+        624,
+        126,
+        126
+      ],
+      "kind": "icon",
+      "file": "apps/web/public/reference-assets/yuejia.png",
+      "sha256": "d6ab0126b64d524d319f71de27c117c1ea110a3f24a19ff7205ebb64a1c29d59"
+    },
+    {
+      "name": "wind",
+      "time": 615,
+      "rect": [
+        1462,
+        624,
+        126,
+        126
+      ],
+      "kind": "icon",
+      "file": "apps/web/public/reference-assets/wind.png",
+      "sha256": "15f5b94b38b83ae723632e13ef0c34980addc9d26e188c6add03818f7dcf2817"
+    },
+    {
+      "name": "kugou",
+      "time": 615,
+      "rect": [
+        1704,
+        624,
+        126,
+        126
+      ],
+      "kind": "icon",
+      "file": "apps/web/public/reference-assets/kugou.png",
+      "sha256": "7c11ffe859b53536ecb71d124b5ba46a01c37fed92be48478a5d1480a9aa34cc"
+    },
+    {
+      "name": "calligraphy",
+      "time": 615,
+      "rect": [
+        1948,
+        624,
+        126,
+        126
+      ],
+      "kind": "icon",
+      "file": "apps/web/public/reference-assets/calligraphy.png",
+      "sha256": "923022033da9e1d280c3995b487920d338638c788fe6efe6feaa27d16f8ee4b9"
+    },
+    {
+      "name": "studyhd",
+      "time": 615,
+      "rect": [
+        2190,
+        624,
+        126,
+        126
+      ],
+      "kind": "icon",
+      "file": "apps/web/public/reference-assets/studyhd.png",
+      "sha256": "0e554026ec20c4b6db68853b928b17ca28ba65c87d03e936c3f78fee6c5b4e5f"
+    },
+    {
+      "name": "files",
+      "time": 608,
+      "rect": [
+        360,
+        1632,
+        124,
+        124
+      ],
+      "kind": "icon",
+      "file": "apps/web/public/reference-assets/files.png",
+      "sha256": "5f8885053bd4d1714438c63e0623c328c037ade146363f76cdb7f833ff3fe95a"
+    },
+    {
+      "name": "music",
+      "time": 608,
+      "rect": [
+        518,
+        1632,
+        124,
+        124
+      ],
+      "kind": "icon",
+      "file": "apps/web/public/reference-assets/music.png",
+      "sha256": "c694c1055b538ef9562586202abad143749017f74ccc4ef34825089e846e3260"
+    },
+    {
+      "name": "video",
+      "time": 608,
+      "rect": [
+        676,
+        1632,
+        124,
+        124
+      ],
+      "kind": "icon",
+      "file": "apps/web/public/reference-assets/video.png",
+      "sha256": "30c78b38a7b98784df34c3b7e3e4bedd369203d79e3b0fd3d4a42a9fe3adfe9b"
+    },
+    {
+      "name": "books",
+      "time": 608,
+      "rect": [
+        836,
+        1632,
+        124,
+        124
+      ],
+      "kind": "icon",
+      "file": "apps/web/public/reference-assets/books.png",
+      "sha256": "b25ff413a12fe3261032341ac269088483a7267b3404d14540e4eec2ed2aaa6b"
+    },
+    {
+      "name": "browser",
+      "time": 608,
+      "rect": [
+        996,
+        1632,
+        124,
+        124
+      ],
+      "kind": "icon",
+      "file": "apps/web/public/reference-assets/browser.png",
+      "sha256": "a09017836400ec30aaf08dc48fe715075e893ed12f9bc52a2737adbc8057e5ba"
+    },
+    {
+      "name": "notes",
+      "time": 608,
+      "rect": [
+        1156,
+        1632,
+        124,
+        124
+      ],
+      "kind": "icon",
+      "file": "apps/web/public/reference-assets/notes.png",
+      "sha256": "83455727bb4c7dd2fee5b554438c8fdb6a3e0efe8f031662f25454009fcf9df1"
+    },
+    {
+      "name": "todo",
+      "time": 608,
+      "rect": [
+        1314,
+        1632,
+        124,
+        124
+      ],
+      "kind": "icon",
+      "file": "apps/web/public/reference-assets/todo.png",
+      "sha256": "d2d7ae94df14233304e9615a1a99051f61e1ee03c14124f34acd731e1eaa0aeb"
+    },
+    {
+      "name": "camera",
+      "time": 608,
+      "rect": [
+        1474,
+        1632,
+        124,
+        124
+      ],
+      "kind": "icon",
+      "file": "apps/web/public/reference-assets/camera.png",
+      "sha256": "e2d7cee34fff4736490ddaa2816881c1ca34d10f70312fb9523077c6778b00ee"
+    },
+    {
+      "name": "gallery",
+      "time": 608,
+      "rect": [
+        1632,
+        1632,
+        124,
+        124
+      ],
+      "kind": "icon",
+      "file": "apps/web/public/reference-assets/gallery.png",
+      "sha256": "740eef9b85ce8a90250dfc25bfaabe7969ec340ef5dbcd418d9f4596bea5148a"
+    },
+    {
+      "name": "bilibili",
+      "time": 2,
+      "rect": [
+        2168,
+        1634,
+        130,
+        132
+      ],
+      "kind": "icon",
+      "file": "apps/web/public/reference-assets/bilibili.png",
+      "sha256": "38bdb5310ec64f6b421554ade8dbaf828ea658914413c5ba1fe866afda8f7cce"
+    },
+    {
+      "name": "gallery-widget",
+      "time": 608,
+      "rect": [
+        248,
+        138,
+        368,
+        366
+      ],
+      "kind": "widget",
+      "file": "apps/web/public/reference-assets/gallery-widget.png",
+      "sha256": "d86f4b0a8093ceb0fbc83341571d42f4df4fac8541a48eb05d33d9a7ec954ca2"
+    },
+    {
+      "name": "xiaoyi-widget",
+      "time": 608,
+      "rect": [
+        248,
+        852,
+        852,
+        378
+      ],
+      "kind": "widget",
+      "file": "apps/web/public/reference-assets/xiaoyi-widget.png",
+      "sha256": "dfb8672ec2c4381461d2573b6baf06de54cb8f154fdb8c82a5a6e93c2b900bb5"
+    },
+    {
+      "name": "memo-widget",
+      "time": 608,
+      "rect": [
+        2188,
+        852,
+        368,
+        378
+      ],
+      "kind": "widget",
+      "file": "apps/web/public/reference-assets/memo-widget.png",
+      "sha256": "6baae0661786eb547020961ab1126327b065659108f92913d1383cd03f1baabe"
+    },
+    {
+      "name": "music-widget",
+      "time": 2,
+      "rect": [
+        1218,
+        136,
+        366,
+        366
+      ],
+      "kind": "widget",
+      "file": "apps/web/public/reference-assets/music-widget.png",
+      "sha256": "bf66523884c829e374cee0b578f121ebede57af3502f3b93e2d0797cee12b2e3"
+    },
+    {
+      "name": "weather-widget",
+      "time": 2,
+      "rect": [
+        1702,
+        136,
+        366,
+        366
+      ],
+      "kind": "widget",
+      "file": "apps/web/public/reference-assets/weather-widget.png",
+      "sha256": "848243c56fa2726b5eb35c21638ea4968a90dc42d7e1ac6d9add857086c3a514"
+    },
+    {
+      "name": "huawei-folder",
+      "time": 2,
+      "rect": [
+        2190,
+        136,
+        364,
+        366
+      ],
+      "kind": "widget",
+      "file": "apps/web/public/reference-assets/huawei-folder.png",
+      "sha256": "49a7081f94db5fa3efd1dc17616ff322926b38aae24db3c4e2aa7200e36a94b8"
+    },
+    {
+      "name": "easy-folder",
+      "time": 2,
+      "rect": [
+        1948,
+        622,
+        364,
+        366
+      ],
+      "kind": "widget",
+      "file": "apps/web/public/reference-assets/easy-folder.png",
+      "sha256": "c856a73dbd0afcb83b10520d492c945e8ed69149d053d4065e8f596c3ecc5ed5"
+    },
+    {
+      "name": "premium-folder",
+      "time": 2,
+      "rect": [
+        1218,
+        624,
+        126,
+        126
+      ],
+      "kind": "widget",
+      "file": "apps/web/public/reference-assets/premium-folder.png",
+      "sha256": "b02a33cf77ddd2b33a78f4f0f9639cf8f9f5dfd9449a09a1fc81315723117343"
+    },
+    {
+      "name": "paint-artwork",
+      "time": 542,
+      "rect": [
+        72,
+        100,
+        1942,
+        1572
+      ],
+      "kind": "artwork",
+      "file": "apps/web/public/reference-assets/paint-artwork.png",
+      "sha256": "89f6cd74f1d9dfc9ea1469839efc983a0c0bb8a78ca95645c3fa681336db697a"
+    },
+    {
+      "name": "red-notebook",
+      "time": 281,
+      "rect": [
+        210,
+        221,
+        1120,
+        1492
+      ],
+      "kind": "artwork",
+      "file": "apps/web/public/reference-assets/red-notebook.png",
+      "sha256": "bbfafa71c6993b83e8670f20a327483f19bc05a093fcc07fa182b8fab13025a3"
+    },
+    {
+      "name": "paint-ink",
+      "time": 542,
+      "rect": [
+        605,
+        305,
+        1780,
+        1240
+      ],
+      "kind": "artwork",
+      "file": "apps/web/public/reference-assets/paint-ink.png",
+      "sha256": "89ef9e9f2f0232e653dfa0ac197d27d12ac9db76f23178edac5f81fde3244da3"
+    },
+    {
+      "name": "todo-widget",
+      "time": 615,
+      "rect": [
+        248,
+        138,
+        848,
+        366
+      ],
+      "kind": "widget",
+      "file": "apps/web/public/reference-assets/todo-widget.png",
+      "sha256": "e380317da9f6d25a13ae942b8849501fec3e47c50ef1ea713533c2a2ebfad775"
+    },
+    {
+      "name": "bilibili-thumb-0",
+      "time": 164,
+      "rect": [
+        1988,
+        823,
+        286,
+        162
+      ],
+      "kind": "artwork",
+      "file": "apps/web/public/reference-assets/bilibili-thumb-0.png",
+      "sha256": "cf168ced5a797d3529634ef0910db5fc3df11c175452de96e5f535688cd9085a"
+    },
+    {
+      "name": "bilibili-thumb-1",
+      "time": 164,
+      "rect": [
+        1988,
+        1033,
+        286,
+        162
+      ],
+      "kind": "artwork",
+      "file": "apps/web/public/reference-assets/bilibili-thumb-1.png",
+      "sha256": "5c7148bc5d82c6f37fb7c224b4a934971414ea907b9a1c6057faf54970e36b7d"
+    },
+    {
+      "name": "bilibili-thumb-2",
+      "time": 164,
+      "rect": [
+        1988,
+        1243,
+        286,
+        162
+      ],
+      "kind": "artwork",
+      "file": "apps/web/public/reference-assets/bilibili-thumb-2.png",
+      "sha256": "ccff35439d19cc796edb150bae00091a65e927e0f3a5defb225395223d052a41"
+    },
+    {
+      "name": "bilibili-thumb-3",
+      "time": 164,
+      "rect": [
+        1988,
+        1450,
+        286,
+        162
+      ],
+      "kind": "artwork",
+      "file": "apps/web/public/reference-assets/bilibili-thumb-3.png",
+      "sha256": "1ead0781bc0053e3e92e5cabcbddcce8a737f7835942c878368bcb3f1dfbb602"
+    },
+    {
+      "name": "bilibili-thumb-4",
+      "time": 164,
+      "rect": [
+        1988,
+        1655,
+        286,
+        162
+      ],
+      "kind": "artwork",
+      "file": "apps/web/public/reference-assets/bilibili-thumb-4.png",
+      "sha256": "d28c815f5011419550bdd2c4f32e52e92101dcf466e94a0e79e8313875675f23"
+    },
+    {
+      "name": "xiaoyi-avatar-0",
+      "time": 642,
+      "rect": [
+        42,
+        241,
+        102,
+        102
+      ],
+      "kind": "artwork",
+      "file": "apps/web/public/reference-assets/xiaoyi-avatar-0.png",
+      "sha256": "803d23d0c16e416a6d5a2d88c3c4c5408853b7279d53c922f9a5c9555d0d3edc"
+    },
+    {
+      "name": "xiaoyi-avatar-1",
+      "time": 642,
+      "rect": [
+        42,
+        398,
+        102,
+        102
+      ],
+      "kind": "artwork",
+      "file": "apps/web/public/reference-assets/xiaoyi-avatar-1.png",
+      "sha256": "486048bcc54b42056e001895a5a6e2a5dd3912dad8b4414ee18b9cbe7e811e8e"
+    },
+    {
+      "name": "xiaoyi-avatar-2",
+      "time": 642,
+      "rect": [
+        42,
+        552,
+        102,
+        102
+      ],
+      "kind": "artwork",
+      "file": "apps/web/public/reference-assets/xiaoyi-avatar-2.png",
+      "sha256": "095c08c3ed885cc2ae47871834d0a53721b6bbd988f876e9a11df6702721527c"
+    },
+    {
+      "name": "xiaoyi-avatar-3",
+      "time": 642,
+      "rect": [
+        42,
+        708,
+        102,
+        102
+      ],
+      "kind": "artwork",
+      "file": "apps/web/public/reference-assets/xiaoyi-avatar-3.png",
+      "sha256": "3a7811223f9d587db0cb57cab66968ddc12b39548efcca66abc678241f74d467"
+    },
+    {
+      "name": "xiaoyi-avatar-4",
+      "time": 642,
+      "rect": [
+        42,
+        862,
+        102,
+        102
+      ],
+      "kind": "artwork",
+      "file": "apps/web/public/reference-assets/xiaoyi-avatar-4.png",
+      "sha256": "b835a9e28eacee7914d74aaabdcfd7223c5d6a6a20bcca2c11fdab163fdde531"
+    },
+    {
+      "name": "xiaoyi-avatar-5",
+      "time": 642,
+      "rect": [
+        42,
+        1019,
+        102,
+        102
+      ],
+      "kind": "artwork",
+      "file": "apps/web/public/reference-assets/xiaoyi-avatar-5.png",
+      "sha256": "75fc7cbf02b61ca3f159d3651e7423f05f86e469950009652cbb2075a76fdb86"
+    },
+    {
+      "name": "xiaoyi-avatar-6",
+      "time": 642,
+      "rect": [
+        42,
+        1176,
+        102,
+        102
+      ],
+      "kind": "artwork",
+      "file": "apps/web/public/reference-assets/xiaoyi-avatar-6.png",
+      "sha256": "840e9ca923d5deb95791c9725f091ec8f172d66faccd9b87127fad77a1ffccfa"
+    },
+    {
+      "name": "xiaoyi-avatar-7",
+      "time": 642,
+      "rect": [
+        42,
+        1333,
+        102,
+        102
+      ],
+      "kind": "artwork",
+      "file": "apps/web/public/reference-assets/xiaoyi-avatar-7.png",
+      "sha256": "5ad5e513bcb8f09f20650c4c68b3067ff68324903f1f28e2a04cc8101af88a9f"
+    },
+    {
+      "name": "xiaoyi-avatar-8",
+      "time": 642,
+      "rect": [
+        42,
+        1492,
+        102,
+        102
+      ],
+      "kind": "artwork",
+      "file": "apps/web/public/reference-assets/xiaoyi-avatar-8.png",
+      "sha256": "78d28800dc6e99f7af2b4ec2d0b6c30fc9977e81f450edc116de076d66f78bf5"
+    },
+    {
+      "name": "xiaoyi-avatar-9",
+      "time": 642,
+      "rect": [
+        42,
+        1646,
+        102,
+        102
+      ],
+      "kind": "artwork",
+      "file": "apps/web/public/reference-assets/xiaoyi-avatar-9.png",
+      "sha256": "fbfea8cade9eccdd7c9267941bc1f4208fcc02d304d49ce022a4af7f79e59f85"
+    },
+    {
+      "name": "xiaoyi-background",
+      "time": 642,
+      "rect": [
+        1404,
+        70,
+        1396,
+        1720
+      ],
+      "kind": "artwork",
+      "file": "apps/web/public/reference-assets/xiaoyi-background.png",
+      "sha256": "1b6e38561208723e6e61c658b002c5030acbb185f816ab76f59af3caa0e4bf79"
+    },
+    {
+      "name": "bilibili-cover",
+      "time": 164,
+      "rect": [
+        0,
+        476,
+        1960,
+        1092
+      ],
+      "kind": "artwork",
+      "file": "apps/web/public/reference-assets/bilibili-cover.png",
+      "sha256": "eb2b60f04e7ab3027ceba05206b18ea3363ce21a94c71b904257deeec3f35b15"
+    },
+    {
+      "name": "wechat-empty",
+      "time": 42,
+      "rect": [
+        1874,
+        850,
+        172,
+        144
+      ],
+      "kind": "artwork",
+      "file": "apps/web/public/reference-assets/wechat-empty.png",
+      "sha256": "8d494862a0ac9c16280766eb40e44ad4819ec28c4cd490686c318351bd0894a3"
+    },
+    {
+      "name": "galleryhelper",
+      "time": 2,
+      "rect": [
+        2434,
+        624,
+        126,
+        126
+      ],
+      "kind": "icon",
+      "file": "apps/web/public/reference-assets/galleryhelper.png",
+      "sha256": "abbc11570447a9ed4df9318c122c7c27701d793c919199acc484611857fe6532"
+    },
+    {
+      "name": "qqbrowser",
+      "time": 2,
+      "rect": [
+        2434,
+        866,
+        126,
+        126
+      ],
+      "kind": "icon",
+      "file": "apps/web/public/reference-assets/qqbrowser.png",
+      "sha256": "66639e3ae6878795c1cd3e64f07ed03bdd8eab4fdee02178156760495e37bbdf"
+    },
+    {
+      "name": "eastmoney2",
+      "time": 615,
+      "rect": [
+        976,
+        624,
+        126,
+        126
+      ],
+      "kind": "icon",
+      "file": "apps/web/public/reference-assets/eastmoney2.png",
+      "sha256": "1a0adbc2663b23971f4c91f3958ba045220601da4403b50a18d3f35981efeb42"
+    },
+    {
+      "name": "calendar-widget",
+      "time": 608,
+      "rect": [
+        1212,
+        864,
+        864,
+        372
+      ],
+      "kind": "widget",
+      "file": "apps/web/public/reference-assets/calendar-widget.png",
+      "sha256": "d42e62c31c3560b386a62b4656b93d4c683363f44aa56ada23bef093f8f0c862"
+    }
+  ],
+  "externalAssets": [
+    {
+      "file": "apps/web/public/reference-assets/woven-wallpaper.jpg",
+      "source": "https://res1-cn.c.hihonor.com/data/attachment/forum/202508/01/1011249e6371e4c2a41358.jpg",
+      "sourcePage": "https://club.honor.com/cn/thread-29588741-1-1.html",
+      "note": "Same woven geometry, green variant; a CSS color matrix approximates the recorded grey/gold theme. Not pixel-identical."
+    },
+    {
+      "file": "apps/web/public/reference-assets/fonts/",
+      "source": "https://developer.huawei.com/images/download/general/HarmonyOS-Sans.zip",
+      "note": "Unmodified fonts and license; embedded notice in desktop Settings."
+    }
+  ],
+  "videoExcerpts": [
+    {
+      "file": "apps/web/public/media/reading-excerpt.mp4",
+      "start": 164,
+      "duration": 7,
+      "rect": [
+        0,
+        412,
+        1960,
+        1100
+      ]
+    },
+    {
+      "file": "apps/web/public/media/douyin-excerpt.mp4",
+      "start": 222,
+      "duration": 5,
+      "rect": [
+        468,
+        0,
+        1036,
+        1648
+      ]
+    }
+  ]
+}

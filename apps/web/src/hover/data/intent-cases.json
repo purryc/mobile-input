@@ -1,0 +1,314 @@
+[
+  {
+    "id": "case-01",
+    "targets": [
+      "b0",
+      "b1"
+    ],
+    "title": "会面安排",
+    "sources": [
+      "b0",
+      "b1",
+      "b17"
+    ],
+    "actions": [
+      "event",
+      "free",
+      "meeting-reminder"
+    ],
+    "example": "帮我整理这次会面的安排",
+    "answer": "后续消息已补充：2026年10月6日14:00–15:00，在国家会展中心洲际酒店与吉利汽车王总会面，提前30分钟即13:30提醒。尚未读取本机日历，空闲需确认。",
+    "keywords": "安排|会议|会面|时间|几点|日程|冲突|准备|提醒"
+  },
+  {
+    "id": "case-02",
+    "targets": [
+      "b2"
+    ],
+    "title": "酒店安排",
+    "sources": [
+      "b0",
+      "b2",
+      "b3"
+    ],
+    "actions": [
+      "hotel",
+      "nearby",
+      "hotel-notes"
+    ],
+    "example": "酒店有哪些要求？",
+    "answer": "目的地为上海国家会展中心附近，预算每晚 800 元以内。陈总已明确要求先别订，入住日期、退房日期和晚数待确认；本次仅浏览预置条件。",
+    "keywords": "酒店|住宿|要求|预算|预订|订房|几晚"
+  },
+  {
+    "id": "case-03",
+    "targets": [
+      "b4"
+    ],
+    "title": "先准备这三件事",
+    "sources": [
+      "b0",
+      "b4",
+      "b5",
+      "b6"
+    ],
+    "actions": [
+      "company",
+      "brief",
+      "document"
+    ],
+    "example": "这次见王总，我要提前准备什么？",
+    "answer": "1. 整理吉利汽车背景与待核实信息。\n2. 准备讨论版方案和会议问题清单。\n3. 邮件先存草稿，交陈总审阅。",
+    "keywords": "客户|公司|业务|背景|资料|准备|会前|简报"
+  },
+  {
+    "id": "case-04",
+    "targets": [
+      "b5"
+    ],
+    "title": "邮件草稿",
+    "sources": [
+      "b5",
+      "b6"
+    ],
+    "actions": [
+      "email",
+      "proposal",
+      "reply"
+    ],
+    "example": "帮我起草一封给王总的邮件",
+    "answer": "先准备讨论稿，并注明报价尚未最终确认。陈总要求先存草稿、审阅后再发；收件人邮箱和附件尚待确认。",
+    "keywords": "邮件|方案|回复|草稿|发送|发给|报价|讨论"
+  },
+  {
+    "id": "case-05",
+    "targets": [
+      "w0",
+      "w1"
+    ],
+    "title": "开售提醒",
+    "sources": [
+      "w0",
+      "w1"
+    ],
+    "actions": [
+      "reminder",
+      "ticket",
+      "ticket-notes"
+    ],
+    "example": "应该几点提醒开票？",
+    "answer": "开票时间是 2026 年 10 月 2 日 12:00，提前十分钟提醒就是 11:50（中国标准时间）。提醒尚未添加，可以通过下方入口设置。",
+    "keywords": "票|提醒|演唱会|开售|开票|几点"
+  },
+  {
+    "id": "case-06",
+    "targets": [
+      "l0",
+      "l1"
+    ],
+    "title": "清淡晚餐",
+    "sources": [
+      "l0",
+      "l1"
+    ],
+    "actions": [
+      "food",
+      "congee",
+      "dinner-notes"
+    ],
+    "example": "今晚吃点什么？",
+    "answer": "可以按一份粥、两份清淡小菜准备搜索条件。收餐地址、距离和可营业商家还待确认；此处不展示实时库存或实际下单结果。",
+    "keywords": "吃|晚餐|外卖|清淡|粥|餐厅|点餐"
+  },
+  {
+    "id": "case-07",
+    "targets": [
+      "w3"
+    ],
+    "title": "去音乐厅",
+    "sources": [
+      "w0",
+      "w3",
+      "w7"
+    ],
+    "actions": [
+      "ride-route",
+      "arrival-message",
+      "arrival-reminder"
+    ],
+    "example": "去音乐厅要注意什么？",
+    "answer": "目的地是上海音乐厅，希望今晚 18:30 前到达。后续消息已确认车叫好了，因此不再推荐重复叫车。可查看路线；出发地点还需要补充。",
+    "keywords": "车|打车|音乐厅|路线|注意|到达|几点"
+  },
+  {
+    "id": "case-08",
+    "targets": [
+      "w5",
+      "w4"
+    ],
+    "title": "包包尺寸",
+    "sources": [
+      "w4",
+      "w5"
+    ],
+    "actions": [
+      "size",
+      "similar",
+      "small"
+    ],
+    "example": "这个包日常背会不会太大？",
+    "answer": "图片没有可靠比例尺，不能据此确定实际尺寸。可以查找同配色的小号款，并核对商品长、宽、高、材质和肩带长度。",
+    "keywords": "包|尺寸|大|小|颜色|相似|日常|商品"
+  },
+  {
+    "id": "case-09",
+    "targets": [
+      "e0",
+      "e1"
+    ],
+    "title": "办公室路线",
+    "sources": [
+      "e0",
+      "e1"
+    ],
+    "actions": [
+      "route",
+      "location",
+      "office-place"
+    ],
+    "example": "怎么从虹桥站去办公室？",
+    "answer": "已知起点是上海虹桥站，目的地是上海市娄山关路 88 号。可查看路线或起草位置消息；交通时间与实时路况尚未查询。",
+    "keywords": "路线|怎么|位置|办公室|虹桥|地址|route|location|office"
+  },
+  {
+    "id": "case-10",
+    "targets": [
+      "e2"
+    ],
+    "title": "联系 Alex",
+    "sources": [
+      "e0",
+      "e2",
+      "e3"
+    ],
+    "actions": [
+      "call",
+      "call-outline",
+      "call-reply"
+    ],
+    "example": "帮我整理通话要点",
+    "answer": "对方希望用微信语音讨论方案中的两个问题。先确认通话时间，列出待补充的问题，再起草回复；不推荐拨打未知号码。",
+    "keywords": "电话|通话|联系|要点|call|proposal"
+  },
+  {
+    "id": "case-11",
+    "targets": [
+      "e4"
+    ],
+    "title": "样品物流",
+    "sources": [
+      "e3",
+      "e4"
+    ],
+    "actions": [
+      "logistics",
+      "logistics-reply",
+      "tracking-notes"
+    ],
+    "example": "样品寄出了吗？帮我回一句英文",
+    "answer": "运单引用为 SF-DEMO-0930；最新消息要求先核对真实配送状态，当前保留待核实。可查询物流、保存单号，或先起草一条不承诺进展的英文回复。",
+    "keywords": "样品|物流|寄|包裹|英文|回复|ship|track"
+  },
+  {
+    "id": "case-12",
+    "targets": [
+      "e3",
+      "e5"
+    ],
+    "title": "费用明细",
+    "sources": [
+      "e3",
+      "e5"
+    ],
+    "actions": [
+      "fee",
+      "fee-reply",
+      "payment-mail"
+    ],
+    "example": "含运费一共多少钱？",
+    "answer": "样品费 300 元，运费 30 元，共计人民币 330 元。可准备费用明细与英文说明；真实收款信息待确认，不执行付款。",
+    "keywords": "费用|钱|总|多少|运费|明细|付款|fee|cost|total|payment"
+  },
+  {
+    "id": "case-contact",
+    "targets": [
+      "b16"
+    ],
+    "sources": [
+      "b16"
+    ],
+    "title": "对接人信息",
+    "actions": [
+      "contact",
+      "contact-copy",
+      "contact-note"
+    ],
+    "example": "帮我保存这个联系人",
+    "answer": "对接人王晨，吉利汽车商务经理，电话13800138000，备注上海会展对接。",
+    "keywords": "联系|电话|保存|王晨|号码"
+  },
+  {
+    "id": "case-calendar",
+    "targets": [
+      "b17"
+    ],
+    "sources": [
+      "b17"
+    ],
+    "title": "会议安排",
+    "actions": [
+      "calendar-complete",
+      "meeting-route",
+      "meeting-note"
+    ],
+    "example": "把这次会议加到日历",
+    "answer": "10月6日14:00到15:00，与吉利汽车王总在国家会展中心洲际酒店会面，提前30分钟提醒。",
+    "keywords": "会议|日历|提醒|安排|时间"
+  },
+  {
+    "id": "case-notes",
+    "targets": [
+      "b18"
+    ],
+    "sources": [
+      "b18"
+    ],
+    "title": "上海出差待办",
+    "actions": [
+      "notes",
+      "notes-summary",
+      "notes-document"
+    ],
+    "example": "帮我整理成待办",
+    "answer": "1. 查公司背景。\n2. 整理讨论稿。\n3. 出发前确认交通与住宿。",
+    "keywords": "待办|清单|整理|出差|准备"
+  },
+  {
+    "id": "case-garden",
+    "targets": [
+      "w-garden"
+    ],
+    "title": "周末逛园林",
+    "sources": [
+      "w-garden"
+    ],
+    "actions": [
+      "garden-intro",
+      "garden-ticket",
+      "garden-route"
+    ],
+    "example": "介绍一下拙政园",
+    "answer": "拙政园位于苏州古城，以水景、亭榭和借景见长。周末可以从上海乘高铁到苏州，再前往园林；具体日期和车次需要你确认。",
+    "keywords": "拙政园|苏州|园林|景点|门票|路线"
+  }
+]

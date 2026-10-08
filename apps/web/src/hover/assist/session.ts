@@ -1,0 +1,1 @@
+export const TRANSLATION_READ_MS=2400;

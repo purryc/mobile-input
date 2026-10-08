@@ -1,0 +1,55 @@
+{
+  "b0": [
+    [
+      "event"
+    ],
+    [
+      "free",
+      "meeting-reminder"
+    ]
+  ],
+  "b1": [
+    [
+      "free"
+    ],
+    [
+      "event",
+      "meeting-reminder"
+    ]
+  ],
+  "w0": [
+    [
+      "ticket",
+      "reminder"
+    ],
+    [
+      "ride-route"
+    ]
+  ],
+  "w1": [
+    [
+      "ticket",
+      "reminder"
+    ],
+    [
+      "reminder",
+      "ticket"
+    ]
+  ],
+  "e0": [
+    [
+      "location",
+      "office-place"
+    ],
+    []
+  ],
+  "e1": [
+    [
+      "route"
+    ],
+    [
+      "location",
+      "office-place"
+    ]
+  ]
+}

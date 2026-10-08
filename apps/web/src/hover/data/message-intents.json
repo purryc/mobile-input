@@ -1,0 +1,447 @@
+[
+  {
+    "messageId": "b0",
+    "topic": "会面安排",
+    "actions": [
+      "event",
+      "free",
+      "meeting-reminder"
+    ],
+    "rationale": "后续 b17 已补充15:00结束与提前30分钟提醒，更新前文参数；空闲需读取本机日历，不编造冲突结果。",
+    "classification": "positive"
+  },
+  {
+    "messageId": "b1",
+    "topic": "会面安排",
+    "actions": [
+      "event",
+      "free",
+      "meeting-reminder"
+    ],
+    "rationale": "后续 b17 已补充15:00结束与提前30分钟提醒，更新前文参数；空闲需读取本机日历，不编造冲突结果。",
+    "classification": "positive"
+  },
+  {
+    "messageId": "b2",
+    "topic": "酒店安排",
+    "actions": [
+      "hotel",
+      "nearby",
+      "hotel-notes"
+    ],
+    "rationale": "先别订且日期未确认，只浏览酒店、会场周边和记录筛选条件。",
+    "classification": "positive"
+  },
+  {
+    "messageId": "b3",
+    "topic": "酒店安排",
+    "actions": [],
+    "rationale": "限制前文酒店任务为浏览，不另建任务。",
+    "classification": "context-only"
+  },
+  {
+    "messageId": "b4",
+    "topic": "先准备这三件事",
+    "actions": [
+      "company",
+      "brief",
+      "document"
+    ],
+    "rationale": "公司背景交给小艺整理，简报与工作清单用飞书；不声称已检索资料。",
+    "classification": "positive"
+  },
+  {
+    "messageId": "b5",
+    "topic": "邮件草稿",
+    "actions": [
+      "email",
+      "proposal",
+      "reply"
+    ],
+    "rationale": "邮件必须保留草稿；文档版本和回复草稿服务同一会前任务。",
+    "classification": "positive"
+  },
+  {
+    "messageId": "b6",
+    "topic": "邮件草稿",
+    "actions": [],
+    "rationale": "修改前文邮件为草稿，不重复推荐发送。",
+    "classification": "context-only"
+  },
+  {
+    "messageId": "b7",
+    "topic": "已确认准备事项",
+    "actions": [],
+    "rationale": "确认已有准备事项，没有新的请求。",
+    "classification": "context-only"
+  },
+  {
+    "messageId": "b16",
+    "topic": "对接人信息",
+    "actions": [
+      "contact",
+      "contact-copy",
+      "contact-note"
+    ],
+    "rationale": "有姓名、单位、手机和备注，联系人优先；复制号码与备忘是合理备选。",
+    "classification": "positive"
+  },
+  {
+    "messageId": "b17",
+    "topic": "会议安排",
+    "actions": [
+      "calendar-complete",
+      "meeting-route",
+      "meeting-note"
+    ],
+    "rationale": "完整日期、起止时间、地点、提前量齐全，日历优先；地图查地点、备忘存安排。",
+    "classification": "positive"
+  },
+  {
+    "messageId": "b18",
+    "topic": "上海出差待办",
+    "actions": [
+      "notes",
+      "notes-summary",
+      "notes-document"
+    ],
+    "rationale": "明确三项待办，用本机备忘录；小艺整理或飞书工作清单作为备选。",
+    "classification": "positive"
+  },
+  {
+    "messageId": "w0",
+    "topic": "开售提醒",
+    "actions": [
+      "reminder",
+      "ticket",
+      "ticket-notes"
+    ],
+    "rationale": "本机日历计算提前10分钟提醒；大麦查看场次；备忘录记录演出，避免重复场次入口。",
+    "classification": "positive"
+  },
+  {
+    "messageId": "w1",
+    "topic": "开售提醒",
+    "actions": [
+      "reminder",
+      "ticket",
+      "ticket-notes"
+    ],
+    "rationale": "本机日历计算提前10分钟提醒；大麦查看场次；备忘录记录演出，避免重复场次入口。",
+    "classification": "positive"
+  },
+  {
+    "messageId": "w3",
+    "topic": "去音乐厅",
+    "actions": [
+      "ride-route",
+      "arrival-message",
+      "arrival-reminder"
+    ],
+    "rationale": "后续已叫车，保留路线、通知草稿和提醒，不重复叫车。",
+    "classification": "positive"
+  },
+  {
+    "messageId": "w4",
+    "topic": "包包尺寸",
+    "actions": [
+      "size",
+      "similar",
+      "small"
+    ],
+    "rationale": "淘宝按图片搜相似款、京东查看小号规格、小艺解释尺寸限制，不凭图编尺寸。",
+    "classification": "positive"
+  },
+  {
+    "messageId": "w5",
+    "topic": "包包尺寸",
+    "actions": [
+      "size",
+      "similar",
+      "small"
+    ],
+    "rationale": "淘宝按图片搜相似款、京东查看小号规格、小艺解释尺寸限制，不凭图编尺寸。",
+    "classification": "positive"
+  },
+  {
+    "messageId": "w6",
+    "topic": "包包尺寸",
+    "actions": [],
+    "rationale": "对颜色的评价与回应，不新增购买任务。",
+    "classification": "context-only"
+  },
+  {
+    "messageId": "w7",
+    "topic": "去音乐厅",
+    "actions": [],
+    "rationale": "告知已叫车，阻止重复叫车；到达通知保留在原任务。",
+    "classification": "context-only"
+  },
+  {
+    "messageId": "e0",
+    "topic": "办公室路线",
+    "actions": [
+      "route",
+      "location",
+      "office-place"
+    ],
+    "rationale": "高德规划路线/存地点，微信起草位置消息；均使用e0提供的办公室地址。",
+    "classification": "positive"
+  },
+  {
+    "messageId": "e1",
+    "topic": "办公室路线",
+    "actions": [
+      "route",
+      "location",
+      "office-place"
+    ],
+    "rationale": "高德规划路线/存地点，微信起草位置消息；均使用e0提供的办公室地址。",
+    "classification": "positive"
+  },
+  {
+    "messageId": "e2",
+    "topic": "联系 Alex",
+    "actions": [
+      "call",
+      "call-outline",
+      "call-reply"
+    ],
+    "rationale": "已指定微信通话，排除拨电话；补充问题、拟回复，号码不编造。",
+    "classification": "positive"
+  },
+  {
+    "messageId": "e3",
+    "topic": "费用明细",
+    "actions": [
+      "fee",
+      "fee-reply",
+      "payment-mail"
+    ],
+    "rationale": "300+30=330，整理费用或拟中英文回复；收款资料未知，排除收款码。",
+    "classification": "positive"
+  },
+  {
+    "messageId": "e4",
+    "topic": "样品物流",
+    "actions": [
+      "logistics",
+      "logistics-reply",
+      "tracking-notes"
+    ],
+    "rationale": "顺丰只准备运单查询；备忘录保存单号，微信拟待核实回复；不显示虚假物流进度。",
+    "classification": "positive"
+  },
+  {
+    "messageId": "e5",
+    "topic": "费用明细",
+    "actions": [
+      "fee",
+      "fee-reply",
+      "payment-mail"
+    ],
+    "rationale": "300+30=330，整理费用或拟中英文回复；收款资料未知，排除收款码。",
+    "classification": "positive"
+  },
+  {
+    "messageId": "e6",
+    "topic": "样品物流",
+    "actions": [],
+    "rationale": "承诺核实前文信息，没有新增物流或费用任务。",
+    "classification": "context-only"
+  },
+  {
+    "messageId": "e7",
+    "topic": "简短回应",
+    "actions": [],
+    "rationale": "纯道谢，不继承前文物流、费用或通话任务。",
+    "classification": "dummy"
+  },
+  {
+    "messageId": "l0",
+    "topic": "清淡晚餐",
+    "actions": [
+      "food",
+      "congee",
+      "dinner-notes"
+    ],
+    "rationale": "美团按清淡偏好浏览餐厅与菜单，备忘录存需求；地址未给，不下单。",
+    "classification": "positive"
+  },
+  {
+    "messageId": "l1",
+    "topic": "清淡晚餐",
+    "actions": [
+      "food",
+      "congee",
+      "dinner-notes"
+    ],
+    "rationale": "美团按清淡偏好浏览餐厅与菜单，备忘录存需求；地址未给，不下单。",
+    "classification": "positive"
+  },
+  {
+    "messageId": "l2",
+    "topic": "清淡晚餐",
+    "actions": [],
+    "rationale": "确认前文菜单安排，不重复建立相同任务。",
+    "classification": "context-only"
+  },
+  {
+    "messageId": "dummy-boss-01",
+    "topic": "普通回应",
+    "classification": "dummy",
+    "actions": [],
+    "rationale": "仅表达回应或情绪；即使前文有任务，也不继承其推荐。"
+  },
+  {
+    "messageId": "dummy-boss-02",
+    "topic": "普通回应",
+    "classification": "dummy",
+    "actions": [],
+    "rationale": "仅表达回应或情绪；即使前文有任务，也不继承其推荐。"
+  },
+  {
+    "messageId": "dummy-boss-03",
+    "topic": "普通回应",
+    "classification": "dummy",
+    "actions": [],
+    "rationale": "仅表达回应或情绪；即使前文有任务，也不继承其推荐。"
+  },
+  {
+    "messageId": "dummy-boss-04",
+    "topic": "普通回应",
+    "classification": "dummy",
+    "actions": [],
+    "rationale": "仅表达回应或情绪；即使前文有任务，也不继承其推荐。"
+  },
+  {
+    "messageId": "dummy-boss-05",
+    "topic": "普通回应",
+    "classification": "dummy",
+    "actions": [],
+    "rationale": "仅表达回应或情绪；即使前文有任务，也不继承其推荐。"
+  },
+  {
+    "messageId": "dummy-boss-06",
+    "topic": "普通回应",
+    "classification": "dummy",
+    "actions": [],
+    "rationale": "仅表达回应或情绪；即使前文有任务，也不继承其推荐。"
+  },
+  {
+    "messageId": "dummy-boss-07",
+    "topic": "普通回应",
+    "classification": "dummy",
+    "actions": [],
+    "rationale": "仅表达回应或情绪；即使前文有任务，也不继承其推荐。"
+  },
+  {
+    "messageId": "dummy-boss-08",
+    "topic": "普通回应",
+    "classification": "dummy",
+    "actions": [],
+    "rationale": "仅表达回应或情绪；即使前文有任务，也不继承其推荐。"
+  },
+  {
+    "messageId": "dummy-wife-01",
+    "topic": "普通回应",
+    "classification": "dummy",
+    "actions": [],
+    "rationale": "仅表达回应或情绪；即使前文有任务，也不继承其推荐。"
+  },
+  {
+    "messageId": "dummy-wife-02",
+    "topic": "普通回应",
+    "classification": "dummy",
+    "actions": [],
+    "rationale": "仅表达回应或情绪；即使前文有任务，也不继承其推荐。"
+  },
+  {
+    "messageId": "dummy-wife-03",
+    "topic": "普通回应",
+    "classification": "dummy",
+    "actions": [],
+    "rationale": "仅表达回应或情绪；即使前文有任务，也不继承其推荐。"
+  },
+  {
+    "messageId": "dummy-wife-04",
+    "topic": "普通回应",
+    "classification": "dummy",
+    "actions": [],
+    "rationale": "仅表达回应或情绪；即使前文有任务，也不继承其推荐。"
+  },
+  {
+    "messageId": "dummy-wife-05",
+    "topic": "普通回应",
+    "classification": "dummy",
+    "actions": [],
+    "rationale": "仅表达回应或情绪；即使前文有任务，也不继承其推荐。"
+  },
+  {
+    "messageId": "dummy-alex-01",
+    "topic": "普通回应",
+    "classification": "dummy",
+    "actions": [],
+    "rationale": "仅表达回应或情绪；即使前文有任务，也不继承其推荐。"
+  },
+  {
+    "messageId": "dummy-alex-02",
+    "topic": "普通回应",
+    "classification": "dummy",
+    "actions": [],
+    "rationale": "仅表达回应或情绪；即使前文有任务，也不继承其推荐。"
+  },
+  {
+    "messageId": "dummy-alex-03",
+    "topic": "普通回应",
+    "classification": "dummy",
+    "actions": [],
+    "rationale": "仅表达回应或情绪；即使前文有任务，也不继承其推荐。"
+  },
+  {
+    "messageId": "dummy-alex-04",
+    "topic": "普通回应",
+    "classification": "dummy",
+    "actions": [],
+    "rationale": "仅表达回应或情绪；即使前文有任务，也不继承其推荐。"
+  },
+  {
+    "messageId": "dummy-alex-05",
+    "topic": "普通回应",
+    "classification": "dummy",
+    "actions": [],
+    "rationale": "仅表达回应或情绪；即使前文有任务，也不继承其推荐。"
+  },
+  {
+    "messageId": "dummy-life-01",
+    "topic": "普通回应",
+    "classification": "dummy",
+    "actions": [],
+    "rationale": "仅表达回应或情绪；即使前文有任务，也不继承其推荐。"
+  },
+  {
+    "messageId": "dummy-life-02",
+    "topic": "普通回应",
+    "classification": "dummy",
+    "actions": [],
+    "rationale": "仅表达回应或情绪；即使前文有任务，也不继承其推荐。"
+  },
+  {
+    "messageId": "w-garden",
+    "topic": "周末园林",
+    "actions": [
+      "garden-intro",
+      "garden-ticket",
+      "garden-route"
+    ],
+    "rationale": "明确提出景点介绍、门票浏览和路线任务；出发城市已给出，日期仍待选择。",
+    "classification": "positive"
+  },
+  {
+    "messageId": "dummy-wife-garden",
+    "topic": "普通回应",
+    "actions": [],
+    "rationale": "纯回应，不继承上一条任务。",
+    "classification": "dummy"
+  }
+]

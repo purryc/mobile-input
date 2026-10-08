@@ -1,0 +1,1212 @@
+{
+  "chats": {
+    "boss": {
+      "title": "陈总",
+      "avatar": "陈",
+      "color": "#DAE7F2",
+      "messages": [
+        {
+          "id": "b0",
+          "text": "小李，下周二 10 月 6 日去上海。\n\n下午在国家会展中心洲际酒店见吉利汽车王总，聊合作方案。",
+          "me": false
+        },
+        {
+          "id": "dummy-boss-01",
+          "text": "收到。",
+          "me": true
+        },
+        {
+          "id": "b1",
+          "text": "下周二下午两点跟王总碰一下，你看看这个时间有没有冲突？\n\n没问题就安排上。",
+          "me": false
+        },
+        {
+          "id": "dummy-boss-02",
+          "text": "好的。",
+          "me": true
+        },
+        {
+          "id": "b2",
+          "text": "酒店还没订吧？找个离国家会展中心近一点的，别超过八百。",
+          "me": false
+        },
+        {
+          "id": "dummy-boss-03",
+          "text": "嗯嗯。",
+          "me": true
+        },
+        {
+          "id": "b3",
+          "text": "先别订，我还没确定住几晚。",
+          "me": false
+        },
+        {
+          "id": "b4",
+          "text": "这个客户主要做哪块业务？见面之前帮我整理一页背景，放飞书里。",
+          "me": false
+        },
+        {
+          "id": "dummy-boss-04",
+          "text": "明白啦。",
+          "me": true
+        },
+        {
+          "id": "b5",
+          "text": "方案你先发王总看看，邮件里说明还在讨论，别写成最终报价。",
+          "me": false
+        },
+        {
+          "id": "dummy-boss-05",
+          "text": "没错。",
+          "me": true
+        },
+        {
+          "id": "b6",
+          "text": "邮件先存草稿，我看过再发。",
+          "me": false
+        },
+        {
+          "id": "b7",
+          "text": "收到，我先整理资料和会前清单。",
+          "me": true
+        },
+        {
+          "id": "b16",
+          "text": "王晨是这次对接人，吉利汽车商务经理，电话 13800138000。帮我存一下，备注“上海会展对接”。",
+          "me": false
+        },
+        {
+          "id": "dummy-boss-06",
+          "text": "好吧。",
+          "me": true
+        },
+        {
+          "id": "b17",
+          "text": "10月6日下午2点到3点，和吉利汽车王总在国家会展中心洲际酒店开会。帮我记进日历，提前30分钟提醒。",
+          "me": false
+        },
+        {
+          "id": "dummy-boss-07",
+          "text": "是的。",
+          "me": true
+        },
+        {
+          "id": "b18",
+          "text": "帮我记一下：查公司背景、整理讨论稿，出发前确认交通和住宿。",
+          "me": false
+        },
+        {
+          "id": "dummy-boss-08",
+          "text": "谢谢。",
+          "me": true
+        }
+      ]
+    },
+    "wife": {
+      "title": "老婆",
+      "avatar": "悦",
+      "color": "#F4DFDA",
+      "messages": [
+        {
+          "id": "w0",
+          "text": "“城市回声”上海演唱会周五开票！\n\n还有，今晚去上海音乐厅听室内乐，别跑错地方啦。",
+          "me": false
+        },
+        {
+          "id": "dummy-wife-01",
+          "text": "哈哈哈哈。",
+          "me": true
+        },
+        {
+          "id": "w1",
+          "text": "周五中午十二点开票。\n\n记得提前十分钟提醒我，别又忙忘了。",
+          "me": false
+        },
+        {
+          "id": "dummy-wife-02",
+          "text": "嘿嘿。",
+          "me": true
+        },
+        {
+          "id": "w3",
+          "text": "我快下班了，能帮我叫辆车去音乐厅吗？想六点半之前到。",
+          "me": false
+        },
+        {
+          "id": "dummy-wife-03",
+          "text": "嗯嗯，好。",
+          "me": true
+        },
+        {
+          "id": "w4",
+          "text": "",
+          "me": false,
+          "image": "bag"
+        },
+        {
+          "id": "dummy-wife-04",
+          "text": "好哒。",
+          "me": true
+        },
+        {
+          "id": "w5",
+          "text": "你看这个包日常背会不会太大？有没有小一号的，最好也有这个颜色？",
+          "me": false
+        },
+        {
+          "id": "dummy-wife-05",
+          "text": "知道啦。",
+          "me": true
+        },
+        {
+          "id": "w6",
+          "text": "这个颜色挺好看。尺寸我帮你看看。",
+          "me": true
+        },
+        {
+          "id": "w7",
+          "text": "车已经叫好了，到了给我发微信就行。",
+          "me": false
+        },
+        {
+          "id": "l0",
+          "text": "今晚不想做饭了，想喝粥，再点两个清淡小菜。先看看菜单，不用急着下单。",
+          "me": false
+        },
+        {
+          "id": "dummy-life-01",
+          "text": "哈哈，行。",
+          "me": true
+        },
+        {
+          "id": "l1",
+          "text": "收餐地址我晚点发你，先把想吃的记下来。",
+          "me": false
+        },
+        {
+          "id": "dummy-life-02",
+          "text": "嗯，好吧。",
+          "me": true
+        },
+        {
+          "id": "l2",
+          "text": "好，我先记菜单，等你发地址。",
+          "me": true
+        },
+        {
+          "id": "w-garden",
+          "text": "周末从上海去苏州拙政园逛逛吧，想先了解园林，再看看门票和路线。",
+          "me": false,
+          "image": "/assets/products/suzhou-garden.png"
+        },
+        {
+          "id": "dummy-wife-garden",
+          "text": "哈哈，好呀。",
+          "me": true
+        }
+      ]
+    },
+    "alex": {
+      "title": "Alex Morgan",
+      "avatar": "A",
+      "color": "#E3E4D8",
+      "messages": [
+        {
+          "id": "e0",
+          "text": "Our office is at 88 Loushanguan Road, Shanghai.\n\nThe proposal is “Cooperation Draft v2”.",
+          "me": true
+        },
+        {
+          "id": "dummy-alex-01",
+          "text": "Okay.",
+          "me": false
+        },
+        {
+          "id": "e1",
+          "text": "What’s the easiest way to get from Hongqiao Station to your office?\n\nCould you send me the location?",
+          "me": false
+        },
+        {
+          "id": "dummy-alex-02",
+          "text": "Haha.",
+          "me": true
+        },
+        {
+          "id": "e2",
+          "text": "Are you free for a quick WeChat call? I’d like to clarify two points in the proposal.",
+          "me": false
+        },
+        {
+          "id": "dummy-alex-03",
+          "text": "Sure.",
+          "me": true
+        },
+        {
+          "id": "e3",
+          "text": "The sample fee is CNY 300, plus CNY 30 shipping. Reference: SF-DEMO-0930. The tracking status and payment details still need confirmation.",
+          "me": true
+        },
+        {
+          "id": "dummy-alex-04",
+          "text": "Yep.",
+          "me": false
+        },
+        {
+          "id": "e4",
+          "text": "Have the samples been shipped yet? Could you send me the tracking details?",
+          "me": false
+        },
+        {
+          "id": "dummy-alex-05",
+          "text": "Sounds good.",
+          "me": true
+        },
+        {
+          "id": "e5",
+          "text": "How much is the sample fee, including shipping? Draft the breakdown first; I will confirm the payment details later.",
+          "me": false
+        },
+        {
+          "id": "e6",
+          "text": "I’ll check the shipment and send you a breakdown.",
+          "me": true
+        },
+        {
+          "id": "e7",
+          "text": "Thanks, that helps.",
+          "me": false
+        }
+      ]
+    }
+  },
+  "actions": {
+    "free": {
+      "app": "calendar",
+      "label": "查看空闲",
+      "title": "10 月 6 日 · 时间安排",
+      "fields": [
+        [
+          "时区",
+          "中国标准时间 UTC+8"
+        ],
+        [
+          "14:00",
+          "与王总会面 · 待安排"
+        ],
+        [
+          "日历检查",
+          "未读取本机日历，请在日历中确认"
+        ]
+      ],
+      "cta": "查看日历"
+    },
+    "event": {
+      "app": "calendar",
+      "label": "建日程",
+      "title": "与吉利汽车王总会面",
+      "fields": [
+        [
+          "日历",
+          "本机 · 工作"
+        ],
+        [
+          "开始",
+          "2026.10.06 周二 14:00"
+        ],
+        [
+          "结束",
+          "2026.10.06 周二 15:00"
+        ],
+        [
+          "地点",
+          "国家会展中心洲际酒店"
+        ]
+      ],
+      "cta": "保存到日历"
+    },
+    "hotel": {
+      "app": "ctrip",
+      "label": "找酒店",
+      "title": "国家会展中心附近酒店",
+      "fields": [
+        [
+          "目的地",
+          "上海 · 国家会展中心"
+        ],
+        [
+          "每晚预算",
+          "¥800 以内"
+        ],
+        [
+          "入住 / 退房",
+          "请选择日期"
+        ],
+        [
+          "当前状态",
+          "先浏览，暂不预订"
+        ]
+      ],
+      "cta": "查看酒店"
+    },
+    "nearby": {
+      "app": "gaode",
+      "label": "看周边",
+      "title": "酒店与会场周边",
+      "fields": [
+        [
+          "中心位置",
+          "国家会展中心洲际酒店"
+        ],
+        [
+          "查看内容",
+          "酒店、交通与餐饮"
+        ]
+      ],
+      "cta": "打开高德地图"
+    },
+    "company": {
+      "app": "xiaoyi",
+      "label": "查公司",
+      "title": "吉利汽车 · 会前背景",
+      "fields": [
+        [
+          "已识别公司",
+          "吉利汽车"
+        ],
+        [
+          "整理方向",
+          "主营业务、合作关注点"
+        ],
+        [
+          "资料状态",
+          "待检索并核对来源"
+        ]
+      ],
+      "cta": "开始整理"
+    },
+    "brief": {
+      "app": "feishu",
+      "label": "写简报",
+      "title": "吉利汽车会前简报",
+      "fields": [
+        [
+          "文档结构",
+          "公司概况 / 合作议题 / 待确认"
+        ],
+        [
+          "用途",
+          "一页会前背景"
+        ],
+        [
+          "状态",
+          "资料待核实，保留引用位置"
+        ]
+      ],
+      "cta": "生成文档草稿"
+    },
+    "email": {
+      "app": "mail",
+      "label": "起草邮件",
+      "title": "合作方案沟通 · 讨论稿",
+      "fields": [
+        [
+          "收件人",
+          "王总 · 邮箱待补充"
+        ],
+        [
+          "附件",
+          "合作方案 · 附件待选择"
+        ],
+        [
+          "正文",
+          "王总您好，附件为讨论稿，报价尚未最终确认，供会前沟通参考。"
+        ],
+        [
+          "发送要求",
+          "先存草稿，陈总审阅后再发送"
+        ]
+      ],
+      "cta": "发送"
+    },
+    "proposal": {
+      "app": "feishu",
+      "label": "选方案",
+      "title": "选择合作方案",
+      "fields": [
+        [
+          "文件",
+          "合作方案 · 版本待确认"
+        ],
+        [
+          "版本",
+          "讨论稿"
+        ],
+        [
+          "附件状态",
+          "等待选择与确认"
+        ]
+      ],
+      "cta": "选择文档"
+    },
+    "reply": {
+      "app": "wechat",
+      "label": "起草消息",
+      "title": "给王总的回复草稿",
+      "fields": [
+        [
+          "消息",
+          "王总您好，我先整理讨论版方案，内部确认后发您，期待下周二面谈。"
+        ],
+        [
+          "状态",
+          "待审阅"
+        ]
+      ],
+      "cta": "带回微信"
+    },
+    "food": {
+      "app": "meituan",
+      "label": "找餐厅",
+      "title": "今晚吃点清淡的",
+      "fields": [
+        [
+          "偏好",
+          "粥、两个小菜"
+        ],
+        [
+          "筛选",
+          "清淡 / 附近 / 晚餐"
+        ],
+        [
+          "送达位置",
+          "请选择收餐地址"
+        ]
+      ],
+      "cta": "查看餐厅"
+    },
+    "congee": {
+      "app": "meituan",
+      "label": "看菜单",
+      "title": "粥和小菜",
+      "fields": [
+        [
+          "需求",
+          "一份粥、两份清淡小菜"
+        ],
+        [
+          "地址",
+          "待补充"
+        ],
+        [
+          "下单",
+          "先看菜单，不下单"
+        ]
+      ],
+      "cta": "查看外卖"
+    },
+    "ride-route": {
+      "app": "gaode",
+      "label": "看路程",
+      "title": "去音乐厅的路线",
+      "fields": [
+        [
+          "起点",
+          "请选择出发地点"
+        ],
+        [
+          "终点",
+          "上海音乐厅"
+        ],
+        [
+          "到达要求",
+          "今天 18:30 前"
+        ]
+      ],
+      "cta": "查看路线"
+    },
+    "size": {
+      "app": "xiaoyi",
+      "label": "查尺寸",
+      "title": "这只包适合日常背吗？",
+      "fields": [
+        [
+          "从图片可见",
+          "短手柄、肩带、拼接结构"
+        ],
+        [
+          "尺寸",
+          "仅凭图片无法确认实际尺寸"
+        ],
+        [
+          "下一步",
+          "查看商品规格，再比较小号款"
+        ]
+      ],
+      "cta": "查看相似商品"
+    },
+    "similar": {
+      "app": "taobao",
+      "label": "搜相似款",
+      "title": "彩色拼接 · 小号肩包",
+      "fields": [
+        [
+          "图片线索",
+          "蓝 / 橙 / 紫配色、拼接、金属扣"
+        ],
+        [
+          "需求",
+          "小一号，保留相近配色"
+        ],
+        [
+          "匹配方式",
+          "按外观搜索相似款"
+        ]
+      ],
+      "cta": "查看淘宝结果"
+    },
+    "small": {
+      "app": "jd",
+      "label": "找小号款",
+      "title": "小号拼接包对比",
+      "fields": [
+        [
+          "筛选",
+          "小号 / 彩色拼接 / 可肩背"
+        ],
+        [
+          "需核对",
+          "长宽高、材质、肩带长度"
+        ],
+        [
+          "尺寸状态",
+          "商品规格待查询"
+        ]
+      ],
+      "cta": "查看京东结果"
+    },
+    "reminder": {
+      "app": "calendar",
+      "label": "提醒开售",
+      "title": "城市回声 · 开售提醒",
+      "fields": [
+        [
+          "开售",
+          "2026.10.02 周五 12:00"
+        ],
+        [
+          "提醒",
+          "2026.10.02 周五 11:50"
+        ],
+        [
+          "时区",
+          "中国标准时间 UTC+8"
+        ]
+      ],
+      "cta": "保存提醒"
+    },
+    "ticket": {
+      "app": "damai",
+      "label": "看场次",
+      "title": "城市回声 · 上海演唱会",
+      "fields": [
+        [
+          "开售时间",
+          "10 月 2 日 12:00"
+        ],
+        [
+          "城市",
+          "上海"
+        ],
+        [
+          "演出日期 / 场馆",
+          "进入场次页确认"
+        ],
+        [
+          "票务状态",
+          "虚构演出示例，实际场次待查询"
+        ]
+      ],
+      "cta": "打开大麦"
+    },
+    "route": {
+      "app": "gaode",
+      "label": "规划路线",
+      "title": "虹桥站 → 办公室",
+      "fields": [
+        [
+          "起点",
+          "上海虹桥站"
+        ],
+        [
+          "终点",
+          "上海市娄山关路 88 号"
+        ],
+        [
+          "路线方式",
+          "公共交通 / 驾车"
+        ]
+      ],
+      "cta": "打开高德地图"
+    },
+    "location": {
+      "app": "wechat",
+      "label": "分享位置",
+      "title": "Office location",
+      "fields": [
+        [
+          "地址",
+          "88 Loushanguan Road, Shanghai"
+        ],
+        [
+          "发送给",
+          "Alex Morgan"
+        ],
+        [
+          "附言",
+          "Here is our office location."
+        ]
+      ],
+      "cta": "预览位置消息"
+    },
+    "call": {
+      "app": "wechat",
+      "label": "语音通话",
+      "title": "Alex Morgan",
+      "fields": [
+        [
+          "通话方式",
+          "微信语音"
+        ],
+        [
+          "议题",
+          "Cooperation Draft v2 · 两个问题"
+        ]
+      ],
+      "cta": "发起通话"
+    },
+    "logistics": {
+      "app": "sf",
+      "label": "查物流",
+      "title": "样品物流",
+      "fields": [
+        [
+          "运单引用",
+          "SF-DEMO-0930"
+        ],
+        [
+          "配送状态",
+          "待核实，尚未查询真实物流"
+        ],
+        [
+          "下一步",
+          "查看物流详情"
+        ]
+      ],
+      "cta": "查看顺丰物流"
+    },
+    "logistics-reply": {
+      "app": "wechat",
+      "label": "拟回复",
+      "title": "Shipment update",
+      "fields": [
+        [
+          "To",
+          "Alex Morgan"
+        ],
+        [
+          "Draft",
+          "I will verify the tracking details and share an update once confirmed."
+        ]
+      ],
+      "cta": "带回微信"
+    },
+    "fee": {
+      "app": "feishu",
+      "label": "整理费用",
+      "title": "Sample fee breakdown",
+      "fields": [
+        [
+          "Samples",
+          "CNY 300"
+        ],
+        [
+          "Shipping",
+          "CNY 30"
+        ],
+        [
+          "Total",
+          "CNY 330"
+        ]
+      ],
+      "cta": "保存费用明细"
+    },
+    "payment-mail": {
+      "app": "mail",
+      "label": "拟邮件",
+      "title": "Sample payment details",
+      "fields": [
+        [
+          "To",
+          "Alex Morgan · email to confirm"
+        ],
+        [
+          "Draft",
+          "The total is CNY 330: CNY 300 for samples and CNY 30 for shipping. Payment details are still to be confirmed."
+        ]
+      ],
+      "cta": "发送"
+    },
+    "document": {
+      "app": "feishu",
+      "label": "会前清单",
+      "title": "上海会前准备清单",
+      "fields": [
+        [
+          "1",
+          "核对合作方案与合同问题"
+        ],
+        [
+          "2",
+          "整理吉利汽车一页背景"
+        ],
+        [
+          "3",
+          "确认酒店入住日期与预算"
+        ],
+        [
+          "4",
+          "起草邮件，交陈总审阅"
+        ]
+      ],
+      "cta": "在电脑继续"
+    },
+    "meeting-reminder": {
+      "app": "calendar",
+      "label": "设提醒",
+      "title": "会前提醒",
+      "fields": [
+        [
+          "事项",
+          "与吉利汽车王总会面"
+        ],
+        [
+          "会议时间",
+          "2026.10.06 14:00–15:00"
+        ],
+        [
+          "提醒时间",
+          "2026.10.06 13:30（提前30分钟）"
+        ],
+        [
+          "地点",
+          "国家会展中心洲际酒店"
+        ]
+      ],
+      "cta": "保存提醒"
+    },
+    "hotel-notes": {
+      "app": "notes",
+      "label": "存条件",
+      "title": "酒店筛选条件",
+      "fields": [
+        [
+          "预算",
+          "每晚 800 元以内"
+        ],
+        [
+          "偏好",
+          "国家会展中心附近；交通方便"
+        ],
+        [
+          "预订",
+          "先别订；入住与退房日期待确认"
+        ]
+      ],
+      "cta": "保存笔记"
+    },
+    "dinner-notes": {
+      "app": "notes",
+      "label": "记菜单",
+      "title": "晚餐备忘",
+      "fields": [
+        [
+          "需求",
+          "一份粥、两份清淡小菜"
+        ],
+        [
+          "地址",
+          "待补充"
+        ],
+        [
+          "下单",
+          "先看菜单，不下单"
+        ]
+      ],
+      "cta": "保存笔记"
+    },
+    "arrival-message": {
+      "app": "wechat",
+      "label": "拟消息",
+      "title": "到达通知草稿",
+      "fields": [
+        [
+          "内容",
+          "好的，到上海音乐厅后我给你发微信。"
+        ],
+        [
+          "当前位置",
+          "待补充"
+        ],
+        [
+          "状态",
+          "已有车辆，不再叫车"
+        ]
+      ],
+      "cta": "带回微信"
+    },
+    "arrival-reminder": {
+      "app": "calendar",
+      "label": "设提醒",
+      "title": "音乐厅到达提醒",
+      "fields": [
+        [
+          "到达",
+          "2026.09.30 18:30 前"
+        ],
+        [
+          "提醒时间",
+          "待确认"
+        ],
+        [
+          "地点",
+          "上海音乐厅"
+        ]
+      ],
+      "cta": "保存提醒"
+    },
+    "office-place": {
+      "app": "gaode",
+      "label": "存地点",
+      "title": "办公室位置",
+      "fields": [
+        [
+          "地址",
+          "上海市娄山关路 88 号"
+        ],
+        [
+          "状态",
+          "办公室"
+        ]
+      ],
+      "cta": "保存地点"
+    },
+    "call-outline": {
+      "app": "notes",
+      "label": "列问题",
+      "title": "通话要点",
+      "fields": [
+        [
+          "方案",
+          "Cooperation Draft v2"
+        ],
+        [
+          "问题一",
+          "待补充"
+        ],
+        [
+          "问题二",
+          "待补充"
+        ]
+      ],
+      "cta": "保存笔记"
+    },
+    "tracking-notes": {
+      "app": "notes",
+      "label": "存单号",
+      "title": "运单备忘",
+      "fields": [
+        [
+          "运单引用",
+          "SF-DEMO-0930"
+        ],
+        [
+          "配送状态",
+          "待核实"
+        ],
+        [
+          "备注",
+          "核实样品发货情况后，将追踪信息发给 Alex"
+        ]
+      ],
+      "cta": "保存笔记"
+    },
+    "contact": {
+      "app": "contacts",
+      "label": "存联系人",
+      "title": "新建联系人",
+      "fields": [
+        [
+          "姓名",
+          "王晨"
+        ],
+        [
+          "公司／职位",
+          "吉利汽车 · 商务经理"
+        ],
+        [
+          "手机",
+          "13800138000"
+        ],
+        [
+          "备注",
+          "上海会展对接"
+        ]
+      ],
+      "cta": "保存联系人"
+    },
+    "contact-copy": {
+      "app": "xiaoyi",
+      "label": "复制号码",
+      "title": "联系电话",
+      "fields": [
+        [
+          "号码",
+          "13800138000"
+        ]
+      ],
+      "cta": "复制号码"
+    },
+    "contact-note": {
+      "app": "notes",
+      "label": "记联系人",
+      "title": "上海会展对接",
+      "fields": [
+        [
+          "姓名",
+          "王晨"
+        ],
+        [
+          "单位",
+          "吉利汽车 · 商务经理"
+        ],
+        [
+          "电话",
+          "13800138000"
+        ]
+      ],
+      "cta": "保存笔记"
+    },
+    "calendar-complete": {
+      "app": "calendar",
+      "label": "添加日程",
+      "title": "添加日程",
+      "fields": [
+        [
+          "日程",
+          "与吉利汽车王总会面"
+        ],
+        [
+          "时间",
+          "2026年10月6日 14:00–15:00"
+        ],
+        [
+          "地点",
+          "国家会展中心洲际酒店"
+        ],
+        [
+          "提醒",
+          "提前30分钟"
+        ]
+      ],
+      "cta": "添加到日历"
+    },
+    "meeting-route": {
+      "app": "gaode",
+      "label": "查地点",
+      "title": "会议地点",
+      "fields": [
+        [
+          "目的地",
+          "国家会展中心洲际酒店"
+        ],
+        [
+          "出发地",
+          "待补充"
+        ]
+      ],
+      "cta": "查看路线"
+    },
+    "meeting-note": {
+      "app": "notes",
+      "label": "记安排",
+      "title": "会议安排",
+      "fields": [
+        [
+          "对象",
+          "吉利汽车王总"
+        ],
+        [
+          "时间",
+          "10月6日 14:00–15:00"
+        ],
+        [
+          "地点",
+          "国家会展中心洲际酒店"
+        ]
+      ],
+      "cta": "保存笔记"
+    },
+    "notes": {
+      "app": "notes",
+      "label": "建待办",
+      "title": "新建待办",
+      "fields": [
+        [
+          "待办 1",
+          "查公司背景"
+        ],
+        [
+          "待办 2",
+          "整理讨论稿"
+        ],
+        [
+          "待办 3",
+          "出发前确认交通与住宿"
+        ]
+      ],
+      "cta": "添加待办"
+    },
+    "notes-summary": {
+      "app": "xiaoyi",
+      "label": "理要点",
+      "title": "上海出差",
+      "fields": [
+        [
+          "要点",
+          "查背景、整理讨论稿、确认交通与住宿"
+        ]
+      ],
+      "cta": "保存要点"
+    },
+    "notes-document": {
+      "app": "feishu",
+      "label": "建清单",
+      "title": "上海出差清单",
+      "fields": [
+        [
+          "待办 1",
+          "查公司背景"
+        ],
+        [
+          "待办 2",
+          "整理讨论稿"
+        ],
+        [
+          "待办 3",
+          "出发前确认交通与住宿"
+        ]
+      ],
+      "cta": "保存清单"
+    },
+    "ticket-notes": {
+      "app": "notes",
+      "label": "记演出",
+      "title": "城市回声 · 开售备忘",
+      "fields": [
+        [
+          "演出",
+          "城市回声 · 上海"
+        ],
+        [
+          "开售",
+          "2026.10.02 12:00"
+        ],
+        [
+          "提醒",
+          "开售前10分钟"
+        ]
+      ],
+      "cta": "保存笔记"
+    },
+    "call-reply": {
+      "app": "wechat",
+      "label": "拟回复",
+      "title": "通话回复草稿",
+      "fields": [
+        [
+          "Draft",
+          "Let’s use WeChat. Could you share the two questions before the call?"
+        ]
+      ],
+      "cta": "带回微信"
+    },
+    "fee-reply": {
+      "app": "wechat",
+      "label": "拟回复",
+      "title": "费用回复草稿",
+      "fields": [
+        [
+          "Draft",
+          "The total is CNY 330: CNY 300 for samples and CNY 30 for shipping. I will confirm the payment details separately."
+        ]
+      ],
+      "cta": "带回微信"
+    },
+    "garden-intro": {
+      "app": "xiaoyi",
+      "label": "介绍景点",
+      "title": "苏州拙政园",
+      "fields": [
+        [
+          "景点",
+          "苏州拙政园"
+        ],
+        [
+          "介绍",
+          "以水景为中心，亭榭、曲廊与假山相互借景。可以慢慢走，留出半天看园林。"
+        ]
+      ],
+      "cta": "完成"
+    },
+    "garden-ticket": {
+      "app": "ctrip",
+      "label": "查看门票",
+      "title": "拙政园门票",
+      "fields": [
+        [
+          "景点",
+          "苏州拙政园"
+        ],
+        [
+          "日期",
+          "待选择"
+        ],
+        [
+          "用途",
+          "先看票种，不预订"
+        ]
+      ],
+      "cta": "查看票种"
+    },
+    "garden-route": {
+      "app": "gaode",
+      "label": "规划路线",
+      "title": "上海 → 苏州拙政园",
+      "fields": [
+        [
+          "起点",
+          "上海"
+        ],
+        [
+          "终点",
+          "苏州拙政园"
+        ],
+        [
+          "出行时间",
+          "周末，具体日期待补充"
+        ]
+      ],
+      "cta": "查看路线"
+    }
+  }
+}

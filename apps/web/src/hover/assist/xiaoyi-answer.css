@@ -1,0 +1,167 @@
+.hover-services {
+/* Xiaoyi 6.0 Light conversation primitives and tokens, adapted to half-screen.
+   The reference phone is 350px wide; relative typography preserves that scale.
+   Sheet material/radius: Light WritingSheet; message layout: ConversationDemo. */
+.xiaoyi-qa.sheet-backdrop {
+  background: #17191d1a;
+}
+.sheet-backdrop.xiaoyi-qa .sheet {
+  height: 106.8182cqw;
+  max-height: calc(100% - 38px);
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: 6.3636cqw 6.3636cqw 0 0;
+  background: linear-gradient(125deg, #f4e7eb, #e4eafa 55%, #e4dcf4);
+  box-shadow: 0 -4px 30px #8f87b006;
+}
+.sheet-backdrop.xiaoyi-qa .sheet-handle {
+  flex: none;
+  width: 10.9091cqw;
+  height: 0.9091cqw;
+  margin: 2.2727cqw auto 1.8182cqw;
+  border-radius: 9px;
+  background: #b8b7c0;
+}
+.sheet-backdrop.xiaoyi-qa .sheet > header {
+  flex: none;
+  padding: 1.8182cqw 5.4545cqw 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.sheet-backdrop.xiaoyi-qa .sheet > header h2 {
+  margin: 0;
+  font-size: 4.3182cqw;
+  line-height: 1.5;
+  font-weight: 500;
+  color: #191b22;
+}
+.sheet-backdrop.xiaoyi-qa .sheet-content {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  padding: 0 5.4545cqw 7.5cqw;
+}
+.xy-conversation-scroll {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+}
+.sheet-backdrop.xiaoyi-qa .xy-user-message {
+  width: fit-content;
+  max-width: 90%;
+  background: #eaeef9;
+  border-radius: 4.5714cqw 4.5714cqw 1.4286cqw 4.5714cqw;
+  padding: 3.1429cqw 4.5714cqw;
+  margin: 4.2857cqw 0 5.7143cqw auto;
+  font-size: 3.7143cqw;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  color: #191b22;
+}
+.sheet-backdrop.xiaoyi-qa .xy-assistant-message {
+  font-size: 3.7143cqw;
+  line-height: 1.9;
+  color: #434957;
+  margin: 2.8571cqw 0 6.2857cqw;
+}
+.xy-answer-text {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.xy-answer-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+}
+.xy-answer-actions button {
+  flex: 0 0 calc(94px * 406 / 440);
+  width: calc(94px * 406 / 440);
+  height: calc(38px * 406 / 440);
+  padding: 0;
+  border-radius: 999px;
+  border: 1px solid #fff9;
+  background: #ffffff80;
+  color: #655989;
+  font-size: 3.7143cqw;
+}
+.xy-thinking {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #626773;
+  font-size: 3.7143cqw;
+  margin: 6.2857cqw 0;
+}
+.xy-thinking > span {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #8b7cf4;
+}
+
+/* Input capsule: Figma 3866:11160, 392 × 44 on a 440px frame. */
+.xy-followup {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 1.3636cqw;
+  height: 10cqw;
+  margin-top: 2.2727cqw;
+  padding: 0 1.8182cqw 0 2.7273cqw;
+  border: 1px solid #ffffff80;
+  border-radius: 999px;
+  background: linear-gradient(120deg, #ffffffb0, #f0f1ffa0);
+  box-shadow: 0 5px 22px #3737790a;
+}
+.xy-followup > img {
+  width: 5.4545cqw;
+  height: 5.4545cqw;
+  flex: none;
+}
+.sheet-backdrop.xiaoyi-qa .xy-followup input {
+  flex: 1;
+  min-width: 0;
+  width: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: #383746;
+  font: inherit;
+  font-size: 3.1818cqw;
+}
+.xy-followup input::placeholder {
+  color: #818296;
+  opacity: 1;
+}
+.xy-followup button {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 6.8182cqw;
+  height: 6.8182cqw;
+  border: 0;
+  padding: 0;
+  border-radius: 50%;
+  background: transparent;
+}
+.xy-followup button img {
+  width: 100%;
+  height: 100%;
+}
+.xy-followup button:disabled {
+  opacity: 0.6;
+}
+.xy-followup:focus-within {
+  border-color: #c1b8df;
+}
+
+}

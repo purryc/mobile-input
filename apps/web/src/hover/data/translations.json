@@ -1,0 +1,435 @@
+[
+  {
+    "id": "tr-001",
+    "zh": "小李，下周二 10 月 6 日去上海。",
+    "en": "Li, we are going to Shanghai next Tuesday, October 6."
+  },
+  {
+    "id": "tr-002",
+    "zh": "下午在国家会展中心洲际酒店见吉利汽车王总，聊合作方案。",
+    "en": "We will meet Mr. Wang from Geely at the InterContinental Shanghai NECC in the afternoon to discuss the cooperation proposal."
+  },
+  {
+    "id": "tr-003",
+    "zh": "下周二下午两点跟王总碰一下，你看看这个时间有没有冲突？",
+    "en": "We are meeting Mr. Wang next Tuesday at 2 p.m. Could you check for any scheduling conflicts?"
+  },
+  {
+    "id": "tr-004",
+    "zh": "没问题就安排上。",
+    "en": "Schedule it if there are no conflicts."
+  },
+  {
+    "id": "tr-005",
+    "zh": "酒店还没订吧？",
+    "en": "The hotel has not been booked yet, right?"
+  },
+  {
+    "id": "tr-006",
+    "zh": "找个离国家会展中心近一点的，别超过八百。",
+    "en": "Find a hotel near the National Exhibition and Convention Center for no more than CNY 800 per night."
+  },
+  {
+    "id": "tr-007",
+    "zh": "先别订，我还没确定住几晚。",
+    "en": "Do not book yet. I have not decided how many nights to stay."
+  },
+  {
+    "id": "tr-008",
+    "zh": "这个客户主要做哪块业务？",
+    "en": "What is this client’s main line of business?"
+  },
+  {
+    "id": "tr-009",
+    "zh": "见面之前帮我整理一页背景，放飞书里。",
+    "en": "Prepare a one-page background brief before the meeting and put it in Feishu."
+  },
+  {
+    "id": "tr-010",
+    "zh": "方案你先发王总看看，邮件里说明还在讨论，别写成最终报价。",
+    "en": "Send Mr. Wang the proposal for review. Say it is still under discussion, not a final quotation."
+  },
+  {
+    "id": "tr-011",
+    "zh": "邮件先存草稿，我看过再发。",
+    "en": "Save the email as a draft first and send it after I review it."
+  },
+  {
+    "id": "tr-012",
+    "zh": "收到，我先整理资料和会前清单。",
+    "en": "Got it. I will organize the information and the meeting checklist first."
+  },
+  {
+    "id": "tr-013",
+    "zh": "“城市回声”上海演唱会周五开票！",
+    "en": "Tickets for the City Echo concert in Shanghai go on sale on Friday!"
+  },
+  {
+    "id": "tr-014",
+    "zh": "还有，今晚去上海音乐厅听室内乐，别跑错地方啦。",
+    "en": "Also, we are going to Shanghai Concert Hall for chamber music tonight. Make sure you go to the right venue."
+  },
+  {
+    "id": "tr-015",
+    "zh": "周五中午十二点开票，记得提前十分钟提醒我，别又忙忘了。",
+    "en": "Tickets go on sale at noon on Friday. Remind me ten minutes early so I do not forget."
+  },
+  {
+    "id": "tr-016",
+    "zh": "今晚不想做饭了，附近有没有清淡一点的？",
+    "en": "I do not feel like cooking tonight. Is there anything light nearby?"
+  },
+  {
+    "id": "tr-017",
+    "zh": "想喝粥，再点两个小菜。",
+    "en": "I would like some congee and two side dishes."
+  },
+  {
+    "id": "tr-018",
+    "zh": "我快下班了，能帮我叫辆车去音乐厅吗？",
+    "en": "I am about to finish work. Could you book a ride to the concert hall?"
+  },
+  {
+    "id": "tr-019",
+    "zh": "想六点半之前到。",
+    "en": "I would like to arrive before 6:30 p.m."
+  },
+  {
+    "id": "tr-020",
+    "zh": "你看这个包日常背会不会太大？",
+    "en": "Do you think this bag is too big for everyday use?"
+  },
+  {
+    "id": "tr-021",
+    "zh": "有没有小一号的，最好也有这个颜色？",
+    "en": "Is there a smaller size, preferably in the same color?"
+  },
+  {
+    "id": "tr-022",
+    "zh": "这个颜色挺好看。",
+    "en": "This color looks nice."
+  },
+  {
+    "id": "tr-023",
+    "zh": "尺寸我帮你看看。",
+    "en": "I will check the dimensions for you."
+  },
+  {
+    "id": "tr-024",
+    "zh": "车已经叫好了，到了给我发微信就行。",
+    "en": "The ride is already booked. Just message me on WeChat when you arrive."
+  },
+  {
+    "id": "tr-025",
+    "zh": "我们办公室在上海市娄山关路 88 号。",
+    "en": "Our office is at 88 Loushanguan Road, Shanghai."
+  },
+  {
+    "id": "tr-026",
+    "zh": "方案名为“合作方案 v2”。",
+    "en": "The proposal is “Cooperation Draft v2”."
+  },
+  {
+    "id": "tr-027",
+    "zh": "从虹桥站到你们办公室，怎么走最方便？",
+    "en": "What’s the easiest way to get from Hongqiao Station to your office?"
+  },
+  {
+    "id": "tr-028",
+    "zh": "你能把位置发给我吗？",
+    "en": "Could you send me the location?"
+  },
+  {
+    "id": "tr-029",
+    "zh": "你现在方便简短通话吗？",
+    "en": "Are you free for a quick call?"
+  },
+  {
+    "id": "tr-030",
+    "zh": "我想确认方案中的两个问题。",
+    "en": "I’d like to clarify two points in the proposal."
+  },
+  {
+    "id": "tr-031",
+    "zh": "样品费为人民币 300 元，另加运费 30 元。",
+    "en": "The sample fee is CNY 300, plus CNY 30 shipping."
+  },
+  {
+    "id": "tr-032",
+    "zh": "运单引用：SF-DEMO-0930。",
+    "en": "Reference: SF-DEMO-0930."
+  },
+  {
+    "id": "tr-033",
+    "zh": "Alex 的通话联系人已保存。",
+    "en": "Alex’s call contact is saved."
+  },
+  {
+    "id": "tr-034",
+    "zh": "样品已经寄出了吗？",
+    "en": "Have the samples been shipped yet?"
+  },
+  {
+    "id": "tr-035",
+    "zh": "你能把物流信息发给我吗？",
+    "en": "Could you send me the tracking details?"
+  },
+  {
+    "id": "tr-036",
+    "zh": "含运费的样品费用一共是多少？",
+    "en": "How much is the sample fee, including shipping?"
+  },
+  {
+    "id": "tr-037",
+    "zh": "请把费用明细和付款信息发给我。",
+    "en": "Send me the breakdown and payment details, please."
+  },
+  {
+    "id": "tr-038",
+    "zh": "我会查看物流，然后把明细发给你。",
+    "en": "I’ll check the shipment and send you a breakdown."
+  },
+  {
+    "id": "tr-039",
+    "zh": "谢谢，这很有帮助。",
+    "en": "Thanks, that helps."
+  },
+  {
+    "en": "Use Shanghai time for the meeting; the end time is still awaiting confirmation.",
+    "zh": "会议按上海当地时间安排，结束时间等王总确认。"
+  },
+  {
+    "en": "Set a reminder for thirty minutes before the meeting; wait for my confirmation before sending invitations.",
+    "zh": "会前提醒先设提前半小时，邀请等我确认后再发。"
+  },
+  {
+    "en": "Save the hotel search criteria first; convenient transport matters more than breakfast.",
+    "zh": "酒店先保留筛选条件，交通方便比早餐更重要。"
+  },
+  {
+    "en": "Add the check-in and check-out dates after the itinerary is confirmed; compare locations for now.",
+    "zh": "等行程确定后再补入住和退房日期，现在先比较位置。"
+  },
+  {
+    "en": "Cite the sources in the client brief and leave unverified figures blank.",
+    "zh": "客户背景要注明资料来源，暂时没有核实的数据先空着。"
+  },
+  {
+    "en": "Put the discussion topics and open questions in the same Feishu meeting brief.",
+    "zh": "会前清单加上合作议题和待确认问题，放在同一份飞书文档里。"
+  },
+  {
+    "en": "The recipient email and final attachment are not available yet; leave them blank in the draft.",
+    "zh": "收件人邮箱和最终附件还没给你，草稿里先留空。"
+  },
+  {
+    "en": "Mark the email as a discussion draft and do not promise prices or delivery dates.",
+    "zh": "邮件标题标明讨论稿，正文不要承诺价格或交付日期。"
+  },
+  {
+    "en": "Keep the ticket sale reminder separate from tonight’s concert hall visit.",
+    "zh": "开票提醒别和今晚去音乐厅的安排混在一起。"
+  },
+  {
+    "en": "Check the concert sessions and seats first; do not buy tickets before confirmation.",
+    "zh": "演唱会场次和座位先看看，没确认之前先不买票。"
+  },
+  {
+    "en": "Keep dinner light and check the menu first; there is no rush to order.",
+    "zh": "晚饭还是清淡一点，先看看菜单，不用急着下单。"
+  },
+  {
+    "en": "I will send the delivery address later; note down what we want to eat first.",
+    "zh": "收餐地址我晚点发你，先把想吃的记下来。"
+  },
+  {
+    "en": "The ride is already booked; do not book another one and send your location after leaving.",
+    "zh": "车已经叫好，不用重复下单，出发后发我位置。"
+  },
+  {
+    "en": "We still need to reach Shanghai Concert Hall before six thirty; check the route in advance.",
+    "zh": "还是六点半前到上海音乐厅，路线可以提前看看。"
+  },
+  {
+    "en": "I like this patchwork colour scheme; look for a smaller bag in the same colours.",
+    "zh": "喜欢这个拼接配色，先找同色小号款看看。"
+  },
+  {
+    "en": "The image does not show the actual size; check the dimensions and strap length before buying.",
+    "zh": "图片看不出真实尺寸，买之前要核对长宽高和肩带长度。"
+  },
+  {
+    "en": "Please keep the destination as 88 Loushanguan Road.",
+    "zh": "目的地请保持为娄山关路 88 号。"
+  },
+  {
+    "en": "Compare public transport and driving before we choose a route.",
+    "zh": "我们选路线前，先比较公共交通和驾车。"
+  },
+  {
+    "en": "Please list the two open questions before the call.",
+    "zh": "请在通话前列出那两个待确认问题。"
+  },
+  {
+    "en": "We can use WeChat for the call; no need to dial a new number.",
+    "zh": "我们可以用微信通话，不需要拨打新号码。"
+  },
+  {
+    "en": "Please check the tracking reference before sharing an update.",
+    "zh": "分享进展前，请先核对运单引用。"
+  },
+  {
+    "en": "If the delivery status is not verified, leave it unconfirmed in the draft.",
+    "zh": "如果配送状态未经核实，在草稿里保留为待确认。"
+  },
+  {
+    "en": "Please list the sample fee and shipping separately in the breakdown.",
+    "zh": "请在费用明细里分开列出样品费和运费。"
+  },
+  {
+    "en": "Draft the payment note first; I will confirm the payment details later.",
+    "zh": "先起草付款说明，我稍后确认收款信息。"
+  },
+  {
+    "zh": "王晨是这次对接人，吉利汽车商务经理，电话 13800138000。",
+    "en": "Wang Chen is our contact, a business manager at Geely Auto. His phone number is 13800138000."
+  },
+  {
+    "zh": "帮我存一下，备注“上海会展对接”。",
+    "en": "Please save this contact with the note “Shanghai exhibition liaison”."
+  },
+  {
+    "zh": "10月6日下午2点到3点，和吉利汽车王总在国家会展中心洲际酒店开会。",
+    "en": "Meet Mr. Wang from Geely Auto at the InterContinental Shanghai NECC on October 6, from 2 to 3 p.m."
+  },
+  {
+    "zh": "帮我记进日历，提前30分钟提醒。",
+    "en": "Please add it to my calendar and remind me 30 minutes beforehand."
+  },
+  {
+    "zh": "帮我记一下：查公司背景、整理讨论稿，出发前确认交通和住宿。",
+    "en": "Please note these tasks: research the company, prepare the discussion draft, and confirm transport and accommodation before departure."
+  },
+  {
+    "zh": "今晚不想做饭了，想喝粥，再点两个清淡小菜。",
+    "en": "I don’t feel like cooking tonight. I’d like congee and two light side dishes."
+  },
+  {
+    "zh": "先看看菜单，不用急着下单。",
+    "en": "Let’s look at the menu first; there’s no rush to order."
+  },
+  {
+    "zh": "好，我先记菜单，等你发地址。",
+    "en": "OK, I’ll note the menu and wait for your address."
+  },
+  {
+    "zh": "现在方便用微信简单聊一下吗？",
+    "en": "Are you free for a quick WeChat call?"
+  },
+  {
+    "zh": "物流状态和收款资料还需要确认。",
+    "en": "The tracking status and payment details still need confirmation."
+  },
+  {
+    "zh": "先起草费用明细；收款资料我稍后确认。",
+    "en": "Draft the breakdown first; I will confirm the payment details later."
+  },
+  {
+    "zh": "收到。",
+    "en": "Got it."
+  },
+  {
+    "zh": "好的。",
+    "en": "Okay."
+  },
+  {
+    "zh": "嗯嗯。",
+    "en": "Mm-hmm."
+  },
+  {
+    "zh": "明白啦。",
+    "en": "Understood."
+  },
+  {
+    "zh": "没错。",
+    "en": "Exactly."
+  },
+  {
+    "zh": "好吧。",
+    "en": "All right."
+  },
+  {
+    "zh": "是的。",
+    "en": "Yes."
+  },
+  {
+    "zh": "谢谢。",
+    "en": "Thank you."
+  },
+  {
+    "zh": "哈哈哈哈。",
+    "en": "Hahaha."
+  },
+  {
+    "zh": "嘿嘿。",
+    "en": "Hehe."
+  },
+  {
+    "zh": "嗯嗯，好。",
+    "en": "Mm-hmm, okay."
+  },
+  {
+    "zh": "好哒。",
+    "en": "Okey-dokey."
+  },
+  {
+    "zh": "知道啦。",
+    "en": "Got it, thanks."
+  },
+  {
+    "zh": "好。",
+    "en": "Okay."
+  },
+  {
+    "zh": "哈哈。",
+    "en": "Haha."
+  },
+  {
+    "zh": "嗯，好的。",
+    "en": "Sure."
+  },
+  {
+    "zh": "是的呀。",
+    "en": "Yep."
+  },
+  {
+    "zh": "听起来不错。",
+    "en": "Sounds good."
+  },
+  {
+    "zh": "哈哈，行。",
+    "en": "Haha, okay."
+  },
+  {
+    "zh": "嗯，好吧。",
+    "en": "Mm, all right."
+  },
+  {
+    "zh": "周末从上海去苏州拙政园逛逛吧，想先了解园林，再看看门票和路线。",
+    "en": "Let's visit the Humble Administrator's Garden in Suzhou from Shanghai this weekend, and check its introduction, tickets and route first."
+  },
+  {
+    "zh": "哈哈，好呀。",
+    "en": "Haha, sounds good."
+  },
+  {
+    "id": "paragraph-w1-0",
+    "zh": "周五中午十二点开票。",
+    "en": "Tickets go on sale at noon on Friday."
+  },
+  {
+    "id": "paragraph-w1-1",
+    "zh": "记得提前十分钟提醒我，别又忙忘了。",
+    "en": "Please remind me ten minutes beforehand so I do not forget while I am busy."
+  }
+]

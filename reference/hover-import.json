@@ -1,0 +1,513 @@
+{
+  "source": "wechat-point-and-ask",
+  "files": [
+    "app/Sheet.tsx",
+    "app/model.ts",
+    "assist/AppIcon.tsx",
+    "assist/DestinationView.tsx",
+    "assist/MockApp.tsx",
+    "assist/NativeEditor.tsx",
+    "assist/NativeService.tsx",
+    "assist/TranslationFocus.tsx",
+    "assist/XiaoyiAnswer.tsx",
+    "assist/files.ts",
+    "assist/intents.ts",
+    "assist/mock-app.css",
+    "assist/preview.ts",
+    "assist/session.ts",
+    "assist/types.ts",
+    "data/action-provenance.json",
+    "data/app-icons.json",
+    "data/bookclub-messages.json",
+    "data/constraint-rules.json",
+    "data/destinations.json",
+    "data/intent-cases.json",
+    "data/message-intents.json",
+    "data/native-open-apps.json",
+    "data/paragraph-intents.json",
+    "data/paragraph-messages.json",
+    "data/preview-fixtures.json",
+    "data/resources.json",
+    "data/scenarios.json",
+    "data/translations.json",
+    "wechat/data/original.json"
+  ],
+  "assets": [
+    {
+      "path": "apps/web/public/assets/apps/huawei-account.png",
+      "sha256": "e8cbc8ac1c825d3c9fef037fa62aedd1ea5f2b0464c3a4d27d0cf7a38cfb5116"
+    },
+    {
+      "path": "apps/web/public/assets/apps/didi.png",
+      "sha256": "c5226658d0d68a1ff0cab9086e7d6fd036f1436b6d368c3711e119a987e0c758"
+    },
+    {
+      "path": "apps/web/public/assets/apps/petal.png",
+      "sha256": "0f9bbb3550344e18f906e93ca949140774d440a6f56c3a296c29e6b769ac57d2"
+    },
+    {
+      "path": "apps/web/public/assets/apps/moji.png",
+      "sha256": "cbcc59d2ae0dec5126d996db3892347def4f5bd07f007dc100c2a1a5e6911656"
+    },
+    {
+      "path": "apps/web/public/assets/apps/welink.png",
+      "sha256": "715fd0aa8fb395ff4286224522858f2bc53caaa4dbc6b4864d125c1446d6e486"
+    },
+    {
+      "path": "apps/web/public/assets/apps/vmall.png",
+      "sha256": "d13ebf58a3a2c59cb9b2a62b481fdbbb4f02766b78d65a07b353e0a5101cc152"
+    },
+    {
+      "path": "apps/web/public/assets/apps/tianyancha.png",
+      "sha256": "01c3339eaf8ac765713f46e991afb6965f38283343c6f9e5281cd70da6d3bf30"
+    },
+    {
+      "path": "apps/web/public/assets/apps/wallet.png",
+      "sha256": "30767a4849f64862d271b37d4e24586bde2ed30d436707de56a7e5feb6e3147a"
+    },
+    {
+      "path": "apps/web/public/assets/apps/railway.png",
+      "sha256": "c57d1514db0710824fb4ffc67ac2800ce6034764ae38c3b5960597edf20d1670"
+    },
+    {
+      "path": "apps/web/public/assets/apps/sms.png",
+      "sha256": "97825d8b5cbd06921b5f03e8c57e0450950bbf0af344ea0da1fbc4632b30f58d"
+    },
+    {
+      "path": "apps/web/public/assets/apps/recorder.png",
+      "sha256": "2ef8636ae5ab6179d8bf366f4719c88a358e744078122d95714c05c1982f41b1"
+    },
+    {
+      "path": "apps/web/public/assets/apps/gallery.png",
+      "sha256": "f76d09534cd382068227fdc8834778578276811a646b416b158dcee73efd211d"
+    },
+    {
+      "path": "apps/web/public/assets/apps/dianping.png",
+      "sha256": "72d0d73268b0464844302cc792e159cb801e881ff89ef7ad9b7ae744dbc88ca5"
+    },
+    {
+      "path": "apps/web/public/assets/apps/ctrip.png",
+      "sha256": "ec1f3035320d31b2bbf4384502a11cbe7863833a5ab4996bda47f4caa8ca6d87"
+    },
+    {
+      "path": "apps/web/public/assets/apps/mail.png",
+      "sha256": "8c412dd6eac936ffb04296cbb3caf9e35dbefd5097ed2492a1e76b87eb4ccb6f"
+    },
+    {
+      "path": "apps/web/public/assets/apps/themes.png",
+      "sha256": "1f3dd4eefbbe6431ef58c2e3b56ef65dbda7576d6a9f06c43cfab7908b7d0490"
+    },
+    {
+      "path": "apps/web/public/assets/apps/health.png",
+      "sha256": "635a6beb5e64670f65645dc9793192610cb5a5f80ed88ddaf790d589bb9d7e7f"
+    },
+    {
+      "path": "apps/web/public/assets/apps/qqmusic.png",
+      "sha256": "2929914b03b841af4c0972cf44726050f19c174ac5a4c8bd20801fe2bfa8311e"
+    },
+    {
+      "path": "apps/web/public/assets/apps/assistant-today.png",
+      "sha256": "422975b7d3b63c67be32aa3a5fd6d1f3917b5646ed4ed2c219f589a0f74cdeb6"
+    },
+    {
+      "path": "apps/web/public/assets/apps/huaweicloud.png",
+      "sha256": "618656e26b313593913a1d88fee7fadea192a9af8c6fd37dad706b4593a44571"
+    },
+    {
+      "path": "apps/web/public/assets/apps/xiaoyi.png",
+      "sha256": "4ebd906f806b1315ea36f8dcba4e1324b9cb971dc35069b84055ccb1a6459320"
+    },
+    {
+      "path": "apps/web/public/assets/apps/service.png",
+      "sha256": "243cdafaaf0408a209d18f7d6fcec42a2e4e95d978ed8ee5de7773b0add91da2"
+    },
+    {
+      "path": "apps/web/public/assets/apps/membercenter.png",
+      "sha256": "f03e5514fe495843445076c023d5416eb8776f1183d2ae606589dffd30b91843"
+    },
+    {
+      "path": "apps/web/public/assets/apps/files.png",
+      "sha256": "e7f93aa3f4bd3fdf6300210581bc814d5d409696ccfb37a0c5d02e5ab69f06e7"
+    },
+    {
+      "path": "apps/web/public/assets/apps/outlook.png",
+      "sha256": "08a66d4a9d81581c8bfda576c001f995b9540892f69e24271f7c2a10243500f8"
+    },
+    {
+      "path": "apps/web/public/assets/apps/appgallery.png",
+      "sha256": "75eb9dc2890fdb2878d7673efa44a471d1a809f9bf5536120a0113bdac9a2f5c"
+    },
+    {
+      "path": "apps/web/public/assets/apps/music.png",
+      "sha256": "9eaf01e38751aa7d76c18c899f912bd2ee54f23ecbb08e70e5771521bb5e359b"
+    },
+    {
+      "path": "apps/web/public/assets/apps/sf.png",
+      "sha256": "bae16dd60772c296559f40c3eea33cc723e195e82a9a1400e54cc75457e4e22e"
+    },
+    {
+      "path": "apps/web/public/assets/apps/jd.png",
+      "sha256": "30ad35bd5f9f4c4e0231df98c382d19315e6f5ef61688437022df987dc51e1d5"
+    },
+    {
+      "path": "apps/web/public/assets/apps/myhuawei.png",
+      "sha256": "60fa87330bb528dcbcf74d4e58ffce216fd96c69e1e8aaf60a4757b492c3f0e4"
+    },
+    {
+      "path": "apps/web/public/assets/apps/gaode.png",
+      "sha256": "2de1a96ccedeae45d9b71ee6b252d608c15d4e42653665fe748cff345d99e787"
+    },
+    {
+      "path": "apps/web/public/assets/apps/youdao.png",
+      "sha256": "0317c220334361b08b6b668aa28ea406b60c67e5bca81c3b3fbbd4b31ba1644c"
+    },
+    {
+      "path": "apps/web/public/assets/apps/damai.png",
+      "sha256": "d6a2255a4a17f48dd744e4f661aac7905baa42207fba41126bf86a52f17acede"
+    },
+    {
+      "path": "apps/web/public/assets/apps/petalclip.png",
+      "sha256": "a21411921caf96701b4939ebf0a0452e3e435bbdf4fa7d97d869b6ab6c57e7f6"
+    },
+    {
+      "path": "apps/web/public/assets/apps/hima.png",
+      "sha256": "7ed62cb763421aa1bd6a41a02c4368dcfbf04dcf1507f1e1b40dc1ef839c4c08"
+    },
+    {
+      "path": "apps/web/public/assets/apps/weather.png",
+      "sha256": "425a22764d33ef4fc48047f5b78bd4276f2e365b4436949bf9502279f852777e"
+    },
+    {
+      "path": "apps/web/public/assets/apps/notes.png",
+      "sha256": "e79367127cd277c75a4a6e8362c723ed8514aa397147cc258b0892f86f273913"
+    },
+    {
+      "path": "apps/web/public/assets/apps/clone.png",
+      "sha256": "c3005ecc71ead75e624d387b58b4a20961c2f24bd6341726c919cd9ac9d637a1"
+    },
+    {
+      "path": "apps/web/public/assets/apps/smartlife.png",
+      "sha256": "9ab8b3f5bebaa491f4021e50e1ae244e8f5d2cb94ae3c84c108fde52132f2aa6"
+    },
+    {
+      "path": "apps/web/public/assets/apps/keep.png",
+      "sha256": "339296c522d93c62d664dd0b41261fb56fee670e121768e6c523eb5892be0526"
+    },
+    {
+      "path": "apps/web/public/assets/apps/jdhealth.png",
+      "sha256": "9685c0e346368575a3a07b4433474be21001ac7778790ae3be29968036c0ed1b"
+    },
+    {
+      "path": "apps/web/public/assets/apps/toutiao.png",
+      "sha256": "1c8c7bb170969b8de67f3888f2e07dfeed4c0121536f27b2ee1904b0c1c35c31"
+    },
+    {
+      "path": "apps/web/public/assets/apps/taobao.png",
+      "sha256": "b9bbca1ac89a087c8df496a55f67d455e572dae84fee89a4b7eb76e8cc064878"
+    },
+    {
+      "path": "apps/web/public/assets/apps/calculator.png",
+      "sha256": "43a81d76e99e2366be92615e419248eb3385639a7a15ffde03aea05327cee20a"
+    },
+    {
+      "path": "apps/web/public/assets/apps/cloudspace.png",
+      "sha256": "ca95406e54fc163491de091f0ab0e070c8e914628651604adc7901ef7f2f8484"
+    },
+    {
+      "path": "apps/web/public/assets/apps/baidu.png",
+      "sha256": "51313c93c1237ef0cac541e62cc17dc593f847730737f21a8aa0272eb363b198"
+    },
+    {
+      "path": "apps/web/public/assets/apps/calendar.png",
+      "sha256": "943cfcc1c4911a9051f1d15a2677b84666e96e460266adf832fa924521302da5"
+    },
+    {
+      "path": "apps/web/public/assets/apps/cloudmeeting.png",
+      "sha256": "0a4015b8e3bae3b5146e40efa9f308c1b0314fb42aa4db9cd65645b148f64024"
+    },
+    {
+      "path": "apps/web/public/assets/apps/meituan.png",
+      "sha256": "374d9f6248972190ae75049bed781045b2424e0733950a6f99342307ed2e020a"
+    },
+    {
+      "path": "apps/web/public/assets/apps/video.png",
+      "sha256": "14bf8fb468a625f28cfc5cad240c578cd85e1892c3383a7f4a64b7152d9e8708"
+    },
+    {
+      "path": "apps/web/public/assets/apps/gamecenter.png",
+      "sha256": "3f2ac61912c66aa5b94b477fd7839be99b183eef417da94ca26c81d451f9ab04"
+    },
+    {
+      "path": "apps/web/public/assets/apps/phone.png",
+      "sha256": "73db8c7fc2ad9636deaa067257c9238c6ea74a9ca9469a4864707c127a5aa567"
+    },
+    {
+      "path": "apps/web/public/assets/apps/clock.png",
+      "sha256": "c8fd4d094fbb7f196a1b90f8c3c6c8892b27cb27be7c2e07b84f0171d4c2b637"
+    },
+    {
+      "path": "apps/web/public/assets/apps/alipay.png",
+      "sha256": "1a759368979fa6a5bf2a5a5f36a03907dd80c8983933ae3d75a0451ea9f6ebd9"
+    },
+    {
+      "path": "apps/web/public/assets/apps/huawei-handwriting.png",
+      "sha256": "01b629fb8ce5cb773bcdbb0bba2c3bca2189ca8dc290ec763cb4436a090e5594"
+    },
+    {
+      "path": "apps/web/public/assets/apps/audio.png",
+      "sha256": "504827821563711a21638d9d42bc59f9bb203592f8ef96e2acebf5064653079a"
+    },
+    {
+      "path": "apps/web/public/assets/apps/feishu.png",
+      "sha256": "53f10a0979388b5956c81dbfdb6f7d657c5a0e2565f0f9d6eaa1fc5b36b0fed4"
+    },
+    {
+      "path": "apps/web/public/assets/apps/umetrip.png",
+      "sha256": "e70e80989f7eb51810097cf9f69e91cec3eddd33d8faefb49669716cc7513191"
+    },
+    {
+      "path": "apps/web/public/assets/apps/qunar.png",
+      "sha256": "01537f4cc63065bf13f9b23e96977f34f1c8217fdd9a51e26005a3921ee925af"
+    },
+    {
+      "path": "apps/web/public/assets/apps/compass.png",
+      "sha256": "a8e1c4a1dc494f3e754c1918a5054f1e2996158f31da97914cdb2f9e201b0bd2"
+    },
+    {
+      "path": "apps/web/public/assets/apps/reading.png",
+      "sha256": "747acd2ebde338e81d4f3737b78e835a7c6a989e9787513acf58e7340ce3a73e"
+    },
+    {
+      "path": "apps/web/public/assets/apps/education.png",
+      "sha256": "32c948018b044c5aab27a7522ddcb70615485f02987823987e5e07bbfd8c893c"
+    },
+    {
+      "path": "apps/web/public/assets/apps/magazine.png",
+      "sha256": "78d2098aea42384774f92c4a02310d5816022895721d261ba65c8c5287741bbd"
+    },
+    {
+      "path": "apps/web/public/assets/apps/skytone.png",
+      "sha256": "fd314ddc33f2c7d346df220f50cfc0235dd44d254eb9475c2fce23c97436a336"
+    },
+    {
+      "path": "apps/web/public/assets/apps/browser.png",
+      "sha256": "2b530eaded385b04bc6484772322478cde2f8a398ce24e393a7e1897c9a67ed5"
+    },
+    {
+      "path": "apps/web/public/assets/apps/gopaint.png",
+      "sha256": "18536694dc3af5ba4ef50df887573b4ee589e029d05f48ab5676937a8fb24382"
+    },
+    {
+      "path": "apps/web/public/assets/apps/contacts.png",
+      "sha256": "73db8c7fc2ad9636deaa067257c9238c6ea74a9ca9469a4864707c127a5aa567"
+    },
+    {
+      "path": "apps/web/public/assets/apps/smartcare.png",
+      "sha256": "3a7b31d067558d418e28e45661055459df08d30845dc8f567ab962000dc4022c"
+    },
+    {
+      "path": "apps/web/public/assets/apps/optimizer.png",
+      "sha256": "65dc9425a068108ce48894f622a3119971ec6bc3cad317778a0b384a48f86813"
+    },
+    {
+      "path": "apps/web/public/assets/apps/maoyan.png",
+      "sha256": "b0ba751714667387dde61bee242113565b2c836aba7e1649be739b02d2b10b00"
+    },
+    {
+      "path": "apps/web/public/assets/apps/find-device.png",
+      "sha256": "7112c19e70feeed0aa98117cd39f149b778c6890330221706ac5b3cb0edba462"
+    },
+    {
+      "path": "apps/web/public/assets/apps/wechat.png",
+      "sha256": "66ba3120791779555e0d96f5ce6e5ac02582e72303ad7af96649465982002f53"
+    },
+    {
+      "path": "apps/web/public/assets/apps/camera.png",
+      "sha256": "a6065ceebe263d5ad74d8aea2b92cac824e9ef95d1961607baa18de2c5d78670"
+    },
+    {
+      "path": "apps/web/public/assets/apps/cainiao.png",
+      "sha256": "bf7ca9bebb44e9e07156f95f49592ec110ce114f5a22beadd076f7e7e5645f3a"
+    },
+    {
+      "path": "apps/web/public/assets/apps/meetime.png",
+      "sha256": "df991418d3cce206b6d1d7e3807db52d28ce551e49d1f9d837429e34d2046574"
+    },
+    {
+      "path": "apps/web/public/assets/products/bag-6.png",
+      "sha256": "fb3d616c24887b1b8408e0b8eed77198c5dd4e6c4b65ec06f3cd6a05858f2daf"
+    },
+    {
+      "path": "apps/web/public/assets/products/bag-7.png",
+      "sha256": "a811869cf5c54bc96817019e2113567fed544cd18c3ff591d46d749f4f5c5124"
+    },
+    {
+      "path": "apps/web/public/assets/products/bag-5.png",
+      "sha256": "0a9aba51cd67ddd708379ca9644540f2ab037622178db7d605f0fa6354a7abc3"
+    },
+    {
+      "path": "apps/web/public/assets/products/bag-4.png",
+      "sha256": "5ddf1c53baadfc504eb6ba20de6f6ddb6b689aba3a024afe7456f79f4041c013"
+    },
+    {
+      "path": "apps/web/public/assets/products/congee.png",
+      "sha256": "4c4e682b65fa2ead74d39d56e95c0b09515f5339977692a9fcdc25147a96e36a"
+    },
+    {
+      "path": "apps/web/public/assets/products/bag-1.png",
+      "sha256": "cb3907ab6ee9c679f8a7e72b0a37c4baee36899348e7abfb55399c1cf7faf787"
+    },
+    {
+      "path": "apps/web/public/assets/products/bag-3.png",
+      "sha256": "c7238477e558073befe5cccf33a3be116ac05b2f77004fa3dbf63253b1297c52"
+    },
+    {
+      "path": "apps/web/public/assets/products/bag-2.png",
+      "sha256": "2ebea204d303233e317a162450628a3a6093ce6f453454d102509ca4d1a68fd3"
+    },
+    {
+      "path": "apps/web/public/assets/products/suzhou-garden.png",
+      "sha256": "dc502164cd82962bdca7ca3475dc55d4a55afdca3c13fb0524a7aa223ab1a16e"
+    },
+    {
+      "path": "apps/web/public/assets/products/bag-8.png",
+      "sha256": "de494298753d14041947e29b95e8b93f1daa149b0a3f8a0440abf0a87e93bd61"
+    },
+    {
+      "path": "apps/web/public/assets/native-wechat/xiaodaka.png",
+      "sha256": "64502244c291a955cfb498a51a3b88b098b4adc66ce9453e55f9f94c9c8256a1"
+    },
+    {
+      "path": "apps/web/public/assets/native-wechat/workbuddy.png",
+      "sha256": "9f1cbbd7d0e2d52e7b9ad1cf0b552ef187cb9b4425b9c7741097bdd36b7b2743"
+    },
+    {
+      "path": "apps/web/public/assets/native-wechat/ima.png",
+      "sha256": "b374f4f4942ea23fb00c50baabd8096dd519021ea73794b22883d09b5c4dd246"
+    },
+    {
+      "path": "apps/web/public/assets/native-wechat/tencent-docs.png",
+      "sha256": "088fe51fd08d28c7401cc7dee52bf0b665fe9ec32272c60da136822093b5214a"
+    },
+    {
+      "path": "apps/web/public/assets/native-wechat/miniapp.png",
+      "sha256": "24d9c3e948c5942202948aa094da5d5b9529ca28f06194512b01c7d6356ff907"
+    },
+    {
+      "path": "apps/web/public/assets/native-wechat/weibo.png",
+      "sha256": "46496ad4add33fa0b7837486ab5f90a325e03359070a708def447c4b383cf753"
+    },
+    {
+      "path": "apps/web/public/assets/native-wechat/jd.png",
+      "sha256": "795ce1ce79785d1d0da66336e7c646d13f5fec5bc766cdd670de1836b7b060ce"
+    },
+    {
+      "path": "apps/web/public/assets/native-wechat/caoliao.png",
+      "sha256": "7de18fdeda242ab6fc845f2607d96fcdabb8562ee2296e881b1e49f661d54fbb"
+    },
+    {
+      "path": "apps/web/public/assets/native-wechat/weiyun.png",
+      "sha256": "813380626a9bd2ef23b983dfcb127d372677068d7dc20f6faeb9fd0414ed41e7"
+    },
+    {
+      "path": "apps/web/public/assets/native-wechat/baidu.png",
+      "sha256": "2e7601e75d4a1df23119eb0160d3fee11ac5b844448ec9dd9fd2d64328aca9f0"
+    },
+    {
+      "path": "apps/web/public/assets/native-wechat/wps.png",
+      "sha256": "312d300e85f648279f69bac912a7a266cbc0681ffcf04ec2b264cd787dbf78e6"
+    },
+    {
+      "path": "apps/web/public/assets/native-wechat/meituan.png",
+      "sha256": "fd476e0075c9a0348bea323e458a75727154f88ffd499aeba7479de8570e92d0"
+    },
+    {
+      "path": "apps/web/public/assets/native-wechat/mowen.png",
+      "sha256": "c8e4b0b26a1202c542c35eb35b3dfcad5b9779f2196a96a85cc75d98c28e564d"
+    },
+    {
+      "path": "apps/web/public/assets/native-wechat/qunar.png",
+      "sha256": "56e8e003528f79e396719ad291671df4719e17a6ad0430e49d4aa2688de5ff83"
+    },
+    {
+      "path": "apps/web/public/assets/native-wechat/tongcheng.png",
+      "sha256": "6627c3eb6def813807658dfce6b9b89c300e915e5de03f5eab8a961825d0a543"
+    },
+    {
+      "path": "apps/web/public/assets/native-wechat/yuanbao.png",
+      "sha256": "845de76c83d4192d6d0d7481f9be6ec3a99e1914937bab19bbc4ee3423773354"
+    },
+    {
+      "path": "apps/web/public/assets/native-wechat/camcard.png",
+      "sha256": "c83a35daaef499efc3ffe1ca24c60e6cb3c18c761c426ff7a8461e958213d650"
+    },
+    {
+      "path": "apps/web/public/assets/native-wechat/qunjielong.png",
+      "sha256": "e167900bc4ce0b765a74dc03b1dbbaba392225fe5db6b1ca5355429da7d59f57"
+    }
+  ],
+  "boundary": "Reviewed icons, product illustrations and vector controls only. No recording frames or source email captures.",
+  "scope": "Independent phone-only Hover service pages; all third-party actions including calendar are local simulations.",
+  "adaptations": [
+    "Scoped CSS under .hover-services",
+    "Per-conversation, message and action storage keys",
+    "Hierarchical back handling",
+    "Native clipboard via secure PasteButton",
+    "Absent source fields stay unfilled",
+    "No original email screenshots or raw recordings bundled"
+  ],
+  "svgAssets": [
+    {
+      "file": "assets/figma/imgAppIconXiaoyi.svg",
+      "sha256": "18d1089f67d63c544d7cd9330056eb989a0bea8e72387cad9855b9b17b708aa0"
+    },
+    {
+      "file": "assets/figma/imgFrame.svg",
+      "sha256": "82615aca089d988a2b8b776fcc2d190010e9f88ea311376fd6b7e5489e0a8850"
+    },
+    {
+      "file": "assets/figma/imgFrame1.svg",
+      "sha256": "9676b52f8ef4a66dfffbb699fcdec56c788e80c24a922b7e5d5db86333fe28c7"
+    },
+    {
+      "file": "assets/figma/imgIconBack.svg",
+      "sha256": "bea6d51fdf849abd813732c25c6d5e8d48935d0be7477e73c275e65045905230"
+    },
+    {
+      "file": "assets/figma/imgIconClose.svg",
+      "sha256": "d204a17c9e2bb9a538181a1cf38731c8c285cc0cc5b32508e50a9b3ef39515fe"
+    },
+    {
+      "file": "assets/figma/imgIconMore.svg",
+      "sha256": "0a007a8691224a995a349767eb0a58d989cd8fc550b19325853b152a7c651015"
+    },
+    {
+      "file": "assets/figma/native-phone.svg",
+      "sha256": "f4e62816d4d50683e1fd78e333018349140d84bdf02a35af485c5db49aab931d"
+    },
+    {
+      "file": "assets/figma/tool-focus.svg",
+      "sha256": "12933c9bb07cd137372159ba2c826929edb823fbedfe53a9267683a87133139d"
+    },
+    {
+      "file": "assets/figma/tool-kaleidoscope.svg",
+      "sha256": "6727e084849b5a1ad0c3644b3b605f1c7d04e3169a2badc405dd3048df0847eb"
+    },
+    {
+      "file": "assets/figma/tool-magnify.svg",
+      "sha256": "b8a3b504875033cd24e537a24a7c7086d4c24b9a856b487191f0c2b96114342f"
+    },
+    {
+      "file": "assets/figma/tool-read.svg",
+      "sha256": "c5c082c7028436bbd8a0efe14c23e132127abde566cb86bf251e81ad8b3b428a"
+    },
+    {
+      "file": "assets/figma/tool-spotlight.svg",
+      "sha256": "90eebf805b2cb564197ae8df9cac572244b50f9e857f4dd3d4bfbc20cff70f22"
+    },
+    {
+      "file": "assets/figma/tool-translate.svg",
+      "sha256": "7340faf5906c22123c10a35fc87171c86941b8f2e3e349dbe76ce24773c096f6"
+    }
+  ]
+}

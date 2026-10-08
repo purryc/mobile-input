@@ -1,0 +1,11 @@
+{
+  "repository": "https://github.com/tylerreichle/mario_js",
+  "commit": "1c8978790c4c7fbf13afac6e3d300cb5af9e0b72",
+  "archiveSha256": "dd14942ba8b91efef8cd2821e3d0f0ff4f4fd6675c817af8a0994286087180a2",
+  "modifications": [
+    "Direct held-key input",
+    "Pause, watchdog and parent bridge",
+    "Fixed timestep",
+    "Modern offline bundle; no external jQuery dependency"
+  ]
+}

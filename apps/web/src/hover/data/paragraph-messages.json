@@ -1,0 +1,122 @@
+[
+  {
+    "conversationId": "wx-work",
+    "messageId": "wx-work-m001",
+    "text": "我家橘猫从门口跑出去了，脖子上有蓝色项圈。它平时胆子比较小，可能会躲在楼下的灌木丛里。\n\n大家看到麻烦告诉我具体位置，先别追它。我会带猫粮过去，免得它受惊跑远。",
+    "translations": [
+      {
+        "zh": "我家橘猫从门口跑出去了，脖子上有蓝色项圈。它平时胆子比较小，可能会躲在楼下的灌木丛里。",
+        "en": "My orange cat escaped through the front door. It wears a blue collar and may be hiding in the bushes downstairs."
+      },
+      {
+        "zh": "大家看到麻烦告诉我具体位置，先别追它。我会带猫粮过去，免得它受惊跑远。",
+        "en": "Please tell me the exact location if you see it, and do not chase it. I will bring cat food so it does not get frightened and run away."
+      }
+    ]
+  },
+  {
+    "conversationId": "wx-work",
+    "messageId": "wx-work-m002",
+    "text": "蓝色项圈这个特征很明显，大家看到先别追。三号楼附近我再绕一圈。\n\n我会重点看看单元门口和花坛后面，发现它就发消息。你可以先准备好猫包，我们找到后一起接它回家。",
+    "translations": [
+      {
+        "zh": "蓝色项圈这个特征很明显，大家看到先别追。三号楼附近我再绕一圈。",
+        "en": "The blue collar makes it easy to recognize. Do not chase it; I will check around Building 3 again."
+      },
+      {
+        "zh": "我会重点看看单元门口和花坛后面，发现它就发消息。你可以先准备好猫包，我们找到后一起接它回家。",
+        "en": "I will look near the entrances and behind the flowerbeds and message you if I see it. Please prepare the carrier so we can bring it home together."
+      }
+    ]
+  },
+  {
+    "conversationId": "wx-family",
+    "messageId": "family1",
+    "text": "周末回来吃饭吗？煮了你喜欢的汤，今天买的番茄也很新鲜。\n\n确定几点到以后告诉我，我按时间下锅。要是路上堵车也别着急，到了再一起吃。",
+    "translations": [
+      {
+        "zh": "周末回来吃饭吗？煮了你喜欢的汤，今天买的番茄也很新鲜。",
+        "en": "Are you coming home for dinner this weekend? I made your favorite soup and bought fresh tomatoes today."
+      },
+      {
+        "zh": "确定几点到以后告诉我，我按时间下锅。要是路上堵车也别着急，到了再一起吃。",
+        "en": "Let me know when you will arrive so I can time the cooking. Do not worry about traffic; we will eat together when you get here."
+      }
+    ]
+  },
+  {
+    "conversationId": "wx-family",
+    "messageId": "family2",
+    "text": "周日中午到，我来买水果。你们不用再跑超市了，我顺路挑些橙子和葡萄。\n\n出发前我再发个消息，要是有什么要带的就告诉我。吃完饭我们可以一起去附近散散步。",
+    "translations": [
+      {
+        "zh": "周日中午到，我来买水果。你们不用再跑超市了，我顺路挑些橙子和葡萄。",
+        "en": "I will arrive at noon on Sunday and bring fruit. You do not need to visit the supermarket; I will pick up oranges and grapes."
+      },
+      {
+        "zh": "出发前我再发个消息，要是有什么要带的就告诉我。吃完饭我们可以一起去附近散散步。",
+        "en": "I will message you before I leave. Let me know if you need anything else, and we can take a walk nearby after lunch."
+      }
+    ]
+  },
+  {
+    "conversationId": "wx-public",
+    "messageId": "wx-public-archive-01-1",
+    "text": "读者问，不买书能不能在店里坐一下午。我们想把书店留成一个可以安静停留的地方，让阅读不用赶时间。\n\n靠窗的座位会继续开放，也欢迎带自己的书来。离开时把桌面收拾好，给下一位读者留一张干净的桌子。",
+    "translations": [
+      {
+        "zh": "读者问，不买书能不能在店里坐一下午。我们想把书店留成一个可以安静停留的地方，让阅读不用赶时间。",
+        "en": "A reader asked whether they could spend an afternoon here without buying a book. We want the bookshop to be a quiet place where reading does not feel rushed."
+      },
+      {
+        "zh": "靠窗的座位会继续开放，也欢迎带自己的书来。离开时把桌面收拾好，给下一位读者留一张干净的桌子。",
+        "en": "The window seats remain open, and you are welcome to bring your own book. Please leave a clean table for the next reader."
+      }
+    ]
+  },
+  {
+    "conversationId": "wx-public",
+    "messageId": "wx-public-archive-01-3",
+    "text": "开放座位允许安静停留，工作日的下午通常更宽松。店里有饮用水，也有可以翻阅的公共书架。\n\n如果想参加周末的共读，请提前在活动页查看人数。带朋友一起过来也可以，各自登记就好。",
+    "translations": [
+      {
+        "zh": "开放座位允许安静停留，工作日的下午通常更宽松。店里有饮用水，也有可以翻阅的公共书架。",
+        "en": "The open seats are available for quiet visits, especially on weekday afternoons. There is drinking water and a shared bookshelf."
+      },
+      {
+        "zh": "如果想参加周末的共读，请提前在活动页查看人数。带朋友一起过来也可以，各自登记就好。",
+        "en": "If you would like to join the weekend reading session, check availability on the event page. Friends are welcome to register individually."
+      }
+    ]
+  },
+  {
+    "conversationId": "wx-files",
+    "messageId": "transfer-report",
+    "text": "这份报告整理了社区读书会的筹备事项，包括场地、人员分工和当天流程。活动前可以按清单再核对一遍。\n\n报名信息只用于本次活动联络，分享文档前记得检查权限。费用和物资数量以报告中的表格为准。",
+    "translations": [
+      {
+        "zh": "这份报告整理了社区读书会的筹备事项，包括场地、人员分工和当天流程。活动前可以按清单再核对一遍。",
+        "en": "This report covers the community book club preparations, including the venue, responsibilities and schedule. Review the checklist before the event."
+      },
+      {
+        "zh": "报名信息只用于本次活动联络，分享文档前记得检查权限。费用和物资数量以报告中的表格为准。",
+        "en": "Registration details are only for contacting participants about this event. Check sharing permissions; use the report tables for costs and quantities."
+      }
+    ]
+  },
+  {
+    "conversationId": "wx-files",
+    "messageId": "transfer-photo-1",
+    "text": "这张照片留作包包选款参考，主要看拼接配色和肩带的比例。图片里的颜色会受光线影响，实物还需要再确认。\n\n比较商品时也看看尺寸、重量和内部隔层。先把喜欢的款式留着，等参数齐了再决定。",
+    "translations": [
+      {
+        "zh": "这张照片留作包包选款参考，主要看拼接配色和肩带的比例。图片里的颜色会受光线影响，实物还需要再确认。",
+        "en": "This photo is a reference for the bag’s patchwork colors and strap proportions. Lighting affects the colors, so the actual item still needs checking."
+      },
+      {
+        "zh": "比较商品时也看看尺寸、重量和内部隔层。先把喜欢的款式留着，等参数齐了再决定。",
+        "en": "Compare size, weight and internal compartments as well. Keep the styles you like and decide once the specifications are available."
+      }
+    ]
+  }
+]
