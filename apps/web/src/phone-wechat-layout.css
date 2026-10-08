@@ -1,0 +1,28 @@
+/* One safe-area-aware screen: message, replies, actions and fixed voice/editor controls. */
+.wechat-phone{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+.wechat-phone .glass-status{height:52px;padding:2px 20px;gap:18px}
+.wechat-phone .glass-context{padding:2px 20px 8px;scrollbar-width:thin}
+.wechat-phone .glass-context h1{font-size:21px;line-height:30px;margin:0 0 8px;gap:10px}
+.wechat-phone h1 .wx-avatar{width:30px;height:30px}
+.wechat-phone .glass-context blockquote{padding:10px 12px;margin:0 0 6px;font-size:13px;line-height:1.5;max-height:176px;border-radius:18px}
+.wechat-phone .glass-context>label{font-size:12px;line-height:18px;margin:6px 0}
+.wechat-phone .reply-options{gap:6px}
+.wechat-phone .reply-options button{min-height:44px;padding:9px 13px;font-size:13px;line-height:20px;border-radius:19px}
+.wechat-phone .related-actions{gap:7px;min-height:64px}
+.wechat-phone .related-actions button{min-height:64px;padding:7px 3px;gap:5px;border-radius:18px;line-height:17px;white-space:nowrap}
+.wechat-phone .related-actions img{width:25px;height:25px}
+.wechat-phone .glass-input{padding:2px 16px 6px;border-radius:26px 26px 0 0}
+.wechat-phone .edit-tools{height:48px;margin:0 -6px 2px}
+.wechat-phone .phone-draft-surface textarea{height:64px;min-height:48px;padding:10px 12px;font-size:14px;line-height:21px}
+.wechat-phone .polish-slot{height:30px;min-height:30px}
+.wechat-phone .speech-status-slot{height:20px}
+.wechat-phone .glass-bottom>button{height:48px}
+/* Keep all controls reachable on shorter displays; only long source text scrolls. */
+@media(max-height:760px){.wechat-phone .glass-context blockquote{max-height:128px}.wechat-phone .phone-draft-surface textarea{height:52px}.wechat-phone .glass-context{padding-bottom:6px}}
+/* Give reclaimed room to the editable draft instead of leaving a decorative gap. */
+.wechat-phone .glass-context{flex:0 1 auto}
+.wechat-phone .glass-input{display:flex;flex-direction:column;flex:1 0 auto;min-height:224px}
+.wechat-phone .edit-tools,.wechat-phone .speech-status-slot,.wechat-phone .glass-bottom{flex-shrink:0}
+.wechat-phone .phone-draft-surface{display:flex;flex-direction:column;flex:1;min-height:96px}
+.wechat-phone .phone-draft-surface textarea{flex:1;min-height:64px;height:0}
+.wechat-phone .polish-slot{flex-shrink:0}

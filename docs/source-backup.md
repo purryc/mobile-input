@@ -1,6 +1,6 @@
 # 源码备份
 
-GitHub：<https://github.com/purryc/mobile-input>（私有仓库）。Google Drive 源码 ZIP 放在现有 TEMP 文件夹。备份仅在用户要求时推送。
+GitHub：<https://github.com/purryc/mobile-input>（按用户 2026-10-08 的要求使用公开仓库）。Google Drive 源码 ZIP 放在现有 TEMP 文件夹，沿用文件夹原有访问权限。备份仅在用户要求时推送。
 
 源码包含 Web、HarmonyOS 两端、共享协议、测试、可编辑样例、已审核运行素材、第三方源码、文档、设计脚本和依赖锁文件。原始录屏、私有截图、签名凭据、安装依赖、构建缓存和产物不进入备份。真机 HAP 需在恢复环境重新配置本机签名；构建方式见 `build-install.md`。
 

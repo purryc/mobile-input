@@ -9,7 +9,7 @@ for role,name in [('tablet','Input Agent'),('phone','Input Agent')]:
  'oh-package.json5':{'modelVersion':'6.0.2','name':f'mobile-input-{role}','version':'1.0.0','dependencies':{},'devDependencies':{}},
  'hvigor/hvigor-config.json5':{'modelVersion':'6.0.2','dependencies':{}},
  'build-profile.example.json5':{'app':{'signingConfigs':[],'products':[{'name':'default','compatibleSdkVersion':'6.0.2(22)','targetSdkVersion':'6.0.2(22)','runtimeOS':'HarmonyOS'}]},'modules':[{'name':'entry','srcPath':'./entry','targets':[{'name':'default','applyToProducts':['default']}]}]},
- 'AppScope/app.json5':{'app':{'bundleName':f'com.hmilab.mobileinput.{role}','vendor':'hmilab','versionCode':1001000,'versionName':'1.1.0','icon':'$media:app_icon','label':'$string:app_name'}},
+ 'AppScope/app.json5':{'app':{'bundleName':f'com.hmilab.mobileinput.{role}','vendor':'hmilab','versionCode':1001001,'versionName':'1.1.1','icon':'$media:app_icon','label':'$string:app_name'}},
  'AppScope/resources/base/element/string.json':{'string':[{'name':'app_name','value':name}]},
  'entry/build-profile.json5':{'apiType':'stageMode','buildOption':{}},
  'entry/oh-package.json5':{'name':'entry','version':'1.0.0','dependencies':{}},

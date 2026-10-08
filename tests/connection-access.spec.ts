@@ -13,7 +13,7 @@ test('persistent connection access preserves drafts, cancels cycling and release
  }
  await tablet.getByRole('button',{name:'微信',exact:true}).click();await expect(phone.getByLabel('手机待机桌面')).toBeVisible();
  await phone.getByRole('button',{name:'连接设置',exact:true}).tap();await expect(phone.getByRole('dialog')).toContainText('已连接工作台');await phone.keyboard.press('Escape');await expect(phone.getByLabel('手机待机桌面')).toBeVisible();
- await tablet.getByLabel('微信回复输入框',{exact:true}).click();await expect(phone.locator('.wechat-phone')).toBeVisible();
+ await tablet.getByLabel('微信回复输入框',{exact:true}).click();await expect(phone.locator('.wechat-phone')).toBeVisible();await expect(phone.locator('.agent-status-area')).toHaveCount(0);await expect(phone.locator('.glass-status .agent-connection')).toBeVisible();expect((await phone.locator('.agent-workspace').boundingBox())?.height).toBe(844);
  const draft=phone.locator('.wechat-phone textarea');await draft.fill('保留草稿🙂');await expect(tablet.getByLabel('微信回复输入框',{exact:true})).toHaveValue('保留草稿🙂');
  await phone.getByRole('button',{name:'连接设置',exact:true}).tap();await phone.getByRole('button',{name:'关闭连接设置'}).click();await expect(draft).toHaveValue('保留草稿🙂');
  await phone.getByRole('button',{name:'切换应用',exact:true}).click();await expect(tablet.getByRole('dialog',{name:'切换应用'})).toBeVisible();await phone.getByRole('button',{name:'连接设置',exact:true}).tap();await expect(tablet.getByRole('dialog',{name:'切换应用'})).toHaveCount(0);await phone.getByRole('button',{name:'关闭连接设置'}).click();
@@ -30,6 +30,6 @@ test('persistent connection access preserves drafts, cancels cycling and release
  await phone.getByRole('button',{name:'关闭连接设置'}).click();await phone.screenshot({path:'artifacts/input-agent-v1.1.0/phone-fc.png'});
  await tablet.getByRole('button',{name:'连接设置',exact:true}).tap();await expect(tablet.locator('.pair-code')).toHaveText(pin);await tablet.screenshot({path:'artifacts/input-agent-v1.1.0/tablet-game-pair.png'});
  await phone.setViewportSize({width:390,height:844});await phone.evaluate(()=>window.dispatchEvent(new CustomEvent('native-insets',{detail:{width:390,height:844,top:44,bottom:24,left:0,right:0}})));
- await expect.poll(async()=>(await phone.getByRole('button',{name:'连接设置',exact:true}).boundingBox())?.y).toBe(44);
+ await expect(phone.locator('.fc-phone')).toHaveCSS('padding-top','44px');await expect(phone.locator('.agent-status-area')).toHaveCount(0);await expect(phone.getByRole('button',{name:'连接设置',exact:true})).toBeVisible();
  await context.close();
 });

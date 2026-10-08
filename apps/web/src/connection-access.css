@@ -25,3 +25,11 @@
 .agent-phone .agent-workspace{top:calc(48px + var(--native-top,0px))}
 .agent-phone .phone-home,.agent-phone .presentation-phone-shell,.agent-phone .fc-phone{padding-top:0}
 .agent-phone .phone-home:before{display:none}
+/* Controllers own their existing status row, so no extra header reduces the canvas. */
+.agent-phone.inline-connection .agent-workspace{top:0}
+.agent-phone.inline-connection .presentation-phone-shell,.agent-phone.inline-connection .fc-phone{padding-top:var(--native-top,0px)}
+.agent-phone.inline-connection .wechat-phone{padding-top:var(--native-top,env(safe-area-inset-top));padding-bottom:var(--native-bottom,env(safe-area-inset-bottom))}
+.wechat-phone .glass-status{height:72px;padding:12px 22px;gap:18px}
+.wechat-phone .glass-status .agent-connection{margin-left:auto;color:#415566}
+.presentation-glass .present-connection{position:absolute;left:264px;top:18px;width:48px;height:48px;border-radius:22px;color:#536c7b}
+.fc-stage .fc-inline-connection{position:absolute;left:716px;top:18px;width:48px;height:48px;color:#53645e}

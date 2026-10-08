@@ -2,7 +2,7 @@ from pathlib import Path
 import zipfile,hashlib,json
 root=Path(__file__).resolve().parents[1]
 out=root/'artifacts/delivery';out.mkdir(parents=True,exist_ok=True)
-allowed=['AGENTS.md','README.md','CHANGELOG.md','.gitignore','package.json','package-lock.json','tsconfig.json','vite.config.ts','playwright.config.ts','apps','packages','scripts','tests','docs','samples','reference/README.md','reference/asset-manifest.json','reference/frame-map.json','reference/hover-import.json','reference/clean-icons.json','reference/fc-figma.json','reference/wechat-avatars.json','reference/wps-icon.json','reference/presentation-figma.json','reference/phone-home.json','design-qa.md','vendor']
+allowed=['AGENTS.md','README.md','CHANGELOG.md','.gitignore','package.json','package-lock.json','tsconfig.json','vite.config.ts','playwright.config.ts','apps','packages','scripts','tests','docs','samples','reference/README.md','reference/asset-manifest.json','reference/frame-map.json','reference/hover-import.json','reference/hover-focus-material.json','reference/clean-icons.json','reference/fc-figma.json','reference/wechat-avatars.json','reference/wps-icon.json','reference/presentation-figma.json','reference/phone-home.json','design-qa.md','vendor']
 skip_dirs={'node_modules','oh_modules','build','.hvigor','.git','private'}
 def permitted(p):
  rel=p.relative_to(root)

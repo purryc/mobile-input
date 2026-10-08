@@ -3,6 +3,7 @@ import {pausePresentation,releasePointer} from './presentation';
 import type {AppId,State,Command} from './model';
 import scenarios from '../../apps/web/src/hover/data/scenarios.json' with {type:'json'};
 import original from '../../apps/web/src/hover/wechat/data/original.json' with {type:'json'};
+export const CHAT_READ_TIMING={pulse:480,scan:2000} as const;
 export const demoApps=['mail','wps','wechat','doubao','notes','paint','mario'] as const;
 export type ChatMessage={id:string;text:string;me:boolean;image?:string;author?:string};
 export type ChatDraft={text:string;revision:number;sequence:number;session:string};
@@ -75,8 +76,8 @@ export function interaction(n:State,c:Command):string|null|undefined{
  case 'chat-read-stage':{
   const a=n.chat.activation;if(n.app!=='wechat'||!a||v?.epoch!==a.epoch||n.chat.conversation!==a.conversation||n.target?.id!==`composer:${a.conversation}`)return '读取已取消';
   const elapsed=Date.now()-a.startedAt;
-  if(v?.phase==='scan'&&a.phase==='pulse'&&elapsed>=480){a.phase='scan';return null;}
-  if(v?.phase==='ready'&&a.phase==='scan'&&elapsed>=1180){a.phase='ready';return null;}
+  if(v?.phase==='scan'&&a.phase==='pulse'&&elapsed>=CHAT_READ_TIMING.pulse){a.phase='scan';return null;}
+  if(v?.phase==='ready'&&a.phase==='scan'&&elapsed>=CHAT_READ_TIMING.pulse+CHAT_READ_TIMING.scan){a.phase='ready';return null;}
   return '读取阶段已过期';
  }
  case 'chat-edit':case 'chat-submit':case 'chat-reply':{

@@ -1,3 +1,4 @@
+import {ConnectionButton} from './connection-access';
 import {usePhoneInsets} from './phone-insets';
 import {useEffect,useRef,useState,type PointerEvent} from 'react';
 import {command,retryConnection,useRuntime} from './runtime';
@@ -57,7 +58,7 @@ export function FcController(){
      <span className={'fc-connection '+(!r.connected?'offline':'')}><img src={asset(r.connected?'connected-dot':'disconnected-dot')} alt=""/>{r.connected?'已连接':'连接已断开'}</span>
      <span className="fc-app-title">超级玛丽</span>
     </header>
-    <SwitchButton className="fc-app-switch" disabled={!r.connected} beforeSwitch={clearLocal} icon={<img src={asset('app-switch')} alt=""/>}/>
+    <ConnectionButton className="fc-inline-connection"/><SwitchButton className="fc-app-switch" disabled={!r.connected} beforeSwitch={clearLocal} icon={<img src={asset('app-switch')} alt=""/>}/>
     {(s.gamePaused||!r.connected)&&<span className="fc-state">{r.connected?'已暂停':'连接已断开'}</span>}
     <div className="fc-dpad">
      <img className="fc-dpad-base" src={asset('dpad-base')} alt=""/>

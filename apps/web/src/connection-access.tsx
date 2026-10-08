@@ -1,15 +1,24 @@
-import {useEffect,useRef,useState,type ReactNode} from 'react';
+import {createContext,useContext,useEffect,useRef,useState,type ReactNode,type RefObject} from 'react';
 import {Link2,ScanLine,RefreshCw,X} from 'lucide-react';
 import QRCode from 'qrcode';
 import {command,connect,pin,role,useRuntime} from './runtime';
 import {useBack} from './back';
 import {usePhoneInsets} from './phone-insets';
 
+type ConnectionControl={opened:boolean;show:()=>void;entry:RefObject<HTMLButtonElement|null>;status:string;connected:boolean};
+const ConnectionContext=createContext<ConnectionControl|null>(null);
+export function ConnectionButton({className=''}:{className?:string}){
+ const control=useContext(ConnectionContext);if(!control)return null;
+ const {opened,show,entry,status,connected}=control;
+ return <button ref={entry} className={'agent-connection '+className} aria-label="连接设置" title={status} aria-expanded={opened} aria-haspopup="dialog" data-connected={connected} onPointerDown={e=>{if(e.pointerType==='touch'&&!opened){e.preventDefault();show();}}} onClick={()=>{if(!opened)show();}}><Link2 size={22}/><i aria-hidden/></button>;
+}
+
 /** One connection entry survives application changes without unmounting editors. */
 export function ConnectionAccess({children}:{children:ReactNode}){
  const r=useRuntime(),phone=role==='phone',insets=usePhoneInsets();
  const [opened,setOpened]=useState(phone&&!r.connected),[address,setAddress]=useState(r.address||''),[code,setCode]=useState(''),[qr,setQr]=useState('');
  const priorConnected=useRef(r.connected),entry=useRef<HTMLButtonElement>(null),panel=useRef<HTMLElement>(null);
+ const inline=phone&&(r.state.app==='slides'||r.state.app==='mario'||r.state.app==='wechat'&&r.connected&&r.state.chat.activation?.phase==='ready');
  const host=r.address||location.hostname;
  const status=r.connected?(phone?'已连接工作台':'手机已连接'):r.status;
  function close(){setOpened(false);entry.current?.focus();}
@@ -26,12 +35,12 @@ export function ConnectionAccess({children}:{children:ReactNode}){
    else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first?.focus();}
   }
  };window.addEventListener('keydown',key,true);return()=>window.removeEventListener('keydown',key,true);},[opened]);
- return <div className={'agent-shell agent-'+role} style={insets}>
+ return <ConnectionContext.Provider value={{opened,show,entry,status,connected:r.connected}}><div className={'agent-shell agent-'+role+(inline?' inline-connection':'')} style={insets}>
   <div className="agent-workspace" inert={opened}>{children}</div>
-  <header className="agent-status-area">
+  {!inline&&<header className="agent-status-area">
    {phone&&<div className="agent-identity"><b>Input Agent</b><span>{status}</span></div>}
-   <button ref={entry} className="agent-connection" aria-label="连接设置" title={status} aria-expanded={opened} aria-haspopup="dialog" data-connected={r.connected} onPointerDown={e=>{if(e.pointerType==='touch'&&!opened){e.preventDefault();show();}}} onClick={()=>{if(!opened)show();}}><Link2 size={22}/><i aria-hidden/></button>
-  </header>
+   <ConnectionButton/>
+  </header>}
   {opened&&<div className="scrim agent-connection-scrim" onPointerDown={e=>{if(e.target===e.currentTarget)close();}}>
    <section ref={panel} className="agent-connection-panel" role="dialog" aria-modal="true" aria-labelledby="connection-title" tabIndex={-1} onClick={e=>e.stopPropagation()}>
     <header><h2 id="connection-title">设备连接</h2><button aria-label="关闭连接设置" onClick={close}><X size={22}/></button></header>
@@ -44,5 +53,5 @@ export function ConnectionAccess({children}:{children:ReactNode}){
     </form>:<div className="agent-tablet-pair">{qr&&<img src={qr} width="220" height="220" alt="配对二维码"/>}<span>配对码</span><div className="pair-code">{pin}</div><small>{host}</small></div>}
    </section>
   </div>}
- </div>;
+ </div></ConnectionContext.Provider>;
 }

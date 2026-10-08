@@ -1,6 +1,6 @@
 # Input Agent 双设备原型
 
-当前版本 **v1.1.0** · [版本更新说明](CHANGELOG.md) · [本版验收记录](docs/input-agent-v1.1.0-validation.md)
+当前本地版本 **v1.1.1** · [版本更新说明](CHANGELOG.md) · [本版验收记录](docs/wechat-reading-fit-validation.md)
 
 面向销售采购与汇报的平板工作台和手机输入端。两端应用与桌面入口统一为 **Input Agent**；右上角连接图标统一提供配对与实时状态，WPS／Mario 全屏时也可访问。桌面保留邮件、WPS、微信、豆包、笔记、天生会画和 Mario 七个入口。微信支持消息推荐、实时草稿和 Hover 半屏／全屏服务页面。手机根据平板对象提供输入和控制。
 
@@ -92,7 +92,7 @@ FC 手柄已按指定 Figma 游戏区重做：进入 Mario 请求原生横屏，
 
 按项目规则不执行自动 Git push。
 
-源码备份使用私有仓库 [purryc/mobile-input](https://github.com/purryc/mobile-input)，同版本源码 ZIP 保存到 Google Drive TEMP。约定与恢复方式见 [源码备份](docs/source-backup.md)。
+源码备份使用公开仓库 [purryc/mobile-input](https://github.com/purryc/mobile-input)，同版本源码 ZIP 保存到 Google Drive TEMP。约定与恢复方式见 [源码备份](docs/source-backup.md)。
 
 ## 微信与演示控制更新
 - 打开微信直接进入陈总单条销售消息。手机先显示建议回复，点击平板窄输入栏后闪烁、扫光，再依次显示日程、高德导航、飞书简报。录音按钮固定，转写可编辑；润色位于输入区底部。

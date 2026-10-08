@@ -1,9 +1,10 @@
+import './wechat-glow.css';
 import {ChatAvatar} from './chat-avatar';
 import {useRuntime} from './runtime';
 import {useBack} from './back';
 import {useEffect,useRef,useState} from 'react';
 import * as I from 'lucide-react';
-import {chatTitles,type ChatMessage} from '../../../packages/core/interactions';
+import {chatTitles,CHAT_READ_TIMING,type ChatMessage} from '../../../packages/core/interactions';
 import type {State} from '../../../packages/core/model';
 import {command,uid} from './runtime';
 import TranslationFocus from './hover/assist/TranslationFocus';
@@ -21,8 +22,8 @@ export function suggestions(text:string){
  if(/邮件|草稿/.test(text))return ['收到，邮件先存草稿，等您确认。','好的，我整理后发您过目。'];
  return ['收到，我来安排。','好的，整理好后回复您。'];
 }
-function Bubble({m,identity,active,scan,onClick}:{m:ChatMessage;identity:string;active:boolean;scan:boolean;onClick:()=>void}){
- return <div data-message-id={m.id} className={'wx-message '+(m.me?'me':'')}><ChatAvatar identity={m.me?'我':m.author||identity}/><button className={'wx-bubble '+(active?'focused':'')+(scan?' scanning read-halo':'')} onClick={onClick} aria-label={m.text}>{m.author&&<small>{m.author}</small>}{m.image&&<img src={m.image} alt="消息图片"/>}{m.text}</button></div>;
+function Bubble({m,identity,active,scan,halo,onClick}:{m:ChatMessage;identity:string;active:boolean;scan:boolean;halo:boolean;onClick:()=>void}){
+ return <div data-message-id={m.id} className={'wx-message '+(m.me?'me':'')}><ChatAvatar identity={m.me?'我':m.author||identity}/><button className={'wx-bubble '+(active?'focused':'')+(scan?' scanning':'')+(halo?' read-halo':'')} onClick={onClick} aria-label={m.text}>{m.author&&<small>{m.author}</small>}{m.image&&<img src={m.image} alt="消息图片"/>}{m.text}</button></div>;
 }
 export function WeChat({s}:{s:State}){
  const r=useRuntime(),id=s.chat.conversation||'wx-boss',area=useRef<HTMLDivElement>(null),input=useRef<HTMLTextAreaElement>(null);
@@ -34,7 +35,7 @@ export function WeChat({s}:{s:State}){
  useEffect(()=>{
   if(!activation||!r.connected||activation.phase==='ready'){setPhase('idle');return;}
   setPhase(activation.phase);
-  const next=activation.phase==='pulse'?'scan':'ready',delay=(next==='scan'?480:1180)-(Date.now()-activation.startedAt);
+  const next=activation.phase==='pulse'?'scan':'ready',delay=(next==='scan'?CHAT_READ_TIMING.pulse:CHAT_READ_TIMING.pulse+CHAT_READ_TIMING.scan)-(Date.now()-activation.startedAt);
   const timer=setTimeout(()=>void command('chat-read-stage',{epoch:activation.epoch,phase:next}),Math.max(0,delay)+8);
   return()=>clearTimeout(timer);
  },[activation?.epoch,activation?.phase,r.connected]);
@@ -46,7 +47,7 @@ export function WeChat({s}:{s:State}){
   const sourceMessageId=visibleMessageSource(s,id,visible);
   if(!focused||!s.chat.activation||sourceMessageId!==ctx?.messageId)command('chat-focus',{conversation:id,sourceMessageId});
  };
- return <div className="wx-app"><aside><header>微信 <I.Plus size={20}/></header><label className="wx-search"><I.Search size={17}/><input placeholder="搜索" onChange={e=>{for(const el of document.querySelectorAll<HTMLElement>('.wx-contact'))el.hidden=!el.textContent?.includes(e.target.value);}}/></label>{Object.entries(chatTitles).filter(([key])=>s.chat.messages[key]).map(([key,title])=><button key={key} className={'wx-contact '+(id===key?'active':'')} onClick={()=>command('chat-open',key)}><ChatAvatar identity={key}/><span><b>{title}</b><small>{s.chat.messages[key].at(-1)?.text}</small></span></button>)}<nav><I.MessageCircle/><I.Contact/><I.Compass/><I.User/></nav></aside><section>{id?<><header>{chatTitles[id]}<I.MoreHorizontal/></header><div className="wx-messages" ref={area}>{messages.map(m=><Bubble key={m.id} m={m} identity={id} active={s.target?.id===`message:${id}:${m.id}`} scan={ctx?.messageId===m.id&&phase==='scan'} onClick={()=>command('chat-focus',{conversation:id,messageId:m.id})}/>)}</div><div className="wx-composer wx-native-composer"><button aria-label="语音输入" onClick={focus}><I.AudioLines size={25}/></button><div className={'wx-input-bar '+(focused?'focused ':'')+(focused&&phase==='pulse'?'focus-pulse':'')}><textarea ref={input} aria-label="微信回复输入框" rows={1} onPointerDown={focus} value={s.chat.drafts[id].text} onFocus={focus} onChange={e=>command('chat-edit',{conversation:id,text:e.target.value,revision:s.chat.drafts[id].revision,sequence:s.chat.drafts[id].sequence+1,session:'tablet'},{targetId:s.target?.id,targetRevision:s.target?.revision})}/><I.Mic size={19}/></div><I.Smile size={27}/>{s.chat.drafts[id].text.trim()?<button className="wx-send" onClick={()=>command('chat-submit',{conversation:id,text:s.chat.drafts[id].text,revision:s.chat.drafts[id].revision},{targetId:s.target?.id,targetRevision:s.target?.revision})}>发送</button>:<I.PlusCircle size={27}/>}</div></>:<div className="wx-empty"><img src="/assets/apps/wechat.png" alt="微信"/></div>}</section></div>;
+ return <div className="wx-app" data-linked={r.connected}><aside><header>微信 <I.Plus size={20}/></header><label className="wx-search"><I.Search size={17}/><input placeholder="搜索" onChange={e=>{for(const el of document.querySelectorAll<HTMLElement>('.wx-contact'))el.hidden=!el.textContent?.includes(e.target.value);}}/></label>{Object.entries(chatTitles).filter(([key])=>s.chat.messages[key]).map(([key,title])=><button key={key} className={'wx-contact '+(id===key?'active':'')} onClick={()=>command('chat-open',key)}><ChatAvatar identity={key}/><span><b>{title}</b><small>{s.chat.messages[key].at(-1)?.text}</small></span></button>)}<nav><I.MessageCircle/><I.Contact/><I.Compass/><I.User/></nav></aside><section>{id?<><header>{chatTitles[id]}<I.MoreHorizontal/></header><div className="wx-messages" ref={area}>{messages.map(m=><Bubble key={m.id} m={m} identity={id} active={s.target?.id===`message:${id}:${m.id}`} scan={ctx?.messageId===m.id&&phase==='scan'} halo={r.connected&&ctx?.messageId===m.id&&(phase==='scan'||focused&&activation?.phase==='ready')} onClick={()=>command('chat-focus',{conversation:id,messageId:m.id})}/>)}</div><div className="wx-composer wx-native-composer"><button aria-label="语音输入" onClick={focus}><I.AudioLines size={25}/></button><div className={'wx-input-bar '+(focused?'focused ':'')+(focused&&phase==='pulse'?'focus-pulse':'')}><textarea ref={input} aria-label="微信回复输入框" rows={1} onPointerDown={focus} value={s.chat.drafts[id].text} onFocus={focus} onChange={e=>command('chat-edit',{conversation:id,text:e.target.value,revision:s.chat.drafts[id].revision,sequence:s.chat.drafts[id].sequence+1,session:'tablet'},{targetId:s.target?.id,targetRevision:s.target?.revision})}/><I.Mic size={19}/></div><I.Smile size={27}/>{s.chat.drafts[id].text.trim()?<button className="wx-send" onClick={()=>command('chat-submit',{conversation:id,text:s.chat.drafts[id].text,revision:s.chat.drafts[id].revision},{targetId:s.target?.id,targetRevision:s.target?.revision})}>发送</button>:<I.PlusCircle size={27}/>}</div></>:<div className="wx-empty"><img src="/assets/apps/wechat.png" alt="微信"/></div>}</section></div>;
 }
 export function ServicePage({action,onClose}:{action:Action;onClose:()=>void}){
  useBack(()=>{onClose();return true;},50);

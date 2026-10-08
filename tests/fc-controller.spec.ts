@@ -19,14 +19,14 @@ test('FC landscape layout, simultaneous keys, rotation release and top-right app
  await expect(phone.locator('.fc-stage')).toHaveAttribute('data-layout','landscape');
  await phone.evaluate(()=>document.fonts.ready);
  await expect(phone.locator('.fc-home-line')).toHaveCount(0);
- const stage=(await phone.locator('.fc-stage').boundingBox())!;expect(stage.x+stage.width/2).toBeCloseTo(422);expect(stage.y+stage.height/2).toBeCloseTo(219);
+ const stage=(await phone.locator('.fc-stage').boundingBox())!;expect(stage.x+stage.width/2).toBeCloseTo(422);expect(stage.y+stage.height/2).toBeCloseTo(195);
  const game=(await tablet.locator('.game').boundingBox())!;expect(game).toMatchObject({x:0,y:0,width:1400,height:920});
  await expect(tablet.locator('.systembar')).toHaveCount(0);await expect(tablet.locator('.windowbar')).toBeHidden();
  await expect(tablet.getByRole('button',{name:'返回',exact:true})).toBeVisible();
 
  const switcher=phone.getByRole('button',{name:'切换应用',exact:true});
  const box=(await switcher.boundingBox())!;
- const scale=342/390;expect(box.x).toBeCloseTo(stage.x+772*scale,0);expect(box.y).toBeCloseTo(stage.y+18*scale,0);
+ const scale=1;expect(box.x).toBeCloseTo(stage.x+772*scale,0);expect(box.y).toBeCloseTo(stage.y+18*scale,0);
  expect(box.width).toBeCloseTo(48*scale,0);expect(box.height).toBeCloseTo(48*scale,0);
  expect(await phone.locator('.fc-stage img').evaluateAll(images=>images.every(n=>(n as HTMLImageElement).complete&&(n as HTMLImageElement).naturalWidth>0))).toBe(true);
  await phone.screenshot({path:'artifacts/visual-qa/fc-figma-landscape.png'});

@@ -1,0 +1,25 @@
+{
+  "source": "wechat-point-and-ask",
+  "reference_files": [
+    {
+      "path": "src/group/hover.css",
+      "sha256": "6cbee40fd68814f4e67e7d76531c3a1be5688aea8598688b69b661e831590a0d"
+    },
+    {
+      "path": "src/motion-source/effects.ts",
+      "sha256": "3c19151c1510da2538c28ef5530a34a999cc014629f9d2b185fcd6af6aa99ee2"
+    },
+    {
+      "path": "src/assist/SourceMotion.tsx",
+      "sha256": "73de42143f8a87ce77f42cc4015409074c94a080d2649ebdc47d9fa33b5db075"
+    }
+  ],
+  "adaptation": "Hover cyan/blue/lilac with pearl highlights; CSS masked edge and translucent sweep, without copying the WebGPU renderer. Original source unchanged.",
+  "implementation": "apps/web/src/wechat-glow.css",
+  "timing_ms": {
+    "composer_pulse": 240,
+    "repetitions": 2,
+    "message_read": 2000,
+    "connected_orbit": 4000
+  }
+}

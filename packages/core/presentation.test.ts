@@ -1,7 +1,7 @@
 import {test} from 'node:test';import assert from 'node:assert/strict';
 import {Store,initialState} from './model';import {migrateChat} from './migrate';import {salesMeeting} from './chat-scene';import {orientationPoint} from './orientation';
 const c=(type:string,value?:unknown)=>({id:crypto.randomUUID(),type,value});
-function finishRead(s:Store){const a=s.state.chat.activation!;a.startedAt=Date.now()-1200;s.dispatch(c('chat-read-stage',{epoch:a.epoch,phase:'scan'}));s.dispatch(c('chat-read-stage',{epoch:a.epoch,phase:'ready'}));}
+function finishRead(s:Store){const a=s.state.chat.activation!;a.startedAt=Date.now()-2500;s.dispatch(c('chat-read-stage',{epoch:a.epoch,phase:'scan'}));s.dispatch(c('chat-read-stage',{epoch:a.epoch,phase:'ready'}));}
 test('chat migration backs up before reset, preserves other data and runs only once',()=>{const s=initialState();s.chat.sceneVersion=1;s.chat.messages['wx-boss']=[{id:'old',text:'previous',me:true}];s.chat.drafts['wx-boss'].text='draft';s.products[0].quantity=42;const backups:string[]=[];const next=migrateChat(s,(_,v)=>backups.push(v));assert.equal(backups.length,1);assert.match(backups[0],/draft/);assert.equal(next.chat.messages['wx-boss'].length,5);assert.match(next.chat.messages['wx-boss'].at(-1)!.text,/澄星设计/);assert.equal(next.products[0].quantity,42);assert.equal(next.chat.meeting.date,s.chat.meeting.date);assert.equal(next.chat.drafts['wx-boss'].text,'draft');assert.equal(migrateChat(next,()=>assert.fail()),next);assert.throws(()=>migrateChat(s,()=>{throw Error('full');}));assert.equal(s.chat.messages['wx-boss'][0].id,'old');});
 test('sales fixture date is fixed in China time',()=>{assert.equal(salesMeeting(new Date('2026-10-08T19:00:00Z')).date,'2026-10-10');});
 test('reply context preserves draft and rejects stale context before read completion',()=>{const s=new Store();s.dispatch(c('open','wechat'));assert.equal(s.state.chat.conversation,'wx-boss');s.state.chat.drafts['wx-boss'].text='草稿';const ctx=s.state.chat.context!;s.dispatch(c('chat-focus',{conversation:'wx-boss'}));assert.equal(s.dispatch(c('chat-reply',{conversation:'wx-boss',text:'old',messageId:ctx.messageId,contextEpoch:ctx.epoch})).ok,false);finishRead(s);const current=s.state.chat.context!;const reply=c('chat-reply',{conversation:'wx-boss',text:'收到',messageId:current.messageId,contextEpoch:current.epoch});assert.equal(s.dispatch(reply).ok,true);s.dispatch(reply);assert.equal(s.state.chat.messages['wx-boss'].length,6);assert.equal(s.state.chat.drafts['wx-boss'].text,'草稿');assert.equal(s.state.target?.kind,'text');});
@@ -19,7 +19,9 @@ test('only composer starts reading; phases reject early, stale and disconnected 
  s.state.chat.activation!.startedAt=Date.now()-500;
  assert.ok(s.dispatch(c('chat-read-stage',{epoch:a.epoch,phase:'scan'})).ok);
  assert.equal(s.dispatch(c('chat-read-stage',{epoch:a.epoch,phase:'ready'})).ok,false);
- s.state.chat.activation!.startedAt=Date.now()-1200;
+ s.state.chat.activation!.startedAt=Date.now()-2000;
+ assert.equal(s.dispatch(c('chat-read-stage',{epoch:a.epoch,phase:'ready'})).ok,false);
+ s.state.chat.activation!.startedAt=Date.now()-2500;
  const done=c('chat-read-stage',{epoch:a.epoch,phase:'ready'});assert.ok(s.dispatch(done).ok);s.dispatch(done);assert.equal(s.state.chat.activation!.phase,'ready');
  s.dispatch(c('release'));assert.equal(s.state.chat.activation,null);assert.equal(s.dispatch({...done,id:'late'}).ok,false);
  s.dispatch(c('chat-focus',{conversation:'wx-boss'}));assert.notEqual(s.state.chat.activation!.epoch,a.epoch);

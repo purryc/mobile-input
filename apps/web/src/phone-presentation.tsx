@@ -1,3 +1,4 @@
+import {ConnectionButton} from './connection-access';
 import {useEffect,useRef,useState} from 'react';
 import type {CSSProperties} from 'react';
 import {usePhoneInsets} from './phone-insets';
@@ -47,7 +48,7 @@ export function PresentationPhone(){
  const colors=[['#c74529','橙红','red'],['#277ee6','蓝色','blue'],['#12303b','墨黑','black'],['#e3a93b','金色','gold'],['#19995b','绿色','green']];
  return <main className={'presentation-phone-shell'+(nativeDevice?' native-device':'')} style={insets}><div className="presentation-viewport" ref={root}><div className={'presentation-glass'+(ink?' ink-mode':'')} style={{transform:`translate(-50%,-50%) scale(${scale})`}}>
  <header className="present-status"><span><img src="./assets/figma/presentation/status.svg" alt="" style={{opacity:r.connected?1:.35}}/>{r.connected?'已连接':'未连接'}</span><span className="present-app-name">WPS 演示</span></header>
- <button className="present-switch glass-button" aria-label="切换应用" onClick={()=>{stop();captions.stop();command('switch-step');}}><Icon name="app-switch"/></button>
+ <ConnectionButton className="present-connection"/><button className="present-switch glass-button" aria-label="切换应用" onClick={()=>{stop();captions.stop();command('switch-step');}}><Icon name="app-switch"/></button>
  <h1>{(s.officeFiles.find(f=>f.id===s.officeFile)?.name||'销售进展汇报').replace(/\.pptx$/i,'')}</h1>
  <div className="present-meta"><span>{String(s.slide+1).padStart(2,'0')} / {String(s.slides.length).padStart(2,'0')}</span><time>{time}</time></div>
  <section className="present-notes"><small>演讲备注</small><span className={'present-state'+((error||captions.error||p.captions.error||p.volume.error)?' error':'')} role="status">{status}</span><div ref={notes}><p>{s.slides[s.slide]?.notes}</p></div></section>

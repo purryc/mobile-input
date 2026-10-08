@@ -1,0 +1,35 @@
+/* Hover pearl/cyan/lilac palette; keep the original text surface uncovered. */
+.wx-input-bar{position:relative;isolation:isolate}
+.wx-native-composer .wx-input-bar.focused{border-color:transparent;box-shadow:0 0 10px #66b9ed18,0 0 18px #b39bdd12}
+.wx-bubble.focused,.wx-bubble.read-halo{outline:none;overflow:visible;box-shadow:0 3px 16px #8aabe519}
+.wx-input-bar.focused:before,.wx-bubble.focused:before,.wx-bubble.read-halo:before{
+ content:'';position:absolute;inset:-2px;border-radius:9px;padding:1.6px;pointer-events:none;
+ background:linear-gradient(115deg,#68bddd 0%,#7ca9ed 18%,#afa0e6 36%,#f0e4f5 49%,#8accf0 61%,#819eee 79%,#c4a5df 93%,#72c8df 100%);
+ background-size:220% 180%;background-position:18% 50%;
+ -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;
+ mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);mask-composite:exclude;
+ filter:drop-shadow(0 0 3px #77b9ed66) drop-shadow(0 0 7px #b4a0e644);
+}
+.wx-bubble.focused:before,.wx-bubble.read-halo:before{inset:-5px;border-radius:12px;padding:2px}
+@property --hover-orbit{syntax:'<angle>';inherits:false;initial-value:0deg}
+.wx-app[data-linked=true] .wx-input-bar.focused:not(.focus-pulse):before,
+.wx-app[data-linked=true] .wx-bubble.focused:not(.scanning):before,
+.wx-app[data-linked=true] .wx-bubble.read-halo:not(.scanning):before{
+ background:conic-gradient(from var(--hover-orbit),#68bddd,#7ca9ed 80deg,#afa0e6 165deg,#eee8ff 220deg,#ffffff 235deg,#8accf0 270deg,#68bddd);
+ background-size:100% 100%;animation:hover-orbit 4s linear infinite;
+}
+@keyframes hover-orbit{to{--hover-orbit:360deg}}
+.wx-input-bar.focus-pulse:before{animation:hover-composer-pulse 240ms ease-in-out 2}
+.wx-bubble.scanning:before{animation:hover-reading-edge 2000ms ease-in-out both}
+.wx-bubble.scanning:after{
+ content:'';position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+ background:linear-gradient(108deg,transparent 25%,#89d7f216 35%,#7ebdf02e 42%,#c8b8f333 47%,#ffffff80 50%,#d1ebff66 52%,#bba8e52b 56%,#88cbe919 62%,transparent 72%);
+ background-size:280% 100%;box-shadow:inset 0 1px 0 #fff,inset 0 -1px 0 #a7b9ee30;
+ animation:hover-glass-read 2000ms cubic-bezier(.22,.55,.35,1) both;
+}
+@keyframes hover-composer-pulse{0%,100%{opacity:.62;background-position:0% 50%}50%{opacity:1;background-position:85% 50%;filter:drop-shadow(0 0 5px #7abef1bb) drop-shadow(0 0 10px #b39ce87a)}}
+@keyframes hover-reading-edge{0%{background-position:0% 50%;opacity:.65}35%{opacity:1}100%{background-position:100% 50%;opacity:.85}}
+@keyframes hover-glass-read{0%{background-position:100% 50%;opacity:0}15%{opacity:1}85%{opacity:1}100%{background-position:0% 50%;opacity:0}}
+@media(prefers-reduced-motion:reduce){.wx-input-bar.focus-pulse:before,.wx-bubble.scanning:before,.wx-bubble.scanning:after{animation:none}.wx-bubble.scanning:after{opacity:.25;background-position:50% 50%}}
+
+@media(prefers-reduced-motion:reduce){.wx-app[data-linked=true] .wx-input-bar.focused:before,.wx-app[data-linked=true] .wx-bubble:before{animation:none}}
