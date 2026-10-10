@@ -1,20 +1,24 @@
 import { test, expect, type Browser, type Page } from "@playwright/test";
 import type { WorkBuddyState } from "../packages/core/workbuddy";
 async function read(page: Page): Promise<WorkBuddyState> { return page.evaluate(() => JSON.parse(localStorage.getItem("mobile-input-state-v1")!).workbuddy); }
-async function pair(browser: Browser, dropSaveAck = false) {
+async function pair(browser: Browser, dropSaveAck = false, holdDraftEditAck = false) {
   const context = await browser.newContext(), tablet = await context.newPage(), phone = await context.newPage(), errors: string[] = [];
   for (const page of [tablet, phone]) page.on("pageerror", e => errors.push(e.message));
-  if (dropSaveAck) await phone.addInitScript(() => {
+  if (dropSaveAck || holdDraftEditAck) await phone.addInitScript(({ dropSaveAck, holdDraftEditAck }) => {
     const NativeSocket = window.WebSocket;
+    const control = window as typeof window & { wbEditAckHeld: boolean; releaseWbEditAck: () => void };
+    let editId = "", held: { socket: WebSocket; data: string } | null = null, holding = holdDraftEditAck;
+    control.wbEditAckHeld = false;
+    control.releaseWbEditAck = () => { holding = false; if (held) held.socket.dispatchEvent(new MessageEvent("message", { data: held.data })); held = null; };
     window.WebSocket = class extends NativeSocket {
       lostId = ""; dropped = false;
       constructor(url: string | URL, protocols?: string | string[]) {
         super(url, protocols);
-        this.addEventListener("message", e => { const m = JSON.parse(String(e.data)); if (!this.dropped && m.kind === "ack" && m.ack.id === this.lostId) { this.dropped = true; e.stopImmediatePropagation(); } });
+        this.addEventListener("message", e => { const m = JSON.parse(String(e.data)); if (holding && m.kind === "ack" && m.ack.id === editId) { held = { socket: this, data: String(e.data) }; control.wbEditAckHeld = true; e.stopImmediatePropagation(); } else if (dropSaveAck && !this.dropped && m.kind === "ack" && m.ack.id === this.lostId) { this.dropped = true; e.stopImmediatePropagation(); } });
       }
-      send(data: string | ArrayBufferLike | Blob | ArrayBufferView) { if (typeof data === "string") { const m = JSON.parse(data); if (!this.dropped && m.kind === "command" && m.command.type === "wb-doc-save") this.lostId = m.command.id; } super.send(data); }
+      send(data: string | ArrayBufferLike | Blob | ArrayBufferView) { if (typeof data === "string") { const m = JSON.parse(data); if (holding && !editId && m.kind === "command" && m.command.type === "wb-doc-draft-edit") editId = m.command.id; if (dropSaveAck && !this.dropped && m.kind === "command" && m.command.type === "wb-doc-save") this.lostId = m.command.id; } super.send(data); }
     };
-  });
+  }, { dropSaveAck, holdDraftEditAck });
   await tablet.goto("/?bridge=5191"); await tablet.getByRole("button", { name: "连接设置", exact: true }).click();
   const pin = (await tablet.locator(".pair-code").innerText()).trim(); await tablet.getByRole("button", { name: "关闭连接设置" }).click();
   await phone.setViewportSize({ width: 390, height: 844 }); await phone.goto("/?role=phone&bridge=5191");
@@ -57,6 +61,49 @@ test("phone creates PPT, points with touchpad, freezes voice target, previews, a
   await expect.poll(async () => (await read(tablet)).fileWorkspace.documents[id].pages[0].objects[0].color).toBe("#20304a");
   wb = await read(tablet); expect(wb.fileWorkspace.documents[id].revision).toBe(2); expect(wb.fileWorkspace.documents[id].pages[0].objects[1].color).toBe("#20304a");
   expect(wb.tasks.filter(t => t.title === "客户项目汇报")).toHaveLength(1); await tablet.screenshot({ path: "artifacts/cloud/second-slice/tablet-ppt-window.png" });
+  expect(errors).toEqual([]); await context.close();
+});
+for (const exit of ["cancel", "back", "offline-back"] as const) test(`delayed draft ack then ${exit} restores the latest text and original object`, async ({ browser }) => {
+  const { context, tablet, phone, errors } = await pair(browser, false, true); await create(phone);
+  await phone.getByLabel("页面对象").getByRole("button", { name: "标题", exact: true }).click(); await phone.getByRole("button", { name: "文字修改", exact: true }).click();
+  await phone.getByLabel("选区修改草稿").fill("改为：第一段已到工作台");
+  await expect.poll(() => phone.evaluate(() => (window as typeof window & { wbEditAckHeld: boolean }).wbEditAckHeld)).toBe(true);
+  const initial = await read(tablet), fileId = initial.fileWorkspace.active!, original = Object.values(initial.fileWorkspace.documents[fileId].drafts).at(-1)!;
+  expect(original.text).toBe("改为：第一段已到工作台");
+  await phone.getByLabel("选区修改草稿").fill("改为：快速输入的第二段");
+  await phone.getByLabel("页面对象").getByRole("button", { name: "副标题", exact: true }).click();
+  let latest = "改为：快速输入的第二段";
+  if (exit === "offline-back") {
+    await context.setOffline(true); await phone.evaluate(() => window.dispatchEvent(new CustomEvent("native-message", { detail: { kind: "disconnected" } })));
+    latest = "改为：断线后仍保留的最新补充"; await phone.getByLabel("选区修改草稿").fill(latest);
+  }
+  await phone.getByRole("button", { name: exit === "cancel" ? "取消修改" : "返回", exact: true }).click();
+  if (exit === "offline-back") {
+    await context.setOffline(false); await phone.getByRole("button", { name: "连接设置", exact: true }).click(); await phone.getByRole("button", { name: "连接", exact: true }).click(); await expect(phone.getByRole("dialog", { name: "设备连接" })).toHaveCount(0);
+  }
+  await phone.getByRole("button", { name: "恢复上次取消的文字", exact: true }).click();
+  await expect(phone.getByLabel("选区修改草稿")).toHaveValue(latest);
+  await expect(phone.locator(".wb-binding")).toContainText("标题 · v0");
+  const restored = (await read(tablet)).fileWorkspace.documents[fileId];
+  expect(Object.values(restored.drafts).filter(d => d.status === "editing").at(-1)?.selection).toEqual(original.selection);
+  expect(restored.revision).toBe(0); expect(restored.proposals).toHaveLength(0);
+  await phone.evaluate(() => (window as typeof window & { releaseWbEditAck: () => void }).releaseWbEditAck());
+  await expect(phone.getByLabel("选区修改草稿")).toHaveValue(latest);
+  expect(errors).toEqual([]); await context.close();
+});
+test("cancel recovery prefers newer tablet text over a clean phone cache", async ({ browser }) => {
+  const { context, tablet, phone, errors } = await pair(browser); await create(phone);
+  await phone.getByLabel("页面对象").getByRole("button", { name: "标题", exact: true }).click(); await phone.getByRole("button", { name: "文字修改", exact: true }).click();
+  await phone.getByLabel("选区修改草稿").fill("改为：手机早先已确认的文字");
+  await expect.poll(() => phone.evaluate(() => Object.keys(localStorage).some(key => key.startsWith("mobile-input:wb-doc-input:phone:") && JSON.parse(localStorage.getItem(key)!).text === "改为：手机早先已确认的文字" && !JSON.parse(localStorage.getItem(key)!).dirty))).toBe(true);
+  await phone.getByRole("button", { name: "票据任务缺少材料 · 去补充", exact: true }).click();
+  await tablet.getByRole("button", { name: "和 WorkBuddy 对话", exact: true }).click(); await tablet.getByLabel("选区修改草稿").fill("改为：工作台后续确认的文字");
+  const changed = await read(tablet), sameDrafts = Object.values(changed.fileWorkspace.documents[changed.fileWorkspace.active!].drafts);
+  expect(sameDrafts).toHaveLength(1); expect(sameDrafts[0].text).toBe("改为：工作台后续确认的文字");
+  await tablet.getByRole("button", { name: "取消修改", exact: true }).click();
+  await phone.getByRole("button", { name: "返回原 PPT", exact: true }).click(); await phone.getByRole("button", { name: "恢复上次取消的文字", exact: true }).click();
+  await expect(phone.getByLabel("选区修改草稿")).toHaveValue("改为：工作台后续确认的文字");
+  const wb = await read(tablet); expect(wb.fileWorkspace.documents[wb.fileWorkspace.active!].revision).toBe(0);
   expect(errors).toEqual([]); await context.close();
 });
 test("attached independent window keeps the phone pairing, multi tabs and save-close warning", async ({ browser }) => {
@@ -137,6 +184,7 @@ test("preview confirmation stays visible within a small portrait native safe are
 test("document text stays local through disconnect and recovery without applying or losing the frozen target", async ({ browser }) => {
   const { context, tablet, phone, errors } = await pair(browser); await create(phone);
   await phone.getByRole("region", { name: "页面对象" }).getByRole("button", { name: "标题", exact: true }).click(); await phone.getByRole("button", { name: "文字修改", exact: true }).click();
+  await expect(phone.getByLabel("选区修改草稿")).toBeVisible();
   await context.setOffline(true); await phone.evaluate(() => window.dispatchEvent(new CustomEvent("native-message", { detail: { kind: "disconnected" } })));
   await phone.getByLabel("选区修改草稿").fill("改为：离线保留标题"); await expect(phone.getByRole("button", { name: "恢复原选区草稿", exact: true })).toBeVisible();
   await context.setOffline(false); await phone.getByRole("button", { name: "连接设置", exact: true }).click(); await phone.getByRole("button", { name: "连接", exact: true }).click(); await expect(phone.getByRole("dialog", { name: "设备连接" })).toHaveCount(0);

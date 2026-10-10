@@ -1,15 +1,17 @@
-import { useRuntime, command } from "./runtime";
+import { useRuntime } from "./runtime";
 import { selectionAvailable, type WbPage, type WbProposal } from "../../../packages/core/workbuddy-documents";
 import { useDocumentDraft } from "./workbuddy-document-input";
 import { WorkBuddyCanvas } from "./workbuddy-canvas";
+import { useBack } from "./back";
 
 export function WorkBuddyDocumentEditor({ fileId, draftId, onCanceled, onRebind }: { fileId: string; draftId: string; onCanceled?: () => void; onRebind?: (text: string) => void }) {
   const r = useRuntime(), s = r.state, d = s.workbuddy.fileWorkspace.documents[fileId], draft = d?.drafts[draftId];
   const e = useDocumentDraft(fileId, draftId);
+  function cancel() { void e.cancel(); onCanceled?.(); }
+  useBack(() => { if (!draft || ["applied", "canceled"].includes(draft.status)) return false; cancel(); return true; }, 130);
   if (!draft) return <p>草稿已不存在</p>;
   const page = d.pages.find(p => p.id === draft.selection.pageId)!, proposal = [...d.proposals].reverse().find(p => p.draftId === draftId && p.status === "pending");
   const unavailable = selectionAvailable(s, draft.selection), ended = draft.status === "applied" || draft.status === "canceled";
-  async function cancel() { const ack = await command("wb-doc-cancel", { fileId, draftId, documentRevision: d.revision }); if (ack.ok) onCanceled?.(); }
   return <section className="wb-document-editor">
     <p className="wb-binding" title={`${fileId}/${draft.selection.pageId}/${draft.selection.objectIds.join(",")}`}>已锁定：{s.workbuddy.files.find(f => f.id === fileId)?.name} / {page?.title || "原页面"} · {draft.selection.objectIds.map(id => page?.objects.find(o => o.id === id)?.role || id).join("、")} · v{draft.selection.documentRevision}</p>
     {draft.source === "voice-demo" && <small className="wb-demo-label">演示语音转写 · 未调用麦克风或识别服务</small>}

@@ -3,32 +3,48 @@ import * as I from "lucide-react";
 import { command, currentState, uid, useRuntime } from "./runtime";
 import { WorkBuddyCanvas } from "./workbuddy-canvas";
 import { WorkBuddyDocumentEditor } from "./workbuddy-document-editor";
-import { useBack } from "./back";
+import { readDocumentDraftInput } from "./workbuddy-document-input";
+import type { WbDocumentDraft, WbSelection } from "../../../packages/core/workbuddy-documents";
 import "./workbuddy-file-window.css";
 
 export function PhoneWorkBuddyDocument({ fileId, onReceipts, resumed }: { fileId: string; onReceipts?: () => void; resumed?: boolean }) {
   const r = useRuntime(), w = r.state.workbuddy.fileWorkspace, d = w.documents[fileId], file = r.state.workbuddy.files.find(f => f.id === fileId);
   const [error, setError] = useState(""), [busy, setBusy] = useState(false), [boxMode, setBoxMode] = useState(false);
-  const [draftId, setDraftId] = useState<string | null>(() => d && Object.values(d.drafts).filter(a => ["editing", "preview"].includes(a.status)).at(-1)?.id || null);
+  const [draftId, setDraftId] = useState<string | null>(() => d && Object.values(d.drafts).filter(a => ["editing", "preview"].includes(a.status) && !readDocumentDraftInput(fileId, a.id)?.canceled).at(-1)?.id || null);
   const page = d?.pages.find(p => p.id === w.pageId), draft = draftId ? d?.drafts[draftId] : undefined;
   const gesture = useRef(uid()), sequence = useRef(0), lastMove = useRef(0), start = useRef<{ x: number; y: number } | null>(null), pointerAnchor = useRef<{ documentRevision: number; pointerEpoch: number; pageId: string } | null>(null), lock = useRef(false);
-  useBack(() => { if (!draft || !["editing", "preview"].includes(draft.status)) return false; void command("wb-doc-cancel", { fileId, draftId, documentRevision: d.revision }); setDraftId(null); return true; }, 130);
   if (!d || !file) return <p>文档已不存在</p>;
   const ended = draft && ["applied", "canceled"].includes(draft.status), editing = draft && !ended;
   const selected = page && d.selection?.pageId === page.id ? d.selection.objectIds : [];
-  const canceled = Object.values(d.drafts).filter(a => a.status === "canceled" && a.text.trim()).at(-1);
-  async function openDraft(source: "text" | "voice-demo", text?: string) {
-    if (lock.current || !d.selection || !r.connected) return; lock.current = true; setBusy(true);
+  function retainedText(original: WbDocumentDraft) { const saved = readDocumentDraftInput(fileId, original.id); return saved && (saved.dirty || saved.canceled) ? saved.text : original.text; }
+  const canceled = Object.values(d.drafts).filter(a => a.status !== "applied" && (a.status === "canceled" || readDocumentDraftInput(fileId, a.id)?.canceled) && retainedText(a).trim()).at(-1);
+  async function openDraft(source: "text" | "voice-demo", text?: string, originalSelection?: WbSelection) {
+    const selection = originalSelection || d.selection;
+    if (lock.current || !selection || !r.connected) return; lock.current = true; setBusy(true);
     try {
+      if (originalSelection) {
+        if (originalSelection.documentRevision !== d.revision) { setError("原文档版本已变化，取消的文字仍保留；请核对后重新选择并确认"); return; }
+        const pageAck = await command("wb-doc-page", { fileId, documentRevision: d.revision, pageId: originalSelection.pageId });
+        if (!pageAck.ok) { setError(pageAck.error || "无法返回原页面"); return; }
+        const selectAck = await command("wb-doc-select", { fileId, documentRevision: d.revision, pageId: originalSelection.pageId, objectIds: originalSelection.objectIds });
+        if (!selectAck.ok) { setError(selectAck.error || "原对象已变化，文字保留"); return; }
+      }
       if (draft && ["editing", "preview"].includes(draft.status)) {
         const canceled = await command("wb-doc-cancel", { fileId, draftId: draft.id, documentRevision: d.revision }); if (!canceled.ok) { setError(canceled.error || "原草稿未取消"); return; }
       }
-      const id = uid(), ack = await command("wb-doc-draft-open", { fileId, documentRevision: d.revision, selection: d.selection, draftId: id, source });
+      const id = uid(), ack = await command("wb-doc-draft-open", { fileId, documentRevision: d.revision, selection, draftId: id, source });
       if (ack.ok) {
         if (text) { const next = currentState().workbuddy.fileWorkspace.documents[fileId].drafts[id]; await command("wb-doc-draft-edit", { fileId, draftId: id, documentRevision: d.revision, revision: 0, text, session: uid(), sequence: 1 }, { targetId: `wb:doc-draft:${id}`, targetRevision: next.targetRevision, app: "workbuddy" }); }
         setDraftId(id); setError("");
       } else setError(ack.error || "无法打开编辑");
     } finally { lock.current = false; setBusy(false); }
+  }
+  async function restoreCanceled(original: WbDocumentDraft) {
+    const text = retainedText(original);
+    // An offline Cancel may only be local. End the old draft before restoring it.
+    const ack = await command("wb-doc-cancel", { fileId, draftId: original.id, documentRevision: d.revision });
+    if (!ack.ok) { setError(ack.error || "请核对原草稿状态，文字已保留"); return; }
+    await openDraft(original.source, text, original.selection);
   }
   function pos(e: React.PointerEvent) { const b = e.currentTarget.getBoundingClientRect(); return { x: Math.max(0, Math.min(1, (e.clientX - b.left) / b.width)), y: Math.max(0, Math.min(1, (e.clientY - b.top) / b.height)) }; }
   function point(e: React.PointerEvent, phase: "move" | "select" | "cancel") {
@@ -57,7 +73,7 @@ export function PhoneWorkBuddyDocument({ fileId, onReceipts, resumed }: { fileId
       <div className="wb-document-entry"><button disabled={!r.connected || !d.selection || busy} onClick={() => openDraft("text")}><I.Type size={19} />文字修改</button><button disabled={!r.connected || !d.selection || busy} onClick={() => openDraft("voice-demo")}><I.Mic size={19} />演示语音</button></div>
       <div className="wb-document-entry"><DocumentAction fileId={fileId} type="wb-doc-save" label="保存文档" /><DocumentAction fileId={fileId} type="wb-doc-undo" label="撤销此文档" disabled={!d.undo.length} /><DocumentAction fileId={fileId} type="wb-doc-redo" label="重做此文档" disabled={!d.redo.length} /></div>
       <div className="wb-document-entry"><DocumentAction fileId={fileId} type="wb-doc-reset" label="重置此 PPT 演示" /></div>
-      {canceled && <button disabled={!r.connected || !d.selection || busy} onClick={() => openDraft(canceled.source, canceled.text)}>恢复上次取消的文字</button>}
+      {canceled && <button disabled={!r.connected || busy} onClick={() => restoreCanceled(canceled)}>恢复上次取消的文字</button>}
     </>}</div>
   </section>;
 }

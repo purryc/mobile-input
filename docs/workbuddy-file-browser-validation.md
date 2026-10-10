@@ -20,15 +20,27 @@
 |---|---|
 | 类型检查 | `npm run check` 通过；最新生产构建也执行 `tsc --noEmit` |
 | 全部核心测试 | **83/83 通过**；第一批 63＋第二批 20 |
-| 第二批浏览器 | **8/8 通过**：PPT 闭环、独立窗口/多标签/显式保存/调宽、Roadmap、票据、版本变化/取消/Back 取消与文字恢复/重新锁定、小屏安全区、断线恢复、丢失保存回执重试 |
+| 第二批浏览器 | **12/12 通过**：原有 8 个闭环与边界用例，加 4 个取消恢复边界用例 |
 | 第一批手机/审批 | **6/6 再次通过** |
 | 原有 WorkBuddy | **5/5 再次通过**；四条旧销售链和 WPS、计划/暂停继续、旧输入与设置保留 |
 | 生产构建 | 通过；既有大 chunk 警告仍存在 |
-| 全量浏览器回归 | 新流程补齐回执丢失用例前，**22/26 通过，4 个既有失败**；最新相关集合另跑 19 条 |
+| 全量浏览器回归 | 新流程补齐回执丢失用例前，**22/26 通过，4 个既有失败**；该次相关集合另跑 19 条，取消边界追加复核见下节 |
 
 核心覆盖冻结目标、多对象/几何、过期版本、乱序/退休指针、取消、保存与外部版本冲突、关闭放弃、文档局部撤销/重做/重置、重新启动后 operationId 重试、迁移失败、旧分享失效、票据原任务补充/重复/字段验证/重置。浏览器使用生产静态产物和实际独立 bridge，未用侧加载第二个 runtime 或修改源码规避基础问题。
 
-最终交付的 `browser-release.log` 为 **19/19 通过**，包括第二批 8＋第一批 6＋旧 WorkBuddy 5；此运行使用最后的源码所生成 `dist/`，包含可见 Back 取消与恢复、任务类型/节点保留和窗口菜单。25 个待提交文件凭证模式扫描无命中，没有新增二进制、私有素材或依赖。
+第二批初次交付的 `browser-release.log` 为 **19/19 通过**，包括第二批 8＋第一批 6＋旧 WorkBuddy 5；此运行使用当时的源码所生成 `dist/`，包含可见 Back 取消与恢复、任务类型/节点保留和窗口菜单。初次交付的 25 个文件凭证模式扫描无命中，没有新增二进制、私有素材或依赖。
+
+## 取消草稿边界追加复核
+
+起点 `f9df17230f03df19d44f73b65fc1513c00c995bf`。延迟首个 `wb-doc-draft-edit` 回执，首段已写入工作台、第二段仅在手机排队时，旧实现的取消与 Back 恢复只读取服务端首段；断线后 Back 没有恢复入口。三个用例先失败，日志 `cancel-repro.log`，修复后通过。另一个用例验证已确认的手机旧缓存不能覆盖工作台对同一个草稿的后续输入：先复现旧缓存恢复错误，再修复并通过，日志 `cancel-clean-cache-repro.log`。
+
+取消和 Back 统一调用输入队列的取消入口，先记录本端最新文字与本地取消标志，停止排队输入，再向核心请求取消。离线返回和页面重新进入可以找到保留记录；恢复结束旧草稿，绑定原文件、页、对象与文档版本，不使用随后选中的副标题。迟到回执不再把已取消记录标为已同步。只在手机有未同步文字或本端取消时优先使用本地记录；已确认缓存则以工作台当前草稿为准。文档版本变化仍拒绝自动恢复，预览/确认约束未放宽。
+
+四个追加浏览器用例 `cancel-fixed-dev.log` 已完成先失败后通过：延迟回执后取消、延迟回执后 Back、断线 Back 后恢复，以及工作台后续文字优先于干净手机缓存。没有应用文档修改；原版本与原对象断言成立。原有的全量浏览器失败集合继续作为历史限制，不将相关集合通过宣称为全套通过。
+
+一次追加生产集合运行 **22/23 通过**：原有的文档断线用例在首次编辑框出现前立刻断网，`wb-doc-draft-open` 尚未完成，因此离线输入框不存在。日志保留为 `cancel-browser-release-attempt.log`。测试补齐“编辑框已可见”的断网前置条件，保留文字、目标和未应用断言，独立复核 **1/1 通过**，日志 `cancel-offline-recheck.log`；未为此改变产品源码。
+
+最后一次最新 `dist/` 生产复核 **23/23 通过**：第二批 12＋第一批手机/审批 6＋原 WorkBuddy 5，日志 `cancel-browser-release.log`。追加修复后 `npm run check`、全部核心测试 **83/83**、`npm run build` 再次通过，日志 `cancel-check.log`、`cancel-core.log`、`cancel-build.log`。六个变更文件只有源码、测试和文档，差异中的凭证模式扫描无命中，未新增依赖、二进制或私有素材。这些是独立云环境手动运行的检查，不是 GitHub CI；当前 Git tree 无 `.github/workflows` 配置。
 
 ## 既有失败集合
 
@@ -49,7 +61,7 @@ npm test
 npm run build
 ```
 
-浏览器采用第一批验收中记录的 `artifacts/cloud/playwright.config.ts` 覆盖 `/usr/bin/chromium`。测试自行启动 5191 bridge，不另起同端口服务。窗口菜单复核曾将构建输出隔离在 `artifacts/cloud/second-slice/final-review-dist`，5182 只绑定 127.0.0.1；最终交付也在最新 `dist/` 的 5184 静态服务再次跑相同 19 条：
+浏览器采用第一批验收中记录的 `artifacts/cloud/playwright.config.ts` 覆盖 `/usr/bin/chromium`。测试自行启动 5191 bridge，不另起同端口服务。窗口菜单复核曾将构建输出隔离在 `artifacts/cloud/second-slice/final-review-dist`，5182 只绑定 127.0.0.1；初次交付在 `dist/` 的 5184 静态服务跑 19 条，追加修复后同命令在最新 `dist/` 跑 23 条：
 
 ```sh
 npm run build -- --outDir /workspace/mobile-input/artifacts/cloud/second-slice/final-review-dist
@@ -58,6 +70,8 @@ TEST_BASE_URL=http://localhost:5182 npx playwright test --config artifacts/cloud
 ```
 
 本轮证据均在忽略目录 `artifacts/cloud/second-slice/`：`core-final.log`、`check-final.log`、`build-final.log`、`browser-all-production.log`、`browser-final.log`、`browser-final-review.log`、`browser-delivery.log`、`browser-release.log`，及 `phone-ppt-preview.png`、`tablet-ppt-window.png`、`independent-file-window.png`、`roadmap-window.png`、`receipt-supplement.png`。首次浏览器尝试因 5190 服务已停止、5186 旧服务失效而无效；改用独立的新静态服务，未视作产品通过或基线失败。
+
+追加复核日志的名称见上节；上述截图由最终 23 条生产测试重新写出。凭据和截图未提交 GitHub，不提供虚构的仓库文件链接；可通过独立 Library 交付附件保留，不上传私有来源或环境文件。没有本轮演示视频。
 
 ## 边界
 
