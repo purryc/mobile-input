@@ -17,7 +17,7 @@ export interface WbOperation {
   requestId?: string;
 }
 export const inputTarget = (id: string) => `wb:input:${id}`;
-const validId = (id: string) => /^[a-zA-Z0-9_-]{1,100}$/.test(id) && !Object.hasOwn(Object.prototype, id);
+export const validId = (id: unknown): id is string => typeof id === "string" && /^[a-zA-Z0-9_-]{1,100}$/.test(id) && !Object.hasOwn(Object.prototype, id);
 
 /** Business receipts survive reloads; command IDs remain transport-level deduplication. */
 export function operationReplay(s: State, c: Command): string | null | undefined {

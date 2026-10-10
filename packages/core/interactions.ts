@@ -1,4 +1,5 @@
 import {pauseWorkBuddy} from './workbuddy';
+import {releaseDocumentPointer} from './workbuddy-documents';
 import {CHAT_SCENE_VERSION,BOSS_MESSAGE_ID,salesMeeting,bossMessages,type SalesMeeting} from './chat-scene';
 import {pausePresentation,releasePointer} from './presentation';
 import type {AppId,State,Command} from './model';
@@ -29,7 +30,7 @@ export function setChatContext(n:State,id:string,epoch:string,messageId?:string,
 }
 export function launch(n:State,app:AppId){
  activate(n,app);
- if(app==='workbuddy'){n.workbuddy.page='home';n.workbuddy.task='new';n.workbuddy.preview=[];n.workbuddy.previewActive=null;n.workbuddy.filePanel=false;}
+ if(app==='workbuddy'){n.workbuddy.page='home';n.workbuddy.task='new';n.workbuddy.preview=[];n.workbuddy.previewActive=null;n.workbuddy.filePanel=false;n.workbuddy.fileWorkspace.open=false;releaseDocumentPointer(n);}
  if(app==='wechat'){n.chat.conversation='wx-boss';setChatContext(n,'wx-boss',crypto.randomUUID());}
  if(app==='wps'){
   const file=n.officeFiles.find(f=>f.id==='sample-slides');

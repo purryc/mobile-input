@@ -66,3 +66,21 @@ flowchart LR
 实现：`packages/core/workbuddy.ts`；平板：`apps/web/src/workbuddy.tsx`；手机：`phone-workbuddy.tsx`；串行输入：`workbuddy-input.ts`。样例：`samples/workbuddy-demo.json`。视觉与官方差异见 `workbuddy-ia.md`；素材见 `reference/workbuddy-manifest.json`。
 
 Web 随两个 HAP 打包，原生语音／TCP 保持既有接口；不依赖电脑来执行演示任务。浏览器开发版仍需调试桥。所有下载与签名真机证据分别登记于验收文档。
+
+## 独立文件窗口与受控对象（第二批）
+
+`workbuddy.fileWorkspace.version = 1` 增加标签/当前文件/每文档当前页、稳定对象、选区、单调文档 revision、工作与已保存副本、undo/redo、冻结编辑草稿、before/after 提案及票据补材料子状态。不是旧 Slide 或字符串引用的升级假象；旧受控能力仍保持边界。首次追加子模型先备份 `mobile-input:backup:workbuddy-files-v1`，备份失败阻止 WorkBuddy 写入，原存储字节保留。
+
+| 命令组 | 动作与保护 |
+|---|---|
+| wb-deck-create | 手机独立输入锚点、模板/示例节点确认、持久 operationId；创建真实可改的对象演示与原任务成果 |
+| wb-window-open/new/reorder/close | 独立标签、少量文件新建、最近文件；未保存关闭选择保存/放弃/取消；受控 PPT 的旧预览入口导向文件窗口 |
+| wb-doc-select/page/pointer | fileId/documentRevision/pageId/objectIds；指针 epoch/gesture/sequence，退休手势与迟到消息拒绝，后台/断连释放 |
+| wb-doc-draft-open/edit/cancel | 冻结文档/页/对象/版本，独立 targetId/targetRevision/revision/session/sequence；对象变化不自动改草稿归属 |
+| wb-doc-preview/apply | 有限本地指令语法，前后 patch，版本/原值/状态校验；先预览再确认，持久操作回执防重复执行 |
+| wb-doc-save/text/undo/redo | Office 手动保存、Markdown 自动保存；只当前文档内容回退，revision 继续递增，sourceRevision 防覆盖旧编辑器的新内容 |
+| wb-receipt-open/edit/cancel/commit/reset | 虚构示例补拍/附件，字段日期/金额/归属/版本与确认校验；更新同一任务和 CSV，不改 PPT 页/选区/草稿，重复确认不重复入表 |
+
+附属文件窗口用 `role=filebrowser` 和同源 opener 的 source/origin 校验传 snapshot、命令与回执；不注册第二个 WS host，不读/写主存储或独立推进任务。主窗口关闭或切换应用后暂停编辑。桥继续只转消息。协议 5 通过 `document-objects-v1`、`document-preview-v1`、`receipt-supplement-v1` capability 声明扩展。
+
+详细范围、官方事实与原型扩展见 `workbuddy-file-browser-spec.md`；测试结果见 `workbuddy-file-browser-validation.md`。真实 WorkBuddy API、原生语音、PPTX/OCR、任意文件/账号/分享与付费模型均未接；附属 Web 窗口未作为 HAP 或真机能力验证。

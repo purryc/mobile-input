@@ -24,6 +24,7 @@ import { useBack } from "./back";
 import { useWorkBuddyInput } from "./workbuddy-input";
 import "./workbuddy.css";
 import { WorkBuddyTaskApprovals } from "./workbuddy-task-approvals";
+import { WorkBuddyFileWindow } from "./workbuddy-file-window";
 const run = (type: string, value: Record<string, unknown> = {}) =>
   command("wb-" + type, value);
 const go = (page: WorkBuddyPage, id?: string) => run("navigate", { page, id });
@@ -129,6 +130,7 @@ export function WorkBuddy({ s }: { s: State }) {
   const nav = w.settings.menu;
   return (
     <div className={"workbuddy" + (collapsed ? " wb-collapsed" : "")}>
+      {w.fileWorkspace.open && <WorkBuddyFileWindow />}
       <aside className="wb-sidebar">
         <div className="wb-brand-row">
           <button className="wb-back" aria-label="返回" onClick={navigateBack}>

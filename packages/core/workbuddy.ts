@@ -2,6 +2,8 @@ import type { State, Command, OfficeFile } from "./model";
 import { money, totals } from "./model";
 import { mobileWorkBuddyInteraction, type WbInputDraft, type WbOperation } from "./workbuddy-mobile";
 import { approvalInteraction, type WbApproval, type WbShareEffect } from "./workbuddy-approvals";
+import { documentInteraction, newFileWorkspace, releaseDocumentPointer, forgetDocument, type WbFileWorkspace } from "./workbuddy-documents";
+import { receiptInteraction } from "./workbuddy-receipts";
 
 export type WorkBuddyPage =
   | "home"
@@ -95,6 +97,7 @@ export interface WorkBuddyState {
   operations: Record<string, WbOperation>;
   approvals: WbApproval[];
   shareEffects: WbShareEffect[];
+  fileWorkspace: WbFileWorkspace;
   page: WorkBuddyPage;
   task: string;
   preview: string[];
@@ -351,6 +354,7 @@ export function initialWorkBuddy(): WorkBuddyState {
     operations: {},
     approvals: [],
     shareEffects: [],
+    fileWorkspace: newFileWorkspace(),
     page: "home",
     task: "new",
     preview: [],
@@ -552,6 +556,11 @@ export function restoreWorkBuddy(
     w.version = 2;
   }
   w.mailDrafts ??= [];
+  if (!w.fileWorkspace) {
+    backup("mobile-input:backup:workbuddy-files-v1", JSON.stringify(w));
+    w.fileWorkspace = newFileWorkspace();
+  }
+  releaseDocumentPointer(s);
   w.settings.buddyExpert ??= "sales";
   w.preview = [];
   w.previewActive = null;
@@ -564,6 +573,7 @@ export function restoreWorkBuddy(
   return s;
 }
 export function pauseWorkBuddy(s: State) {
+  releaseDocumentPointer(s);
   for (const task of s.workbuddy.tasks)
     if (task.status === "running") {
       task.elapsed += Math.max(0, Date.now() - task.startedAt);
@@ -771,6 +781,10 @@ export function workBuddyInteraction(
 ): string | null | undefined {
   if (!c.type.startsWith("wb-")) return undefined;
   if (s.app !== "workbuddy") return "WorkBuddy 已退出";
+  const receiptResult = receiptInteraction(s, c);
+  if (receiptResult !== undefined) return receiptResult;
+  const documentResult = documentInteraction(s, c);
+  if (documentResult !== undefined) return documentResult;
   const mobileResult = mobileWorkBuddyInteraction(s, c);
   if (mobileResult !== undefined) return mobileResult;
   const approvalResult = approvalInteraction(s, c);
@@ -859,6 +873,7 @@ export function workBuddyInteraction(
       d.revision++;
       if (type === "file") {
         const f = w.files.find((f) => f.id === entity)!;
+        if (w.fileWorkspace.documents[entity]?.pages.length) return "请在文件窗口修改受控 PPT 对象";
         saveFile(s, f, text);
       } else if (type === "project") {
         const p = w.projects.find((x) => x.id === entity);
@@ -910,6 +925,7 @@ export function workBuddyInteraction(
       return null;
     }
     case "wb-task": {
+      if (id === w.fileWorkspace.receipts.taskId && ["confirm", "stop", "continue", "type"].includes(String(v.action))) return "请从原票据任务的补充材料入口继续";
       const t = w.tasks.find((x) => x.id === id);
       if (!t) return "任务不存在";
       switch (v.action) {
@@ -970,6 +986,7 @@ export function workBuddyInteraction(
     }
     case "wb-preview": {
       if (!w.files.some((f) => f.id === id)) return "文件不存在";
+      if (w.fileWorkspace.documents[id]?.pages.length) return documentInteraction(s, { ...c, type: "wb-window-open", value: { fileId: id } });
       w.preview = [...new Set([...w.preview, id])];
       w.previewActive = id;
       return null;
@@ -986,11 +1003,13 @@ export function workBuddyInteraction(
     case "wb-file": {
       const f = w.files.find((x) => x.id === id);
       if (!f) return "文件不存在";
+      if (w.fileWorkspace.documents[id]?.pages.length && ["save", "refresh"].includes(String(v.action))) return "请在文件窗口保存受控 PPT；旧文本预览不能刷新对象模型";
       if (v.action === "save") {
         saveFile(s, f, f.draft.text);
         return null;
       }
       if (v.action === "delete") {
+        forgetDocument(s, id);
         w.files = w.files.filter((x) => x.id !== id);
         for (const task of w.tasks)
           task.files = task.files.filter((x) => x !== id);
