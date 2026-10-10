@@ -9,12 +9,13 @@ import "./workbuddy-file-window.css";
 
 export function PhoneWorkBuddyDocument({ fileId, onReceipts, resumed }: { fileId: string; onReceipts?: () => void; resumed?: boolean }) {
   const r = useRuntime(), w = r.state.workbuddy.fileWorkspace, d = w.documents[fileId], file = r.state.workbuddy.files.find(f => f.id === fileId);
-  const [error, setError] = useState(""), [busy, setBusy] = useState(false), [boxMode, setBoxMode] = useState(false);
+  const [error, setError] = useState(""), [busy, setBusy] = useState(false), [boxMode, setBoxMode] = useState(false), [choosingTarget, setChoosingTarget] = useState(false);
   const [draftId, setDraftId] = useState<string | null>(() => d && Object.values(d.drafts).filter(a => ["editing", "preview"].includes(a.status) && !readDocumentDraftInput(fileId, a.id)?.canceled).at(-1)?.id || null);
   const page = d?.pages.find(p => p.id === w.pageId), draft = draftId ? d?.drafts[draftId] : undefined;
   const gesture = useRef(uid()), sequence = useRef(0), lastMove = useRef(0), start = useRef<{ x: number; y: number } | null>(null), pointerAnchor = useRef<{ documentRevision: number; pointerEpoch: number; pageId: string } | null>(null), lock = useRef(false);
   if (!d || !file) return <p>文档已不存在</p>;
   const ended = draft && ["applied", "canceled"].includes(draft.status), editing = draft && !ended;
+  const reviewing = editing && !choosingTarget && d.proposals.some(p => p.draftId === draft.id && p.status === "pending");
   const selected = page && d.selection?.pageId === page.id ? d.selection.objectIds : [];
   function retainedText(original: WbDocumentDraft) { const saved = readDocumentDraftInput(fileId, original.id); return saved && (saved.dirty || saved.canceled) ? saved.text : original.text; }
   const canceled = Object.values(d.drafts).filter(a => a.status !== "applied" && (a.status === "canceled" || readDocumentDraftInput(fileId, a.id)?.canceled) && retainedText(a).trim()).at(-1);
@@ -35,7 +36,7 @@ export function PhoneWorkBuddyDocument({ fileId, onReceipts, resumed }: { fileId
       const id = uid(), ack = await command("wb-doc-draft-open", { fileId, documentRevision: d.revision, selection, draftId: id, source });
       if (ack.ok) {
         if (text) { const next = currentState().workbuddy.fileWorkspace.documents[fileId].drafts[id]; await command("wb-doc-draft-edit", { fileId, draftId: id, documentRevision: d.revision, revision: 0, text, session: uid(), sequence: 1 }, { targetId: `wb:doc-draft:${id}`, targetRevision: next.targetRevision, app: "workbuddy" }); }
-        setDraftId(id); setError("");
+        setDraftId(id); setChoosingTarget(false); setError("");
       } else setError(ack.error || "无法打开编辑");
     } finally { lock.current = false; setBusy(false); }
   }
@@ -54,8 +55,9 @@ export function PhoneWorkBuddyDocument({ fileId, onReceipts, resumed }: { fileId
     void command("wb-doc-pointer", { fileId, ...anchor, gesture: gesture.current, sequence: ++sequence.current, ...xy, phase, ...(boxMode && phase === "select" && start.current ? { box: start.current } : {}) });
   }
   const matching = w.active === fileId && !!page;
-  return <section className="wb-phone-document">
+  return <section className={"wb-phone-document" + (reviewing ? " has-preview" : "")}>
     <div className="wb-phone-document-context">
+      {choosingTarget && <button onClick={() => setChoosingTarget(false)}>返回修改预览</button>}
       <h2>{file.name}</h2>{!matching && <><p>工作台正在查看其他文件，原草稿保留</p><button disabled={!r.connected} onClick={() => command("wb-window-open", { fileId })}>回到此文件</button></>}
       {page && <>
         <div className="wb-phone-page-nav">{d.pages.map((p, i) => <button key={p.id} aria-label={`手机第 ${i + 1} 页`} className={page.id === p.id ? "active" : ""} disabled={!r.connected} onClick={() => command("wb-doc-page", { fileId, documentRevision: d.revision, pageId: p.id })}>{i + 1}</button>)}<button disabled={!r.connected} onClick={() => command("wb-doc-select", { fileId, documentRevision: d.revision, pageId: page.id, objectIds: page.objects.map(o => o.id) })}>选择整页</button></div>
@@ -69,7 +71,7 @@ export function PhoneWorkBuddyDocument({ fileId, onReceipts, resumed }: { fileId
       {ended && <p role="status">{draft.status === "applied" ? d.revision === draft.selection.documentRevision + 1 ? "修改已应用，当前文档可保存或撤销" : "该编辑已完成，当前文档又有后续变更" : "编辑已取消，文字已保留"}</p>}
       {error && <p role="alert">{error}</p>}
     </div>
-    <div className={"wb-phone-document-input" + (editing ? " has-editor" : "")}>{resumed && <small className="wb-resume-hint" role="status">已恢复原 PPT 草稿，请核对锁定对象与当前版本</small>}{editing ? <WorkBuddyDocumentEditor key={draft.id} fileId={fileId} draftId={draft.id} onCanceled={() => setDraftId(null)} onRebind={text => openDraft(draft.source, text)} /> : <>
+    <div className={"wb-phone-document-input" + (editing ? " has-editor" : "")}>{resumed && <small className="wb-resume-hint" role="status">已恢复原 PPT 草稿，请核对锁定对象与当前版本</small>}{editing ? <WorkBuddyDocumentEditor key={draft.id} fileId={fileId} draftId={draft.id} onCanceled={() => { setDraftId(null); setChoosingTarget(false); }} onRebind={text => openDraft(draft.source, text)} onChooseTarget={() => setChoosingTarget(true)} choosingTarget={choosingTarget} /> : <>
       <div className="wb-document-entry"><button disabled={!r.connected || !d.selection || busy} onClick={() => openDraft("text")}><I.Type size={19} />文字修改</button><button disabled={!r.connected || !d.selection || busy} onClick={() => openDraft("voice-demo")}><I.Mic size={19} />演示语音</button></div>
       <div className="wb-document-entry"><DocumentAction fileId={fileId} type="wb-doc-save" label="保存文档" /><DocumentAction fileId={fileId} type="wb-doc-undo" label="撤销此文档" disabled={!d.undo.length} /><DocumentAction fileId={fileId} type="wb-doc-redo" label="重做此文档" disabled={!d.redo.length} /></div>
       <div className="wb-document-entry"><DocumentAction fileId={fileId} type="wb-doc-reset" label="重置此 PPT 演示" /></div>

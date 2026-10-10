@@ -15,6 +15,7 @@ export function PhoneWorkBuddyReceipts({ onReturn }: { onReturn: () => void }) {
   return <section className="wb-phone-document">
     <div className="wb-phone-document-context"><h2>整理今年收据</h2><p>同一任务 · {r.missingMonths.length ? `缺少 ${r.missingMonths.join("、")} 月材料` : "示例月份已补齐"}</p>
       {d?.status === "editing" ? <ReceiptForm key={d.id} draftId={d.id} onDone={() => setDraftId(null)} /> : <>
+        {!!r.rows.length && <p className="wb-receipt-success" role="status">最近补充 1 张，已整理到原任务；当前共 {r.rows.length} 张票据。</p>}
         {!!r.missingMonths.length && <><label>补充月份<select aria-label="缺票据月份" value={selectedMonth} onChange={e => setMonth(+e.target.value)}>{r.missingMonths.map(m => <option value={m} key={m}>{m} 月</option>)}</select></label><div className="wb-receipt-example">云杉样例商店<br />办公耗材 · ¥42.00<small>完全虚构的内置票据</small></div></>}
         <table className="wb-local-table" aria-label="已整理票据"><thead><tr><th>月份</th><th>项目</th><th>金额</th></tr></thead><tbody>{r.rows.map(row => <tr key={row.id}><td>{row.month} 月</td><td>{row.description}</td><td>{(row.cents / 100).toFixed(2)}</td></tr>)}</tbody></table>
         <p className="wb-mobile-simulation">示例识别与本地表格，不读取实际财务资料</p>

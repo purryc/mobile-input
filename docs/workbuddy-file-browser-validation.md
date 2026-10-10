@@ -20,7 +20,7 @@
 |---|---|
 | 类型检查 | `npm run check` 通过；最新生产构建也执行 `tsc --noEmit` |
 | 全部核心测试 | **83/83 通过**；第一批 63＋第二批 20 |
-| 第二批浏览器 | **12/12 通过**：原有 8 个闭环与边界用例，加 4 个取消恢复边界用例 |
+| 第二批浏览器 | **16/16 通过**：原有 8 个闭环与边界用例，加 4 个取消恢复及 4 个手机预览审阅用例 |
 | 第一批手机/审批 | **6/6 再次通过** |
 | 原有 WorkBuddy | **5/5 再次通过**；四条旧销售链和 WPS、计划/暂停继续、旧输入与设置保留 |
 | 生产构建 | 通过；既有大 chunk 警告仍存在 |
@@ -42,6 +42,16 @@
 
 最后一次最新 `dist/` 生产复核 **23/23 通过**：第二批 12＋第一批手机/审批 6＋原 WorkBuddy 5，日志 `cancel-browser-release.log`。追加修复后 `npm run check`、全部核心测试 **83/83**、`npm run build` 再次通过，日志 `cancel-check.log`、`cancel-core.log`、`cancel-build.log`。六个变更文件只有源码、测试和文档，差异中的凭证模式扫描无命中，未新增依赖、二进制或私有素材。这些是独立云环境手动运行的检查，不是 GitHub CI；当前 Git tree 无 `.github/workflows` 配置。
 
+## 手机预览 CODE 审阅追加复核
+
+起点 `98f463dc89c4411ae92e2963f18a878f2ac98a53`。390×844、320×740（含上下 native-insets）的新增用例先复现具体差异完全不在视口中，日志 `review-repro.log`。组合指令原先只显示首个变更字段，遗漏字号和位置，日志 `review-combined-repro.log`；长文字多对象用例也先复现差异末端未完全进入可见区域，日志 `review-long-repro.log`。这些断言核对实际对象与 patch、文档版本及固定确认栏边界，不只检查标签存在。
+
+预览阶段收起手机指向区域和修改要求，优先保留冻结对象、具体差异、前后画布和确认栏；同时列出文本、颜色、字号、位置的全部实际变更。前后画布采用提案捕获的 before/after，对冻结对象显示选区边框。锁定标题后指向副标题明确提示「不会改变本次目标」。显式重新选择展开对象入口并禁用应用，重新锁定保留文字、取消旧提案后再预览；核心版本和确认协议未变化。长内容仍可滚动，不要求滚动后才能确认。票据补充回执新增来自真实本地记录的成功摘要与总数。
+
+中途生产集合 **25/26 通过**，`review-browser-release-attempt.log`：收起背景后旧版本恢复用例无法直接触达对象列表。补齐「重新选择对象」和返回预览入口，并更新该用例按实际流程操作；未降低过期版本或确认断言。最终开发复核 **5/5** 通过，`review-fixed-dev.log`，覆盖旧版本恢复、两个手机尺寸、组合字段与长内容。
+
+最终最新 `dist/` 生产集合 **27/27 通过**：第二批 16＋第一批手机/审批 6＋原 WorkBuddy 5，`review-browser-release.log`。`npm run check`、全部核心测试 **83/83**、`npm run build` 再次通过，日志 `review-check.log`、`review-core.log`、`review-build.log`。本轮四个新增审阅用例均保持文档未应用或明确取消旧提案的断言；票据去重与原任务、取消/Back 恢复等既有边界再次通过。没有新增依赖或锁文件变化。这是独立 Linux 云环境手动运行结果，不是 GitHub CI；历史全量集合本次未重跑。
+
 ## 既有失败集合
 
 本轮与第一批隔离基线同为 `connection-access`、`flow`、`wechat-presentation` 的 standby/voice、`wechat` 四个用例：
@@ -61,7 +71,7 @@ npm test
 npm run build
 ```
 
-浏览器采用第一批验收中记录的 `artifacts/cloud/playwright.config.ts` 覆盖 `/usr/bin/chromium`。测试自行启动 5191 bridge，不另起同端口服务。窗口菜单复核曾将构建输出隔离在 `artifacts/cloud/second-slice/final-review-dist`，5182 只绑定 127.0.0.1；初次交付在 `dist/` 的 5184 静态服务跑 19 条，追加修复后同命令在最新 `dist/` 跑 23 条：
+浏览器采用第一批验收中记录的 `artifacts/cloud/playwright.config.ts` 覆盖 `/usr/bin/chromium`。测试自行启动 5191 bridge，不另起同端口服务。窗口菜单复核曾将构建输出隔离在 `artifacts/cloud/second-slice/final-review-dist`，5182 只绑定 127.0.0.1；初次交付在 `dist/` 的 5184 静态服务跑 19 条，取消恢复追加修复后跑 23 条，手机预览审阅修复后在最新 `dist/` 跑 27 条：
 
 ```sh
 npm run build -- --outDir /workspace/mobile-input/artifacts/cloud/second-slice/final-review-dist
@@ -71,7 +81,7 @@ TEST_BASE_URL=http://localhost:5182 npx playwright test --config artifacts/cloud
 
 本轮证据均在忽略目录 `artifacts/cloud/second-slice/`：`core-final.log`、`check-final.log`、`build-final.log`、`browser-all-production.log`、`browser-final.log`、`browser-final-review.log`、`browser-delivery.log`、`browser-release.log`，及 `phone-ppt-preview.png`、`tablet-ppt-window.png`、`independent-file-window.png`、`roadmap-window.png`、`receipt-supplement.png`。首次浏览器尝试因 5190 服务已停止、5186 旧服务失效而无效；改用独立的新静态服务，未视作产品通过或基线失败。
 
-追加复核日志的名称见上节；上述截图由最终 23 条生产测试重新写出。凭据和截图未提交 GitHub，不提供虚构的仓库文件链接；可通过独立 Library 交付附件保留，不上传私有来源或环境文件。没有本轮演示视频。
+追加复核日志的名称见上节；上述截图及新增 `phone-ppt-review-390.png`、`phone-ppt-review-320.png` 均由最终 27 条生产测试重新写出。凭据和截图未提交 GitHub，不提供虚构的仓库文件链接；通过同一个独立 Library 交付附件更新保留，不上传私有来源或环境文件。没有本轮演示视频。
 
 ## 边界
 

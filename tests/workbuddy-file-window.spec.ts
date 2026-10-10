@@ -147,6 +147,7 @@ test("missing receipt notice supplements its existing task then returns to froze
   await phone.getByRole("button", { name: "演示语音修正项目", exact: true }).click(); await phone.getByLabel("已核对票据字段").check();
   await phone.getByRole("button", { name: "确认整理到原任务", exact: true }).dblclick();
   await expect(phone.getByLabel("已整理票据")).toContainText("56.70");
+  await expect(phone.getByRole("status").filter({ hasText: "最近补充 1 张，已整理到原任务；当前共 1 张票据。" })).toBeVisible();
   let wb = await read(tablet); expect(wb.fileWorkspace.receipts.rows).toHaveLength(1); expect(wb.tasks.filter(t => t.id === "receipt-year-demo")).toHaveLength(1);
   await phone.screenshot({ path: "artifacts/cloud/second-slice/receipt-supplement.png" });
   await phone.getByRole("button", { name: "返回原 PPT", exact: true }).click(); await expect(phone.getByLabel("选区修改草稿")).toHaveValue("改为：回来继续的标题");
@@ -163,6 +164,7 @@ test("desktop updates block the old phone preview; explicit re-selection keeps t
   await tablet.getByRole("button", { name: "AI 编辑", exact: true }).click(); await tablet.getByLabel("选区修改草稿").fill("字号 32");
   await tablet.getByRole("button", { name: "预览修改", exact: true }).click(); await tablet.getByRole("button", { name: "确认应用修改", exact: true }).click();
   await expect(phone.getByRole("button", { name: "确认应用修改", exact: true })).toBeDisabled(); await expect(phone.getByText("文档版本已变化，请重新选择并确认", { exact: true })).toBeVisible();
+  await phone.getByRole("button", { name: "重新选择对象", exact: true }).click();
   await phone.getByLabel("页面对象").getByRole("button", { name: "标题", exact: true }).click(); await phone.getByRole("button", { name: "按当前选区重新锁定并保留文字", exact: true }).click();
   await expect(phone.getByLabel("选区修改草稿")).toHaveValue("改为：保留手机草稿"); await expect(phone.locator(".wb-binding")).toContainText("标题 · v1");
   await phone.getByRole("button", { name: "预览修改", exact: true }).click(); await phone.getByRole("button", { name: "取消修改", exact: true }).click();
@@ -171,6 +173,49 @@ test("desktop updates block the old phone preview; explicit re-selection keeps t
   await expect(phone.getByRole("button", { name: "恢复上次取消的文字", exact: true })).toBeVisible();
   const wb = await read(tablet), d = wb.fileWorkspace.documents[wb.fileWorkspace.active!]; expect(d.revision).toBe(1); expect(d.pages[0].objects[0].text).toBe("客户项目汇报"); expect(d.pages[0].objects[0].fontSize).toBe(32);
   expect(errors).toEqual([]); await context.close();
+});
+for (const viewport of [{ width: 390, height: 844 }, { width: 320, height: 740 }] as const) test(`phone ${viewport.width} preview exposes real differences and keeps explicit target rebinding`, async ({ browser }) => {
+  const { context, tablet, phone, errors } = await pair(browser); await create(phone); await phone.setViewportSize(viewport);
+  if (viewport.width === 320) await phone.evaluate(() => window.dispatchEvent(new CustomEvent("native-insets", { detail: { width: 320, height: 740, top: 24, bottom: 34, left: 0, right: 0 } })));
+  await phone.getByLabel("页面对象").getByRole("button", { name: "标题", exact: true }).click(); await phone.getByRole("button", { name: "文字修改", exact: true }).click(); await phone.getByLabel("选区修改草稿").fill("改成蓝色");
+  await phone.getByLabel("页面对象").getByRole("button", { name: "副标题", exact: true }).click(); await phone.getByRole("button", { name: "预览修改", exact: true }).click();
+  const preview = phone.getByLabel("修改前后预览"), apply = phone.getByRole("button", { name: "确认应用修改", exact: true }), change = preview.locator("li").first();
+  await expect(change).toBeInViewport({ ratio: 1 }); await expect(change).toContainText("标题：颜色");
+  await expect(phone.getByText("本次修改：标题", { exact: true })).toBeVisible();
+  await expect(phone.getByText("当前指向副标题，不会改变本次目标。", { exact: true })).toBeVisible();
+  const footer = (await apply.boundingBox())!;
+  for (const canvas of await preview.locator(".wb-controlled-canvas").all()) {
+    await expect(canvas).toBeInViewport({ ratio: 1 }); const bounds = (await canvas.boundingBox())!; expect(bounds.y + bounds.height).toBeLessThanOrEqual(footer.y);
+  }
+  const first = await read(tablet), id = first.fileWorkspace.active!, originalProposal = first.fileWorkspace.documents[id].proposals.at(-1)!;
+  expect(originalProposal.patches[0].before.role).toBe("标题"); expect(first.fileWorkspace.documents[id].revision).toBe(0);
+  const paints = preview.locator('g[aria-label="标题"] text'); await expect(paints.nth(0)).toHaveAttribute("fill", "#20304a"); await expect(paints.nth(1)).toHaveAttribute("fill", "#2563eb");
+  await phone.screenshot({ path: `artifacts/cloud/second-slice/phone-ppt-review-${viewport.width}.png` });
+  await phone.getByRole("button", { name: "重新选择对象", exact: true }).click(); await expect(apply).toBeDisabled();
+  await phone.getByLabel("页面对象").getByRole("button", { name: "副标题", exact: true }).click();
+  await phone.getByRole("button", { name: "按当前选区重新锁定并保留文字", exact: true }).click();
+  await expect(phone.getByLabel("选区修改草稿")).toHaveValue("改成蓝色"); await expect(phone.locator(".wb-binding")).toContainText("副标题 · v0");
+  await expect(apply).toHaveCount(0); await phone.getByRole("button", { name: "预览修改", exact: true }).click();
+  const rebound = (await read(tablet)).fileWorkspace.documents[id]; expect(rebound.proposals.find(p => p.id === originalProposal.id)?.status).toBe("canceled"); expect(rebound.proposals.at(-1)?.patches[0].before.role).toBe("副标题"); expect(rebound.revision).toBe(0);
+  expect(errors).toEqual([]); await context.close();
+});
+test("preview lists every changed field of a combined instruction", async ({ browser }) => {
+  const { context, tablet, phone, errors } = await pair(browser); await create(phone);
+  await phone.getByLabel("页面对象").getByRole("button", { name: "标题", exact: true }).click(); await phone.getByRole("button", { name: "文字修改", exact: true }).click();
+  await phone.getByLabel("选区修改草稿").fill("改成蓝色，字号 32，向右移动 40"); await phone.getByRole("button", { name: "预览修改", exact: true }).click();
+  const change = phone.getByLabel("具体修改差异").locator("li").first(); await expect(change).toContainText("深灰蓝 → 蓝色"); await expect(change).toContainText("字号 40 → 32"); await expect(change).toContainText("位置 (55, 65) → (95, 65)");
+  const wb = await read(tablet), d = wb.fileWorkspace.documents[wb.fileWorkspace.active!], patch = d.proposals.at(-1)!.patches[0]; expect(patch.after.color).toBe("#2563eb"); expect(patch.after.fontSize).toBe(32); expect(patch.after.x).toBe(95); expect(d.revision).toBe(0);
+  expect(errors).toEqual([]); await context.close();
+});
+test("long multi-object differences remain scrollable above the confirmation bar", async ({ browser }) => {
+  const { context, tablet, phone, errors } = await pair(browser); await create(phone);
+  await phone.getByRole("button", { name: "选择整页", exact: true }).click(); await phone.getByRole("button", { name: "文字修改", exact: true }).click();
+  const nextText = "需要逐字审阅的标题".repeat(28); await phone.getByLabel("选区修改草稿").fill(`改为：${nextText}`); await phone.getByRole("button", { name: "预览修改", exact: true }).click();
+  const preview = phone.getByLabel("修改前后预览"), changes = preview.locator("li"), scroller = phone.locator(".wb-document-editor-scroll"), apply = phone.getByRole("button", { name: "确认应用修改", exact: true });
+  await expect(changes).toHaveCount(3); expect(await scroller.evaluate(e => e.scrollHeight > e.clientHeight)).toBe(true);
+  for (const change of await changes.all()) { await change.scrollIntoViewIfNeeded(); await expect(change).toBeInViewport({ ratio: 1 }); const bounds = (await change.boundingBox())!, footer = (await apply.boundingBox())!; expect(bounds.y + bounds.height).toBeLessThanOrEqual(footer.y); }
+  await preview.locator("figure").last().scrollIntoViewIfNeeded(); await expect(preview.locator("figure").last()).toBeInViewport({ ratio: 1 }); await expect(apply).toBeInViewport({ ratio: 1 });
+  const wb = await read(tablet); expect(wb.fileWorkspace.documents[wb.fileWorkspace.active!].revision).toBe(0); expect(errors).toEqual([]); await context.close();
 });
 test("preview confirmation stays visible within a small portrait native safe area", async ({ browser }) => {
   const { context, phone, errors } = await pair(browser); await create(phone);
