@@ -1,3 +1,4 @@
+import {PhoneWorkBuddyHub} from './phone-workbuddy-hub';
 import {PhoneWorkBuddy} from './phone-workbuddy';
 import {PhoneHome} from './phone-home';
 import {PresentationPhone} from './phone-presentation';
@@ -5,7 +6,7 @@ import {PhoneWeChat,SwitchButton} from './phone-wechat';
 import {FcController} from './phone-game';
 import {useEffect,useRef,useState} from 'react';import * as I from 'lucide-react';
 import {apps,type Target} from '../../../packages/core/model';import {command,useRuntime,toast,uid} from './runtime';import {Icon} from './tablet';import {AppIcon} from './desktop';
-function LegacyPhone(){const r=useRuntime(),s=r.state;const [draft,setDraft]=useState(''),[anchor,setAnchor]=useState<Target|null>(null),[dirty,setDirty]=useState(false),[speech,setSpeech]=useState('idle'),[speechError,setSpeechError]=useState(''),[online,setOnline]=useState(false),[clock,setClock]=useState(Date.now());const session=useRef(''),speechBase=useRef(''),speechOriginal=useRef(''),held=useRef(new Set<string>()),editVersion=useRef(0),latest=useRef(s);latest.current=s;const active=apps.find(a=>a[0]===s.app);const changed=!!anchor&&(anchor.id!==s.target?.id||anchor.revision!==s.target?.revision||anchor.app!==s.app);
+function LegacyPhone({onWorkBuddy}:{onWorkBuddy?:()=>void}){const r=useRuntime(),s=r.state;const [draft,setDraft]=useState(''),[anchor,setAnchor]=useState<Target|null>(null),[dirty,setDirty]=useState(false),[speech,setSpeech]=useState('idle'),[speechError,setSpeechError]=useState(''),[online,setOnline]=useState(false),[clock,setClock]=useState(Date.now());const session=useRef(''),speechBase=useRef(''),speechOriginal=useRef(''),held=useRef(new Set<string>()),editVersion=useRef(0),latest=useRef(s);latest.current=s;const active=apps.find(a=>a[0]===s.app);const changed=!!anchor&&(anchor.id!==s.target?.id||anchor.revision!==s.target?.revision||anchor.app!==s.app);
  useEffect(()=>{const timer=setInterval(()=>setClock(Date.now()),1000);return()=>clearInterval(timer);},[]);
  useEffect(()=>{if(!dirty&&speech==='idle'){setAnchor(s.target);setDraft(s.target?.value||'');}},[s.target?.id,s.target?.revision,dirty,speech]);
  useEffect(()=>{const f=(e:Event)=>{const d=(e as CustomEvent).detail;if(!session.current||d.sessionId!==session.current)return;if(d.type==='partial'||d.type==='final'){editVersion.current++;setDraft(speechBase.current+d.text);setDirty(true);}if(d.type==='start')setSpeech('recording');if(d.type==='complete'){setSpeech('idle');session.current='';}if(d.type==='error'){setSpeech('idle');setSpeechError(d.message||'语音识别不可用');session.current='';}};window.addEventListener('native-speech',f);return()=>window.removeEventListener('native-speech',f);},[]);
@@ -18,6 +19,7 @@ function LegacyPhone(){const r=useRuntime(),s=r.state;const [draft,setDraft]=use
  const bind=()=>{setAnchor(s.target);setDirty(true);};
  const keyProps=(key:string)=>({onPointerDown:(e:React.PointerEvent<HTMLButtonElement>)=>{e.preventDefault();e.currentTarget.setPointerCapture(e.pointerId);held.current.add(key);command('game-keys',[...held.current]);},onPointerUp:()=>{held.current.delete(key);command('game-keys',[...held.current]);},onPointerCancel:()=>{held.current.delete(key);command('game-keys',[...held.current]);},onLostPointerCapture:()=>{held.current.delete(key);command('game-keys',[...held.current]);}});
  return <main className={'phone '+(s.app==='mario'?'phone-game':'')}> {r.connected&&<><section className="target-summary"><span className="target-icon" style={{background:active?.[2]||'#758194'}}><AppIcon id={s.app} size={48}/></span><div><small>{active?.[1]||'桌面'}</small><h2>{s.presenting?`销售进展汇报 · 第 ${s.slide+1} 页`:s.target?.label||'选择一个对象'}</h2></div>{s.target&&<I.Crosshair size={20}/>}</section>
+ {s.app==='desktop'&&onWorkBuddy&&<button className="primary" onClick={onWorkBuddy}>在工作台打开 WorkBuddy</button>}
  {s.app==='desktop'&&<div className="phone-apps">{apps.filter(a=>['mail','wps','wechat','doubao','notes','paint','mario'].includes(a[0])).map(a=><button key={a[0]} onClick={()=>command('open',a[0])}><span style={{background:a[2]}}><AppIcon id={a[0]} size={42}/></span>{a[1]}</button>)}</div>}
  {s.app==='slides'&&<section className="presentation-phone"><div className="present-mode"><b>{s.presenting?'正在放映':'编辑演示文稿'}</b><button onClick={()=>command('present',!s.presenting)}>{s.presenting?'结束放映':'开始放映'}<I.Play size={15}/></button></div>{s.presenting&&<><div className="slide-counter"><span>{String(s.slide+1).padStart(2,'0')}</span><small>/ 06</small><time>{new Date(Math.max(0,clock-s.startedAt)).toISOString().slice(14,19)}</time></div><h2>{s.slides[s.slide].title}</h2><div className="private-notes"><span><I.LockKeyhole size={13}/>演讲者备注</span><p>{s.slides[s.slide].notes}</p></div></>}<div className="slide-arrows"><button disabled={s.slide===0} onClick={()=>command('slide',s.slide-1)}><I.ChevronLeft size={32}/>上一页</button><button disabled={s.slide===5} onClick={()=>command('slide',s.slide+1)}>下一页<I.ChevronRight size={32}/></button></div><div className="slide-dots">{s.slides.map((x,i)=><button key={i} className={i===s.slide?'active':''} aria-label={`跳至第 ${i+1} 页`} onClick={()=>command('slide',i)}>{i+1}</button>)}</div></section>}
  {['paint','notes'].includes(s.app)&&<section className="phone-tools"><header><h3>画笔工具</h3><button onClick={()=>command('undo-stroke')}><I.Undo2 size={20}/>撤销</button></header><div className="color-swatches">{['#ed5b94','#1e293b','#356bd8','#e8b84a','#60aa8c','#9e6bd8'].map(c=><button key={c} aria-label={'颜色 '+c} style={{background:c}} className={s.color===c?'chosen':''} onClick={()=>command('color',c)}/>)}<input aria-label="自定义颜色" type="color" value={s.color} onChange={e=>command('color',e.target.value)}/></div><label className="brush-label">笔刷大小 <b>{s.brush} px</b></label><input aria-label="手机笔刷大小" className="wide-slider" type="range" min="1" max="40" value={s.brush} onChange={e=>command('brush',Number(e.target.value))}/><div className="tool-pair"><button className={!s.eraser?'active':''} onClick={()=>command('eraser',false)}><I.Paintbrush/>画笔</button><button className={s.eraser?'active':''} onClick={()=>command('eraser',true)}><I.Eraser/>橡皮擦</button></div></section>}
@@ -34,10 +36,14 @@ function LegacyPhone(){const r=useRuntime(),s=r.state;const [draft,setDraft]=use
 
 export function Phone(){
  const r=useRuntime();
+ const [workbuddyOpen,setWorkbuddyOpen]=useState(false);
+ useEffect(()=>{if(r.state.app!=='workbuddy')setWorkbuddyOpen(false);},[r.state.app]);
+ const enterWorkBuddy=async()=>{if(r.state.app!=='workbuddy'){const ack=await command('open','workbuddy');if(!ack.ok)return;}setWorkbuddyOpen(true);};
+ if(workbuddyOpen&&r.state.app==='workbuddy')return <PhoneWorkBuddyHub onClose={()=>setWorkbuddyOpen(false)}/>;
  if(!r.connected&&!['slides','mario'].includes(r.state.app))return <PhoneHome/>;
- if(r.state.app==='workbuddy')return r.connected&&r.state.target?.id.startsWith('wb:')?<PhoneWorkBuddy key={r.state.target.id}/>:<PhoneHome/>;
+ if(r.state.app==='workbuddy')return r.connected&&r.state.target?.id.startsWith('wb:')?<PhoneWorkBuddy key={r.state.target.id} onOverview={()=>setWorkbuddyOpen(true)}/>:<PhoneHome onWorkBuddy={enterWorkBuddy}/>;
  if(r.state.app==='slides')return <PresentationPhone/>;
- if(r.state.app==='wechat')return r.connected&&r.state.chat.activation?.phase==='ready'?<PhoneWeChat/>:<PhoneHome/>;
+ if(r.state.app==='wechat')return r.connected&&r.state.chat.activation?.phase==='ready'?<PhoneWeChat/>:<PhoneHome onWorkBuddy={enterWorkBuddy} workbuddyLabel="在工作台打开 WorkBuddy"/>;
  if(r.state.app==='mario')return <FcController/>;
- return <><LegacyPhone/>{r.connected&&<div className='global-phone-switch'><SwitchButton/></div>}</>;
+ return <><LegacyPhone onWorkBuddy={enterWorkBuddy}/>{r.connected&&<div className='global-phone-switch'><SwitchButton/></div>}</>;
 }

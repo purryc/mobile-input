@@ -23,6 +23,7 @@ import { command, navigateBack, toast } from "./runtime";
 import { useBack } from "./back";
 import { useWorkBuddyInput } from "./workbuddy-input";
 import "./workbuddy.css";
+import { WorkBuddyTaskApprovals } from "./workbuddy-task-approvals";
 const run = (type: string, value: Record<string, unknown> = {}) =>
   command("wb-" + type, value);
 const go = (page: WorkBuddyPage, id?: string) => run("navigate", { page, id });
@@ -546,6 +547,7 @@ export function WorkBuddy({ s }: { s: State }) {
                         )}
                       </div>
                     )}
+                    <WorkBuddyTaskApprovals requests={w.approvals.filter(r => r.taskId === task.id)} />
                     {task.files.map((id) => {
                       const f = w.files.find((x) => x.id === id);
                       return (

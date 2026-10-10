@@ -1,5 +1,7 @@
 import type { State, Command, OfficeFile } from "./model";
 import { money, totals } from "./model";
+import { mobileWorkBuddyInteraction, type WbInputDraft, type WbOperation } from "./workbuddy-mobile";
+import { approvalInteraction, type WbApproval, type WbShareEffect } from "./workbuddy-approvals";
 
 export type WorkBuddyPage =
   | "home"
@@ -62,6 +64,7 @@ export interface WbFile {
   officeId?: string;
   edited: boolean;
   dataVersion: number;
+  contentRevision?: number;
 }
 export interface WbProject {
   id: string;
@@ -87,7 +90,11 @@ export interface WbAssistant {
   messages: { role: string; text: string }[];
 }
 export interface WorkBuddyState {
-  version: 1;
+  version: 1 | 2;
+  inputDrafts: Record<string, WbInputDraft>;
+  operations: Record<string, WbOperation>;
+  approvals: WbApproval[];
+  shareEffects: WbShareEffect[];
   page: WorkBuddyPage;
   task: string;
   preview: string[];
@@ -339,7 +346,11 @@ export const newWbDraft = (text = ""): WbDraft => ({
 });
 export function initialWorkBuddy(): WorkBuddyState {
   return {
-    version: 1,
+    version: 2,
+    inputDrafts: {},
+    operations: {},
+    approvals: [],
+    shareEffects: [],
     page: "home",
     task: "new",
     preview: [],
@@ -532,6 +543,14 @@ export function restoreWorkBuddy(
       s.workbuddy.drafts.new.text = s.texts["ai-draft"];
   }
   const w = s.workbuddy;
+  if (w.version === 1) {
+    backup("mobile-input:backup:workbuddy-v1", JSON.stringify(w));
+    w.inputDrafts = {};
+    w.operations = {};
+    w.approvals = [];
+    w.shareEffects = [];
+    w.version = 2;
+  }
   w.mailDrafts ??= [];
   w.settings.buddyExpert ??= "sales";
   w.preview = [];
@@ -589,22 +608,23 @@ function focus(s: State, id: string, label?: string, initialText = "") {
   };
   return null;
 }
-function identify(text: string): ResultKind | null {
+export function identify(text: string): ResultKind | null {
   if (/汇报|PPT|ppt|幻灯片|演示/.test(text)) return "slides";
   if (/方案|售后|安装/.test(text)) return "proposal";
   if (/报价|采购比较|供应商|毛利|成本/.test(text)) return "quote";
   if (/需求|简报|项目介绍|背景/.test(text)) return "brief";
   return null;
 }
-function startTask(
+export function startTask(
   s: State,
   id: string,
   text: string,
   kind: ResultKind | null,
   config?: Partial<WbTask>,
+  input?: WbDraft,
 ) {
   const w = s.workbuddy;
-  const draft = w.drafts[w.task] || newWbDraft();
+  const draft = input || w.drafts[w.task] || newWbDraft();
   const mode = config?.mode || w.settings.mode;
   const task: WbTask = {
     id,
@@ -621,7 +641,7 @@ function startTask(
     kind,
     mode,
     model: config?.model || w.settings.model,
-    expert: config?.expert || w.entityDrafts["selected-expert"]?.text || "",
+    expert: config?.expert ?? w.entityDrafts["selected-expert"]?.text ?? "",
     project:
       config?.project ||
       w.projects.find((p) => p.name === w.settings.workspace)?.id ||
@@ -740,6 +760,7 @@ function syncOffice(s: State, f: WbFile) {
 }
 function saveFile(s: State, f: WbFile, text: string) {
   f.content = text;
+  f.contentRevision = (f.contentRevision || 0) + 1;
   f.edited = true;
   if (f.kind === "word") syncOffice(s, f);
 }
@@ -750,6 +771,10 @@ export function workBuddyInteraction(
 ): string | null | undefined {
   if (!c.type.startsWith("wb-")) return undefined;
   if (s.app !== "workbuddy") return "WorkBuddy 已退出";
+  const mobileResult = mobileWorkBuddyInteraction(s, c);
+  if (mobileResult !== undefined) return mobileResult;
+  const approvalResult = approvalInteraction(s, c);
+  if (approvalResult !== undefined) return approvalResult;
   const w = s.workbuddy,
     v = (c.value || {}) as Record<string, unknown>,
     id = String(v.id || "");
@@ -987,6 +1012,7 @@ export function workBuddyInteraction(
                 ? "proposal"
                 : "slides";
         f.content = content(s, kind);
+        f.contentRevision = (f.contentRevision || 0) + 1;
         f.draft = newWbDraft(f.content);
         f.dataVersion = s.reportRevision;
         syncOffice(s, f);

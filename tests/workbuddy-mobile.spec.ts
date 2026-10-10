@@ -1,0 +1,142 @@
+import { test, expect, type Browser, type Page } from "@playwright/test";
+import type { WorkBuddyState } from "../packages/core/workbuddy";
+async function readWB(page: Page): Promise<WorkBuddyState> { return page.evaluate(() => JSON.parse(localStorage.getItem("mobile-input-state-v1") || "null").workbuddy); }
+async function pair(browser: Browser) {
+  const context = await browser.newContext(), tablet = await context.newPage(), phone = await context.newPage();
+  const errors: string[] = [];
+  for (const page of [tablet, phone]) page.on("pageerror", e => errors.push(e.message));
+  await tablet.goto("/?bridge=5191");
+  await tablet.getByRole("button", { name: "连接设置", exact: true }).click();
+  const pin = (await tablet.locator(".pair-code").innerText()).trim();
+  await tablet.getByRole("button", { name: "关闭连接设置" }).click();
+  await phone.setViewportSize({ width: 390, height: 844 });
+  await phone.goto("/?role=phone&bridge=5191");
+  await phone.getByLabel("平板地址").fill("localhost");
+  await phone.getByLabel("配对码", { exact: true }).fill(pin);
+  await phone.getByRole("button", { name: "连接", exact: true }).click();
+  await expect(phone.getByRole("dialog", { name: "设备连接" })).toHaveCount(0);
+  await phone.getByRole("button", { name: "在工作台打开 WorkBuddy", exact: true }).click();
+  await expect(phone.getByRole("heading", { name: "任务总览", exact: true })).toBeVisible();
+  await expect(tablet.locator(".wb-home")).toBeVisible();
+  return { context, tablet, phone, errors };
+}
+async function request(phone: Page, taskId = "sample-brief") {
+  await phone.locator(`[data-task-id="${taskId}"]`).click();
+  await phone.getByRole("button", { name: "请求分享审批（本地模拟）", exact: true }).click();
+  await expect(phone.getByRole("heading", { name: "请确认本次分享" })).toBeVisible();
+}
+test("mobile opens without tablet focus, isolates two drafts and creates one task without moving the work surface", async ({ browser }) => {
+  const { context, tablet, phone, errors } = await pair(browser);
+  await expect(phone.getByRole("button", { name: "连接设置", exact: true })).toHaveCount(1);
+  await phone.getByRole("button", { name: "新建任务", exact: true }).click();
+  await phone.getByLabel("手机新建任务草稿").fill("整理客户需求简报 A");
+  await phone.getByRole("button", { name: "返回任务总览" }).click();
+  await phone.getByRole("button", { name: "新建任务", exact: true }).click();
+  await phone.getByLabel("手机新建任务草稿").fill("比较采购报价 B");
+  await phone.getByRole("button", { name: "返回任务总览" }).click();
+  await phone.getByRole("region", { name: "未提交草稿" }).getByRole("button").filter({ hasText: "整理客户需求简报 A" }).click();
+  await expect(phone.getByLabel("手机新建任务草稿")).toHaveValue("整理客户需求简报 A");
+  await phone.getByLabel("新建任务工作模式").selectOption("plan");
+  await phone.getByRole("button", { name: "提交新任务", exact: true }).dblclick();
+  await expect(phone.getByRole("heading", { name: "整理客户需求简报 A", exact: true })).toBeVisible();
+  await expect(phone.getByText("等待计划确认", { exact: true })).toBeVisible();
+  await expect(tablet.locator(".wb-home")).toBeVisible();
+  await phone.getByRole("button", { name: "返回任务总览" }).click();
+  await expect(phone.getByRole("region", { name: "所有任务" }).getByRole("button").filter({ hasText: "整理客户需求简报 A" })).toHaveCount(1);
+  await phone.getByRole("region", { name: "未提交草稿" }).getByRole("button").filter({ hasText: "比较采购报价 B" }).click();
+  await expect(phone.getByLabel("手机新建任务草稿")).toHaveValue("比较采购报价 B");
+  expect(errors).toEqual([]); await context.close();
+});
+test("approval supplement replaces the request, requires a new Yes and only records a local simulated effect", async ({ browser }) => {
+  const { context, tablet, phone, errors } = await pair(browser);
+  await request(phone);
+  await phone.screenshot({ path: "artifacts/cloud/mobile-approval-pending.png" });
+  await phone.getByRole("button", { name: "补充条件", exact: true }).click();
+  await phone.getByLabel("审批补充草稿").fill("仅供内部评审，保留待确认事项");
+  await phone.getByLabel("审批接收范围").selectOption("manager");
+  await phone.getByRole("button", { name: "更新方案并重新确认" }).click();
+  await expect(phone.getByRole("heading", { name: "请确认本次分享" })).toBeVisible();
+  await expect(phone.locator(".wb-approval dd").last()).toHaveText("2");
+  await expect(phone.getByText("销售主管（演示）", { exact: true })).toBeVisible();
+  await expect(phone.locator(".wb-approval blockquote")).toContainText("仅供内部评审");
+  await phone.screenshot({ path: "artifacts/cloud/mobile-approval-updated.png" });
+  await phone.getByRole("button", { name: "同意本次请求", exact: true }).dblclick();
+  await expect(phone.getByText("本地分享记录已保存", { exact: true })).toBeVisible();
+  await expect(tablet.locator(".wb-home")).toBeVisible();
+  const wb = await readWB(tablet);
+  expect(wb.shareEffects).toHaveLength(1); expect(wb.shareEffects[0].simulation).toBe(true);
+  expect(wb.approvals.filter(a => a.status === "superseded")).toHaveLength(1);
+  expect(wb.tasks).toHaveLength(3);
+  await phone.screenshot({ path: "artifacts/cloud/mobile-approval-approved.png" });
+  expect(errors).toEqual([]); await context.close();
+});
+test("No preserves the current task and artifact while another request stays pending", async ({ browser }) => {
+  const { context, tablet, phone, errors } = await pair(browser);
+  await request(phone, "sample-quote");
+  await phone.getByRole("button", { name: "返回任务总览" }).click();
+  await request(phone);
+  await phone.getByRole("button", { name: "拒绝本次请求", exact: true }).click();
+  await expect(phone.getByText("本次分享未获批准，任务和成果已保留", { exact: true })).toBeVisible();
+  await phone.screenshot({ path: "artifacts/cloud/mobile-approval-rejected.png" });
+  await phone.getByRole("button", { name: "返回任务总览" }).click();
+  await expect(phone.getByRole("region", { name: "待审批列表" }).getByRole("button")).toHaveCount(1);
+  const wb = await readWB(tablet);
+  expect(wb.tasks.every(t => t.status === "complete")).toBe(true);
+  expect(wb.files).toHaveLength(4); expect(wb.shareEffects).toHaveLength(0);
+  await phone.screenshot({ path: "artifacts/cloud/mobile-task-overview.png" });
+  expect(errors).toEqual([]); await context.close();
+});
+test("disconnect preserves a dirty input; re-pairing requires explicit draft recovery", async ({ browser }) => {
+  const { context, tablet, phone, errors } = await pair(browser);
+  await phone.getByRole("button", { name: "新建任务", exact: true }).click();
+  await phone.getByLabel("手机新建任务草稿").fill("断线前内容");
+  await expect.poll(async () => Object.values((await readWB(tablet)).inputDrafts)[0]?.text).toBe("断线前内容");
+  await context.setOffline(true);
+  await phone.evaluate(() => window.dispatchEvent(new CustomEvent("native-message", { detail: { kind: "disconnected" } })));
+  await phone.getByLabel("手机新建任务草稿").fill("手机离线保留内容");
+  await expect(phone.getByRole("button", { name: "恢复到当前草稿", exact: true })).toBeVisible();
+  await context.setOffline(false);
+  await phone.getByRole("button", { name: "连接设置", exact: true }).click();
+  await phone.getByRole("button", { name: "连接", exact: true }).click();
+  await expect(phone.getByRole("dialog", { name: "设备连接" })).toHaveCount(0);
+  await expect(phone.getByLabel("手机新建任务草稿")).toHaveValue("手机离线保留内容");
+  await phone.getByRole("button", { name: "恢复到当前草稿", exact: true }).click();
+  await expect.poll(async () => Object.values((await readWB(tablet)).inputDrafts)[0]?.text).toBe("手机离线保留内容");
+  expect(errors).toEqual([]); await context.close();
+});
+test("file updates disable the old Yes and require an explicit replacement approval", async ({ browser }) => {
+  const { context, tablet, phone, errors } = await pair(browser);
+  await request(phone);
+  await tablet.locator(".wb-sidebar nav").getByRole("button", { name: "资料库", exact: true }).click();
+  await tablet.locator(".wb-library-table").getByRole("button", { name: "需求简报.md", exact: true }).click();
+  await tablet.getByRole("button", { name: "刷新文件数据", exact: true }).click();
+  await expect(phone.getByRole("button", { name: "同意本次请求", exact: true })).toBeDisabled();
+  await expect(phone.getByText("成果已更新，请重新确认当前版本", { exact: true })).toBeVisible();
+  await phone.getByRole("button", { name: "按最新文件重新确认", exact: true }).click();
+  await expect(phone.locator(".wb-approval dd").last()).toHaveText("2");
+  await expect(phone.getByRole("button", { name: "同意本次请求", exact: true })).toBeEnabled();
+  expect(errors).toEqual([]); await context.close();
+});
+test("failed v1 migration backup leaves persisted data unchanged and blocks new writes", async ({ browser }) => {
+  const context = await browser.newContext(), page = await context.newPage();
+  await page.goto("/?bridge=5191");
+  await page.locator(".demo-apps").getByRole("button", { name: "WorkBuddy", exact: true }).click();
+  await expect.poll(() => page.evaluate(() => Boolean(localStorage.getItem("mobile-input-state-v1")))).toBe(true);
+  const original = await page.evaluate(() => {
+    const state = JSON.parse(localStorage.getItem("mobile-input-state-v1")!); state.workbuddy.version = 1;
+    state.workbuddy.drafts.new.text = "迁移失败时必须保留";
+    const serialized = JSON.stringify(state); localStorage.setItem("mobile-input-state-v1", serialized); return serialized;
+  });
+  await page.addInitScript(() => {
+    const set = Storage.prototype.setItem;
+    Storage.prototype.setItem = function(key, value) { if (key === "mobile-input:backup:workbuddy-v1") throw new DOMException("full", "QuotaExceededError"); return set.call(this, key, value); };
+  });
+  await page.reload();
+  await expect(page.getByText("WorkBuddy 迁移备份失败，旧数据已保留；请释放存储空间后刷新", { exact: true })).toBeVisible();
+  await page.getByLabel("WorkBuddy 任务输入").click();
+  await expect(page.getByText("WorkBuddy 迁移备份失败，旧数据已保留；请释放存储空间后刷新", { exact: true })).toBeVisible();
+  const persisted = await page.evaluate(() => localStorage.getItem("mobile-input-state-v1"));
+  expect(persisted).toBe(original);
+  await expect(page.getByLabel("WorkBuddy 任务输入")).toHaveValue("迁移失败时必须保留");
+  await context.close();
+});

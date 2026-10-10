@@ -7,7 +7,7 @@ import { ConnectionButton } from "./connection-access";
 import { SwitchButton } from "./phone-wechat";
 import { usePhoneInsets } from "./phone-insets";
 import "./phone-workbuddy.css";
-export function PhoneWorkBuddy() {
+export function PhoneWorkBuddy({onOverview}:{onOverview?:()=>void}) {
   const r = useRuntime(),
     s = r.state,
     t = s.target!,
@@ -215,6 +215,7 @@ export function PhoneWorkBuddy() {
         <SwitchButton beforeSwitch={cancel} />
         <ConnectionButton />
       </header>
+      {onOverview && <button onClick={() => {cancel(); onOverview();}}>任务总览</button>}
       <section className="wb-phone-context">
         <div>
           <img src="./assets/apps/workbuddy.svg" alt="" />

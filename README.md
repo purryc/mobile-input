@@ -113,3 +113,9 @@ FC 使用原生安全区居中，不绘制额外手势条。Mario 在平板全�
 ## 自适应输入设计资料
 
 [设计系统说明](docs/adaptive-input-design-system.md)、`samples/adaptive-component-registry.json`、`samples/adaptive-ui-plan-examples.json` 与 `scripts/figma-adaptive-*.js` 保存可编辑设计目录和构建过程。这部分为 Figma 设计交付；当前应用未实现自适应渲染、真实模型决策或折叠 PC 适配。
+
+## 云端首切片：手机任务与审批
+
+手机可主动打开 WorkBuddy 任务总览、新建独立草稿和查看多任务；浏览任务保留电脑当前工作面。已有成果可请求独立分享审批：同意保存本地模拟记录，拒绝保留任务与成果，补充更新后再次确认。没有真实分享、邮件或外部 WorkBuddy API。
+
+协议、范围与未接能力见 [手机任务与审批方案](docs/workbuddy-mobile-approval-plan.md)，本轮检查与浏览器基线差异见 [云端验收](docs/workbuddy-mobile-cloud-validation.md)。

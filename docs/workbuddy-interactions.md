@@ -32,7 +32,7 @@ flowchart LR
 
 ## 双端编辑
 
-平板点击任务输入／文件正文／项目指令／记忆／助理消息／表单字段，才设置 `wb:*` 目标并激活手机。手机显示目标、任务、最近上下文和引用。状态与连接按钮同一行，应用切换保持独立。
+旧上下文编辑：平板点击任务输入／文件正文／项目指令／记忆／助理消息／表单字段，设置 `wb:*` 目标并激活手机。手机现在也可从明确的 WorkBuddy 入口主动查看多任务、创建独立草稿与处理审批；仅查看任务不导航电脑工作面。新切片的独立输入与审批契约见 [实现方案](workbuddy-mobile-approval-plan.md)。手机显示目标、任务、最近上下文和引用。状态与连接按钮同一行，应用切换保持独立。
 
 文字键入及原生识别结果都进入可编辑草稿，并实时镜像当前平板目标。语音使用现有原生 Core Speech 桥；按住开始、松开结束、取消恢复录音前内容、失败显示原因，无预设转写。固定录音区域，停止不提交。AI润色是本地简洁／礼貌／正式变换，保留数字与业务项并可撤销。
 
@@ -42,12 +42,14 @@ flowchart LR
 
 ## 数据与协议
 
-`State.workbuddy` 包括 routes、task、drafts、tasks、files、projects、automations、assistants、installed、connectors、experts、settings、entityDrafts、mailDrafts、notices。协议版本 5 的描述包含当前应用、任务身份、目标／目标版本、草稿版本。
+`State.workbuddy` 包括 routes、task、drafts、tasks、files、projects、automations、assistants、installed、connectors、experts、settings、entityDrafts、mailDrafts、notices；v2 新增 inputDrafts、operations、approvals、shareEffects。协议版本 5 的描述包含当前应用、任务身份、目标／目标版本、草稿版本。
 
 | 命令组 | 动作与保护 |
 |---|---|
 | wb-navigate / wb-focus / wb-unfocus | 合法页面／目标，聚焦同一目标不改目标版本，弹层退出释放旧目标 |
 | wb-edit | targetId＋targetRevision、draftRevision、编辑 session＋sequence；拒绝旧序号 |
+| wb-input-open / wb-input-edit / wb-task-create | 独立输入归属、目标锚点与 revision/session/sequence；持久 operationId 去重，新建不改变电脑路由 |
+| wb-approval-request / wb-approval-decide / wb-approval-supplement / wb-approval-refresh | 请求 ID／版本、有效期、文件快照、演示接收组；同意只保存本地模拟记录，补充产生新待审批，不暂停或新建追问任务 |
 | wb-submit | 完整 text＋draftRevision＋目标版本；Store command ID 去重 |
 | wb-task / wb-tick | 重命名、收藏、删除、停止、继续、确认、类型；tick 校验 epoch，手机不能注入 tick |
 | wb-preview / wb-file-panel / wb-file | 目录标签，正文保存，明确刷新，用户文字保护 |

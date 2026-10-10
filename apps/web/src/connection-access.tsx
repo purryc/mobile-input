@@ -5,8 +5,9 @@ import {command,connect,pin,role,useRuntime} from './runtime';
 import {useBack} from './back';
 import {usePhoneInsets} from './phone-insets';
 
-type ConnectionControl={opened:boolean;show:()=>void;entry:RefObject<HTMLButtonElement|null>;status:string;connected:boolean};
+type ConnectionControl={opened:boolean;show:()=>void;entry:RefObject<HTMLButtonElement|null>;status:string;connected:boolean;setInline:(active:boolean)=>void};
 const ConnectionContext=createContext<ConnectionControl|null>(null);
+export function useInlineConnection(){const control=useContext(ConnectionContext);useEffect(()=>{control?.setInline(true);return()=>control?.setInline(false);},[control?.setInline]);}
 export function ConnectionButton({className=''}:{className?:string}){
  const control=useContext(ConnectionContext);if(!control)return null;
  const {opened,show,entry,status,connected}=control;
@@ -18,7 +19,8 @@ export function ConnectionAccess({children}:{children:ReactNode}){
  const r=useRuntime(),phone=role==='phone',insets=usePhoneInsets();
  const [opened,setOpened]=useState(phone&&!r.connected),[address,setAddress]=useState(r.address||''),[code,setCode]=useState(''),[qr,setQr]=useState('');
  const priorConnected=useRef(r.connected),entry=useRef<HTMLButtonElement>(null),panel=useRef<HTMLElement>(null);
- const inline=phone&&(r.state.app==='slides'||r.state.app==='mario'||r.state.app==='workbuddy'&&r.connected&&!!r.state.target?.id.startsWith('wb:')||r.state.app==='wechat'&&r.connected&&r.state.chat.activation?.phase==='ready');
+ const [requestedInline,setInline]=useState(false);
+ const inline=phone&&(requestedInline||r.state.app==='slides'||r.state.app==='mario'||r.state.app==='workbuddy'&&r.connected&&!!r.state.target?.id.startsWith('wb:')||r.state.app==='wechat'&&r.connected&&r.state.chat.activation?.phase==='ready');
  const host=r.address||location.hostname;
  const status=r.connected?(phone?'已连接工作台':'手机已连接'):r.status;
  function close(){setOpened(false);entry.current?.focus();}
@@ -35,7 +37,7 @@ export function ConnectionAccess({children}:{children:ReactNode}){
    else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first?.focus();}
   }
  };window.addEventListener('keydown',key,true);return()=>window.removeEventListener('keydown',key,true);},[opened]);
- return <ConnectionContext.Provider value={{opened,show,entry,status,connected:r.connected}}><div className={'agent-shell agent-'+role+(inline?' inline-connection':'')} style={insets}>
+ return <ConnectionContext.Provider value={{opened,show,entry,status,connected:r.connected,setInline}}><div className={'agent-shell agent-'+role+(inline?' inline-connection':'')} style={insets}>
   <div className="agent-workspace" inert={opened}>{children}</div>
   {!inline&&<header className="agent-status-area">
    {phone&&<div className="agent-identity"><b>Input Agent</b><span>{status}</span></div>}

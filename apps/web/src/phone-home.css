@@ -4,3 +4,4 @@
 .phone-home:before,.phone-home:after{content:'';position:absolute;left:0;right:0;pointer-events:none;background-size:100% 100%}
 .phone-home:before{top:0;height:var(--native-top,0px);background-image:url('/reference-assets/phone-home-top.png')}
 .phone-home:after{bottom:0;height:var(--native-bottom,0px);background-image:url('/reference-assets/phone-home-bottom.png')}
+.phone-home .phone-workbuddy-entry{position:absolute;left:24px;right:24px;bottom:calc(var(--native-bottom,0px) + 28px);min-height:48px;border:1px solid #ffffffa8;border-radius:16px;background:#f8fbfff0;color:#273244;font:600 15px inherit;box-shadow:0 4px 20px #193a6325;cursor:pointer}
