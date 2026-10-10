@@ -1,0 +1,1671 @@
+{
+  "schemaVersion": "1.0",
+  "status": "design-contract-not-runtime",
+  "fileKey": "ApFLno64NcMoA17MiPFfZh",
+  "pageId": "2:2",
+  "themes": [
+    "WeChat",
+    "Email",
+    "WorkBuddy",
+    "Word",
+    "Sheet",
+    "Presentation",
+    "Doubao",
+    "Mario"
+  ],
+  "skins": [
+    "Glass",
+    "Mechanical"
+  ],
+  "components": [
+    {
+      "componentId": "button",
+      "figmaNodeId": "270:3317",
+      "name": "Action / Button",
+      "skins": [
+        "Glass",
+        "Mechanical"
+      ],
+      "states": [
+        "Default",
+        "Pressed",
+        "Selected",
+        "Disabled",
+        "Loading"
+      ],
+      "props": [
+        "label",
+        "icon"
+      ],
+      "actions": [
+        "activate"
+      ],
+      "capabilities": [],
+      "figmaVariants": {
+        "Glass/Default": "270:3261",
+        "Glass/Pressed": "270:3266",
+        "Glass/Selected": "270:3271",
+        "Glass/Disabled": "270:3276",
+        "Glass/Loading": "270:3281",
+        "Mechanical/Default": "270:3289",
+        "Mechanical/Pressed": "270:3294",
+        "Mechanical/Selected": "270:3299",
+        "Mechanical/Disabled": "270:3304",
+        "Mechanical/Loading": "270:3309"
+      },
+      "chatkitMapping": "Button",
+      "renderOwner": "local",
+      "kind": "control"
+    },
+    {
+      "componentId": "icon-button",
+      "figmaNodeId": "270:3358",
+      "name": "Action / Icon button",
+      "skins": [
+        "Glass",
+        "Mechanical"
+      ],
+      "states": [
+        "Default",
+        "Pressed",
+        "Selected",
+        "Disabled"
+      ],
+      "props": [
+        "icon",
+        "accessibleLabel"
+      ],
+      "actions": [
+        "activate"
+      ],
+      "capabilities": [],
+      "figmaVariants": {
+        "Glass/Default": "270:3318",
+        "Glass/Pressed": "270:3323",
+        "Glass/Selected": "270:3328",
+        "Glass/Disabled": "270:3333",
+        "Mechanical/Default": "270:3338",
+        "Mechanical/Pressed": "270:3343",
+        "Mechanical/Selected": "270:3348",
+        "Mechanical/Disabled": "270:3353"
+      },
+      "chatkitMapping": "Button",
+      "renderOwner": "local",
+      "kind": "control"
+    },
+    {
+      "componentId": "hold",
+      "figmaNodeId": "270:3395",
+      "name": "Action / Hold to draw",
+      "skins": [
+        "Glass",
+        "Mechanical"
+      ],
+      "states": [
+        "Default",
+        "Pressed",
+        "Disabled"
+      ],
+      "props": [
+        "label"
+      ],
+      "actions": [
+        "press",
+        "release",
+        "cancel"
+      ],
+      "capabilities": [
+        "pointer"
+      ],
+      "figmaVariants": {
+        "Glass/Default": "270:3359",
+        "Glass/Pressed": "270:3365",
+        "Glass/Disabled": "270:3371",
+        "Mechanical/Default": "270:3377",
+        "Mechanical/Pressed": "270:3383",
+        "Mechanical/Disabled": "270:3389"
+      },
+      "chatkitMapping": "Custom local component",
+      "renderOwner": "local",
+      "kind": "control"
+    },
+    {
+      "componentId": "chip",
+      "figmaNodeId": "270:3408",
+      "name": "Selection / Chip",
+      "skins": [
+        "Glass",
+        "Mechanical"
+      ],
+      "states": [
+        "Default",
+        "Selected",
+        "Disabled"
+      ],
+      "props": [
+        "label",
+        "value"
+      ],
+      "actions": [
+        "select"
+      ],
+      "capabilities": [],
+      "figmaVariants": {
+        "Glass/Default": "270:3396",
+        "Glass/Selected": "270:3398",
+        "Glass/Disabled": "270:3400",
+        "Mechanical/Default": "270:3402",
+        "Mechanical/Selected": "270:3404",
+        "Mechanical/Disabled": "270:3406"
+      },
+      "chatkitMapping": "Button",
+      "renderOwner": "local",
+      "kind": "control"
+    },
+    {
+      "componentId": "switch",
+      "figmaNodeId": "270:3433",
+      "name": "Selection / Switch",
+      "skins": [
+        "Glass",
+        "Mechanical"
+      ],
+      "states": [
+        "Default",
+        "Selected",
+        "Disabled"
+      ],
+      "props": [
+        "label",
+        "value"
+      ],
+      "actions": [
+        "setValue"
+      ],
+      "capabilities": [],
+      "figmaVariants": {
+        "Glass/Default": "270:3409",
+        "Glass/Selected": "270:3413",
+        "Glass/Disabled": "270:3417",
+        "Mechanical/Default": "270:3421",
+        "Mechanical/Selected": "270:3425",
+        "Mechanical/Disabled": "270:3429"
+      },
+      "chatkitMapping": "Custom local component",
+      "renderOwner": "local",
+      "kind": "control"
+    },
+    {
+      "componentId": "segmented",
+      "figmaNodeId": "270:3518",
+      "name": "Selection / Input mode",
+      "skins": [
+        "Glass",
+        "Mechanical"
+      ],
+      "states": [
+        "Keyboard",
+        "Trackpad"
+      ],
+      "props": [
+        "value"
+      ],
+      "actions": [
+        "setInputMode"
+      ],
+      "capabilities": [],
+      "figmaVariants": {
+        "Glass/Keyboard": "270:3434",
+        "Glass/Trackpad": "270:3455",
+        "Mechanical/Keyboard": "270:3476",
+        "Mechanical/Trackpad": "270:3497"
+      },
+      "chatkitMapping": "Custom local component",
+      "renderOwner": "local",
+      "kind": "control"
+    },
+    {
+      "componentId": "voice",
+      "figmaNodeId": "270:3577",
+      "name": "Input / Voice",
+      "skins": [
+        "Glass",
+        "Mechanical"
+      ],
+      "states": [
+        "Default",
+        "Pressed",
+        "Recognizing",
+        "Disabled"
+      ],
+      "props": [
+        "label",
+        "transcript"
+      ],
+      "actions": [
+        "press",
+        "release",
+        "cancel"
+      ],
+      "capabilities": [
+        "microphone"
+      ],
+      "figmaVariants": {
+        "Glass/Default": "270:3519",
+        "Glass/Pressed": "270:3526",
+        "Glass/Recognizing": "270:3533",
+        "Glass/Disabled": "270:3541",
+        "Mechanical/Default": "270:3548",
+        "Mechanical/Pressed": "270:3555",
+        "Mechanical/Recognizing": "270:3562",
+        "Mechanical/Disabled": "270:3570"
+      },
+      "chatkitMapping": "Custom local component",
+      "renderOwner": "local",
+      "kind": "control"
+    },
+    {
+      "componentId": "key",
+      "figmaNodeId": "270:3590",
+      "name": "Input / Key",
+      "skins": [
+        "Glass",
+        "Mechanical"
+      ],
+      "states": [
+        "Default",
+        "Pressed",
+        "Disabled"
+      ],
+      "props": [
+        "label",
+        "keyCode"
+      ],
+      "actions": [
+        "press",
+        "release"
+      ],
+      "capabilities": [],
+      "figmaVariants": {
+        "Glass/Default": "270:3578",
+        "Glass/Pressed": "270:3580",
+        "Glass/Disabled": "270:3582",
+        "Mechanical/Default": "270:3584",
+        "Mechanical/Pressed": "270:3586",
+        "Mechanical/Disabled": "270:3588"
+      },
+      "chatkitMapping": "Custom local component",
+      "renderOwner": "local",
+      "kind": "control"
+    },
+    {
+      "componentId": "attachment",
+      "figmaNodeId": "270:3629",
+      "name": "Input / Attachment",
+      "skins": [
+        "Glass",
+        "Mechanical"
+      ],
+      "states": [
+        "Default",
+        "Loading",
+        "Error"
+      ],
+      "props": [
+        "name",
+        "status",
+        "mimeType"
+      ],
+      "actions": [
+        "open",
+        "remove",
+        "retry"
+      ],
+      "capabilities": [
+        "files"
+      ],
+      "figmaVariants": {
+        "Glass/Default": "270:3591",
+        "Glass/Loading": "270:3597",
+        "Glass/Error": "270:3603",
+        "Mechanical/Default": "270:3610",
+        "Mechanical/Loading": "270:3616",
+        "Mechanical/Error": "270:3622"
+      },
+      "chatkitMapping": "Image / file action",
+      "renderOwner": "local",
+      "kind": "control"
+    },
+    {
+      "componentId": "slider",
+      "figmaNodeId": "270:3678",
+      "name": "Parameter / Slider",
+      "skins": [
+        "Glass",
+        "Mechanical"
+      ],
+      "states": [
+        "Default",
+        "Selected",
+        "Disabled"
+      ],
+      "props": [
+        "label",
+        "min",
+        "max",
+        "step",
+        "value",
+        "unit"
+      ],
+      "actions": [
+        "setValue"
+      ],
+      "capabilities": [],
+      "figmaVariants": {
+        "Glass/Default": "270:3630",
+        "Glass/Selected": "270:3638",
+        "Glass/Disabled": "270:3646",
+        "Mechanical/Default": "270:3654",
+        "Mechanical/Selected": "270:3662",
+        "Mechanical/Disabled": "270:3670"
+      },
+      "chatkitMapping": "Custom local component",
+      "renderOwner": "local",
+      "kind": "control"
+    },
+    {
+      "componentId": "stepper",
+      "figmaNodeId": "270:3781",
+      "name": "Parameter / Stepper",
+      "skins": [
+        "Glass",
+        "Mechanical"
+      ],
+      "states": [
+        "Default",
+        "Selected",
+        "Disabled"
+      ],
+      "props": [
+        "min",
+        "max",
+        "step",
+        "value"
+      ],
+      "actions": [
+        "increment",
+        "decrement"
+      ],
+      "capabilities": [],
+      "figmaVariants": {
+        "Glass/Default": "270:3679",
+        "Glass/Selected": "270:3696",
+        "Glass/Disabled": "270:3713",
+        "Mechanical/Default": "270:3730",
+        "Mechanical/Selected": "270:3747",
+        "Mechanical/Disabled": "270:3764"
+      },
+      "chatkitMapping": "Custom local component",
+      "renderOwner": "local",
+      "kind": "control"
+    },
+    {
+      "componentId": "color",
+      "figmaNodeId": "270:3794",
+      "name": "Parameter / Color choice",
+      "skins": [
+        "Glass",
+        "Mechanical"
+      ],
+      "states": [
+        "Default",
+        "Selected"
+      ],
+      "props": [
+        "color",
+        "selected"
+      ],
+      "actions": [
+        "selectColor"
+      ],
+      "capabilities": [],
+      "figmaVariants": {
+        "Glass/Default": "270:3782",
+        "Glass/Selected": "270:3785",
+        "Mechanical/Default": "270:3788",
+        "Mechanical/Selected": "270:3791"
+      },
+      "chatkitMapping": "Custom local component",
+      "renderOwner": "local",
+      "kind": "control"
+    },
+    {
+      "componentId": "date",
+      "figmaNodeId": "270:3897",
+      "name": "Parameter / Date and time",
+      "skins": [
+        "Glass",
+        "Mechanical"
+      ],
+      "states": [
+        "Default",
+        "Selected",
+        "Error"
+      ],
+      "props": [
+        "value",
+        "min",
+        "max",
+        "required"
+      ],
+      "actions": [
+        "selectDate",
+        "selectTime"
+      ],
+      "capabilities": [],
+      "figmaVariants": {
+        "Glass/Default": "270:3795",
+        "Glass/Selected": "270:3812",
+        "Glass/Error": "270:3829",
+        "Mechanical/Default": "270:3846",
+        "Mechanical/Selected": "270:3863",
+        "Mechanical/Error": "270:3880"
+      },
+      "chatkitMapping": "DatePicker",
+      "renderOwner": "local",
+      "kind": "control"
+    },
+    {
+      "componentId": "choice",
+      "figmaNodeId": "270:3928",
+      "name": "Parameter / Choice row",
+      "skins": [
+        "Glass",
+        "Mechanical"
+      ],
+      "states": [
+        "Default",
+        "Selected",
+        "Disabled"
+      ],
+      "props": [
+        "label",
+        "value",
+        "selected",
+        "selectionMode"
+      ],
+      "actions": [
+        "select"
+      ],
+      "capabilities": [],
+      "figmaVariants": {
+        "Glass/Default": "270:3898",
+        "Glass/Selected": "270:3903",
+        "Glass/Disabled": "270:3908",
+        "Mechanical/Default": "270:3913",
+        "Mechanical/Selected": "270:3918",
+        "Mechanical/Disabled": "270:3923"
+      },
+      "chatkitMapping": "Custom local component",
+      "renderOwner": "local",
+      "kind": "control"
+    },
+    {
+      "componentId": "topic",
+      "figmaNodeId": "270:4077",
+      "name": "Parameter / Topic dial",
+      "skins": [
+        "Glass",
+        "Mechanical"
+      ],
+      "states": [
+        "Default",
+        "Selected"
+      ],
+      "props": [
+        "title",
+        "topics",
+        "selectedId"
+      ],
+      "actions": [
+        "previousTopic",
+        "nextTopic"
+      ],
+      "capabilities": [],
+      "figmaVariants": {
+        "Glass/Default": "270:3929",
+        "Glass/Selected": "270:3966",
+        "Mechanical/Default": "270:4003",
+        "Mechanical/Selected": "270:4040"
+      },
+      "chatkitMapping": "Custom local component",
+      "renderOwner": "local",
+      "kind": "control"
+    },
+    {
+      "componentId": "feedback",
+      "figmaNodeId": "270:4166",
+      "name": "Feedback / Status",
+      "skins": [
+        "Glass",
+        "Mechanical"
+      ],
+      "states": [
+        "Reading",
+        "Generating",
+        "Empty",
+        "Error",
+        "Disconnected",
+        "Complete"
+      ],
+      "props": [
+        "message",
+        "status"
+      ],
+      "actions": [
+        "retry",
+        "reconnect"
+      ],
+      "capabilities": [],
+      "figmaVariants": {
+        "Glass/Reading": "270:4078",
+        "Glass/Generating": "270:4084",
+        "Glass/Empty": "270:4093",
+        "Glass/Error": "270:4098",
+        "Glass/Disconnected": "270:4106",
+        "Glass/Complete": "270:4117",
+        "Mechanical/Reading": "270:4122",
+        "Mechanical/Generating": "270:4128",
+        "Mechanical/Empty": "270:4137",
+        "Mechanical/Error": "270:4142",
+        "Mechanical/Disconnected": "270:4150",
+        "Mechanical/Complete": "270:4161"
+      },
+      "chatkitMapping": "Card.status",
+      "renderOwner": "local",
+      "kind": "control"
+    },
+    {
+      "componentId": "edit-tools",
+      "figmaNodeId": "271:3566",
+      "name": "Input / Editing toolbar",
+      "skins": [
+        "Glass",
+        "Mechanical"
+      ],
+      "states": [
+        "Default",
+        "Disabled"
+      ],
+      "props": [
+        "availableActions"
+      ],
+      "actions": [
+        "selectAll",
+        "copy",
+        "cut",
+        "paste",
+        "delete",
+        "undo",
+        "redo",
+        "switchApp"
+      ],
+      "capabilities": [],
+      "figmaVariants": {
+        "Glass/Default": "271:3298",
+        "Glass/Disabled": "271:3365",
+        "Mechanical/Default": "271:3432",
+        "Mechanical/Disabled": "271:3499"
+      },
+      "chatkitMapping": "Custom local component",
+      "renderOwner": "local",
+      "kind": "control"
+    },
+    {
+      "componentId": "composer",
+      "figmaNodeId": "271:3677",
+      "name": "Input / Composer",
+      "skins": [
+        "Glass",
+        "Mechanical"
+      ],
+      "states": [
+        "Empty",
+        "Draft",
+        "Recording",
+        "Polish",
+        "Error"
+      ],
+      "props": [
+        "value",
+        "placeholder",
+        "polishOptions",
+        "attachments"
+      ],
+      "actions": [
+        "editDraft",
+        "attach",
+        "polish",
+        "undo"
+      ],
+      "capabilities": [
+        "text"
+      ],
+      "figmaVariants": {
+        "Glass/Empty": "271:3567",
+        "Glass/Draft": "271:3578",
+        "Glass/Recording": "271:3589",
+        "Glass/Polish": "271:3601",
+        "Glass/Error": "271:3611",
+        "Mechanical/Empty": "271:3622",
+        "Mechanical/Draft": "271:3633",
+        "Mechanical/Recording": "271:3644",
+        "Mechanical/Polish": "271:3656",
+        "Mechanical/Error": "271:3666"
+      },
+      "chatkitMapping": "Custom local component",
+      "renderOwner": "local",
+      "kind": "control"
+    },
+    {
+      "componentId": "compact-composer",
+      "figmaNodeId": "271:3718",
+      "name": "Input / Compact composer",
+      "skins": [
+        "Glass",
+        "Mechanical"
+      ],
+      "states": [
+        "Empty",
+        "Draft"
+      ],
+      "props": [
+        "value",
+        "placeholder",
+        "attachments"
+      ],
+      "actions": [
+        "editDraft",
+        "attach"
+      ],
+      "capabilities": [
+        "text"
+      ],
+      "figmaVariants": {
+        "Glass/Empty": "271:3678",
+        "Glass/Draft": "271:3688",
+        "Mechanical/Empty": "271:3698",
+        "Mechanical/Draft": "271:3708"
+      },
+      "chatkitMapping": "Custom local component",
+      "renderOwner": "local",
+      "kind": "control"
+    },
+    {
+      "componentId": "quote",
+      "figmaNodeId": "271:3731",
+      "name": "Context / Selected object",
+      "skins": [
+        "Glass",
+        "Mechanical"
+      ],
+      "states": [
+        "Default",
+        "Selected"
+      ],
+      "props": [
+        "sourceLabel",
+        "content",
+        "sourceId"
+      ],
+      "actions": [
+        "inspectSource"
+      ],
+      "capabilities": [],
+      "figmaVariants": {
+        "Glass/Default": "271:3719",
+        "Glass/Selected": "271:3722",
+        "Mechanical/Default": "271:3725",
+        "Mechanical/Selected": "271:3728"
+      },
+      "chatkitMapping": "Card / Text",
+      "renderOwner": "local",
+      "kind": "control"
+    },
+    {
+      "componentId": "reply",
+      "figmaNodeId": "271:3768",
+      "name": "Adaptive / Suggested reply",
+      "skins": [
+        "Glass",
+        "Mechanical"
+      ],
+      "states": [
+        "Default",
+        "Pressed",
+        "Disabled"
+      ],
+      "props": [
+        "label",
+        "replyId"
+      ],
+      "actions": [
+        "sendSuggestedReply"
+      ],
+      "capabilities": [],
+      "figmaVariants": {
+        "Glass/Default": "271:3732",
+        "Glass/Pressed": "271:3738",
+        "Glass/Disabled": "271:3744",
+        "Mechanical/Default": "271:3750",
+        "Mechanical/Pressed": "271:3756",
+        "Mechanical/Disabled": "271:3762"
+      },
+      "chatkitMapping": "Button / ListViewItem",
+      "renderOwner": "local",
+      "kind": "control"
+    },
+    {
+      "componentId": "app-action",
+      "figmaNodeId": "271:3871",
+      "name": "Adaptive / Application action",
+      "skins": [
+        "Glass",
+        "Mechanical"
+      ],
+      "states": [
+        "Default",
+        "Pressed",
+        "Disabled"
+      ],
+      "props": [
+        "label",
+        "icon",
+        "serviceId"
+      ],
+      "actions": [
+        "openService"
+      ],
+      "capabilities": [],
+      "figmaVariants": {
+        "Glass/Default": "271:3769",
+        "Glass/Pressed": "271:3786",
+        "Glass/Disabled": "271:3803",
+        "Mechanical/Default": "271:3820",
+        "Mechanical/Pressed": "271:3837",
+        "Mechanical/Disabled": "271:3854"
+      },
+      "chatkitMapping": "Button / ListViewItem",
+      "renderOwner": "local",
+      "kind": "control"
+    },
+    {
+      "componentId": "task",
+      "figmaNodeId": "271:3896",
+      "name": "Adaptive / Task card",
+      "skins": [
+        "Glass",
+        "Mechanical"
+      ],
+      "states": [
+        "Default",
+        "Selected",
+        "Loading"
+      ],
+      "props": [
+        "title",
+        "summary",
+        "sourceId"
+      ],
+      "actions": [
+        "inspectTask",
+        "confirm"
+      ],
+      "capabilities": [],
+      "figmaVariants": {
+        "Glass/Default": "271:3872",
+        "Glass/Selected": "271:3876",
+        "Glass/Loading": "271:3880",
+        "Mechanical/Default": "271:3884",
+        "Mechanical/Selected": "271:3888",
+        "Mechanical/Loading": "271:3892"
+      },
+      "chatkitMapping": "Card",
+      "renderOwner": "local",
+      "kind": "control"
+    },
+    {
+      "componentId": "form",
+      "figmaNodeId": "271:3993",
+      "name": "Adaptive / Missing parameters",
+      "skins": [
+        "Glass",
+        "Mechanical"
+      ],
+      "states": [
+        "Default",
+        "Error"
+      ],
+      "props": [
+        "fields",
+        "values",
+        "missingFields"
+      ],
+      "actions": [
+        "setParameter",
+        "confirm"
+      ],
+      "capabilities": [],
+      "figmaVariants": {
+        "Glass/Default": "271:3897",
+        "Glass/Error": "271:3921",
+        "Mechanical/Default": "271:3945",
+        "Mechanical/Error": "271:3969"
+      },
+      "chatkitMapping": "Form",
+      "renderOwner": "local",
+      "kind": "control"
+    },
+    {
+      "componentId": "diff",
+      "figmaNodeId": "271:4010",
+      "name": "Adaptive / Edit preview",
+      "skins": [
+        "Glass",
+        "Mechanical"
+      ],
+      "states": [
+        "Default",
+        "Selected"
+      ],
+      "props": [
+        "original",
+        "replacement"
+      ],
+      "actions": [
+        "accept",
+        "dismiss"
+      ],
+      "capabilities": [],
+      "figmaVariants": {
+        "Glass/Default": "271:3994",
+        "Glass/Selected": "271:3998",
+        "Mechanical/Default": "271:4002",
+        "Mechanical/Selected": "271:4006"
+      },
+      "chatkitMapping": "Card / Text",
+      "renderOwner": "local",
+      "kind": "control"
+    },
+    {
+      "componentId": "formula",
+      "figmaNodeId": "271:4027",
+      "name": "Adaptive / Formula preview",
+      "skins": [
+        "Glass",
+        "Mechanical"
+      ],
+      "states": [
+        "Default",
+        "Error"
+      ],
+      "props": [
+        "formula",
+        "range",
+        "targetCell"
+      ],
+      "actions": [
+        "editFormula",
+        "applyFormula"
+      ],
+      "capabilities": [],
+      "figmaVariants": {
+        "Glass/Default": "271:4011",
+        "Glass/Error": "271:4015",
+        "Mechanical/Default": "271:4019",
+        "Mechanical/Error": "271:4023"
+      },
+      "chatkitMapping": "Card / Text",
+      "renderOwner": "local",
+      "kind": "control"
+    },
+    {
+      "componentId": "status-row",
+      "figmaNodeId": "271:4108",
+      "name": "System / Connection and application",
+      "skins": [
+        "Glass",
+        "Mechanical"
+      ],
+      "states": [
+        "Connected",
+        "Disconnected"
+      ],
+      "props": [
+        "appName",
+        "connectionState"
+      ],
+      "actions": [
+        "switchApp",
+        "openConnection"
+      ],
+      "capabilities": [],
+      "figmaVariants": {
+        "Glass/Connected": "271:4028",
+        "Glass/Disconnected": "271:4048",
+        "Mechanical/Connected": "271:4068",
+        "Mechanical/Disconnected": "271:4088"
+      },
+      "chatkitMapping": "Custom local component",
+      "renderOwner": "local",
+      "kind": "control"
+    },
+    {
+      "componentId": "keyboard",
+      "figmaNodeId": "271:4287",
+      "name": "Panel / Keyboard",
+      "skins": [
+        "Glass",
+        "Mechanical"
+      ],
+      "states": [
+        "Default"
+      ],
+      "props": [
+        "locale",
+        "layout"
+      ],
+      "actions": [
+        "keyDown",
+        "keyUp",
+        "voice",
+        "send"
+      ],
+      "capabilities": [
+        "text"
+      ],
+      "figmaVariants": {
+        "Glass/Default": "271:4109",
+        "Mechanical/Default": "271:4198"
+      },
+      "chatkitMapping": "Custom local component",
+      "renderOwner": "local",
+      "kind": "control"
+    },
+    {
+      "componentId": "numpad",
+      "figmaNodeId": "271:4362",
+      "name": "Panel / Number and formula",
+      "skins": [
+        "Glass",
+        "Mechanical"
+      ],
+      "states": [
+        "Default"
+      ],
+      "props": [
+        "mode"
+      ],
+      "actions": [
+        "keyDown",
+        "keyUp"
+      ],
+      "capabilities": [
+        "text"
+      ],
+      "figmaVariants": {
+        "Glass/Default": "271:4288",
+        "Mechanical/Default": "271:4325"
+      },
+      "chatkitMapping": "Custom local component",
+      "renderOwner": "local",
+      "kind": "control"
+    },
+    {
+      "componentId": "trackpad",
+      "figmaNodeId": "271:4455",
+      "name": "Panel / Trackpad",
+      "skins": [
+        "Glass",
+        "Mechanical"
+      ],
+      "states": [
+        "Default",
+        "Selected"
+      ],
+      "props": [
+        "enabled"
+      ],
+      "actions": [
+        "pointerMove",
+        "leftClick",
+        "rightClick",
+        "scroll",
+        "voice"
+      ],
+      "capabilities": [
+        "pointer"
+      ],
+      "figmaVariants": {
+        "Glass/Default": "271:4363",
+        "Glass/Selected": "271:4386",
+        "Mechanical/Default": "271:4409",
+        "Mechanical/Selected": "271:4432"
+      },
+      "chatkitMapping": "Custom local component",
+      "renderOwner": "local",
+      "kind": "control"
+    },
+    {
+      "componentId": "sketch",
+      "figmaNodeId": "271:4608",
+      "name": "Panel / Sketch canvas",
+      "skins": [
+        "Glass",
+        "Mechanical"
+      ],
+      "states": [
+        "Blank",
+        "Sketch"
+      ],
+      "props": [
+        "strokes",
+        "color",
+        "size"
+      ],
+      "actions": [
+        "stroke",
+        "undo",
+        "erase",
+        "attachSketch"
+      ],
+      "capabilities": [
+        "drawing"
+      ],
+      "figmaVariants": {
+        "Glass/Blank": "271:4456",
+        "Glass/Sketch": "271:4492",
+        "Mechanical/Blank": "271:4532",
+        "Mechanical/Sketch": "271:4568"
+      },
+      "chatkitMapping": "Custom local component",
+      "renderOwner": "local",
+      "kind": "control"
+    },
+    {
+      "componentId": "camera",
+      "figmaNodeId": "271:4669",
+      "name": "Panel / Camera input",
+      "skins": [
+        "Glass",
+        "Mechanical"
+      ],
+      "states": [
+        "Ready",
+        "Unavailable"
+      ],
+      "props": [
+        "captureState"
+      ],
+      "actions": [
+        "capture",
+        "retry"
+      ],
+      "capabilities": [
+        "camera"
+      ],
+      "figmaVariants": {
+        "Glass/Ready": "271:4609",
+        "Glass/Unavailable": "271:4622",
+        "Mechanical/Ready": "271:4639",
+        "Mechanical/Unavailable": "271:4652"
+      },
+      "chatkitMapping": "Custom local component",
+      "renderOwner": "local",
+      "kind": "control"
+    },
+    {
+      "componentId": "pen-settings",
+      "figmaNodeId": "271:4746",
+      "name": "Panel / Pen settings",
+      "skins": [
+        "Glass",
+        "Mechanical"
+      ],
+      "states": [
+        "Default"
+      ],
+      "props": [
+        "colors",
+        "color",
+        "size",
+        "canUndo"
+      ],
+      "actions": [
+        "selectColor",
+        "setBrushSize",
+        "undo",
+        "clear"
+      ],
+      "capabilities": [
+        "drawing"
+      ],
+      "figmaVariants": {
+        "Glass/Default": "271:4670",
+        "Mechanical/Default": "271:4708"
+      },
+      "chatkitMapping": "Custom local component",
+      "renderOwner": "local",
+      "kind": "control"
+    },
+    {
+      "componentId": "presentation-tools",
+      "figmaNodeId": "271:4927",
+      "name": "Panel / Presentation tools",
+      "skins": [
+        "Glass",
+        "Mechanical"
+      ],
+      "states": [
+        "Laser",
+        "Pen",
+        "Captions"
+      ],
+      "props": [
+        "tool",
+        "captionsEnabled",
+        "fullscreen"
+      ],
+      "actions": [
+        "setTool",
+        "fullscreen",
+        "setCaptions"
+      ],
+      "capabilities": [
+        "pointer",
+        "microphone"
+      ],
+      "figmaVariants": {
+        "Glass/Laser": "271:4747",
+        "Glass/Pen": "271:4777",
+        "Glass/Captions": "271:4807",
+        "Mechanical/Laser": "271:4837",
+        "Mechanical/Pen": "271:4867",
+        "Mechanical/Captions": "271:4897"
+      },
+      "chatkitMapping": "Custom local component",
+      "renderOwner": "local",
+      "kind": "control"
+    },
+    {
+      "componentId": "notes",
+      "figmaNodeId": "271:4934",
+      "name": "Panel / Speaker notes",
+      "skins": [
+        "Glass",
+        "Mechanical"
+      ],
+      "states": [
+        "Default"
+      ],
+      "props": [
+        "text",
+        "slideIndex",
+        "slideCount"
+      ],
+      "actions": [
+        "scrollNotes"
+      ],
+      "capabilities": [],
+      "figmaVariants": {
+        "Glass/Default": "271:4928",
+        "Mechanical/Default": "271:4931"
+      },
+      "chatkitMapping": "Custom local component",
+      "renderOwner": "local",
+      "kind": "control"
+    },
+    {
+      "componentId": "game",
+      "figmaNodeId": "271:5219",
+      "name": "Panel / Retro game controller",
+      "skins": [
+        "Glass",
+        "Mechanical"
+      ],
+      "states": [
+        "Default",
+        "Pressed"
+      ],
+      "props": [
+        "heldKeys",
+        "paused"
+      ],
+      "actions": [
+        "keyDown",
+        "keyUp",
+        "releaseAll"
+      ],
+      "capabilities": [
+        "game"
+      ],
+      "figmaVariants": {
+        "Glass/Default": "271:4935",
+        "Glass/Pressed": "271:5006",
+        "Mechanical/Default": "271:5077",
+        "Mechanical/Pressed": "271:5148"
+      },
+      "chatkitMapping": "Custom local component",
+      "renderOwner": "local",
+      "kind": "control"
+    },
+    {
+      "componentId": "recipe-wechat-phone",
+      "figmaNodeId": "272:12774",
+      "name": "Recipe / WeChat phone",
+      "skins": [
+        "Glass",
+        "Mechanical"
+      ],
+      "states": [
+        "Recommendations",
+        "Recording",
+        "Polish",
+        "Keyboard",
+        "Trackpad"
+      ],
+      "props": [
+        "state"
+      ],
+      "actions": [
+        "record",
+        "polish",
+        "setInputMode",
+        "send"
+      ],
+      "capabilities": [],
+      "figmaVariants": {
+        "Glass/Recommendations": "272:11034",
+        "Glass/Recording": "272:11227",
+        "Glass/Polish": "272:11421",
+        "Glass/Keyboard": "272:11616",
+        "Glass/Trackpad": "272:11791",
+        "Mechanical/Recommendations": "272:11904",
+        "Mechanical/Recording": "272:12097",
+        "Mechanical/Polish": "272:12291",
+        "Mechanical/Keyboard": "272:12486",
+        "Mechanical/Trackpad": "272:12661"
+      },
+      "chatkitMapping": "Custom local component",
+      "renderOwner": "local",
+      "kind": "recipe"
+    },
+    {
+      "componentId": "recipe-doubao-phone",
+      "figmaNodeId": "272:13991",
+      "name": "Recipe / Doubao phone",
+      "skins": [
+        "Glass",
+        "Mechanical"
+      ],
+      "states": [
+        "Home",
+        "Sketch",
+        "Camera"
+      ],
+      "props": [
+        "state"
+      ],
+      "actions": [
+        "setTask",
+        "attachSketch"
+      ],
+      "capabilities": [],
+      "figmaVariants": {
+        "Glass/Home": "272:12775",
+        "Glass/Sketch": "272:13041",
+        "Glass/Camera": "272:13221",
+        "Mechanical/Home": "272:13383",
+        "Mechanical/Sketch": "272:13649",
+        "Mechanical/Camera": "272:13829"
+      },
+      "chatkitMapping": "Custom local component",
+      "renderOwner": "local",
+      "kind": "recipe"
+    },
+    {
+      "componentId": "recipe-sheet-phone",
+      "figmaNodeId": "272:14706",
+      "name": "Recipe / Sheet phone",
+      "skins": [
+        "Glass",
+        "Mechanical"
+      ],
+      "states": [
+        "Draft",
+        "Applied",
+        "Error"
+      ],
+      "props": [
+        "state"
+      ],
+      "actions": [
+        "applyFormula"
+      ],
+      "capabilities": [],
+      "figmaVariants": {
+        "Glass/Draft": "272:13992",
+        "Glass/Applied": "272:14111",
+        "Glass/Error": "272:14230",
+        "Mechanical/Draft": "272:14349",
+        "Mechanical/Applied": "272:14468",
+        "Mechanical/Error": "272:14587"
+      },
+      "chatkitMapping": "Custom local component",
+      "renderOwner": "local",
+      "kind": "recipe"
+    },
+    {
+      "componentId": "recipe-presentation-phone",
+      "figmaNodeId": "272:14995",
+      "name": "Recipe / Presentation phone",
+      "skins": [
+        "Glass",
+        "Mechanical"
+      ],
+      "states": [
+        "Laser",
+        "Pen"
+      ],
+      "props": [
+        "state"
+      ],
+      "actions": [
+        "setTool",
+        "press",
+        "release"
+      ],
+      "capabilities": [],
+      "figmaVariants": {
+        "Glass/Laser": "272:14707",
+        "Glass/Pen": "272:14760",
+        "Mechanical/Laser": "272:14851",
+        "Mechanical/Pen": "272:14904"
+      },
+      "chatkitMapping": "Custom local component",
+      "renderOwner": "local",
+      "kind": "recipe"
+    },
+    {
+      "componentId": "recipe-wechat-pc",
+      "figmaNodeId": "272:16286",
+      "name": "Recipe / WeChat fold PC",
+      "skins": [
+        "Glass",
+        "Mechanical"
+      ],
+      "states": [
+        "Recommendations",
+        "Recording",
+        "Polish",
+        "Trackpad"
+      ],
+      "props": [
+        "state"
+      ],
+      "actions": [
+        "record",
+        "polish",
+        "send"
+      ],
+      "capabilities": [],
+      "figmaVariants": {
+        "Glass/Recommendations": "272:14996",
+        "Glass/Recording": "272:15210",
+        "Glass/Polish": "272:15425",
+        "Mechanical/Recommendations": "272:15641",
+        "Mechanical/Recording": "272:15855",
+        "Mechanical/Polish": "272:16070",
+        "Glass/Trackpad": "277:14002",
+        "Mechanical/Trackpad": "277:14234"
+      },
+      "chatkitMapping": "Custom local component",
+      "renderOwner": "local",
+      "kind": "recipe"
+    },
+    {
+      "componentId": "recipe-doubao-pc",
+      "figmaNodeId": "272:17039",
+      "name": "Recipe / Doubao fold PC",
+      "skins": [
+        "Glass",
+        "Mechanical"
+      ],
+      "states": [
+        "Home",
+        "Sketch"
+      ],
+      "props": [
+        "state"
+      ],
+      "actions": [
+        "setTask",
+        "attachSketch"
+      ],
+      "capabilities": [],
+      "figmaVariants": {
+        "Glass/Home": "272:16287",
+        "Glass/Sketch": "272:16521",
+        "Mechanical/Home": "272:16663",
+        "Mechanical/Sketch": "272:16897"
+      },
+      "chatkitMapping": "Custom local component",
+      "renderOwner": "local",
+      "kind": "recipe"
+    },
+    {
+      "componentId": "recipe-sheet-pc",
+      "figmaNodeId": "272:17536",
+      "name": "Recipe / Sheet fold PC",
+      "skins": [
+        "Glass",
+        "Mechanical"
+      ],
+      "states": [
+        "Draft",
+        "Applied"
+      ],
+      "props": [
+        "state"
+      ],
+      "actions": [
+        "applyFormula"
+      ],
+      "capabilities": [],
+      "figmaVariants": {
+        "Glass/Draft": "272:17040",
+        "Glass/Applied": "272:17164",
+        "Mechanical/Draft": "272:17288",
+        "Mechanical/Applied": "272:17412"
+      },
+      "chatkitMapping": "Custom local component",
+      "renderOwner": "local",
+      "kind": "recipe"
+    },
+    {
+      "componentId": "recipe-presentation-pc",
+      "figmaNodeId": "272:17831",
+      "name": "Recipe / Presentation fold PC",
+      "skins": [
+        "Glass",
+        "Mechanical"
+      ],
+      "states": [
+        "Laser",
+        "Pen"
+      ],
+      "props": [
+        "state"
+      ],
+      "actions": [
+        "setTool",
+        "press",
+        "release"
+      ],
+      "capabilities": [],
+      "figmaVariants": {
+        "Glass/Laser": "272:17537",
+        "Glass/Pen": "272:17595",
+        "Mechanical/Laser": "272:17684",
+        "Mechanical/Pen": "272:17742"
+      },
+      "chatkitMapping": "Custom local component",
+      "renderOwner": "local",
+      "kind": "recipe"
+    },
+    {
+      "componentId": "motion-app",
+      "figmaNodeId": "275:13286",
+      "name": "Motion / App",
+      "skins": [
+        "Glass",
+        "Mechanical"
+      ],
+      "states": [
+        "Before",
+        "Generating",
+        "Ready",
+        "Reduced"
+      ],
+      "props": [
+        "state"
+      ],
+      "actions": [
+        "previewTransition"
+      ],
+      "capabilities": [],
+      "figmaVariants": {
+        "Glass/Before": "275:12972",
+        "Glass/Generating": "275:13005",
+        "Glass/Ready": "275:13038",
+        "Glass/Reduced": "275:13096",
+        "Mechanical/Before": "275:13129",
+        "Mechanical/Generating": "275:13162",
+        "Mechanical/Ready": "275:13195",
+        "Mechanical/Reduced": "275:13253"
+      },
+      "chatkitMapping": "Custom local component",
+      "renderOwner": "local",
+      "kind": "motion"
+    },
+    {
+      "componentId": "motion-context",
+      "figmaNodeId": "275:13551",
+      "name": "Motion / Context",
+      "skins": [
+        "Glass",
+        "Mechanical"
+      ],
+      "states": [
+        "Before",
+        "Generating",
+        "Ready",
+        "Reduced"
+      ],
+      "props": [
+        "state"
+      ],
+      "actions": [
+        "previewTransition"
+      ],
+      "capabilities": [],
+      "figmaVariants": {
+        "Glass/Before": "275:13287",
+        "Glass/Generating": "275:13320",
+        "Glass/Ready": "275:13353",
+        "Glass/Reduced": "275:13386",
+        "Mechanical/Before": "275:13419",
+        "Mechanical/Generating": "275:13452",
+        "Mechanical/Ready": "275:13485",
+        "Mechanical/Reduced": "275:13518"
+      },
+      "chatkitMapping": "Custom local component",
+      "renderOwner": "local",
+      "kind": "motion"
+    },
+    {
+      "componentId": "motion-panel",
+      "figmaNodeId": "275:14040",
+      "name": "Motion / Panel",
+      "skins": [
+        "Glass",
+        "Mechanical"
+      ],
+      "states": [
+        "Before",
+        "Generating",
+        "Ready",
+        "Reduced"
+      ],
+      "props": [
+        "state"
+      ],
+      "actions": [
+        "previewTransition"
+      ],
+      "capabilities": [],
+      "figmaVariants": {
+        "Glass/Before": "275:13552",
+        "Glass/Generating": "275:13613",
+        "Glass/Ready": "275:13674",
+        "Glass/Reduced": "275:13735",
+        "Mechanical/Before": "275:13796",
+        "Mechanical/Generating": "275:13857",
+        "Mechanical/Ready": "275:13918",
+        "Mechanical/Reduced": "275:13979"
+      },
+      "chatkitMapping": "Custom local component",
+      "renderOwner": "local",
+      "kind": "motion"
+    },
+    {
+      "componentId": "palette",
+      "figmaNodeId": "277:14642",
+      "name": "Parameter / Expanded pen palette",
+      "skins": [
+        "Glass",
+        "Mechanical"
+      ],
+      "states": [
+        "Red",
+        "Blue",
+        "Green",
+        "Gold",
+        "Graphite"
+      ],
+      "props": [
+        "colors",
+        "value"
+      ],
+      "actions": [
+        "selectColor"
+      ],
+      "capabilities": [],
+      "figmaVariants": {
+        "Glass/Red": "277:14512",
+        "Glass/Blue": "277:14525",
+        "Glass/Green": "277:14538",
+        "Glass/Gold": "277:14551",
+        "Glass/Graphite": "277:14564",
+        "Mechanical/Red": "277:14577",
+        "Mechanical/Blue": "277:14590",
+        "Mechanical/Green": "277:14603",
+        "Mechanical/Gold": "277:14616",
+        "Mechanical/Graphite": "277:14629"
+      },
+      "chatkitMapping": "Custom local component",
+      "renderOwner": "local",
+      "kind": "control"
+    }
+  ]
+}

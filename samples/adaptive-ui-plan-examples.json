@@ -1,0 +1,171 @@
+[
+  {
+    "schemaVersion": "1.0",
+    "context": {
+      "appId": "wechat",
+      "task": "reply",
+      "targetId": "demo-wechat",
+      "targetRevision": 1,
+      "device": "phone",
+      "capabilities": [
+        "text",
+        "pointer",
+        "microphone",
+        "files",
+        "drawing"
+      ],
+      "interactionLocked": false
+    },
+    "decision": {
+      "task": "reply",
+      "inputMode": "text",
+      "preserveLayout": false,
+      "confidenceBand": "accepted-demo"
+    },
+    "ui": {
+      "skin": "Glass",
+      "theme": "WeChat",
+      "templateId": "recipe-wechat-phone",
+      "adaptive": [
+        {
+          "componentId": "quote",
+          "state": "Default",
+          "props": {}
+        },
+        {
+          "componentId": "reply",
+          "state": "Default",
+          "props": {}
+        },
+        {
+          "componentId": "app-action",
+          "state": "Default",
+          "props": {}
+        }
+      ]
+    }
+  },
+  {
+    "schemaVersion": "1.0",
+    "context": {
+      "appId": "doubao",
+      "task": "sketch",
+      "targetId": "demo-doubao",
+      "targetRevision": 1,
+      "device": "phone",
+      "capabilities": [
+        "text",
+        "pointer",
+        "microphone",
+        "files",
+        "drawing"
+      ],
+      "interactionLocked": false
+    },
+    "decision": {
+      "task": "sketch",
+      "inputMode": "sketch",
+      "preserveLayout": false,
+      "confidenceBand": "accepted-demo"
+    },
+    "ui": {
+      "skin": "Glass",
+      "theme": "Doubao",
+      "templateId": "recipe-doubao-phone",
+      "adaptive": [
+        {
+          "componentId": "topic",
+          "state": "Default",
+          "props": {}
+        },
+        {
+          "componentId": "attachment",
+          "state": "Default",
+          "props": {}
+        }
+      ]
+    }
+  },
+  {
+    "schemaVersion": "1.0",
+    "context": {
+      "appId": "sheet",
+      "task": "formula",
+      "targetId": "demo-sheet",
+      "targetRevision": 1,
+      "device": "phone",
+      "capabilities": [
+        "text",
+        "pointer",
+        "microphone",
+        "files",
+        "drawing"
+      ],
+      "interactionLocked": false
+    },
+    "decision": {
+      "task": "formula",
+      "inputMode": "number",
+      "preserveLayout": false,
+      "confidenceBand": "accepted-demo"
+    },
+    "ui": {
+      "skin": "Glass",
+      "theme": "Sheet",
+      "templateId": "recipe-sheet-phone",
+      "adaptive": [
+        {
+          "componentId": "formula",
+          "state": "Default",
+          "props": {}
+        },
+        {
+          "componentId": "choice",
+          "state": "Default",
+          "props": {}
+        }
+      ]
+    }
+  },
+  {
+    "schemaVersion": "1.0",
+    "context": {
+      "appId": "presentation",
+      "task": "annotate",
+      "targetId": "demo-presentation",
+      "targetRevision": 1,
+      "device": "phone",
+      "capabilities": [
+        "text",
+        "pointer",
+        "microphone",
+        "files",
+        "drawing"
+      ],
+      "interactionLocked": false
+    },
+    "decision": {
+      "task": "annotate",
+      "inputMode": "presentation",
+      "preserveLayout": false,
+      "confidenceBand": "accepted-demo"
+    },
+    "ui": {
+      "skin": "Glass",
+      "theme": "Presentation",
+      "templateId": "recipe-presentation-phone",
+      "adaptive": [
+        {
+          "componentId": "notes",
+          "state": "Default",
+          "props": {}
+        },
+        {
+          "componentId": "pen-settings",
+          "state": "Default",
+          "props": {}
+        }
+      ]
+    }
+  }
+]

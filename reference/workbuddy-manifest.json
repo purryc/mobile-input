@@ -1,0 +1,186 @@
+{
+  "recording": {
+    "path": "/Users/hmi/Documents/Reference/Work Buddy.mov",
+    "version": "5.7.7",
+    "durationSeconds": 303.981562,
+    "width": 3050,
+    "height": 2000,
+    "private": true
+  },
+  "assets": [
+    {
+      "file": "apps/web/public/assets/apps/workbuddy.svg",
+      "source": "/Applications/WorkBuddy.app/Contents/Resources/app.asar:renderer/assets/logo-workbuddy-BUNGQxi-.svg",
+      "sha256": "ade134028e69e03453bff956059a0e7f23c7341a0295f16994cecd8d03fc2fd4",
+      "role": "official WorkBuddy green app logo, recording-compatible",
+      "upstream": "https://www.codebuddy.cn/work/"
+    },
+    {
+      "file": "apps/web/public/assets/apps/workbuddy-mascot.png",
+      "source": "/Applications/WorkBuddy.app/Contents/Resources/app.asar:renderer/assets/mascot-new-0kxfQU7k.png",
+      "upstream": "https://www.codebuddy.cn/work/",
+      "sha256": "b4f819660170b45a13abdd9e9a5b82931c4e4f84bcc624f24698addb7da99614",
+      "role": "official installed-app mascot, visually reviewed against recording",
+      "private": false
+    }
+  ],
+  "baselineTimecodes": {
+    "home": 0,
+    "modelMenu": 8,
+    "taskExecution": 24,
+    "markdownPreview": 88,
+    "selectionReference": 104,
+    "previewOptions": 144,
+    "officeResult": 184,
+    "experts": 208,
+    "skills": 240,
+    "installedSkills": 248,
+    "automation": 256,
+    "library": 264,
+    "mailbox": 272,
+    "fileDirectory": 288
+  },
+  "runtimeContent": "Fictional sales data only; no recording text or account identity bundled.",
+  "frames": [
+    {
+      "page": "home",
+      "timecodeSeconds": 0,
+      "file": "reference/private/frames/workbuddy/frame-000.jpg",
+      "sha256": "9a90a4137d6ee43b7a4f253d99cbf59e7f5fb3a6f9c35989e64e8ef64b55ed34",
+      "crop": "none",
+      "comparisonWidth": 1000,
+      "private": true,
+      "bundled": false
+    },
+    {
+      "page": "modelMenu",
+      "timecodeSeconds": 8,
+      "file": "reference/private/frames/workbuddy/frame-008.jpg",
+      "sha256": "a512b3aa583390246f36f85748d5b717468ec67cdcef7389fe58d516239dfc90",
+      "crop": "none",
+      "comparisonWidth": 1000,
+      "private": true,
+      "bundled": false
+    },
+    {
+      "page": "taskExecution",
+      "timecodeSeconds": 24,
+      "file": "reference/private/frames/workbuddy/frame-024.jpg",
+      "sha256": "c0a3b4ddfa5a2cf31d20a9488758e350cf489ccdfb4b80abc97a9a20ede16dd6",
+      "crop": "none",
+      "comparisonWidth": 1000,
+      "private": true,
+      "bundled": false
+    },
+    {
+      "page": "markdownPreview",
+      "timecodeSeconds": 88,
+      "file": "reference/private/frames/workbuddy/frame-088.jpg",
+      "sha256": "dd1c190424f918f92298b2686d63a09db38e70370b34d72dcd762333648c7290",
+      "crop": "none",
+      "comparisonWidth": 1000,
+      "private": true,
+      "bundled": false
+    },
+    {
+      "page": "selectionReference",
+      "timecodeSeconds": 104,
+      "file": "reference/private/frames/workbuddy/frame-104.jpg",
+      "sha256": "d0f1615fa0c0e249eee798e810d49ec5bf02e9eb912a7b907e6b9745b555f1a7",
+      "crop": "none",
+      "comparisonWidth": 1000,
+      "private": true,
+      "bundled": false
+    },
+    {
+      "page": "previewOptions",
+      "timecodeSeconds": 144,
+      "file": "reference/private/frames/workbuddy/frame-144.jpg",
+      "sha256": "c69d38f8cc7a0668fe50c1967e5e5966ebc4f53787e053cf9a6a90ff955f0309",
+      "crop": "none",
+      "comparisonWidth": 1000,
+      "private": true,
+      "bundled": false
+    },
+    {
+      "page": "officeResult",
+      "timecodeSeconds": 184,
+      "file": "reference/private/frames/workbuddy/frame-184.jpg",
+      "sha256": "3ae38e4bfc755154ce3da87b88e07d36897b9dda139335eb14aea9e88b126b59",
+      "crop": "none",
+      "comparisonWidth": 1000,
+      "private": true,
+      "bundled": false
+    },
+    {
+      "page": "experts",
+      "timecodeSeconds": 208,
+      "file": "reference/private/frames/workbuddy/frame-208.jpg",
+      "sha256": "b308b8d395c98c62163dd0114c978c7fd8a4862693628aa2aefa92f31924eae4",
+      "crop": "none",
+      "comparisonWidth": 1000,
+      "private": true,
+      "bundled": false
+    },
+    {
+      "page": "skills",
+      "timecodeSeconds": 240,
+      "file": "reference/private/frames/workbuddy/frame-240.jpg",
+      "sha256": "eeb2873f7583899899ea810b7399296499f85bb9a6af5c8af578e08c7274c1ef",
+      "crop": "none",
+      "comparisonWidth": 1000,
+      "private": true,
+      "bundled": false
+    },
+    {
+      "page": "installedSkills",
+      "timecodeSeconds": 248,
+      "file": "reference/private/frames/workbuddy/frame-248.jpg",
+      "sha256": "108b94c638fdf84f8fdf9ba70213e6c1127773e16d63dcbcebdec80fb5e0c7da",
+      "crop": "none",
+      "comparisonWidth": 1000,
+      "private": true,
+      "bundled": false
+    },
+    {
+      "page": "automation",
+      "timecodeSeconds": 256,
+      "file": "reference/private/frames/workbuddy/frame-256.jpg",
+      "sha256": "99af19b0e8cfafc5748047240e7725e25e8de0563dd0796d944edd5de106ff24",
+      "crop": "none",
+      "comparisonWidth": 1000,
+      "private": true,
+      "bundled": false
+    },
+    {
+      "page": "library",
+      "timecodeSeconds": 264,
+      "file": "reference/private/frames/workbuddy/frame-264.jpg",
+      "sha256": "c0bf3290e95fcede355e9b26ebffde5d5a0b6a50fc3d2f49992be07f8b9fd0c9",
+      "crop": "none",
+      "comparisonWidth": 1000,
+      "private": true,
+      "bundled": false
+    },
+    {
+      "page": "mailbox",
+      "timecodeSeconds": 272,
+      "file": "reference/private/frames/workbuddy/frame-272.jpg",
+      "sha256": "66baa686e5e9b60d528092f95f6b2add1beb139f9fc57bb4f6ce0570ad28f03a",
+      "crop": "none",
+      "comparisonWidth": 1000,
+      "private": true,
+      "bundled": false
+    },
+    {
+      "page": "fileDirectory",
+      "timecodeSeconds": 288,
+      "file": "reference/private/frames/workbuddy/frame-288.jpg",
+      "sha256": "d3b0a2762da6026d62f7a25ad7fb255d145b791280dabc4c8abd256ce277e479",
+      "crop": "none",
+      "comparisonWidth": 1000,
+      "private": true,
+      "bundled": false
+    }
+  ]
+}

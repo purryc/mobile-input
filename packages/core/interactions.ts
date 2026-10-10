@@ -1,10 +1,11 @@
+import {pauseWorkBuddy} from './workbuddy';
 import {CHAT_SCENE_VERSION,BOSS_MESSAGE_ID,salesMeeting,bossMessages,type SalesMeeting} from './chat-scene';
 import {pausePresentation,releasePointer} from './presentation';
 import type {AppId,State,Command} from './model';
 import scenarios from '../../apps/web/src/hover/data/scenarios.json' with {type:'json'};
 import original from '../../apps/web/src/hover/wechat/data/original.json' with {type:'json'};
 export const CHAT_READ_TIMING={pulse:480,scan:2000} as const;
-export const demoApps=['mail','wps','wechat','doubao','notes','paint','mario'] as const;
+export const demoApps=['mail','wps','wechat','doubao','notes','paint','mario','workbuddy'] as const;
 export type ChatMessage={id:string;text:string;me:boolean;image?:string;author?:string};
 export type ChatDraft={text:string;revision:number;sequence:number;session:string};
 export interface ChatState{activation:{epoch:string;conversation:string;messageId:string;startedAt:number;phase:'pulse'|'scan'|'ready'}|null;sceneVersion:number;meeting:SalesMeeting;context:{conversation:string;messageId:string;epoch:string;readAt:number;sourceRevision:number}|null;conversation:string|null;messages:Record<string,ChatMessage[]>;drafts:Record<string,ChatDraft>}
@@ -21,13 +22,14 @@ export function initialChats():ChatState{
 export interface Switcher{index:number;deadline:number;epoch:string}
 export function appGroup(app:AppId){return ['sheet','word','slides'].includes(app)?'wps':app;}
 export function saveOffice(n:State){const file=n.officeFiles.find(f=>f.id===n.officeFile);if(!file)return;if(n.app==='sheet')file.products=structuredClone(n.products);if(n.app==='word')file.paragraphs=[...n.paragraphs];if(n.app==='slides')file.slides=structuredClone(n.slides);}
-export function activate(n:State,app:AppId){saveOffice(n);pausePresentation(n);n.chat.context=null;n.chat.activation=null;n.app=app;n.target=null;n.presenting=false;n.gameKeys=[];n.gamePaused=app!=='mario';n.playing=false;n.switcher=null;n.recent=[...new Set([app,...n.recent])].filter(x=>x!=='desktop').slice(0,8);}
+export function activate(n:State,app:AppId){saveOffice(n);pausePresentation(n);if(n.app==='workbuddy'&&app!=='workbuddy')pauseWorkBuddy(n);n.chat.context=null;n.chat.activation=null;n.app=app;n.target=null;n.presenting=false;n.gameKeys=[];n.gamePaused=app!=='mario';n.playing=false;n.switcher=null;n.recent=[...new Set([app,...n.recent])].filter(x=>x!=='desktop').slice(0,8);}
 export function setChatContext(n:State,id:string,epoch:string,messageId?:string,read=false){
  const m=messageId?n.chat.messages[id]?.find(m=>m.id===messageId):id==='wx-boss'?n.chat.messages[id]?.find(m=>m.id===BOSS_MESSAGE_ID):[...(n.chat.messages[id]||[])].reverse().find(m=>!m.me);
  n.chat.context=m?{conversation:id,messageId:m.id,epoch,readAt:read?Date.now():0,sourceRevision:n.revision+1}:null;
 }
 export function launch(n:State,app:AppId){
  activate(n,app);
+ if(app==='workbuddy'){n.workbuddy.page='home';n.workbuddy.task='new';n.workbuddy.preview=[];n.workbuddy.previewActive=null;n.workbuddy.filePanel=false;}
  if(app==='wechat'){n.chat.conversation='wx-boss';setChatContext(n,'wx-boss',crypto.randomUUID());}
  if(app==='wps'){
   const file=n.officeFiles.find(f=>f.id==='sample-slides');
@@ -58,6 +60,7 @@ export function interaction(n:State,c:Command):string|null|undefined{
  case 'back':{
   if(n.switcher){n.switcher=null;return null;}if(n.presenting){pausePresentation(n);n.presenting=false;return null;}
   if(['sheet','word','slides'].includes(n.app)){activate(n,'wps');return null;}
+  if(n.app==='workbuddy'){const w=n.workbuddy;if(w.previewActive){w.preview=[];w.previewActive=null;w.filePanel=false;n.target=null;return null;}if(w.filePanel){w.filePanel=false;return null;}if(w.page!=='home'){w.page='home';w.task='new';n.target=null;return null;}}
   if(n.app==='mail'&&n.texts.composing==='1'){n.texts.composing='0';n.target=null;return null;}
   activate(n,'desktop');return null;
  }

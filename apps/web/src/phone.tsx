@@ -1,3 +1,4 @@
+import {PhoneWorkBuddy} from './phone-workbuddy';
 import {PhoneHome} from './phone-home';
 import {PresentationPhone} from './phone-presentation';
 import {PhoneWeChat,SwitchButton} from './phone-wechat';
@@ -34,6 +35,7 @@ function LegacyPhone(){const r=useRuntime(),s=r.state;const [draft,setDraft]=use
 export function Phone(){
  const r=useRuntime();
  if(!r.connected&&!['slides','mario'].includes(r.state.app))return <PhoneHome/>;
+ if(r.state.app==='workbuddy')return r.connected&&r.state.target?.id.startsWith('wb:')?<PhoneWorkBuddy key={r.state.target.id}/>:<PhoneHome/>;
  if(r.state.app==='slides')return <PresentationPhone/>;
  if(r.state.app==='wechat')return r.connected&&r.state.chat.activation?.phase==='ready'?<PhoneWeChat/>:<PhoneHome/>;
  if(r.state.app==='mario')return <FcController/>;

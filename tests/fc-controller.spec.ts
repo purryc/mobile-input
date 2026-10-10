@@ -54,6 +54,8 @@ test('FC landscape layout, simultaneous keys, rotation release and top-right app
  await cdp.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[right2,jump2,app]});
  await cdp.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[app]});
  await expect(tablet.getByRole('dialog',{name:'切换应用'})).toBeVisible();
+ await expect(tablet.locator('.highlighted')).toContainText('WorkBuddy');
+ await phone.getByRole('button',{name:'切换应用',exact:true}).click();
  await expect(tablet.locator('.highlighted')).toContainText('邮件');
  await expect.poll(()=>frame.evaluate(()=>(window as any).__receivedKeys)).toHaveLength(0);
  await expect(phone.locator('.held')).toHaveCount(0);

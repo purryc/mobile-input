@@ -1,0 +1,245 @@
+.workbuddy-phone {
+  height: 100%;
+  padding: calc(var(--native-top, 0px) + 10px) 16px
+    calc(var(--native-bottom, 0px) + 12px);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  background:
+    radial-gradient(ellipse at 0 0, #e9edf3, transparent 60%), #f5f7fa;
+  color: #242a33;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "HarmonyOS Sans SC", "PingFang SC",
+    sans-serif;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+.workbuddy-phone * {
+  box-sizing: border-box;
+}
+.workbuddy-phone button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  background: transparent;
+  border: 0;
+  border-radius: 10px;
+  color: inherit;
+  cursor: pointer;
+  min-width: 36px;
+  min-height: 40px;
+  padding: 7px;
+  font: inherit;
+}
+.workbuddy-phone button:disabled {
+  opacity: 0.35;
+}
+.workbuddy-phone .wb-phone-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  font-size: 12px;
+  flex: none;
+}
+.workbuddy-phone .wb-phone-status > span {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.workbuddy-phone .wb-phone-status .agent-connection {
+  position: relative;
+  inset: auto;
+  width: 40px;
+  height: 40px;
+}
+.workbuddy-phone .wb-phone-context {
+  flex: none;
+  max-height: 31%;
+  overflow: auto;
+  padding: 13px 15px;
+  background: #ffffffba;
+  border: 1px solid #fff;
+  border-radius: 18px;
+  box-shadow: 0 4px 15px #3f547c05;
+}
+.workbuddy-phone .wb-phone-context > div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.workbuddy-phone .wb-phone-context img {
+  width: 32px;
+  height: 32px;
+}
+.workbuddy-phone .wb-phone-context h1 {
+  font-size: 18px;
+  line-height: 1.4;
+  margin: 0;
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.workbuddy-phone .wb-phone-context small {
+  font-size: 11px;
+  color: #8d95a2;
+  display: block;
+  margin: 5px 0;
+}
+.workbuddy-phone .wb-phone-context blockquote {
+  font-size: 13px;
+  line-height: 1.75;
+  white-space: pre-wrap;
+  margin: 10px 0 0;
+  color: #697284;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.workbuddy-phone .wb-phone-reference {
+  font-size: 11px;
+  line-height: 1.6;
+  margin: 6px 0;
+  color: #798392;
+  display: flex;
+  gap: 5px;
+}
+.workbuddy-phone .wb-phone-reference svg {
+  flex: none;
+  margin-top: 2px;
+}
+.workbuddy-phone .wb-phone-editor {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  background: #ffffffb5;
+  border-radius: 20px;
+  padding: 8px 10px 11px;
+  border: 1px solid #fff;
+  box-shadow: 0 8px 35px #6277a410;
+}
+.workbuddy-phone .wb-phone-tools {
+  display: flex;
+  justify-content: space-between;
+  gap: 1px;
+  flex: none;
+  border-bottom: 1px solid #e7eaf0;
+  padding-bottom: 6px;
+}
+.workbuddy-phone .wb-phone-tools button {
+  min-width: 33px;
+  min-height: 42px;
+  padding: 5px;
+  color: #727d8e;
+}
+.workbuddy-phone .wb-phone-draft {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 14px 5px 0;
+}
+.workbuddy-phone .wb-phone-draft textarea {
+  flex: 1;
+  width: 100%;
+  min-height: 60px;
+  resize: none;
+  border: 0;
+  background: transparent;
+  outline: none;
+  padding: 0;
+  font-size: 16px;
+  line-height: 1.85;
+  font-family: inherit;
+  color: #202b3d;
+}
+.workbuddy-phone .wb-phone-draft textarea::placeholder {
+  color: #a0a9b7;
+}
+.workbuddy-phone .wb-phone-polish {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 43px;
+  flex: none;
+  font-size: 11px;
+  color: #7c85a0;
+}
+.workbuddy-phone .wb-phone-polish button {
+  min-height: 28px;
+  min-width: 42px;
+  font-size: 11px;
+  padding: 4px 8px;
+  border-radius: 15px;
+  background: #edf0f8;
+  color: #747c94;
+}
+.workbuddy-phone .wb-phone-error {
+  min-height: 34px;
+  font-size: 11px;
+  color: #a5743b;
+  flex: none;
+  padding: 2px 4px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.workbuddy-phone .wb-phone-error button {
+  font-size: 11px;
+  min-height: 28px;
+  padding: 3px;
+}
+.workbuddy-phone .wb-phone-editor footer {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex: none;
+  min-height: 58px;
+  padding-top: 5px;
+}
+.workbuddy-phone .wb-phone-editor footer > button {
+  min-width: 44px;
+  height: 48px;
+  background: #eaeef4;
+}
+.workbuddy-phone .wb-phone-editor footer .wb-phone-voice {
+  flex: 1;
+  min-height: 53px;
+  border-radius: 18px;
+  background: #dfe8f6;
+  font-size: 14px;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.workbuddy-phone .wb-phone-voice.recording {
+  background: #bdcedf !important;
+  box-shadow: inset 0 0 0 1px #9eafc9;
+}
+.workbuddy-phone .wb-phone-editor footer .wb-phone-send {
+  background: #353c4b;
+  color: white;
+  border-radius: 50%;
+  width: 47px;
+  min-width: 47px;
+  height: 47px;
+}
+.workbuddy-phone .wb-phone-warning {
+  font-size: 12px;
+  color: #a87338;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px;
+}
+.workbuddy-phone .wb-phone-warning button {
+  font-size: 12px;
+  padding: 3px;
+  min-height: 28px;
+  color: #536b94;
+}

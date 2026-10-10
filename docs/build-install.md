@@ -28,7 +28,7 @@ HDC=/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/toolchains/
 "$HDC" -t PHONE_DEVICE_ID shell aa start -a EntryAbility -b com.hmilab.mobileinput.phone
 ```
 
-平板桌面名称「手机 Input」，使用蓝底双设备 Mobile Input 图标作为启动入口，手机桌面名称「Mobile 输入」。默认前台运行；手机切后台将停止语音并断开，返回前台重新配对同步。两台设备使用同一 Wi-Fi 或手机热点，需允许局域网设备互通。原生固定 TCP 端口 39871，mDNS 服务 `_mobileinput._tcp`。自动发现失败可在手机扫码平板二维码或填平板局域网地址及配对码。
+两端桌面名称均为「Input Agent」，保留蓝底双设备图标作为启动入口。默认前台运行；手机切后台将停止语音并断开，返回前台重新配对同步。两台设备使用同一 Wi-Fi 或手机热点，需允许局域网设备互通。原生固定 TCP 端口 39871，mDNS 服务 `_mobileinput._tcp`。自动发现失败可在手机扫码平板二维码或填平板局域网地址及配对码。
 
 ## 语音验收
 

@@ -18,7 +18,7 @@ export function ConnectionAccess({children}:{children:ReactNode}){
  const r=useRuntime(),phone=role==='phone',insets=usePhoneInsets();
  const [opened,setOpened]=useState(phone&&!r.connected),[address,setAddress]=useState(r.address||''),[code,setCode]=useState(''),[qr,setQr]=useState('');
  const priorConnected=useRef(r.connected),entry=useRef<HTMLButtonElement>(null),panel=useRef<HTMLElement>(null);
- const inline=phone&&(r.state.app==='slides'||r.state.app==='mario'||r.state.app==='wechat'&&r.connected&&r.state.chat.activation?.phase==='ready');
+ const inline=phone&&(r.state.app==='slides'||r.state.app==='mario'||r.state.app==='workbuddy'&&r.connected&&!!r.state.target?.id.startsWith('wb:')||r.state.app==='wechat'&&r.connected&&r.state.chat.activation?.phase==='ready');
  const host=r.address||location.hostname;
  const status=r.connected?(phone?'已连接工作台':'手机已连接'):r.status;
  function close(){setOpened(false);entry.current?.focus();}
