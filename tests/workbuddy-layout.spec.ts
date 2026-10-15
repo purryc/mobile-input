@@ -12,7 +12,7 @@ async function inViewport(page:Page,selector:string){
 
 test('compact WorkBuddy keeps its single editor and fixed voice dock usable across input tools',async({browser})=>{
  const context=await browser.newContext(),tablet=await context.newPage(),phone=await context.newPage();
- await tablet.goto('/?bridge=5191');await tablet.getByRole('button',{name:'连接设置',exact:true}).click();
+ await tablet.goto('/?bridge=5191');await tablet.getByRole('button',{name:'连接设置',exact:true}).click();await tablet.getByRole('radio',{name:'扫码网络建联',exact:false}).check();
  const pin=(await tablet.locator('.pair-code').innerText()).trim();
  await phone.setViewportSize({width:360,height:640});await phone.goto('/?role=phone&bridge=5191');
  await phone.getByLabel('平板地址').fill('localhost');await phone.getByLabel('配对码',{exact:true}).fill(pin);
@@ -78,7 +78,7 @@ test('compact WorkBuddy keeps its single editor and fixed voice dock usable acro
 
 test('capture preview touch swipe reaches adoption controls; crop mode owns the gesture',async({browser})=>{
  const context=await browser.newContext({hasTouch:true}),tablet=await context.newPage(),phone=await context.newPage();
- await tablet.goto('/?bridge=5191');await tablet.getByRole('button',{name:'连接设置',exact:true}).click();
+ await tablet.goto('/?bridge=5191');await tablet.getByRole('button',{name:'连接设置',exact:true}).click();await tablet.getByRole('radio',{name:'扫码网络建联',exact:false}).check();
  const pin=(await tablet.locator('.pair-code').innerText()).trim();
  await phone.setViewportSize({width:404,height:800});await phone.goto('/?role=phone&bridge=5191');
  await phone.getByLabel('平板地址').fill('localhost');await phone.getByLabel('配对码',{exact:true}).fill(pin);await phone.getByRole('button',{name:'连接',exact:true}).click();

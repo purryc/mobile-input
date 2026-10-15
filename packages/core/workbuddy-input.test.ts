@@ -38,3 +38,19 @@ test('removing a sketch preserves text color and other attachments and inference
  inferWbInput(next,next.text);assert.equal(next.input!.sketch.confirmed,false);assert.deepEqual(next.input!.sketch.strokes,[]);
  send('wb-input-task',{action:'new'});assert.equal(send('wb-input',{action:'sketch-remove',revision:next.input!.revision},anchor).ok,false);
 });
+
+test('inference tolerates a newer manual parameter but rejects an older draft across every task',()=>{
+ const store=new Store();let n=0;const send=(type:string,value:unknown={},extra:Partial<Command>={})=>store.dispatch({id:`all-task-${++n}`,type,value,...extra});
+ send('open','workbuddy');
+ for(const id of ['new','sample-brief','sample-quote','sample-proposal','created']){
+  if(id==='created')send('wb-input-task',{action:'new'});else send('wb-input-task',{id});
+  const t=store.state.target!,a={targetId:t.id,targetRevision:t.revision};const d=store.state.workbuddy.drafts[store.state.workbuddy.task];
+  send('wb-edit',{text:'主色用红色，画个布局',revision:d.revision,sequence:1,session:`edit-${id}`},a);
+  const draftRevision=store.state.workbuddy.drafts[store.state.workbuddy.task].revision;
+  send('wb-input',{action:'color',hex:'#345678',revision:0},a);
+  assert.equal(send('wb-input',{action:'infer',revision:0,draftRevision},a).ok,true,id);
+  assert.equal(store.state.workbuddy.drafts[store.state.workbuddy.task].input?.color?.hex,'#345678');
+  assert.equal(send('wb-input',{action:'infer',revision:0,draftRevision:draftRevision-1},a).ok,false);
+  assert.equal(send('wb-input',{action:'color',hex:'#000000',revision:0},a).ok,false);
+ }
+});

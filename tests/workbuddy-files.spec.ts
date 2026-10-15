@@ -163,6 +163,7 @@ test("phone edits file targets, sends AI instructions and WPS reads saved canoni
     phone = await context.newPage();
   await home(tablet);
   await tablet.getByRole("button", { name: "连接设置" }).click();
+  await tablet.getByRole("radio", { name: /扫码网络建联/ }).check();
   const pin = (await tablet.locator(".pair-code").innerText()).trim();
   await phone.setViewportSize({ width: 412, height: 915 });
   await phone.goto("/?role=phone&bridge=5191");

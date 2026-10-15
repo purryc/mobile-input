@@ -270,3 +270,21 @@ Visual readback checked the final 1480 × 1080 specimen and source arrangement; 
 ## Runtime convergence — 2026-10-14
 
 Updated the existing attachment and WorkBuddy sources, plus contextual polish and native-account state families. Review section `1598:44263` contains editable instances and simulated transitions. Current app implementations, design IDs and separate browser/device evidence are indexed in [runtime-design-sync-2026-10-14.md](runtime-design-sync-2026-10-14.md). Confirmed sketch attachments precede body text and have an independent remove action; removing a sketch preserves text, colors and unrelated materials.
+
+## WorkBuddy attention pulse · 2026-10-15
+
+Needs-user-action states (missing materials, approval, clarification) use a bright amber task indicator (#F5B700), dark amber status text (#754B00), and a subtle amber status backing. A 12 px reserved indicator contains an 8 px solid core and a breathing halo. Pulse only the halo, never the task card, label, position or layout; use a roughly 1.8 s eased cycle. Keep the core visible throughout. Running, completed, draft and stopped states do not inherit this pulse. Stop attention when the task no longer requires user input, not merely when it is selected. Reduced-motion uses the static visible indicator. This revision targets editable Figma components and prototype reactions; it does not claim runtime or device animation verification.
+
+## Material input design specification · 2026-10-15
+
+The expanded [20-page design specification](https://www.figma.com/slides/ylIR7XjcoubXhUiTmEuNI6/Mobile-Input-Agent) adds intent-based file selection/upload, camera, target-window capture and cropping alongside live color and confirmed sketches. Stable intent or an explicit Agent material request recommends an entry; the user opens the tool. Material adoption and application submission remain separate.
+
+Added three scoped component families on the existing DS page, using existing material/application/geometry variables and text styles:
+- Material source `1634:40537`: File/Camera/Screen with Ready/Unavailable (6 variants).
+- Material preview `1634:40566`: File/Photo/Screen/Crop (4 variants).
+- Material attachment `1634:40616`: Selected/Adopted/Uploading/Transferred/Readable/Failed (6 variants).
+- Review board `1634:40528` uses 13 editable instances. Sources remain separate from the review frame, within section `1634:40527`.
+
+Close is top-right; adoption/crop confirmation is bottom-right; both reserve at least 48×48. Preview content scrolls independently; crop gestures start only in explicit crop mode. Owner identity includes App, task, target and input revision. Cancel preserves text; failed transfer exposes retry/remove or another source. Selection, adoption, transmission and target readability are distinct. No state claims real uploading, capture permissions or task execution. File uploader remains a design target; the current internal file browser does not imply OS import or cloud upload. Native camera pending sessions and screenshot/recording buffer invalidation retain their distinct existing lifecycle rules.
+
+The registry now contains 79 records, all resolving to existing Figma nodes, including four historical Fold templates excluded from the current specification scope. No legacy source was deleted. PRD sections 2/4/5 and Design Skill G25 were updated and read back. Visual review passed for the material board; the 20-slide deck passed text bounds, text-overlap, image-fill and actual row-order checks. This is design verification only; runtime and device evidence remain separate. See [design-specification-slides.md](design-specification-slides.md) for the page and provenance index.

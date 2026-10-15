@@ -1,3 +1,4 @@
+import { distributedLink } from './DistributedLink';
 import { ChatGpt } from './ChatGpt';
 import { photoCapture } from './PhotoCapture';
 import { windowCapture } from './WindowCapture';
@@ -29,12 +30,14 @@ export class NativeBridge {
  private layoutVersion:number=0;
  private pin:string='';private authenticated:boolean=false;
  private buffer:Uint8Array=new Uint8Array(0);
+ private socketEpoch:number=0;
+ private sendChain:Promise<void>=Promise.resolve();
  private encoder:util.TextEncoder=new util.TextEncoder();
  private decoder:util.TextDecoder=new util.TextDecoder('utf-8');
  private service:mdns.LocalServiceInfo={serviceType:'_mobileinput._tcp',serviceName:'Input Agent',port:39871};
  private context:common.UIAbilityContext;
  private controller:webview.WebviewController;
- constructor(context:common.UIAbilityContext,controller:webview.WebviewController){AppStorage.setOrCreate<string>('pasteRequest','');this.context=context;this.controller=controller;this.speech=new Speech(context,controller);this.ai=new ChatGpt(context,(name:string,data:string)=>this.emit(name,data));this.motion=new PresentationMotion(controller);}
+ constructor(context:common.UIAbilityContext,controller:webview.WebviewController){AppStorage.setOrCreate<string>('pasteRequest','');this.context=context;this.controller=controller;this.speech=new Speech(context,controller);this.ai=new ChatGpt(context,(name:string,data:string)=>this.emit(name,data));this.motion=new PresentationMotion(controller);distributedLink.configure(context);distributedLink.attach((name:string,data:string)=>this.emit(name,data));}
  clipboard(id:string,operation:string,text:string):string {
   if(!this.allowed())return 'unavailable';
   const result:ClipboardResult={id,ok:false,text:'',error:''};
@@ -104,18 +107,23 @@ export class NativeBridge {
  aiControl(operation:string):string{if(!this.allowed()||ROLE!=='phone')return 'unavailable';if(operation==='status')this.ai.status();else if(operation==='login'&&this.active)void this.ai.login();else if(operation==='cancel')this.ai.cancelLogin();else if(operation==='logout')this.ai.logout();return 'requested';}
  polish(id:string,text:string,style:string):string{if(!this.allowed()||ROLE!=='phone'||!this.active)return 'unavailable';void this.ai.polish(id,text,style);return 'pending';}
  cancelPolish(id:string):string{if(!this.allowed())return 'unavailable';this.ai.cancel(id);return 'cancelled';}
- ready():void {this.emit('native-ready','{}');}
+ ready():void {this.emit('native-ready','{}');distributedLink.webReady();}
+ transportMode():string{return distributedLink.getMode();}
+ distributedStatus():string{return this.allowed()?distributedLink.snapshot():'{}';}
+ selectTransport(mode:string):string{if(!this.allowed()||!['lan','distributed'].includes(mode))return 'unavailable';if(mode!==distributedLink.getMode()){this.disconnect();this.discovery?.stopSearchingMDNS();}distributedLink.select(mode);return mode;}
+ distributedDiscover():string{if(!this.allowed()||!this.active)return 'unavailable';distributedLink.discover();return 'searching';}
+ distributedConnect(id:string):string{if(!this.allowed()||!this.active)return 'unavailable';distributedLink.connect(id);return 'connecting';}
  private allowed():boolean {try{return this.controller.getUrl().startsWith(LOCAL_ORIGIN);}catch{return false;}}
  private emit(name:string,data:string):void {this.controller.runJavaScript(`window.dispatchEvent(new CustomEvent('${name}',{detail:JSON.parse(${JSON.stringify(data)})}));`).catch(()=>{});}
  private status(type:string,message:string='',address:string=''):void {const s:Status={type,message,address,port:39871};this.emit('native-status',JSON.stringify(s));}
- host(pin:string):string {if(!this.allowed()||ROLE!=='tablet')return 'unavailable';if(this.server){this.publishHostAddress();return 'hosting';}this.pin=pin;this.startHost().catch((e:Error)=>{this.server=null;this.status('error',e.message);});return 'starting';}
+ host(pin:string):string {if(distributedLink.getMode()==='distributed')return 'unavailable';if(!this.allowed()||ROLE!=='tablet')return 'unavailable';if(this.server){this.publishHostAddress();return 'hosting';}this.pin=pin;this.startHost().catch((e:Error)=>{this.server=null;this.status('error',e.message);});return 'starting';}
  private async startHost():Promise<void>{
   const server=socket.constructTCPSocketServerInstance();this.server=server;
   server.on('connect',(peer:socket.TCPSocketConnection):void=>{
-   if(!this.active||this.peer){peer.close();return;}this.peer=peer;this.authenticated=false;this.buffer=new Uint8Array(0);
+   if(!this.active||this.peer||distributedLink.getMode()==='distributed'){peer.close();return;}this.peer=peer;this.socketEpoch++;this.sendChain=Promise.resolve();this.authenticated=false;this.buffer=new Uint8Array(0);
    peer.on('message',(info:socket.SocketMessageInfo):void=>{if(this.active&&this.peer===peer)this.receive(info.message);});
-   peer.on('close',():void=>{if(this.peer===peer){this.peer=null;this.authenticated=false;this.status('disconnected');}});
-   peer.on('error',():void=>{peer.close();});
+   peer.on('close',():void=>{if(this.peer===peer)this.disconnect();});
+   peer.on('error',():void=>{if(this.peer===peer)this.disconnect();});
    setTimeout(()=>{if(this.peer===peer&&!this.authenticated)peer.close();},8000);
   });
   await server.listen({address:'0.0.0.0',port:39871,family:1});
@@ -123,16 +131,17 @@ export class NativeBridge {
   await this.publishHostAddress();
  }
  private async publishHostAddress():Promise<void>{
+  if(distributedLink.getMode()==='distributed')return;
   let address='';try{const net=await connection.getDefaultNet();const props=await connection.getConnectionProperties(net);const found=props.linkAddresses.find(a=>a.address.family===1);if(found)address=found.address.address;}catch{}
   this.status('hosting','',address);
  }
- discover():string{if(!this.allowed())return 'unavailable';try{this.discovery?.stopSearchingMDNS();this.discovery=mdns.createDiscoveryService(this.context,'_mobileinput._tcp');this.discovery.on('serviceFound',(s:mdns.LocalServiceInfo):void=>{mdns.resolveLocalService(this.context,s).then((r:mdns.LocalServiceInfo)=>{this.status('found',r.serviceName,r.host?.address??'');}).catch(()=>{});});this.discovery.startSearchingMDNS();return 'searching';}catch{return 'failed';}}
- connect(address:string,pin:string):string{if(!this.active)return 'background';if(!this.allowed()||ROLE!=='phone')return 'unavailable';this.client?.close();this.pin=pin;this.buffer=new Uint8Array(0);this.authenticated=false;
+ discover():string{if(distributedLink.getMode()==='distributed')return 'unavailable';if(!this.allowed())return 'unavailable';try{this.discovery?.stopSearchingMDNS();this.discovery=mdns.createDiscoveryService(this.context,'_mobileinput._tcp');this.discovery.on('serviceFound',(s:mdns.LocalServiceInfo):void=>{mdns.resolveLocalService(this.context,s).then((r:mdns.LocalServiceInfo)=>{if(distributedLink.getMode()!=='distributed')this.status('found',r.serviceName,r.host?.address??'');}).catch(()=>{});});this.discovery.startSearchingMDNS();return 'searching';}catch{return 'failed';}}
+ connect(address:string,pin:string):string{if(distributedLink.getMode()==='distributed')return 'unavailable';if(!this.active)return 'background';if(!this.allowed()||ROLE!=='phone')return 'unavailable';const previous=this.client;this.client=null;this.socketEpoch++;this.sendChain=Promise.resolve();previous?.close();this.pin=pin;this.buffer=new Uint8Array(0);this.authenticated=false;
  const client=socket.constructTCPSocketInstance();this.client=client;
  client.on('message',(info:socket.SocketMessageInfo):void=>{if(this.client===client)this.receive(info.message);});
- client.on('close',():void=>{if(this.client===client){this.client=null;this.authenticated=false;this.status('disconnected');}});
+ client.on('close',():void=>{if(this.client===client)this.disconnect();});
  client.on('error',():void=>{if(this.client===client)this.disconnect();});
- client.connect({address:{address,port:39871,family:1},timeout:8000}).then(()=>{this.write({kind:'hello',pin,payload:''});}).catch((e:Error)=>{if(this.client===client)this.disconnect();});return 'connecting';
+ client.connect({address:{address,port:39871,family:1},timeout:8000}).then(()=>{if(this.client===client&&this.active)this.write({kind:'hello',pin,payload:''});}).catch((e:Error)=>{if(this.client===client)this.disconnect();});return 'connecting';
  }
  private receive(bytes:ArrayBuffer):void{
   const incoming=new Uint8Array(bytes),merged=new Uint8Array(this.buffer.length+incoming.length);merged.set(this.buffer);merged.set(incoming,this.buffer.length);this.buffer=merged;
@@ -145,13 +154,20 @@ export class NativeBridge {
    }catch{this.status('error','收到无效消息');}
   }
  }
- private write(e:Envelope):void{const body=this.encoder.encodeInto(JSON.stringify(e));const packet=new Uint8Array(body.length+4);new DataView(packet.buffer).setUint32(0,body.length);packet.set(body,4);if(this.peer)this.peer.send({data:packet.buffer}).catch(()=>this.disconnect());else if(this.client)this.client.send({data:packet.buffer}).catch(()=>this.disconnect());}
- send(payload:string):string{if(!this.allowed()||!this.authenticated)return 'disconnected';this.write({kind:'data',pin:'',payload});return 'sent';}
- private disconnect():void{this.motion.stop();this.peer?.close();this.client?.close();this.peer=null;this.client=null;this.authenticated=false;this.buffer=new Uint8Array(0);this.status('disconnected');}
+ private write(e:Envelope):void{
+  const endpoint=this.peer||this.client,epoch=this.socketEpoch;if(!endpoint)return;
+  const body=this.encoder.encodeInto(JSON.stringify(e));const packet=new Uint8Array(body.length+4);new DataView(packet.buffer).setUint32(0,body.length);packet.set(body,4);
+  this.sendChain=this.sendChain.then(async():Promise<void>=>{
+   if(epoch!==this.socketEpoch||!this.active)return;
+   try{await endpoint.send({data:packet.buffer});}catch{if(epoch===this.socketEpoch)this.disconnect();}
+  });
+ }
+ send(payload:string):string{if(!this.allowed())return 'unavailable';if(distributedLink.getMode()==='distributed')return distributedLink.send(payload)?'sent':'disconnected';if(!this.authenticated)return 'disconnected';this.write({kind:'data',pin:'',payload});return 'sent';}
+ private disconnect():void{this.motion.stop();const peer=this.peer,client=this.client;this.peer=null;this.client=null;this.socketEpoch++;this.sendChain=Promise.resolve();this.authenticated=false;this.buffer=new Uint8Array(0);peer?.close();client?.close();this.status('disconnected');}
  scan():string{if(!this.allowed())return 'unavailable';scanBarcode.startScanForResult(this.context,{}).then((r:scanBarcode.ScanResult)=>{this.emit('native-scan',JSON.stringify(r.originalValue));}).catch(()=>this.status('error','未读取到配对码，可重新扫描'));return 'scanning';}
  startRecognition(id:string,online:boolean,manual:boolean=false):string{if(!this.allowed())return 'unavailable';return this.speech.startRecognition(id,online,manual);}
  stopRecognition(id:string):string{return this.speech.stopRecognition(id);}
  cancelRecognition(id:string):string{return this.speech.cancelRecognition(id);}
- foreground(value:boolean):void{this.active=value;this.emit('native-foreground',JSON.stringify(value));if(value)this.ai.status();if(!value){this.ai.cancel('');this.motion.stop();this.speech.cancelRecognition('');this.disconnect();}}
- close():void{this.ai.close();this.photo=new CaptureResult();this.disconnect();this.server?.close();this.server=null;this.discovery?.stopSearchingMDNS();mdns.removeLocalService(this.context,this.service).catch(()=>{});this.speech.cancelRecognition('');}
+ foreground(value:boolean):void{this.active=value;this.emit('native-foreground',JSON.stringify(value));if(value)this.ai.status();if(!value){this.ai.cancel('');this.motion.stop();this.speech.cancelRecognition('');distributedLink.stop();this.disconnect();}}
+ close():void{distributedLink.stop();this.ai.close();this.photo=new CaptureResult();this.disconnect();this.server?.close();this.server=null;this.discovery?.stopSearchingMDNS();mdns.removeLocalService(this.context,this.service).catch(()=>{});this.speech.cancelRecognition('');}
 }

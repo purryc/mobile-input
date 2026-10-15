@@ -1,5 +1,5 @@
 import type {Command,State,Slide} from './model';
-import {workBuddyIntents} from './workbuddy-intents';
+import {workBuddyIntents,colorValue,intentColors} from './workbuddy-intents';
 import type {WbDraft} from './workbuddy';
 
 export interface InputColor {word:string;hex:string;source:'system_default'|'user_edit';original:string}
@@ -7,13 +7,12 @@ export interface InputSketch {strokes:number[][][];confirmed:boolean;interpretat
 export interface WorkBuddyInput {revision:number;color:InputColor|null;dismissedColor?:InputColor;excludedColors:string[];layout:boolean;sketch:InputSketch;mode:'keyboard'|'trackpad'|null;}
 export const initialWbInput=():WorkBuddyInput=>({revision:0,color:null,excludedColors:[],layout:false,sketch:{strokes:[],confirmed:false,interpretation:null},mode:null});
 export const wbInput=(d:WbDraft)=>d.input??(d.input=initialWbInput());
-const colors:Record<string,string>={'红色':'#E03131','蓝色':'#1971C2','绿色':'#2F9E44','紫色':'#7048E8','橙色':'#F76707','黄色':'#F08C00','黑色':'#212529','白色':'#FFFFFF'};
 /** Deterministic demo grammar; does not pretend to understand arbitrary language. */
-export function inferWbInput(d:WbDraft,text:string){const input=wbInput(d);const negated=[...text.matchAll(/(?:不要|不用|别用|排除)\s*(红色|蓝色|绿色|紫色|橙色|黄色|黑色|白色)/g)].map(x=>x[1]);input.excludedColors=[...new Set(negated)];
+export function inferWbInput(d:WbDraft,text:string){const input=wbInput(d);const negated=[...text.matchAll(new RegExp('(?:不要|不用|别用|排除)\\s*('+Object.keys(intentColors).join('|')+')','g'))].map(x=>x[1]);input.excludedColors=[...new Set(negated)];
  const intent=workBuddyIntents(text,{task:'',target:'',targetRevision:0,inputRevision:0}).find(x=>x.kind==='color');
- const word=intent?.phrase.match(/红色|蓝色|绿色|紫色|橙色|黄色|黑色|白色/)?.[0];
+ const color=intent?colorValue(intent.phrase):null,word=color?.word;
  if(!word||negated.includes(word))input.color=null;
- else if(word!==input.dismissedColor?.word&&input.color?.source!=='user_edit')input.color={word,hex:colors[word],source:'system_default',original:word};
+ else if(word!==input.dismissedColor?.word&&input.color?.source!=='user_edit')input.color={word,hex:color!.hex,source:'system_default',original:word};
  input.layout=/(?:左侧|左边).+(?:右侧|右边)/.test(text)&&!/(?:不要|不用).*(?:左右布局|左右分栏)/.test(text);
  if(input.layout)input.sketch.interpretation={left:text.match(/(?:左侧|左边)\s*([^，。；\n]+)/)?.[1]||'待补充',right:text.match(/(?:右侧|右边)\s*([^，。；\n]+)/)?.[1]||'待补充'};
  return input;
@@ -38,7 +37,7 @@ export function wbAdaptiveInteraction(s:State,c:Command):string|null|undefined {
  const v=(c.value||{}) as Record<string,unknown>,t=s.target,w=s.workbuddy;
  if(s.app!=='workbuddy'||!t||!t.id.startsWith('wb:draft:')||c.targetId!==t.id||c.targetRevision!==t.revision)return '任务输入目标已变化';
  const id=t.id.slice('wb:draft:'.length),d=w.drafts[id];if(!d||w.task!==id)return '任务已切换';
- const input=wbInput(d);if(v.revision!==input.revision)return '输入参数已变化，请同步后重试';
+ const input=wbInput(d);if(v.action!=='infer'&&v.revision!==input.revision)return '输入参数已变化，请同步后重试';
  switch(v.action){
   case 'infer':{
     if(v.draftRevision!==d.revision)return '意图结果已过期';inferWbInput(d,d.text);

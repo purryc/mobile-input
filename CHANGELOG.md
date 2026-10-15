@@ -1,3 +1,31 @@
+## 2026-10-15 · Source backup and update summary
+
+- Backed up the current Input Agent 1.4.0 sources: method-first connection settings, native Harmony distributed collaboration and LAN fallback, shared task color/layout recognition, connection recovery and the ASR parameter fix.
+- Included the current editable design registry and design-specification index. Material-input component states and attention effects are documented as design work, separately from implemented runtime behavior.
+- Preserved existing drafts and business data. Device validation confirms distributed input after USB removal; long-duration and high-frequency transport tests remain open. See the dated entries and linked validation records below.
+- Public source excludes private recordings, device captures, credentials, signing profiles, dependencies and generated installation packages. Signed HAPs and local delivery archives remain in ignored artifacts.
+
+## 2026-10-15 · Connection method selection and native Harmony collaboration
+
+- Added method-first radio cards to both connection panels: Harmony distributed collaboration or LAN QR pairing. QR/manual inputs remain hidden until LAN is selected; distributed mode shows trusted-device discovery, progress and actionable errors. Kept ChatGPT account settings collapsed and separate.
+- Integrated native device discovery, collaboration sessions, peer identity checks and application handshake while retaining the existing bundle IDs, drafts and explicit LAN fallback.
+- Added bounded 1 KiB text framing for JSON/SVG-compatible messages and incremental state snapshots after initial synchronization. Switching methods cancels obsolete traffic and pending commands without replaying effects.
+- Verified 117 core tests, all 50 browser scenarios across the full run and focused retest, Web and signed HAP builds, and installation on both devices. User confirmed distributed WorkBuddy input and synchronization after unplugging USB. Long-duration and high-frequency transport stress remain unverified.
+- Validation, design comparison and device limitations are recorded in [connection validation](docs/distributed-connection-validation.md). No automatic GitHub push.
+
+## 2026-10-15 · Task input recognition and connection recovery
+
+- Extended shared WorkBuddy auxiliary recognition to common color/shade, HEX and layout phrasing across new tasks, follow-ups and material tasks; preserved negation, task identity and manual parameters.
+- Fixed material panels hiding explicitly opened tools and removed false inference conflicts against newer manual parameter revisions; stale text/targets still reject.
+- Serialized native socket frames and isolated obsolete connection callbacks so a failed old send cannot close a replacement session.
+- Verified 110 core tests, 13 targeted browser tests, production Web build and both signed HAP builds. Device and Distributed Service Kit evidence is recorded in `docs/task-input-and-connectivity-2026-10-15.md`; distributed transport is not enabled by this patch.
+
+## 2026-10-15 · 修复手机语音引擎参数错误
+
+- 移除错误的“系统在线识别”模式切换；原生桥固定使用支持的本机识别配置，并兼容旧调用。
+- 识别失败提供真实重试、中文原因与安全错误码，保留正文和目标，不自动提交。
+- 106 项核心测试、10 项相关浏览器检查与两端签名构建通过。真机和真人语音结果见 [ASR 修复记录](docs/asr-recovery-2026-10-15.md)。
+
 ## 2026-10-14 · 开发进展与完整源码同步
 
 - 新增开发日报，汇总通用输入、WorkBuddy 任务／文件、绘画、Bilibili、ChatGPT 润色与设计同步，分别记录已完成、真机确认和待验收项目。

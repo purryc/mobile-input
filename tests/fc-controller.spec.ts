@@ -6,7 +6,7 @@ test('FC landscape layout, simultaneous keys, rotation release and top-right app
  const errors:string[]=[];phone.on('pageerror',e=>errors.push(e.message));
  await phone.setViewportSize({width:844,height:390});
  await tablet.goto('/?bridge=5191');
- await tablet.getByRole('button',{name:'连接设置',exact:true}).click();
+ await tablet.getByRole('button',{name:'连接设置',exact:true}).click();await tablet.getByRole('radio',{name:'扫码网络建联',exact:false}).check();
  const pin=await tablet.locator('.pair-code').innerText();
  await tablet.locator('.scrim').click({position:{x:5,y:5}});
  await phone.goto('/?role=phone&bridge=5191');

@@ -33,3 +33,24 @@
 .wechat-phone .glass-status .agent-connection{margin-left:auto;color:#415566}
 .presentation-glass .present-connection{position:absolute;left:264px;top:18px;width:48px;height:48px;border-radius:22px;color:#536c7b}
 .fc-stage .fc-inline-connection{position:absolute;left:716px;top:18px;width:48px;height:48px;color:#53645e}
+
+/* Method-first connection sheet. Choices remain reachable while branch content scrolls. */
+.agent-connection-panel{width:min(100%,400px);padding:20px 22px;max-height:calc(100dvh - max(16px,var(--native-top,0px)) - max(16px,var(--native-bottom,0px)));overscroll-behavior:contain}
+.agent-connection-scrim{padding-top:max(16px,var(--native-top,0px));padding-bottom:max(16px,var(--native-bottom,0px))}
+.connection-methods{border:0;margin:22px 0 0;padding:0;display:grid;gap:10px;min-width:0}
+.connection-methods legend{font-size:12px;font-weight:600;color:#758692;padding:0;margin-bottom:10px}
+.connection-method{position:relative;display:flex;align-items:center;gap:12px;min-height:78px;padding:13px 14px;background:#eef2f6;border:1px solid transparent;border-radius:16px;cursor:pointer;transition:background .18s,border-color .18s}
+.connection-method[data-selected=true]{background:linear-gradient(120deg,#e6f1ff,#eeedff);border-color:#7d9eed}
+.connection-method:has(input:focus-visible){outline:3px solid #4974c9;outline-offset:2px}
+.connection-method input{position:absolute;inset:0;opacity:0;width:100%;height:100%;margin:0;cursor:pointer}
+.connection-method .method-icon{display:grid;place-items:center;width:40px;height:40px;background:#ffffffb3;border-radius:12px;color:#597385;flex-shrink:0}
+.connection-method[data-selected=true] .method-icon{color:#466cc9;background:#fff}
+.method-copy{flex:1;display:flex;flex-direction:column;gap:5px;min-width:0}.method-copy b{font-size:14px;font-weight:600;color:#243947}.method-copy small{font-size:11px;color:#6d7c8d;line-height:1.4}
+.method-radio{width:19px;height:19px;display:grid;place-items:center;border:1.5px solid #b5c0cb;border-radius:50%;flex-shrink:0}.connection-method[data-selected=true] .method-radio{border-color:#557ad2}.method-radio i{width:9px;height:9px;border-radius:50%;background:#557ad2}
+.connection-detail{margin-top:20px;padding-top:18px;border-top:1px solid #e4eaf0;animation:connection-reveal .18s ease-out}.connection-section-heading{display:flex;align-items:center;justify-content:space-between;gap:8px}.connection-detail h3{font-size:13px;font-weight:600;margin:0}.connection-section-heading button{min-width:48px;min-height:48px;gap:7px;justify-content:center;color:#5073b7;background:transparent;font-size:12px;padding:0 7px}
+.distributed-detail p{font-size:12px;line-height:1.7;color:#6d7c8d;margin:6px 0 16px}.distributed-device{width:100%;min-height:72px;display:flex;align-items:center;gap:12px;background:#edf2f7;border-radius:14px;padding:12px;color:#344c61;margin-top:8px;text-align:left}.distributed-device:disabled{opacity:1}.distributed-device .device-icon{display:grid;place-items:center;width:40px;height:40px;border-radius:12px;background:#fff}.distributed-device>span:nth-child(2){flex:1;display:flex;flex-direction:column;gap:5px}.distributed-device b{font-size:14px;font-weight:600}.distributed-device small{font-size:11px;color:#7a8a98}
+.agent-connection-panel .connection-scan{width:100%;height:50px;border-radius:14px;justify-content:center;gap:10px;background:#446dd0;color:white}.agent-connection-panel .connect-panel{margin-top:8px}.agent-connection-panel .connect-panel label{font-size:12px;color:#677c8b}.agent-connection-panel .connect-panel input{height:44px;border:1px solid #dee6ee;border-radius:11px;background:white;padding:10px 12px;font-size:15px;color:#273f53}.agent-connection-panel .connect-panel>button{min-height:48px;border-radius:12px;justify-content:center}
+.connection-account{border-top:1px solid #e4eaf0;margin-top:22px;padding-top:6px}.connection-account>summary{min-height:48px;align-content:center;font-size:12px;color:#6d7c8d;cursor:pointer}.connection-retry{min-height:48px;border-radius:12px;background:#e7efff;color:#446dd0;padding:0 18px}
+.searching{animation:connection-spin 1s linear infinite}@keyframes connection-spin{to{transform:rotate(360deg)}}@keyframes connection-reveal{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+@media(prefers-reduced-motion:reduce){.searching,.connection-detail{animation:none}}
+.agent-connection-panel>header{position:sticky;top:0;z-index:2;background:#f9fbfd;box-shadow:0 8px 8px #f9fbfd}

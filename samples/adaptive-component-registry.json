@@ -1826,7 +1826,20 @@
       "kind": "control",
       "region": "target",
       "inputStates": [],
-      "displayScope": "phone-top-task-tracking-only; PC owns detailed progress and results"
+      "displayScope": "phone-top-task-tracking-only; PC owns detailed progress and results",
+      "attentionFeedback": {
+        "componentId": "task-attention-pulse",
+        "states": [
+          "NeedsInput"
+        ],
+        "color": "#F5B700",
+        "labelColor": "#754B00",
+        "cycleMs": 1800,
+        "layoutStable": true,
+        "reducedMotion": "Static",
+        "stopWhen": "task-no-longer-needs-user-action",
+        "scope": "figma-prototype; runtime-not-updated"
+      }
     },
     {
       "componentId": "inline-color",
@@ -2826,6 +2839,164 @@
         "selectionRule": "Available space and task priority; never resize during an active gesture. Reduce density/context before primary-value readability.",
         "layoutRule": "Independent layout per size, not full-component proportional scaling."
       }
+    },
+    {
+      "componentId": "task-attention-pulse",
+      "figmaNodeId": "1618:40320",
+      "name": "Adaptive / Task attention pulse",
+      "skins": [
+        "Glass"
+      ],
+      "states": [
+        "Rest",
+        "Peak",
+        "Static"
+      ],
+      "props": [
+        "reducedMotion",
+        "needsAttention"
+      ],
+      "actions": [],
+      "capabilities": [],
+      "figmaVariants": {
+        "Rest": "1618:40311",
+        "Peak": "1618:40314",
+        "Static": "1618:40317"
+      },
+      "kind": "control",
+      "region": "target",
+      "renderOwner": "local",
+      "prototypeOnly": true
+    },
+    {
+      "componentId": "material-source",
+      "figmaNodeId": "1634:40537",
+      "name": "Input / material-source",
+      "kind": "material-input",
+      "region": "adaptive",
+      "skins": [
+        "Glass"
+      ],
+      "renderOwner": "local",
+      "states": [
+        "Source=File, State=Ready",
+        "Source=File, State=Unavailable",
+        "Source=Camera, State=Ready",
+        "Source=Camera, State=Unavailable",
+        "Source=Screen, State=Ready",
+        "Source=Screen, State=Unavailable"
+      ],
+      "figmaVariants": {
+        "Source=File, State=Ready": "1634:40531",
+        "Source=File, State=Unavailable": "1634:40532",
+        "Source=Camera, State=Ready": "1634:40533",
+        "Source=Camera, State=Unavailable": "1634:40534",
+        "Source=Screen, State=Ready": "1634:40535",
+        "Source=Screen, State=Unavailable": "1634:40536"
+      },
+      "props": [
+        "sourceType",
+        "taskId",
+        "targetId",
+        "inputRevision",
+        "available",
+        "unavailableReason"
+      ],
+      "actions": [
+        "openSource",
+        "chooseAlternative"
+      ],
+      "capabilities": [
+        "material-input-adapter"
+      ],
+      "prototypeBoundary": "Editable design states only. File import/upload, camera, capture, transfer and target readability require separately verified platform adapters."
+    },
+    {
+      "componentId": "material-preview",
+      "figmaNodeId": "1634:40566",
+      "name": "Input / material-preview",
+      "kind": "material-input",
+      "region": "adaptive",
+      "skins": [
+        "Glass"
+      ],
+      "renderOwner": "local",
+      "states": [
+        "View=File",
+        "View=Photo",
+        "View=Screen",
+        "View=Crop"
+      ],
+      "figmaVariants": {
+        "View=File": "1634:40562",
+        "View=Photo": "1634:40563",
+        "View=Screen": "1634:40564",
+        "View=Crop": "1634:40565"
+      },
+      "props": [
+        "materialId",
+        "sourceType",
+        "sourceScope",
+        "taskId",
+        "targetId",
+        "inputRevision",
+        "cropMode"
+      ],
+      "actions": [
+        "close",
+        "enterCrop",
+        "confirmCrop",
+        "adopt"
+      ],
+      "capabilities": [
+        "material-input-adapter"
+      ],
+      "prototypeBoundary": "Editable design states only. File import/upload, camera, capture, transfer and target readability require separately verified platform adapters."
+    },
+    {
+      "componentId": "material-attachment",
+      "figmaNodeId": "1634:40616",
+      "name": "Input / material-attachment",
+      "kind": "material-input",
+      "region": "adaptive",
+      "skins": [
+        "Glass"
+      ],
+      "renderOwner": "local",
+      "states": [
+        "State=Selected",
+        "State=Adopted",
+        "State=Uploading",
+        "State=Transferred",
+        "State=Readable",
+        "State=Failed"
+      ],
+      "figmaVariants": {
+        "State=Selected": "1634:40610",
+        "State=Adopted": "1634:40611",
+        "State=Uploading": "1634:40612",
+        "State=Transferred": "1634:40613",
+        "State=Readable": "1634:40614",
+        "State=Failed": "1634:40615"
+      },
+      "props": [
+        "materialId",
+        "displayName",
+        "taskId",
+        "targetId",
+        "inputRevision",
+        "transferState",
+        "readability"
+      ],
+      "actions": [
+        "preview",
+        "remove",
+        "retry"
+      ],
+      "capabilities": [
+        "material-input-adapter"
+      ],
+      "prototypeBoundary": "Editable design states only. File import/upload, camera, capture, transfer and target readability require separately verified platform adapters."
     }
   ],
   "skinLabels": {
@@ -3192,11 +3363,47 @@
       "canvas",
       "camera",
       "document",
+      "file-upload",
+      "screen-capture",
+      "crop",
       "color"
     ],
     "onClose": "retain chip and current values; return to Available",
     "onStaleOrNegation": "invalidate suggestion; retain confirmed materials",
     "valuePresentation": "Recognized value preview + concise action; color uses current swatch + 调整颜色.",
-    "colorBinding": "One parameter owns chip swatch, inline HEX and picker; user-edited value takes priority over recognition default."
+    "colorBinding": "One structured parameter owns swatch and picker/HEX editor; preserve original text, never append generated HEX annotations."
+  },
+  "materialInputContract": {
+    "status": "design-contract-not-runtime",
+    "sources": [
+      "file",
+      "camera",
+      "screen-capture"
+    ],
+    "trigger": [
+      "stable-explicit-intent",
+      "agent-material-request"
+    ],
+    "openPolicy": "user-tap-only",
+    "owner": [
+      "appId",
+      "taskId",
+      "targetId",
+      "inputRevision"
+    ],
+    "states": [
+      "selected",
+      "adopted",
+      "uploading",
+      "transferred",
+      "readable",
+      "failed",
+      "unavailable"
+    ],
+    "adoption": "Explicit adoption links material to the same task; never submits or approves. Live color parameters retain immediate update semantics.",
+    "send": "Submission is explicit and independent. Transfer completion does not prove target readability.",
+    "recovery": "Keep text on cancel/error; reject cross-target adoption; retry/remove/choose alternative according to adapter capability. Existing native camera pending sessions and capture-buffer invalidation keep distinct lifecycles.",
+    "geometry": "Close top-right and adoption bottom-right; minimum 48x48; actions outside scroll/crop region.",
+    "registryExamples": "1634:40528"
   }
 }

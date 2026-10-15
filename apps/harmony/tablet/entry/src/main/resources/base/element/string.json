@@ -19,6 +19,10 @@
     {
       "name": "paste_reason",
       "value": "将您复制的文字粘贴到当前回复草稿"
+    },
+    {
+      "name": "distributed_reason",
+      "value": "用于发现同账号设备并同步 Input Agent 输入"
     }
   ]
 }

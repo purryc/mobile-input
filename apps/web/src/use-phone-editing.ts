@@ -14,7 +14,7 @@ export function usePhoneEditing(text:string, update:(text:string)=>void, area:Re
   const [completedId,setCompletedId]=useState('');
   const [completion,setCompletion]=useState<{id:string;text:string;identity:string;commandMode:boolean}|null>(null);
   const recognition=useRef(''),speechBinding=useRef({identity,commandMode});
-  const [history,setHistory]=useState<string[]>([]),[future,setFuture]=useState<string[]>([]),[speech,setSpeech]=useState('idle'),[error,setError]=useState(''),[online,setOnline]=useState(false),[polish,setPolish]=useState(false);
+  const [history,setHistory]=useState<string[]>([]),[future,setFuture]=useState<string[]>([]),[speech,setSpeech]=useState('idle'),[error,setError]=useState(''),[polish,setPolish]=useState(false);
   const heard=useRef(false),session=useRef(''),before=useRef(''),speechSelection=useRef({start:0,end:0}),timer=useRef<ReturnType<typeof setTimeout>|null>(null),long=useRef(false),down=useRef(false),suppressClick=useRef(false),active=useRef(true);
   function change(next:string,remember=true) {editGeneration.current++;cancelPolish();if(remember&&next!==value.current){const previous=value.current;setHistory(h=>[...h,previous].slice(-50));setFuture([]);}value.current=next;apply.current(next);}
   function select(){if(area.current)selection.current={start:area.current.selectionStart,end:area.current.selectionEnd};}
@@ -30,7 +30,7 @@ export function usePhoneEditing(text:string, update:(text:string)=>void, area:Re
       if(action==='redo'&&future.length){setFuture(f=>f.slice(0,-1));setHistory(h=>[...h,snapshot]);change(future.at(-1)!,false);}
     }catch(e){setError(e instanceof Error?e.message:'剪贴板不可用，内容已保留');}
   }
-  function start(){if(session.current||!connected)return;if(!window.MobileNative){setError('语音输入需在手机应用中使用');return;}session.current=uid();speechBinding.current={identity:identityRef.current,commandMode};recognition.current='';before.current=value.current;speechSelection.current=commandMode?{start:0,end:before.current.length}:{...selection.current};heard.current=false;if(commandMode)change('',false);setError('');setPolish(false);setSpeech('starting');window.MobileNative.startRecognition(session.current,online,true);}
+  function start(){if(session.current||!connected)return;if(!window.MobileNative){setError('语音输入需在手机应用中使用');return;}session.current=uid();speechBinding.current={identity:identityRef.current,commandMode};recognition.current='';before.current=value.current;speechSelection.current=commandMode?{start:0,end:before.current.length}:{...selection.current};heard.current=false;if(commandMode)change('',false);setError('');setPolish(false);setSpeech('starting');window.MobileNative.startRecognition(session.current,false,true);}
   function stop(){if(!session.current)return;setSpeech('finishing');window.MobileNative?.stopRecognition(session.current);}
   function cancel(){if(timer.current)clearTimeout(timer.current);down.current=false;if(!session.current)return;window.MobileNative?.cancelRecognition(session.current);session.current='';setSpeech('idle');change(before.current,false);}
   useEffect(()=>{const listener=(event:Event)=>{const d=(event as CustomEvent).detail;if(!session.current||d.sessionId!==session.current)return;
@@ -66,5 +66,5 @@ export function usePhoneEditing(text:string, update:(text:string)=>void, area:Re
     onClick:()=>{if(suppressClick.current){suppressClick.current=false;return;}if(session.current)stop();else start();},
     onPointerCancel:cancel,onLostPointerCapture:()=>{if(down.current)cancel();},
   };
-  return {polishActions,canPolish:connected&&!commandMode,polishing,polishError,cancelPolish,completion,completedId,change,select,replace,edit,history,future,speech,error,setError,polish:!commandMode&&polishActions.length>0&&(polish||!!text.trim()),refine,cancel,voiceProps,online,enableOnline:()=>{setOnline(true);setError('已选择系统在线识别');},selection};
+  return {polishActions,canPolish:connected&&!commandMode,polishing,polishError,cancelPolish,completion,completedId,change,select,replace,edit,history,future,speech,error,setError,polish:!commandMode&&polishActions.length>0&&(polish||!!text.trim()),refine,cancel,voiceProps,retryRecognition:start,selection};
 }

@@ -4,7 +4,7 @@ test('persistent connection access preserves drafts, cancels cycling and release
  const context=await browser.newContext({hasTouch:true}),tablet=await context.newPage(),phone=await context.newPage();
  await phone.setViewportSize({width:390,height:844});
  await tablet.goto('/?bridge=5191');await tablet.getByRole('button',{name:'连接设置',exact:true}).tap();
- const pin=await tablet.locator('.pair-code').innerText();await tablet.getByRole('button',{name:'关闭连接设置'}).click();
+ await tablet.getByRole('radio',{name:'扫码网络建联',exact:false}).check();const pin=await tablet.locator('.pair-code').innerText();await tablet.getByRole('button',{name:'关闭连接设置'}).click();
  await phone.goto('/?role=phone&bridge=5191');await phone.getByLabel('平板地址').fill('localhost');await phone.getByLabel('配对码',{exact:true}).fill(pin);await phone.getByRole('button',{name:'连接',exact:true}).click();
  await expect(phone.getByRole('dialog',{name:'设备连接'})).toHaveCount(0);
  for(const page of [tablet,phone]){

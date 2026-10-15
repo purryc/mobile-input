@@ -2,6 +2,7 @@ import {audio} from '@kit.AudioKit';
 import {speechRecognizer} from '@kit.CoreSpeechKit';
 import {webview} from '@kit.ArkWeb';
 import {common,abilityAccessCtrl,Permissions} from '@kit.AbilityKit';
+import {BusinessError} from '@kit.BasicServicesKit';
 
 class SpeechDetail {
  sessionId:string='';type:string='';text:string='';message:string='';energy:number=0;
@@ -22,11 +23,12 @@ export class Speech {
  private currentText:string='';
  constructor(context:common.UIAbilityContext,controller:webview.WebviewController){this.context=context;this.controller=controller;}
  private async permission(list:Permissions[]):Promise<void>{const result=await abilityAccessCtrl.createAtManager().requestPermissionsFromUser(this.context,list);if(result.authResults.some((value:number)=>value!==0))throw new Error('请在系统设置中允许所需权限');}
- startRecognition(id:string,online:boolean,manual:boolean=false):string {this.manual=manual;this.cancelRecognition('');this.sessionId=id;this.finishing=false;this.speaking=false;this.lastLoud=0;this.completedText='';this.currentText='';this.start(id,online).catch((e:Error)=>{if(this.sessionId===id){this.emit('error','',e.message);this.release();}});return 'starting';}
- private async start(id:string,online:boolean):Promise<void>{
+ startRecognition(id:string,_legacyOnline:boolean,manual:boolean=false):string {this.manual=manual;this.cancelRecognition('');this.sessionId=id;this.finishing=false;this.speaking=false;this.lastLoud=0;this.completedText='';this.currentText='';this.start(id).catch((e:Error)=>{if(this.sessionId===id){const code=(e as BusinessError).code;const message=e.message==='请在系统设置中允许所需权限'||code===201?'请在系统设置中允许麦克风权限':code===1002200006||code===1002200008?'语音服务正在释放，请稍后重试':`语音引擎暂不可用${Number.isFinite(code)?`（${code}）`:''}，请重试`;this.emit('error','',message);this.release();}});return 'starting';}
+ private async start(id:string):Promise<void>{
   await this.permission(['ohos.permission.MICROPHONE']);if(this.sessionId!==id)return;
   let engine:speechRecognizer.SpeechRecognitionEngine;
-  engine=await speechRecognizer.createEngine({language:'zh-CN',online:online?0:1});
+  // The bridge boolean is retained for older Web bundles; it must not select unsupported mode 0.
+  engine=await speechRecognizer.createEngine({language:'zh-CN',online:1,extraParams:{locate:'CN',recognizerMode:'short'}});
   if(this.sessionId!==id){engine.shutdown();return;}this.engine=engine;
   engine.setListener({
    onStart:(sessionId:string,eventMessage:string):void=>{if(sessionId===this.sessionId){this.emit('start');this.capturer?.start().catch(()=>{this.emit('error','','无法开始采音，请重试');this.release();});}},
