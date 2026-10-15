@@ -10,6 +10,8 @@ for role in roles:
  shutil.copy2(root/'AGENTS.md',target/'AGENTS.md')
  subprocess.run(['rsync','-a','--exclude','build','--exclude','.hvigor','--exclude','oh_modules','--exclude','/build-profile.json5',str(src)+'/',str(target)+'/'],check=True)
  for shared in (root/'apps/harmony/shared').glob('*.ets'):shutil.copy2(shared,target/'entry/src/main/ets'/shared.name)
+ shutil.copy2(root/'packages/core/chatgpt-protocol.ts',target/'entry/src/main/ets/ChatGptProtocol.ets')
+ shutil.copy2(root/'packages/core/polish-actions.ts',target/'entry/src/main/ets/PolishActions.ets')
  config=src/'build-profile.json5'
  if config.exists():shutil.copy2(config,target/'build-profile.json5')
  elif not (target/'build-profile.json5').exists():shutil.copy2(src/'build-profile.example.json5',target/'build-profile.json5')

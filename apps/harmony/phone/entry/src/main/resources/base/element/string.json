@@ -14,7 +14,7 @@
     },
     {
       "name": "camera_reason",
-      "value": "扫描平板配对码"
+      "value": "扫描配对码或拍摄任务参考材料"
     },
     {
       "name": "paste_reason",

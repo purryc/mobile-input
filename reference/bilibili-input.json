@@ -1,0 +1,258 @@
+{
+  "figma": {
+    "file": "ApFLno64NcMoA17MiPFfZh",
+    "node": "1358:12215",
+    "wordmarkNode": "1374:24760"
+  },
+  "boundary": "Local prototype. Original Hover media preserved; Bunny CC BY 3.0; Yu Yan official YouTube continuous excerpt for requested local demo, no open license asserted. No real platform actions.",
+  "assets": [
+    {
+      "file": "apps/web/public/assets/bilibili/drama.mp4",
+      "source": "/Users/hmi/Documents/input agent/outputs/2026-09-15-douyin-two-video-scene/01-zhenhuan-5s.mp4",
+      "sha256": "6e051c3eba60c0e67d75b4c9dd3b375d0c67e4de9fb9fa7efac032ba1fa5234f"
+    },
+    {
+      "file": "apps/web/public/assets/bilibili/concert.mp4",
+      "source": "/Users/hmi/Documents/input agent/outputs/2026-09-15-douyin-two-video-scene/02-yuyan-fancam-5s.mp4",
+      "sha256": "3bf015782313a935d626f9d98727a1343fce022d01ded47a138a323f2898e933"
+    },
+    {
+      "file": "apps/web/public/assets/bilibili/wordmark-01.svg",
+      "source": "https://www.figma.com/api/mcp/asset/e1827e4d-1ea1-41d5-99b1-3c1eee5491b4.svg",
+      "figmaNode": "1374:24740",
+      "sha256": "9446a3ce0d0b45322ef48193cd1dd2925bcc0e9d49ec27085094f3ce845d5d4b"
+    },
+    {
+      "file": "apps/web/public/assets/bilibili/wordmark-02.svg",
+      "source": "https://www.figma.com/api/mcp/asset/2f0caea9-64ad-4aff-a83f-4bd1697dd062.svg",
+      "figmaNode": "1374:24741",
+      "sha256": "ddf899b8f9f93a5f8230f426c6cd7d86839e4b28c76c60f291ed30f1845ebfdc"
+    },
+    {
+      "file": "apps/web/public/assets/bilibili/wordmark-03.svg",
+      "source": "https://www.figma.com/api/mcp/asset/1c83e9d9-6d8d-49f8-ba53-0a42524e82ee.svg",
+      "figmaNode": "1374:24742",
+      "sha256": "4c8a4e9d02178b95d9c8702fdd366c77a92f21bbb9ed027989818ecfa1fc1068"
+    },
+    {
+      "file": "apps/web/public/assets/bilibili/wordmark-04.svg",
+      "source": "https://www.figma.com/api/mcp/asset/35abc3db-64a3-4f36-af91-821a49f37c4d.svg",
+      "figmaNode": "1374:24743",
+      "sha256": "950ed1e2e102d909a4cbf7260ab6074e4e3e1229d8c81a62ac1c2081ea23f246"
+    },
+    {
+      "file": "apps/web/public/assets/bilibili/wordmark-05.svg",
+      "source": "https://www.figma.com/api/mcp/asset/1bb666af-99bd-4f46-be84-e3e94475e82a.svg",
+      "figmaNode": "1374:24744",
+      "sha256": "07a2ff45a455e5a80b1b28bc84781d03d31a7469fc8debfe2151b0f789ed20c4"
+    },
+    {
+      "file": "apps/web/public/assets/bilibili/wordmark-06.svg",
+      "source": "https://www.figma.com/api/mcp/asset/2ff1abd3-4657-4d64-bfde-07149703d492.svg",
+      "figmaNode": "1374:24745",
+      "sha256": "08d1c41d09c0cfc57ab7bb0932dbfe9b15b7c4a1251816ae28aa31f34363b193"
+    },
+    {
+      "file": "apps/web/public/assets/bilibili/wordmark-07.svg",
+      "source": "https://www.figma.com/api/mcp/asset/ba06d51a-fe47-41a2-933f-d0b5a9f67bbe.svg",
+      "figmaNode": "1374:24746",
+      "sha256": "7361adfdecf1bc96b253c0f33d82e6807543215f05b9ec5341c7070c5af90b4d"
+    },
+    {
+      "file": "apps/web/public/assets/bilibili/wordmark-08.svg",
+      "source": "https://www.figma.com/api/mcp/asset/ee283a4a-2144-475d-b1cd-24fe4b816ea3.svg",
+      "figmaNode": "1374:24747",
+      "sha256": "3d97944856cacda2f897f39fa9e39dc8fe5f934e029ae939cd9d44ed6b48d3a0"
+    },
+    {
+      "file": "apps/web/public/assets/bilibili/wordmark-09.svg",
+      "source": "https://www.figma.com/api/mcp/asset/5e66214d-4591-40b5-8794-66fb8ad0a340.svg",
+      "figmaNode": "1374:24748",
+      "sha256": "7214942c0ea54fb36a0ec6c724355cbaef58f7ac4ba5822f2870a95724b6eced"
+    },
+    {
+      "file": "apps/web/public/assets/bilibili/wordmark-10.svg",
+      "source": "https://www.figma.com/api/mcp/asset/d5d4828d-3d8f-4df0-95dc-d43d5d372824.svg",
+      "figmaNode": "1374:24749",
+      "sha256": "de8b1cb9232ad0309136a3617f3a407b74cb5dc87915c5274957ddd06bd437df"
+    },
+    {
+      "file": "apps/web/public/assets/bilibili/wordmark-11.svg",
+      "source": "https://www.figma.com/api/mcp/asset/a1122828-47e2-493e-a387-e106a0498e15.svg",
+      "figmaNode": "1374:24750",
+      "sha256": "1a8df924019565ed54be4c987253a06041bfcc72ad03dc4bfe292b9fab6405f7"
+    },
+    {
+      "file": "apps/web/public/assets/bilibili/wordmark-12.svg",
+      "source": "https://www.figma.com/api/mcp/asset/6a5b48e2-8ba0-4d30-8f66-51cd4fa9f233.svg",
+      "figmaNode": "1374:24751",
+      "sha256": "31ee6c9a79a0cd47a26dc4bf78bcaa7a444d524be6ec4281614e3c0bf93bedb9"
+    },
+    {
+      "file": "apps/web/public/assets/bilibili/wordmark-13.svg",
+      "source": "https://www.figma.com/api/mcp/asset/9e78a9bf-68a1-4087-9a3e-522545d6719e.svg",
+      "figmaNode": "1374:24752",
+      "sha256": "3a71e2b8a737df56e4a0fc4363b769a1b14fbd93e70e086d11ec4e6215466617"
+    },
+    {
+      "file": "apps/web/public/assets/bilibili/wordmark-14.svg",
+      "source": "https://www.figma.com/api/mcp/asset/299f9f43-b2e4-4e1f-9dee-ef4194ed4e4d.svg",
+      "figmaNode": "1374:24753",
+      "sha256": "25345724ec941b16de12c94eee31014ad2b982be9b1fab4221f48d8419455f92"
+    },
+    {
+      "file": "apps/web/public/assets/bilibili/wordmark-15.svg",
+      "source": "https://www.figma.com/api/mcp/asset/4c406da6-bb70-42ad-9067-6cbaded0c8f3.svg",
+      "figmaNode": "1374:24754",
+      "sha256": "04f913637c6b955d90c5b8731be91c3c2a23ae86a08e05db2d01f27e25cf2ed2"
+    },
+    {
+      "file": "apps/web/public/assets/bilibili/wordmark-16.svg",
+      "source": "https://www.figma.com/api/mcp/asset/235b68c1-13b1-42f3-b554-1ff38bbeaa34.svg",
+      "figmaNode": "1374:24755",
+      "sha256": "5dd3c721153dceafc21cb1e4fd54677c9d1350c4265e9477004f1d616b1ad197"
+    },
+    {
+      "file": "apps/web/public/assets/bilibili/wordmark-mask.svg",
+      "source": "https://www.figma.com/api/mcp/asset/63618911-80cc-4864-8026-a3d98a178d60.svg",
+      "figmaNode": "1374:24759",
+      "sha256": "f1b24bf70f81236f5bbf9fe10b7e5cdccebe593c4745eb4fe5d7931adb66778d"
+    },
+    {
+      "file": "apps/web/public/assets/bilibili/wordmark.png",
+      "source": "Figma 1374:24760 raster export; superseded at runtime by original vector layers",
+      "sha256": "83f5e42ced2b54e72b60a190ba903ba2c6e9e48cdfaca5df86a2408471a51a38"
+    },
+    {
+      "file": "apps/web/public/assets/bilibili/bunny-30s.mp4",
+      "source": "https://download.blender.org/peach/bigbuckbunny_movies/big_buck_bunny_720p_h264.mov.zip",
+      "sourcePage": "https://peach.blender.org/download/",
+      "license": "CC BY 3.0",
+      "licenseSource": "https://peach.blender.org/about/",
+      "attribution": "(c) copyright 2008, Blender Foundation / www.bigbuckbunny.org",
+      "sourceStartSeconds": 60,
+      "sourceEndSeconds": 90,
+      "durationSeconds": 30,
+      "derivation": "Continuous 30-second H.264/AAC excerpt; poster is an extracted frame. No looping or slowing.",
+      "sha256": "045ea3c981aed352bd4b615c8cf2a33e2d84b5c7384181de7d1e9783fb0f152c",
+      "bytes": 5662870
+    },
+    {
+      "file": "apps/web/public/assets/bilibili/bunny-30s.jpg",
+      "source": "https://download.blender.org/peach/bigbuckbunny_movies/big_buck_bunny_720p_h264.mov.zip",
+      "sourcePage": "https://peach.blender.org/download/",
+      "license": "CC BY 3.0",
+      "licenseSource": "https://peach.blender.org/about/",
+      "attribution": "(c) copyright 2008, Blender Foundation / www.bigbuckbunny.org",
+      "sourceStartSeconds": 60,
+      "sourceEndSeconds": 90,
+      "durationSeconds": null,
+      "derivation": "Continuous 30-second H.264/AAC excerpt; poster is an extracted frame. No looping or slowing.",
+      "sha256": "f0af9d4ac3639f23e537661df83d75ae30627286e2186ffbdf00af919b283086",
+      "bytes": 16867
+    },
+    {
+      "file": "apps/web/public/assets/bilibili/bunny-5s.mp4",
+      "source": "https://download.blender.org/peach/bigbuckbunny_movies/big_buck_bunny_720p_h264.mov.zip",
+      "author": "Blender Foundation",
+      "sourceStartSeconds": 60,
+      "sourceEndSeconds": 65,
+      "sha256": "c8b0c98da0402d91223d83c9c80fb4553129dec777e5d01e09ba12efcdcae55d",
+      "bytes": 683529,
+      "derivation": "Continuous source excerpt; looping occurs in the player. Poster is an extracted frame.",
+      "license": "CC BY 3.0",
+      "licenseSource": "https://peach.blender.org/about/"
+    },
+    {
+      "file": "apps/web/public/assets/bilibili/yuyan-30s.mp4",
+      "source": "https://www.youtube.com/watch?v=tsFaRhRT0IU",
+      "author": "喻言官方频道YuYan Official Channel",
+      "sourceStartSeconds": 30,
+      "sourceEndSeconds": 60,
+      "sha256": "dbb50f71dd566d361209852b21d41921c8dfd69038885648e78511ccd53d887f",
+      "bytes": 10944449,
+      "derivation": "Continuous source excerpt; looping occurs in the player. Poster is an extracted frame.",
+      "sourceTitle": "Yu Yan \"Foretold\" Dance Practice Video丨喻言蔷薇之巅练习室",
+      "usage": "Local user-requested demonstration excerpt; no open redistribution license asserted. Download used user-authorized YouTube authentication in memory only."
+    },
+    {
+      "file": "apps/web/public/assets/bilibili/yuyan-30s.jpg",
+      "source": "https://www.youtube.com/watch?v=tsFaRhRT0IU",
+      "author": "喻言官方频道YuYan Official Channel",
+      "sourceStartSeconds": 33,
+      "sourceEndSeconds": 33,
+      "sha256": "2ba5cc8188e0c34f72f10c70be4bdb74144994156aa14511c6a9c6593ace0eaf",
+      "bytes": 81117,
+      "derivation": "Continuous source excerpt; looping occurs in the player. Poster is an extracted frame.",
+      "sourceTitle": "Yu Yan \"Foretold\" Dance Practice Video丨喻言蔷薇之巅练习室",
+      "usage": "Local user-requested demonstration excerpt; no open redistribution license asserted. Download used user-authorized YouTube authentication in memory only."
+    }
+  ],
+  "originalSources": [
+    {
+      "file": "01-zhenhuan-5s.mp4",
+      "title": "贱人就是矫情！【甄嬛传】华妃名言剪辑专场",
+      "url": "https://www.youtube.com/watch?v=TYPHoTuFhg4",
+      "uploader": "吃瓜抠脚",
+      "start": 10,
+      "end": 15,
+      "demo_counts": true
+    },
+    {
+      "file": "02-yuyan-fancam-5s.mp4",
+      "title": "喻言 Yu Yan｜【WORLD [我的] - 喻言 2023 1ST TOUR 南京場巡演 Live Concert《我》直拍 FocusCam】",
+      "url": "https://www.youtube.com/watch?v=rZ4dSU5u9As",
+      "uploader": "喻言官方海外後援會Official Yan Yu Overseas Fan Club",
+      "start": 30,
+      "end": 35,
+      "demo_counts": true
+    }
+  ],
+  "playbackFigma": {
+    "file": "ApFLno64NcMoA17MiPFfZh",
+    "node": "1358:12215",
+    "checked": "2026-10-14",
+    "assets": [
+      {
+        "file": "apps/web/public/assets/bilibili/play.svg",
+        "sha256": "0883f06303814213e2be014e9222cb51002f1d3b08e9ac8d6bb7644a8a8318b4",
+        "bytes": 323,
+        "root": "<svg preserveAspectRatio=\"none\" overflow=\"visible\" style=\"display: block;\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">"
+      },
+      {
+        "file": "apps/web/public/assets/bilibili/volume.svg",
+        "sha256": "b6214cee12097d7d702f95a2b62545125d0f96f2ade09e8115d0f179838c11b3",
+        "bytes": 1539,
+        "root": "<svg preserveAspectRatio=\"none\" overflow=\"visible\" style=\"display: block;\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">"
+      },
+      {
+        "file": "apps/web/public/assets/bilibili/fullscreen.svg",
+        "sha256": "03c04fdcd400e9c465370a8821442f8e596cbecf983f2497047a57a4a5229a72",
+        "bytes": 341,
+        "root": "<svg preserveAspectRatio=\"none\" overflow=\"visible\" style=\"display: block;\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">"
+      },
+      {
+        "file": "apps/web/public/assets/bilibili/volume-thumb.svg",
+        "sha256": "ef8b9de856f75a2f7a493557ee11cbf37f0d1969f64e9d769ea2dfca645e6078",
+        "bytes": 292,
+        "root": "<svg preserveAspectRatio=\"none\" overflow=\"visible\" style=\"display: block;\" width=\"28\" height=\"28\" viewBox=\"0 0 28 28\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">"
+      }
+    ]
+  },
+  "longerMediaNote": "2026-10-14: existing source URLs located, but unauthenticated YouTube access required sign-in; no cookies exported. Retained both original Hover clips and added an official open-movie excerpt.",
+  "playlistRevision": {
+    "date": "2026-10-14",
+    "order": [
+      "hover-drama",
+      "bunny-30s",
+      "yuyan-foretold"
+    ],
+    "durationsSeconds": [
+      5,
+      5,
+      30
+    ],
+    "loop": true,
+    "migration": "Catalog revision 3 maps active position, keeps old Hover concert drafts/reactions under their original key, and gives the new official video independent state. Legacy bunny-30s key retained for compatibility."
+  }
+}

@@ -1,0 +1,73 @@
+{
+  "fileKey": "ApFLno64NcMoA17MiPFfZh",
+  "nodes": [
+    "1552:38914",
+    "1543:38028",
+    "1493:55578",
+    "1368:22625"
+  ],
+  "date": "2026-10-14",
+  "assets": [
+    {
+      "name": "chevron",
+      "url": "https://www.figma.com/api/mcp/asset/2592cddc-22e1-47fa-8525-52692aad6f5a.svg",
+      "path": "apps/web/public/assets/figma/intent/chevron.svg",
+      "sha256": "de8e692cddbba3ed32c60547ea005d662dd2b82a4dec2c0c6556bec0a7c318c0",
+      "root": "<svg preserveAspectRatio=\"none\" overflow=\"visible\" style=\"display: block;\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">"
+    },
+    {
+      "name": "document",
+      "url": "https://www.figma.com/api/mcp/asset/38f2035a-16a0-4453-bc5d-4993efc82be8.svg",
+      "path": "apps/web/public/assets/figma/intent/document.svg",
+      "sha256": "dfdd7462f2946007a2f291f6a29eb0907eff613d6e6b712500cea54d76676471",
+      "root": "<svg preserveAspectRatio=\"none\" overflow=\"visible\" style=\"display: block;\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">"
+    },
+    {
+      "name": "close",
+      "url": "https://www.figma.com/api/mcp/asset/d0fdc4d2-b5e4-4595-9685-7b0e4f7e53fd.svg",
+      "path": "apps/web/public/assets/figma/intent/close.svg",
+      "sha256": "225e182dfcf4a2beab89555bdfd7859334e7ec28e8849fbedc3be0876b696b65",
+      "root": "<svg preserveAspectRatio=\"none\" overflow=\"visible\" style=\"display: block;\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">"
+    },
+    {
+      "name": "pencil",
+      "url": "https://www.figma.com/api/mcp/asset/7446c14c-17bc-4556-8c65-7651093ad361.svg",
+      "path": "apps/web/public/assets/figma/intent/pencil.svg",
+      "sha256": "0e46db842a9e446492bf872f99e1dccab638e60d7f0502ca7be7d931213947e0",
+      "root": "<svg preserveAspectRatio=\"none\" overflow=\"visible\" style=\"display: block;\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">"
+    },
+    {
+      "name": "send",
+      "url": "https://www.figma.com/api/mcp/asset/6cc13646-5e03-424e-a625-dd39475ca72f.svg",
+      "path": "apps/web/public/assets/figma/intent/send.svg",
+      "sha256": "e2dbd053ee53d3b2eeae149c23d4be7dadbbff17dcc07c161092de01b3a74929",
+      "root": "<svg preserveAspectRatio=\"none\" overflow=\"visible\" style=\"display: block;\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">"
+    },
+    {
+      "name": "camera",
+      "url": "https://www.figma.com/api/mcp/asset/78b7f15b-c581-446a-a889-851cc395f747.svg",
+      "path": "apps/web/public/assets/figma/intent/camera.svg",
+      "sha256": "af79206bb10e1d249db94836891c6fd3ae99d6788e66a79a0feebb1406caddda",
+      "root": "<svg preserveAspectRatio=\"none\" overflow=\"visible\" style=\"display: block;\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">"
+    },
+    {
+      "name": "capture",
+      "url": "https://www.figma.com/api/mcp/asset/ce590947-2201-4916-9edc-ba9f8931bd0b.svg",
+      "path": "apps/web/public/assets/figma/input-dock/capture.svg",
+      "sha256": "38bdcfc108f8977f295015a70d04ca109f9bfa381bde5597368120105c27d817",
+      "root": "<svg preserveAspectRatio=\"none\" overflow=\"visible\" style=\"display: block;\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">"
+    },
+    {
+      "name": "eraser",
+      "url": "https://www.figma.com/api/mcp/asset/7b9f783c-6164-443e-ad98-388499533b78.svg",
+      "path": "apps/web/public/assets/figma/intent/eraser.svg",
+      "sha256": "70e5f2de160616330da270bf6e8b4025360b93a453d77da0b17101db9a320cb6"
+    },
+    {
+      "name": "check",
+      "url": "https://www.figma.com/api/mcp/asset/e55ef068-7ed1-44eb-a7a4-e01d701ae4e9.svg",
+      "path": "apps/web/public/assets/figma/intent/check.svg",
+      "sha256": "5901d28192b77f5c7c629fdbb5da660d56164eac7cb0c8ce4ced5d3c87ff7733"
+    }
+  ]
+}

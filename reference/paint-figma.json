@@ -1,0 +1,54 @@
+{
+  "source": "https://www.figma.com/design/ApFLno64NcMoA17MiPFfZh?node-id=1443-16041",
+  "frames": [
+    "1443:16044",
+    "1443:16163",
+    "1472:16901"
+  ],
+  "date": "2026-10-14",
+  "scope": "Reviewed app icon and six brush vectors. Artwork is original procedural demo; no private frame imagery.",
+  "assets": [
+    {
+      "name": "imgBrandGoPaintOfficialAppIcon",
+      "url": "https://www.figma.com/api/mcp/asset/88e37ebc-34a5-4f23-8876-4067b291c519.png",
+      "path": "apps/web/public/assets/figma/paint/icon.png",
+      "sha256": "b6ff5f12aa655fba6f698751cc4ff4162381b74dae1c405980e785120825028e"
+    },
+    {
+      "name": "imgBrushSilhouette",
+      "url": "https://www.figma.com/api/mcp/asset/c7538307-bbce-48d4-bbfe-a40d14e014f1.svg",
+      "path": "apps/web/public/assets/figma/paint/brush-0.svg",
+      "sha256": "15de8043b9064736768d09e3bbbbb37614eac6a672ed150109e7fcae74fe5c8c"
+    },
+    {
+      "name": "imgBrushSilhouette1",
+      "url": "https://www.figma.com/api/mcp/asset/8b5d05a1-3e94-4d61-97b7-2e8f9c42e4bc.svg",
+      "path": "apps/web/public/assets/figma/paint/brush-1.svg",
+      "sha256": "58a0e766ae0c1038fec39997420f35d7b24e66a8c445107005bac9e2c420cb35"
+    },
+    {
+      "name": "imgBrushSilhouette2",
+      "url": "https://www.figma.com/api/mcp/asset/3e321737-f029-4fd7-a658-ad9dad3d04f4.svg",
+      "path": "apps/web/public/assets/figma/paint/brush-2.svg",
+      "sha256": "a255d4c8a08905468656afb65e5ba792b832cb4702236c4b9245ade9ac907b57"
+    },
+    {
+      "name": "imgBrushSilhouette3",
+      "url": "https://www.figma.com/api/mcp/asset/c087323d-5a3e-48c4-8741-640698305129.svg",
+      "path": "apps/web/public/assets/figma/paint/brush-3.svg",
+      "sha256": "1015d0612c8c7cddc26456f868a97a7b51348521f7be4fae2050a76347718900"
+    },
+    {
+      "name": "imgBrushSilhouette4",
+      "url": "https://www.figma.com/api/mcp/asset/7bbe5af4-718d-44c6-9e41-445a3bb15133.svg",
+      "path": "apps/web/public/assets/figma/paint/brush-4.svg",
+      "sha256": "ac8e77ba40d08c03acd68149647823b7d81cf2bae438f783ff601b082cb5f084"
+    },
+    {
+      "name": "imgBrushSilhouette5",
+      "url": "https://www.figma.com/api/mcp/asset/755468fe-4548-4002-b1a6-6424f947a1df.svg",
+      "path": "apps/web/public/assets/figma/paint/brush-5.svg",
+      "sha256": "56af3a71fe7312935f79533dd33ba29c8eb21116bdb7273a448e2c6a85d3bc82"
+    }
+  ]
+}

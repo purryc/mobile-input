@@ -1,6 +1,6 @@
 {
   "name": "mobile-input-studio",
-  "version": "1.2.0",
+  "version": "1.4.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -15,6 +15,7 @@
     "package": "python3 scripts/package-delivery.py"
   },
   "dependencies": {
+    "html-to-image": "1.11.13",
     "lucide-react": "^0.468.0",
     "qrcode": "^1.5.4",
     "react": "^19.1.0",

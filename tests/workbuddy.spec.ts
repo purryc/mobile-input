@@ -1,4 +1,5 @@
 import { test, expect, type Page } from "@playwright/test";
+test.use({screenshot:"only-on-failure"});
 async function openWb(page: Page) {
   await page.goto("/?bridge=5191");
   await page
@@ -15,7 +16,8 @@ async function pair(tablet: Page, phone: Page) {
   await phone.getByLabel("平板地址").fill("localhost");
   await phone.getByLabel("配对码", { exact: true }).fill(pin);
   await phone.getByRole("button", { name: "连接", exact: true }).click();
-  await expect(phone.getByText("已连接工作台")).toBeVisible();
+  await expect(phone.getByRole("dialog", { name: "设备连接" })).toHaveCount(0);
+  await expect(phone.getByText("已连接", { exact: true })).toBeVisible();
   await tablet.getByRole("button", { name: "关闭连接设置" }).click();
 }
 test("WorkBuddy phone activates only on focus, syncs text, edits emoji and submits one task", async ({
@@ -32,7 +34,8 @@ test("WorkBuddy phone activates only on focus, syncs text, edits emoji and submi
   }
   await openWb(tablet);
   await pair(tablet, phone);
-  await expect(phone.locator(".phone-home")).toBeVisible();
+  await expect(phone.locator(".generic-shortcuts")).toBeVisible();
+  await expect(phone.getByLabel("手机 WorkBuddy 草稿")).toHaveCount(0);
   await tablet.getByLabel("WorkBuddy 任务输入").click();
   await expect(phone.getByLabel("手机 WorkBuddy 草稿")).toBeVisible();
   await expect(
@@ -87,6 +90,7 @@ test("WorkBuddy four sales chains create previewable results and WPS launch rema
     });
     await page.locator(".wb-file-card").click();
     await expect(page.locator(".wb-preview-body")).toContainText("澄星设计");
+    if(expected.endsWith(".pptx"))await page.locator(".wbf-slides aside").getByRole("button",{name:/4.*报价可控/}).click();
     await expect(page.locator(".wb-preview-body")).toContainText("¥190,380.00");
     await page.getByRole("button", { name: "返回", exact: true }).click();
     await expect(page.locator(".wb-file-panel")).toHaveCount(0);
@@ -175,12 +179,12 @@ test("WorkBuddy editable preview, project, assistant, library and settings remai
     .locator(".wb-library-table")
     .getByRole("button", { name: "需求简报.md", exact: true })
     .click();
-  await page.getByRole("button", { name: "编辑文件", exact: true }).click();
+  await page.getByRole("button", { name: "源码编辑", exact: true }).click();
   await page
-    .getByLabel("WorkBuddy 文件正文")
+    .getByLabel("文件源码")
     .fill("# 我的采购简报\n\n安装地址待确认。");
-  await page.getByRole("button", { name: "保存", exact: true }).click();
-  await page.getByRole("button", { name: "编辑文件", exact: true }).click();
+  await page.getByRole("button", { name: "保存文件", exact: true }).click();
+  await page.getByRole("button", { name: "可视编辑", exact: true }).click();
   await expect(page.locator(".wb-preview-body")).toContainText("我的采购简报");
   await page.getByRole("button", { name: "返回", exact: true }).click();
   await page

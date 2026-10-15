@@ -1,3 +1,7 @@
+import {objectInteraction} from "./workbuddy-object";
+import {materialsInteraction,submitMaterials,type ReceiptWorkflow} from './workbuddy-materials';
+import {wbAdaptiveInteraction,stripLegacyColorAnnotation,inferWbInput,wbInput,roadmapSlides,type WorkBuddyInput} from './workbuddy-input';
+import { initialFileBrowser, seedFileBrowser, migrateFileBrowser, fileBrowserInteraction, fileTargetFocus, fileTargetDraft, fileTargetEdit, fileTargetSubmit, reconcileOfficeFiles, type FileBrowserState, type FileFormat } from './workbuddy-files';
 import type { State, Command, OfficeFile } from "./model";
 import { money, totals } from "./model";
 
@@ -20,12 +24,16 @@ export type WorkBuddyPage =
   | "notifications";
 export type ResultKind = "brief" | "quote" | "proposal" | "slides";
 export type TaskStatus =
+  | "needs-materials"
+  | "approval"
+  | "draft"
   | "needs-type"
   | "planned"
   | "running"
   | "paused"
   | "complete";
 export interface WbDraft {
+  input?: WorkBuddyInput;
   text: string;
   revision: number;
   sequence: number;
@@ -34,6 +42,9 @@ export interface WbDraft {
   references: string[];
 }
 export interface WbTask {
+  sourceFiles?:string[];
+  receipts?: ReceiptWorkflow;
+  input?: WorkBuddyInput;
   id: string;
   title: string;
   messages: { id: string; role: "user" | "assistant"; text: string }[];
@@ -54,7 +65,8 @@ export interface WbTask {
 export interface WbFile {
   id: string;
   name: string;
-  kind: "markdown" | "sheet" | "word" | "slides";
+  kind: FileFormat;
+  asset?: string;
   content: string;
   draft: WbDraft;
   folder: string;
@@ -88,6 +100,7 @@ export interface WbAssistant {
 }
 export interface WorkBuddyState {
   version: 1;
+  fileBrowser?: FileBrowserState;
   page: WorkBuddyPage;
   task: string;
   preview: string[];
@@ -340,6 +353,7 @@ export const newWbDraft = (text = ""): WbDraft => ({
 export function initialWorkBuddy(): WorkBuddyState {
   return {
     version: 1,
+    fileBrowser: initialFileBrowser(),
     page: "home",
     task: "new",
     preview: [],
@@ -531,7 +545,17 @@ export function restoreWorkBuddy(
     if (s.app === "workbuddy" && s.texts["ai-draft"])
       s.workbuddy.drafts.new.text = s.texts["ai-draft"];
   }
+  migrateFileBrowser(s, backup);
   const w = s.workbuddy;
+  for(const [id,draft] of Object.entries(w.drafts)) {
+    if(!draft.input?.color)continue;
+    const plain=stripLegacyColorAnnotation(draft.text);
+    if(plain!==draft.text){
+      backup(`mobile-input:backup:color-annotation-v1:${id}`,JSON.stringify(draft));
+      draft.text=plain;draft.revision++;
+      if(s.target?.id===`wb:draft:${id}`)s.target.value=plain;
+    }
+  }
   w.mailDrafts ??= [];
   w.settings.buddyExpert ??= "sales";
   w.preview = [];
@@ -542,9 +566,11 @@ export function restoreWorkBuddy(
       task.status = "paused";
       task.epoch += ":restored";
     }
+  pauseWorkBuddy(s);
   return s;
 }
 export function pauseWorkBuddy(s: State) {
+  for(const co of Object.values(s.workbuddy.fileBrowser?.conversations||{}))if(co.pending){co.pending=null;co.unknown="修改已暂停，请重新发送";}
   for (const task of s.workbuddy.tasks)
     if (task.status === "running") {
       task.elapsed += Math.max(0, Date.now() - task.startedAt);
@@ -554,12 +580,14 @@ export function pauseWorkBuddy(s: State) {
     }
 }
 export function wbDraftFor(s: State, targetId: string) {
+  if (targetId.startsWith("wb:co:")) return fileTargetDraft(s,targetId);
   const [, type, id] = targetId.split(":");
   if (type === "draft") return s.workbuddy.drafts[id];
   if (type === "file") return s.workbuddy.files.find((x) => x.id === id)?.draft;
   return s.workbuddy.entityDrafts[targetId];
 }
 function focus(s: State, id: string, label?: string, initialText = "") {
+  const special=fileTargetFocus(s,id,label);if(special!==undefined)return special;
   const w = s.workbuddy;
   let d = wbDraftFor(s, id);
   if (!d) {
@@ -634,6 +662,8 @@ function startTask(
     files: [],
     dataVersion: s.reportRevision,
   };
+  task.sourceFiles=[...draft.attachments];
+  for(const file of w.files)if(draft.attachments.includes(file.id)&&file.id.startsWith("capture-"))file.task=id;
   if (draft.references.length)
     task.messages[0].text += "\n\n引用：" + draft.references.join("\n");
   if (draft.attachments.length)
@@ -657,6 +687,7 @@ function startTask(
         (kind ? resultLabels[kind] : "工作成果") +
         "。请确认后开始执行。",
     });
+  if(draft.input)task.input=structuredClone(draft.input);
   w.tasks.unshift(task);
   w.drafts[id] = newWbDraft();
   w.task = id;
@@ -680,6 +711,7 @@ function complete(s: State, t: WbTask) {
           : kind === "slides"
             ? "slides"
             : null;
+  const isRoadmap=kind==="slides"&&/roadmap/i.test(t.messages.map(m=>m.text).join(" "));
   let officeId: string | undefined;
   if (officeKind) {
     officeId = "wb-office-" + t.id;
@@ -688,27 +720,27 @@ function complete(s: State, t: WbTask) {
       id: officeId,
       kind: officeKind,
       name:
-        "澄星设计 · " +
-        resultLabels[kind] +
+        (isRoadmap?"公司 Roadmap · ":"澄星设计 · ") +
+        (isRoadmap?"公司 Roadmap":resultLabels[kind]) +
         { sheet: ".xlsx", word: ".docx", slides: ".pptx" }[officeKind],
       ...(officeKind === "sheet"
         ? { products: structuredClone(s.reportProducts) }
         : officeKind === "word"
           ? { paragraphs: [...s.paragraphs] }
-          : { slides: structuredClone(s.slides) }),
+          : { slides: isRoadmap?roadmapSlides(t.input||wbInput(w.drafts[t.id])):structuredClone(s.slides) }),
     };
     if (!old) s.officeFiles.unshift(file);
   }
   w.files.push({
     id,
     name:
-      resultLabels[kind] +
+      (isRoadmap?"公司 Roadmap":resultLabels[kind]) +
       { brief: ".md", quote: ".xlsx", proposal: ".docx", slides: ".pptx" }[
         kind
       ],
     kind: officeKind || "markdown",
-    content: c,
-    draft: newWbDraft(c),
+    content: isRoadmap?roadmapSlides(t.input||wbInput(w.drafts[t.id])).map(x=>`# ${x.title}\n${x.body}`).join("\n\n"):c,
+    draft: newWbDraft(isRoadmap?roadmapSlides(t.input||wbInput(w.drafts[t.id])).map(x=>`# ${x.title}\n${x.body}`).join("\n\n"):c),
     task: t.id,
     folder: "澄星设计",
     officeId,
@@ -725,8 +757,8 @@ function complete(s: State, t: WbTask) {
     role: "assistant",
     text:
       "已完成" +
-      resultLabels[kind] +
-      "，包含客户需求、报价与交付节点。尚未确认的信息保留为待补充。",
+      (isRoadmap?"公司 Roadmap":resultLabels[kind]) +
+      (isRoadmap?"，已采用选定主色与布局；具体排期与指标可继续编辑。":"，包含客户需求、报价与交付节点。尚未确认的信息保留为待补充。"),
   });
   w.notices.unshift({ id, text: t.title + "已完成", read: false });
 }
@@ -742,6 +774,7 @@ function saveFile(s: State, f: WbFile, text: string) {
   f.content = text;
   f.edited = true;
   if (f.kind === "word") syncOffice(s, f);
+  else if(s.workbuddy.fileBrowser?.docs[f.id]){const d=s.workbuddy.fileBrowser.docs[f.id];d.changes.push({id:f.id+"-legacy-"+d.revision,at:Date.now(),source:"文件编辑",before:structuredClone(d.saved),after:{text}});d.saved={text};d.revision++;d.savedAt=Date.now();}
 }
 const pages = Object.keys(wbLabels);
 export function workBuddyInteraction(
@@ -750,6 +783,10 @@ export function workBuddyInteraction(
 ): string | null | undefined {
   if (!c.type.startsWith("wb-")) return undefined;
   if (s.app !== "workbuddy") return "WorkBuddy 已退出";
+  const objectResult=objectInteraction(s,c);if(objectResult!==undefined)return objectResult;
+  const materialResult=materialsInteraction(s,c);if(materialResult!==undefined)return materialResult;
+  const adaptiveResult=wbAdaptiveInteraction(s,c);if(adaptiveResult!==undefined)return adaptiveResult;
+  const browserResult=fileBrowserInteraction(s,c);if(browserResult!==undefined)return browserResult;
   const w = s.workbuddy,
     v = (c.value || {}) as Record<string, unknown>,
     id = String(v.id || "");
@@ -793,6 +830,7 @@ export function workBuddyInteraction(
         if (!session || !Number.isInteger(seq) || seq < 1)
           return "编辑序号无效";
         if (session === d.session && seq <= d.sequence) return "已忽略过期编辑";
+        const fileError=fileTargetEdit(s,t.id,text);if(fileError)return fileError;
         d.text = text;
         d.revision++;
         d.sequence = seq;
@@ -801,7 +839,8 @@ export function workBuddyInteraction(
         s.switcher = null;
         return null;
       }
-      if (!text.trim() && t.id.startsWith("wb:draft:")) return "请输入内容";
+      const specialSubmit=fileTargetSubmit(s,t.id,text,c.id);if(specialSubmit!==undefined)return specialSubmit;
+      if (!text.trim() && t.id.startsWith("wb:draft:")&&!w.tasks.find(x=>x.id===w.task)?.receipts?.materials.length) return "请输入内容";
       if (t.id.startsWith("wb:draft:")) {
         const previous = w.tasks.find((x) => x.id === w.task);
         if (previous?.status === "running") return "当前任务仍在执行";
@@ -818,8 +857,12 @@ export function workBuddyInteraction(
               project: previous.project,
             }
           : undefined;
+        if(previous?.receipts)return submitMaterials(s,previous,text,c.id);
+        const adaptive=!!d.input;
+        if(adaptive)inferWbInput(d,text);
         const task = startTask(s, c.id, text, kind, config);
-        if (previous) {
+        if(previous?.status==="draft"){w.tasks=w.tasks.filter(x=>x.id!==previous.id);delete w.drafts[previous.id];}
+        if (previous&&previous.status!=="draft") {
           task.messages = [...previous.messages, ...task.messages];
           task.title = previous.title + " · 追问";
         }
@@ -827,6 +870,7 @@ export function workBuddyInteraction(
         d.revision++;
         d.attachments = [];
         d.references = [];
+        if(adaptive){w.drafts[task.id].input=structuredClone(task.input);focus(s,`wb:draft:${task.id}`,task.title);}
         return null;
       }
       const [, type, entity] = t.id.split(":");
@@ -865,6 +909,7 @@ export function workBuddyInteraction(
       return null;
     }
     case "wb-attach": {
+      if(c.targetId!==undefined&&(!s.target||s.target.id!==c.targetId||s.target.revision!==c.targetRevision||s.target.id!==`wb:draft:${w.task}`))return "任务目标已变化，文档未添加";
       const d = w.drafts[w.task];
       if (!d) return "任务不存在";
       if (!w.files.some((f) => f.id === id)) return "文件不存在";
@@ -967,6 +1012,24 @@ export function workBuddyInteraction(
       }
       if (v.action === "delete") {
         w.files = w.files.filter((x) => x.id !== id);
+        const browser = w.fileBrowser;
+        if (browser) {
+          delete browser.docs[id]; delete browser.conversations[id];
+          browser.recent = browser.recent.filter(x => x !== id);
+          for (const view of [...browser.windows, browser.panel]) {
+            delete view.working[id]; view.tabs = view.tabs.filter(x => x !== id);
+            if (view.active === id) view.active = view.tabs.at(-1) || null;
+            if (view.selection?.file === id) view.selection = null;
+          }
+          for (const [target, binding] of Object.entries(browser.bindings)) if (binding.file === id) {
+            delete browser.bindings[target]; delete w.entityDrafts[target];
+            if (s.target?.id === target) s.target = null;
+          }
+          for(const [target,object] of Object.entries(browser.objectInputs||{}))if(object.file===id){delete browser.objectInputs![target];delete w.entityDrafts[target];if(s.target?.id===target)s.target=null;}
+          browser.windows = browser.windows.filter(view => view.tabs.length);
+          browser.visible = browser.visible && browser.windows.length > 0;
+          if (s.target?.id === "wb:co:" + id) s.target = null;
+        }
         for (const task of w.tasks)
           task.files = task.files.filter((x) => x !== id);
         w.preview = w.preview.filter((x) => x !== id);

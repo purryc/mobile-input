@@ -64,3 +64,7 @@ flowchart LR
 实现：`packages/core/workbuddy.ts`；平板：`apps/web/src/workbuddy.tsx`；手机：`phone-workbuddy.tsx`；串行输入：`workbuddy-input.ts`。样例：`samples/workbuddy-demo.json`。视觉与官方差异见 `workbuddy-ia.md`；素材见 `reference/workbuddy-manifest.json`。
 
 Web 随两个 HAP 打包，原生语音／TCP 保持既有接口；不依赖电脑来执行演示任务。浏览器开发版仍需调试桥。所有下载与签名真机证据分别登记于验收文档。
+
+## 1.3.0 文件编辑与双写
+
+文件窗口、逐文件对话、选区、版本、保存与冲突采用独立状态，沿用现有原子提交和真实语音/剪贴板。协议6及命令、保存节奏、WPS互通见 [文件浏览器实施记录](workbuddy-file-browser-implementation.md)。旧任务预览的活动文件与新版panel同步，保留原任务返回层级。

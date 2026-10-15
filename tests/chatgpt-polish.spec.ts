@@ -1,0 +1,20 @@
+import {test,expect} from '@playwright/test';
+test('real polish bridge replaces text only on success, preserves undo and rejects late or cancelled output',async({browser})=>{
+ const c=await browser.newContext(),tablet=await c.newPage(),phone=await c.newPage();
+ await phone.addInitScript(()=>{const WS=window.WebSocket;window.WebSocket=class extends WS{constructor(url:string,protocols?:string|string[]){super(url,protocols);(window as any).__socket=this;}};});
+ await tablet.goto('/?bridge=5191');await tablet.getByRole('button',{name:'连接设置',exact:true}).click();const pin=(await tablet.locator('.pair-code').innerText()).trim();await phone.setViewportSize({width:390,height:844});await phone.goto('/?role=phone&bridge=5191');await phone.getByLabel('平板地址').fill('localhost');await phone.getByLabel('配对码',{exact:true}).fill(pin);await phone.getByRole('button',{name:'连接',exact:true}).click();await expect(phone.getByRole('dialog',{name:'设备连接'})).toHaveCount(0);await tablet.getByRole('button',{name:'关闭连接设置'}).click();await tablet.locator('.demo-apps').getByRole('button',{name:'WorkBuddy',exact:true}).click();await tablet.getByLabel('WorkBuddy 任务输入').click();
+ await phone.evaluate(()=>{const w=window as any;w.__polish=[];w.__cancel=[];w.MobileNative={send:(data:string)=>{w.__socket.send(data);return 'sent';},polish:(id:string,text:string,style:string)=>{w.__polish.push({id,text,style});return 'pending';},cancelPolish:(id:string)=>{w.__cancel.push(id);return 'cancelled';}};});
+ const draft=phone.getByLabel('手机 WorkBuddy 草稿'),polish=phone.locator('.real-polish');
+ const finish=async(text:string,ok=true)=>phone.evaluate(({text,ok})=>{const w=window as any,r=w.__polish.at(-1);window.dispatchEvent(new CustomEvent('native-polish',{detail:{id:r.id,ok,text:ok?text:'',error:ok?'':text}}));},{text,ok});
+ await draft.fill('嗯，明天下午两点请林经理看一下30套设备的报价。');await expect(tablet.getByLabel('WorkBuddy 任务输入')).toHaveValue(await draft.inputValue());
+ await polish.getByRole('button',{name:'精简指令',exact:true}).click();await expect(polish).toContainText('正在润色');expect(await phone.evaluate(()=>(window as any).__polish.at(-1).text)).toBe('嗯，明天下午两点请林经理看一下30套设备的报价。');
+ await finish('请林经理明天下午两点审阅30套设备的报价。');await expect(draft).toHaveValue('请林经理明天下午两点审阅30套设备的报价。');await expect(tablet.getByLabel('WorkBuddy 任务输入')).toHaveValue(await draft.inputValue());await phone.getByRole('button',{name:'撤销',exact:true}).click();await expect(draft).toHaveValue('嗯，明天下午两点请林经理看一下30套设备的报价。');
+ await draft.fill('项目：请快点回复。日期：明天。');await expect(tablet.getByLabel('WorkBuddy 任务输入')).toHaveValue(await draft.inputValue());
+ await draft.evaluate((node:HTMLTextAreaElement)=>{node.focus();node.setSelectionRange(3,8);node.dispatchEvent(new Event('select',{bubbles:true}));});
+ await polish.getByRole('button',{name:'整理要点',exact:true}).click();expect(await phone.evaluate(()=>(window as any).__polish.at(-1).text)).toBe('请快点回复');await finish('请您方便时回复');await expect(draft).toHaveValue('项目：请您方便时回复。日期：明天。');
+ await polish.getByRole('button',{name:'说清需求',exact:true}).click();await draft.fill('我又补充了一句');await finish('过期结果');await expect(draft).toHaveValue('我又补充了一句');expect(await phone.evaluate(()=>(window as any).__cancel.length)).toBeGreaterThan(0);
+ await polish.getByRole('button',{name:'整理要点',exact:true}).click();await polish.getByRole('button',{name:'取消',exact:true}).click();await finish('已取消结果');await expect(draft).toHaveValue('我又补充了一句');
+ await polish.getByRole('button',{name:'说清需求',exact:true}).click();await finish('授权已失效，请重新登录',false);await expect(polish.getByRole('alert')).toContainText('授权已失效');await expect(draft).toHaveValue('我又补充了一句');
+ await polish.getByRole('button',{name:'说清需求',exact:true}).click();await phone.getByRole('button',{name:'新建输入任务'}).click();await finish('旧目标结果');await expect(draft).toHaveValue('');await expect(tablet.locator('.wb-message.user')).toHaveCount(0);
+ await c.close();
+});

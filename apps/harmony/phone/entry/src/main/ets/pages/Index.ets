@@ -13,8 +13,9 @@ struct Index {
  onBackPress():boolean {if(this.pasteRequest){this.bridge.cancelPaste(this.pasteRequest);this.pasteRequest='';return true;}this.controller.runJavaScript("window.dispatchEvent(new Event('native-back'))");return true;}
  aboutToDisappear():void {this.bridge.close();}
  build(){Stack(){Web({src:LOCAL_ORIGIN+'index.html',controller:this.controller}).width('100%').height('100%').javaScriptAccess(true).domStorageAccess(true).fileAccess(false)
+ .onInterceptKeyboardAttach((event:WebKeyboardCallbackInfo):WebKeyboardOptions=>{return {useSystemKeyboard:event.attributes['inputmode']!=='none'};})
  .onInterceptRequest(event=>localResponse(event.request.getRequestUrl(),this.getUIContext().getHostContext() as common.UIAbilityContext))
- .javaScriptProxy({object:this.bridge,name:'MobileNative',methodList:['layoutInsets','presentationMotion','gameLayout','clipboard','role','host','connect','discover','send','scan','startRecognition','stopRecognition','cancelRecognition'],controller:this.controller})
+ .javaScriptProxy({object:this.bridge,name:'MobileNative',methodList:['aiControl','polish','cancelPolish','capture','captureResult','clearCapture','layoutInsets','inputTheme','presentationMotion','gameLayout','clipboard','role','host','connect','discover','send','scan','startRecognition','stopRecognition','cancelRecognition'],controller:this.controller})
  .onPageEnd(()=>{this.bridge.ready();})
  if(this.pasteRequest){
   Column({space:20}){

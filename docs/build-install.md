@@ -32,11 +32,11 @@ HDC=/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/toolchains/
 
 ## 语音验收
 
-手机需授予麦克风权限。默认普通话、本机引擎优先；不可用时手机显示失败原因，用户可点「使用系统在线识别」。使用在线识别需设备可联网。微信录音转写实时镜像到平板高亮草稿，停止不会发送聊天消息；其他场景仍显式写入。使用本人新说的一句话验证，记录真实转写结果，不用内置文字代替。
+手机需授予麦克风权限。默认普通话、本机引擎优先；不可用时手机显示失败原因，用户可点「使用系统在线识别」。使用在线识别需设备可联网。微信录音转写实时镜像到平板高亮草稿，停止不会发送聊天消息；普通字段也实时同步，只有微信/弹幕发送及 WorkBuddy 提交继续显式执行。天生会画无文字焦点时，明确的单一命令在成功识别结束后直接执行；含糊或否定内容提供操作选择。使用本人新说的一句话验证，记录真实转写结果，不用内置文字代替。
 
 ## 无电脑验收
 
-先停止电脑上的 `npm run bridge` / `npm run dev`，拔掉两台设备 USB；保持同一 Wi-Fi 或热点，在设备桌面启动两个 HAP。完整执行 README 演示路径，包括真实语音、两端翻页、断线恢复和游戏松手释放。当前尚未完成此项，不用浏览器结果替代。
+先停止电脑上的 `npm run bridge` / `npm run dev`，拔掉两台设备 USB；保持同一 Wi-Fi 或热点，在设备桌面启动两个 HAP。完整执行 README 演示路径，包括真实语音、两端翻页、断线恢复和游戏松手释放。各版本是否完成此项，以对应版本验收记录为准；1.4.0 见 `docs/paint-input-update.md`，不用浏览器结果替代。
 
 ## 数据重置与导出
 
@@ -48,3 +48,12 @@ HDC=/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/toolchains/
 普通签名声明 `ohos.permission.READ_PASTEBOARD` 会导致安装错误 9568289。本版移除该受限权限，使用原生 `PasteButton` 临时授权读取。写入使用系统剪贴板；剪切等待复制成功才删除。参考 [华为粘贴控件文档](https://developer.huawei.com/consumer/cn/doc/harmonyos-guides/pastebutton)。
 
 最新分层证据以 [本轮验收](validation-2026-10-08.md) 为准；历史记录中的“手机未签名”是旧状态。
+
+
+## 单手机原生诊断桥（开发检查）
+
+`scripts/dev-native-bridge.mjs` 仅监听本机回环地址，把浏览器平板的权威状态连接到原生手机。先启动 Vite，再运行 `node scripts/dev-native-bridge.mjs`，浏览器平板打开 `http://localhost:5188/?bridge=5193`。HDC 使用 `rport tcp:39871 tcp:39871` 将手机回环端口映射到电脑；手机填写 `127.0.0.1` 和该浏览器平板显示的当前配对码。安装后需重新检查映射。
+
+覆盖安装使用 HAP 的绝对路径，并核对工具明确返回 `install bundle successfully`、设备 `bm dump` 的版本和更新时间。没有输出不算成功。
+
+此方式可以验证手机系统相机入口、剪贴板、软键盘安全区与原生 TCP 输入；不能证明 MRDI-W10 窗口采集或两台鸿蒙设备拔 USB 后的连接。结束后断开诊断配对、移除对应 HDC 映射并停止本次桥接进程；正常使用时改回平板地址／配对码。不要把诊断地址写成生产默认值。

@@ -1,16 +1,19 @@
+import {restorePaint} from '../../../packages/core/paint';
+import {restoreBilibili} from '../../../packages/core/bilibili';
+import { browserState, saveBrowserFile, fileDirty } from '../../../packages/core/workbuddy-files';
 import {restoreWorkBuddy} from '../../../packages/core/workbuddy';
 import {setChatContext} from '../../../packages/core/interactions';
 import {migrateChat,migrateSpeakerNotes} from '../../../packages/core/migrate';
 import {useSyncExternalStore} from 'react';
 import {Store,initialState,describe,type State,type Command,type Ack} from '../../../packages/core/model';
-export interface Native {layoutInsets?():string;presentationMotion?(id:string,operation:string):string;gameLayout?(enabled:boolean):string;clipboard(id:string,operation:string,text:string):string;role():string;host(pin:string):string;connect(address:string,pin:string):string;discover():string;send(data:string):string;scan():string;startRecognition(id:string,online:boolean):string;stopRecognition(id:string):string;cancelRecognition(id:string):string;}
+export interface Native {aiControl?(operation:string):string;polish?(id:string,text:string,style:string):string;cancelPolish?(id:string):string;inputTheme?(dark:boolean):string;captureResult?(id:string):string;clearCapture?(id:string):string;capture?(id:string,kind:string):string;layoutInsets?():string;presentationMotion?(id:string,operation:string):string;gameLayout?(enabled:boolean):string;clipboard(id:string,operation:string,text:string):string;role():string;host(pin:string):string;connect(address:string,pin:string):string;discover():string;send(data:string):string;scan():string;startRecognition(id:string,online:boolean,manual?:boolean):string;stopRecognition(id:string):string;cancelRecognition(id:string):string;}
 declare global {interface Window {MobileNative?:Native;}}
 export const role=window.MobileNative?.role()==='phone'||location.hash.includes('phone')||new URLSearchParams(location.search).get('role')==='phone'?'phone':'tablet';
 const pinArray=new Uint32Array(1);crypto.getRandomValues(pinArray);
 export const uid=()=>Array.from(crypto.getRandomValues(new Uint32Array(4)),n=>n.toString(16).padStart(8,'0')).join('');
 export const pin=String(100000+pinArray[0]%900000);
 const store=new Store(load());
-function load():State {try {const saved=JSON.parse(localStorage.getItem('mobile-input-state-v1')||'null');if(saved?.products&&saved?.slides){const base=initialState();if(!saved.officeFiles){base.officeFiles[0].products=structuredClone(saved.products);base.officeFiles[1].paragraphs=structuredClone(saved.paragraphs||base.paragraphs);base.officeFiles[2].slides=structuredClone(saved.slides);if(saved.texts?.['wechat-draft'])base.chat.drafts['wx-boss'].text=saved.texts['wechat-draft'];}let next={...base,...saved,presentation:{...base.presentation,...saved.presentation,runningSince:0,captions:base.presentation.captions,live:null,pointer:base.presentation.pointer},gameKeys:[],presenting:false,target:null,switcher:null};try{const backup=(key:string,value:string)=>{if(!localStorage.getItem(key))localStorage.setItem(key,value);};next=migrateChat(next,backup);next=migrateSpeakerNotes(next,backup);if(!saved.workbuddy)delete (next as Partial<State>).workbuddy;next=restoreWorkBuddy(next,backup);localStorage.setItem('mobile-input-state-v1',JSON.stringify(next));}catch{console.error('场景备份失败，已保留旧聊天');if(!next.workbuddy)next.workbuddy=base.workbuddy;}if(next.app==='slides'){next.slide=0;next.presentation.lastSlide=0;next.presentation.elapsed=0;next.presentation.session=uid();next.startedAt=Math.max(Date.now(),next.startedAt+1);}if(next.app==='wechat'){next.chat.activation=null;next.chat.conversation='wx-boss';setChatContext(next,'wx-boss',uid());}return next;};}catch{}return initialState();}
+function load():State {try {const saved=JSON.parse(localStorage.getItem('mobile-input-state-v1')||'null');if(saved?.products&&saved?.slides){const base=initialState();if(!saved.officeFiles){base.officeFiles[0].products=structuredClone(saved.products);base.officeFiles[1].paragraphs=structuredClone(saved.paragraphs||base.paragraphs);base.officeFiles[2].slides=structuredClone(saved.slides);if(saved.texts?.['wechat-draft'])base.chat.drafts['wx-boss'].text=saved.texts['wechat-draft'];}let next={...base,...saved,bilibili:restoreBilibili(saved.bilibili),capture:null,presentation:{...base.presentation,...saved.presentation,runningSince:0,captions:base.presentation.captions,live:null,pointer:base.presentation.pointer},gameKeys:[],presenting:false,target:null,switcher:null};try{const backup=(key:string,value:string)=>{if(!localStorage.getItem(key))localStorage.setItem(key,value);};if(!saved.paint)delete (next as Partial<State>).paint;restorePaint(next,backup);next.editSession=undefined;next.inputPointer=undefined;next=migrateChat(next,backup);next=migrateSpeakerNotes(next,backup);if(!saved.workbuddy)delete (next as Partial<State>).workbuddy;next=restoreWorkBuddy(next,backup);localStorage.setItem('mobile-input-state-v1',JSON.stringify(next));}catch{console.error('场景备份失败，已保留旧聊天');if(!next.workbuddy)next.workbuddy=base.workbuddy;}if(next.app==='slides'){next.slide=0;next.presentation.lastSlide=0;next.presentation.elapsed=0;next.presentation.session=uid();next.startedAt=Math.max(Date.now(),next.startedAt+1);}if(next.app==='wechat'){next.chat.activation=null;next.chat.conversation='wx-boss';setChatContext(next,'wx-boss',uid());}return next;};}catch{}return initialState();}
 let snap={state:store.state,connected:false,status:role==='tablet'?'等待手机连接':'未连接',address:'',toast:'',pin};
 const listeners=new Set<()=>void>();
 function notify(){snap={...snap};for(const f of listeners)f();}
@@ -19,24 +22,35 @@ export function toast(t:string){snap.toast=t;notify();setTimeout(()=>{if(snap.to
 const requestedPort=Number(new URLSearchParams(location.search).get('bridge'));
 const bridgePort=Number.isInteger(requestedPort)&&requestedPort>0&&requestedPort<65536?requestedPort:5189;
 let ws:WebSocket|undefined;let credentials:{address:string;pin:string}|undefined;let reconnect:ReturnType<typeof setTimeout>|undefined;let saveTimer:ReturnType<typeof setTimeout>;
-const pending=new Map<string,{resolve:(a:Ack)=>void;timer:ReturnType<typeof setTimeout>;failureKey?:string}>();
+const pending=new Map<string,{resolve:(a:Ack)=>void;timer:ReturnType<typeof setTimeout>;failureKey?:string;ack?:Ack}>();
 const reportedGestures=new Set<string>();
 function commandError(message:string,key?:string){if(key){if(reportedGestures.has(key))return;reportedGestures.add(key);if(reportedGestures.size>64)reportedGestures.delete(reportedGestures.values().next().value!);}toast(message);}
-function transmit(data:unknown){const text=JSON.stringify(data);if(window.MobileNative)return window.MobileNative.send(text)==='sent';if(ws?.readyState===1){ws.send(text);return true;}return false;}
+function transmit(data:unknown){const text=JSON.stringify(data);if(window.MobileNative?.send)return window.MobileNative.send(text)==='sent';if(ws?.readyState===1){ws.send(text);return true;}return false;}
 function publish(){snap.state=store.state;notify();transmit({kind:'snapshot',state:store.state,context:describe(store.state)});clearTimeout(saveTimer);saveTimer=setTimeout(()=>localStorage.setItem('mobile-input-state-v1',JSON.stringify({...store.state,gameKeys:[]})),300);}
-function saveCritical(type:string,ok:boolean){if(!ok||!type.startsWith('wb-')||['wb-edit','wb-focus'].includes(type))return;clearTimeout(saveTimer);try{localStorage.setItem('mobile-input-state-v1',JSON.stringify({...store.state,gameKeys:[]}));}catch{toast('本地保存失败，请导出数据');}}
+function saveCritical(type:string,ok:boolean){if(!ok||!type.startsWith('paint-')&&!type.startsWith('wb-')&&!type.startsWith('bili-')||['wb-edit','wb-focus'].includes(type))return;clearTimeout(saveTimer);try{localStorage.setItem('mobile-input-state-v1',JSON.stringify({...store.state,gameKeys:[]}));}catch{toast('本地保存失败，请导出数据');}}
 function receive(m:{kind:string;state?:State;command?:Command;ack?:Ack;message?:string}){
  if(m.kind==='connected'){connected();return;}
  if(m.kind==='disconnected'){disconnected();return;}
  if(m.kind==='error'){snap.status=m.message||'连接失败';notify();return;}
  if(m.kind==='sync'&&role==='tablet'){transmit({kind:'snapshot',state:store.state,context:describe(store.state)});return;}
- if(m.kind==='command'&&role==='tablet'&&m.command){if(['chat-read-stage','present-volume-result','wb-tick'].includes(m.command.type))return;const ack=store.dispatch(m.command);publish();saveCritical(m.command.type,ack.ok);transmit({kind:'ack',ack});}
- if(m.kind==='snapshot'&&role==='phone'&&m.state){snap.state=m.state;notify();}
- if(m.kind==='ack'&&m.ack){const p=pending.get(m.ack.id);if(p){clearTimeout(p.timer);pending.delete(m.ack.id);p.resolve(m.ack);if(!m.ack.ok)commandError(m.ack.error||'操作失败',p.failureKey);}}
+ if(m.kind==='command'&&role==='tablet'&&m.command){if(['capture-started',...(snap.state.capture?.kind==='camera'?[]:['capture-ready','capture-failed']),'chat-read-stage','present-volume-result','wb-tick','wb-fb-ai-finish','bili-time'].includes(m.command.type))return;const ack=store.dispatch(m.command);publish();if(!ack.ok&&m.command.type.startsWith('bili-'))toast(ack.error||'视频操作失败');saveCritical(m.command.type,ack.ok);transmit({kind:'ack',ack});}
+ if(m.kind==='snapshot'&&role==='phone'&&m.state){
+  // A late snapshot must never roll back a draft or selected target.
+  if(m.state.startedAt===snap.state.startedAt&&m.state.revision<snap.state.revision)return;
+  snap.state=m.state;notify();for(const id of pending.keys())settleReceipt(id);
+ }
+ if(m.kind==='ack'&&m.ack){const p=pending.get(m.ack.id);if(p){p.ack=m.ack;settleReceipt(m.ack.id);}}
+
 }
-function connected(){snap.connected=true;snap.status='已连接';notify();if(role==='tablet')publish();else transmit({kind:'sync'});}
+// Native delivery of an ack and a large snapshot can complete independently.
+// Resolve successful writes only once their authoritative state is available.
+function settleReceipt(id:string){const p=pending.get(id),ack=p?.ack;if(!p||!ack)return;
+ if(ack.ok&&snap.state.revision<ack.revision)return;
+ clearTimeout(p.timer);pending.delete(id);p.resolve(ack);if(!ack.ok)commandError(ack.error||'操作失败',p.failureKey);
+}
+function connected(){clearTimeout(reconnect);snap.connected=true;snap.status='已连接';notify();if(role==='tablet')publish();else transmit({kind:'sync'});}
 function disconnected(){snap.connected=false;snap.status='连接已断开，正在重新连接';if(role==='tablet'){store.dispatch({id:uid(),type:'release'});snap.state=store.state;}notify();for(const [id,p] of pending){clearTimeout(p.timer);p.resolve({id,ok:false,error:'连接中断，请核对平板结果',revision:snap.state.revision});}pending.clear();if(role==='phone'&&credentials){clearTimeout(reconnect);reconnect=setTimeout(()=>connect(credentials!.address,credentials!.pin),2500);}else if(role==='tablet'&&!window.MobileNative&&ws?.readyState!==1){clearTimeout(reconnect);reconnect=setTimeout(()=>startWeb(pin),2500);}}
-export async function command(type:string,value?:unknown,anchor?:{targetId?:string;targetRevision?:number;app?:State['app']}):Promise<Ack>{const c:Command={id:uid(),type,value,app:snap.state.app,sessionId:snap.state.startedAt,...anchor};if(role==='tablet'){const ack=store.dispatch(c);if(!ack.ok)toast(ack.error||'操作失败');publish();saveCritical(type,ack.ok);return ack;}
+export async function command(type:string,value?:unknown,anchor?:{id?:string;targetId?:string;targetRevision?:number;app?:State['app']}):Promise<Ack>{const c:Command={id:uid(),type,value,app:snap.state.app,sessionId:snap.state.startedAt,...anchor};if(role==='tablet'){const ack=store.dispatch(c);if(!ack.ok)toast(ack.error||'操作失败');publish();saveCritical(type,ack.ok);return ack;}
  if(!snap.connected){toast('尚未连接，输入已保留');return {id:c.id,ok:false,error:'未连接',revision:snap.state.revision};}
  const failureKey=type.startsWith('present-')&&value&&typeof value==='object'&&'gesture' in value?String(value.gesture):undefined;
  return new Promise(resolve=>{const timer=setTimeout(()=>{pending.delete(c.id);resolve({id:c.id,ok:false,error:'未收到回执，请核对平板',revision:snap.state.revision});commandError('未收到回执，请核对平板',failureKey);transmit({kind:'sync'});},4000);pending.set(c.id,{resolve,timer,failureKey});transmit({kind:'command',command:c});});}
@@ -63,3 +77,5 @@ window.addEventListener('native-back',navigateBack);
 export function currentState(){return snap.state;}
 
 setInterval(()=>{if(role!=='tablet'||document.hidden||snap.state.app!=='workbuddy')return;for(const task of [...store.state.workbuddy.tasks])if(task.status==='running'&&Date.now()-task.startedAt>=750)command('wb-tick',{id:task.id,epoch:task.epoch});const now=new Date();for(const a of [...store.state.workbuddy.automations])if(a.enabled&&a.lastDay!==now.toLocaleDateString('en-CA')&&a.days.includes(now.getDay())&&a.time===now.toTimeString().slice(0,5))command('wb-automation',{id:a.id,action:'due'});},1000);
+
+setInterval(()=>{if(role!=="tablet"||document.hidden||snap.state.app!=="workbuddy")return;const b=browserState(store.state);if(!b)return;for(const [file,co]of Object.entries(b.conversations))if(co.pending&&Date.now()-co.pending.at>=700)command("wb-fb-ai-finish",{file,epoch:co.pending.id});for(const view of [...b.windows,b.panel])for(const file of view.tabs){const format=store.state.workbuddy.files.find(f=>f.id===file)?.kind,a=view.working[file];if(a&&["markdown","text"].includes(format||"")&&Date.now()-a.changedAt>=500&&fileDirty(store.state,view,file)&&a.base===b.docs[file]?.revision)command("wb-fb-save",{view:view.id,file,source:"自动保存"});}},100);

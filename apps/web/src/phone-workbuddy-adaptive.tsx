@@ -1,0 +1,78 @@
+import {PolishControls} from './ai-polish';
+import {InputDock} from './input-dock';
+import {CapturePanel,CaptureAttachments} from './capture-panel';
+import {useEffect,useRef,useState} from 'react';
+import * as I from 'lucide-react';
+import {workBuddyIntents,type AuxiliaryKind} from '../../../packages/core/workbuddy-intents';
+import {beginNativePhoto} from './native-photo-state';
+import {initialWbInput} from '../../../packages/core/workbuddy-input';
+import {command,currentState,useRuntime} from './runtime';
+import {useWorkBuddyInput} from './workbuddy-input';
+import {usePhoneEditing} from './use-phone-editing';
+import {ConnectionButton,useConnectionPrompt} from './connection-access';
+import {SwitchButton} from './phone-wechat';
+import {usePhoneInsets} from './phone-insets';
+import {WorkBuddyReceiptTools} from './workbuddy-receipt-tools';
+import {WorkBuddyColorPicker} from './workbuddy-color-picker';
+import './bilibili.css';
+import './phone-workbuddy-adaptive.css';
+const asset=(name:string)=><img className="wb-intent-icon" src={`./assets/figma/intent/${name}.svg`} alt=""/>;
+const labels={"needs-materials":"待补材料",approval:"等待批准",draft:'草稿',running:'执行中',paused:'已停止',planned:'待审批',complete:'已完成','needs-type':'待澄清'};
+export function PhoneWorkBuddyAdaptive(){
+ const openConnection=useConnectionPrompt();
+ const r=useRuntime(),s=r.state,w=s.workbuddy,t=s.target!,task=w.tasks.find(x=>x.id===w.task),draft=w.drafts[w.task],params=draft.input||initialWbInput();
+ const editor=useWorkBuddyInput(t.id,t.label),area=useRef<HTMLTextAreaElement>(null),editing=usePhoneEditing(editor.text,editor.update,area,t.id,r.connected&&!editor.blocked);
+ const [hex,setHex]=useState(params.color?.hex||'#E03131'),[hexError,setHexError]=useState(''),[tool,setTool]=useState<AuxiliaryKind|null>(null),[stableText,setStableText]=useState(editor.text),[chosenFile,setChosenFile]=useState(''),[strokes,setStrokes]=useState<number[][][]>(params.sketch.strokes),[drawing,setDrawing]=useState(false),[eraser,setEraser]=useState(false),[mode,setMode]=useState<'keyboard'|'trackpad'|null>(params.mode),[capture,setCapture]=useState(false),[menuError,setMenuError]=useState('');
+ const sketchOpen=tool==='sketch';const setSketchOpen=(open:boolean)=>setTool(open?'sketch':null);
+ const binding={task:w.task,target:t.id,targetRevision:t.revision,inputRevision:draft.revision};
+ const liveIntents=workBuddyIntents(editor.text,binding);
+ const colorIntent=liveIntents.find(x=>x.kind==='color');
+ const knownColor=workBuddyIntents(stableText,binding).find(x=>x.kind==='color');
+ const colorLoading=r.connected&&!editor.blocked&&!!colorIntent&&colorIntent.phrase!==knownColor?.phrase;
+ const intents=liveIntents.filter(x=>workBuddyIntents(stableText,binding).some(old=>old.kind===x.kind&&old.phrase===x.phrase));
+ const svg=useRef<SVGSVGElement>(null),raw=useRef(strokes),gesture=useRef(false),active=useRef(true),busy=useRef(false),paramChain=useRef<Promise<void>>(Promise.resolve()),track=useRef({x:0,at:0});raw.current=strokes;
+ function parameter(value:Record<string,unknown>){
+  const apply=async()=>{if(!active.current||!r.connected||editor.blocked)return;busy.current=true;try{await editor.flush();const now=currentState();if(now.target?.id!==t.id||now.target.revision!==t.revision||now.workbuddy.task!==w.task)return;const d=now.workbuddy.drafts[w.task];const result=await command('wb-input',{...value,revision:d.input?.revision||0,draftRevision:d.revision},{app:'workbuddy',targetId:t.id,targetRevision:t.revision});if(active.current){if(result.ok)setMenuError('');else if(!(value.action==='infer'&&result.error==='意图结果已过期'))setMenuError(result.error||'参数未保存');}}finally{busy.current=false;}};
+  paramChain.current=paramChain.current.then(apply);return paramChain.current;
+ }
+
+ useEffect(()=>{active.current=true;return()=>{active.current=false;};},[]);
+ useEffect(()=>{if(params.color)setHex(params.color.hex);},[params.color?.hex]);
+ useEffect(()=>{if(!r.connected||drawing||gesture.current||editor.blocked||editing.speech!=='idle')return;const timer=setTimeout(()=>{setStableText(editor.text);void parameter({action:'infer'});},colorLoading?900:420);return()=>clearTimeout(timer);},[editor.text,drawing,editing.speech,r.connected,editor.blocked]);
+ useEffect(()=>{if(drawing||editing.speech!=='idle')return;if(tool&&!liveIntents.some(x=>x.kind===tool)&&!(tool==='sketch'&&params.sketch.strokes.length))setTool(null);},[editor.text,drawing,editing.speech]);
+ useEffect(()=>{if(!r.connected){setTool(null);setStableText(editor.text);}},[r.connected]);
+ function openIntent(kind:AuxiliaryKind){if(!r.connected||editor.blocked||editing.speech!=='idle'||drawing)return;if(!liveIntents.some(x=>x.kind===kind))return;area.current?.blur();if(kind==='camera'&&window.MobileNative){beginNativePhoto();return;}setTool(kind);if(kind==='camera')setCapture(true);}
+
+ useEffect(()=>{if(!drawing)setStrokes(params.sketch.strokes);},[params.sketch.strokes]);
+ function changeColor(value:string){setHex(value);if(!/^#[0-9a-f]{6}$/i.test(value)){setHexError('请输入六位 HEX 色值');return;}setHexError('');void parameter({action:'color',hex:value});}
+ const point=(e:React.PointerEvent<SVGSVGElement>)=>{const b=e.currentTarget.getBoundingClientRect();return [Math.max(0,Math.min(1,(e.clientX-b.x)/b.width)),Math.max(0,Math.min(1,(e.clientY-b.y)/b.height))];};
+ function begin(e:React.PointerEvent<SVGSVGElement>){e.preventDefault();e.currentTarget.setPointerCapture(e.pointerId);gesture.current=true;setDrawing(true);const p=point(e);if(eraser){const next=raw.current.filter(stroke=>!stroke.some(q=>Math.hypot(p[0]-q[0],p[1]-q[1])<.06));raw.current=next;setStrokes(next);}else{const next=[...raw.current,[p]];raw.current=next;setStrokes(next);}}
+ function move(e:React.PointerEvent<SVGSVGElement>){if(!gesture.current)return;const p=point(e);const next=eraser?raw.current.filter(stroke=>!stroke.some(q=>Math.hypot(p[0]-q[0],p[1]-q[1])<.06)):raw.current.map((x,i)=>i===raw.current.length-1?[...x,p].slice(-2000):x);raw.current=next;setStrokes(next);}
+ function end(){if(!gesture.current)return;gesture.current=false;setDrawing(false);void parameter({action:'sketch',strokes:raw.current});}
+ async function confirmSketch(){await parameter({action:'sketch',strokes:raw.current});await parameter({action:'sketch-confirm'});if(currentState().workbuddy.drafts[w.task]?.input?.sketch.confirmed)setSketchOpen(false);}
+ async function switchTask(id?:string){editing.cancel();await paramChain.current;await editor.flush();if(id==='receipt-demo')await command('wb-material-task');else await command('wb-input-task',id?{id}:{action:'new'});}
+ const send=async()=>{editing.cancel();await paramChain.current;if(active.current)await editor.submit();};
+ const tasks=[...((w.task==='new'||w.drafts.new.text)?[{id:'new',title:/roadmap/i.test(w.drafts.new.text)?'公司 Roadmap PPT':'新建任务',status:'draft' as const}]:[]),...w.tasks.filter(x=>x.receipts),...(!w.tasks.some(x=>x.receipts)?[{id:'receipt-demo',title:'整理演示票据',status:'needs-materials' as const}]:[]),...w.tasks.filter(x=>!x.receipts)];
+ async function materialAction(type:string,value:Record<string,unknown>){editing.cancel();await editor.flush();if(!active.current)return;const state=currentState(),current=state.workbuddy.tasks.find(x=>x.id===w.task);if(!current?.receipts||state.target?.id!==t.id)return;const ack=await command(type,{...value,task:w.task,revision:current.receipts.revision},{app:'workbuddy',targetId:t.id,targetRevision:t.revision});if(!ack.ok)setMenuError(ack.error||'请求未完成');else setMenuError('');}
+ const contentTools=task?.receipts?<WorkBuddyReceiptTools task={task} onAction={materialAction} onCamera={()=>setCapture(true)}/>:sketchOpen?<section className="wb-adaptive-sketch"><header><button aria-label="画笔" aria-pressed={!eraser} onClick={()=>setEraser(false)}>{asset('pencil')}</button><button aria-label="橡皮擦" aria-pressed={eraser} onClick={()=>setEraser(true)}>{asset('eraser')}</button><button aria-label="撤销笔迹" disabled={!strokes.length} onClick={()=>{const next=strokes.slice(0,-1);setStrokes(next);void parameter({action:'sketch',strokes:next});}}><img className="wb-intent-icon" src="./assets/figma/input-dock/undo.svg" alt=""/></button><button aria-label="清空草图" disabled={!strokes.length} onClick={()=>{setStrokes([]);void parameter({action:'sketch',strokes:[]});}}><img className="wb-intent-icon" src="./assets/figma/input-dock/delete.svg" alt=""/></button><span/><button aria-label="关闭画板" onClick={()=>setTool(null)}>{asset('close')}</button></header><svg ref={svg} viewBox="0 0 330 240" preserveAspectRatio="none" role="img" aria-label="任务手绘画板" onPointerDown={begin} onPointerMove={move} onPointerUp={end} onPointerCancel={end} onLostPointerCapture={end}>{strokes.map((p,i)=><polyline key={i} points={p.map(([x,y])=>`${x*330},${y*240}`).join(' ')} fill="none" stroke="#157b74" strokeWidth="2" strokeLinejoin="round" strokeLinecap="round"/>)}</svg><footer className="wb-aux-confirm"><button aria-label="确认草图" disabled={!strokes.some(x=>x.length>1)||drawing} onClick={confirmSketch}>{asset('check')}</button></footer></section>:tool==='color'&&params.color?<section className="wb-adaptive-color"><header className="wb-aux-header"><h2>主色</h2><button aria-label="关闭调色" onClick={()=>setTool(null)}>{asset('close')}</button></header><div className="wb-aux-body"><div className="wb-color-presets">{['#FFA8A8','#FF6B6B','#E03131','#C92A2A','#A51127'].map(c=><button aria-label={'主色 '+c} key={c} onClick={()=>changeColor(c)}><i style={{background:c}}/></button>)}</div><WorkBuddyColorPicker value={params.color.hex} onChange={changeColor} onActive={active=>{gesture.current=active;setDrawing(active);}}/><label><input aria-label="主色 HEX" value={hex} onChange={e=>changeColor(e.target.value)}/><i style={{background:params.color.hex}}/></label>{hexError&&<small role="alert">{hexError}</small>}</div></section>:tool==='document'?<section className="wb-document-picker"><header className="wb-aux-header"><h2>添加文档</h2><button aria-label="关闭文档选择" onClick={()=>setTool(null)}>{asset('close')}</button></header><div className="wb-aux-body">{w.files.filter(f=>f.kind!=='image'&&f.kind!=='video').map(f=><button key={f.id} aria-pressed={chosenFile===f.id} onClick={()=>setChosenFile(f.id)}>{asset('document')}{f.name}</button>)}</div><footer className="wb-aux-confirm"><button aria-label="确认添加文档" disabled={!chosenFile||!r.connected} onClick={async()=>{const ack=await command('wb-attach',{id:chosenFile},{app:'workbuddy',targetId:t.id,targetRevision:t.revision});if(ack.ok)setTool(null);else setMenuError(ack.error||'文档未添加');}}>{asset('check')}</button></footer></section>:null;
+ return <main className="bili-phone wb-adaptive-phone" style={usePhoneInsets()}>
+  <header className="adaptive-status"><img src="./assets/apps/workbuddy.svg" alt=""/><div><b>WorkBuddy</b><small>{r.connected?'已连接':'连接已断开'}</small></div><SwitchButton beforeSwitch={editing.cancel}/><ConnectionButton/></header>
+  <nav className="wb-adaptive-tasks"><div className="wb-task-strip">{tasks.map(x=><button key={x.id} className={x.id===w.task?'current':''} onClick={()=>switchTask(x.id)}><span>{x.title}</span><small><i data-status={x.status}/>{labels[x.status]}</small></button>)}</div><button aria-label="新建输入任务" onClick={()=>switchTask()}><I.Plus size={21}/><small>新建</small></button></nav>
+  {task&&['running','paused','planned','needs-type'].includes(task.status)&&<div className="wb-adaptive-state"><span>{labels[task.status]}</span>{['running','paused','planned'].includes(task.status)&&<button onClick={()=>command('wb-task',{id:task.id,action:task.status==='running'?'stop':task.status==='planned'?'confirm':'continue'})}>{task.status==='running'?'停止':task.status==='planned'?'确认执行':'继续'}</button>}{task.status==='needs-type'&&['brief','quote','proposal','slides'].map((kind,i)=><button key={kind} onClick={()=>command('wb-task',{id:task.id,action:'type',kind})}>{['简报','报价','方案','演示'][i]}</button>)}</div>}
+  <div className={'wb-adaptive-middle '+(sketchOpen?'sketch-open':'')}>{contentTools}
+   <section className="bili-phone-composer wb-adaptive-composer">
+    {(!r.connected||editor.blocked)&&<div className="bili-target-warning" role="status">{r.connected?editor.blockReason:"连接中断，文字可继续编辑，暂未同步"}<button onClick={()=>r.connected?editor.recover():openConnection?.()}>{r.connected?"恢复到当前目标":"重新连接"}</button></div>}
+    {params.sketch.confirmed&&<div className="wb-composer-attachments"><div className="wb-sketch-card"><button className="wb-sketch-attachment" aria-label="编辑手绘附件" disabled={!r.connected||editor.blocked||drawing} onClick={()=>{setSketchOpen(true);void parameter({action:'sketch-edit'});}}><svg viewBox="0 0 100 60" aria-hidden="true">{params.sketch.strokes.map((p,i)=><polyline key={i} points={p.map(([x,y])=>`${x*100},${y*60}`).join(' ')} fill="none" stroke="#146c64" strokeWidth="1.5"/>)}</svg><span>布局草图</span></button><button className="wb-attachment-remove" aria-label="删除手绘附件" disabled={!r.connected||editor.blocked||drawing} onClick={()=>void parameter({action:'sketch-remove'})}><I.X size={16}/></button></div></div>}
+    <div className="wb-recognition-field">
+     <div className="wb-recognition-mirror" aria-hidden="true">{colorLoading&&colorIntent?<>{editor.text.slice(0,colorIntent.start)}<mark data-recognizing="color">{colorIntent.phrase}</mark>{editor.text.slice(colorIntent.end)}{'\n'}</>:null}</div>
+     <textarea ref={area} aria-label="手机 WorkBuddy 草稿" value={editor.text} placeholder={task?.receipts?(task.receipts.request?.status==='pending'?'补充条件…':'补充材料说明…'):'描述你要完成的任务…'} onFocus={()=>{editor.focus();command('switch-cancel');}} onScroll={e=>{const mirror=e.currentTarget.previousElementSibling as HTMLElement|null;if(mirror)mirror.scrollTop=e.currentTarget.scrollTop;}} onSelect={editing.select} onChange={e=>{editing.selection.current={start:e.target.selectionStart,end:e.target.selectionEnd};editing.change(e.target.value);}}/>
+    </div>
+    <div className="wb-intent-chips">{intents.filter(x=>x.kind!=='color'||params.color).map(x=><button key={x.kind} className="wb-intent-chip" aria-label={x.label} aria-pressed={tool===x.kind} disabled={!r.connected||editor.blocked||editing.speech!=='idle'||drawing} onClick={()=>openIntent(x.kind)} data-intent-source={x.phrase}>{x.kind==='color'?<i style={{background:params.color!.hex}}/>:asset(x.kind==='sketch'?'pencil':x.kind)}<span>{x.label}</span>{asset('chevron')}</button>)}</div>
+    <div className="wb-inline-parameters">{draft.attachments.map(id=><button key={id} onClick={()=>command('wb-attach',{id,remove:true})}><I.FileText size={18}/>{w.files.find(f=>f.id===id)?.name}</button>)}</div>
+    <CaptureAttachments/>{editing.polish&&<PolishControls editing={editing}/>}
+    <footer>{task?.receipts?<button aria-label="添加演示票据" disabled={task.status==='complete'} onClick={()=>materialAction('wb-material',{action:'add',material:'demo-receipts'})}><I.Paperclip size={20}/></button>:null}<span/><button className="bili-send" aria-label="发送任务" disabled={editor.busy||editor.blocked||!r.connected||(!editor.text.trim()&&(!task?.receipts?.materials.length||task.status==='approval'||task.status==='complete'))||editing.speech!=='idle'||drawing||sketchOpen||task?.status==='running'} onClick={send}>{asset('send')}发送</button></footer>
+   </section>
+  </div>
+  <InputDock editing={editing} area={area} disabled={editor.busy} voiceDisabled={editor.blocked||!r.connected} onVoiceUnavailable={()=>{if(!r.connected)openConnection?.();else editing.setError("请先恢复当前目标后再使用语音");}}/>{menuError&&<div role="alert" className="adaptive-error">{menuError}</div>}{capture&&<CapturePanel initialKind={tool==='camera'?'camera':undefined} close={()=>{setCapture(false);if(tool==='camera')setTool(null);}}/>}
+ </main>;
+}

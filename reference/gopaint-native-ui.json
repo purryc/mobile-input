@@ -1,0 +1,86 @@
+{
+  "device": "Huawei MRDI-W10",
+  "nativeApp": {
+    "bundle": "com.huawei.hmos.hicreate",
+    "version": "16.0.0.235",
+    "capturePixels": [
+      2800,
+      1840
+    ]
+  },
+  "sources": [
+    {
+      "title": "天生会画界面介绍",
+      "url": "https://consumer.huawei.com/cn/support/content/zh-cn16041995/"
+    },
+    {
+      "title": "图层界面介绍",
+      "url": "https://consumer.huawei.com/cn/support/content/zh-cn16042001/"
+    },
+    {
+      "title": "画笔工具介绍",
+      "url": "https://consumer.huawei.com/cn/support/content/zh-cn16041991/"
+    }
+  ],
+  "captures": [
+    {
+      "file": "reference/private/gopaint/01-launch.png",
+      "sha256": "5af44092b8267a70278e513d3fafcb848c753a7e7b6b561392fb95ebdf713487",
+      "private": true,
+      "bundled": false
+    },
+    {
+      "file": "reference/private/gopaint/02-layers.png",
+      "sha256": "caeecf725876fc7d3743f63eccf89b663ef4c9160521f91d7802aef646b9c21d",
+      "private": true,
+      "bundled": false
+    },
+    {
+      "file": "reference/private/gopaint/03-layers.jpeg",
+      "sha256": "26c6cb46b9a0eeb4e34e6dd5c14500b9d54b84bbc89ae5ac4440d7ddf86026c5",
+      "private": true,
+      "bundled": false
+    },
+    {
+      "file": "reference/private/gopaint/04-brush.jpeg",
+      "sha256": "36a55f164fedda264e0615642d1c55270473c4120c2a8bc0f31b5017b4d3cc3e",
+      "private": true,
+      "bundled": false
+    },
+    {
+      "file": "reference/private/gopaint/05-color.jpeg",
+      "sha256": "f9ec2e47e985721cc48de42c36ae2549f9b1440deadbf5eee1a0cb5ab7aa492a",
+      "private": true,
+      "bundled": false
+    }
+  ],
+  "measurements": {
+    "topPill": [
+      2020,
+      50,
+      754,
+      84
+    ],
+    "leftRail": [
+      24,
+      159,
+      85,
+      1130
+    ],
+    "rightPanel": [
+      2020,
+      160,
+      754
+    ],
+    "canvas": "full viewport; artwork aspect preserved"
+  },
+  "runtimeAssets": "No native screenshot pixels bundled. Interface reconstructed as React/CSS/SVG; thumbnails rendered from prototype layer data; existing reviewed Figma brush assets reused.",
+  "differences": [
+    "Connection button reserved at top right: edit capsule shifts left by 58 CSS px.",
+    "Interactive Back and tool targets >=48 px at normal tablet viewport.",
+    "Five supported brush variants plus eraser; no native full brush-resource catalog/import.",
+    "Selection/transform unavailable; filter menu exposes only implemented liquify.",
+    "Artwork remains existing local demo, never native user artwork.",
+    "Gallery entry opens retained prototype artwork list rather than native account/gallery service."
+  ]
+}

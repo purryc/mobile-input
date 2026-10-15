@@ -1,6 +1,6 @@
 [
   {
-    "schemaVersion": "1.0",
+    "schemaVersion": "1.1",
     "context": {
       "appId": "wechat",
       "task": "reply",
@@ -20,18 +20,14 @@
       "task": "reply",
       "inputMode": "text",
       "preserveLayout": false,
-      "confidenceBand": "accepted-demo"
+      "confidenceBand": "accepted-demo",
+      "region": "adaptive"
     },
     "ui": {
       "skin": "Glass",
       "theme": "WeChat",
       "templateId": "recipe-wechat-phone",
       "adaptive": [
-        {
-          "componentId": "quote",
-          "state": "Default",
-          "props": {}
-        },
         {
           "componentId": "reply",
           "state": "Default",
@@ -41,12 +37,28 @@
           "componentId": "app-action",
           "state": "Default",
           "props": {}
+        },
+        {
+          "componentId": "composer",
+          "state": "Empty",
+          "props": {}
         }
-      ]
+      ],
+      "themeSource": "appId",
+      "fixedInput": {
+        "componentId": "input-dock",
+        "state": "Expanded",
+        "expandedBy": "user"
+      },
+      "target": {
+        "componentId": "target-header",
+        "targetId": "demo-wechat",
+        "taskState": "Ready"
+      }
     }
   },
   {
-    "schemaVersion": "1.0",
+    "schemaVersion": "1.1",
     "context": {
       "appId": "doubao",
       "task": "sketch",
@@ -64,9 +76,11 @@
     },
     "decision": {
       "task": "sketch",
-      "inputMode": "sketch",
+      "inputMode": "text",
       "preserveLayout": false,
-      "confidenceBand": "accepted-demo"
+      "confidenceBand": "accepted-demo",
+      "adaptiveMode": "sketch",
+      "region": "adaptive"
     },
     "ui": {
       "skin": "Glass",
@@ -74,20 +88,31 @@
       "templateId": "recipe-doubao-phone",
       "adaptive": [
         {
-          "componentId": "topic",
-          "state": "Default",
+          "componentId": "sketch",
+          "state": "Sketch",
           "props": {}
         },
         {
-          "componentId": "attachment",
-          "state": "Default",
+          "componentId": "compact-composer",
+          "state": "Empty",
           "props": {}
         }
-      ]
+      ],
+      "themeSource": "appId",
+      "fixedInput": {
+        "componentId": "input-dock",
+        "state": "Expanded",
+        "expandedBy": "user"
+      },
+      "target": {
+        "componentId": "target-header",
+        "targetId": "demo-doubao",
+        "taskState": "Ready"
+      }
     }
   },
   {
-    "schemaVersion": "1.0",
+    "schemaVersion": "1.1",
     "context": {
       "appId": "sheet",
       "task": "formula",
@@ -107,7 +132,8 @@
       "task": "formula",
       "inputMode": "number",
       "preserveLayout": false,
-      "confidenceBand": "accepted-demo"
+      "confidenceBand": "accepted-demo",
+      "region": "adaptive"
     },
     "ui": {
       "skin": "Glass",
@@ -123,12 +149,28 @@
           "componentId": "choice",
           "state": "Default",
           "props": {}
+        },
+        {
+          "componentId": "composer",
+          "state": "Empty",
+          "props": {}
         }
-      ]
+      ],
+      "themeSource": "appId",
+      "fixedInput": {
+        "componentId": "input-dock",
+        "state": "Expanded",
+        "expandedBy": "user"
+      },
+      "target": {
+        "componentId": "target-header",
+        "targetId": "demo-sheet",
+        "taskState": "Ready"
+      }
     }
   },
   {
-    "schemaVersion": "1.0",
+    "schemaVersion": "1.1",
     "context": {
       "appId": "presentation",
       "task": "annotate",
@@ -148,7 +190,8 @@
       "task": "annotate",
       "inputMode": "presentation",
       "preserveLayout": false,
-      "confidenceBand": "accepted-demo"
+      "confidenceBand": "accepted-demo",
+      "region": "adaptive"
     },
     "ui": {
       "skin": "Glass",
@@ -165,7 +208,18 @@
           "state": "Default",
           "props": {}
         }
-      ]
+      ],
+      "themeSource": "appId",
+      "fixedInput": {
+        "componentId": "input-dock",
+        "state": "Expanded",
+        "expandedBy": "user"
+      },
+      "target": {
+        "componentId": "target-header",
+        "targetId": "demo-presentation",
+        "taskState": "Ready"
+      }
     }
   }
 ]

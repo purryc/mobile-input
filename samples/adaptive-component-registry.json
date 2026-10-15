@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "1.0",
+  "schemaVersion": "1.2",
   "status": "design-contract-not-runtime",
   "fileKey": "ApFLno64NcMoA17MiPFfZh",
   "pageId": "2:2",
@@ -11,11 +11,12 @@
     "Sheet",
     "Presentation",
     "Doubao",
-    "Mario"
+    "Mario",
+    "Bilibili",
+    "GoPaint"
   ],
   "skins": [
-    "Glass",
-    "Mechanical"
+    "Glass"
   ],
   "components": [
     {
@@ -23,8 +24,7 @@
       "figmaNodeId": "270:3317",
       "name": "Action / Button",
       "skins": [
-        "Glass",
-        "Mechanical"
+        "Glass"
       ],
       "states": [
         "Default",
@@ -46,24 +46,20 @@
         "Glass/Pressed": "270:3266",
         "Glass/Selected": "270:3271",
         "Glass/Disabled": "270:3276",
-        "Glass/Loading": "270:3281",
-        "Mechanical/Default": "270:3289",
-        "Mechanical/Pressed": "270:3294",
-        "Mechanical/Selected": "270:3299",
-        "Mechanical/Disabled": "270:3304",
-        "Mechanical/Loading": "270:3309"
+        "Glass/Loading": "270:3281"
       },
       "chatkitMapping": "Button",
       "renderOwner": "local",
-      "kind": "control"
+      "kind": "control",
+      "region": "inherited",
+      "inputStates": []
     },
     {
       "componentId": "icon-button",
       "figmaNodeId": "270:3358",
       "name": "Action / Icon button",
       "skins": [
-        "Glass",
-        "Mechanical"
+        "Glass"
       ],
       "states": [
         "Default",
@@ -83,23 +79,20 @@
         "Glass/Default": "270:3318",
         "Glass/Pressed": "270:3323",
         "Glass/Selected": "270:3328",
-        "Glass/Disabled": "270:3333",
-        "Mechanical/Default": "270:3338",
-        "Mechanical/Pressed": "270:3343",
-        "Mechanical/Selected": "270:3348",
-        "Mechanical/Disabled": "270:3353"
+        "Glass/Disabled": "270:3333"
       },
       "chatkitMapping": "Button",
       "renderOwner": "local",
-      "kind": "control"
+      "kind": "control",
+      "region": "inherited",
+      "inputStates": []
     },
     {
       "componentId": "hold",
       "figmaNodeId": "270:3395",
       "name": "Action / Hold to draw",
       "skins": [
-        "Glass",
-        "Mechanical"
+        "Glass"
       ],
       "states": [
         "Default",
@@ -120,22 +113,20 @@
       "figmaVariants": {
         "Glass/Default": "270:3359",
         "Glass/Pressed": "270:3365",
-        "Glass/Disabled": "270:3371",
-        "Mechanical/Default": "270:3377",
-        "Mechanical/Pressed": "270:3383",
-        "Mechanical/Disabled": "270:3389"
+        "Glass/Disabled": "270:3371"
       },
       "chatkitMapping": "Custom local component",
       "renderOwner": "local",
-      "kind": "control"
+      "kind": "control",
+      "region": "adaptive",
+      "inputStates": []
     },
     {
       "componentId": "chip",
       "figmaNodeId": "270:3408",
       "name": "Selection / Chip",
       "skins": [
-        "Glass",
-        "Mechanical"
+        "Glass"
       ],
       "states": [
         "Default",
@@ -153,22 +144,20 @@
       "figmaVariants": {
         "Glass/Default": "270:3396",
         "Glass/Selected": "270:3398",
-        "Glass/Disabled": "270:3400",
-        "Mechanical/Default": "270:3402",
-        "Mechanical/Selected": "270:3404",
-        "Mechanical/Disabled": "270:3406"
+        "Glass/Disabled": "270:3400"
       },
       "chatkitMapping": "Button",
       "renderOwner": "local",
-      "kind": "control"
+      "kind": "control",
+      "region": "inherited",
+      "inputStates": []
     },
     {
       "componentId": "switch",
       "figmaNodeId": "270:3433",
       "name": "Selection / Switch",
       "skins": [
-        "Glass",
-        "Mechanical"
+        "Glass"
       ],
       "states": [
         "Default",
@@ -186,22 +175,20 @@
       "figmaVariants": {
         "Glass/Default": "270:3409",
         "Glass/Selected": "270:3413",
-        "Glass/Disabled": "270:3417",
-        "Mechanical/Default": "270:3421",
-        "Mechanical/Selected": "270:3425",
-        "Mechanical/Disabled": "270:3429"
+        "Glass/Disabled": "270:3417"
       },
       "chatkitMapping": "Custom local component",
       "renderOwner": "local",
-      "kind": "control"
+      "kind": "control",
+      "region": "inherited",
+      "inputStates": []
     },
     {
       "componentId": "segmented",
       "figmaNodeId": "270:3518",
       "name": "Selection / Input mode",
       "skins": [
-        "Glass",
-        "Mechanical"
+        "Glass"
       ],
       "states": [
         "Keyboard",
@@ -216,25 +203,25 @@
       "capabilities": [],
       "figmaVariants": {
         "Glass/Keyboard": "270:3434",
-        "Glass/Trackpad": "270:3455",
-        "Mechanical/Keyboard": "270:3476",
-        "Mechanical/Trackpad": "270:3497"
+        "Glass/Trackpad": "270:3455"
       },
       "chatkitMapping": "Custom local component",
       "renderOwner": "local",
-      "kind": "control"
+      "kind": "control",
+      "region": "fixedInput",
+      "inputStates": []
     },
     {
       "componentId": "voice",
       "figmaNodeId": "270:3577",
       "name": "Input / Voice",
       "skins": [
-        "Glass",
-        "Mechanical"
+        "Glass"
       ],
       "states": [
         "Default",
         "Pressed",
+        "Recording",
         "Recognizing",
         "Disabled"
       ],
@@ -255,22 +242,36 @@
         "Glass/Pressed": "270:3526",
         "Glass/Recognizing": "270:3533",
         "Glass/Disabled": "270:3541",
-        "Mechanical/Default": "270:3548",
-        "Mechanical/Pressed": "270:3555",
-        "Mechanical/Recognizing": "270:3562",
-        "Mechanical/Disabled": "270:3570"
+        "Glass/Recording": "1509:25682"
       },
       "chatkitMapping": "Custom local component",
       "renderOwner": "local",
-      "kind": "control"
+      "kind": "control",
+      "region": "fixedInput",
+      "inputStates": [],
+      "stateDimensions": {
+        "gesture": [
+          "idle",
+          "pressed"
+        ],
+        "session": [
+          "idle",
+          "recording",
+          "recognizing"
+        ],
+        "availability": [
+          "enabled",
+          "disabled"
+        ]
+      },
+      "designCoverage": "Recording is a distinct visual variant; existing prototype gestures are not proof of real capture."
     },
     {
       "componentId": "key",
       "figmaNodeId": "270:3590",
       "name": "Input / Key",
       "skins": [
-        "Glass",
-        "Mechanical"
+        "Glass"
       ],
       "states": [
         "Default",
@@ -289,22 +290,20 @@
       "figmaVariants": {
         "Glass/Default": "270:3578",
         "Glass/Pressed": "270:3580",
-        "Glass/Disabled": "270:3582",
-        "Mechanical/Default": "270:3584",
-        "Mechanical/Pressed": "270:3586",
-        "Mechanical/Disabled": "270:3588"
+        "Glass/Disabled": "270:3582"
       },
       "chatkitMapping": "Custom local component",
       "renderOwner": "local",
-      "kind": "control"
+      "kind": "control",
+      "region": "fixedInput",
+      "inputStates": []
     },
     {
       "componentId": "attachment",
       "figmaNodeId": "270:3629",
       "name": "Input / Attachment",
       "skins": [
-        "Glass",
-        "Mechanical"
+        "Glass"
       ],
       "states": [
         "Default",
@@ -327,26 +326,24 @@
       "figmaVariants": {
         "Glass/Default": "270:3591",
         "Glass/Loading": "270:3597",
-        "Glass/Error": "270:3603",
-        "Mechanical/Default": "270:3610",
-        "Mechanical/Loading": "270:3616",
-        "Mechanical/Error": "270:3622"
+        "Glass/Error": "270:3603"
       },
       "chatkitMapping": "Image / file action",
       "renderOwner": "local",
-      "kind": "control"
+      "kind": "control",
+      "region": "adaptive",
+      "inputStates": []
     },
     {
       "componentId": "slider",
       "figmaNodeId": "270:3678",
       "name": "Parameter / Slider",
       "skins": [
-        "Glass",
-        "Mechanical"
+        "Glass"
       ],
       "states": [
         "Default",
-        "Selected",
+        "Adjusting",
         "Disabled"
       ],
       "props": [
@@ -355,31 +352,53 @@
         "max",
         "step",
         "value",
-        "unit"
+        "unit",
+        "orientation"
       ],
       "actions": [
         "setValue"
       ],
       "capabilities": [],
       "figmaVariants": {
-        "Glass/Default": "270:3630",
-        "Glass/Selected": "270:3638",
-        "Glass/Disabled": "270:3646",
-        "Mechanical/Default": "270:3654",
-        "Mechanical/Selected": "270:3662",
-        "Mechanical/Disabled": "270:3670"
+        "Glass/Horizontal/Default": "270:3630",
+        "Glass/Horizontal/Adjusting": "270:3638",
+        "Glass/Horizontal/Disabled": "270:3646",
+        "Glass/Vertical/Default": "1511:25692",
+        "Glass/Vertical/Adjusting": "1511:25701",
+        "Glass/Vertical/Disabled": "1511:25710"
       },
       "chatkitMapping": "Custom local component",
       "renderOwner": "local",
-      "kind": "control"
+      "kind": "control",
+      "region": "adaptive",
+      "inputStates": [],
+      "orientations": [
+        "Horizontal",
+        "Vertical"
+      ],
+      "legacyVariantAliases": {
+        "Glass/Default": "Glass/Horizontal/Default",
+        "Glass/Selected": "Glass/Horizontal/Adjusting",
+        "Glass/Disabled": "Glass/Horizontal/Disabled"
+      },
+      "touchZone": {
+        "Horizontal": [
+          280,
+          48
+        ],
+        "Vertical": [
+          48,
+          200
+        ]
+      },
+      "designCoverage": "Editable states only; continuous dragging and target bounds require renderer implementation. Vertical text stays upright."
     },
     {
       "componentId": "stepper",
       "figmaNodeId": "270:3781",
       "name": "Parameter / Stepper",
       "skins": [
-        "Glass",
-        "Mechanical"
+        "Glass"
       ],
       "states": [
         "Default",
@@ -400,22 +419,20 @@
       "figmaVariants": {
         "Glass/Default": "270:3679",
         "Glass/Selected": "270:3696",
-        "Glass/Disabled": "270:3713",
-        "Mechanical/Default": "270:3730",
-        "Mechanical/Selected": "270:3747",
-        "Mechanical/Disabled": "270:3764"
+        "Glass/Disabled": "270:3713"
       },
       "chatkitMapping": "Custom local component",
       "renderOwner": "local",
-      "kind": "control"
+      "kind": "control",
+      "region": "adaptive",
+      "inputStates": []
     },
     {
       "componentId": "color",
       "figmaNodeId": "270:3794",
       "name": "Parameter / Color choice",
       "skins": [
-        "Glass",
-        "Mechanical"
+        "Glass"
       ],
       "states": [
         "Default",
@@ -431,21 +448,20 @@
       "capabilities": [],
       "figmaVariants": {
         "Glass/Default": "270:3782",
-        "Glass/Selected": "270:3785",
-        "Mechanical/Default": "270:3788",
-        "Mechanical/Selected": "270:3791"
+        "Glass/Selected": "270:3785"
       },
       "chatkitMapping": "Custom local component",
       "renderOwner": "local",
-      "kind": "control"
+      "kind": "control",
+      "region": "adaptive",
+      "inputStates": []
     },
     {
       "componentId": "date",
       "figmaNodeId": "270:3897",
       "name": "Parameter / Date and time",
       "skins": [
-        "Glass",
-        "Mechanical"
+        "Glass"
       ],
       "states": [
         "Default",
@@ -460,28 +476,29 @@
       ],
       "actions": [
         "selectDate",
-        "selectTime"
+        "selectTime",
+        "dismissAuxiliary"
       ],
       "capabilities": [],
       "figmaVariants": {
         "Glass/Default": "270:3795",
         "Glass/Selected": "270:3812",
-        "Glass/Error": "270:3829",
-        "Mechanical/Default": "270:3846",
-        "Mechanical/Selected": "270:3863",
-        "Mechanical/Error": "270:3880"
+        "Glass/Error": "270:3829"
       },
       "chatkitMapping": "DatePicker",
       "renderOwner": "local",
-      "kind": "control"
+      "kind": "control",
+      "region": "adaptive",
+      "inputStates": [],
+      "dismissibleWhenGenerated": true,
+      "lifecycleContract": "auxiliaryLifecycle"
     },
     {
       "componentId": "choice",
       "figmaNodeId": "270:3928",
       "name": "Parameter / Choice row",
       "skins": [
-        "Glass",
-        "Mechanical"
+        "Glass"
       ],
       "states": [
         "Default",
@@ -501,22 +518,20 @@
       "figmaVariants": {
         "Glass/Default": "270:3898",
         "Glass/Selected": "270:3903",
-        "Glass/Disabled": "270:3908",
-        "Mechanical/Default": "270:3913",
-        "Mechanical/Selected": "270:3918",
-        "Mechanical/Disabled": "270:3923"
+        "Glass/Disabled": "270:3908"
       },
       "chatkitMapping": "Custom local component",
       "renderOwner": "local",
-      "kind": "control"
+      "kind": "control",
+      "region": "adaptive",
+      "inputStates": []
     },
     {
       "componentId": "topic",
       "figmaNodeId": "270:4077",
       "name": "Parameter / Topic dial",
       "skins": [
-        "Glass",
-        "Mechanical"
+        "Glass"
       ],
       "states": [
         "Default",
@@ -534,21 +549,20 @@
       "capabilities": [],
       "figmaVariants": {
         "Glass/Default": "270:3929",
-        "Glass/Selected": "270:3966",
-        "Mechanical/Default": "270:4003",
-        "Mechanical/Selected": "270:4040"
+        "Glass/Selected": "270:3966"
       },
       "chatkitMapping": "Custom local component",
       "renderOwner": "local",
-      "kind": "control"
+      "kind": "control",
+      "region": "target",
+      "inputStates": []
     },
     {
       "componentId": "feedback",
       "figmaNodeId": "270:4166",
       "name": "Feedback / Status",
       "skins": [
-        "Glass",
-        "Mechanical"
+        "Glass"
       ],
       "states": [
         "Reading",
@@ -573,25 +587,20 @@
         "Glass/Empty": "270:4093",
         "Glass/Error": "270:4098",
         "Glass/Disconnected": "270:4106",
-        "Glass/Complete": "270:4117",
-        "Mechanical/Reading": "270:4122",
-        "Mechanical/Generating": "270:4128",
-        "Mechanical/Empty": "270:4137",
-        "Mechanical/Error": "270:4142",
-        "Mechanical/Disconnected": "270:4150",
-        "Mechanical/Complete": "270:4161"
+        "Glass/Complete": "270:4117"
       },
       "chatkitMapping": "Card.status",
       "renderOwner": "local",
-      "kind": "control"
+      "kind": "control",
+      "region": "inherited",
+      "inputStates": []
     },
     {
       "componentId": "edit-tools",
       "figmaNodeId": "271:3566",
       "name": "Input / Editing toolbar",
       "skins": [
-        "Glass",
-        "Mechanical"
+        "Glass"
       ],
       "states": [
         "Default",
@@ -613,21 +622,20 @@
       "capabilities": [],
       "figmaVariants": {
         "Glass/Default": "271:3298",
-        "Glass/Disabled": "271:3365",
-        "Mechanical/Default": "271:3432",
-        "Mechanical/Disabled": "271:3499"
+        "Glass/Disabled": "271:3365"
       },
       "chatkitMapping": "Custom local component",
       "renderOwner": "local",
-      "kind": "control"
+      "kind": "control",
+      "region": "fixedInput",
+      "inputStates": []
     },
     {
       "componentId": "composer",
       "figmaNodeId": "271:3677",
       "name": "Input / Composer",
       "skins": [
-        "Glass",
-        "Mechanical"
+        "Glass"
       ],
       "states": [
         "Empty",
@@ -640,13 +648,16 @@
         "value",
         "placeholder",
         "polishOptions",
-        "attachments"
+        "attachments",
+        "sendEnabled",
+        "parameters"
       ],
       "actions": [
         "editDraft",
         "attach",
         "polish",
-        "undo"
+        "undo",
+        "sendDraft"
       ],
       "capabilities": [
         "text"
@@ -656,24 +667,28 @@
         "Glass/Draft": "271:3578",
         "Glass/Recording": "271:3589",
         "Glass/Polish": "271:3601",
-        "Glass/Error": "271:3611",
-        "Mechanical/Empty": "271:3622",
-        "Mechanical/Draft": "271:3633",
-        "Mechanical/Recording": "271:3644",
-        "Mechanical/Polish": "271:3656",
-        "Mechanical/Error": "271:3666"
+        "Glass/Error": "271:3611"
       },
       "chatkitMapping": "Custom local component",
       "renderOwner": "local",
-      "kind": "control"
+      "kind": "control",
+      "region": "adaptive",
+      "inputStates": [],
+      "sendPlacement": "inside-bottom-right",
+      "sendPresentation": "paper-plane-and-label",
+      "excludedContent": [
+        "agent-status",
+        "execution-steps",
+        "logs",
+        "result-details"
+      ]
     },
     {
       "componentId": "compact-composer",
       "figmaNodeId": "271:3718",
       "name": "Input / Compact composer",
       "skins": [
-        "Glass",
-        "Mechanical"
+        "Glass"
       ],
       "states": [
         "Empty",
@@ -682,32 +697,42 @@
       "props": [
         "value",
         "placeholder",
-        "attachments"
+        "attachments",
+        "sendEnabled",
+        "parameters"
       ],
       "actions": [
         "editDraft",
-        "attach"
+        "attach",
+        "sendDraft"
       ],
       "capabilities": [
         "text"
       ],
       "figmaVariants": {
         "Glass/Empty": "271:3678",
-        "Glass/Draft": "271:3688",
-        "Mechanical/Empty": "271:3698",
-        "Mechanical/Draft": "271:3708"
+        "Glass/Draft": "271:3688"
       },
       "chatkitMapping": "Custom local component",
       "renderOwner": "local",
-      "kind": "control"
+      "kind": "control",
+      "region": "adaptive",
+      "inputStates": [],
+      "sendPlacement": "inside-bottom-right",
+      "sendPresentation": "paper-plane-and-label",
+      "excludedContent": [
+        "agent-status",
+        "execution-steps",
+        "logs",
+        "result-details"
+      ]
     },
     {
       "componentId": "quote",
       "figmaNodeId": "271:3731",
       "name": "Context / Selected object",
       "skins": [
-        "Glass",
-        "Mechanical"
+        "Glass"
       ],
       "states": [
         "Default",
@@ -724,21 +749,20 @@
       "capabilities": [],
       "figmaVariants": {
         "Glass/Default": "271:3719",
-        "Glass/Selected": "271:3722",
-        "Mechanical/Default": "271:3725",
-        "Mechanical/Selected": "271:3728"
+        "Glass/Selected": "271:3722"
       },
       "chatkitMapping": "Card / Text",
       "renderOwner": "local",
-      "kind": "control"
+      "kind": "control",
+      "region": "target",
+      "inputStates": []
     },
     {
       "componentId": "reply",
       "figmaNodeId": "271:3768",
       "name": "Adaptive / Suggested reply",
       "skins": [
-        "Glass",
-        "Mechanical"
+        "Glass"
       ],
       "states": [
         "Default",
@@ -756,22 +780,20 @@
       "figmaVariants": {
         "Glass/Default": "271:3732",
         "Glass/Pressed": "271:3738",
-        "Glass/Disabled": "271:3744",
-        "Mechanical/Default": "271:3750",
-        "Mechanical/Pressed": "271:3756",
-        "Mechanical/Disabled": "271:3762"
+        "Glass/Disabled": "271:3744"
       },
       "chatkitMapping": "Button / ListViewItem",
       "renderOwner": "local",
-      "kind": "control"
+      "kind": "control",
+      "region": "adaptive",
+      "inputStates": []
     },
     {
       "componentId": "app-action",
       "figmaNodeId": "271:3871",
-      "name": "Adaptive / Application action",
+      "name": "Adaptive / Application action chip",
       "skins": [
-        "Glass",
-        "Mechanical"
+        "Glass"
       ],
       "states": [
         "Default",
@@ -790,22 +812,34 @@
       "figmaVariants": {
         "Glass/Default": "271:3769",
         "Glass/Pressed": "271:3786",
-        "Glass/Disabled": "271:3803",
-        "Mechanical/Default": "271:3820",
-        "Mechanical/Pressed": "271:3837",
-        "Mechanical/Disabled": "271:3854"
+        "Glass/Disabled": "271:3803"
       },
-      "chatkitMapping": "Button / ListViewItem",
+      "chatkitMapping": "Button",
       "renderOwner": "local",
-      "kind": "control"
+      "kind": "control",
+      "region": "adaptive",
+      "inputStates": [],
+      "presentation": {
+        "layout": "horizontal-chip-row",
+        "height": 48,
+        "width": "content",
+        "trailingChevron": false,
+        "overflow": "horizontal-scroll",
+        "iconSource": "destination-app-original-logo",
+        "brandColorPreserved": true
+      },
+      "brandAssets": {
+        "calendar": "174:2874",
+        "gaode": "174:2875",
+        "feishu": "174:2876"
+      }
     },
     {
       "componentId": "task",
       "figmaNodeId": "271:3896",
       "name": "Adaptive / Task card",
       "skins": [
-        "Glass",
-        "Mechanical"
+        "Glass"
       ],
       "states": [
         "Default",
@@ -825,22 +859,20 @@
       "figmaVariants": {
         "Glass/Default": "271:3872",
         "Glass/Selected": "271:3876",
-        "Glass/Loading": "271:3880",
-        "Mechanical/Default": "271:3884",
-        "Mechanical/Selected": "271:3888",
-        "Mechanical/Loading": "271:3892"
+        "Glass/Loading": "271:3880"
       },
       "chatkitMapping": "Card",
       "renderOwner": "local",
-      "kind": "control"
+      "kind": "control",
+      "region": "adaptive",
+      "inputStates": []
     },
     {
       "componentId": "form",
       "figmaNodeId": "271:3993",
       "name": "Adaptive / Missing parameters",
       "skins": [
-        "Glass",
-        "Mechanical"
+        "Glass"
       ],
       "states": [
         "Default",
@@ -853,57 +885,28 @@
       ],
       "actions": [
         "setParameter",
-        "confirm"
+        "confirm",
+        "dismissAuxiliary"
       ],
       "capabilities": [],
       "figmaVariants": {
         "Glass/Default": "271:3897",
-        "Glass/Error": "271:3921",
-        "Mechanical/Default": "271:3945",
-        "Mechanical/Error": "271:3969"
+        "Glass/Error": "271:3921"
       },
       "chatkitMapping": "Form",
       "renderOwner": "local",
-      "kind": "control"
-    },
-    {
-      "componentId": "diff",
-      "figmaNodeId": "271:4010",
-      "name": "Adaptive / Edit preview",
-      "skins": [
-        "Glass",
-        "Mechanical"
-      ],
-      "states": [
-        "Default",
-        "Selected"
-      ],
-      "props": [
-        "original",
-        "replacement"
-      ],
-      "actions": [
-        "accept",
-        "dismiss"
-      ],
-      "capabilities": [],
-      "figmaVariants": {
-        "Glass/Default": "271:3994",
-        "Glass/Selected": "271:3998",
-        "Mechanical/Default": "271:4002",
-        "Mechanical/Selected": "271:4006"
-      },
-      "chatkitMapping": "Card / Text",
-      "renderOwner": "local",
-      "kind": "control"
+      "kind": "control",
+      "region": "adaptive",
+      "inputStates": [],
+      "dismissibleWhenGenerated": true,
+      "lifecycleContract": "auxiliaryLifecycle"
     },
     {
       "componentId": "formula",
       "figmaNodeId": "271:4027",
       "name": "Adaptive / Formula preview",
       "skins": [
-        "Glass",
-        "Mechanical"
+        "Glass"
       ],
       "states": [
         "Default",
@@ -916,26 +919,28 @@
       ],
       "actions": [
         "editFormula",
-        "applyFormula"
+        "applyFormula",
+        "dismissAuxiliary"
       ],
       "capabilities": [],
       "figmaVariants": {
         "Glass/Default": "271:4011",
-        "Glass/Error": "271:4015",
-        "Mechanical/Default": "271:4019",
-        "Mechanical/Error": "271:4023"
+        "Glass/Error": "271:4015"
       },
       "chatkitMapping": "Card / Text",
       "renderOwner": "local",
-      "kind": "control"
+      "kind": "control",
+      "region": "adaptive",
+      "inputStates": [],
+      "dismissibleWhenGenerated": true,
+      "lifecycleContract": "auxiliaryLifecycle"
     },
     {
       "componentId": "status-row",
       "figmaNodeId": "271:4108",
       "name": "System / Connection and application",
       "skins": [
-        "Glass",
-        "Mechanical"
+        "Glass"
       ],
       "states": [
         "Connected",
@@ -952,24 +957,26 @@
       "capabilities": [],
       "figmaVariants": {
         "Glass/Connected": "271:4028",
-        "Glass/Disconnected": "271:4048",
-        "Mechanical/Connected": "271:4068",
-        "Mechanical/Disconnected": "271:4088"
+        "Glass/Disconnected": "271:4048"
       },
       "chatkitMapping": "Custom local component",
       "renderOwner": "local",
-      "kind": "control"
+      "kind": "control",
+      "region": "target",
+      "inputStates": []
     },
     {
       "componentId": "keyboard",
       "figmaNodeId": "271:4287",
       "name": "Panel / Keyboard",
       "skins": [
-        "Glass",
-        "Mechanical"
+        "Glass"
       ],
       "states": [
-        "Default"
+        "Default",
+        "Symbols",
+        "SymbolsMore",
+        "Emoji"
       ],
       "props": [
         "locale",
@@ -979,26 +986,31 @@
         "keyDown",
         "keyUp",
         "voice",
-        "send"
+        "switchKeyboardMenu",
+        "backspace",
+        "insertNewline"
       ],
       "capabilities": [
         "text"
       ],
       "figmaVariants": {
         "Glass/Default": "271:4109",
-        "Mechanical/Default": "271:4198"
+        "Glass/Symbols": "1332:21924",
+        "Glass/SymbolsMore": "1332:21962",
+        "Glass/Emoji": "1332:22000"
       },
       "chatkitMapping": "Custom local component",
       "renderOwner": "local",
-      "kind": "control"
+      "kind": "control",
+      "region": "fixedInput",
+      "inputStates": []
     },
     {
       "componentId": "numpad",
       "figmaNodeId": "271:4362",
       "name": "Panel / Number and formula",
       "skins": [
-        "Glass",
-        "Mechanical"
+        "Glass"
       ],
       "states": [
         "Default"
@@ -1014,20 +1026,20 @@
         "text"
       ],
       "figmaVariants": {
-        "Glass/Default": "271:4288",
-        "Mechanical/Default": "271:4325"
+        "Glass/Default": "271:4288"
       },
       "chatkitMapping": "Custom local component",
       "renderOwner": "local",
-      "kind": "control"
+      "kind": "control",
+      "region": "fixedInput",
+      "inputStates": []
     },
     {
       "componentId": "trackpad",
       "figmaNodeId": "271:4455",
       "name": "Panel / Trackpad",
       "skins": [
-        "Glass",
-        "Mechanical"
+        "Glass"
       ],
       "states": [
         "Default",
@@ -1048,21 +1060,20 @@
       ],
       "figmaVariants": {
         "Glass/Default": "271:4363",
-        "Glass/Selected": "271:4386",
-        "Mechanical/Default": "271:4409",
-        "Mechanical/Selected": "271:4432"
+        "Glass/Selected": "271:4386"
       },
       "chatkitMapping": "Custom local component",
       "renderOwner": "local",
-      "kind": "control"
+      "kind": "control",
+      "region": "fixedInput",
+      "inputStates": []
     },
     {
       "componentId": "sketch",
       "figmaNodeId": "271:4608",
       "name": "Panel / Sketch canvas",
       "skins": [
-        "Glass",
-        "Mechanical"
+        "Glass"
       ],
       "states": [
         "Blank",
@@ -1077,28 +1088,39 @@
         "stroke",
         "undo",
         "erase",
-        "attachSketch"
+        "attachSketch",
+        "dismissAuxiliary"
       ],
       "capabilities": [
         "drawing"
       ],
       "figmaVariants": {
         "Glass/Blank": "271:4456",
-        "Glass/Sketch": "271:4492",
-        "Mechanical/Blank": "271:4532",
-        "Mechanical/Sketch": "271:4568"
+        "Glass/Sketch": "271:4492"
       },
       "chatkitMapping": "Custom local component",
       "renderOwner": "local",
-      "kind": "control"
+      "kind": "control",
+      "region": "adaptive",
+      "inputStates": [],
+      "confirmPlacement": "panel-bottom-right",
+      "confirmTouchSize": [
+        48,
+        48
+      ],
+      "confirmEffect": "insert-sketch-attachment-into-sole-composer",
+      "emptyConfirm": "disabled",
+      "footerAction": false,
+      "dismissibleWhenGenerated": true,
+      "lifecycleContract": "auxiliaryLifecycle",
+      "closePlacement": "panel-top-right"
     },
     {
       "componentId": "camera",
       "figmaNodeId": "271:4669",
       "name": "Panel / Camera input",
       "skins": [
-        "Glass",
-        "Mechanical"
+        "Glass"
       ],
       "states": [
         "Ready",
@@ -1109,28 +1131,30 @@
       ],
       "actions": [
         "capture",
-        "retry"
+        "retry",
+        "dismissAuxiliary"
       ],
       "capabilities": [
         "camera"
       ],
       "figmaVariants": {
         "Glass/Ready": "271:4609",
-        "Glass/Unavailable": "271:4622",
-        "Mechanical/Ready": "271:4639",
-        "Mechanical/Unavailable": "271:4652"
+        "Glass/Unavailable": "271:4622"
       },
       "chatkitMapping": "Custom local component",
       "renderOwner": "local",
-      "kind": "control"
+      "kind": "control",
+      "region": "adaptive",
+      "inputStates": [],
+      "dismissibleWhenGenerated": true,
+      "lifecycleContract": "auxiliaryLifecycle"
     },
     {
       "componentId": "pen-settings",
       "figmaNodeId": "271:4746",
       "name": "Panel / Pen settings",
       "skins": [
-        "Glass",
-        "Mechanical"
+        "Glass"
       ],
       "states": [
         "Default"
@@ -1151,20 +1175,20 @@
         "drawing"
       ],
       "figmaVariants": {
-        "Glass/Default": "271:4670",
-        "Mechanical/Default": "271:4708"
+        "Glass/Default": "271:4670"
       },
       "chatkitMapping": "Custom local component",
       "renderOwner": "local",
-      "kind": "control"
+      "kind": "control",
+      "region": "adaptive",
+      "inputStates": []
     },
     {
       "componentId": "presentation-tools",
       "figmaNodeId": "271:4927",
       "name": "Panel / Presentation tools",
       "skins": [
-        "Glass",
-        "Mechanical"
+        "Glass"
       ],
       "states": [
         "Laser",
@@ -1188,22 +1212,20 @@
       "figmaVariants": {
         "Glass/Laser": "271:4747",
         "Glass/Pen": "271:4777",
-        "Glass/Captions": "271:4807",
-        "Mechanical/Laser": "271:4837",
-        "Mechanical/Pen": "271:4867",
-        "Mechanical/Captions": "271:4897"
+        "Glass/Captions": "271:4807"
       },
       "chatkitMapping": "Custom local component",
       "renderOwner": "local",
-      "kind": "control"
+      "kind": "control",
+      "region": "fixedInput",
+      "inputStates": []
     },
     {
       "componentId": "notes",
       "figmaNodeId": "271:4934",
       "name": "Panel / Speaker notes",
       "skins": [
-        "Glass",
-        "Mechanical"
+        "Glass"
       ],
       "states": [
         "Default"
@@ -1218,20 +1240,20 @@
       ],
       "capabilities": [],
       "figmaVariants": {
-        "Glass/Default": "271:4928",
-        "Mechanical/Default": "271:4931"
+        "Glass/Default": "271:4928"
       },
       "chatkitMapping": "Custom local component",
       "renderOwner": "local",
-      "kind": "control"
+      "kind": "control",
+      "region": "adaptive",
+      "inputStates": []
     },
     {
       "componentId": "game",
       "figmaNodeId": "271:5219",
       "name": "Panel / Retro game controller",
       "skins": [
-        "Glass",
-        "Mechanical"
+        "Glass"
       ],
       "states": [
         "Default",
@@ -1251,21 +1273,20 @@
       ],
       "figmaVariants": {
         "Glass/Default": "271:4935",
-        "Glass/Pressed": "271:5006",
-        "Mechanical/Default": "271:5077",
-        "Mechanical/Pressed": "271:5148"
+        "Glass/Pressed": "271:5006"
       },
       "chatkitMapping": "Custom local component",
       "renderOwner": "local",
-      "kind": "control"
+      "kind": "control",
+      "region": "fixedInput",
+      "inputStates": []
     },
     {
       "componentId": "recipe-wechat-phone",
       "figmaNodeId": "272:12774",
       "name": "Recipe / WeChat phone",
       "skins": [
-        "Glass",
-        "Mechanical"
+        "Glass"
       ],
       "states": [
         "Recommendations",
@@ -1290,23 +1311,27 @@
         "Glass/Polish": "272:11421",
         "Glass/Keyboard": "272:11616",
         "Glass/Trackpad": "272:11791",
-        "Mechanical/Recommendations": "272:11904",
-        "Mechanical/Recording": "272:12097",
-        "Mechanical/Polish": "272:12291",
-        "Mechanical/Keyboard": "272:12486",
-        "Mechanical/Trackpad": "272:12661"
+        "Glass/Recommendations/Minimized": "1303:14926",
+        "Glass/Polish/Minimized": "1303:15203",
+        "Glass/Keyboard/Minimized": "1303:15343",
+        "Glass/Trackpad/Minimized": "1303:15531"
       },
       "chatkitMapping": "Custom local component",
       "renderOwner": "local",
-      "kind": "recipe"
+      "kind": "recipe",
+      "region": "template",
+      "inputStates": [
+        "Minimized",
+        "Keyboard",
+        "Trackpad"
+      ]
     },
     {
       "componentId": "recipe-doubao-phone",
       "figmaNodeId": "272:13991",
       "name": "Recipe / Doubao phone",
       "skins": [
-        "Glass",
-        "Mechanical"
+        "Glass"
       ],
       "states": [
         "Home",
@@ -1325,21 +1350,26 @@
         "Glass/Home": "272:12775",
         "Glass/Sketch": "272:13041",
         "Glass/Camera": "272:13221",
-        "Mechanical/Home": "272:13383",
-        "Mechanical/Sketch": "272:13649",
-        "Mechanical/Camera": "272:13829"
+        "Glass/Home/Minimized": "1303:15657",
+        "Glass/Sketch/Minimized": "1303:15805",
+        "Glass/Camera/Minimized": "1303:15932"
       },
       "chatkitMapping": "Custom local component",
       "renderOwner": "local",
-      "kind": "recipe"
+      "kind": "recipe",
+      "region": "template",
+      "inputStates": [
+        "Minimized",
+        "Keyboard",
+        "Trackpad"
+      ]
     },
     {
       "componentId": "recipe-sheet-phone",
       "figmaNodeId": "272:14706",
       "name": "Recipe / Sheet phone",
       "skins": [
-        "Glass",
-        "Mechanical"
+        "Glass"
       ],
       "states": [
         "Draft",
@@ -1357,21 +1387,26 @@
         "Glass/Draft": "272:13992",
         "Glass/Applied": "272:14111",
         "Glass/Error": "272:14230",
-        "Mechanical/Draft": "272:14349",
-        "Mechanical/Applied": "272:14468",
-        "Mechanical/Error": "272:14587"
+        "Glass/Draft/Minimized": "1303:16042",
+        "Glass/Applied/Minimized": "1303:16174",
+        "Glass/Error/Minimized": "1303:16306"
       },
       "chatkitMapping": "Custom local component",
       "renderOwner": "local",
-      "kind": "recipe"
+      "kind": "recipe",
+      "region": "template",
+      "inputStates": [
+        "Minimized",
+        "Keyboard",
+        "Trackpad"
+      ]
     },
     {
       "componentId": "recipe-presentation-phone",
       "figmaNodeId": "272:14995",
       "name": "Recipe / Presentation phone",
       "skins": [
-        "Glass",
-        "Mechanical"
+        "Glass"
       ],
       "states": [
         "Laser",
@@ -1389,20 +1424,25 @@
       "figmaVariants": {
         "Glass/Laser": "272:14707",
         "Glass/Pen": "272:14760",
-        "Mechanical/Laser": "272:14851",
-        "Mechanical/Pen": "272:14904"
+        "Glass/Laser/Minimized": "1303:16438",
+        "Glass/Pen/Minimized": "1303:16495"
       },
       "chatkitMapping": "Custom local component",
       "renderOwner": "local",
-      "kind": "recipe"
+      "kind": "recipe",
+      "region": "template",
+      "inputStates": [
+        "Minimized",
+        "Keyboard",
+        "Trackpad"
+      ]
     },
     {
       "componentId": "recipe-wechat-pc",
       "figmaNodeId": "272:16286",
       "name": "Recipe / WeChat fold PC",
       "skins": [
-        "Glass",
-        "Mechanical"
+        "Glass"
       ],
       "states": [
         "Recommendations",
@@ -1423,23 +1463,29 @@
         "Glass/Recommendations": "272:14996",
         "Glass/Recording": "272:15210",
         "Glass/Polish": "272:15425",
-        "Mechanical/Recommendations": "272:15641",
-        "Mechanical/Recording": "272:15855",
-        "Mechanical/Polish": "272:16070",
         "Glass/Trackpad": "277:14002",
-        "Mechanical/Trackpad": "277:14234"
+        "Glass/Recommendations/Minimized": "1303:16678",
+        "Glass/Polish/Minimized": "1303:17034",
+        "Glass/Trackpad/Minimized": "1303:17212",
+        "Glass/Recommendations/Keyboard": "1314:21020",
+        "Glass/Recommendations/Trackpad": "1314:21297"
       },
       "chatkitMapping": "Custom local component",
       "renderOwner": "local",
-      "kind": "recipe"
+      "kind": "recipe",
+      "region": "template",
+      "inputStates": [
+        "Minimized",
+        "Keyboard",
+        "Trackpad"
+      ]
     },
     {
       "componentId": "recipe-doubao-pc",
       "figmaNodeId": "272:17039",
       "name": "Recipe / Doubao fold PC",
       "skins": [
-        "Glass",
-        "Mechanical"
+        "Glass"
       ],
       "states": [
         "Home",
@@ -1456,20 +1502,27 @@
       "figmaVariants": {
         "Glass/Home": "272:16287",
         "Glass/Sketch": "272:16521",
-        "Mechanical/Home": "272:16663",
-        "Mechanical/Sketch": "272:16897"
+        "Glass/Home/Minimized": "1303:17390",
+        "Glass/Sketch/Minimized": "1303:17596",
+        "Glass/Sketch/Keyboard": "1314:21512",
+        "Glass/Sketch/Trackpad": "1314:21796"
       },
       "chatkitMapping": "Custom local component",
       "renderOwner": "local",
-      "kind": "recipe"
+      "kind": "recipe",
+      "region": "template",
+      "inputStates": [
+        "Minimized",
+        "Keyboard",
+        "Trackpad"
+      ]
     },
     {
       "componentId": "recipe-sheet-pc",
       "figmaNodeId": "272:17536",
       "name": "Recipe / Sheet fold PC",
       "skins": [
-        "Glass",
-        "Mechanical"
+        "Glass"
       ],
       "states": [
         "Draft",
@@ -1485,20 +1538,27 @@
       "figmaVariants": {
         "Glass/Draft": "272:17040",
         "Glass/Applied": "272:17164",
-        "Mechanical/Draft": "272:17288",
-        "Mechanical/Applied": "272:17412"
+        "Glass/Draft/Minimized": "1303:17831",
+        "Glass/Applied/Minimized": "1303:18010",
+        "Glass/Draft/Keyboard": "1314:22018",
+        "Glass/Draft/Trackpad": "1314:22218"
       },
       "chatkitMapping": "Custom local component",
       "renderOwner": "local",
-      "kind": "recipe"
+      "kind": "recipe",
+      "region": "template",
+      "inputStates": [
+        "Minimized",
+        "Keyboard",
+        "Trackpad"
+      ]
     },
     {
       "componentId": "recipe-presentation-pc",
       "figmaNodeId": "272:17831",
       "name": "Recipe / Presentation fold PC",
       "skins": [
-        "Glass",
-        "Mechanical"
+        "Glass"
       ],
       "states": [
         "Laser",
@@ -1516,20 +1576,25 @@
       "figmaVariants": {
         "Glass/Laser": "272:17537",
         "Glass/Pen": "272:17595",
-        "Mechanical/Laser": "272:17684",
-        "Mechanical/Pen": "272:17742"
+        "Glass/Laser/Minimized": "1303:18133",
+        "Glass/Pen/Minimized": "1303:18222"
       },
       "chatkitMapping": "Custom local component",
       "renderOwner": "local",
-      "kind": "recipe"
+      "kind": "recipe",
+      "region": "template",
+      "inputStates": [
+        "Minimized",
+        "Keyboard",
+        "Trackpad"
+      ]
     },
     {
       "componentId": "motion-app",
       "figmaNodeId": "275:13286",
       "name": "Motion / App",
       "skins": [
-        "Glass",
-        "Mechanical"
+        "Glass"
       ],
       "states": [
         "Before",
@@ -1548,23 +1613,20 @@
         "Glass/Before": "275:12972",
         "Glass/Generating": "275:13005",
         "Glass/Ready": "275:13038",
-        "Glass/Reduced": "275:13096",
-        "Mechanical/Before": "275:13129",
-        "Mechanical/Generating": "275:13162",
-        "Mechanical/Ready": "275:13195",
-        "Mechanical/Reduced": "275:13253"
+        "Glass/Reduced": "275:13096"
       },
       "chatkitMapping": "Custom local component",
       "renderOwner": "local",
-      "kind": "motion"
+      "kind": "motion",
+      "region": "motion",
+      "inputStates": []
     },
     {
       "componentId": "motion-context",
       "figmaNodeId": "275:13551",
       "name": "Motion / Context",
       "skins": [
-        "Glass",
-        "Mechanical"
+        "Glass"
       ],
       "states": [
         "Before",
@@ -1583,23 +1645,20 @@
         "Glass/Before": "275:13287",
         "Glass/Generating": "275:13320",
         "Glass/Ready": "275:13353",
-        "Glass/Reduced": "275:13386",
-        "Mechanical/Before": "275:13419",
-        "Mechanical/Generating": "275:13452",
-        "Mechanical/Ready": "275:13485",
-        "Mechanical/Reduced": "275:13518"
+        "Glass/Reduced": "275:13386"
       },
       "chatkitMapping": "Custom local component",
       "renderOwner": "local",
-      "kind": "motion"
+      "kind": "motion",
+      "region": "motion",
+      "inputStates": []
     },
     {
       "componentId": "motion-panel",
       "figmaNodeId": "275:14040",
       "name": "Motion / Panel",
       "skins": [
-        "Glass",
-        "Mechanical"
+        "Glass"
       ],
       "states": [
         "Before",
@@ -1618,23 +1677,20 @@
         "Glass/Before": "275:13552",
         "Glass/Generating": "275:13613",
         "Glass/Ready": "275:13674",
-        "Glass/Reduced": "275:13735",
-        "Mechanical/Before": "275:13796",
-        "Mechanical/Generating": "275:13857",
-        "Mechanical/Ready": "275:13918",
-        "Mechanical/Reduced": "275:13979"
+        "Glass/Reduced": "275:13735"
       },
       "chatkitMapping": "Custom local component",
       "renderOwner": "local",
-      "kind": "motion"
+      "kind": "motion",
+      "region": "motion",
+      "inputStates": []
     },
     {
       "componentId": "palette",
       "figmaNodeId": "277:14642",
       "name": "Parameter / Expanded pen palette",
       "skins": [
-        "Glass",
-        "Mechanical"
+        "Glass"
       ],
       "states": [
         "Red",
@@ -1656,16 +1712,1491 @@
         "Glass/Blue": "277:14525",
         "Glass/Green": "277:14538",
         "Glass/Gold": "277:14551",
-        "Glass/Graphite": "277:14564",
-        "Mechanical/Red": "277:14577",
-        "Mechanical/Blue": "277:14590",
-        "Mechanical/Green": "277:14603",
-        "Mechanical/Gold": "277:14616",
-        "Mechanical/Graphite": "277:14629"
+        "Glass/Graphite": "277:14564"
       },
       "chatkitMapping": "Custom local component",
       "renderOwner": "local",
-      "kind": "control"
+      "kind": "control",
+      "region": "adaptive",
+      "inputStates": []
+    },
+    {
+      "componentId": "input-dock",
+      "figmaNodeId": "1493:55578",
+      "name": "input-dock",
+      "props": [
+        "inputMode",
+        "expanded",
+        "interactionLocked"
+      ],
+      "actions": [
+        "setInputMode",
+        "record",
+        "edit"
+      ],
+      "capabilities": [],
+      "renderOwner": "local",
+      "kind": "layout",
+      "skins": [
+        "Glass"
+      ],
+      "region": "fixedInput",
+      "states": [
+        "Minimized",
+        "Keyboard",
+        "Trackpad"
+      ],
+      "figmaVariants": {
+        "Glass/Minimized": "1493:55579",
+        "Glass/Keyboard": "1493:55590",
+        "Glass/Trackpad": "1493:55602"
+      },
+      "inputStates": [],
+      "minimizedContents": [
+        "editTools",
+        "inputModeSelector",
+        "voice"
+      ],
+      "send": false
+    },
+    {
+      "componentId": "adaptive-workspace",
+      "figmaNodeId": "1309:20533",
+      "name": "adaptive-workspace",
+      "props": [
+        "context",
+        "controls",
+        "targetRevision"
+      ],
+      "actions": [
+        "selectControl",
+        "setParameter"
+      ],
+      "capabilities": [],
+      "renderOwner": "local",
+      "kind": "layout",
+      "skins": [
+        "Glass"
+      ],
+      "region": "adaptive",
+      "states": [
+        "Suggestions",
+        "Canvas",
+        "Color"
+      ],
+      "figmaVariants": {
+        "Glass/Suggestions": "1309:20450",
+        "Glass/Canvas": "1309:20480",
+        "Glass/Color": "1309:20510"
+      },
+      "inputStates": []
+    },
+    {
+      "componentId": "agent-task-status",
+      "figmaNodeId": "1368:22307",
+      "name": "agent-task-status",
+      "skins": [
+        "Glass"
+      ],
+      "states": [
+        "Draft",
+        "Running",
+        "NeedsInput",
+        "Error",
+        "Stopped",
+        "Complete"
+      ],
+      "props": [
+        "taskId",
+        "state",
+        "reason"
+      ],
+      "actions": [],
+      "capabilities": [],
+      "figmaVariants": {
+        "Glass/Draft": "1368:22145",
+        "Glass/Running": "1368:22166",
+        "Glass/NeedsInput": "1368:22191",
+        "Glass/Error": "1368:22212",
+        "Glass/Stopped": "1368:22245",
+        "Glass/Complete": "1368:22274"
+      },
+      "chatkitMapping": "Custom local component",
+      "renderOwner": "local",
+      "kind": "control",
+      "region": "target",
+      "inputStates": [],
+      "displayScope": "phone-top-task-tracking-only; PC owns detailed progress and results"
+    },
+    {
+      "componentId": "inline-color",
+      "figmaNodeId": "1368:22479",
+      "name": "inline-color",
+      "skins": [
+        "Glass"
+      ],
+      "states": [
+        "Candidate",
+        "Default",
+        "Edited",
+        "Editing",
+        "Undone"
+      ],
+      "props": [
+        "originalExpression",
+        "value",
+        "source",
+        "targetId",
+        "targetRevision",
+        "confirmation"
+      ],
+      "actions": [
+        "editParameter",
+        "undoParameter"
+      ],
+      "capabilities": [],
+      "figmaVariants": {
+        "Glass/Candidate": "1368:22308",
+        "Glass/Default": "1368:22341",
+        "Glass/Edited": "1368:22380",
+        "Glass/Editing": "1368:22413",
+        "Glass/Undone": "1368:22446"
+      },
+      "chatkitMapping": "Custom local component",
+      "renderOwner": "local",
+      "kind": "control",
+      "region": "adaptive",
+      "inputStates": []
+    },
+    {
+      "componentId": "color-refinement",
+      "figmaNodeId": "1368:22581",
+      "name": "color-refinement",
+      "skins": [
+        "Glass"
+      ],
+      "states": [
+        "Default",
+        "Picker",
+        "Edited",
+        "Invalid"
+      ],
+      "props": [
+        "originalExpression",
+        "value",
+        "lastValidValue",
+        "source",
+        "hex",
+        "validation",
+        "targetId"
+      ],
+      "actions": [
+        "setColor",
+        "setHex",
+        "undoParameter",
+        "dismissAuxiliary"
+      ],
+      "capabilities": [],
+      "figmaVariants": {
+        "Glass/Default": "1368:22480",
+        "Glass/Picker": "1368:22510",
+        "Glass/Edited": "1368:22530",
+        "Glass/Invalid": "1368:22560"
+      },
+      "chatkitMapping": "Custom local component",
+      "renderOwner": "local",
+      "kind": "control",
+      "region": "adaptive",
+      "inputStates": [],
+      "layout": "unified-presets-picker-hue-hex",
+      "applyMode": "live-draft",
+      "requiresCompletion": false,
+      "dismissibleWhenGenerated": true,
+      "lifecycleContract": "auxiliaryLifecycle"
+    },
+    {
+      "componentId": "layout-intent",
+      "figmaNodeId": "1368:22768",
+      "name": "layout-intent",
+      "skins": [
+        "Glass"
+      ],
+      "states": [
+        "Detected",
+        "Drawing",
+        "Review",
+        "Confirmed"
+      ],
+      "props": [
+        "expression",
+        "rawSketch",
+        "interpretedRegions",
+        "confirmation",
+        "targetId"
+      ],
+      "actions": [
+        "draw",
+        "erase",
+        "undo",
+        "clear",
+        "interpretLayout",
+        "confirmLayout",
+        "dismissAuxiliary"
+      ],
+      "capabilities": [
+        "pointer"
+      ],
+      "figmaVariants": {
+        "Glass/Detected": "1368:22582",
+        "Glass/Drawing": "1368:22625",
+        "Glass/Review": "1368:22671",
+        "Glass/Confirmed": "1368:22720"
+      },
+      "chatkitMapping": "Custom local component",
+      "renderOwner": "local",
+      "kind": "control",
+      "region": "adaptive",
+      "inputStates": [],
+      "confirmPlacement": "panel-bottom-right",
+      "confirmTouchSize": [
+        48,
+        48
+      ],
+      "confirmEffect": "insert-sketch-attachment-into-sole-composer",
+      "emptyConfirm": "disabled",
+      "footerAction": false,
+      "dismissibleWhenGenerated": true,
+      "lifecycleContract": "auxiliaryLifecycle",
+      "closePlacement": "panel-top-right"
+    },
+    {
+      "componentId": "parameter-composer",
+      "figmaNodeId": "1387:49263",
+      "name": "Adaptive / Parameter composer",
+      "skins": [
+        "Glass"
+      ],
+      "states": [
+        "ColorDefault",
+        "ColorEdited",
+        "Compact",
+        "SketchAttached"
+      ],
+      "props": [
+        "value",
+        "parameters",
+        "sendEnabled",
+        "sketchAttachment"
+      ],
+      "actions": [
+        "editDraft",
+        "editParameter",
+        "sendDraft",
+        "editSketch"
+      ],
+      "capabilities": [
+        "text"
+      ],
+      "figmaVariants": {
+        "Glass/ColorDefault": "1387:49232",
+        "Glass/ColorEdited": "1387:49244",
+        "Glass/Compact": "1387:49255",
+        "Glass/SketchAttached": "1401:45573"
+      },
+      "renderOwner": "local",
+      "kind": "control",
+      "region": "adaptive",
+      "chatkitMapping": "Custom local component",
+      "inputStates": [],
+      "excludedContent": [
+        "agent-status",
+        "execution-steps",
+        "logs",
+        "result-details"
+      ]
+    },
+    {
+      "componentId": "intent-recognition-sweep",
+      "figmaNodeId": "1391:45179",
+      "name": "Adaptive / Intent recognition sweep",
+      "skins": [
+        "Glass"
+      ],
+      "states": [
+        "Start",
+        "Sweep",
+        "Settled"
+      ],
+      "props": [
+        "reducedMotion"
+      ],
+      "actions": [],
+      "capabilities": [],
+      "figmaVariants": {
+        "Glass/Start": "1391:45173",
+        "Glass/Sweep": "1391:45175",
+        "Glass/Settled": "1391:45177"
+      },
+      "renderOwner": "local",
+      "kind": "feedback",
+      "region": "adaptive",
+      "inputStates": [],
+      "durationMs": 550,
+      "reducedMotionState": "Settled"
+    },
+    {
+      "componentId": "sketch-attachment",
+      "figmaNodeId": "1401:45584",
+      "name": "Input / Sketch attachment",
+      "skins": [
+        "Glass"
+      ],
+      "states": [
+        "Default"
+      ],
+      "props": [
+        "rawSketch",
+        "interpretedRegions",
+        "attachmentId",
+        "targetId"
+      ],
+      "actions": [
+        "editSketch"
+      ],
+      "capabilities": [
+        "pointer"
+      ],
+      "renderOwner": "local",
+      "kind": "input-attachment",
+      "region": "inside-composer",
+      "figmaVariants": {
+        "Glass/Default": "1401:45584"
+      }
+    },
+    {
+      "componentId": "media-controls",
+      "figmaNodeId": "1357:21822",
+      "name": "Adaptive / Media / MEDIA-01 Video controls",
+      "skins": [
+        "Glass"
+      ],
+      "states": [
+        "Default"
+      ],
+      "props": [
+        "videoId",
+        "videoTitle",
+        "playlistIndex",
+        "playlistLength",
+        "canPrevious",
+        "canNext",
+        "playbackState",
+        "playbackRate",
+        "supportedRates",
+        "playbackVolume",
+        "muted"
+      ],
+      "actions": [
+        "like",
+        "favorite",
+        "coin",
+        "toggleFullscreen",
+        "previous",
+        "next",
+        "play",
+        "pause",
+        "setPlaybackRate",
+        "setPlaybackVolume",
+        "mute",
+        "unmute"
+      ],
+      "capabilities": [],
+      "renderOwner": "local",
+      "kind": "input-controls",
+      "region": "adaptive",
+      "figmaVariants": {
+        "Glass/Default": "1357:21822"
+      },
+      "outcomeOwner": "pc",
+      "phoneResultUI": false
+    },
+    {
+      "componentId": "visible-task-navigation",
+      "figmaNodeId": "1332:24359",
+      "name": "Adaptive / Task navigation / Visible tasks",
+      "skins": [
+        "Glass"
+      ],
+      "states": [
+        "Default"
+      ],
+      "props": [
+        "tasks",
+        "activeTaskId",
+        "taskState"
+      ],
+      "actions": [
+        "selectTask",
+        "newTask"
+      ],
+      "capabilities": [],
+      "renderOwner": "local",
+      "kind": "control",
+      "region": "target",
+      "figmaVariants": {
+        "Glass/Default": "1332:24359"
+      },
+      "minimumTouchTarget": [
+        48,
+        64
+      ],
+      "taskDraftOwnership": "task id + target revision; switching restores input; creating does not execute"
+    },
+    {
+      "componentId": "flexible-composer-region",
+      "figmaNodeId": "1435:46489",
+      "name": "Adaptive / Layout / Flexible composer region",
+      "skins": [
+        "Glass"
+      ],
+      "states": [
+        "TextOnly",
+        "WithTools",
+        "Dismissed",
+        "Reopened"
+      ],
+      "props": [
+        "text",
+        "supplementalControls",
+        "inputMode"
+      ],
+      "actions": [
+        "dismissAuxiliary",
+        "recognizeNewAuxiliaryIntent"
+      ],
+      "capabilities": [],
+      "figmaVariants": {
+        "TextOnly": "1435:46439",
+        "WithTools": "1435:46450",
+        "Dismissed": "1543:37959",
+        "Reopened": "1543:37970"
+      },
+      "rules": [
+        "One composer fills the middle region when no supplemental controls exist.",
+        "Supplemental controls reduce composer height; no blank spacer.",
+        "Sketch uses compact composer.",
+        "Top task tracking and fixed input bounds remain unchanged.",
+        "Send remains inside composer at bottom-right."
+      ],
+      "lifecycleContract": "auxiliaryLifecycle"
+    },
+    {
+      "componentId": "media-playback",
+      "figmaNodeId": "1451:30334",
+      "name": "media-playback",
+      "skins": [
+        "Glass"
+      ],
+      "states": [
+        "Paused",
+        "Playing"
+      ],
+      "figmaVariants": {
+        "Paused": "1451:30321",
+        "Playing": "1451:30327"
+      },
+      "region": "adaptive",
+      "renderOwner": "local",
+      "status": "design-prototype-only"
+    },
+    {
+      "componentId": "media-playback-speed",
+      "figmaNodeId": "1451:30362",
+      "name": "media-playback-speed",
+      "skins": [
+        "Glass"
+      ],
+      "states": [
+        "1×",
+        "1.5×",
+        "2×"
+      ],
+      "figmaVariants": {
+        "1×": "1451:30335",
+        "1.5×": "1451:30344",
+        "2×": "1451:30353"
+      },
+      "region": "adaptive",
+      "renderOwner": "local",
+      "status": "design-prototype-only"
+    },
+    {
+      "componentId": "media-playback-volume",
+      "figmaNodeId": "1451:30439",
+      "name": "media-playback-volume",
+      "skins": [
+        "Glass"
+      ],
+      "states": [
+        "0",
+        "40",
+        "60",
+        "80"
+      ],
+      "figmaVariants": {
+        "0": "1451:30363",
+        "40": "1451:30382",
+        "60": "1451:30401",
+        "80": "1451:30420"
+      },
+      "region": "adaptive",
+      "renderOwner": "local",
+      "status": "design-prototype-only",
+      "controlType": "slider",
+      "props": [
+        "min",
+        "max",
+        "value",
+        "unit",
+        "muted"
+      ],
+      "actions": [
+        "setPlaybackVolume",
+        "mute",
+        "unmute"
+      ],
+      "range": {
+        "min": 0,
+        "max": 100,
+        "unit": "%"
+      },
+      "touchTrackHeight": 48
+    },
+    {
+      "skins": [
+        "Glass"
+      ],
+      "region": "adaptive",
+      "renderOwner": "local",
+      "capabilities": [
+        "painting-parameter-adapter"
+      ],
+      "prototypeBoundary": "Representative editable Figma states. Continuous values, voice and cross-device writes require runtime implementation.",
+      "componentId": "painting-visual-brush-console",
+      "figmaNodeId": "1466:31178",
+      "states": [
+        "铅笔",
+        "水彩",
+        "油画",
+        "喷枪",
+        "调色刀",
+        "橡皮"
+      ],
+      "props": [
+        "targetRef",
+        "revision",
+        "toolId",
+        "brushSize",
+        "colorHex"
+      ],
+      "actions": [
+        "selectTool",
+        "setBrushSize",
+        "setPaintColor"
+      ]
+    },
+    {
+      "skins": [
+        "Glass"
+      ],
+      "region": "adaptive",
+      "renderOwner": "local",
+      "capabilities": [
+        "painting-parameter-adapter"
+      ],
+      "prototypeBoundary": "Representative editable Figma states. Continuous values, voice and cross-device writes require runtime implementation.",
+      "componentId": "painting-size-slider",
+      "figmaNodeId": "1466:30573",
+      "states": [
+        "12",
+        "32"
+      ],
+      "props": [
+        "min",
+        "max",
+        "step",
+        "value",
+        "unit",
+        "disabled"
+      ],
+      "actions": [
+        "setBrushSize"
+      ],
+      "touchTrackHeight": 48
+    },
+    {
+      "skins": [
+        "Glass"
+      ],
+      "region": "adaptive",
+      "renderOwner": "local",
+      "capabilities": [
+        "painting-parameter-adapter"
+      ],
+      "prototypeBoundary": "Representative editable Figma states. Continuous values, voice and cross-device writes require runtime implementation.",
+      "componentId": "color-wheel-presets",
+      "figmaNodeId": "1466:30744",
+      "states": [
+        "A75D46",
+        "4386B5",
+        "4A8B64",
+        "D7A349",
+        "272F37",
+        "FAFAF7"
+      ],
+      "props": [
+        "hue",
+        "saturation",
+        "value",
+        "colorHex",
+        "presets",
+        "disabled"
+      ],
+      "actions": [
+        "setPaintColor"
+      ]
+    },
+    {
+      "componentId": "painting-voice-command-dock",
+      "figmaNodeId": "1471:46139",
+      "skins": [
+        "Glass"
+      ],
+      "materialMode": "1471:0",
+      "region": "input",
+      "renderOwner": "local",
+      "capabilities": [
+        "painting-command-adapter"
+      ],
+      "states": [
+        "Idle",
+        "Listening",
+        "Unavailable"
+      ],
+      "props": [
+        "targetRef",
+        "revision",
+        "capabilityStatus",
+        "recognizedCommand",
+        "state"
+      ],
+      "actions": [
+        "toggleSmartVoice",
+        "beginVoiceCapture",
+        "endVoiceCapture",
+        "cancelVoiceCapture"
+      ],
+      "prototypeBoundary": "Only voice-state transitions are simulated. Recording end never implies execution. Preserve default input controls; text visibility requires valid editable focus.",
+      "name": "Default input dock / Smart Voice",
+      "baseComponent": "1493:55578",
+      "label": "智慧语音"
+    },
+    {
+      "componentId": "intent-chip",
+      "figmaNodeId": "1550:37707",
+      "name": "Input / Intent chip",
+      "skins": [
+        "Glass"
+      ],
+      "states": [
+        "Available",
+        "Active",
+        "Disabled"
+      ],
+      "props": [
+        "label",
+        "controlIcon",
+        "intentId",
+        "textRange",
+        "inputRevision",
+        "targetId",
+        "taskId"
+      ],
+      "actions": [
+        "openAuxiliary"
+      ],
+      "capabilities": [],
+      "variantNodeIds": {
+        "Available": "1550:37680",
+        "Active": "1550:37689",
+        "Disabled": "1550:37698"
+      }
+    },
+    {
+      "componentId": "intent-chip-composer",
+      "figmaNodeId": "1552:38906",
+      "name": "Layout / Intent chip composer",
+      "skins": [
+        "Glass"
+      ],
+      "states": [
+        "Ready",
+        "Open"
+      ],
+      "props": [
+        "tool",
+        "text",
+        "intentChip",
+        "targetId"
+      ],
+      "actions": [
+        "openAuxiliary",
+        "closeAuxiliary"
+      ],
+      "capabilities": [],
+      "examplesNodeId": "1552:38914",
+      "tools": [
+        "Canvas",
+        "Camera",
+        "Document"
+      ],
+      "prototypeBoundary": "Open/close state simulation only; no recognition, device capture or document upload."
+    },
+    {
+      "componentId": "professional-fader",
+      "figmaNodeId": "1568:38793",
+      "name": "Professional / Precision fader",
+      "skins": [
+        "Glass"
+      ],
+      "states": [
+        "Default",
+        "Adjusting"
+      ],
+      "props": [
+        "parameter",
+        "label",
+        "value",
+        "unit",
+        "minimum",
+        "maximum",
+        "neutral",
+        "targetId"
+      ],
+      "actions": [
+        "beginGesture",
+        "updateValue",
+        "endGesture",
+        "cancelGesture"
+      ],
+      "capabilities": [
+        "target-parameter-adapter"
+      ],
+      "variantNodeIds": {
+        "Volume/Default": "1348:21894",
+        "Pan/Default": "1568:38735",
+        "Expression/Default": "1568:38764",
+        "Volume/Adjusting": "1571:38413",
+        "Pan/Adjusting": "1571:38443",
+        "Expression/Adjusting": "1571:38473"
+      },
+      "prototypeBoundary": "Visual press states only. The Figma variants do not implement continuous value changes or audio/MIDI."
+    },
+    {
+      "componentId": "professional-action-key",
+      "figmaNodeId": "1568:38898",
+      "name": "Professional / Action key",
+      "skins": [
+        "Glass"
+      ],
+      "states": [
+        "Default",
+        "Pressed",
+        "Selected"
+      ],
+      "props": [
+        "mode",
+        "label",
+        "icon",
+        "actionId",
+        "targetId"
+      ],
+      "actions": [
+        "activate",
+        "press",
+        "release",
+        "cancel"
+      ],
+      "capabilities": [
+        "target-action-adapter"
+      ],
+      "variantNodeIds": {
+        "Momentary/Default": "1568:38883",
+        "Momentary/Pressed": "1568:38888",
+        "Momentary/Selected": "1568:38893",
+        "Toggle/Default": "1574:38279",
+        "Toggle/Selected": "1574:38282"
+      },
+      "prototypeBoundary": "Toggle and momentary feedback are distinct. No execution receipt or connected app is simulated."
+    },
+    {
+      "componentId": "professional-action-deck",
+      "figmaNodeId": "1348:21973",
+      "name": "Professional / Action deck",
+      "skins": [
+        "Glass"
+      ],
+      "states": [
+        "Default"
+      ],
+      "props": [
+        "actions",
+        "targetId"
+      ],
+      "actions": [
+        "activate"
+      ],
+      "capabilities": [
+        "target-action-adapter"
+      ],
+      "examplesNodeId": "1568:38677"
+    },
+    {
+      "componentId": "professional-intent-composer",
+      "figmaNodeId": "1568:38979",
+      "name": "Professional / Intent composer",
+      "skins": [
+        "Glass"
+      ],
+      "states": [
+        "Ready"
+      ],
+      "props": [
+        "text",
+        "intentChip",
+        "targetId",
+        "supportsSubmit"
+      ],
+      "actions": [
+        "openAuxiliary",
+        "submit"
+      ],
+      "capabilities": [
+        "editable-target"
+      ],
+      "examplesNodeId": "1568:38677",
+      "prototypeBoundary": "Single composer with actual-value color chip; opening or dismissing the color module does not submit."
+    },
+    {
+      "componentId": "relative-encoder",
+      "figmaNodeId": "1578:39146",
+      "name": "Professional / Relative encoder",
+      "skins": [
+        "Glass"
+      ],
+      "states": [
+        "Default",
+        "Adjusting",
+        "Disabled"
+      ],
+      "variantNodeIds": {
+        "L/Default": "1348:21912",
+        "L/Adjusting": "1578:38998",
+        "L/Disabled": "1578:39072",
+        "M/Default": "1583:38532",
+        "M/Adjusting": "1583:38643",
+        "M/Disabled": "1583:38755",
+        "S/Default": "1583:38867",
+        "S/Adjusting": "1583:38966",
+        "S/Disabled": "1583:39066"
+      },
+      "props": [
+        "value",
+        "unit",
+        "step",
+        "targetId",
+        "size"
+      ],
+      "actions": [
+        "beginGesture",
+        "relativeDelta",
+        "endGesture",
+        "cancelGesture"
+      ],
+      "capabilities": [
+        "target-parameter-adapter"
+      ],
+      "examplesNodeId": "1578:39517",
+      "prototypeBoundary": "Editable visual and discrete press/mode states only; no continuous rotation, audio, MIDI or video-frame integration.",
+      "sizes": [
+        "L",
+        "M",
+        "S"
+      ],
+      "defaultSize": "L",
+      "sizeContract": {
+        "L": {
+          "panel": [
+            354,
+            430
+          ],
+          "dialDiameter": 240,
+          "ticks": 48
+        },
+        "M": {
+          "panel": [
+            280,
+            352
+          ],
+          "dialDiameter": 184,
+          "ticks": 36
+        },
+        "S": {
+          "panel": [
+            224,
+            280
+          ],
+          "dialDiameter": 144,
+          "ticks": 24
+        },
+        "minimumSecondaryTouchTarget": [
+          48,
+          48
+        ],
+        "selectionRule": "Available space and task priority; never resize during an active gesture. Reduce density/context before primary-value readability.",
+        "layoutRule": "Independent layout per size, not full-component proportional scaling."
+      }
+    },
+    {
+      "componentId": "rotary-modifier",
+      "figmaNodeId": "1578:39301",
+      "name": "Professional / Rotary with modifier",
+      "skins": [
+        "Glass"
+      ],
+      "states": [
+        "Default",
+        "ModifierHeld"
+      ],
+      "variantNodeIds": {
+        "L/Default": "1348:21930",
+        "L/ModifierHeld": "1578:39224",
+        "M/Default": "1583:39167",
+        "M/ModifierHeld": "1583:39280",
+        "S/Default": "1583:39393",
+        "S/ModifierHeld": "1583:39494"
+      },
+      "props": [
+        "primaryParameter",
+        "secondaryParameter",
+        "primaryValue",
+        "secondaryValue",
+        "targetId",
+        "size"
+      ],
+      "actions": [
+        "beginGesture",
+        "relativeDelta",
+        "holdModifier",
+        "releaseModifier",
+        "cancelGesture"
+      ],
+      "capabilities": [
+        "target-parameter-adapter"
+      ],
+      "examplesNodeId": "1578:39517",
+      "prototypeBoundary": "Editable visual and discrete press/mode states only; no continuous rotation, audio, MIDI or video-frame integration.",
+      "sizes": [
+        "L",
+        "M",
+        "S"
+      ],
+      "defaultSize": "L",
+      "sizeContract": {
+        "L": {
+          "panel": [
+            354,
+            430
+          ],
+          "dialDiameter": 240,
+          "ticks": 48
+        },
+        "M": {
+          "panel": [
+            280,
+            352
+          ],
+          "dialDiameter": 184,
+          "ticks": 36
+        },
+        "S": {
+          "panel": [
+            224,
+            280
+          ],
+          "dialDiameter": 144,
+          "ticks": 24
+        },
+        "minimumSecondaryTouchTarget": [
+          48,
+          48
+        ],
+        "selectionRule": "Available space and task priority; never resize during an active gesture. Reduce density/context before primary-value readability.",
+        "layoutRule": "Independent layout per size, not full-component proportional scaling."
+      }
+    },
+    {
+      "componentId": "jog-shuttle",
+      "figmaNodeId": "1578:39508",
+      "name": "Professional / Jog / Shuttle",
+      "skins": [
+        "Glass"
+      ],
+      "states": [
+        "Jog",
+        "ShuttleNeutral",
+        "ShuttleActive"
+      ],
+      "variantNodeIds": {
+        "L/Jog": "1348:21948",
+        "L/ShuttleNeutral": "1578:39369",
+        "L/ShuttleActive": "1578:39438",
+        "M/Jog": "1583:39596",
+        "M/ShuttleNeutral": "1583:39699",
+        "M/ShuttleActive": "1583:39804",
+        "S/Jog": "1583:39910",
+        "S/ShuttleNeutral": "1583:40001",
+        "S/ShuttleActive": "1583:40094"
+      },
+      "props": [
+        "mode",
+        "timecode",
+        "frameRate",
+        "signedSpeed",
+        "targetId",
+        "size"
+      ],
+      "actions": [
+        "selectMode",
+        "frameDelta",
+        "setShuttleSpeed",
+        "releaseToNeutral",
+        "cancelGesture"
+      ],
+      "capabilities": [
+        "target-parameter-adapter"
+      ],
+      "examplesNodeId": "1578:39517",
+      "prototypeBoundary": "Editable visual and discrete press/mode states only; no continuous rotation, audio, MIDI or video-frame integration.",
+      "sizes": [
+        "L",
+        "M",
+        "S"
+      ],
+      "defaultSize": "L",
+      "sizeContract": {
+        "L": {
+          "panel": [
+            354,
+            430
+          ],
+          "dialDiameter": 240,
+          "ticks": 48
+        },
+        "M": {
+          "panel": [
+            280,
+            352
+          ],
+          "dialDiameter": 184,
+          "ticks": 36
+        },
+        "S": {
+          "panel": [
+            224,
+            280
+          ],
+          "dialDiameter": 144,
+          "ticks": 24
+        },
+        "minimumSecondaryTouchTarget": [
+          48,
+          48
+        ],
+        "selectionRule": "Available space and task priority; never resize during an active gesture. Reduce density/context before primary-value readability.",
+        "layoutRule": "Independent layout per size, not full-component proportional scaling."
+      }
     }
-  ]
+  ],
+  "skinLabels": {
+    "Glass": "Liquid Glass"
+  },
+  "regions": {
+    "target": {
+      "order": 1,
+      "contents": [
+        "currentObject",
+        "taskStatus",
+        "application",
+        "connection"
+      ],
+      "owner": "local"
+    },
+    "adaptive": {
+      "order": 2,
+      "contents": [
+        "recommendations",
+        "canvas",
+        "colorPicker",
+        "parameters",
+        "taskActions",
+        "composer",
+        "transcription",
+        "attachments",
+        "inlinePolish"
+      ],
+      "owner": "validated-decision"
+    },
+    "fixedInput": {
+      "order": 3,
+      "contents": [
+        "editTools",
+        "voice",
+        "keyboard",
+        "trackpad",
+        "sceneControls"
+      ],
+      "owner": "local",
+      "minimizable": true
+    }
+  },
+  "layoutRules": {
+    "inputExpansionOwner": "user",
+    "inputPanelPlacement": "mode-and-smart-voice-integrated-in-panel-final-row",
+    "inputPanelMinimumHeightAt390x844": 288,
+    "keyboardKeyHeightAt390x844": 48,
+    "inputFooterYAt390x844": 776,
+    "inputExpansionReflow": "shrink-composer-and-scroll-context-before-reducing-panel-operation-area",
+    "panelVoiceDuplication": false,
+    "inputPanelMeasurementScope": "logical-design-baseline-calibrate-to-target-phone-keyboard-and-safe-area",
+    "preserveOnMinimize": [
+      "targetId",
+      "targetRevision",
+      "draft",
+      "inputMode"
+    ],
+    "mutuallyExclusiveInputModes": [
+      "keyboard",
+      "trackpad"
+    ],
+    "aiPolishRegion": "inside-composer",
+    "sketchComposer": "compact",
+    "interactionLocks": [
+      "dragging",
+      "drawing",
+      "game-held"
+    ],
+    "themeSource": "appId",
+    "skin": "Glass",
+    "gameException": "fixed control positions while playing; adaptive region hidden",
+    "composerRegion": "adaptive",
+    "maxVisibleComposers": 1,
+    "minimizedDraftSummary": false,
+    "contextActions": "horizontal-action-chips",
+    "sendRegion": "inside-composer",
+    "maxVisibleDraftSendActions": 1,
+    "inputModeTransitions": {
+      "minimized+keyboard": "keyboard",
+      "minimized+trackpad": "trackpad",
+      "keyboard+keyboard": "minimized",
+      "trackpad+trackpad": "minimized",
+      "keyboard+trackpad": "trackpad",
+      "trackpad+keyboard": "keyboard"
+    },
+    "fixedControlPositionLocks": [
+      "recording",
+      "dragging",
+      "drawing",
+      "game-held"
+    ],
+    "speechRecognitionStable": "may-update-adaptive-tools-without-moving-fixed-voice",
+    "workbuddySend": "composer-send-directly-starts-task-no-separate-review",
+    "composerContent": "text-input-and-input-parameters-only",
+    "agentStatusRegion": "top-task-tracking",
+    "phoneTaskDetail": "task-identity-dot-short-status-and-necessary-actions",
+    "pcTaskDetail": [
+      "execution-steps",
+      "logs",
+      "detailed-progress",
+      "artifacts"
+    ],
+    "colorInputLayout": "presets-picker-hue-and-hex-in-one-container",
+    "instructionalCopy": "outside-product-frames",
+    "sparseAdaptiveAlignment": "sole composer fills available adaptive region when no supplemental input exists; no blank spacer",
+    "denseAdaptiveContent": "scroll within adaptive region; fixed input and top target retain their bounds",
+    "taskNavigation": "direct visible task cards with name + semantic dot + short status, followed by new task; no list icon gate",
+    "adaptiveComposerSizing": "supplemental tools take required space; sole composer fills remaining height; sketch retains compact composer; send stays bottom-right inside composer",
+    "parameterControlSelection": "bounded continuous parameter: slider; finite discrete values: segmented/select; integer incremental quantity: stepper when appropriate; explicit action: button"
+  },
+  "taskStateSemantics": {
+    "draft": {
+      "color": "gray",
+      "label": "草稿"
+    },
+    "running": {
+      "color": "green",
+      "label": "执行中"
+    },
+    "needs_input": {
+      "color": "yellow",
+      "label": "待用户输入",
+      "reasons": [
+        "materials",
+        "approval",
+        "clarification"
+      ]
+    },
+    "error": {
+      "color": "red",
+      "label": "出错"
+    },
+    "stopped": {
+      "color": "red",
+      "label": "已停止"
+    },
+    "complete": {
+      "color": "blue",
+      "label": "已完成"
+    }
+  },
+  "parameterContract": {
+    "fields": [
+      "parameterId",
+      "originalExpression",
+      "value",
+      "lastValidValue",
+      "source",
+      "targetId",
+      "targetRevision",
+      "confirmation"
+    ],
+    "source": [
+      "system_default",
+      "user_edit"
+    ],
+    "confirmation": [
+      "candidate",
+      "unconfirmed",
+      "confirmed"
+    ],
+    "precedence": "user_edit > new speech inference",
+    "invalidHex": "show validation; retain lastValidValue; no color confirm action",
+    "undo": "restore original expression and remove precise override",
+    "scope": "task + target + revision",
+    "handoff": "retain text, color, raw sketch, confirmed layout and attachments in sole composer; explicit send submits",
+    "staleResult": "discard if target or revision differs",
+    "colorApply": "every valid setColor or setHex updates draft and composer HEX immediately without submit or execution",
+    "colorConfirmation": "valid direct edits become confirmed input values immediately; no extra completion button",
+    "layoutConfirmation": "interpreted layout still requires explicit confirmation",
+    "sketchConfirmation": "toolbar check inserts thumbnail into sole composer; re-edit replaces same attachment; never submits"
+  },
+  "taskVariables": {
+    "task/draft": "VariableID:1368:22139",
+    "task/running": "VariableID:1368:22140",
+    "task/needsinput": "VariableID:1368:22141",
+    "task/error": "VariableID:1368:22142",
+    "task/stopped": "VariableID:1368:22143",
+    "task/complete": "VariableID:1368:22144"
+  },
+  "mediaInputContract": {
+    "phone": "current target, editable draft, input controls and transient press feedback only",
+    "pc": "execution confirmations, success, failure and account restrictions",
+    "coin": "one coin on explicit click; no quantity picker or second confirmation",
+    "send": "explicit inside-composer send; recording end does not send",
+    "resultPresentation": "no phone result page, success card, toast or changed-to-success action label",
+    "delivery": "receiver acknowledgement and idempotency remain; one-way input describes UI ownership, not transport",
+    "draft": "retain until acknowledgement; preserve on failure; never automatically resend",
+    "navigation": "fullscreen/list mode switch left with fullscreen icon; previous and next grouped right",
+    "brand": "Bilibili pink action accent and cold-white Liquid Glass; content color remains independent",
+    "figmaPhoneFrame": "1358:12215",
+    "figmaThemeMode": "1414:0",
+    "playback": "explicit play/pause from authoritative player state; speed from supported rates; target-player volume and mute",
+    "excludedControls": [
+      "timeline",
+      "progress",
+      "seek",
+      "scrub",
+      "skip-forward-time",
+      "skip-backward-time"
+    ],
+    "controlFeedback": "confirmed playback, rate and volume may drive controls; no phone result pages or success cards",
+    "volume": "target player audio via continuous 0–100 slider and displayed value; speaker mutes/restores previous nonzero value; no increment/decrement buttons",
+    "prototypeSamples": "1/1.5/2x and 0/40/60/80 volume are discrete Figma examples, not validated platform enumerations"
+  },
+  "paintingInputContract": {
+    "mainFrame": "1443:16044",
+    "voiceFrame": "1443:16163",
+    "themeMode": "1459:0",
+    "fixedDockY": 708,
+    "composer": "Hidden in drawing/command modes. Show one synchronized text editor only for an authoritative editable focused target; finish ends editing, not a second send. Blur restores drawing.",
+    "paintSurface": "Main device retains artwork. Phone is a visual secondary-hand tool/parameter controller.",
+    "range": "Target-defined limits and units. 12/32 px are design samples.",
+    "photoImport": "Removed from this scene. Existing system tap-to-transfer is outside this prototype.",
+    "paletteKnife": "Requested design entry; native brush mapping remains unverified.",
+    "textFocusFrame": "1472:16901",
+    "materialMode": "1471:0",
+    "appearance": {
+      "canvas": "#090A0C",
+      "primary": "#4D85FF",
+      "scope": "GoPaint only; project-selected palette, not claimed official exact HEX"
+    },
+    "voiceMode": "command during drawing; dictation only while a valid text field is focused. Never interpret dictation as a drawing command.",
+    "commandExamples": [
+      "new-layer",
+      "open-liquify",
+      "select-smudge"
+    ],
+    "commandPolicy": "Follow G03: one Smart Voice button, click toggles, hold speaks, release ends recording. Ending recording does not submit or execute. Pure command mode has no composer. Apply only through an explicit app action or confirmed command contract; mixed toggle/hold details remain unresolved. Cancel stale targets and never replay unknown results.",
+    "dock": "Default shared two-row input dock, 390x136 at y708; retain tools, keyboard/pointing entries and their positions. Label is 智慧语音 in all scenes. No painting-specific rearrangement.",
+    "draftPolicy": "Text remains on the original synchronized target after blur. Unknown focus protects unconfirmed input and blocks writes. Late transcripts never become commands or enter another target."
+  },
+  "glassMaterialContract": {
+    "canonicalPage": "2:2",
+    "masterSection": "277:15031",
+    "categories": {
+      "atoms": "1512:25704",
+      "compositions": "1512:25705",
+      "scenarios": "1512:25706"
+    },
+    "variables": {
+      "control": "VariableID:1514:25704",
+      "reading": "VariableID:1514:25705",
+      "dock": "VariableID:1514:25706",
+      "appTint": "VariableID:1514:25707"
+    },
+    "rules": [
+      "Visible background transmission and fine bright edges",
+      "Reading surface denser than actions",
+      "One shared editing-toolbar base, no repeated button backing plates",
+      "Application theme independent from content color",
+      "Preserve black-blue painting and matte game exceptions"
+    ],
+    "runtimeImplemented": false
+  },
+  "textEditingContract": {
+    "editResult": "Explicit polish updates the bound text or valid selection directly; undo is available.",
+    "excludedComponents": [
+      "diff",
+      "edit-preview"
+    ],
+    "objectInstructions": "Submit explicitly from the sole composer; detailed results remain on PC. No phone before/after or Apply step."
+  },
+  "captureIconContract": {
+    "componentNodeId": "1438:45173",
+    "icon": "screenshot_monitor",
+    "source": "Google Material Design Icons / outlined",
+    "sourceUrl": "https://github.com/google/material-design-icons/blob/master/src/device/screenshot_monitor/materialiconsoutlined/24px.svg",
+    "license": "Apache-2.0",
+    "meaning": "Open screenshot / recording / camera selector",
+    "visual": "Monitor outline with capture corners; never reuse SelectAll geometry",
+    "touchTarget": [
+      48,
+      48
+    ]
+  },
+  "auxiliaryLifecycle": {
+    "states": [
+      "open",
+      "dismissed",
+      "reopened"
+    ],
+    "dismissAction": "dismissAuxiliary",
+    "dismissScope": [
+      "appId",
+      "taskId",
+      "targetId",
+      "inputRevision",
+      "intentId"
+    ],
+    "preserve": [
+      "text",
+      "parameters",
+      "attachments",
+      "unconfirmedStrokes",
+      "intentChip"
+    ],
+    "reopenOn": [
+      "tapIntentChip",
+      "editExistingParameterOrAttachment"
+    ],
+    "neverReopenOn": [
+      "sameProcessedIntent",
+      "unrelatedTyping",
+      "draftSync",
+      "reconnect",
+      "lateResult",
+      "recognitionWithoutUserTap",
+      "tapBlankComposer"
+    ],
+    "closeDoesNot": [
+      "submit",
+      "confirmSketch",
+      "insertSketch",
+      "resetParameters",
+      "waiveRequiredInput"
+    ],
+    "closeTouchTarget": [
+      48,
+      48
+    ],
+    "spaceRule": "Hide the auxiliary module and expand the sole composer; fixed dock stays stable.",
+    "prototypeExampleNode": "1543:38028",
+    "prototypeBoundary": "Figma visibility variables simulate the current example; runtime state must be scoped by app/task/target/input revision/intent.",
+    "recognitionResult": "Create/update a large icon-led intent chip inside the sole composer.",
+    "closePlacement": "panel-top-right",
+    "confirmPlacement": "panel-bottom-right",
+    "confirmTouchTarget": [
+      48,
+      48
+    ],
+    "confirmationPolicy": "Only where adoption is required; no extra Done for live color/HEX or direct formatting. Confirm adopts local input, never sends or executes.",
+    "actionArea": "Keep actions outside scrollable/drawing content; reserve bottom-right space without overlapping the fixed dock."
+  },
+  "intentChipContract": {
+    "heightMin": 48,
+    "placement": "inside sole composer, in text flow; no permanent toolbar shortcut",
+    "props": [
+      "label",
+      "controlIcon",
+      "componentId",
+      "intentId",
+      "textRange",
+      "originalExpression",
+      "taskId",
+      "targetId",
+      "inputRevision",
+      "state",
+      "recognizedValue",
+      "displayValue",
+      "valueSource"
+    ],
+    "states": [
+      "Available",
+      "Active",
+      "Disabled"
+    ],
+    "actions": [
+      "openAuxiliary"
+    ],
+    "examples": [
+      "canvas",
+      "camera",
+      "document",
+      "color"
+    ],
+    "onClose": "retain chip and current values; return to Available",
+    "onStaleOrNegation": "invalidate suggestion; retain confirmed materials",
+    "valuePresentation": "Recognized value preview + concise action; color uses current swatch + 调整颜色.",
+    "colorBinding": "One parameter owns chip swatch, inline HEX and picker; user-edited value takes priority over recognition default."
+  }
 }

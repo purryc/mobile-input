@@ -307,7 +307,7 @@
 }
 .workbuddy.wb-collapsed .wb-brand,
 .workbuddy.wb-collapsed .wb-history,
-.workbuddy.wb-collapsed nav,
+.workbuddy.wb-collapsed .wb-sidebar nav,
 .workbuddy.wb-collapsed .wb-sidebar footer {
   display: none;
 }
@@ -1468,4 +1468,49 @@
 }
 .workbuddy .wb-popover-overlay .wb-dialog > header button {
   min-height: 24px;
+}
+
+/* Explicit focus feedback, matching WeChat's cyan/blue/lilac glass palette. */
+@property --wb-focus-angle { syntax: '<angle>'; inherits: false; initial-value: 0deg; }
+.workbuddy .wb-composer-box.wb-linked {
+  isolation: isolate;
+  border-color: transparent;
+  box-shadow: 0 0 12px #76c7ec2b, 0 0 23px #b5a1e625;
+}
+.workbuddy .wb-composer-box.wb-linked::before,
+.workbuddy .wb-focus-glass::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: 21px;
+  padding: 2px;
+  pointer-events: none;
+  background: conic-gradient(from var(--wb-focus-angle), #68bddd, #7ca9ed 80deg, #afa0e6 165deg, #eee8ff 220deg, #fff 235deg, #8accf0 270deg, #68bddd);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  filter: drop-shadow(0 0 4px #77b9ed88) drop-shadow(0 0 9px #b4a0e666);
+}
+.workbuddy .wb-composer-box.wb-linked::before { animation: wb-focus-orbit 4s linear infinite; }
+.workbuddy .wb-focus-glass { position: absolute; inset: 0; border-radius: inherit; pointer-events: none; z-index: 2; }
+.workbuddy .wb-focus-glass::before {
+  background: linear-gradient(115deg, #68bddd, #7ca9ed 18%, #afa0e6 36%, #f0e4f5 49%, #8accf0 61%, #819eee 79%, #c4a5df 93%, #72c8df);
+  background-size: 220% 180%;
+  animation: wb-focus-pulse 240ms ease-in-out 2, wb-focus-reading-edge 2000ms 480ms ease-in-out forwards;
+}
+.workbuddy .wb-focus-glass::after {
+  content: ''; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+  background: linear-gradient(108deg, transparent 25%, #89d7f216 35%, #7ebdf02e 42%, #c8b8f333 47%, #ffffff80 50%, #d1ebff66 52%, #bba8e52b 56%, #88cbe919 62%, transparent 72%);
+  background-size: 280% 100%;
+  animation: wb-focus-glass-sweep 2000ms 480ms cubic-bezier(.22,.55,.35,1) both;
+}
+.workbuddy .wb-composer-box.wb-linked textarea:focus-visible { outline: none; }
+@keyframes wb-focus-orbit { to { --wb-focus-angle: 360deg; } }
+@keyframes wb-focus-pulse { 0%,100% { opacity:.55; background-position:0% 50%; } 50% { opacity:1; background-position:85% 50%; filter:drop-shadow(0 0 6px #7abef1cc) drop-shadow(0 0 12px #b39ce8aa); } }
+@keyframes wb-focus-reading-edge { 0% { background-position:0% 50%; } 35% { opacity:1; } 100% { background-position:100% 50%; opacity:0; } }
+@keyframes wb-focus-glass-sweep { 0% { background-position:100% 50%; opacity:0; } 15%,85% { opacity:1; } 100% { background-position:0% 50%; opacity:0; } }
+@media (prefers-reduced-motion: reduce) {
+  .workbuddy .wb-composer-box.wb-linked::before { animation:none; }
+  .workbuddy .wb-focus-glass { display:none; }
 }

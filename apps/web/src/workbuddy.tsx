@@ -1,3 +1,4 @@
+import { WorkBuddyFileBrowser, WorkBuddyResults } from './workbuddy-file-browser';
 import {
   useEffect,
   useRef,
@@ -19,7 +20,7 @@ import {
   type ResultKind,
 } from "../../../packages/core/workbuddy";
 import type { State } from "../../../packages/core/model";
-import { command, navigateBack, toast } from "./runtime";
+import { command, navigateBack, toast, useRuntime } from "./runtime";
 import { useBack } from "./back";
 import { useWorkBuddyInput } from "./workbuddy-input";
 import "./workbuddy.css";
@@ -42,6 +43,8 @@ const icons: Partial<Record<WorkBuddyPage, typeof I.Plus>> = {
 };
 const modeLabels = { agent: "默认", plan: "计划", ask: "仅问答" };
 const statusLabels = {
+  "needs-materials":"待补材料",approval:"等待批准",
+  draft: "草稿",
   running: "正在执行",
   paused: "已暂停",
   planned: "等待确认",
@@ -126,6 +129,7 @@ export function WorkBuddy({ s }: { s: State }) {
         ? wbConnectors
         : [...wbExperts, ...w.experts];
   const nav = w.settings.menu;
+  if(w.fileBrowser?.visible&&w.fileBrowser.windows.length)return <WorkBuddyFileBrowser s={s}/>;
   return (
     <div className={"workbuddy" + (collapsed ? " wb-collapsed" : "")}>
       <aside className="wb-sidebar">
@@ -180,7 +184,7 @@ export function WorkBuddy({ s }: { s: State }) {
           </button>
         </nav>
         {more && (
-          <div className="wb-more">
+          <div className="wb-more"><button onClick={()=>command("wb-fb-open",{}).then(()=>setMore(false))}>文件浏览器<I.Files size={16}/></button>
             {(
               [
                 "mailbox",
@@ -453,7 +457,7 @@ export function WorkBuddy({ s }: { s: State }) {
                         <div className="wb-message-text">{m.text}</div>
                       </div>
                     ))}
-                    {task.status !== "complete" && (
+                    {task.status !== "complete" && !task.receipts && (
                       <div className="wb-execution">
                         <strong>
                           <img src={logo} alt="" />
@@ -583,7 +587,7 @@ export function WorkBuddy({ s }: { s: State }) {
                   </div>
                   <Composer key={w.task} s={s} open={open} />
                 </section>
-                {(w.previewActive || w.filePanel) && <FilePanel s={s} />}
+                {(w.previewActive || w.filePanel) && <WorkBuddyResults s={s} />}
               </div>
             ) : null}
             {["experts", "skills", "connectors"].includes(page) && (
@@ -1056,7 +1060,7 @@ export function WorkBuddy({ s }: { s: State }) {
         )}
         {page !== "task" && w.previewActive && (
           <div className="wb-library-preview">
-            <FilePanel s={s} />
+            <WorkBuddyResults s={s} />
           </div>
         )}
       </section>
@@ -1162,13 +1166,37 @@ function Composer({
     );
   const task = w.tasks.find((t) => t.id === w.task);
   const ref = useRef<HTMLTextAreaElement>(null);
+  const {connected} = useRuntime();
+  const linked = connected && s.target?.id === id;
+  const [flash, setFlash] = useState(0);
+  const lastActivation = useRef(0);
+  const activateInput = () => {
+    const now = performance.now();
+    lastActivation.current = now;
+    void editor.activate();
+    if (connected) setFlash(now);
+  };
+  useEffect(() => {
+    if (!linked) setFlash(0);
+  }, [connected, id, s.target?.id]);
+  useEffect(() => {
+    if (!flash) return;
+    const timer = window.setTimeout(() => setFlash(0), 2480);
+    return () => window.clearTimeout(timer);
+  }, [flash]);
   return (
     <div className="wb-composer">
       <div
         className={
-          "wb-composer-box " + (s.target?.id === id ? "wb-selected" : "")
+          "wb-composer-box " + (s.target?.id === id ? "wb-selected " : "") + (linked ? "wb-linked" : "")
         }
+        onPointerDown={(e) => {
+          if ((e.target as HTMLElement).closest('button,a,input,select')) return;
+          activateInput();
+          if (e.target === e.currentTarget) ref.current?.focus({preventScroll:true});
+        }}
       >
+        {linked && flash > 0 && <span key={flash} className="wb-focus-glass" aria-hidden="true" />}
         {d?.references.map((text, index) => (
           <div className="wb-reference-chip" key={index}>
             <I.TextQuote size={13} />
@@ -1203,7 +1231,7 @@ function Composer({
           aria-label="WorkBuddy 任务输入"
           placeholder="今天帮你做些什么？ @ 添加上下文，/调用技能与指令"
           value={editor.text}
-          onFocus={() => editor.focus()}
+          onFocus={() => { if (performance.now() - lastActivation.current >= 80) activateInput(); }}
           onChange={(e) => editor.update(e.target.value)}
           onKeyDown={(e) => {
             if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) {
@@ -1318,164 +1346,6 @@ function Markdown({ text }: { text: string }) {
         if (block.startsWith("# ")) return <h1 key={i}>{block.slice(2)}</h1>;
         return <p key={i}>{block}</p>;
       })}
-    </div>
-  );
-}
-function FilePanel({ s }: { s: State }) {
-  const w = s.workbuddy,
-    f = w.files.find((x) => x.id === w.previewActive);
-  const [editing, setEditing] = useState(false),
-    [selection, setSelection] = useState(""),
-    [zoom, setZoom] = useState(100);
-  useEffect(() => {
-    setEditing(false);
-    setSelection("");
-  }, [f?.id]);
-  return (
-    <aside className="wb-file-panel">
-      <header>
-        <div className="wb-preview-tabs">
-          {w.preview.map((id) => {
-            const file = w.files.find((f) => f.id === id);
-            return (
-              file && (
-                <div key={id}>
-                  <button
-                    className={w.previewActive === id ? "active" : ""}
-                    onClick={() => run("preview", { id })}
-                  >
-                    <I.FileText size={13} />
-                    {file.name}
-                  </button>
-                  <button
-                    aria-label={"关闭 " + file.name}
-                    onClick={() => run("preview-close", { id })}
-                  >
-                    <I.X size={12} />
-                  </button>
-                </div>
-              )
-            );
-          })}
-          <button
-            aria-label="文件目录"
-            onClick={() => run("file-panel", { open: !w.filePanel })}
-          >
-            <I.FolderTree size={17} />
-          </button>
-        </div>
-      </header>
-      {f ? (
-        <>
-          <div className="wb-file-toolbar">
-            <strong>{f.name}</strong>
-            <button onClick={() => setZoom(zoom === 100 ? 125 : 100)}>
-              {zoom}%
-            </button>
-            <button aria-label="编辑文件" onClick={() => setEditing(!editing)}>
-              <I.Pencil size={16} />
-            </button>
-            <button
-              aria-label="刷新文件数据"
-              onClick={() => run("file", { id: f.id, action: "refresh" })}
-            >
-              <I.RefreshCw size={16} />
-            </button>
-            <button
-              aria-label="分享文件"
-              onClick={() => {
-                run("share", { name: f.name });
-                toast("已保存本地分享记录");
-              }}
-            >
-              <I.Share2 size={16} />
-            </button>
-          </div>
-          {editing ? (
-            <FileEditor key={f.id} file={f} />
-          ) : (
-            <div
-              className="wb-preview-body"
-              style={{ fontSize: `${zoom}%` }}
-              onMouseUp={() =>
-                setSelection(window.getSelection()?.toString() || "")
-              }
-              onTouchEnd={() =>
-                setTimeout(
-                  () => setSelection(window.getSelection()?.toString() || ""),
-                  100,
-                )
-              }
-            >
-              <Markdown text={f.content} />
-            </div>
-          )}
-          {selection && (
-            <button
-              className="wb-selection-action"
-              onClick={() => {
-                run("reference", { text: selection });
-                setSelection("");
-              }}
-            >
-              引用到任务
-              <I.TextQuote size={16} />
-            </button>
-          )}
-          <footer className="wb-file-footer">
-            <span>
-              数据版本 {f.dataVersion}
-              {f.edited ? " · 已编辑" : ""}
-            </span>
-            {f.officeId && (
-              <button
-                onClick={() => command("office-open", { id: f.officeId })}
-              >
-                在 WPS 中打开
-                <I.ArrowUpRight size={15} />
-              </button>
-            )}
-          </footer>
-        </>
-      ) : (
-        <Empty>选择文件以预览</Empty>
-      )}
-      {w.filePanel && (
-        <div className="wb-directory">
-          <h4>工作空间 · 澄星设计</h4>
-          {w.files.map((file) => (
-            <button
-              key={file.id}
-              onClick={() => run("preview", { id: file.id })}
-            >
-              <FileSymbol file={file} />
-              <span>{file.name}</span>
-              <I.ChevronRight size={13} />
-            </button>
-          ))}
-        </div>
-      )}
-    </aside>
-  );
-}
-function FileEditor({ file }: { file: WbFile }) {
-  const editor = useWorkBuddyInput("wb:file:" + file.id, "编辑 · " + file.name);
-  return (
-    <div className="wb-file-editor">
-      <textarea
-        aria-label="WorkBuddy 文件正文"
-        value={editor.text}
-        onFocus={editor.focus}
-        onChange={(e) => editor.update(e.target.value)}
-      />
-      <button
-        className="wb-primary"
-        disabled={editor.busy || editor.blocked}
-        onClick={() => editor.submit()}
-      >
-        保存
-      </button>
-      {editor.blocked && <button onClick={editor.recover}>恢复本地草稿</button>}
     </div>
   );
 }

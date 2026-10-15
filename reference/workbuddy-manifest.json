@@ -22,6 +22,18 @@
       "sha256": "b4f819660170b45a13abdd9e9a5b82931c4e4f84bcc624f24698addb7da99614",
       "role": "official installed-app mascot, visually reviewed against recording",
       "private": false
+    },
+    {
+      "file": "apps/web/public/assets/workbuddy/sales-equipment.svg",
+      "source": "Original editable SVG authored in this project",
+      "role": "fictional sales equipment diagram",
+      "sha256": "24dfdc02a24f42bebb90328c975c9cd7adaed7fe36cddf89b5af8ab2201fccae"
+    },
+    {
+      "file": "apps/web/public/assets/workbuddy/meeting-cue.wav",
+      "source": "scripts/generate-file-browser-audio.py",
+      "role": "original two-tone PCM cue; no speech",
+      "sha256": "adcd6de081fab8aeb6aa696c1fac3bc11fb33125a8009a04f930509bc8d29c2f"
     }
   ],
   "baselineTimecodes": {
@@ -182,5 +194,21 @@
       "private": true,
       "bundled": false
     }
-  ]
+  ],
+  "fileBrowser": {
+    "version": "1.3.0",
+    "reviewedAt": "2026-10-13",
+    "sources": [
+      "https://www.codebuddy.cn/docs/workbuddy/From-Beginner-to-Expert-Guide/Function-Description/File-Browser",
+      "https://www.codebuddy.cn/docs/workbuddy/From-Beginner-to-Expert-Guide/Function-Description/Right-Sidebar",
+      "https://www.codebuddy.cn/docs/workbuddy/From-Beginner-to-Expert-Guide/Function-Description/Knowledge-Base/Cowriting"
+    ],
+    "referenceScreenshots": [
+      "https://download.codebuddy.cn/web/docs/0b5fcf54a97e6867761bd47360a1578da6fcdc15/docs/static/file-browser-ai-expanded.CqOD3CAx.png",
+      "https://download.codebuddy.cn/web/docs/0b5fcf54a97e6867761bd47360a1578da6fcdc15/docs/static/file-browser-plus-menu.CC4QU55A.png",
+      "https://download.codebuddy.cn/web/docs/0b5fcf54a97e6867761bd47360a1578da6fcdc15/docs/static/file-browser-ai-collapsed.CuOnjPrT.png",
+      "https://download.codebuddy.cn/web/docs/0b5fcf54a97e6867761bd47360a1578da6fcdc15/docs/static/file-browser-editor.sC_13NR4.png"
+    ],
+    "scope": "Reference layout only; no official account or document content bundled."
+  }
 }

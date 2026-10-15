@@ -1,4 +1,79 @@
+## 2026-10-14 · 开发进展与完整源码同步
+
+- 新增开发日报，汇总通用输入、WorkBuddy 任务／文件、绘画、Bilibili、ChatGPT 润色与设计同步，分别记录已完成、真机确认和待验收项目。
+- README 更新为 1.4.0、九个演示入口和当前验收索引；此次补齐上次 1.2.0 备份之后的可编辑源码、素材索引、测试和设计脚本。
+- 同步前 104 项核心测试、46 项全量浏览器回归、类型检查和生产构建通过。更新四处过期测试约定，保留初次失败记录；凭据扫描和排除项检查通过。
+- 签名材料、账号授权、私有素材与构建产物保留在本机。完整记录见 [2026-10-14 开发进展](docs/development-progress-2026-10-14.md)。
+
+## 2026-10-14 · 顶部草图附件与开发设计同步
+
+- WorkBuddy 已确认的布局草图移到唯一文本框顶部，缩略图可继续编辑，独立 X 仅删除当前任务草图；正文、颜色与其他材料保留。
+- 同步 Figma 原组件与主流程：场景化 AI润色、ChatGPT 账号状态、单一颜色入口、中性新任务、绘画命令自动执行和视频／采集规则。
+- 104 项核心测试、6 项浏览器检查及两端签名构建通过；手机和平板已覆盖安装，真机布局和草稿保留已核对。分层证据见 `docs/runtime-design-sync-2026-10-14.md`。
+
+## 2026-10-14 · 场景化 AI润色 action
+
+- 根据应用和当前编辑对象显示三个合适的润色入口：微信回复、任务指令、邮件、标题、正文、演讲备注、笔记和弹幕分别处理。
+- 新任务保持格式中性，数字与绘画命令不显示文本润色；明确点击才调用 GPT，仍支持选区、撤销和迟到结果保护。
+
+## 2026-10-14 · 手机独立 ChatGPT 授权与真实润色
+
+- 手机连接设置增加 ChatGPT 登录、取消与退出；使用官方 OAuth，授权保存在手机应用私有目录。
+- AI润色通过官方 Responses 接口处理当前字段或选区，支持取消、错误保留原文、成功撤销；继续编辑或切换目标后不接受旧结果。
+- 修复手机模型目录接收上限过小导致润色失败；真实授权、润色、平板同步和撤销已在两端验证。无需 Mac 代理，不自动发送聊天或提交任务；分层记录见 `docs/chatgpt-polish.md`。
+
+## 2026-10-14 · Single color action and recognition feedback
+
+- Keep one color action chip; retain structured parameters without adding HEX text or duplicate badges.
+- Sweep recognized color words in blue/lilac before revealing the action, preserving editable text and stable voice controls.
+- Back up and clean legacy generated color annotations while retaining artwork and user-authored text.
+
+## 2026-10-14 · 手机输入与意图面板设计同步
+
+- 同步文本框默认抑制系统软键盘，保留明确的系统中文输入入口；鸿蒙壳按字段拦截键盘请求。
+- 文本框内意图入口点击展开颜色／手绘／相机／文档；关闭保留内容，右上关闭、右下确认。
+- 对象修改一次发送直接更新平板文件，移除手机修改预览与二次应用。
+- 同步玻璃样式、截图图标与键盘展开态语音图标；保留现有任务、草稿与材料。
+- 验证与边界：`docs/input-intent-runtime-update.md`。
+
 # 版本更新说明
+
+## 1.4.0 — 2026-10-14
+
+- 修复 WorkBuddy 断线时切到通用页面并禁用全部输入的问题：保留任务编辑页，数字、表情与编辑工具继续修改本地草稿，提供明确的连接／目标恢复入口；重连不自动提交或覆盖平板内容。
+- 通用键盘／触控板按最新 Figma 重做透明玻璃布局：三排键盘与 ABC／符号／表情，空白触控区与左右鼠标键，模式切换和智慧语音整合进最后一排；保留系统中文输入。修复 WorkBuddy 意图处理误删末尾换行。
+- WorkBuddy 所有任务的手机文本框移除常驻画笔与调色板入口；用户表达颜色或布局意图后才显示对应工具，保留已确认参数和手绘附件的编辑能力。
+- 新增天生会画三态控制器、分层画布、六种笔触、连续色环、涂抹/液化、文本图层和撤销重做。
+- 普通字段采用焦点驱动的双向编辑；并发修改保留输入并提供恢复选择，应用发送保持显式操作。
+- 统一固定输入区、自绘键盘/系统中文入口、原型内触控板左右键和单按钮语音手势。
+- 按最新要求，明确的绘画语音命令在识别完成后直接执行，无需二次确认；文字聚焦时只听写。迁移备份旧画作，保持笔记及既有业务状态。
+- 修复纯标点识别结果误弹绘画操作菜单；通用录音由手势停止，字幕保持独立分句逻辑。
+- 绘画自动执行改为读取原生完成事件携带的最终转写和原目标身份，避免分开发送的转写/完成事件导致漏执行；同一语音会话去重。
+- 浏览器与真机验证分别记录于 `docs/paint-input-update.md`。
+
+
+## 开发中 · 2026-10-14 · WorkBuddy 与 Bilibili 输入场景
+
+- 跟进最新 Figma，为 Bilibili 手机端补齐播放／暂停、1×／1.5×／2×、连续音量与静音、全屏／列表切换；参数实际控制平板视频，手机无进度拖动条。
+
+- 修复连续转写在回执先于状态到达时误触发草稿保护；受保护草稿显示原因，并可在发送位置确认目标后继续预览。保留明确“应用修改”。
+
+- WorkBuddy 增加单一弹性输入框、任务卡片、颜色／HEX、原始手绘与确认缩略图；Roadmap 参数实际影响六页演示产物。
+- 支持任务 A 执行时切到 B 补材料／处理绑定范围的审批，再返回 A；对象指向和修改指令独立保存，预览后明确应用。
+- Bilibili 成为第九个入口，复用已有 Hover 本地视频；手机操作列表、点赞收藏、单枚演示投币及弹幕，大屏显示结果。未知请求先查询，重连不重放。
+- 共享采集入口支持应用窗口截图、圈选、显式开始／停止的无声录屏；手机系统相机结果先保留在本机，恢复原目标后明确加入参考。采集不自动提交任务。
+- 已观察手机系统相机打开／取消、中文 emoji 原生剪切粘贴，以及原生手机向浏览器大屏发送弹幕和投币操作。两端已更新；真人对象语音识别、人工恢复后预览及标题修改已验证。修复后的真人语音发送、预览及应用标题修改已由用户确认；真实拍照及完整拔 USB 双端验收仍待完成。
+- 两个场景分别记录于 [WorkBuddy 验收](docs/workbuddy-adaptive-input-validation.md)和 [Bilibili 验收](docs/bilibili-input-validation.md)。工程包继续使用 1.3.0；不把开发检查描述为最终版本验收。
+
+## v1.3.0 · 2026-10-13
+
+- 新增WorkBuddy应用内全屏文件浏览器：浅蓝标签、最近、新建、目录、触摸排序、独立逻辑窗口与逐级返回。
+- 九类虚构销售文件；Word/表格/PPT直接编辑并共用WPS内容，Markdown/TXT自动保存，HTML退出编辑保存，内置PDF分页、SVG缩放和WAV实际播放。
+- 逐文件AI对话、选区改写、撤销重做、生成同目录简报；手机实时编辑与原子提交，保留真实语音和原生剪贴板入口。
+- 右侧面板分为产物、工作空间文件、实际变更和内置销售网页浏览器。
+- 升级前备份，旧手改文本另存迁移副本；未保存关闭确认、版本冲突副本、第二窗口只读及迟到AI结果保护。
+- 验证：类型检查、62项核心/协议测试、19项完整浏览器回归、Web及两端签名构建通过；手机已安装1.3.0，平板未被调试工具识别，双端真机及拔USB验收待完成。
+- 官方视觉与能力来源、模拟边界、测试和真机情况分别记录于[覆盖矩阵](docs/workbuddy-file-browser-implementation.md)和[验收](docs/workbuddy-file-browser-validation.md)。本轮不自动推送GitHub或上传Drive。
 
 ## v1.2.0 · 2026-10-09
 
@@ -46,3 +121,33 @@
 - 原生构建与真机记录见 [v1.1.0 验收记录](docs/input-agent-v1.1.0-validation.md)。
 - 所有第三方服务继续为本地演示；未新增真实日历、预订、支付或账号接入。
 - 签名凭据、原始录屏与设备截图不进入 GitHub 源码。USB 拔除后的完整双设备验收未在本版本重新执行。
+
+### 30-second Bilibili media
+- Added a continuous 30-second Big Buck Bunny excerpt with original audio and source credit; retained both Hover clips. New video drafts/reactions are initialized without replacing prior records.
+- Verified phone playback/pause, volume, editable speech and moving danmaku without USB; WorkBuddy photo adoption and cross-app crop separately confirmed by the user.
+
+
+## 2026-10-14 — Bilibili demonstration playlist and reactions
+
+- Reordered playback to Hua Fei (5-second loop), Big Buck Bunny (5-second loop), and Yu Yan's official Foretold practice video (continuous 00:30–01:00 excerpt, 30-second loop).
+- Added tablet-only applied-action feedback: like pop/rays, favorite star burst, coin flip/ring. Receipt queries, old receipts and reopened views do not replay these effects; reduced motion is respected.
+- Preserved prior video drafts/reactions during catalog migration; the new Yu Yan video has an independent identity and fresh action state. Re-selecting the current video preserves duration and playback position.
+- Source provenance is in `reference/bilibili-input.json`; original clips remain unchanged. YouTube authentication was used only with user authorization and was not saved to source or packages.
+- Playback-list Reset Interactions clears only the current video reactions and refunds local demo coins, while retaining drafts, comments and idempotent receipts.
+
+### GoPaint tablet UI refinement
+- Rebuilt the painting surface against installed Huawei GoPaint 16.0.0.235: full canvas, floating drawing/editing toolbars, brush library, color panels and real layer thumbnails.
+- Added per-stroke opacity with backwards-compatible defaults; preserved drawings, undo history, phone text editing and automatic voice commands.
+- Kept private device screenshots out of runtime and delivery bundles. Native filters, selection/transform and brush imports remain outside the demo scope.
+
+### WorkBuddy new-task context fix
+- Removed the hard-coded presentation/Roadmap summary from the phone's unsubmitted task composer. Empty and ordinary drafts no longer claim that a presentation task exists.
+- Renamed the contextual color panel to the format-neutral “主色”; explicit color/layout intent and existing task restoration remain available.
+
+### WorkBuddy composer focus animation
+- Added WeChat-style cyan/lilac edge pulses and glass sweep on explicit task-input activation, followed by a subtle connected-target orbit.
+- Kept input immediate; draft synchronization does not restart the animation, and disconnect/target changes stop it.
+
+### WorkBuddy explicit phone-input entry
+- Tapping the task input surface now activates the phone composer and focus animation together, including blank padding and repeated taps on an already focused field.
+- Explicit activation recovers an unknown target after release while preserving unsent text; toolbar actions and task submission remain separate.

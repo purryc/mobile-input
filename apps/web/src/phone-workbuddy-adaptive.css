@@ -1,0 +1,122 @@
+.wb-adaptive-phone{--input-accent:#146c64;--input-soft:#e0efec;background:radial-gradient(ellipse at 95% 80%,#cde7df77,transparent 65%),linear-gradient(#e8f1f7,#f3f7f8 45%,#e3eeee);color:#122d39;gap:16px}.wb-adaptive-phone .adaptive-status>img{width:30px;height:30px}.wb-adaptive-tasks{display:flex;gap:8px;flex:none;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}.wb-task-strip>button{width:145px;min-width:145px;height:64px;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:4px;padding:10px;font-size:12px}.wb-task-strip>button.current{background:#e0efec;border-color:#146c64}.wb-task-strip>button>span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width:100%;text-align:left}.wb-adaptive-tasks>button:last-child{min-width:48px;width:48px;align-items:center}.wb-adaptive-tasks small{font-size:11px;display:flex;gap:5px;align-items:center}.wb-adaptive-tasks i{width:6px;height:6px;border-radius:50%;background:#88949b}.wb-adaptive-tasks i[data-status=running]{background:#20a163}.wb-adaptive-tasks i[data-status=complete]{background:#3077cf}.wb-adaptive-tasks i[data-status=paused]{background:#cc4347}.wb-adaptive-tasks i[data-status=planned],.wb-adaptive-tasks i[data-status=needs-type]{background:#d19b3f}.wb-adaptive-middle{flex:1;min-height:0;display:flex;flex-direction:column;gap:12px;overflow:auto}.wb-adaptive-middle>section{flex:none;border:1px solid white;border-radius:16px;background:#ffffffb8;padding:14px}.wb-adaptive-middle .wb-adaptive-composer{flex:1;min-height:120px;overflow:visible}.wb-adaptive-composer textarea{height:auto;flex:1;min-height:32px;color:#122d39}.wb-adaptive-composer footer{flex:none;margin-top:auto}.wb-adaptive-composer footer .bili-send{border:1px solid white;background:#ffffffc0}.wb-adaptive-intro{padding:0!important;background:none!important;border:0!important}.wb-adaptive-intro>small{font-size:12px;color:#6c8593}.wb-adaptive-intro>div{padding:16px;margin-top:12px;border-radius:16px;border:1px solid white;background:#ffffffb8}.wb-adaptive-intro h2,.wb-adaptive-color h2{font-size:20px;font-weight:500;line-height:28px;margin:0 0 14px}.wb-adaptive-intro p{font-size:16px;margin:0;line-height:26px}.wb-color-presets{display:flex;gap:8px;margin-bottom:8px}.wb-color-presets>button{flex:1;min-width:0;min-height:48px}.wb-color-presets i{width:30px;height:30px;border-radius:50%}.wb-color-picker{display:block;width:100%;height:72px;border:0;border-radius:13px;background:none;padding:0;cursor:pointer}.wb-color-picker::-webkit-color-swatch-wrapper{padding:0}.wb-color-picker::-webkit-color-swatch{border:0;border-radius:13px}.wb-hue{width:100%;height:16px;margin:20px 0;background:linear-gradient(to right,red,#ff0,#0f0,#0ff,#00f,#f0f,red);border-radius:99px;-webkit-appearance:none;-moz-appearance:none;appearance:none}.wb-hue::-webkit-slider-thumb{-webkit-appearance:none;-moz-appearance:none;appearance:none;width:24px;height:24px;border-radius:50%;border:1px solid #b8c1c7;background:#fff}.wb-adaptive-color label{display:flex;align-items:center;background:#ffffffba;border-radius:16px;padding:10px 12px;border:1px solid white}.wb-adaptive-color label input{border:0;background:none;font:inherit;color:inherit;min-width:0;width:100%;outline:none}.wb-adaptive-color label i{height:20px;width:20px;border-radius:50%;flex:none}.wb-adaptive-color small{color:#ae413f;font-size:11px}.wb-inline-parameters{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.wb-inline-parameters button{min-height:42px;padding:8px;font-size:11px;gap:6px}.wb-inline-parameters i{width:14px;height:14px;border-radius:50%}.wb-inline-parameters .wb-sketch-attachment{width:100px;height:60px}.wb-sketch-attachment svg{width:100%;height:100%}.wb-adaptive-sketch header{display:flex;gap:8px;margin-bottom:8px}.wb-adaptive-sketch header>button{width:48px;height:48px;padding:8px}.wb-adaptive-sketch header>span{flex:1}.wb-adaptive-sketch button[aria-pressed=true],.wb-adaptive-sketch button:last-child{border-color:#4c9790;background:#e0efec}.wb-adaptive-sketch>svg{width:100%;height:240px;background:#dce7ed;border-radius:16px;touch-action:none}.wb-adaptive-middle.sketch-open{justify-content:flex-end}.wb-adaptive-middle.sketch-open .wb-adaptive-composer{flex:none;min-height:64px}.sketch-open .wb-adaptive-composer textarea{height:32px;min-height:32px;font-size:12px}.sketch-open .wb-adaptive-composer footer{margin-top:0}.wb-adaptive-state{display:flex;align-items:center;gap:8px;font-size:12px;flex:none}.wb-adaptive-state>span{flex:1}.wb-adaptive-state button{min-height:36px;padding:4px 12px;font-size:12px}.wb-adaptive-phone .adaptive-dock{margin-top:0}@media(max-height:780px){.wb-adaptive-color{padding:10px!important}.wb-adaptive-color h2{font-size:18px;margin-bottom:8px}.wb-color-picker{height:50px}.wb-hue{margin:14px 0}.wb-adaptive-sketch>svg{height:180px}.wb-adaptive-phone{gap:10px}.wb-adaptive-intro>div{padding:12px}.wb-task-strip>button{height:60px}}.roadmap-canvas>h1{font-size:clamp(24px,3vw,48px);margin:50px 6% 24px}.roadmap-copy{margin:0 6%;color:#263744;white-space:pre-line;font-size:clamp(14px,1.6vw,24px);line-height:1.8}.roadmap-copy.two-column{display:grid;grid-template-columns:1fr 1fr;gap:36px}.roadmap-copy p{padding:20px;border-left:3px solid currentColor;background:#f4f7f8}.roadmap-canvas.mini>h1{font-size:10px;margin:8px 6%}.roadmap-canvas.mini .roadmap-copy{font-size:4px}.roadmap-canvas.mini .roadmap-copy p{padding:4px}.roadmap-canvas.mini{border-top-width:3px!important}.roadmap-canvas{container-type:inline-size}.roadmap-canvas>h1{font-size:5cqw;line-height:1.25;margin:8% 6% 3%}.roadmap-copy{font-size:2.4cqw;line-height:1.7}.roadmap-copy.two-column{gap:5%}.roadmap-copy p{padding:4%;margin:0}.roadmap-canvas footer{font-size:1.3cqw}.roadmap-canvas .slide-eyebrow{font-size:1.4cqw}.wb-adaptive-color .wb-color-picker{position:relative;background-image:linear-gradient(to top,#000,transparent),linear-gradient(to right,#fff,transparent);touch-action:none;outline-offset:4px}.wb-adaptive-color .wb-color-picker>i{position:absolute;width:22px;height:22px;border:3px solid white;border-radius:50%;box-shadow:0 1px 5px #26374480;transform:translate(-50%,-50%);pointer-events:none}.wb-adaptive-color .wb-hue{touch-action:none}.workbuddy .wbf-slides .roadmap-canvas{min-height:0!important;aspect-ratio:16/9;padding:0;border-top-width:1cqw!important}.roadmap-canvas .slide-eyebrow{left:6%;right:6%;top:4%;font-size:1.4cqw}.roadmap-canvas footer{left:6%;right:6%;bottom:5%;font-size:1.3cqw}.wb-receipt-tools{display:flex;flex-direction:column;gap:12px;flex:none}.wb-receipt-tools>section{padding:16px;background:#f7fbfbef;border:1px solid white;border-radius:16px}.wb-receipt-tools small{font-size:12px;color:#536c7b}.wb-receipt-tools p{font-size:16px;line-height:26px;margin:10px 0 0}.wb-receipt-actions{display:flex;gap:10px}.wb-receipt-actions>button{flex:1;min-height:56px}.wb-receipt-actions>button:last-child{background:#e0efec;border-color:#146c64}.wb-receipt-tools .wb-approval-scope{min-height:250px}.wb-approval-scope b{display:block;font-size:14px;color:#146c64;margin-top:10px}.wb-receipt-material{display:flex;flex-direction:column;gap:8px;align-items:stretch}.wb-receipt-material>span{text-align:center;font-size:14px;color:#536c7b}.wb-receipt-material>svg{margin:auto}.wb-receipt-material header{font-size:13px}.wb-receipt-material p{display:flex;justify-content:space-between;font-size:14px;margin:0}.wb-receipt-files button{padding:0;text-align:left;min-height:48px;font-size:13px}.wb-receipt-files small{display:block;margin-top:4px}.wb-adaptive-tasks i[data-status=needs-materials],.wb-adaptive-tasks i[data-status=approval]{background:#a66a15}.wbf-data-table input{width:100%;padding:12px;min-width:80px}.spreadsheet.wbf-data-table{min-width:0;width:100%;table-layout:fixed}.spreadsheet.wbf-data-table th:not(:first-child){width:auto}.spreadsheet.wbf-data-table input{min-width:0;padding:6px 0}.spreadsheet.wbf-data-table td{padding:5px 8px}.wb-adaptive-tasks{overflow:visible}.wb-task-strip{display:flex;gap:8px;min-width:0;flex:1;overflow-x:auto;scrollbar-width:none}.wb-adaptive-tasks>button:last-child{width:48px;height:64px;min-width:48px;flex:none;display:flex;flex-direction:column;padding:8px;font-size:12px}
+
+/* Object instructions share the task composer and keep the voice dock outside scrolling content. */
+.wb-object-context small,.wb-object-before small,.wb-object-after small{font-size:12px;line-height:18px;color:#536c7b}
+.wb-object-context p,.wb-object-before p,.wb-object-after p{font-size:16px;line-height:26px;margin:10px 0 0;white-space:pre-wrap}
+.wb-object-context{min-height:94px}
+.wb-object-before,.wb-object-after{min-height:104px}
+.wb-adaptive-middle>.wb-object-after{border-color:#146c64}
+.wb-object-tools{display:flex;gap:10px;flex:none}
+.wb-object-tools>button{flex:1;min-width:0;min-height:56px;font-size:14px}
+.wb-object-tools>button[aria-pressed=true]{border-color:#146c64;background:#e0efec}
+.wb-object-size label{display:flex;justify-content:space-between;font-size:14px}
+.wb-object-size input{width:100%;accent-color:#146c64;min-height:40px}
+.wb-object-phone .wb-adaptive-composer{border-radius:24px;min-height:136px}
+.wb-object-phone .adaptive-polish{flex:none;min-height:32px}
+.wb-object-phone .adaptive-polish>span{white-space:nowrap}
+.wb-object-phone .wb-adaptive-color>input{width:100%;font:inherit;min-height:48px;border:1px solid white;border-radius:12px;padding:8px;background:#fff9}
+.wb-object-trackpad{height:180px}
+.wbf-object-surface{position:relative;min-width:0}
+.wbf-object-pointer{position:absolute;z-index:5;pointer-events:none;font-size:28px;color:#146c64;text-shadow:0 1px 2px white;transform:translate(-25%,-20%)}
+.slide-canvas [data-wb-active=true]{outline:2px solid #6e83e5;outline-offset:5px;border-radius:2px}
+@media(max-height:740px){.wb-object-trackpad{height:110px}.wb-object-context{min-height:76px}.wb-object-before,.wb-object-after{min-height:80px}}
+.wb-object-phone .wb-adaptive-middle:has(.wb-object-after) .adaptive-polish{display:none}
+/* Keep the draft visible on compact phones; supplementary tools own any
+   overflow instead of pushing the only editor below the fixed dock. */
+@media(max-height:680px){
+ .wb-adaptive-middle:has(>.wb-adaptive-color)>.wb-adaptive-color{flex:1;min-height:0;overflow:auto}
+ .wb-adaptive-middle:has(>.wb-adaptive-color)>.wb-adaptive-composer{flex:none;min-height:144px;padding:10px}
+ .wb-adaptive-middle.sketch-open>.wb-adaptive-sketch{display:flex;flex-direction:column;flex:1;min-height:148px;padding:10px}
+ .wb-adaptive-middle.sketch-open>.wb-adaptive-sketch>header{flex:none}
+ .wb-adaptive-middle.sketch-open>.wb-adaptive-sketch>svg{flex:1;min-height:64px;height:auto}
+ .wb-adaptive-middle.sketch-open>.wb-adaptive-composer{padding:10px;min-height:128px}
+}
+
+@media(max-height:599px){
+ .wb-adaptive-middle.sketch-open{justify-content:flex-start}
+}
+
+/* Native insets and multiline drafts reduce the room left for the sketch.
+   Let the drawing area yield space before the composer or fixed dock does. */
+.wb-adaptive-middle.sketch-open{justify-content:flex-start}
+.wb-adaptive-middle.sketch-open>.wb-adaptive-sketch{display:flex;flex-direction:column;flex:1;min-height:0;overflow:auto}
+.wb-adaptive-middle.sketch-open>.wb-adaptive-sketch>header{flex:none}
+.wb-adaptive-middle.sketch-open>.wb-adaptive-sketch>svg{flex:1;min-height:64px;height:auto}
+.wb-adaptive-middle.sketch-open>.wb-adaptive-composer{flex:none;max-height:65%;overflow:auto}
+.wb-adaptive-middle.sketch-open>.wb-adaptive-composer footer{position:sticky;bottom:0;background:#f4f9f9;z-index:1}
+
+/* Context/preview content scrolls independently, preserving the single editor. */
+.wb-object-tool-region{display:flex;flex-direction:column;gap:12px;flex:0 1 auto;min-height:0;overflow:auto}
+.wb-object-tool-region>section{flex:none;border:1px solid white;border-radius:16px;background:#ffffffb8;padding:14px}
+.wb-object-tool-region>.wb-object-after{border-color:#146c64}
+.wb-object-phone .wb-adaptive-composer{overflow:auto}
+.wb-object-phone .wb-adaptive-composer footer{position:sticky;bottom:0;background:#f4f9f9;z-index:1}
+.wb-adaptive-middle:has(>.wb-adaptive-color)>.wb-adaptive-color{flex:1;min-height:0;overflow:auto}
+.wb-adaptive-middle:has(>.wb-adaptive-color)>.wb-adaptive-composer{flex:none;min-height:144px;max-height:65%;overflow:auto}
+.wb-adaptive-middle:has(>.wb-adaptive-color)>.wb-adaptive-composer footer{position:sticky;bottom:0;background:#f4f9f9;z-index:1}
+
+/* Current glass intent chips: tools are explicitly opened, never forced by inference. */
+.wb-adaptive-phone .wb-intent-icon{width:24px;height:24px;flex:none;object-fit:contain}
+.wb-intent-chips{display:flex;flex-wrap:wrap;gap:8px;flex:none;margin:8px 0}
+.wb-adaptive-phone .wb-intent-chip{min-height:48px;padding:8px 14px;gap:10px;border-radius:99px;border:1px solid #fffffffa;background:#ffffff4d;box-shadow:0 7px 18px #33617514,inset 0 1px 1px #ffffffc7;font-size:14px;max-width:100%;white-space:normal}
+.wb-intent-chip>i{width:20px;height:20px;flex:none;border-radius:50%}
+.wb-intent-chip[aria-pressed=true]{color:#146c64;background:#e0efecb3}
+.wb-intent-chip>span{overflow-wrap:anywhere}
+.wb-adaptive-middle>.wb-adaptive-composer{background:#f7fbfbf0;overflow:auto;box-shadow:0 8px 22px #83a3ab12,inset 0 1px 1px #ffffffe5}
+.wb-adaptive-composer textarea{flex:0 0 auto;min-height:48px;max-height:160px;field-sizing:content}
+.wb-adaptive-composer footer{position:sticky;bottom:0;background:#f7fbfbf0;z-index:1}
+.wb-adaptive-middle>.wb-adaptive-color,.wb-adaptive-middle>.wb-adaptive-sketch,.wb-adaptive-middle>.wb-document-picker{display:flex;flex-direction:column;gap:8px;flex:0 1 328px;min-height:160px;padding:12px;background:#ffffff4d;backdrop-filter:blur(14px);box-shadow:0 7px 18px #33617514,inset 0 1px 1px #ffffffc7;overflow:hidden}
+.wb-adaptive-middle .wb-aux-header{display:flex;align-items:center;gap:8px;flex:none;height:48px}
+.wb-aux-header h2{flex:1;font-size:20px;line-height:28px;margin:0}
+.wb-adaptive-phone .wb-aux-header button,.wb-adaptive-phone .wb-aux-confirm button{width:48px;min-height:48px;padding:0;flex:none}
+.wb-adaptive-phone .wb-aux-header button,.wb-adaptive-sketch header button:last-child{border:0;background:transparent;box-shadow:none}
+.wb-aux-body{overflow:auto;min-height:0;flex:1}
+.wb-aux-confirm{height:48px;min-height:48px;display:flex;justify-content:flex-end;flex:none}
+.wb-aux-confirm button{color:#008963;background:#ffffff4d;border:1px solid #fff;box-shadow:inset 0 1px 1px #ffffffc7}
+.wb-adaptive-sketch header{flex:none;margin:0;gap:8px}
+.wb-adaptive-sketch>svg{flex:1;min-height:64px;border:1px solid white;height:auto;background:#dce6ec}
+.wb-adaptive-middle.sketch-open>.wb-adaptive-sketch{min-height:160px;flex:0 1 328px;overflow:hidden}
+.wb-adaptive-middle.sketch-open>.wb-adaptive-composer{flex:1;max-height:none;min-height:152px;overflow:auto}
+.wb-adaptive-middle:has(>.wb-adaptive-color)>.wb-adaptive-composer,.wb-adaptive-middle:has(>.wb-document-picker)>.wb-adaptive-composer{flex:1;max-height:none;min-height:152px}
+.wb-adaptive-middle:has(>.wb-adaptive-color)>.wb-adaptive-color{flex:0 1 328px;min-height:160px;overflow:hidden}
+.wb-document-picker .wb-aux-body{display:flex;flex-direction:column;gap:6px}
+.wb-document-picker .wb-aux-body button{text-align:left;justify-content:flex-start;flex:none;min-height:48px;font-size:14px;gap:10px}
+.wb-document-picker [aria-pressed=true]{border-color:#146c64}
+.wb-adaptive-composer footer .bili-send{background:#ffffff4d;box-shadow:0 7px 18px #33617514,inset 0 1px 1px #ffffffc7}
+.wb-adaptive-middle:has(+.input-dock.expanded)>:is(.wb-adaptive-color,.wb-adaptive-sketch,.wb-document-picker){max-height:40%;min-height:112px}
+.wb-adaptive-middle:has(+.input-dock.expanded) .wb-intent-chip{min-height:48px}
+.wb-adaptive-middle{container-type:size}
+@container(max-height:340px){
+ .wb-adaptive-middle>.wb-adaptive-color,.wb-adaptive-middle>.wb-document-picker{min-height:72px;flex:1;padding:8px}
+ .wb-adaptive-middle:has(>.wb-adaptive-color)>.wb-adaptive-composer,.wb-adaptive-middle:has(>.wb-document-picker)>.wb-adaptive-composer{min-height:120px;flex:1}
+}
+.wb-adaptive-middle:has(+.input-dock.expanded)>:is(.wb-adaptive-color,.wb-adaptive-sketch,.wb-document-picker){display:none}
+.wb-adaptive-middle:has(+.input-dock.expanded)>.wb-adaptive-composer{flex:1;min-height:0;max-height:none}
+.wb-adaptive-composer textarea{outline:none}
+@container(max-height:340px){
+ .wb-adaptive-phone .wb-adaptive-middle>.wb-adaptive-color,.wb-adaptive-phone .wb-adaptive-middle>.wb-document-picker{min-height:64px;flex:1;padding:8px}
+ .wb-adaptive-phone .wb-adaptive-middle>.wb-adaptive-composer{min-height:120px;flex:1}
+ .wb-adaptive-phone .wb-adaptive-middle>.wb-adaptive-sketch{min-height:64px;flex:1;overflow:auto;padding:8px}
+}
+
+.wb-adaptive-phone .wb-adaptive-composer textarea:focus-visible{outline:none}
+
+/* Mirror only the recognized words; the real textarea owns caret, selection and input. */
+.wb-adaptive-composer .wb-recognition-field{position:relative;flex:none;min-height:48px;width:100%}
+.wb-adaptive-composer .wb-recognition-field textarea,.wb-recognition-mirror{font:inherit;font-size:16px;line-height:26px;letter-spacing:normal;padding:0;border:0;white-space:pre-wrap;overflow-wrap:break-word;word-break:normal;tab-size:8}
+.wb-adaptive-composer .wb-recognition-field textarea{display:block;margin:0;width:100%;min-height:48px;max-height:160px;background:transparent}
+.wb-recognition-mirror{position:absolute;inset:0;overflow:hidden;pointer-events:none;user-select:none;color:transparent;z-index:1}
+.wb-recognition-mirror mark{color:transparent;background:linear-gradient(105deg,#3279ca 5%,#7998f4 25%,#b599ed 42%,#eefaff 50%,#619fe7 62%,#6865d9 85%);background-size:260% 100%;background-clip:text;-webkit-background-clip:text;border-radius:4px;box-shadow:0 2px 7px #8492e324;animation:wb-word-recognition 1.1s ease-in-out infinite}
+.wb-intent-chips .wb-intent-chip{animation:wb-action-arrive .26s ease-out both}
+@keyframes wb-word-recognition{from{background-position:100% 0}to{background-position:-100% 0}}
+@keyframes wb-action-arrive{from{opacity:0;transform:translateY(5px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+@media(prefers-reduced-motion:reduce){.wb-recognition-mirror mark,.wb-intent-chips .wb-intent-chip{animation:none}}
+
+/* Attached layouts belong above the text, with separate edit and remove targets. */
+.wb-composer-attachments{display:flex;gap:8px;flex:none;padding:0 0 8px;overflow-x:auto}
+.wb-sketch-card{position:relative;width:132px;height:92px;flex:none}
+.wb-sketch-card .wb-sketch-attachment{width:132px;height:92px;min-height:92px;padding:8px 12px;border:1px solid #b5cec9;border-radius:14px;background:#edf5f3;display:flex;flex-direction:column;align-items:flex-start;gap:4px}
+.wb-sketch-card .wb-sketch-attachment svg{width:88px;height:54px;flex:none}
+.wb-sketch-card .wb-sketch-attachment span{font-size:11px;line-height:16px;color:#426c64}
+.wb-sketch-card .wb-attachment-remove{position:absolute;right:0;top:0;width:44px;height:44px;min-height:44px;padding:10px;display:grid;place-items:center;background:transparent;border:0;box-shadow:none;color:#355f58;border-radius:14px}
+.wb-attachment-remove svg{background:#ffffffc9;border-radius:50%;box-shadow:0 1px 4px #335b4320;padding:3px;width:24px;height:24px;pointer-events:none}

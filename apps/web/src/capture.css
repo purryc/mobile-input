@@ -1,0 +1,22 @@
+.capture-panel{position:absolute;inset:calc(var(--native-top,0px) + 152px) 18px calc(var(--native-bottom,0px) + 160px);z-index:30;display:flex;flex-direction:column;border:1px solid white;background:#f4f9faed;backdrop-filter:blur(18px);border-radius:20px;padding:14px;box-shadow:0 8px 30px #51657422;color:#122d39}.capture-panel>header{display:flex;align-items:center;justify-content:space-between;flex:none;margin-bottom:10px}.capture-panel>header button{min-height:40px;width:40px;background:none;border:0}.capture-panel-scroll{overflow:auto;min-height:0;display:flex;flex-direction:column;gap:12px}.capture-source{background:#ffffffb8;border-radius:14px;padding:12px}.capture-panel small{font-size:12px;line-height:18px;color:#536c7b}.capture-panel p{font-size:14px;line-height:22px;margin:6px 0}.capture-choices{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.capture-choices button{flex-direction:column;min-height:80px}.capture-preview{position:relative;line-height:0;flex:none;overflow:hidden;border-radius:14px;background:white;touch-action:pan-y}.capture-preview img,.capture-preview video{width:100%;height:auto;display:block;user-select:none}.capture-preview.cropping{cursor:crosshair;touch-action:none}.capture-preview>i{position:absolute;border:2px solid #147a6d;border-radius:10px;pointer-events:none;box-shadow:0 0 0 1000px #132d3933}.capture-uses{display:flex;flex-direction:column;gap:8px}.capture-uses>button{justify-content:flex-start;min-height:48px;font-size:14px;background:#ffffffb8}.capture-uses label{font-size:12px}.capture-uses select{display:block;width:100%;padding:10px;border:1px solid #d7e2e6;border-radius:10px;background:white;margin-top:8px;font:inherit}.capture-progress,.capture-success{text-align:center;padding:10px}.capture-progress video{width:100%;max-height:200px;object-fit:contain}.capture-panel [role=alert]{color:#9b503a;font-size:13px}.capture-recording-badge{position:fixed;bottom:12px;right:12px;background:#a52c3e;color:white;padding:10px 16px;border-radius:99px;z-index:80;font-size:13px}.capture-attachments{display:flex;gap:8px;flex-wrap:wrap}.capture-attachments details{font-size:12px;background:#e0efec;border-radius:10px;padding:8px;max-width:100%}.capture-attachments summary{cursor:pointer}.capture-attachments img,.capture-attachments video{max-width:100%;max-height:140px;display:block;margin-top:8px}.capture-attachments small{display:block}.capture-attachments button{min-height:32px!important;font-size:12px!important}
+@media(max-height:740px){.capture-panel{top:calc(var(--native-top,0px) + 100px);bottom:calc(var(--native-bottom,0px) + 145px)}}
+/* Preserve the sole task composer and fixed voice dock beneath the preview. */
+.wb-adaptive-phone:has(.capture-panel) .wb-adaptive-middle>.wb-adaptive-composer{flex:none;min-height:154px;height:154px;margin-top:auto}
+.wb-adaptive-phone:has(.capture-panel) .wb-adaptive-middle>*:not(.wb-adaptive-composer){visibility:hidden}
+.wb-adaptive-phone .capture-panel{bottom:calc(var(--native-bottom,0px) + 306px)}
+.capture-preview{max-height:180px;flex-shrink:0}
+.capture-preview img,.capture-preview video{max-height:none;height:auto}
+.capture-preview:has(img){align-self:center;width:100%}
+.capture-preview.cropping,.capture-preview.cropping *{user-select:none;-webkit-user-select:none}
+.native-photo-overlay{position:fixed;inset:0;z-index:75;pointer-events:none;background:none}
+.native-photo-overlay .capture-panel{pointer-events:auto;bottom:calc(var(--native-bottom,0px) + 160px)}
+.capture-photo-owner{background:#e0efec;border-radius:12px;padding:10px}
+/* Short windows cannot fit preview + composer + dock at once. Preserve the
+   draft underneath and let the capture body scroll above the fixed dock. */
+@media(max-height:680px){
+ .wb-adaptive-phone .capture-panel{top:calc(var(--native-top,0px) + 100px);bottom:calc(var(--native-bottom,0px) + 145px)}
+}
+
+.capture-panel>header button{min-height:48px;width:48px;flex:none}
+.capture-confirm-footer{display:flex;justify-content:flex-end;flex:none;padding-top:8px;min-height:48px}
+.capture-confirm-footer button{min-height:48px;border:1px solid #fff;background:#ffffff4d;border-radius:16px;padding:8px 14px}

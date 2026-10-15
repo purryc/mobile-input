@@ -1,3 +1,4 @@
+import {ChatGptAccount} from './ai-polish';
 import {createContext,useContext,useEffect,useRef,useState,type ReactNode,type RefObject} from 'react';
 import {Link2,ScanLine,RefreshCw,X} from 'lucide-react';
 import QRCode from 'qrcode';
@@ -7,6 +8,7 @@ import {usePhoneInsets} from './phone-insets';
 
 type ConnectionControl={opened:boolean;show:()=>void;entry:RefObject<HTMLButtonElement|null>;status:string;connected:boolean};
 const ConnectionContext=createContext<ConnectionControl|null>(null);
+export function useConnectionPrompt(){return useContext(ConnectionContext)?.show;}
 export function ConnectionButton({className=''}:{className?:string}){
  const control=useContext(ConnectionContext);if(!control)return null;
  const {opened,show,entry,status,connected}=control;
@@ -18,11 +20,12 @@ export function ConnectionAccess({children}:{children:ReactNode}){
  const r=useRuntime(),phone=role==='phone',insets=usePhoneInsets();
  const [opened,setOpened]=useState(phone&&!r.connected),[address,setAddress]=useState(r.address||''),[code,setCode]=useState(''),[qr,setQr]=useState('');
  const priorConnected=useRef(r.connected),entry=useRef<HTMLButtonElement>(null),panel=useRef<HTMLElement>(null);
- const inline=phone&&(r.state.app==='slides'||r.state.app==='mario'||r.state.app==='workbuddy'&&r.connected&&!!r.state.target?.id.startsWith('wb:')||r.state.app==='wechat'&&r.connected&&r.state.chat.activation?.phase==='ready');
+ const inline=(!phone&&r.state.app==='workbuddy'&&!!r.state.workbuddy.fileBrowser?.visible&&!!r.state.workbuddy.fileBrowser.windows.length)||phone&&(r.state.app==='paint'||!['desktop','wechat','slides','mario','bilibili'].includes(r.state.app)&&(r.connected||!!r.state.editSession?.key)||r.state.app==='bilibili'||r.state.app==='slides'||r.state.app==='mario'||r.state.app==='workbuddy'&&r.connected&&!!r.state.target?.id.startsWith('wb:')||r.state.app==='wechat'&&r.connected&&r.state.chat.activation?.phase==='ready');
  const host=r.address||location.hostname;
  const status=r.connected?(phone?'已连接工作台':'手机已连接'):r.status;
  function close(){setOpened(false);entry.current?.focus();}
- function show(){if(r.connected)void command('switch-cancel');window.dispatchEvent(new Event('connection-open'));setOpened(true);}
+ function show(){if(r.connected)void command('switch-cancel');if(!phone)window.MobileNative?.host(pin);window.dispatchEvent(new Event('connection-open'));setOpened(true);}
+ useEffect(()=>{const open=()=>show();window.addEventListener('chatgpt-open',open);return()=>window.removeEventListener('chatgpt-open',open);},[]);
  useBack(()=>{if(!opened)return false;close();return true;},200);
  useEffect(()=>{if(r.address)setAddress(r.address);},[r.address]);
  useEffect(()=>{if(phone&&r.connected&&!priorConnected.current)close();priorConnected.current=r.connected;},[r.connected]);
@@ -51,6 +54,7 @@ export function ConnectionAccess({children}:{children:ReactNode}){
      <button className="primary" type="submit" disabled={code.length!==6}>连接</button>
      {window.MobileNative&&<div className="connect-actions"><button type="button" onClick={()=>window.MobileNative?.scan()}><ScanLine size={20}/>扫码连接</button><button type="button" onClick={()=>window.MobileNative?.discover()}><RefreshCw size={18}/>重新发现</button></div>}
     </form>:<div className="agent-tablet-pair">{qr&&<img src={qr} width="220" height="220" alt="配对二维码"/>}<span>配对码</span><div className="pair-code">{pin}</div><small>{host}</small></div>}
+    {phone&&<ChatGptAccount/>}
    </section>
   </div>}
  </div></ConnectionContext.Provider>;

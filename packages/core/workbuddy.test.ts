@@ -301,7 +301,7 @@ test("catalog installs, mock configurations and menu order persist with validati
   submit(s, "整理采购报价");
   assert.equal(s.state.workbuddy.tasks[0].expert, "procurement");
 });
-test("the eighth app participates in cyclic switching without changing WPS launch", () => {
+test("WorkBuddy and Bilibili participate in nine-app cyclic switching without changing WPS launch", () => {
   const s = new Store();
   s.dispatch(cmd("open", "mario"));
   const step = cmd("switch-step");
@@ -312,6 +312,10 @@ test("the eighth app participates in cyclic switching without changing WPS launc
   const next = cmd("switch-step");
   s.dispatch(next);
   s.dispatch(cmd("switch-commit", { epoch: next.id }));
+  assert.equal(s.state.app, "bilibili");
+  const wrap = cmd("switch-step");
+  s.dispatch(wrap);
+  s.dispatch(cmd("switch-commit", { epoch: wrap.id }));
   assert.equal(s.state.app, "mail");
 });
 

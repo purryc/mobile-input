@@ -17,11 +17,12 @@ export class Speech {
  private lastLoud:number=0;
  private lastEnergy:number=0;
  private finishing:boolean=false;
+ private manual:boolean=false;
  private completedText:string='';
  private currentText:string='';
  constructor(context:common.UIAbilityContext,controller:webview.WebviewController){this.context=context;this.controller=controller;}
  private async permission(list:Permissions[]):Promise<void>{const result=await abilityAccessCtrl.createAtManager().requestPermissionsFromUser(this.context,list);if(result.authResults.some((value:number)=>value!==0))throw new Error('请在系统设置中允许所需权限');}
- startRecognition(id:string,online:boolean):string {this.cancelRecognition('');this.sessionId=id;this.finishing=false;this.speaking=false;this.lastLoud=0;this.completedText='';this.currentText='';this.start(id,online).catch((e:Error)=>{if(this.sessionId===id){this.emit('error','',e.message);this.release();}});return 'starting';}
+ startRecognition(id:string,online:boolean,manual:boolean=false):string {this.manual=manual;this.cancelRecognition('');this.sessionId=id;this.finishing=false;this.speaking=false;this.lastLoud=0;this.completedText='';this.currentText='';this.start(id,online).catch((e:Error)=>{if(this.sessionId===id){this.emit('error','',e.message);this.release();}});return 'starting';}
  private async start(id:string,online:boolean):Promise<void>{
   await this.permission(['ohos.permission.MICROPHONE']);if(this.sessionId!==id)return;
   let engine:speechRecognizer.SpeechRecognitionEngine;
@@ -31,7 +32,7 @@ export class Speech {
    onStart:(sessionId:string,eventMessage:string):void=>{if(sessionId===this.sessionId){this.emit('start');this.capturer?.start().catch(()=>{this.emit('error','','无法开始采音，请重试');this.release();});}},
    onEvent:(sessionId:string,eventCode:number,eventMessage:string):void=>{},
    onResult:(sessionId:string,result:speechRecognizer.SpeechRecognitionResult):void=>{if(sessionId!==this.sessionId)return;if(result.result&&!this.speaking){this.speaking=true;this.emit('speechstart');}this.currentText=this.completedText+result.result;this.emit(result.isLast||this.finishing?'final':'partial',this.currentText);if(result.isFinal)this.completedText=this.currentText;},
-   onComplete:(sessionId:string,eventMessage:string):void=>{if(sessionId===this.sessionId){if(this.currentText)this.emit('final',this.currentText);this.emit('complete');this.release();}},
+   onComplete:(sessionId:string,eventMessage:string):void=>{if(sessionId===this.sessionId){if(this.currentText)this.emit('final',this.currentText);this.emit('complete',this.currentText);this.release();}},
    onError:(sessionId:string,errorCode:number,errorMessage:string):void=>{if(sessionId===this.sessionId){this.emit('error','',`语音识别暂时不可用（${errorCode}），请重试`);this.release();}}
   });
   const capturer=await audio.createAudioCapturer({streamInfo:{samplingRate:audio.AudioSamplingRate.SAMPLE_RATE_16000,channels:audio.AudioChannel.CHANNEL_1,sampleFormat:audio.AudioSampleFormat.SAMPLE_FORMAT_S16LE,encodingType:audio.AudioEncodingType.ENCODING_TYPE_RAW},capturerInfo:{source:audio.SourceType.SOURCE_TYPE_VOICE_RECOGNITION,capturerFlags:0}});
@@ -46,7 +47,7 @@ export class Speech {
   if(now-this.lastEnergy>65){this.emit('energy','','',energy);this.lastEnergy=now;}
   if(energy>.025){this.lastLoud=now;if(!this.speaking){this.speaking=true;this.emit('speechstart');}}
   let offset=0;while(offset+640<=merged.length){try{this.engine.writeAudio(this.sessionId,merged.slice(offset,offset+640));}catch{this.emit('error','','音频传输中断，请重试');this.release();return;}offset+=640;}this.remainder=merged.slice(offset);
-  if(this.speaking&&this.lastLoud>0&&now-this.lastLoud>=1500)this.stopRecognition(this.sessionId);
+  if(!this.manual&&this.speaking&&this.lastLoud>0&&now-this.lastLoud>=1500)this.stopRecognition(this.sessionId);
  }
  stopRecognition(id:string):string{if(id!==this.sessionId||this.finishing)return 'idle';if(!this.engine||!this.capturer){this.emit('complete');this.release();return 'stopped';}this.finishing=true;this.stopAudio().then(()=>{if(this.sessionId===id&&this.engine){try{this.engine.finish(id);}catch{this.emit('error','','未能结束转写，请重试');this.release();}}});return 'stopping';}
  cancelRecognition(id:string):string{if(id&&id!==this.sessionId)return 'idle';this.release();return 'cancelled';}
