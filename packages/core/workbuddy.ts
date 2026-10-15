@@ -842,6 +842,7 @@ export function workBuddyInteraction(
       const specialSubmit=fileTargetSubmit(s,t.id,text,c.id);if(specialSubmit!==undefined)return specialSubmit;
       if (!text.trim() && t.id.startsWith("wb:draft:")&&!w.tasks.find(x=>x.id===w.task)?.receipts?.materials.length) return "请输入内容";
       if (t.id.startsWith("wb:draft:")) {
+        if(d.input?.sketch.strokes.length&&!d.input.sketch.confirmed)return "先确认草图，再发送";
         const previous = w.tasks.find((x) => x.id === w.task);
         if (previous?.status === "running") return "当前任务仍在执行";
         const kind = (

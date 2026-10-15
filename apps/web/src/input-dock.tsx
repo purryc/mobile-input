@@ -5,9 +5,12 @@ import type {usePhoneEditing} from './use-phone-editing';
 import './input-dock.css';
 const icon=(name:string)=><img className="input-dock-icon" src={`./assets/figma/input-dock/${name}.svg`} alt=""/>;
 const editTools=[['select-all','all','全选'],['copy','copy','复制'],['cut','cut','剪切'],['paste','paste','粘贴'],['delete','delete','删除'],['undo','undo','撤销'],['redo','redo','重做']];
-export function InputDock({editing,area,editable=true,disabled=false,voiceDisabled=false,onVoiceUnavailable,undo,redo}:{editing:ReturnType<typeof usePhoneEditing>;area:RefObject<HTMLTextAreaElement|null>;editable?:boolean;disabled?:boolean;voiceDisabled?:boolean;onVoiceUnavailable?:()=>void;undo?:()=>void;redo?:()=>void}){
+export function InputDock({editing,area,editable=true,disabled=false,voiceDisabled=false,onVoiceUnavailable,onModeChange,collapseToken,undo,redo}:{editing:ReturnType<typeof usePhoneEditing>;area:RefObject<HTMLTextAreaElement|null>;editable?:boolean;disabled?:boolean;voiceDisabled?:boolean;onVoiceUnavailable?:()=>void;onModeChange?:(mode:'keyboard'|'trackpad'|'system'|null)=>void;collapseToken?:number;undo?:()=>void;redo?:()=>void}){
  const {connected,state}=useRuntime();const remoteDisabled=disabled||!connected;
  const [mode,setMode]=useState<'keyboard'|'trackpad'|null>(null),[keys,setKeys]=useState<'abc'|'symbol'|'more'|'emoji'>('abc'),[shift,setShift]=useState(false),[capture,setCapture]=useState(false),[system,setSystem]=useState(false),[language,setLanguage]=useState(false);
+ useLayoutEffect(()=>{onModeChange?.(system?'system':mode);},[mode,system,onModeChange]);
+ const previousCollapse=useRef(collapseToken);
+ useLayoutEffect(()=>{if(previousCollapse.current!==collapseToken){previousCollapse.current=collapseToken;setMode(null);setSystem(false);setLanguage(false);}},[collapseToken]);
  const keyboardTarget=useRef(state.target?.id);
  const boundApp=useRef(currentState().app),drag=useRef({x:0,y:0}),position=useRef({x:.5,y:.5}),busy=useRef(false),pending=useRef(false),dragging=useRef(false);
  const pointer=async(action:'move'|'left'|'right')=>{if(remoteDisabled)return;if(busy.current&&action==='move'){pending.current=true;return;}busy.current=true;await command('input-pointer',{...position.current,action},{app:boundApp.current});busy.current=false;if(pending.current){pending.current=false;void pointer('move');}};

@@ -69,5 +69,11 @@
       "path": "apps/web/public/assets/figma/intent/check.svg",
       "sha256": "5901d28192b77f5c7c629fdbb5da660d56164eac7cb0c8ce4ced5d3c87ff7733"
     }
-  ]
+  ],
+  "runtimeReview": {
+    "date": "2026-10-15",
+    "node": "1286:6473",
+    "scope": "Composer-only intent entry; concurrent tools; no minimized summaries",
+    "assets": "Reused existing local reviewed SVGs; no new screenshots bundled"
+  }
 }

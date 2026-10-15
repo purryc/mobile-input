@@ -1,0 +1,5 @@
+.phone-state-sync{position:fixed;inset:0;z-index:190;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;background:#eef4f7f5;color:#253b4b;backdrop-filter:blur(22px);font-size:14px}
+.phone-state-sync strong{font-size:18px}.phone-state-sync>.agent-connection{position:absolute;right:16px;top:calc(env(safe-area-inset-top,0px) + 12px)}
+.phone-state-sync button{min-height:48px;padding:10px 20px;border:1px solid #b9cbd5;border-radius:16px;background:#fff;color:#253b4b}
+.sync-orbit{width:40px;height:40px;border:3px solid #d9e4ed;border-top-color:#7885dc;border-right-color:#50bbc6;border-radius:50%;animation:state-sync-spin 1.2s linear infinite}@keyframes state-sync-spin{to{transform:rotate(360deg)}}
+@media(prefers-reduced-motion:reduce){.sync-orbit{animation:none}}

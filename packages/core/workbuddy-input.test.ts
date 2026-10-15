@@ -54,3 +54,17 @@ test('inference tolerates a newer manual parameter but rejects an older draft ac
   assert.equal(send('wb-input',{action:'color',hex:'#000000',revision:0},a).ok,false);
  }
 });
+
+test('unconfirmed sketch blocks atomic submit after its panel closes and survives task switching',()=>{
+ const store=new Store();let i=0;const cmd=(type:string,value:unknown={},extra:Partial<Command>={})=>store.dispatch({id:`elastic-${++i}`,type,value,...extra});
+ cmd('open','workbuddy');cmd('wb-focus',{id:'wb:draft:new'});
+ let t=store.state.target!,anchor={targetId:t.id,targetRevision:t.revision};
+ cmd('wb-input',{action:'sketch',strokes:[[[.1,.1],[.8,.8]]],revision:0},anchor);
+ const count=store.state.workbuddy.tasks.length;
+ const send=()=>cmd('wb-submit',{text:'生成销售方案',revision:store.state.workbuddy.drafts.new.revision},anchor);
+ assert.equal(send().error,'先确认草图，再发送');assert.equal(store.state.workbuddy.tasks.length,count);
+ cmd('wb-input-task',{action:'new'});cmd('wb-input-task',{id:'new'});t=store.state.target!;anchor={targetId:t.id,targetRevision:t.revision};
+ assert.equal(send().ok,false);
+ assert.equal(cmd('wb-input',{action:'sketch-confirm',revision:1},anchor).ok,true);
+ assert.equal(send().ok,true);
+});

@@ -1,3 +1,6 @@
+import {ConnectionButton} from './connection-access';
+import {retryStateSync} from './runtime';
+import './phone-sync.css';
 import {PhoneGeneric} from './phone-generic';
 import {PhonePaint} from './phone-paint';
 import {PhoneBilibili} from './phone-bilibili';
@@ -9,6 +12,10 @@ import {FcController} from './phone-game';
 import {useEffect,useRef,useState} from 'react';import * as I from 'lucide-react';
 import {apps,type Target} from '../../../packages/core/model';import {command,useRuntime,toast,uid} from './runtime';import {Icon} from './tablet';import {AppIcon} from './desktop';
 export function Phone(){
+ const r=useRuntime();
+ return <><PhoneScene/>{r.syncing&&<div className="phone-state-sync" role="status" aria-label="正在同步大屏"><ConnectionButton/><span className="sync-orbit" aria-hidden/><strong>{r.status}</strong><span>保留当前输入，等待大屏状态</span>{r.status.includes('较慢')&&<button onClick={retryStateSync}>重新同步</button>}</div>}</>;
+}
+function PhoneScene(){
  const r=useRuntime();
  if(r.state.app==='paint')return <PhonePaint/>;
  if(r.state.app==='bilibili')return <PhoneBilibili/>;

@@ -1,3 +1,22 @@
+## 2026-10-15 · 按输入意图展示辅助控件
+
+- 恢复文本框内的推荐入口：只推荐用户提到的内容；工具展开隐藏对应入口，关闭完全移除面板并恢复仍有效的入口。
+- 取消顶部摘要与最小化状态；多个工具、文本框及键盘／触控板共同分配中部高度，正文聚焦不再收起工具。
+- 保留草图附件、待确认笔迹、颜色和逐任务草稿；增加多面板、关闭恢复、否定意图、低高度和任务隔离回归。
+- 以 Figma `1286:6473` 及用户最新行为说明为准，详见 [推荐输入验证](docs/workbuddy-elastic-input-update.md)。
+
+## 2026-10-15 · 分布式应用状态自动核对
+
+- 自动检测手机与大屏的应用、目标、版本差异并重新同步，避免停留在旧应用。
+- 同步期间保护草稿并显示明确等待状态，拒绝旧同步回复，保留连接和重试入口。
+- 验证记录：`docs/distributed-state-sync.md`。
+
+## 2026-10-15 · Gemini 文本润色
+
+- 手机 AI润色改接用户 Gemini API，使用原生安全存储，不依赖 Mac 服务。
+- 保留场景动作、选区、撤销、取消和过期结果保护；连接设置增加 Gemini 配置与真实测试。
+- 两端签名 HAP 已安装；手机真实润色验证成功。详细边界见 `docs/gemini-polish.md`。
+
 ## 2026-10-15 · Source backup and update summary
 
 - Backed up the current Input Agent 1.4.0 sources: method-first connection settings, native Harmony distributed collaboration and LAN fallback, shared task color/layout recognition, connection recovery and the ASR parameter fix.

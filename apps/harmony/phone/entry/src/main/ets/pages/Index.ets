@@ -15,7 +15,7 @@ struct Index {
  build(){Stack(){Web({src:LOCAL_ORIGIN+'index.html',controller:this.controller}).width('100%').height('100%').javaScriptAccess(true).domStorageAccess(true).fileAccess(false)
  .onInterceptKeyboardAttach((event:WebKeyboardCallbackInfo):WebKeyboardOptions=>{return {useSystemKeyboard:event.attributes['inputmode']!=='none'};})
  .onInterceptRequest(event=>localResponse(event.request.getRequestUrl(),this.getUIContext().getHostContext() as common.UIAbilityContext))
- .javaScriptProxy({object:this.bridge,name:'MobileNative',methodList:['transportMode','selectTransport','distributedDiscover','distributedConnect','distributedStatus','aiControl','polish','cancelPolish','capture','captureResult','clearCapture','layoutInsets','inputTheme','presentationMotion','gameLayout','clipboard','role','host','connect','discover','send','scan','startRecognition','stopRecognition','cancelRecognition'],controller:this.controller})
+ .javaScriptProxy({object:this.bridge,name:'MobileNative',methodList:['transportMode','selectTransport','distributedDiscover','distributedConnect','distributedStatus','aiControl','aiConfigure','polish','cancelPolish','capture','captureResult','clearCapture','layoutInsets','inputTheme','presentationMotion','gameLayout','clipboard','role','host','connect','discover','send','scan','startRecognition','stopRecognition','cancelRecognition'],controller:this.controller})
  .onPageEnd(()=>{this.bridge.ready();})
  if(this.pasteRequest){
   Column({space:20}){

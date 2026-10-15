@@ -47,6 +47,7 @@ test('compact WorkBuddy keeps its single editor and fixed voice dock usable acro
  await phone.screenshot({path:'artifacts/adaptive-input/compact-sketch-phone.png'});
  // Real device insets and multiline text expose flex overflow missed by an empty composer.
  await draft.fill('真机验收：创建公司Roadmap PPT，主色用红色，左侧里程碑，右侧关键成果。 [主色 #1971C2]');
+ await expect(phone.getByLabel('任务手绘画板')).toBeVisible();
  await phone.addStyleTag({content:'.wb-adaptive-phone{--native-top:45px!important;--native-bottom:34px!important}'});
  for(const height of [846,584]){
   await phone.setViewportSize({width:404,height});await checkMiddle();

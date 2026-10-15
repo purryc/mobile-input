@@ -12,6 +12,7 @@ for role in roles:
  for shared in (root/'apps/harmony/shared').glob('*.ets'):shutil.copy2(shared,target/'entry/src/main/ets'/shared.name)
  shutil.copy2(root/'packages/core/chatgpt-protocol.ts',target/'entry/src/main/ets/ChatGptProtocol.ets')
  shutil.copy2(root/'packages/core/distributed-wire.ts',target/'entry/src/main/ets/DistributedWire.ets')
+ shutil.copy2(root/'packages/core/gemini-polish.ts',target/'entry/src/main/ets/GeminiPolish.ets')
  shutil.copy2(root/'packages/core/polish-actions.ts',target/'entry/src/main/ets/PolishActions.ets')
  config=src/'build-profile.json5'
  if config.exists():shutil.copy2(config,target/'build-profile.json5')

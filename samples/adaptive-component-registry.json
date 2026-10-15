@@ -2997,6 +2997,222 @@
         "material-input-adapter"
       ],
       "prototypeBoundary": "Editable design states only. File import/upload, camera, capture, transfer and target readability require separately verified platform adapters."
+    },
+    {
+      "componentId": "dynamic-auxiliary-workspace",
+      "figmaNodeId": "1639:40767",
+      "name": "Adaptive / Dynamic workspace",
+      "kind": "adaptive-input",
+      "region": "adaptive",
+      "skins": [
+        "Glass"
+      ],
+      "renderOwner": "local",
+      "states": [
+        "ColorExpanded",
+        "ColorWithSketch",
+        "SketchExpanded",
+        "TextExpanded",
+        "InputPanelExpanded",
+        "ColorInputPanel"
+      ],
+      "figmaVariants": {
+        "ColorExpanded": "1639:40613",
+        "ColorWithSketch": "1653:45177",
+        "SketchExpanded": "1639:40659",
+        "TextExpanded": "1639:40716",
+        "InputPanelExpanded": "1639:40742",
+        "ColorInputPanel": "1658:46040"
+      },
+      "props": [
+        "expandedTool",
+        "parameters",
+        "sketchConfirmation",
+        "inputMode",
+        "interactionLock"
+      ],
+      "actions": [
+        "expandTool",
+        "closeTool",
+        "expandText",
+        "confirmSketch"
+      ],
+      "capabilities": [
+        "contextual-input-adapter"
+      ],
+      "prototypeBoundary": "Editable Figma design and discrete simulated transitions only; not a runtime API or device acceptance."
+    },
+    {
+      "componentId": "tool-summary",
+      "figmaNodeId": "1655:45605",
+      "name": "Adaptive / Tool summary",
+      "kind": "adaptive-input",
+      "region": "adaptive",
+      "skins": [
+        "Glass"
+      ],
+      "renderOwner": "local",
+      "states": [
+        "Color",
+        "Sketch"
+      ],
+      "figmaVariants": {
+        "Color": "1655:45590",
+        "Sketch": "1655:45596"
+      },
+      "props": [
+        "toolId",
+        "valuePreview",
+        "confirmationState",
+        "owner"
+      ],
+      "actions": [
+        "expandTool"
+      ],
+      "capabilities": [
+        "contextual-input-adapter"
+      ],
+      "prototypeBoundary": "Editable Figma design and discrete simulated transitions only; not a runtime API or device acceptance."
+    },
+    {
+      "componentId": "compact-task-composer",
+      "figmaNodeId": "1655:45626",
+      "name": "Text / Compact composer",
+      "kind": "adaptive-input",
+      "region": "adaptive",
+      "skins": [
+        "Glass"
+      ],
+      "renderOwner": "local",
+      "states": [
+        "Ready",
+        "SketchPending",
+        "Recording"
+      ],
+      "figmaVariants": {
+        "Ready": "1655:45613",
+        "SketchPending": "1655:45606",
+        "Recording": "1655:45619"
+      },
+      "props": [
+        "fullText",
+        "lastSentence",
+        "selection",
+        "pendingSketch",
+        "requestId"
+      ],
+      "actions": [
+        "expandText",
+        "send",
+        "stopVoice"
+      ],
+      "capabilities": [
+        "contextual-input-adapter"
+      ],
+      "prototypeBoundary": "Editable Figma design and discrete simulated transitions only; not a runtime API or device acceptance."
+    },
+    {
+      "componentId": "agent-decision-request",
+      "figmaNodeId": "1639:40940",
+      "name": "Adaptive / Agent decision request",
+      "kind": "adaptive-input",
+      "region": "adaptive",
+      "skins": [
+        "Glass"
+      ],
+      "renderOwner": "local",
+      "states": [
+        "Request",
+        "Recording",
+        "Draft",
+        "Deferred",
+        "Resolved",
+        "Rejected"
+      ],
+      "figmaVariants": {
+        "Request": "1639:40768",
+        "Recording": "1639:40819",
+        "Draft": "1639:40874",
+        "Deferred": "1639:40928",
+        "Resolved": "1639:40934",
+        "Rejected": "1641:41188"
+      },
+      "props": [
+        "requestId",
+        "requestRevision",
+        "scope",
+        "options",
+        "supplement",
+        "materials",
+        "requestState",
+        "interactionLock"
+      ],
+      "actions": [
+        "approveRequest",
+        "rejectRequest",
+        "deferRequest",
+        "reopenRequest",
+        "sendSupplement",
+        "openMaterial"
+      ],
+      "capabilities": [
+        "contextual-input-adapter"
+      ],
+      "prototypeBoundary": "Editable Figma design and discrete simulated transitions only; not a runtime API or device acceptance."
+    },
+    {
+      "componentId": "capture-direct-preview",
+      "figmaNodeId": "1639:41264",
+      "name": "Capture / Direct preview and modes",
+      "kind": "adaptive-input",
+      "region": "adaptive",
+      "skins": [
+        "Glass"
+      ],
+      "renderOwner": "local",
+      "states": [
+        "Screenshot",
+        "Crop",
+        "RecordReady",
+        "Recording",
+        "Recorded",
+        "Camera",
+        "Photo",
+        "Failed"
+      ],
+      "figmaVariants": {
+        "Screenshot": "1639:40941",
+        "Crop": "1639:40990",
+        "RecordReady": "1639:41039",
+        "Recording": "1639:41083",
+        "Recorded": "1641:41153",
+        "Camera": "1639:41127",
+        "Photo": "1639:41171",
+        "Failed": "1639:41220"
+      },
+      "props": [
+        "mode",
+        "sourceScope",
+        "taskId",
+        "targetId",
+        "inputRevision",
+        "captureState",
+        "cropMode"
+      ],
+      "actions": [
+        "close",
+        "switchMode",
+        "startRecording",
+        "stopRecording",
+        "takePhoto",
+        "crop",
+        "adopt",
+        "retry"
+      ],
+      "capabilities": [
+        "contextual-input-adapter"
+      ],
+      "prototypeBoundary": "Editable Figma design and discrete simulated transitions only; not a runtime API or device acceptance."
     }
   ],
   "skinLabels": {
@@ -3065,7 +3281,8 @@
     "interactionLocks": [
       "dragging",
       "drawing",
-      "game-held"
+      "game-held",
+      "recording"
     ],
     "themeSource": "appId",
     "skin": "Glass",
@@ -3090,7 +3307,7 @@
       "drawing",
       "game-held"
     ],
-    "speechRecognitionStable": "may-update-adaptive-tools-without-moving-fixed-voice",
+    "speechRecognitionStable": "update intent chips only; never auto-open panels or reflow while recording/dragging/drawing",
     "workbuddySend": "composer-send-directly-starts-task-no-separate-review",
     "composerContent": "text-input-and-input-parameters-only",
     "agentStatusRegion": "top-task-tracking",
@@ -3106,8 +3323,15 @@
     "sparseAdaptiveAlignment": "sole composer fills available adaptive region when no supplemental input exists; no blank spacer",
     "denseAdaptiveContent": "scroll within adaptive region; fixed input and top target retain their bounds",
     "taskNavigation": "direct visible task cards with name + semantic dot + short status, followed by new task; no list icon gate",
-    "adaptiveComposerSizing": "supplemental tools take required space; sole composer fills remaining height; sketch retains compact composer; send stays bottom-right inside composer",
-    "parameterControlSelection": "bounded continuous parameter: slider; finite discrete values: segmented/select; integer incremental quantity: stepper when appropriate; explicit action: button"
+    "adaptiveComposerSizing": "No tool: fill remaining region. One tool: remaining space. Sketch: latest sentence and Send, >=64px; preserve full text.",
+    "parameterControlSelection": "bounded continuous parameter: slider; finite discrete values: segmented/select; integer incremental quantity: stepper when appropriate; explicit action: button",
+    "maxExpandedAuxiliaryTools": 1,
+    "toolSummaryMinimumHeight": 48,
+    "pendingSketchSend": "disabled until explicitly confirmed; closing does not confirm; no persistent helper sentence or reserved explanation row",
+    "fixedDockBackground": "extends to screen bottom, square lower corners; buttons remain above host safe area",
+    "fixedDockShiftTargetPx": 20,
+    "fixedDockShiftBoundary": "remove redundant bottom gap first; design baseline voice stays y776, runtime calibration deferred",
+    "expandedInputPriority": "collapse auxiliary tools to summaries, preserve keyboard/trackpad operation size and composer/send; scroll middle independently"
   },
   "taskStateSemantics": {
     "draft": {
@@ -3209,7 +3433,7 @@
     "voiceFrame": "1443:16163",
     "themeMode": "1459:0",
     "fixedDockY": 708,
-    "composer": "Hidden in drawing/command modes. Show one synchronized text editor only for an authoritative editable focused target; finish ends editing, not a second send. Blur restores drawing.",
+    "composer": "No composer in drawing/command mode. A valid focused text target adds one compact 64px row above the fixed dock; keep brush, size and color controls visible. Reclaim gaps/scrollable space, never replace parameters with a tall editor; no persistent polish-chip row. No extra send.",
     "paintSurface": "Main device retains artwork. Phone is a visual secondary-hand tool/parameter controller.",
     "range": "Target-defined limits and units. 12/32 px are design samples.",
     "photoImport": "Removed from this scene. Existing system tap-to-transfer is outside this prototype.",
@@ -3229,7 +3453,14 @@
     ],
     "commandPolicy": "Follow G03: one Smart Voice button, click toggles, hold speaks, release ends recording. Ending recording does not submit or execute. Pure command mode has no composer. Apply only through an explicit app action or confirmed command contract; mixed toggle/hold details remain unresolved. Cancel stale targets and never replay unknown results.",
     "dock": "Default shared two-row input dock, 390x136 at y708; retain tools, keyboard/pointing entries and their positions. Label is 智慧语音 in all scenes. No painting-specific rearrangement.",
-    "draftPolicy": "Text remains on the original synchronized target after blur. Unknown focus protects unconfirmed input and blocks writes. Late transcripts never become commands or enter another target."
+    "draftPolicy": "Text remains on the original synchronized target after blur. Unknown focus protects unconfirmed input and blocks writes. Late transcripts never become commands or enter another target.",
+    "textFocusLayout": {
+      "composerHeight": 64,
+      "parameterViewportHeight": 500,
+      "gap": 8,
+      "fixedDockY": 708,
+      "preserveTouchTargets": true
+    }
   },
   "glassMaterialContract": {
     "canonicalPage": "2:2",
@@ -3404,6 +3635,75 @@
     "send": "Submission is explicit and independent. Transfer completion does not prove target readability.",
     "recovery": "Keep text on cancel/error; reject cross-target adoption; retry/remove/choose alternative according to adapter capability. Existing native camera pending sessions and capture-buffer invalidation keep distinct lifecycles.",
     "geometry": "Close top-right and adoption bottom-right; minimum 48x48; actions outside scroll/crop region.",
-    "registryExamples": "1634:40528"
+    "registryExamples": "1634:40528",
+    "previewEntry": "Screen: direct screenshot preview; explicit Photo intent: direct camera; document: explicit user selection/preview."
+  },
+  "dynamicWorkspaceContract": {
+    "status": "design-contract-not-runtime",
+    "expandedTool": [
+      "none",
+      "text",
+      "color",
+      "sketch",
+      "capture"
+    ],
+    "recognitionOpensTool": false,
+    "persist": [
+      "taskId",
+      "targetId",
+      "fullText",
+      "caret",
+      "color",
+      "rawSketch",
+      "confirmation",
+      "materials"
+    ],
+    "compactHeightExample": 700,
+    "compactCanvas": "fixed top tools and bottom confirmation; raw drawing content scrolls within reduced viewport",
+    "sceneNodeIds": {
+      "color": "1372:23874",
+      "sketch": "1286:3151",
+      "text": "1642:41209",
+      "compact": "1642:45284"
+    }
+  },
+  "agentDecisionContract": {
+    "status": "design-contract-not-runtime",
+    "initialComposer": "none; Other supplement is part of actual request list",
+    "options": "only actual request actions; wrap full labels",
+    "voiceRoute": "Other supplement of bound request, never approval",
+    "submitSupplement": "explicit send inside Other input; does not approve",
+    "defer": "hide panel, preserve yellow pulse; task card reopens same request",
+    "invalidRequest": "disable obsolete/already processed actions",
+    "pcOwns": [
+      "executionSteps",
+      "detailedResults"
+    ],
+    "sceneNodeIds": {
+      "request": "1286:3891",
+      "recording": "1642:41368",
+      "draft": "1642:41551",
+      "deferred": "1642:41733",
+      "keyboard": "1654:45393",
+      "trackpad": "1654:45741"
+    }
+  },
+  "captureEntryContract": {
+    "status": "design-contract-not-runtime",
+    "fixedEntry": "direct current-tablet-application screenshot preview",
+    "defaultMode": "screenshot",
+    "modeBar": [
+      "screenshot",
+      "recording",
+      "camera"
+    ],
+    "recording": "explicit start and stop; switching alone never records",
+    "photoIntent": "direct camera route",
+    "defaultPurpose": "current task reference, no purpose chooser",
+    "crop": "optional explicit mode",
+    "close": "top-right, preserve task input",
+    "adopt": "bottom-right, explicit material link only; never submit/approve",
+    "scopeFailure": "show actual unavailable state, never broaden source",
+    "figmaFrame": "1439:45387"
   }
 }

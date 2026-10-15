@@ -1,5 +1,5 @@
 import { distributedLink } from './DistributedLink';
-import { ChatGpt } from './ChatGpt';
+import { Gemini } from './Gemini';
 import { photoCapture } from './PhotoCapture';
 import { windowCapture } from './WindowCapture';
 import { PresentationMotion } from './PresentationMotion';
@@ -23,7 +23,7 @@ export class NativeBridge {
  private peer:socket.TCPSocketConnection|null=null;
  private discovery:mdns.DiscoveryService|null=null;
  private speech:Speech;
- private ai:ChatGpt;
+ private ai:Gemini;
  private motion:PresentationMotion;
  private active:boolean=true;
  private photo:CaptureResult=new CaptureResult();
@@ -37,7 +37,7 @@ export class NativeBridge {
  private service:mdns.LocalServiceInfo={serviceType:'_mobileinput._tcp',serviceName:'Input Agent',port:39871};
  private context:common.UIAbilityContext;
  private controller:webview.WebviewController;
- constructor(context:common.UIAbilityContext,controller:webview.WebviewController){AppStorage.setOrCreate<string>('pasteRequest','');this.context=context;this.controller=controller;this.speech=new Speech(context,controller);this.ai=new ChatGpt(context,(name:string,data:string)=>this.emit(name,data));this.motion=new PresentationMotion(controller);distributedLink.configure(context);distributedLink.attach((name:string,data:string)=>this.emit(name,data));}
+ constructor(context:common.UIAbilityContext,controller:webview.WebviewController){AppStorage.setOrCreate<string>('pasteRequest','');this.context=context;this.controller=controller;this.speech=new Speech(context,controller);this.ai=new Gemini(context,(name:string,data:string)=>this.emit(name,data));this.motion=new PresentationMotion(controller);distributedLink.configure(context);distributedLink.attach((name:string,data:string)=>this.emit(name,data));}
  clipboard(id:string,operation:string,text:string):string {
   if(!this.allowed())return 'unavailable';
   const result:ClipboardResult={id,ok:false,text:'',error:''};
@@ -104,7 +104,8 @@ export class NativeBridge {
   return 'requested';
  }
  presentationMotion(id:string,operation:string):string{if(!this.allowed()||ROLE!=='phone'||!this.active)return 'unavailable';return this.motion.control(id,operation);}
- aiControl(operation:string):string{if(!this.allowed()||ROLE!=='phone')return 'unavailable';if(operation==='status')this.ai.status();else if(operation==='login'&&this.active)void this.ai.login();else if(operation==='cancel')this.ai.cancelLogin();else if(operation==='logout')this.ai.logout();return 'requested';}
+ aiControl(operation:string):string{if(!this.allowed()||ROLE!=='phone')return 'unavailable';if(operation==='status')this.ai.status();else if(operation==='verify'&&this.active)void this.ai.verify();else if(operation==='cancel')this.ai.cancel('');else if(operation==='logout')this.ai.logout();return 'requested';}
+ aiConfigure(key:string,model:string):string{if(!this.allowed()||ROLE!=='phone'||!this.active)return 'unavailable';return this.ai.configure(key,model)?'saved':'failed';}
  polish(id:string,text:string,style:string):string{if(!this.allowed()||ROLE!=='phone'||!this.active)return 'unavailable';void this.ai.polish(id,text,style);return 'pending';}
  cancelPolish(id:string):string{if(!this.allowed())return 'unavailable';this.ai.cancel(id);return 'cancelled';}
  ready():void {this.emit('native-ready','{}');distributedLink.webReady();}

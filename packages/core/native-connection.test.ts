@@ -9,7 +9,7 @@ function bridge(){
  const sockets:any[]=[],events:any[]=[];
  const fakeService=class {stop(){} cancelRecognition(){} status(){} cancel(){} close(){}};
  const kits:Record<string,unknown>={
-  './ChatGpt':{ChatGpt:fakeService},'./PhotoCapture':{},'./WindowCapture':{},'./PresentationMotion':{PresentationMotion:fakeService},'./Speech':{Speech:fakeService},
+  './Gemini':{Gemini:fakeService},'./PhotoCapture':{},'./WindowCapture':{},'./PresentationMotion':{PresentationMotion:fakeService},'./Speech':{Speech:fakeService},
   './DistributedLink':{distributedLink:{configure(){},attach(){},getMode(){return 'lan';}}},
   './Config':{ROLE:'phone'},'./LocalAssets':{LOCAL_ORIGIN:'https://mobile-input.invalid'},
   '@kit.NetworkKit':{socket:{constructTCPSocketInstance:()=>{

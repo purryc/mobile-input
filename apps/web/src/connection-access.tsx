@@ -1,4 +1,4 @@
-import {ChatGptAccount} from './ai-polish';
+import {GeminiAccount} from './ai-polish';
 import {createContext,useContext,useEffect,useRef,useState,type ReactNode,type RefObject} from 'react';
 import {Link2,ScanLine,RefreshCw,X,TabletSmartphone,ChevronRight,Check} from 'lucide-react';
 import QRCode from 'qrcode';
@@ -26,7 +26,7 @@ export function ConnectionAccess({children}:{children:ReactNode}){
  const status=r.connected?(phone?'已连接工作台':'手机已连接'):r.status;
  function close(){setOpened(false);entry.current?.focus();}
  function show(){if(r.connected)void command('switch-cancel');if(!phone&&r.method==='lan')window.MobileNative?.host(pin);window.dispatchEvent(new Event('connection-open'));setOpened(true);}
- useEffect(()=>{const open=()=>show();window.addEventListener('chatgpt-open',open);return()=>window.removeEventListener('chatgpt-open',open);},[]);
+ useEffect(()=>{const open=()=>show();window.addEventListener('ai-settings-open',open);return()=>window.removeEventListener('ai-settings-open',open);},[]);
  useBack(()=>{if(!opened)return false;close();return true;},200);
  useEffect(()=>{if(r.address)setAddress(r.address);},[r.address]);
  useEffect(()=>{if(phone&&r.connected&&!priorConnected.current)close();priorConnected.current=r.connected;},[r.connected]);
@@ -74,7 +74,7 @@ export function ConnectionAccess({children}:{children:ReactNode}){
       <button className="primary" type="submit" disabled={code.length!==6}>连接</button>
      </form>
     </>:<div className="agent-tablet-pair"><h3>用手机扫码连接</h3>{qr&&<img src={qr} width="200" height="200" alt="配对二维码"/>}<span>配对码</span><div className="pair-code">{pin}</div><small>{host}</small></div>}</div>}
-    {phone&&<details className="connection-account"><summary>ChatGPT 账号</summary><ChatGptAccount/></details>}
+    {phone&&<details className="connection-account"><summary>Gemini API</summary><GeminiAccount/></details>}
    </section>
   </div>}
  </div></ConnectionContext.Provider>;
