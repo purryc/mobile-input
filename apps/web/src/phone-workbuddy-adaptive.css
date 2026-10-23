@@ -120,3 +120,4 @@
 .wb-sketch-card .wb-sketch-attachment span{font-size:11px;line-height:16px;color:#426c64}
 .wb-sketch-card .wb-attachment-remove{position:absolute;right:0;top:0;width:44px;height:44px;min-height:44px;padding:10px;display:grid;place-items:center;background:transparent;border:0;box-shadow:none;color:#355f58;border-radius:14px}
 .wb-attachment-remove svg{background:#ffffffc9;border-radius:50%;box-shadow:0 1px 4px #335b4320;padding:3px;width:24px;height:24px;pointer-events:none}
+.rich-object-paragraph{white-space:pre-wrap;display:block;min-height:1em}.wbf-object-surface [data-wb-object]{user-select:text;-webkit-user-select:text;cursor:text}.wbf-object-surface ::selection{background:#9bbdf58c}.wbf-object-surface [data-wb-active=true]{outline:1px solid #7aa9d9;outline-offset:6px}

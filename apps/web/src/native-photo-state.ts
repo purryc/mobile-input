@@ -14,9 +14,9 @@ function notify(){persistMetadata();for(const listener of listeners)listener();}
 export function useNativePhoto(){return useSyncExternalStore(callback=>{listeners.add(callback);return()=>listeners.delete(callback);},()=>photo);}
 export function discardNativePhoto(){if(photo)window.MobileNative?.clearCapture?.(photo.id);photo=null;notify();}
 export function markNativePhotoUsed(file:string){if(!photo)return;photo={...photo,phase:'used',file,data:undefined};window.MobileNative?.clearCapture?.(photo.id);notify();}
-export function beginNativePhoto(){
+export function beginNativePhoto(slot?:CaptureState['slot']){
  if(photo?.phase==='requested')return;
- discardNativePhoto();const s=currentState(),id=uid();photo={id,kind:'camera',app:s.app,source:'手机相机',task:s.workbuddy.task,target:s.target?.id||'',targetRevision:s.target?.revision||0,phase:'requested',at:Date.now(),taskLabel:s.workbuddy.tasks.find(t=>t.id===s.workbuddy.task)?.title||'新建任务草稿',targetLabel:s.target?.label||'当前应用'};notify();
+ discardNativePhoto();const s=currentState(),id=uid();photo={id,slot,kind:'camera',app:s.app,source:'手机相机',task:s.workbuddy.task,target:s.target?.id||'',targetRevision:s.target?.revision||0,phase:'requested',at:Date.now(),taskLabel:s.workbuddy.tasks.find(t=>t.id===s.workbuddy.task)?.title||'新建任务草稿',targetLabel:s.target?.label||'当前应用'};notify();
  try{if(window.MobileNative?.capture?.(id,'camera')!=='pending'){photo={...photo,phase:'failed',error:'当前设备无法打开相机，请检查权限或更新 Input Agent'};notify();}}catch{photo={...photo,phase:'failed',error:'无法打开相机，原草稿已保留'};notify();}
 }
 function accept(result:{id:string;data?:string;error?:string;pending?:boolean}){
@@ -29,3 +29,5 @@ window.addEventListener('native-capture',event=>accept((event as CustomEvent).de
 window.addEventListener('native-ready',recover);
 window.addEventListener('native-foreground',event=>{if((event as CustomEvent).detail)recover();});
 setTimeout(recover,100);
+
+window.addEventListener('demo-reset',discardNativePhoto);

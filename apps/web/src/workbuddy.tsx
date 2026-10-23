@@ -1415,6 +1415,7 @@ function EditableText({
         className="wb-editable-text"
         aria-label={label}
         value={editor.text}
+        onPointerDown={editor.activate}
         onFocus={editor.focus}
         onChange={(e) => editor.update(e.target.value)}
       />
@@ -1468,6 +1469,7 @@ function AssistantDetail({
         aria-label="助理消息"
         placeholder="给助理发送需求…"
         value={editor.text}
+        onPointerDown={editor.activate}
         onFocus={editor.focus}
         onChange={(e) => editor.update(e.target.value)}
       />
@@ -2336,6 +2338,7 @@ function FormInput({
   const props = {
     "aria-label": label,
     value: editor.text,
+    onPointerDown: editor.activate,
     onFocus: editor.focus,
     onChange: (
       e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,

@@ -6,7 +6,7 @@ import {useEffect,useRef,useState} from 'react';
 import * as I from 'lucide-react';
 import {chatTitles,CHAT_READ_TIMING,type ChatMessage} from '../../../packages/core/interactions';
 import type {State} from '../../../packages/core/model';
-import {command,uid} from './runtime';
+import {command,uid,currentState} from './runtime';
 import TranslationFocus from './hover/assist/TranslationFocus';
 import type {Action} from './hover/assist/types';
 import {NativeService,isNativeAction} from './hover/assist/NativeService';
@@ -45,11 +45,12 @@ export function WeChat({s}:{s:State}){
   const viewport=area.current?.getBoundingClientRect();
   const visible=viewport?Array.from(area.current!.querySelectorAll<HTMLElement>('[data-message-id]')).filter(el=>{const b=el.getBoundingClientRect();return b.bottom>viewport.top+8&&b.top<viewport.bottom-8;}).map(el=>el.dataset.messageId!):[];
   const sourceMessageId=visibleMessageSource(s,id,visible);
-  if(!focused||!s.chat.activation||sourceMessageId!==ctx?.messageId)command('chat-focus',{conversation:id,sourceMessageId});
+  if(s.inputSession?.phase!=='active'||!focused||!s.chat.activation||sourceMessageId!==ctx?.messageId)command('chat-focus',{conversation:id,sourceMessageId});
  };
  return <div className="wx-app" data-linked={r.connected}><aside><header>微信 <I.Plus size={20}/></header><label className="wx-search"><I.Search size={17}/><input placeholder="搜索" onChange={e=>{for(const el of document.querySelectorAll<HTMLElement>('.wx-contact'))el.hidden=!el.textContent?.includes(e.target.value);}}/></label>{Object.entries(chatTitles).filter(([key])=>s.chat.messages[key]).map(([key,title])=><button key={key} className={'wx-contact '+(id===key?'active':'')} onClick={()=>command('chat-open',key)}><ChatAvatar identity={key}/><span><b>{title}</b><small>{s.chat.messages[key].at(-1)?.text}</small></span></button>)}<nav><I.MessageCircle/><I.Contact/><I.Compass/><I.User/></nav></aside><section>{id?<><header>{chatTitles[id]}<I.MoreHorizontal/></header><div className="wx-messages" ref={area}>{messages.map(m=><Bubble key={m.id} m={m} identity={id} active={s.target?.id===`message:${id}:${m.id}`} scan={ctx?.messageId===m.id&&phase==='scan'} halo={r.connected&&ctx?.messageId===m.id&&(phase==='scan'||focused&&activation?.phase==='ready')} onClick={()=>command('chat-focus',{conversation:id,messageId:m.id})}/>)}</div><div className="wx-composer wx-native-composer"><button aria-label="语音输入" onClick={focus}><I.AudioLines size={25}/></button><div className={'wx-input-bar '+(focused?'focused ':'')+(focused&&phase==='pulse'?'focus-pulse':'')}><textarea ref={input} aria-label="微信回复输入框" rows={1} onPointerDown={focus} value={s.chat.drafts[id].text} onFocus={focus} onChange={e=>command('chat-edit',{conversation:id,text:e.target.value,revision:s.chat.drafts[id].revision,sequence:s.chat.drafts[id].sequence+1,session:'tablet'},{targetId:s.target?.id,targetRevision:s.target?.revision})}/><I.Mic size={19}/></div><I.Smile size={27}/>{s.chat.drafts[id].text.trim()?<button className="wx-send" onClick={()=>command('chat-submit',{conversation:id,text:s.chat.drafts[id].text,revision:s.chat.drafts[id].revision},{targetId:s.target?.id,targetRevision:s.target?.revision})}>发送</button>:<I.PlusCircle size={27}/>}</div></>:<div className="wx-empty"><img src="/assets/apps/wechat.png" alt="微信"/></div>}</section></div>;
 }
 export function ServicePage({action,onClose}:{action:Action;onClose:()=>void}){
  useBack(()=>{onClose();return true;},50);
+ useEffect(()=>{const ctx=currentState().chat.context,owner=action.recordKey||action.id;if(ctx)void command('input-service-open',{owner,action:action.id,label:action.label,conversation:ctx.conversation,message:ctx.messageId,epoch:ctx.epoch});return()=>{void command('input-service-close',{owner});};},[action.recordKey]);
  return <div className="hover-services" key={action.recordKey}>{isNativeAction(action)?<NativeService action={action} onClose={onClose}/>:<MockApp action={action} onClose={onClose}/>}</div>;
 }

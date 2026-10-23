@@ -1,0 +1,1314 @@
+{
+  "version": "2026-10-20",
+  "scope": "design-only",
+  "defaultTheme": "System",
+  "fileKey": "ApFLno64NcMoA17MiPFfZh",
+  "createdVariableIds": [
+    "VariableID:1933:94467",
+    "VariableID:1933:94468",
+    "VariableID:1933:94469",
+    "VariableID:1933:94470",
+    "VariableID:1933:94471",
+    "VariableID:1933:94472",
+    "VariableID:1933:94473",
+    "VariableID:1933:94474",
+    "VariableID:1933:94475",
+    "VariableID:1933:94476",
+    "VariableID:1933:94477",
+    "VariableID:1933:94478",
+    "VariableID:1933:94479",
+    "VariableID:1933:94480",
+    "VariableCollectionId:1933:94481",
+    "VariableID:1933:94482",
+    "VariableID:1933:94483",
+    "VariableID:1933:94484",
+    "VariableID:1933:94485",
+    "VariableID:1933:94486",
+    "VariableID:1933:94487",
+    "VariableID:1943:94701",
+    "VariableID:1943:94702"
+  ],
+  "modifiedVariableIds": [
+    "VariableID:1514:25705",
+    "VariableID:269:2948",
+    "VariableID:269:2949",
+    "VariableID:1514:25707",
+    "VariableID:269:2945",
+    "VariableID:269:2946",
+    "VariableID:269:2940",
+    "VariableID:269:2941",
+    "VariableID:269:2942",
+    "VariableID:269:2943",
+    "VariableID:269:2944"
+  ],
+  "collection": {
+    "id": "VariableCollectionId:1933:94481",
+    "modes": {
+      "System": "1933:10",
+      "WorkBuddy": "1933:11",
+      "Bilibili": "1933:12",
+      "GoPaint": "1933:13",
+      "WeChat": "1933:14",
+      "Email": "1933:15",
+      "Word": "1933:16",
+      "Sheet": "1933:17",
+      "Presentation": "1933:18",
+      "Doubao": "1933:19"
+    }
+  },
+  "material": {
+    "ink": "VariableID:1933:94470",
+    "muted": "VariableID:1933:94471",
+    "popup": "VariableID:1933:94472",
+    "edge": "VariableID:1933:94473",
+    "edgeMid": "VariableID:1933:94474",
+    "edgeEnd": "VariableID:1933:94475",
+    "scrim": "VariableID:1933:94476",
+    "dot": "VariableID:1933:94477",
+    "divider": "VariableID:1933:94478",
+    "shadow": "VariableID:1933:94479",
+    "dragShadow": "VariableID:1933:94480",
+    "control": "VariableID:1514:25704",
+    "dock": "VariableID:1514:25706"
+  },
+  "tokens": {
+    "accent": "VariableID:1933:94482",
+    "tint": "VariableID:1933:94483",
+    "outline": "VariableID:1933:94484",
+    "bgTop": "VariableID:1933:94485",
+    "bgMid": "VariableID:1933:94486",
+    "bgBottom": "VariableID:1933:94487",
+    "accentForeground": "VariableID:1943:94701",
+    "onAccent": "VariableID:1943:94702"
+  },
+  "styles": [
+    {
+      "id": "S:cdfae7c410116c633ee0e158194738118f9fd4dc,",
+      "name": "Input / Liquid Glass / Control"
+    },
+    {
+      "id": "S:21b866b3420e30378514a9ea4e43562e0a141426,",
+      "name": "Input / Liquid Glass / Popup"
+    },
+    {
+      "id": "S:74fd17a0361aea638d321c57b37ca430a027ce17,",
+      "name": "Input / Liquid Glass / Dragging"
+    }
+  ],
+  "resolved": {
+    "System": {
+      "r": 0.03921568766236305,
+      "g": 0.3490196168422699,
+      "b": 0.9686274528503418,
+      "a": 1
+    },
+    "WorkBuddy": {
+      "r": 0.0784313753247261,
+      "g": 0.42352941632270813,
+      "b": 0.3921568691730499,
+      "a": 1
+    },
+    "Bilibili": {
+      "r": 0.8509804010391235,
+      "g": 0.21176470816135406,
+      "b": 0.45490196347236633,
+      "a": 1
+    },
+    "GoPaint": {
+      "r": 0.3019607961177826,
+      "g": 0.5215686559677124,
+      "b": 1,
+      "a": 1
+    },
+    "WeChat": {
+      "r": 0.027450980618596077,
+      "g": 0.5372549295425415,
+      "b": 0.3529411852359772,
+      "a": 1
+    },
+    "Email": {
+      "r": 0.15294118225574493,
+      "g": 0.40392157435417175,
+      "b": 0.7803921699523926,
+      "a": 1
+    },
+    "Word": {
+      "r": 0.2078431397676468,
+      "g": 0.43529412150382996,
+      "b": 0.8941176533699036,
+      "a": 1
+    },
+    "Sheet": {
+      "r": 0.13725490868091583,
+      "g": 0.5137255191802979,
+      "b": 0.3490196168422699,
+      "a": 1
+    },
+    "Presentation": {
+      "r": 0.7686274647712708,
+      "g": 0.32549020648002625,
+      "b": 0.21568627655506134,
+      "a": 1
+    },
+    "Doubao": {
+      "r": 0.20392157137393951,
+      "g": 0.4901960790157318,
+      "b": 0.8666666746139526,
+      "a": 1
+    }
+  },
+  "export": [
+    {
+      "id": "VariableID:1933:94467",
+      "name": "foundation/harmony-blue",
+      "collection": "VariableCollectionId:4:2",
+      "values": {
+        "4:0": {
+          "r": 0.03921568766236305,
+          "g": 0.3490196168422699,
+          "b": 0.9686274528503418,
+          "a": 1
+        }
+      },
+      "scopes": [],
+      "codeSyntax": {
+        "WEB": "var(--foundation-harmony-blue)"
+      }
+    },
+    {
+      "id": "VariableID:1933:94468",
+      "name": "foundation/neutral-900",
+      "collection": "VariableCollectionId:4:2",
+      "values": {
+        "4:0": {
+          "r": 0.0941176488995552,
+          "g": 0.1411764770746231,
+          "b": 0.1921568661928177,
+          "a": 1
+        }
+      },
+      "scopes": [],
+      "codeSyntax": {
+        "WEB": "var(--foundation-neutral-900)"
+      }
+    },
+    {
+      "id": "VariableID:1933:94469",
+      "name": "foundation/neutral-600",
+      "collection": "VariableCollectionId:4:2",
+      "values": {
+        "4:0": {
+          "r": 0.33725491166114807,
+          "g": 0.3960784375667572,
+          "b": 0.4745098054409027,
+          "a": 1
+        }
+      },
+      "scopes": [],
+      "codeSyntax": {
+        "WEB": "var(--foundation-neutral-600)"
+      }
+    },
+    {
+      "id": "VariableID:1933:94470",
+      "name": "foundation/text-primary",
+      "collection": "VariableCollectionId:269:2939",
+      "values": {
+        "269:0": {
+          "type": "VARIABLE_ALIAS",
+          "id": "VariableID:1933:94468"
+        },
+        "1471:0": {
+          "r": 0.9607843160629272,
+          "g": 0.9686274528503418,
+          "b": 0.9882352948188782,
+          "a": 1
+        }
+      },
+      "scopes": [
+        "SHAPE_FILL",
+        "TEXT_FILL",
+        "STROKE_COLOR"
+      ],
+      "codeSyntax": {
+        "WEB": "var(--foundation-text-primary)"
+      }
+    },
+    {
+      "id": "VariableID:1933:94471",
+      "name": "foundation/text-secondary",
+      "collection": "VariableCollectionId:269:2939",
+      "values": {
+        "269:0": {
+          "type": "VARIABLE_ALIAS",
+          "id": "VariableID:1933:94469"
+        },
+        "1471:0": {
+          "r": 0.6666666865348816,
+          "g": 0.7137255072593689,
+          "b": 0.7882353067398071,
+          "a": 1
+        }
+      },
+      "scopes": [
+        "SHAPE_FILL",
+        "TEXT_FILL",
+        "STROKE_COLOR"
+      ],
+      "codeSyntax": {
+        "WEB": "var(--foundation-text-secondary)"
+      }
+    },
+    {
+      "id": "VariableID:1933:94472",
+      "name": "foundation/glass-popup",
+      "collection": "VariableCollectionId:269:2939",
+      "values": {
+        "269:0": {
+          "r": 1,
+          "g": 1,
+          "b": 1,
+          "a": 0.7200000286102295
+        },
+        "1471:0": {
+          "r": 0.125490203499794,
+          "g": 0.12941177189350128,
+          "b": 0.14901961386203766,
+          "a": 0.9200000166893005
+        }
+      },
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "codeSyntax": {
+        "WEB": "var(--foundation-glass-popup)"
+      }
+    },
+    {
+      "id": "VariableID:1933:94473",
+      "name": "foundation/edge",
+      "collection": "VariableCollectionId:269:2939",
+      "values": {
+        "269:0": {
+          "r": 1,
+          "g": 1,
+          "b": 1,
+          "a": 0.7799999713897705
+        },
+        "1471:0": {
+          "r": 1,
+          "g": 1,
+          "b": 1,
+          "a": 0.20000000298023224
+        }
+      },
+      "scopes": [
+        "STROKE_COLOR"
+      ],
+      "codeSyntax": {
+        "WEB": "var(--foundation-edge)"
+      }
+    },
+    {
+      "id": "VariableID:1933:94474",
+      "name": "foundation/edge-mid",
+      "collection": "VariableCollectionId:269:2939",
+      "values": {
+        "269:0": {
+          "r": 1,
+          "g": 1,
+          "b": 1,
+          "a": 0.23999999463558197
+        },
+        "1471:0": {
+          "r": 1,
+          "g": 1,
+          "b": 1,
+          "a": 0.05999999865889549
+        }
+      },
+      "scopes": [
+        "STROKE_COLOR"
+      ],
+      "codeSyntax": {
+        "WEB": "var(--foundation-edge-mid)"
+      }
+    },
+    {
+      "id": "VariableID:1933:94475",
+      "name": "foundation/edge-end",
+      "collection": "VariableCollectionId:269:2939",
+      "values": {
+        "269:0": {
+          "r": 1,
+          "g": 1,
+          "b": 1,
+          "a": 0.6200000047683716
+        },
+        "1471:0": {
+          "r": 1,
+          "g": 1,
+          "b": 1,
+          "a": 0.12999999523162842
+        }
+      },
+      "scopes": [
+        "STROKE_COLOR"
+      ],
+      "codeSyntax": {
+        "WEB": "var(--foundation-edge-end)"
+      }
+    },
+    {
+      "id": "VariableID:1933:94476",
+      "name": "foundation/scrim",
+      "collection": "VariableCollectionId:269:2939",
+      "values": {
+        "269:0": {
+          "r": 0.04313725605607033,
+          "g": 0.11764705926179886,
+          "b": 0.21960784494876862,
+          "a": 0.14000000059604645
+        },
+        "1471:0": {
+          "r": 0,
+          "g": 0,
+          "b": 0,
+          "a": 0.3799999952316284
+        }
+      },
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL"
+      ],
+      "codeSyntax": {
+        "WEB": "var(--foundation-scrim)"
+      }
+    },
+    {
+      "id": "VariableID:1933:94477",
+      "name": "foundation/dot",
+      "collection": "VariableCollectionId:269:2939",
+      "values": {
+        "269:0": {
+          "r": 0.33725491166114807,
+          "g": 0.3960784375667572,
+          "b": 0.4745098054409027,
+          "a": 0.3799999952316284
+        },
+        "1471:0": {
+          "r": 0.6666666865348816,
+          "g": 0.7137255072593689,
+          "b": 0.7882353067398071,
+          "a": 0.3799999952316284
+        }
+      },
+      "scopes": [
+        "SHAPE_FILL"
+      ],
+      "codeSyntax": {
+        "WEB": "var(--foundation-dot)"
+      }
+    },
+    {
+      "id": "VariableID:1933:94478",
+      "name": "foundation/divider",
+      "collection": "VariableCollectionId:269:2939",
+      "values": {
+        "269:0": {
+          "r": 0.33725491166114807,
+          "g": 0.3960784375667572,
+          "b": 0.4745098054409027,
+          "a": 0.18000000715255737
+        },
+        "1471:0": {
+          "r": 0.6666666865348816,
+          "g": 0.7137255072593689,
+          "b": 0.7882353067398071,
+          "a": 0.2199999988079071
+        }
+      },
+      "scopes": [
+        "SHAPE_FILL",
+        "STROKE_COLOR"
+      ],
+      "codeSyntax": {
+        "WEB": "var(--foundation-divider)"
+      }
+    },
+    {
+      "id": "VariableID:1933:94479",
+      "name": "foundation/shadow",
+      "collection": "VariableCollectionId:269:2939",
+      "values": {
+        "269:0": {
+          "r": 0.09019608050584793,
+          "g": 0.1882352977991104,
+          "b": 0.30980393290519714,
+          "a": 0.07999999821186066
+        },
+        "1471:0": {
+          "r": 0,
+          "g": 0,
+          "b": 0,
+          "a": 0.25999999046325684
+        }
+      },
+      "scopes": [
+        "EFFECT_COLOR"
+      ],
+      "codeSyntax": {
+        "WEB": "var(--foundation-shadow)"
+      }
+    },
+    {
+      "id": "VariableID:1933:94480",
+      "name": "foundation/shadow-drag",
+      "collection": "VariableCollectionId:269:2939",
+      "values": {
+        "269:0": {
+          "r": 0.09019608050584793,
+          "g": 0.1882352977991104,
+          "b": 0.30980393290519714,
+          "a": 0.18000000715255737
+        },
+        "1471:0": {
+          "r": 0,
+          "g": 0,
+          "b": 0,
+          "a": 0.41999998688697815
+        }
+      },
+      "scopes": [
+        "EFFECT_COLOR"
+      ],
+      "codeSyntax": {
+        "WEB": "var(--foundation-shadow-drag)"
+      }
+    },
+    {
+      "id": "VariableID:1933:94482",
+      "name": "theme/accent",
+      "collection": "VariableCollectionId:1933:94481",
+      "values": {
+        "1933:10": {
+          "type": "VARIABLE_ALIAS",
+          "id": "VariableID:1933:94467"
+        },
+        "1933:11": {
+          "type": "VARIABLE_ALIAS",
+          "id": "VariableID:4:11"
+        },
+        "1933:12": {
+          "type": "VARIABLE_ALIAS",
+          "id": "VariableID:1414:45499"
+        },
+        "1933:13": {
+          "type": "VARIABLE_ALIAS",
+          "id": "VariableID:1459:30408"
+        },
+        "1933:14": {
+          "type": "VARIABLE_ALIAS",
+          "id": "VariableID:4:9"
+        },
+        "1933:15": {
+          "type": "VARIABLE_ALIAS",
+          "id": "VariableID:4:10"
+        },
+        "1933:16": {
+          "type": "VARIABLE_ALIAS",
+          "id": "VariableID:4:12"
+        },
+        "1933:17": {
+          "type": "VARIABLE_ALIAS",
+          "id": "VariableID:4:13"
+        },
+        "1933:18": {
+          "type": "VARIABLE_ALIAS",
+          "id": "VariableID:4:14"
+        },
+        "1933:19": {
+          "type": "VARIABLE_ALIAS",
+          "id": "VariableID:269:2928"
+        }
+      },
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL",
+        "TEXT_FILL",
+        "STROKE_COLOR",
+        "EFFECT_COLOR"
+      ],
+      "codeSyntax": {
+        "WEB": "var(--theme-accent)"
+      }
+    },
+    {
+      "id": "VariableID:1933:94483",
+      "name": "theme/tint",
+      "collection": "VariableCollectionId:1933:94481",
+      "values": {
+        "1933:10": {
+          "r": 0.03921568766236305,
+          "g": 0.3490196168422699,
+          "b": 0.9686274528503418,
+          "a": 0.11999999731779099
+        },
+        "1933:11": {
+          "r": 0.0784313753247261,
+          "g": 0.42352941632270813,
+          "b": 0.3921568691730499,
+          "a": 0.11999999731779099
+        },
+        "1933:12": {
+          "r": 0.8509804010391235,
+          "g": 0.21176470816135406,
+          "b": 0.45490196347236633,
+          "a": 0.11999999731779099
+        },
+        "1933:13": {
+          "r": 0.3019607961177826,
+          "g": 0.5215686559677124,
+          "b": 1,
+          "a": 0.2199999988079071
+        },
+        "1933:14": {
+          "r": 0.027450980618596077,
+          "g": 0.5372549295425415,
+          "b": 0.3529411852359772,
+          "a": 0.11999999731779099
+        },
+        "1933:15": {
+          "r": 0.15294118225574493,
+          "g": 0.40392157435417175,
+          "b": 0.7803921699523926,
+          "a": 0.11999999731779099
+        },
+        "1933:16": {
+          "r": 0.2078431397676468,
+          "g": 0.43529412150382996,
+          "b": 0.8941176533699036,
+          "a": 0.11999999731779099
+        },
+        "1933:17": {
+          "r": 0.13725490868091583,
+          "g": 0.5137255191802979,
+          "b": 0.3490196168422699,
+          "a": 0.11999999731779099
+        },
+        "1933:18": {
+          "r": 0.7686274647712708,
+          "g": 0.32549020648002625,
+          "b": 0.21568627655506134,
+          "a": 0.11999999731779099
+        },
+        "1933:19": {
+          "r": 0.20392157137393951,
+          "g": 0.4901960790157318,
+          "b": 0.8666666746139526,
+          "a": 0.11999999731779099
+        }
+      },
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL",
+        "TEXT_FILL",
+        "STROKE_COLOR",
+        "EFFECT_COLOR"
+      ],
+      "codeSyntax": {
+        "WEB": "var(--theme-tint)"
+      }
+    },
+    {
+      "id": "VariableID:1933:94484",
+      "name": "theme/outline",
+      "collection": "VariableCollectionId:1933:94481",
+      "values": {
+        "1933:10": {
+          "r": 0.03921568766236305,
+          "g": 0.3490196168422699,
+          "b": 0.9686274528503418,
+          "a": 0.41999998688697815
+        },
+        "1933:11": {
+          "r": 0.0784313753247261,
+          "g": 0.42352941632270813,
+          "b": 0.3921568691730499,
+          "a": 0.41999998688697815
+        },
+        "1933:12": {
+          "r": 0.8509804010391235,
+          "g": 0.21176470816135406,
+          "b": 0.45490196347236633,
+          "a": 0.41999998688697815
+        },
+        "1933:13": {
+          "r": 0.3019607961177826,
+          "g": 0.5215686559677124,
+          "b": 1,
+          "a": 0.41999998688697815
+        },
+        "1933:14": {
+          "r": 0.027450980618596077,
+          "g": 0.5372549295425415,
+          "b": 0.3529411852359772,
+          "a": 0.41999998688697815
+        },
+        "1933:15": {
+          "r": 0.15294118225574493,
+          "g": 0.40392157435417175,
+          "b": 0.7803921699523926,
+          "a": 0.41999998688697815
+        },
+        "1933:16": {
+          "r": 0.2078431397676468,
+          "g": 0.43529412150382996,
+          "b": 0.8941176533699036,
+          "a": 0.41999998688697815
+        },
+        "1933:17": {
+          "r": 0.13725490868091583,
+          "g": 0.5137255191802979,
+          "b": 0.3490196168422699,
+          "a": 0.41999998688697815
+        },
+        "1933:18": {
+          "r": 0.7686274647712708,
+          "g": 0.32549020648002625,
+          "b": 0.21568627655506134,
+          "a": 0.41999998688697815
+        },
+        "1933:19": {
+          "r": 0.20392157137393951,
+          "g": 0.4901960790157318,
+          "b": 0.8666666746139526,
+          "a": 0.41999998688697815
+        }
+      },
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL",
+        "TEXT_FILL",
+        "STROKE_COLOR",
+        "EFFECT_COLOR"
+      ],
+      "codeSyntax": {
+        "WEB": "var(--theme-outline)"
+      }
+    },
+    {
+      "id": "VariableID:1933:94485",
+      "name": "theme/background-top",
+      "collection": "VariableCollectionId:1933:94481",
+      "values": {
+        "1933:10": {
+          "r": 0.9375489950180054,
+          "g": 0.9576862454414368,
+          "b": 0.9979608058929443,
+          "a": 1
+        },
+        "1933:11": {
+          "r": 0.9400980472564697,
+          "g": 0.9625294208526611,
+          "b": 0.9604901671409607,
+          "a": 1
+        },
+        "1933:12": {
+          "r": 0.990313708782196,
+          "g": 0.9487646818161011,
+          "b": 0.9645686149597168,
+          "a": 1
+        },
+        "1933:13": {
+          "r": 0.0313725508749485,
+          "g": 0.03921568766236305,
+          "b": 0.054901961237192154,
+          "a": 1
+        },
+        "1933:14": {
+          "r": 0.9367843270301819,
+          "g": 0.9699215888977051,
+          "b": 0.9579411745071411,
+          "a": 1
+        },
+        "1933:15": {
+          "r": 0.9449411630630493,
+          "g": 0.961254894733429,
+          "b": 0.985725462436676,
+          "a": 1
+        },
+        "1933:16": {
+          "r": 0.9485098123550415,
+          "g": 0.9632940888404846,
+          "b": 0.99311763048172,
+          "a": 1
+        },
+        "1933:17": {
+          "r": 0.9439215660095215,
+          "g": 0.9683921337127686,
+          "b": 0.9576862454414368,
+          "a": 1
+        },
+        "1933:18": {
+          "r": 0.9849607944488525,
+          "g": 0.956156849861145,
+          "b": 0.9490196108818054,
+          "a": 1
+        },
+        "1933:19": {
+          "r": 0.9482548832893372,
+          "g": 0.9668627381324768,
+          "b": 0.9913333058357239,
+          "a": 1
+        }
+      },
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL",
+        "TEXT_FILL",
+        "STROKE_COLOR",
+        "EFFECT_COLOR"
+      ],
+      "codeSyntax": {
+        "WEB": "var(--theme-background-top)"
+      }
+    },
+    {
+      "id": "VariableID:1933:94486",
+      "name": "theme/background-mid",
+      "collection": "VariableCollectionId:1933:94481",
+      "values": {
+        "1933:10": {
+          "r": 0.9759804010391235,
+          "g": 0.9837254881858826,
+          "b": 0.9992156624794006,
+          "a": 1
+        },
+        "1933:11": {
+          "r": 0.9769607782363892,
+          "g": 0.9855882525444031,
+          "b": 0.9848039150238037,
+          "a": 1
+        },
+        "1933:12": {
+          "r": 0.9962745308876038,
+          "g": 0.9802941083908081,
+          "b": 0.9863725304603577,
+          "a": 1
+        },
+        "1933:13": {
+          "r": 0.06666667014360428,
+          "g": 0.08235294371843338,
+          "b": 0.10980392247438431,
+          "a": 1
+        },
+        "1933:14": {
+          "r": 0.975686252117157,
+          "g": 0.9884313941001892,
+          "b": 0.9838235378265381,
+          "a": 1
+        },
+        "1933:15": {
+          "r": 0.9788235425949097,
+          "g": 0.9850980639457703,
+          "b": 0.9945098161697388,
+          "a": 1
+        },
+        "1933:16": {
+          "r": 0.9801960587501526,
+          "g": 0.9858823418617249,
+          "b": 0.9973529577255249,
+          "a": 1
+        },
+        "1933:17": {
+          "r": 0.9784313440322876,
+          "g": 0.9878431558609009,
+          "b": 0.9837254881858826,
+          "a": 1
+        },
+        "1933:18": {
+          "r": 0.9942156672477722,
+          "g": 0.9831372499465942,
+          "b": 0.9803921580314636,
+          "a": 1
+        },
+        "1933:19": {
+          "r": 0.9800980687141418,
+          "g": 0.9872549176216125,
+          "b": 0.996666669845581,
+          "a": 1
+        }
+      },
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL",
+        "TEXT_FILL",
+        "STROKE_COLOR",
+        "EFFECT_COLOR"
+      ],
+      "codeSyntax": {
+        "WEB": "var(--theme-background-mid)"
+      }
+    },
+    {
+      "id": "VariableID:1933:94487",
+      "name": "theme/background-bottom",
+      "collection": "VariableCollectionId:1933:94481",
+      "values": {
+        "1933:10": {
+          "r": 0.8847059011459351,
+          "g": 0.9218823313713074,
+          "b": 0.9962353110313416,
+          "a": 1
+        },
+        "1933:11": {
+          "r": 0.8894117474555969,
+          "g": 0.9308235049247742,
+          "b": 0.9270588159561157,
+          "a": 1
+        },
+        "1933:12": {
+          "r": 0.9821176528930664,
+          "g": 0.9054117798805237,
+          "b": 0.9345882534980774,
+          "a": 1
+        },
+        "1933:13": {
+          "r": 0.06666667014360428,
+          "g": 0.11372549086809158,
+          "b": 0.1882352977991104,
+          "a": 1
+        },
+        "1933:14": {
+          "r": 0.8832941055297852,
+          "g": 0.9444705843925476,
+          "b": 0.9223529696464539,
+          "a": 1
+        },
+        "1933:15": {
+          "r": 0.8983529210090637,
+          "g": 0.9284706115722656,
+          "b": 0.9736470580101013,
+          "a": 1
+        },
+        "1933:16": {
+          "r": 0.904941201210022,
+          "g": 0.9322353005409241,
+          "b": 0.9872941374778748,
+          "a": 1
+        },
+        "1933:17": {
+          "r": 0.8964706063270569,
+          "g": 0.9416470527648926,
+          "b": 0.9218823313713074,
+          "a": 1
+        },
+        "1933:18": {
+          "r": 0.9722353219985962,
+          "g": 0.9190587997436523,
+          "b": 0.9058823585510254,
+          "a": 1
+        },
+        "1933:19": {
+          "r": 0.9044705629348755,
+          "g": 0.9388235211372375,
+          "b": 0.984000027179718,
+          "a": 1
+        }
+      },
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL",
+        "TEXT_FILL",
+        "STROKE_COLOR",
+        "EFFECT_COLOR"
+      ],
+      "codeSyntax": {
+        "WEB": "var(--theme-background-bottom)"
+      }
+    },
+    {
+      "id": "VariableID:269:2948",
+      "name": "theme/accent",
+      "collection": "VariableCollectionId:269:2947",
+      "values": {
+        "269:2": {
+          "type": "VARIABLE_ALIAS",
+          "id": "VariableID:1933:94482"
+        },
+        "269:3": {
+          "type": "VARIABLE_ALIAS",
+          "id": "VariableID:1933:94482"
+        },
+        "269:4": {
+          "type": "VARIABLE_ALIAS",
+          "id": "VariableID:1933:94482"
+        },
+        "269:5": {
+          "type": "VARIABLE_ALIAS",
+          "id": "VariableID:1933:94482"
+        },
+        "269:6": {
+          "type": "VARIABLE_ALIAS",
+          "id": "VariableID:1933:94482"
+        },
+        "269:7": {
+          "type": "VARIABLE_ALIAS",
+          "id": "VariableID:1933:94482"
+        },
+        "269:8": {
+          "type": "VARIABLE_ALIAS",
+          "id": "VariableID:1933:94482"
+        },
+        "269:9": {
+          "type": "VARIABLE_ALIAS",
+          "id": "VariableID:4:15"
+        },
+        "1414:0": {
+          "type": "VARIABLE_ALIAS",
+          "id": "VariableID:1933:94482"
+        },
+        "1459:0": {
+          "type": "VARIABLE_ALIAS",
+          "id": "VariableID:1933:94482"
+        }
+      },
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL",
+        "TEXT_FILL",
+        "STROKE_COLOR"
+      ],
+      "codeSyntax": {
+        "WEB": "var(--mi-theme-accent)"
+      }
+    },
+    {
+      "id": "VariableID:269:2949",
+      "name": "theme/soft",
+      "collection": "VariableCollectionId:269:2947",
+      "values": {
+        "269:2": {
+          "type": "VARIABLE_ALIAS",
+          "id": "VariableID:1933:94483"
+        },
+        "269:3": {
+          "type": "VARIABLE_ALIAS",
+          "id": "VariableID:1933:94483"
+        },
+        "269:4": {
+          "type": "VARIABLE_ALIAS",
+          "id": "VariableID:1933:94483"
+        },
+        "269:5": {
+          "type": "VARIABLE_ALIAS",
+          "id": "VariableID:1933:94483"
+        },
+        "269:6": {
+          "type": "VARIABLE_ALIAS",
+          "id": "VariableID:1933:94483"
+        },
+        "269:7": {
+          "type": "VARIABLE_ALIAS",
+          "id": "VariableID:1933:94483"
+        },
+        "269:8": {
+          "type": "VARIABLE_ALIAS",
+          "id": "VariableID:1933:94483"
+        },
+        "269:9": {
+          "type": "VARIABLE_ALIAS",
+          "id": "VariableID:269:2933"
+        },
+        "1414:0": {
+          "type": "VARIABLE_ALIAS",
+          "id": "VariableID:1933:94483"
+        },
+        "1459:0": {
+          "type": "VARIABLE_ALIAS",
+          "id": "VariableID:1933:94483"
+        }
+      },
+      "scopes": [
+        "FRAME_FILL",
+        "SHAPE_FILL",
+        "STROKE_COLOR"
+      ],
+      "codeSyntax": {
+        "WEB": "var(--mi-theme-soft)"
+      }
+    },
+    {
+      "id": "VariableID:1514:25704",
+      "name": "glass/control",
+      "collection": "VariableCollectionId:269:2939",
+      "values": {
+        "269:0": {
+          "r": 1,
+          "g": 1,
+          "b": 1,
+          "a": 0.30000001192092896
+        },
+        "1471:0": {
+          "r": 0.1254899948835373,
+          "g": 0.1294099986553192,
+          "b": 0.14509999752044678,
+          "a": 0.5799999833106995
+        }
+      },
+      "scopes": [
+        "ALL_SCOPES"
+      ],
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:1514:25705",
+      "name": "glass/reading",
+      "collection": "VariableCollectionId:269:2939",
+      "values": {
+        "269:0": {
+          "r": 1,
+          "g": 1,
+          "b": 1,
+          "a": 0.6200000047683716
+        },
+        "1471:0": {
+          "r": 0.09803999960422516,
+          "g": 0.10196000337600708,
+          "b": 0.11372999846935272,
+          "a": 0.8999999761581421
+        }
+      },
+      "scopes": [
+        "ALL_SCOPES"
+      ],
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:1514:25706",
+      "name": "glass/dock",
+      "collection": "VariableCollectionId:269:2939",
+      "values": {
+        "269:0": {
+          "r": 1,
+          "g": 1,
+          "b": 1,
+          "a": 0.2199999988079071
+        },
+        "1471:0": {
+          "r": 0.1254899948835373,
+          "g": 0.1294099986553192,
+          "b": 0.14509999752044678,
+          "a": 0.8500000238418579
+        }
+      },
+      "scopes": [
+        "ALL_SCOPES"
+      ],
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:1514:25707",
+      "name": "glass/app-tint",
+      "collection": "VariableCollectionId:269:2947",
+      "values": {
+        "269:2": {
+          "type": "VARIABLE_ALIAS",
+          "id": "VariableID:1933:94483"
+        },
+        "269:3": {
+          "type": "VARIABLE_ALIAS",
+          "id": "VariableID:1933:94483"
+        },
+        "269:4": {
+          "type": "VARIABLE_ALIAS",
+          "id": "VariableID:1933:94483"
+        },
+        "269:5": {
+          "type": "VARIABLE_ALIAS",
+          "id": "VariableID:1933:94483"
+        },
+        "269:6": {
+          "type": "VARIABLE_ALIAS",
+          "id": "VariableID:1933:94483"
+        },
+        "269:7": {
+          "type": "VARIABLE_ALIAS",
+          "id": "VariableID:1933:94483"
+        },
+        "269:8": {
+          "type": "VARIABLE_ALIAS",
+          "id": "VariableID:1933:94483"
+        },
+        "269:9": {
+          "r": 0.9490196108818054,
+          "g": 0.9137254953384399,
+          "b": 0.8352941274642944,
+          "a": 0.41999998688697815
+        },
+        "1414:0": {
+          "type": "VARIABLE_ALIAS",
+          "id": "VariableID:1933:94483"
+        },
+        "1459:0": {
+          "type": "VARIABLE_ALIAS",
+          "id": "VariableID:1933:94483"
+        }
+      },
+      "scopes": [
+        "ALL_SCOPES"
+      ],
+      "codeSyntax": {}
+    },
+    {
+      "id": "VariableID:1943:94701",
+      "name": "theme/accent-foreground",
+      "collection": "VariableCollectionId:1933:94481",
+      "values": {
+        "1933:10": {
+          "type": "VARIABLE_ALIAS",
+          "id": "VariableID:1933:94482"
+        },
+        "1933:11": {
+          "type": "VARIABLE_ALIAS",
+          "id": "VariableID:1933:94482"
+        },
+        "1933:12": {
+          "type": "VARIABLE_ALIAS",
+          "id": "VariableID:1933:94482"
+        },
+        "1933:13": {
+          "r": 0.6627451181411743,
+          "g": 0.7803921699523926,
+          "b": 1,
+          "a": 1
+        },
+        "1933:14": {
+          "type": "VARIABLE_ALIAS",
+          "id": "VariableID:1933:94482"
+        },
+        "1933:15": {
+          "type": "VARIABLE_ALIAS",
+          "id": "VariableID:1933:94482"
+        },
+        "1933:16": {
+          "type": "VARIABLE_ALIAS",
+          "id": "VariableID:1933:94482"
+        },
+        "1933:17": {
+          "type": "VARIABLE_ALIAS",
+          "id": "VariableID:1933:94482"
+        },
+        "1933:18": {
+          "type": "VARIABLE_ALIAS",
+          "id": "VariableID:1933:94482"
+        },
+        "1933:19": {
+          "type": "VARIABLE_ALIAS",
+          "id": "VariableID:1933:94482"
+        }
+      },
+      "scopes": [
+        "SHAPE_FILL",
+        "TEXT_FILL",
+        "STROKE_COLOR"
+      ],
+      "codeSyntax": {
+        "WEB": "var(--theme-accent-foreground)"
+      }
+    },
+    {
+      "id": "VariableID:1943:94702",
+      "name": "theme/on-accent",
+      "collection": "VariableCollectionId:1933:94481",
+      "values": {
+        "1933:10": {
+          "r": 1,
+          "g": 1,
+          "b": 1,
+          "a": 1
+        },
+        "1933:11": {
+          "r": 1,
+          "g": 1,
+          "b": 1,
+          "a": 1
+        },
+        "1933:12": {
+          "r": 1,
+          "g": 1,
+          "b": 1,
+          "a": 1
+        },
+        "1933:13": {
+          "r": 0.0313725508749485,
+          "g": 0.0784313753247261,
+          "b": 0.15294118225574493,
+          "a": 1
+        },
+        "1933:14": {
+          "r": 1,
+          "g": 1,
+          "b": 1,
+          "a": 1
+        },
+        "1933:15": {
+          "r": 1,
+          "g": 1,
+          "b": 1,
+          "a": 1
+        },
+        "1933:16": {
+          "r": 1,
+          "g": 1,
+          "b": 1,
+          "a": 1
+        },
+        "1933:17": {
+          "r": 1,
+          "g": 1,
+          "b": 1,
+          "a": 1
+        },
+        "1933:18": {
+          "r": 1,
+          "g": 1,
+          "b": 1,
+          "a": 1
+        },
+        "1933:19": {
+          "r": 1,
+          "g": 1,
+          "b": 1,
+          "a": 1
+        }
+      },
+      "scopes": [
+        "SHAPE_FILL",
+        "TEXT_FILL",
+        "STROKE_COLOR"
+      ],
+      "codeSyntax": {
+        "WEB": "var(--theme-on-accent)"
+      }
+    }
+  ],
+  "migration": {
+    "pages": [
+      "0:1",
+      "21:6225",
+      "2:2"
+    ],
+    "scope": "historical scenes, transitions, component masters and current shortcut panel",
+    "exceptions": [
+      "Mario/FC dedicated material",
+      "content colors",
+      "task states",
+      "application logos"
+    ],
+    "runtimeUpdated": false,
+    "legacySemanticVariables": "compatibility aliases to canonical roles; Mario application mode retained"
+  }
+}

@@ -1,0 +1,107 @@
+"""Original Input Agent icon artwork. Regenerates only this directory's named SVGs."""
+import json, hashlib, re
+from pathlib import Path
+ROOT = Path(__file__).resolve().parent
+def p(d, **attrs):
+    a=' '.join(f'{k.replace("_","-")}="{v}"' for k,v in attrs.items())
+    return f'<path d="{d}" {a}/>'
+def c(x,y,r,**attrs):
+    a=' '.join(f'{k.replace("_","-")}="{v}"' for k,v in attrs.items())
+    return f'<circle cx="{x}" cy="{y}" r="{r}" {a}/>'
+def rect(x,y,w,h,rx=1):
+    return f'<rect x="{x}" y="{y}" width="{w}" height="{h}" rx="{rx}"/>'
+ICONS=[]
+def add(group,name,label,pattern,body):
+    ICONS.append(dict(category=group,id=name,label=label,pattern=pattern,body=body))
+# Drawing: distinct silhouettes for blade, smear, deformation and brush parameters.
+add('paint','palette-knife','调色刀',r'palette knife|调色刀',p('m14 3 7 7-9 5-4-4Z M10 14l-7 7 M5 19l2 2'))
+add('paint','smudge','涂抹',r'smudge|涂抹',p('M5 7c5-6 12-2 10 3-1 3-7 1-7 4 0 2 5 0 7 2 2 2 0 4-3 4 M16 7h5 M17 11h4'))
+add('paint','liquify-warp','液化推移',r'forward warp|liquify|warp tool|液化',p('M4 3v5c0 4 7 4 7 8v5 M10 3v4c0 4 7 4 7 8v6 M16 3v4 M3 12h5 M16 10h5m-3-3 3 3-3 3'))
+add('paint','liquify-pucker','液化收缩',r'pucker',p('M3 3c5 0 3 6 9 6s4-6 9-6 M3 21c5 0 3-6 9-6s4 6 9 6 M3 12h5m-3-3 3 3-3 3 M21 12h-5m3-3-3 3 3 3'))
+add('paint','liquify-bloat','液化膨胀',r'bloat',p('M4 3c0 6 4 4 4 9s-4 3-4 9 M20 3c0 6-4 4-4 9s4 3 4 9 M12 4V2m-3 3 3-3 3 3 M12 20v2m-3-3 3 3 3-3'))
+add('paint','liquify-twirl','液化旋涡',r'twirl|turbulence',p('M21 12a9 9 0 1 1-5-8 M16 4h5v5 M18 12a6 6 0 1 1-6-6c4 0 6 5 2 7-2 1-4-1-2-2'))
+add('paint','freeze-mask','冻结蒙版',r'freeze mask',rect(3,3,18,18,3)+p('M12 6v12 M7 9l10 6 M7 15l10-6 M10 7l2 2 2-2 M10 17l2-2 2 2'))
+add('paint','thaw-mask','解冻蒙版',r'thaw mask',rect(3,3,18,18,3)+p('M12 6c0 4-5 6-5 10a5 5 0 0 0 10 0c0-4-5-6-5-10Z M10 16c0 1 1 2 2 2'))
+add('paint','airbrush','喷枪',r'airbrush|symbol sprayer',p('M3 7h8l3 3-3 3H3Z M6 13v7h4v-7 M7 7V4h4 M14 10h2')+c(19,6,.7)+c(21,10,.7)+c(19,14,.7)+c(17,3,.6)+c(17,17,.6))
+add('paint','clone-stamp','仿制图章',r'clone stamp|pattern stamp|\bclone\b',p('M8 14v-3c0-2-2-3-2-5a6 4 0 0 1 12 0c0 2-2 3-2 5v3 M5 14h14l2 4H3Z M4 21h16'))
+add('paint','healing-brush','修复画笔',r'healing|spot removal|\bheal\b',p('m14 3 7 7-8 8-7-7Z M9 14l-4 4 M3 17v4h4 M14 7v5m-2.5-2.5h5'))
+add('paint','patch','修补',r'patch tool',p('m8 3 13 13-5 5L3 8Z M10 7l-3 3 M17 14l-3 3')+c(11,11,.5)+c(13,13,.5))
+add('paint','dodge','减淡',r'\bdodge\b',c(10,9,5)+p('m14 13 7 8 M10 1v1 M2 9H1 M3 2l2 2 M17 2l-2 2'))
+add('paint','burn','加深',r'\bburn\b',p('M13 2c2 5-4 7-1 10 1-2 3-3 5-4 0 4 4 5 4 8a8 8 0 0 1-16 0c0-5 6-6 8-14Z M12 15c-3 2-3 5 0 6 3-1 3-3 0-6Z'))
+add('paint','sponge','海绵',r'sponge',p('M4 5c2-2 4 0 6 0s4-3 6-2 0 4 2 5 4 0 4 3-3 3-3 5 1 5-2 5-4-2-6-1-4 2-6 0 1-5 0-7-3-6-1-8Z')+c(10,10,1)+c(16,14,1)+c(9,17,.6))
+add('paint','brush-hardness','笔刷硬度',r'brush hardness|brush feather|笔刷硬度',c(12,12,8)+p('M12 4v16 M16 6v12 M19 9v6'))
+add('paint','brush-flow','笔刷流量',r'brush flow|flow in increments|笔刷流量',p('M7 2C6 6 2 8 2 11a5 5 0 0 0 10 0c0-3-4-5-5-9Z M16 6h6 M16 12h4 M16 18h2'))
+add('paint','brush-spacing','笔刷间距',r'brush.*spacing|笔刷间距',c(4,9,2)+c(12,9,2)+c(20,9,2)+p('M3 18h18 M3 16v4 M21 16v4'))
+add('paint','brush-angle','笔尖角度',r'brush tip|brush.*angle|笔尖角度',p('M4 20h16 M4 20 16 4l4 4-12 12 M10 20a6 6 0 0 0-3-5'))
+add('paint','brush-pressure','笔刷压感',r'brush.*pressure|density, pressure|笔刷压感',p('M3 19c5 0 5-8 10-8 3 0 4 4 8 4 M12 2v6m-3-3 3 3 3-3 M3 22h18'))
+add('paint','layer-mask','图层蒙版',r'layer mask|vector mask|filter mask|蒙版',rect(3,3,18,18,2)+c(12,12,5)+p('M12 7v10 M15 8v8'))
+add('paint','clipping-mask','剪切蒙版',r'clipping mask|opacity mask',rect(3,3,10,10,1)+p('M8 16v5h13V8h-5 M16 4v1m3 0v1m1 3h1 M4 16h1'))
+add('paint','gradient','渐变',r'gradient tool|graduated filter|渐变',''.join(f'<rect x="{4+4*i}" y="5" width="4" height="14" fill="currentColor" stroke="none" opacity="{.15+.25*i}"/>' for i in range(4))+rect(3,4,18,16,2))
+add('paint','foreground-background','前景与背景色',r'foreground.*background|background.*foreground|前景.*背景',rect(3,3,11,11,2)+p('M10 17v4h11V10h-4 M18 2h4v4m0-4-5 5 M2 18v4h4'))
+# CAD and vector design.
+add('cad','polyline','多段线',r'polyline|多段线',p('M4 18 9 7l7 6 4-9')+c(4,18,1)+c(9,7,1)+c(16,13,1)+c(20,4,1))
+add('cad','arc','圆弧',r'\barc\b|圆弧',p('M3 20A17 17 0 0 1 20 3 M3 17v4h4 M17 3h4v4'))
+add('cad','trim','修剪',r'^trim$|修剪',p('M7 3v18 M3 8h4 M7 8h10 M7 16h10 M17 6v12 M20 7h2m-2 3h2m-2 6h2',stroke_width='2'))
+add('cad','extend','延伸',r'^extend$|延伸',p('M20 3v18 M3 12h17 M15 8l5 4-5 4 M3 5h5 M3 19h5'))
+add('cad','offset','偏移',r'\boffset\b|偏移',p('M3 19V4h14 M7 21V8h14 M12 12v5m-2-2 2 2 2-2'))
+add('cad','mirror-axis','镜像',r'mirror|reflect tool|镜像',p('M12 2v3m0 4v2m0 4v2m0 3v2 M8 6 2 18h6Z M16 6l6 12h-6Z'))
+add('cad','polar-array','环形阵列',r'polar array|环形阵列',c(12,12,2)+c(12,4,2)+c(20,12,2)+c(12,20,2)+c(4,12,2))
+add('cad','rectangular-array','矩形阵列',r'rectangular array|阵列',rect(3,3,5,5)+rect(16,3,5,5)+rect(3,16,5,5)+rect(16,16,5,5)+p('M10 5h2 M5 10v2 M19 10v2 M10 19h2'))
+add('cad','hatch','图案填充',r'\bhatch\b|图案填充',rect(3,3,18,18)+p('m4 10 6-6 M4 16 12 8 M8 20 12 8 M14 20l6-6'))
+add('cad','object-snap','对象捕捉',r'object snap|对象捕捉',rect(9,9,6,6,0)+p('M12 2v5 M12 17v5 M2 12h5 M17 12h5'))
+add('cad','grid-snap','栅格捕捉',r'grid snap|栅格捕捉',p('M4 4h16 M4 12h16 M4 20h16 M4 4v16 M12 4v16 M20 4v16')+rect(9,9,6,6,0))
+add('cad','orthographic','正交',r'orthographic|正交',p('M4 3v17h17 M4 14h6v6 M2 5l2-2 2 2 M19 18l2 2-2 2'))
+add('cad','polar-tracking','极轴追踪',r'polar track|极轴',p('M4 20h17 M4 20V3 M4 20 19 5 M4 11a9 9 0 0 1 9 9')+c(18,6,2))
+add('cad','object-tracking','对象追踪',r'object track|对象追踪',rect(3,3,6,6,0)+p('M6 12v3m0 3v3 M12 6h3m3 0h3 M6 18h12V6')+c(18,18,2))
+add('cad','top-view','平面俯视',r'top view|平面|鸟瞰',rect(4,8,16,13,1)+p('M10 8v7h10 M4 15h3 M12 2v3m-2-2 2 2 2-2'))
+add('cad','ceiling-view','顶面视图',r'ceiling|顶面',p('m3 7 9-4 9 4v13H3Z M3 7h18 M12 8v6m-3-3 3-3 3 3'))
+add('cad','walkthrough','空间漫游',r'walkthrough|漫游',p('M4 21V7l8-4 8 4v14 M8 21l4-6 4 6 M12 15v-4')+c(12,8,1))
+add('cad','precision-move','精确移动',r'precision.*mov|精准移动',p('M4 12h16 M12 4v16 M4 12l3-3 M4 12l3 3 M20 12l-3-3 M20 12l-3 3 M12 4l-3 3 M12 4l3 3 M12 20l-3-3 M12 20l3-3')+c(12,12,2))
+add('cad','precision-rotate','精确旋转',r'precision.*rotat|精准旋转',p('M20 8a9 9 0 1 0 1 7 M20 3v5h-5 M12 4v4 M3 12h4 M12 17v4')+c(12,12,2))
+add('cad','precision-scale','精确缩放',r'precision.*scal|精准缩放',rect(3,13,8,8,0)+p('M14 3h7v7 M21 3 12 12 M3 3v5 M3 3h5 M16 21h5v-5'))
+add('cad','anchor-add','添加锚点',r'add anchor|添加锚点',p('M3 19c4 0 4-12 9-12s5 12 9 12 M17 3h4 M19 1v4')+rect(10,5,4,4,0))
+add('cad','anchor-remove','删除锚点',r'delete anchor|remove anchor|删除锚点',p('M3 19c4 0 4-12 9-12s5 12 9 12 M16 3h6')+rect(10,5,4,4,0))
+add('cad','width-tool','路径宽度',r'width tool|variable width',p('M12 2c-1 8-7 10-7 20 M12 2c1 8 7 10 7 20 M3 15h18 M3 15l3-3m-3 3 3 3 M21 15l-3-3m3 3-3 3'))
+add('cad','shape-builder','形状生成',r'shape builder|形状生成',rect(3,4,11,11)+c(15,15,6)+p('M8 8v4 M6 10h4'))
+# Timeline tools: same frame baseline, distinct operation geometry.
+add('timeline','razor','剃刀分割',r'razor|blade|剃刀',p('m13 2 8 8-7 7-3-3-5 5-3-3 5-5-3-3Z M3 22h18'))
+add('timeline','ripple-delete','波纹删除',r'ripple delete|波纹删除',rect(2,7,5,10)+rect(17,7,5,10)+p('m10 4 4 4m0-4-4 4 M7 12h3m-2-2 2 2-2 2 M17 12h-3m2-2-2 2 2 2 M10 20h4'))
+add('timeline','ripple-trim','波纹修剪',r'ripple.*trim|dynamic trim',rect(2,7,8,10)+rect(14,7,8,10)+p('M10 3v18 M7 4h3m0 16H7 M18 4h4m-2-2 2 2-2 2'))
+add('timeline','rolling-edit','滚动编辑',r'rolling edit|rolling trim',rect(2,7,20,10)+p('M12 3v18 M9 4h6 M9 20h6 M4 12h4m-2-2 2 2-2 2 M20 12h-4m2-2-2 2 2 2'))
+add('timeline','slip','滑移内容',r'\bslip\b',rect(3,6,18,12)+p('M7 6v12 M17 6v12 M9 12h6m-4-2-2 2 2 2m2-4 2 2-2 2'))
+add('timeline','slide','滑动片段',r'\bslide mode\b|slip and slide',rect(8,6,8,12)+p('M2 8v8 M22 8v8 M2 12h4m-2-2-2 2 2 2 M22 12h-4m2-2 2 2-2 2'))
+add('timeline','mark-in','标记入点',r'mark in|in point',p('M8 3H4v18h4 M4 12h15m-4-4 4 4-4 4'))
+add('timeline','mark-out','标记出点',r'mark out|out point',p('M16 3h4v18h-4 M20 12H5m4-4-4 4 4 4'))
+add('timeline','keyframe-add','添加关键帧',r'add.*keyframe|keyframe.*add',p('m9 5 7 7-7 7-7-7Z M18 2v6 M15 5h6'))
+add('timeline','keyframe-prev','上一关键帧',r'previous keyframe',p('m15 5 7 7-7 7-7-7Z M5 6v12 M5 12l-3-3m3 3-3 3'))
+add('timeline','keyframe-next','下一关键帧',r'next keyframe',p('m9 5 7 7-7 7-7-7Z M19 6v12 M19 12l3-3m-3 3 3 3'))
+add('timeline','trim-start','修剪开头',r'trim start|trim.*start',rect(8,7,14,10)+p('M8 3v18 M2 12h4m-2-2 2 2-2 2'))
+add('timeline','trim-end','修剪结尾',r'trim end|trim.*end',rect(2,7,14,10)+p('M16 3v18 M22 12h-4m2-2-2 2 2 2'))
+add('timeline','link-clips','链接片段',r'link clips|linked selection|链接片段',rect(2,4,7,16)+rect(15,4,7,16)+p('M7 12h10 M9 9l-2 3 2 3 M15 9l2 3-2 3'))
+add('timeline','unlink-clips','解除片段链接',r'unlink|解除.*链接',p('M8 8V4H2v16h6v-4 M16 8V4h6v16h-6v-4 M6 12h3 M15 12h3 M10 4l4 16'))
+add('timeline','jog-dial','逐帧旋钮',r'frame (forward|backward)|next frame|previous frame|逐帧',c(12,12,8)+p('M12 2v2 M22 12h-2 M12 22v-2 M2 12h2 M10 9l5 3-5 3Z'))
+# Spreadsheet-specific semantics.
+add('sheet','cell-edit','编辑单元格',r'edit.*cell|cell.*edit|编辑单元格',rect(2,3,20,18)+p('M2 8h20 M8 3v18 M12 16l6-6 2 2-6 6h-2Z'))
+add('sheet','cell-newline','单元格内换行',r'line break.*cell|new line.*cell|单元格内换行',rect(2,3,20,18)+p('M6 7h12 M18 11v5H7m3-3-3 3 3 3'))
+add('sheet','fill-down','向下填充',r'fill down|向下填充',rect(4,2,16,20)+p('M4 8h16 M12 10v8m-3-3 3 3 3-3'))
+add('sheet','fill-right','向右填充',r'fill right|向右填充',rect(2,4,20,16)+p('M8 4v16 M10 12h8m-3-3 3 3-3 3'))
+add('sheet','select-row','选择整行',r'select.*row|选择.*行|整行',rect(2,3,20,18)+p('M2 9h20 M2 15h20 M8 3v6m0 6v6 M16 3v6m0 6v6 M5 12h14'))
+add('sheet','select-column','选择整列',r'select.*column|选择.*列|整列',rect(3,2,18,20)+p('M9 2v20 M15 2v20 M3 8h6m6 0h6 M3 16h6m6 0h6 M12 5v14'))
+add('sheet','freeze-panes','冻结窗格',r'freeze panes|冻结窗格',rect(2,3,20,18)+p('M2 8h20 M8 3v18 M15 11v7 M12 13l6 3 M12 16l6-3'))
+add('sheet','absolute-reference','绝对引用',r'absolute.*reference|relative.*reference|绝对引用',rect(3,3,18,18)+p('M12 6v12 M16 8h-6a2 2 0 0 0 0 4h4a2 2 0 0 1 0 4H8'))
+# Capture and agent controls: no confirmation or capability claim implied by icon.
+add('context','screen-capture','截图',r'screenshot|screen capture|截图',rect(3,4,18,13)+p('M8 21h8 M12 17v4 M7 8h3 M7 8v3 M17 13h-3 M17 13v-3'))
+add('context','screen-record','录屏',r'screen record|录屏',rect(3,4,18,13)+c(12,10.5,3)+p('M8 21h8 M12 17v4'))
+add('context','model-picker','选择模型',r'model (menu|picker)|模型',p('m8 3 6 3-6 3-6-3Z M2 6v7l6 3 6-3V6 M8 9v7 M17 17l3 3 3-3'))
+add('context','reasoning-level','思考强度',r'think|reasoning|思考强度',p('M3 18v3 M8 14v7 M13 10v11 M18 6v15 M3 9l5-5 5 2 8-4'))
+add('context','plan-mode','计划模式',r'plan mode|工作模式.*计划|计划模式',rect(4,3,16,18,2)+p('M8 7h8 M8 12h3 M8 17h3 M15 11v6m-2-2 2 2 2-2'))
+add('context','execution-mode','执行模式',r'execute mode|execution mode|工作模式.*执行|执行模式',rect(3,3,18,18,2)+p('m9 7 7 5-7 5Z'))
+add('context','approve-scope','批准当前范围',r'approve|批准|允许',p('M8 3H3v5 M16 3h5v5 M3 16v5h5 M21 16v5h-5 M7 12l3 3 7-7'))
+add('context','context-compact','压缩上下文',r'compact|上下文.*压缩|context.*summar',p('M3 3h18 M3 7h18 M3 17h18 M3 21h18 M7 10l5 3 5-3 M7 14l5-3 5 3'))
+assert len(ICONS)==80,len(ICONS)
+for i in ICONS:
+    svg='<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+i.pop('body')+'</svg>'
+    i['svg']=svg;i['sha256']=hashlib.sha256((svg+'\n').encode()).hexdigest();i['family']='Input Agent';i['colorMode']='monochrome'
+    (ROOT/(i['id']+'.svg')).write_text(svg+'\n')
+(ROOT/'icons.json').write_text(json.dumps(ICONS,ensure_ascii=False,indent=2)+'\n')
+print(json.dumps({'count':len(ICONS),'categories':{k:sum(x['category']==k for x in ICONS) for k in dict.fromkeys(x['category'] for x in ICONS)}}))

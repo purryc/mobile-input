@@ -1,3 +1,68 @@
+## 2026-10-23 · Source and design-definition sync
+
+- 同步 10 月 16–20 日的原型更新：WorkBuddy 句内参数、材料接续与发送清空、成果选区格式编辑、回复建议采用、桌面与手机输入会话。
+- 统一 InputDock 布局与手动开合偏好，补齐触控面 tap／double-tap、合并指针队列和轻量执行回执；简化语音键状态并加入原生麦克风开关震动。
+- 连接弹窗新增演示重置；新构建首次启动清理演示缓存；点击已适配文本框直接激活对应手机控制器。
+- 收录设计定义表、组件预览、图标来源和样式 token；Notion Design 页面为唯一现行规则源，不建立本地规则镜像。设计定义收录不表示所有运行场景已完成迁移。
+- 保留独立 HID 探针源码及能力边界记录，不并入 Input Agent 运行流程。
+- 公开同步排除原始录屏、Demo、成片／演示稿、调研证据、签名、密钥、构建产物及浏览器缓存。
+- 本次验证及真机未验证项见 `docs/github-sync-2026-10-23.md`；按用户要求未操作真机。
+
+## 2026-10-20 · Demo reset and direct text entry
+
+- Added a confirmed demo reset inside both connection panels; clears replica records and recovery caches while preserving pairing and native Gemini configuration.
+- New HAP builds clear demo data once on first launch. Reset generations reject obsolete commands and snapshots.
+- Adapted tablet fields directly activate their phone controller, regardless of dock expansion; desktop entry retains confirmation and WeChat retains its read sequence.
+- Added registration retry and repeated-focus recovery. Validation details: `docs/demo-reset-and-field-entry-2026-10-20.md`.
+
+## 2026-10-20 · 语音键简化与触觉反馈
+
+- 移除取消录音浮层和常规录音状态说明，固定显示“智慧语音”，以按键选中态表达开关。
+- 保留点击开关、按住说话／松开停止；原生麦克风成功开启与关闭各短震动一次，失败启动不冒充开启。
+- 同步在线 PRD 和项目规则；自动中断、晚到转写保护及不自动发送保持不变。
+
+## 2026-10-20 · 共享输入底栏与触控面操作
+
+- 八个通用场景统一 InputDock 几何，主题仅改变颜色；收起、键盘、触控板和录音状态均保留语音文字。
+- 手动展开模式独立于 WorkBuddy 任务和选区，切换后保持；手动收起优先于自动展开默认值。
+- 触控面支持轻点及双击，过滤移动、取消、双指及拖动误点，保留鼠标低延迟队列。
+- 在线 PRD 已同步共享控件、手动开合、直接点击及录音取消规则。验证记录见 [共享输入规则](docs/shared-input-prd-2026-10-20.md)。
+
+## 2026-10-20 · 智慧语音取消浮层
+
+- 录音与识别等待时，在固定语音按钮上方显示独立“取消录音”浮层，避免展开控件遮挡。
+- 取消恢复录音前草稿与选区，拒绝晚到识别结果；不发送、不执行任务。
+- 类型检查、133 项核心测试及 3 项浏览器语音回归通过；手机修复包已覆盖安装。详见 [验证记录](docs/recording-popup-fix-2026-10-20.md)。
+
+## 2026-10-19 · 输入会话、默认控制器与成果选区编辑
+
+- 连接与启用分离：点击大屏文本框或桌面键盘中的手机输入入口后，在手机确认一次；后台与断线暂停，恢复重新核对状态；新手机进程重新确认。
+- 手机桌面新增搜索、多任务、Esc、四个常用应用及填充式点阵触控板；桌面小键盘仍不包含搜索框。
+- 共享触控板采用连体左右键与固定语音位置，补齐按下、拖动选字、释放、双指滚动；释放按键不会误结束输入会话。
+- WorkBuddy 成果打开即有触控板；选中文字可改样式、实时颜色、1 pt 字号步进、段落对齐和链接。修改保留范围、混合状态、撤销与手动保存，回写同一 Office 文件。
+- 对象语音开启紧凑指令框，转写后明确发送；大屏直接显示修改，手机没有额外预览或“应用修改”。
+- 微信、邮件建议采用到原编辑区，不自动发送；开始输入后不重弹旧建议。Hover 页面保留原消息及草稿归属。
+- 票据任务统一为“票据汇总”，专属材料入口保留拍摄票据与添加文档。既有跨应用采集、任务材料隔离及发送后清空保留。
+- 分层验收见 [设计同步记录](docs/design-runtime-sync-2026-10-19.md)；无自动 GitHub/Drive 上传。
+
+## 2026-10-16 · 发送后重置与汇报材料补充
+
+- 修正分布式截图传输较慢时提前重新同步、收起采集面板的问题；采集采用单独的有界等待，实际断线仍立即保护草稿。
+- 发送成功后保留任务使用的画布、参数与附件，清空下一轮草稿；发送拒绝保留全部输入。
+- 手机任务栏增加“补充汇报材料”，提供选择文件和切换应用采集；只有材料时也可显式提交。
+- 跨应用采集采用后可返回原材料任务，保留说明文字；采用本身不提交任务、不发送弹幕。
+- 复用 Figma 5:8710 的任务请求卡片与整行操作，固定输入栏；小屏中部独立滚动。
+- 验证与模拟边界见 [材料任务更新](docs/workbuddy-material-request-update.md)。
+
+## 2026-10-16 · WorkBuddy 句内参数与单一辅助控件
+
+- 按最新 Figma 将颜色、照片、画布、截图、录屏、文件和路径嵌入原句，取消独立推荐按钮行；视觉标签 32 px，点击区域 48 px。
+- 一次展开一个辅助控件；切换或收起保留值、材料和未确认笔迹。手绘确认后成为原位缩略图，原句与左右布局说明保留。
+- 补齐范围、格式、模板、尺寸和数量的建议/已有值状态；参数确认写回原文字段，保持两端一致。
+- 单一编辑区适配真实光标、选区、中文组合输入、emoji、撤销、剪贴板、语音与润色；修复末尾换行后的全选替换。
+- 截图/照片采用后绑定原句位置；录屏入口只打开控制，不自动录制。路径字符串不代表已访问或采用文件。
+- 实现与分层验收见 [句内参数更新](docs/workbuddy-sentence-parameters-update.md)。本轮不自动推送 GitHub。
+
 ## 2026-10-15 · 按输入意图展示辅助控件
 
 - 恢复文本框内的推荐入口：只推荐用户提到的内容；工具展开隐藏对应入口，关闭完全移除面板并恢复仍有效的入口。
@@ -198,3 +263,15 @@
 ### WorkBuddy explicit phone-input entry
 - Tapping the task input surface now activates the phone composer and focus animation together, including blank padding and repeated taps on an already focused field.
 - Explicit activation recovers an unknown target after release while preserving unsent text; toolbar actions and task submission remain separate.
+## 2026-10-20 · 桌面键盘直接启用手机输入
+
+- 对照最新 Slides `148:882`，任务栏键盘图标及展开的小键盘均可点击请求手机输入，首次确认后显示默认桌面控制器。
+- 保留键盘展开／收起、大小写和数字切换；关闭按钮不触发启用。连续点击共享同一待确认会话，已启用时不重复确认。
+- 不修改草稿、不录音或提交；134 项核心测试和 6 项浏览器回归通过。详见 [验证记录](docs/keyboard-entry-update-2026-10-20.md)。
+
+## 2026-10-20 · 触控板移动延迟
+
+- 修复逐个等待回执造成的鼠标移动无限积压：未发送移动只保留最新位置，滚动合并，按下／松开有序。
+- 鼠标位置与回执合并为紧凑消息，不再逐采样回传、深拷贝或持久化业务状态；连续手势保留本地终点，避免被迟到快照拉回。
+- 后台、断线和切应用丢弃旧移动，并取消拖动而不点击。文本编辑和任务提交仍保留原有确认规则。
+- 两端修复包已覆盖安装；核心 140 项、浏览器 9 项通过。真机三组移动检查未复现松手后追赶；首次全量同步仍偏慢，未重复拔 USB 验收。详见 [记录](docs/pointer-latency-fix-2026-10-20.md)。

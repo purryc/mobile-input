@@ -20,3 +20,11 @@ __pycache__/
 !.env.example
 *.pem
 *.key
+
+# Local-only walkthrough delivery
+/Demo/
+
+# Local browser traces, recordings/decks, and research evidence (not source releases)
+/.playwright-mcp/
+/deliverable/
+/survey/

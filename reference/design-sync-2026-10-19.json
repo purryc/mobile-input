@@ -1,0 +1,24 @@
+{
+  "date": "2026-10-19",
+  "fileKey": "ApFLno64NcMoA17MiPFfZh",
+  "nodes": [
+    "1834:82863",
+    "5:11016",
+    "1850:20366",
+    "1850:20389",
+    "1850:20423",
+    "1493:55578",
+    "1862:23247",
+    "1862:23839"
+  ],
+  "sources": [
+    {
+      "path": "apps/web/public/assets/figma/session/activation.png",
+      "sourceNode": "1834:82863",
+      "source": "https://www.figma.com/api/mcp/asset/648890ae-2d39-44be-b52e-65e146b8366c.png",
+      "sha256": "c8c0360e0e93f39da04e54db62e8cc8f1328fc899a704d0ddcc56f5d96d4d67d"
+    }
+  ],
+  "reused": "Existing reviewed application logos and input-dock SVGs. Lucide icons use lucide-react as specified by Figma. The 14 px dotted texture is CSS. No remote asset URLs at runtime.",
+  "boundaries": "390 px layout adapted to viewport and native insets; compact middle scrolls. Screenshots are QA evidence, not UI backgrounds."
+}

@@ -5,7 +5,7 @@ export function snapshotDelta(before:unknown,after:unknown):Delta[]{
  const ops:Delta[]=[];
  const visit=(a:Json|undefined,b:Json|undefined,path:string[])=>{
   if(a===b)return;
-  if(a&&b&&typeof a==='object'&&typeof b==='object'&&Array.isArray(a)===Array.isArray(b)&&(!Array.isArray(a)||a.length===(b as Json[]).length)){
+  if(path[0]!=='inputPointer'&&a&&b&&typeof a==='object'&&typeof b==='object'&&Array.isArray(a)===Array.isArray(b)&&(!Array.isArray(a)||a.length===(b as Json[]).length)){
    const x=a as {[key:string]:Json},y=b as {[key:string]:Json};for(const key of new Set([...Object.keys(x),...Object.keys(y)])){if(!safe(key))throw new Error('无效字段');visit(x[key],y[key],[...path,key]);}
   }else ops.push(b===undefined?{path,remove:true}:{path,value:b});
  };visit(before as Json,after as Json,[]);return ops;

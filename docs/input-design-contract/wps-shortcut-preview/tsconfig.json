@@ -1,0 +1,4 @@
+{
+ "compilerOptions":{"target":"ES2022","lib":["ES2022","DOM","DOM.Iterable"],"module":"ESNext","moduleResolution":"Bundler","jsx":"react-jsx","strict":true,"esModuleInterop":true,"skipLibCheck":true,"resolveJsonModule":true,"noEmit":true,"baseUrl":".","paths":{"@openuidev/react-lang":["../../../../openui-playground/app/node_modules/@openuidev/react-lang"],"zod":["../../../../openui-playground/app/node_modules/zod"]}},
+ "include":["preview.tsx","catalog.json"]
+}

@@ -1,0 +1,1611 @@
+[
+  {
+    "category": "paint",
+    "id": "palette-knife",
+    "label": "调色刀",
+    "pattern": "palette knife|调色刀",
+    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m14 3 7 7-9 5-4-4Z M10 14l-7 7 M5 19l2 2\" /></svg>",
+    "sha256": "52efde9d390c8aa69f530581491c035e5ec81f6cba7df06dc77ea47dfc173dd7",
+    "family": "Input Agent",
+    "colorMode": "monochrome",
+    "researchRecords": [],
+    "professionalRows": [],
+    "evidence": "user design requirement / original visual metaphor",
+    "sourceRefs": [
+      "docs/icon-library.md#专业图标补齐--2026-10-22",
+      "conversation: drawing, capture, agent and precision-control requirements"
+    ]
+  },
+  {
+    "category": "paint",
+    "id": "smudge",
+    "label": "涂抹",
+    "pattern": "smudge|涂抹",
+    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M5 7c5-6 12-2 10 3-1 3-7 1-7 4 0 2 5 0 7 2 2 2 0 4-3 4 M16 7h5 M17 11h4\" /></svg>",
+    "sha256": "6df10935a0b0381bbae0a716d190b2923b06ede640b8a57dedbb8561f211a006",
+    "family": "Input Agent",
+    "colorMode": "monochrome",
+    "researchRecords": [
+      "kc:gimp:69108"
+    ],
+    "professionalRows": [],
+    "evidence": "existing research action / original visual metaphor",
+    "sourceRefs": [
+      "survey/keycombiner-shortcuts/source/shortcuts.json"
+    ]
+  },
+  {
+    "category": "paint",
+    "id": "liquify-warp",
+    "label": "液化推移",
+    "pattern": "forward warp|liquify|warp tool|液化",
+    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M4 3v5c0 4 7 4 7 8v5 M10 3v4c0 4 7 4 7 8v6 M16 3v4 M3 12h5 M16 10h5m-3-3 3 3-3 3\" /></svg>",
+    "sha256": "611bf3cda6342aa2520da7018f5da2ade73dc6b84995aee33c827cbb357bb2c9",
+    "family": "Input Agent",
+    "colorMode": "monochrome",
+    "researchRecords": [
+      "kc:illustrator:50877",
+      "kc:photoshop:292557"
+    ],
+    "professionalRows": [],
+    "evidence": "existing research action / original visual metaphor",
+    "sourceRefs": [
+      "survey/keycombiner-shortcuts/source/shortcuts.json"
+    ]
+  },
+  {
+    "category": "paint",
+    "id": "liquify-pucker",
+    "label": "液化收缩",
+    "pattern": "pucker",
+    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M3 3c5 0 3 6 9 6s4-6 9-6 M3 21c5 0 3-6 9-6s4 6 9 6 M3 12h5m-3-3 3 3-3 3 M21 12h-5m3-3-3 3 3 3\" /></svg>",
+    "sha256": "7647922786dd90f0f79da543de90fc18d7b816ae43a5ab3c9c4b571586074498",
+    "family": "Input Agent",
+    "colorMode": "monochrome",
+    "researchRecords": [
+      "kc:photoshop:292560",
+      "kc:photoshop:292567"
+    ],
+    "professionalRows": [],
+    "evidence": "existing research action / original visual metaphor",
+    "sourceRefs": [
+      "survey/keycombiner-shortcuts/source/shortcuts.json"
+    ]
+  },
+  {
+    "category": "paint",
+    "id": "liquify-bloat",
+    "label": "液化膨胀",
+    "pattern": "bloat",
+    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M4 3c0 6 4 4 4 9s-4 3-4 9 M20 3c0 6-4 4-4 9s4 3 4 9 M12 4V2m-3 3 3-3 3 3 M12 20v2m-3-3 3 3 3-3\" /></svg>",
+    "sha256": "15b3fea33a7bc5db3632341b8d00a9875ef2728e0416661037f41a25c783080a",
+    "family": "Input Agent",
+    "colorMode": "monochrome",
+    "researchRecords": [
+      "kc:photoshop:292561",
+      "kc:photoshop:292567"
+    ],
+    "professionalRows": [],
+    "evidence": "existing research action / original visual metaphor",
+    "sourceRefs": [
+      "survey/keycombiner-shortcuts/source/shortcuts.json"
+    ]
+  },
+  {
+    "category": "paint",
+    "id": "liquify-twirl",
+    "label": "液化旋涡",
+    "pattern": "twirl|turbulence",
+    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M21 12a9 9 0 1 1-5-8 M16 4h5v5 M18 12a6 6 0 1 1-6-6c4 0 6 5 2 7-2 1-4-1-2-2\" /></svg>",
+    "sha256": "95fe58bdf3d8c6eae671a2326631c69c9c58d20878f4486fdd4c1ad7d22bfeb0",
+    "family": "Input Agent",
+    "colorMode": "monochrome",
+    "researchRecords": [
+      "kc:photoshop:292559",
+      "kc:photoshop:292564"
+    ],
+    "professionalRows": [],
+    "evidence": "existing research action / original visual metaphor",
+    "sourceRefs": [
+      "survey/keycombiner-shortcuts/source/shortcuts.json"
+    ]
+  },
+  {
+    "category": "paint",
+    "id": "freeze-mask",
+    "label": "冻结蒙版",
+    "pattern": "freeze mask",
+    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"3\" y=\"3\" width=\"18\" height=\"18\" rx=\"3\"/><path d=\"M12 6v12 M7 9l10 6 M7 15l10-6 M10 7l2 2 2-2 M10 17l2-2 2 2\" /></svg>",
+    "sha256": "0352ef71330aa6a3d62dd5125c1c8bb1ceb878a13fad856b2d7f9c6076980f1f",
+    "family": "Input Agent",
+    "colorMode": "monochrome",
+    "researchRecords": [
+      "kc:photoshop:292565"
+    ],
+    "professionalRows": [],
+    "evidence": "existing research action / original visual metaphor",
+    "sourceRefs": [
+      "survey/keycombiner-shortcuts/source/shortcuts.json"
+    ]
+  },
+  {
+    "category": "paint",
+    "id": "thaw-mask",
+    "label": "解冻蒙版",
+    "pattern": "thaw mask",
+    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"3\" y=\"3\" width=\"18\" height=\"18\" rx=\"3\"/><path d=\"M12 6c0 4-5 6-5 10a5 5 0 0 0 10 0c0-4-5-6-5-10Z M10 16c0 1 1 2 2 2\" /></svg>",
+    "sha256": "77ee37735c6700c97c6d990e88603b8d572fb00d0c11508129f208e63531ac63",
+    "family": "Input Agent",
+    "colorMode": "monochrome",
+    "researchRecords": [
+      "kc:photoshop:292566"
+    ],
+    "professionalRows": [],
+    "evidence": "existing research action / original visual metaphor",
+    "sourceRefs": [
+      "survey/keycombiner-shortcuts/source/shortcuts.json"
+    ]
+  },
+  {
+    "category": "paint",
+    "id": "airbrush",
+    "label": "喷枪",
+    "pattern": "airbrush|symbol sprayer",
+    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M3 7h8l3 3-3 3H3Z M6 13v7h4v-7 M7 7V4h4 M14 10h2\" /><circle cx=\"19\" cy=\"6\" r=\"0.7\" /><circle cx=\"21\" cy=\"10\" r=\"0.7\" /><circle cx=\"19\" cy=\"14\" r=\"0.7\" /><circle cx=\"17\" cy=\"3\" r=\"0.6\" /><circle cx=\"17\" cy=\"17\" r=\"0.6\" /></svg>",
+    "sha256": "28de06599f6b4cf4cf9403e966d2665058da0ce19a0aa941067b920209d9a196",
+    "family": "Input Agent",
+    "colorMode": "monochrome",
+    "researchRecords": [
+      "kc:illustrator:50883",
+      "kc:gimp:69103",
+      "kc:photoshop:292798"
+    ],
+    "professionalRows": [],
+    "evidence": "existing research action / original visual metaphor",
+    "sourceRefs": [
+      "survey/keycombiner-shortcuts/source/shortcuts.json"
+    ]
+  },
+  {
+    "category": "paint",
+    "id": "clone-stamp",
+    "label": "仿制图章",
+    "pattern": "clone stamp|pattern stamp|\\bclone\\b",
+    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M8 14v-3c0-2-2-3-2-5a6 4 0 0 1 12 0c0 2-2 3-2 5v3 M5 14h14l2 4H3Z M4 21h16\" /></svg>",
+    "sha256": "f6bbb7c2c9a75126e4f85559736f38b058ea0562bfb378d9d7629803f6505e5a",
+    "family": "Input Agent",
+    "colorMode": "monochrome",
+    "researchRecords": [
+      "kc:after-effects:43152",
+      "kc:after-effects:43389",
+      "kc:inkscape:69008",
+      "kc:inkscape:69009",
+      "kc:gimp:69105",
+      "kc:photoshop:292482",
+      "kc:photoshop:292809",
+      "kc:photoshop:292810",
+      "kc:photoshop:292811",
+      "kc:photoshop:292812",
+      "kc:smartgit:70948",
+      "kc:github-desktop:79575",
+      "kc:fork:104798",
+      "kc:amazing-marvin:139401"
+    ],
+    "professionalRows": [],
+    "evidence": "existing research action / original visual metaphor",
+    "sourceRefs": [
+      "survey/keycombiner-shortcuts/source/shortcuts.json"
+    ]
+  },
+  {
+    "category": "paint",
+    "id": "healing-brush",
+    "label": "修复画笔",
+    "pattern": "healing|spot removal|\\bheal\\b",
+    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m14 3 7 7-8 8-7-7Z M9 14l-4 4 M3 17v4h4 M14 7v5m-2.5-2.5h5\" /></svg>",
+    "sha256": "6882e8cacd365e423814b1e40cb695d7998b1e73467f1fe86470cbe412ca820c",
+    "family": "Input Agent",
+    "colorMode": "monochrome",
+    "researchRecords": [
+      "kc:figma:604887",
+      "kc:gimp:69106",
+      "kc:photoshop:292480",
+      "kc:photoshop:292604",
+      "kc:photoshop:292638",
+      "kc:age-of-empires-2-de:208083"
+    ],
+    "professionalRows": [],
+    "evidence": "existing research action / original visual metaphor",
+    "sourceRefs": [
+      "survey/keycombiner-shortcuts/source/shortcuts.json"
+    ]
+  },
+  {
+    "category": "paint",
+    "id": "patch",
+    "label": "修补",
+    "pattern": "patch tool",
+    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m8 3 13 13-5 5L3 8Z M10 7l-3 3 M17 14l-3 3\" /><circle cx=\"11\" cy=\"11\" r=\"0.5\" /><circle cx=\"13\" cy=\"13\" r=\"0.5\" /></svg>",
+    "sha256": "928aa17e7f0788ff0e8b8e2ce1526a0ccbe34e7b1eb9012b962d9bfbad6a4815",
+    "family": "Input Agent",
+    "colorMode": "monochrome",
+    "researchRecords": [
+      "kc:photoshop:292480"
+    ],
+    "professionalRows": [],
+    "evidence": "existing research action / original visual metaphor",
+    "sourceRefs": [
+      "survey/keycombiner-shortcuts/source/shortcuts.json"
+    ]
+  },
+  {
+    "category": "paint",
+    "id": "dodge",
+    "label": "减淡",
+    "pattern": "\\bdodge\\b",
+    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"10\" cy=\"9\" r=\"5\" /><path d=\"m14 13 7 8 M10 1v1 M2 9H1 M3 2l2 2 M17 2l-2 2\" /></svg>",
+    "sha256": "b165715e61f841b090271c119183fdce96e1a95fec9eb35385761430d286c658",
+    "family": "Input Agent",
+    "colorMode": "monochrome",
+    "researchRecords": [
+      "kc:gimp:69109",
+      "kc:photoshop:292486",
+      "kc:photoshop:292727",
+      "kc:photoshop:292728",
+      "kc:photoshop:292744",
+      "kc:photoshop:292745",
+      "kc:photoshop:292746"
+    ],
+    "professionalRows": [],
+    "evidence": "existing research action / original visual metaphor",
+    "sourceRefs": [
+      "survey/keycombiner-shortcuts/source/shortcuts.json"
+    ]
+  },
+  {
+    "category": "paint",
+    "id": "burn",
+    "label": "加深",
+    "pattern": "\\bburn\\b",
+    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M13 2c2 5-4 7-1 10 1-2 3-3 5-4 0 4 4 5 4 8a8 8 0 0 1-16 0c0-5 6-6 8-14Z M12 15c-3 2-3 5 0 6 3-1 3-3 0-6Z\" /></svg>",
+    "sha256": "70939652865e67ea5a85518571703e6749bd5c9b010d71965cb6259d93270698",
+    "family": "Input Agent",
+    "colorMode": "monochrome",
+    "researchRecords": [
+      "kc:gimp:69109",
+      "kc:photoshop:292486",
+      "kc:photoshop:292723",
+      "kc:photoshop:292724",
+      "kc:photoshop:292744",
+      "kc:photoshop:292745",
+      "kc:photoshop:292746"
+    ],
+    "professionalRows": [],
+    "evidence": "existing research action / original visual metaphor",
+    "sourceRefs": [
+      "survey/keycombiner-shortcuts/source/shortcuts.json"
+    ]
+  },
+  {
+    "category": "paint",
+    "id": "sponge",
+    "label": "海绵",
+    "pattern": "sponge",
+    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M4 5c2-2 4 0 6 0s4-3 6-2 0 4 2 5 4 0 4 3-3 3-3 5 1 5-2 5-4-2-6-1-4 2-6 0 1-5 0-7-3-6-1-8Z\" /><circle cx=\"10\" cy=\"10\" r=\"1\" /><circle cx=\"16\" cy=\"14\" r=\"1\" /><circle cx=\"9\" cy=\"17\" r=\"0.6\" /></svg>",
+    "sha256": "4e238bf3c9c66b3a615693ddf2a73abd531786b0e78bd2ac6991f08cdc45e21b",
+    "family": "Input Agent",
+    "colorMode": "monochrome",
+    "researchRecords": [
+      "kc:photoshop:292486"
+    ],
+    "professionalRows": [],
+    "evidence": "existing research action / original visual metaphor",
+    "sourceRefs": [
+      "survey/keycombiner-shortcuts/source/shortcuts.json"
+    ]
+  },
+  {
+    "category": "paint",
+    "id": "brush-hardness",
+    "label": "笔刷硬度",
+    "pattern": "brush hardness|brush feather|笔刷硬度",
+    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"12\" cy=\"12\" r=\"8\" /><path d=\"M12 4v16 M16 6v12 M19 9v6\" /></svg>",
+    "sha256": "fdbb67f2a041537a0bd061b6596b1a0764ad042a61a941b65c26c1fa0c6b59a9",
+    "family": "Input Agent",
+    "colorMode": "monochrome",
+    "researchRecords": [
+      "kc:photoshop:292439",
+      "kc:photoshop:292440",
+      "kc:photoshop:292502",
+      "kc:photoshop:292503",
+      "kc:photoshop:292580",
+      "kc:photoshop:292581",
+      "kc:photoshop:292625",
+      "kc:photoshop:292626"
+    ],
+    "professionalRows": [],
+    "evidence": "existing research action / original visual metaphor",
+    "sourceRefs": [
+      "survey/keycombiner-shortcuts/source/shortcuts.json"
+    ]
+  },
+  {
+    "category": "paint",
+    "id": "brush-flow",
+    "label": "笔刷流量",
+    "pattern": "brush flow|flow in increments|笔刷流量",
+    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M7 2C6 6 2 8 2 11a5 5 0 0 0 10 0c0-3-4-5-5-9Z M16 6h6 M16 12h4 M16 18h2\" /></svg>",
+    "sha256": "2318a031576a892b06ef4d6c25e4f269aed25090a845cf71c1ae9f19f5ee5ac7",
+    "family": "Input Agent",
+    "colorMode": "monochrome",
+    "researchRecords": [
+      "kc:photoshop:292632",
+      "kc:photoshop:292633"
+    ],
+    "professionalRows": [],
+    "evidence": "existing research action / original visual metaphor",
+    "sourceRefs": [
+      "survey/keycombiner-shortcuts/source/shortcuts.json"
+    ]
+  },
+  {
+    "category": "paint",
+    "id": "brush-spacing",
+    "label": "笔刷间距",
+    "pattern": "brush.*spacing|笔刷间距",
+    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"4\" cy=\"9\" r=\"2\" /><circle cx=\"12\" cy=\"9\" r=\"2\" /><circle cx=\"20\" cy=\"9\" r=\"2\" /><path d=\"M3 18h18 M3 16v4 M21 16v4\" /></svg>",
+    "sha256": "cc99b773191ff2a0fb8a2b91c6b917461f3c32dd8ff2075510564eadd2aee6e7",
+    "family": "Input Agent",
+    "colorMode": "monochrome",
+    "researchRecords": [],
+    "professionalRows": [],
+    "evidence": "user design requirement / original visual metaphor",
+    "sourceRefs": [
+      "docs/icon-library.md#专业图标补齐--2026-10-22",
+      "conversation: drawing, capture, agent and precision-control requirements"
+    ]
+  },
+  {
+    "category": "paint",
+    "id": "brush-angle",
+    "label": "笔尖角度",
+    "pattern": "brush tip|brush.*angle|笔尖角度",
+    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M4 20h16 M4 20 16 4l4 4-12 12 M10 20a6 6 0 0 0-3-5\" /></svg>",
+    "sha256": "98eab609c101c05318c12c30b784442592c4c1b5368639f7b50765450c61b174",
+    "family": "Input Agent",
+    "colorMode": "monochrome",
+    "researchRecords": [
+      "kc:photoshop:292441",
+      "kc:photoshop:292442"
+    ],
+    "professionalRows": [],
+    "evidence": "existing research action / original visual metaphor",
+    "sourceRefs": [
+      "survey/keycombiner-shortcuts/source/shortcuts.json"
+    ]
+  },
+  {
+    "category": "paint",
+    "id": "brush-pressure",
+    "label": "笔刷压感",
+    "pattern": "brush.*pressure|density, pressure|笔刷压感",
+    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M3 19c5 0 5-8 10-8 3 0 4 4 8 4 M12 2v6m-3-3 3 3 3-3 M3 22h18\" /></svg>",
+    "sha256": "34ee530ed46340385c1a465a30c3a52e7ab4dfb98766bc9efc0c4fcf36a7c5b1",
+    "family": "Input Agent",
+    "colorMode": "monochrome",
+    "researchRecords": [
+      "kc:photoshop:292568",
+      "kc:photoshop:292569",
+      "kc:photoshop:292570",
+      "kc:photoshop:292571"
+    ],
+    "professionalRows": [],
+    "evidence": "existing research action / original visual metaphor",
+    "sourceRefs": [
+      "survey/keycombiner-shortcuts/source/shortcuts.json"
+    ]
+  },
+  {
+    "category": "paint",
+    "id": "layer-mask",
+    "label": "图层蒙版",
+    "pattern": "layer mask|vector mask|filter mask|蒙版",
+    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"3\" y=\"3\" width=\"18\" height=\"18\" rx=\"2\"/><circle cx=\"12\" cy=\"12\" r=\"5\" /><path d=\"M12 7v10 M15 8v8\" /></svg>",
+    "sha256": "b7734d4e1f956600072bc636db5af5a85c4e92fecd3dad94f9f53b297ddfcdbc",
+    "family": "Input Agent",
+    "colorMode": "monochrome",
+    "researchRecords": [
+      "kc:photoshop:292535",
+      "kc:photoshop:292842",
+      "kc:photoshop:292843",
+      "kc:photoshop:292844",
+      "kc:photoshop:292845",
+      "kc:photoshop:292846",
+      "kc:photoshop:292847",
+      "kc:photoshop:292851",
+      "kc:photoshop:292852",
+      "kc:photoshop:292853"
+    ],
+    "professionalRows": [
+      24
+    ],
+    "evidence": "existing research action / original visual metaphor",
+    "sourceRefs": [
+      "survey/keycombiner-shortcuts/source/shortcuts.json",
+      "survey/comprehensive-panel-survey/source/professional-actions.csv"
+    ]
+  },
+  {
+    "category": "paint",
+    "id": "clipping-mask",
+    "label": "剪切蒙版",
+    "pattern": "clipping mask|opacity mask",
+    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"3\" y=\"3\" width=\"10\" height=\"10\" rx=\"1\"/><path d=\"M8 16v5h13V8h-5 M16 4v1m3 0v1m1 3h1 M4 16h1\" /></svg>",
+    "sha256": "a801fe9b7cb6db05fd29141fa019b05eebe598f9b218a2b6b38f4e96df759c9d",
+    "family": "Input Agent",
+    "colorMode": "monochrome",
+    "researchRecords": [
+      "kc:illustrator:51020",
+      "kc:illustrator:51021",
+      "kc:illustrator:51150",
+      "kc:illustrator:51151",
+      "kc:photoshop:292825",
+      "kc:photoshop:292848"
+    ],
+    "professionalRows": [],
+    "evidence": "existing research action / original visual metaphor",
+    "sourceRefs": [
+      "survey/keycombiner-shortcuts/source/shortcuts.json"
+    ]
+  },
+  {
+    "category": "paint",
+    "id": "gradient",
+    "label": "渐变",
+    "pattern": "gradient tool|graduated filter|渐变",
+    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"4\" y=\"5\" width=\"4\" height=\"14\" fill=\"currentColor\" stroke=\"none\" opacity=\"0.15\"/><rect x=\"8\" y=\"5\" width=\"4\" height=\"14\" fill=\"currentColor\" stroke=\"none\" opacity=\"0.4\"/><rect x=\"12\" y=\"5\" width=\"4\" height=\"14\" fill=\"currentColor\" stroke=\"none\" opacity=\"0.65\"/><rect x=\"16\" y=\"5\" width=\"4\" height=\"14\" fill=\"currentColor\" stroke=\"none\" opacity=\"0.9\"/><rect x=\"3\" y=\"4\" width=\"18\" height=\"16\" rx=\"2\"/></svg>",
+    "sha256": "0b38009da35d3b08a8cfb1955774c857bf5133c22402425ba8dc9537aa185228",
+    "family": "Input Agent",
+    "colorMode": "monochrome",
+    "researchRecords": [
+      "kc:illustrator:50886",
+      "kc:illustrator:51026",
+      "kc:illustrator:51125",
+      "kc:inkscape:68913",
+      "kc:photoshop:292485",
+      "kc:photoshop:292622",
+      "kc:photoshop:292638"
+    ],
+    "professionalRows": [],
+    "evidence": "existing research action / original visual metaphor",
+    "sourceRefs": [
+      "survey/keycombiner-shortcuts/source/shortcuts.json"
+    ]
+  },
+  {
+    "category": "paint",
+    "id": "foreground-background",
+    "label": "前景与背景色",
+    "pattern": "foreground.*background|background.*foreground|前景.*背景",
+    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"3\" y=\"3\" width=\"11\" height=\"11\" rx=\"2\"/><path d=\"M10 17v4h11V10h-4 M18 2h4v4m0-4-5 5 M2 18v4h4\" /></svg>",
+    "sha256": "d4e19a4b21a998a64a0c831429240e11c4cd37d9aaa894a1bd5c96e662670334",
+    "family": "Input Agent",
+    "colorMode": "monochrome",
+    "researchRecords": [
+      "kc:after-effects:43386",
+      "kc:after-effects:43387",
+      "kc:gimp:69045",
+      "kc:photoshop:292443",
+      "kc:photoshop:292444",
+      "kc:photoshop:292494",
+      "kc:photoshop:292495",
+      "kc:photoshop:292712"
+    ],
+    "professionalRows": [],
+    "evidence": "existing research action / original visual metaphor",
+    "sourceRefs": [
+      "survey/keycombiner-shortcuts/source/shortcuts.json"
+    ]
+  },
+  {
+    "category": "cad",
+    "id": "polyline",
+    "label": "多段线",
+    "pattern": "polyline|多段线",
+    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M4 18 9 7l7 6 4-9\" /><circle cx=\"4\" cy=\"18\" r=\"1\" /><circle cx=\"9\" cy=\"7\" r=\"1\" /><circle cx=\"16\" cy=\"13\" r=\"1\" /><circle cx=\"20\" cy=\"4\" r=\"1\" /></svg>",
+    "sha256": "b3615fd65e2a3877938df812c85afed09b3a82db8eb42474a685b0e2d3ce7c1d",
+    "family": "Input Agent",
+    "colorMode": "monochrome",
+    "researchRecords": [],
+    "professionalRows": [
+      35
+    ],
+    "evidence": "existing research action / original visual metaphor",
+    "sourceRefs": [
+      "survey/comprehensive-panel-survey/source/professional-actions.csv"
+    ]
+  },
+  {
+    "category": "cad",
+    "id": "arc",
+    "label": "圆弧",
+    "pattern": "\\barc\\b|圆弧",
+    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M3 20A17 17 0 0 1 20 3 M3 17v4h4 M17 3h4v4\" /></svg>",
+    "sha256": "7ea93722cd22c27ef4c91a2924ccd7c5fb0ae49e47ea352a19cb0204b8943970",
+    "family": "Input Agent",
+    "colorMode": "monochrome",
+    "researchRecords": [
+      "kc:illustrator:50968",
+      "kc:illustrator:50969",
+      "kc:inkscape:68903"
+    ],
+    "professionalRows": [
+      36
+    ],
+    "evidence": "existing research action / original visual metaphor",
+    "sourceRefs": [
+      "survey/keycombiner-shortcuts/source/shortcuts.json",
+      "survey/comprehensive-panel-survey/source/professional-actions.csv"
+    ]
+  },
+  {
+    "category": "cad",
+    "id": "trim",
+    "label": "修剪",
+    "pattern": "^trim$|修剪",
+    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M7 3v18 M3 8h4 M7 8h10 M7 16h10 M17 6v12 M20 7h2m-2 3h2m-2 6h2\" stroke-width=\"2\"/></svg>",
+    "sha256": "c17633c40644334a7f15aadb736ebae4574d102df0a521ca11c6b6863c04b7b7",
+    "family": "Input Agent",
+    "colorMode": "monochrome",
+    "researchRecords": [],
+    "professionalRows": [
+      40
+    ],
+    "evidence": "existing research action / original visual metaphor",
+    "sourceRefs": [
+      "survey/comprehensive-panel-survey/source/professional-actions.csv"
+    ]
+  },
+  {
+    "category": "cad",
+    "id": "extend",
+    "label": "延伸",
+    "pattern": "^extend$|延伸",
+    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M20 3v18 M3 12h17 M15 8l5 4-5 4 M3 5h5 M3 19h5\" /></svg>",
+    "sha256": "6769ef0c4ee17e6f583ecaaab3253bb5f3a586c8f8df55e93f321aea42bb6131",
+    "family": "Input Agent",
+    "colorMode": "monochrome",
+    "researchRecords": [],
+    "professionalRows": [
+      40
+    ],
+    "evidence": "existing research action / original visual metaphor",
+    "sourceRefs": [
+      "survey/comprehensive-panel-survey/source/professional-actions.csv"
+    ]
+  },
+  {
+    "category": "cad",
+    "id": "offset",
+    "label": "偏移",
+    "pattern": "\\boffset\\b|偏移",
+    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M3 19V4h14 M7 21V8h14 M12 12v5m-2-2 2 2 2-2\" /></svg>",
+    "sha256": "d81aacddff8176c14813b1360454dfd13d45f2be54064f04cbf4586ad1fe80c1",
+    "family": "Input Agent",
+    "colorMode": "monochrome",
+    "researchRecords": [
+      "kc:emmet:102575"
+    ],
+    "professionalRows": [
+      41
+    ],
+    "evidence": "existing research action / original visual metaphor",
+    "sourceRefs": [
+      "survey/keycombiner-shortcuts/source/shortcuts.json",
+      "survey/comprehensive-panel-survey/source/professional-actions.csv"
+    ]
+  },
+  {
+    "category": "cad",
+    "id": "mirror-axis",
+    "label": "镜像",
+    "pattern": "mirror|reflect tool|镜像",
+    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M12 2v3m0 4v2m0 4v2m0 3v2 M8 6 2 18h6Z M16 6l6 12h-6Z\" /></svg>",
+    "sha256": "081a32739bf1c6412ebaa3ac543ced2108d1d8257fe1d26ec7f14bde274d7862",
+    "family": "Input Agent",
+    "colorMode": "monochrome",
+    "researchRecords": [
+      "kc:illustrator:50875",
+      "kc:sketch:83390",
+      "kc:sketch:83393",
+      "kc:final-cut-pro:99846",
+      "kc:photoshop:292563",
+      "kc:photoshop:292567"
+    ],
+    "professionalRows": [
+      42
+    ],
+    "evidence": "existing research action / original visual metaphor",
+    "sourceRefs": [
+      "survey/keycombiner-shortcuts/source/shortcuts.json",
+      "survey/comprehensive-panel-survey/source/professional-actions.csv"
+    ]
+  },
+  {
+    "category": "cad",
+    "id": "polar-array",
+    "label": "环形阵列",
+    "pattern": "polar array|环形阵列",
+    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"12\" cy=\"12\" r=\"2\" /><circle cx=\"12\" cy=\"4\" r=\"2\" /><circle cx=\"20\" cy=\"12\" r=\"2\" /><circle cx=\"12\" cy=\"20\" r=\"2\" /><circle cx=\"4\" cy=\"12\" r=\"2\" /></svg>",
+    "sha256": "e316469a2033963d0358e5791ad5256501474d413036a8041e5cecdcf8021a1b",
+    "family": "Input Agent",
+    "colorMode": "monochrome",
+    "researchRecords": [],
+    "professionalRows": [
+      43
+    ],
+    "evidence": "existing research action / original visual metaphor",
+    "sourceRefs": [
+      "survey/comprehensive-panel-survey/source/professional-actions.csv"
+    ]
+  },
+  {
+    "category": "cad",
+    "id": "rectangular-array",
+    "label": "矩形阵列",
+    "pattern": "rectangular array|阵列",
+    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"3\" y=\"3\" width=\"5\" height=\"5\" rx=\"1\"/><rect x=\"16\" y=\"3\" width=\"5\" height=\"5\" rx=\"1\"/><rect x=\"3\" y=\"16\" width=\"5\" height=\"5\" rx=\"1\"/><rect x=\"16\" y=\"16\" width=\"5\" height=\"5\" rx=\"1\"/><path d=\"M10 5h2 M5 10v2 M19 10v2 M10 19h2\" /></svg>",
+    "sha256": "625c76dfdaa84a68a4a6f81b086ae9de9ce586f50aa6ce971e77a22bd9ae96c9",
+    "family": "Input Agent",
+    "colorMode": "monochrome",
+    "researchRecords": [],
+    "professionalRows": [
+      43
+    ],
+    "evidence": "existing research action / original visual metaphor",
+    "sourceRefs": [
+      "survey/comprehensive-panel-survey/source/professional-actions.csv"
+    ]
+  },
+  {
+    "category": "cad",
+    "id": "hatch",
+    "label": "图案填充",
+    "pattern": "\\bhatch\\b|图案填充",
+    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"3\" y=\"3\" width=\"18\" height=\"18\" rx=\"1\"/><path d=\"m4 10 6-6 M4 16 12 8 M8 20 12 8 M14 20l6-6\" /></svg>",
+    "sha256": "7886755be81018afbbd1a962cc6e093e0b7dd1ae1193b4f6e1d37c883081188e",
+    "family": "Input Agent",
+    "colorMode": "monochrome",
+    "researchRecords": [],
+    "professionalRows": [
+      45
+    ],
+    "evidence": "existing research action / original visual metaphor",
+    "sourceRefs": [
+      "survey/comprehensive-panel-survey/source/professional-actions.csv"
+    ]
+  },
+  {
+    "category": "cad",
+    "id": "object-snap",
+    "label": "对象捕捉",
+    "pattern": "object snap|对象捕捉",
+    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"9\" y=\"9\" width=\"6\" height=\"6\" rx=\"0\"/><path d=\"M12 2v5 M12 17v5 M2 12h5 M17 12h5\" /></svg>",
+    "sha256": "e4dabd0e644540210fbbcff0a8c18dc760f5ec00249d02ec815696a01208f50b",
+    "family": "Input Agent",
+    "colorMode": "monochrome",
+    "researchRecords": [],
+    "professionalRows": [
+      49
+    ],
+    "evidence": "existing research action / original visual metaphor",
+    "sourceRefs": [
+      "survey/comprehensive-panel-survey/source/professional-actions.csv"
+    ]
+  },
+  {
+    "category": "cad",
+    "id": "grid-snap",
+    "label": "栅格捕捉",
+    "pattern": "grid snap|栅格捕捉",
+    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M4 4h16 M4 12h16 M4 20h16 M4 4v16 M12 4v16 M20 4v16\" /><rect x=\"9\" y=\"9\" width=\"6\" height=\"6\" rx=\"0\"/></svg>",
+    "sha256": "4dfebf40d8ef44e2a900f8369d93b7d2e7dc1761f246fe1eef234808edd9fe82",
+    "family": "Input Agent",
+    "colorMode": "monochrome",
+    "researchRecords": [],
+    "professionalRows": [
+      52
+    ],
+    "evidence": "existing research action / original visual metaphor",
+    "sourceRefs": [
+      "survey/comprehensive-panel-survey/source/professional-actions.csv"
+    ]
+  },
+  {
+    "category": "cad",
+    "id": "orthographic",
+    "label": "正交",
+    "pattern": "orthographic|正交",
+    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M4 3v17h17 M4 14h6v6 M2 5l2-2 2 2 M19 18l2 2-2 2\" /></svg>",
+    "sha256": "6b350dedb1d95568ebb6720d776cd9ea9524dbd126cb4d404a10befa958c56bf",
+    "family": "Input Agent",
+    "colorMode": "monochrome",
+    "researchRecords": [],
+    "professionalRows": [
+      50
+    ],
+    "evidence": "existing research action / original visual metaphor",
+    "sourceRefs": [
+      "survey/comprehensive-panel-survey/source/professional-actions.csv"
+    ]
+  },
+  {
+    "category": "cad",
+    "id": "polar-tracking",
+    "label": "极轴追踪",
+    "pattern": "polar track|极轴",
+    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M4 20h17 M4 20V3 M4 20 19 5 M4 11a9 9 0 0 1 9 9\" /><circle cx=\"18\" cy=\"6\" r=\"2\" /></svg>",
+    "sha256": "3edeb7b38ee3b2ee5408c196caa7c09f080aabbe1bcf32a37711fbf6476132ac",
+    "family": "Input Agent",
+    "colorMode": "monochrome",
+    "researchRecords": [],
+    "professionalRows": [
+      53
+    ],
+    "evidence": "existing research action / original visual metaphor",
+    "sourceRefs": [
+      "survey/comprehensive-panel-survey/source/professional-actions.csv"
+    ]
+  },
+  {
+    "category": "cad",
+    "id": "object-tracking",
+    "label": "对象追踪",
+    "pattern": "object track|对象追踪",
+    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"3\" y=\"3\" width=\"6\" height=\"6\" rx=\"0\"/><path d=\"M6 12v3m0 3v3 M12 6h3m3 0h3 M6 18h12V6\" /><circle cx=\"18\" cy=\"18\" r=\"2\" /></svg>",
+    "sha256": "a0f7e7eb714bbfefcfdc132da0a88f92cde6d5a9a0d39370f1ceb95e160fd1e4",
+    "family": "Input Agent",
+    "colorMode": "monochrome",
+    "researchRecords": [],
+    "professionalRows": [
+      54
+    ],
+    "evidence": "existing research action / original visual metaphor",
+    "sourceRefs": [
+      "survey/comprehensive-panel-survey/source/professional-actions.csv"
+    ]
+  },
+  {
+    "category": "cad",
+    "id": "top-view",
+    "label": "平面俯视",
+    "pattern": "top view|平面|鸟瞰",
+    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"4\" y=\"8\" width=\"16\" height=\"13\" rx=\"1\"/><path d=\"M10 8v7h10 M4 15h3 M12 2v3m-2-2 2 2 2-2\" /></svg>",
+    "sha256": "2385264de3905e9d5b90f245c20da3c80c38809d516425531b93fb8615a655dc",
+    "family": "Input Agent",
+    "colorMode": "monochrome",
+    "researchRecords": [],
+    "professionalRows": [
+      2,
+      3
+    ],
+    "evidence": "existing research action / original visual metaphor",
+    "sourceRefs": [
+      "survey/comprehensive-panel-survey/source/professional-actions.csv"
+    ]
+  },
+  {
+    "category": "cad",
+    "id": "ceiling-view",
+    "label": "顶面视图",
+    "pattern": "ceiling|顶面",
+    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m3 7 9-4 9 4v13H3Z M3 7h18 M12 8v6m-3-3 3-3 3 3\" /></svg>",
+    "sha256": "abb4757d5da096adfc30793771d2dc4c7c025f555ff812014c789b5f28259974",
+    "family": "Input Agent",
+    "colorMode": "monochrome",
+    "researchRecords": [],
+    "professionalRows": [
+      2
+    ],
+    "evidence": "existing research action / original visual metaphor",
+    "sourceRefs": [
+      "survey/comprehensive-panel-survey/source/professional-actions.csv"
+    ]
+  },
+  {
+    "category": "cad",
+    "id": "walkthrough",
+    "label": "空间漫游",
+    "pattern": "walkthrough|漫游",
+    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M4 21V7l8-4 8 4v14 M8 21l4-6 4 6 M12 15v-4\" /><circle cx=\"12\" cy=\"8\" r=\"1\" /></svg>",
+    "sha256": "49f77870df66d1173e37ee57ac236df9637c4fccef40165d62ac88e165cefdb7",
+    "family": "Input Agent",
+    "colorMode": "monochrome",
+    "researchRecords": [],
+    "professionalRows": [
+      3
+    ],
+    "evidence": "existing research action / original visual metaphor",
+    "sourceRefs": [
+      "survey/comprehensive-panel-survey/source/professional-actions.csv"
+    ]
+  },
+  {
+    "category": "cad",
+    "id": "precision-move",
+    "label": "精确移动",
+    "pattern": "precision.*mov|精准移动",
+    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M4 12h16 M12 4v16 M4 12l3-3 M4 12l3 3 M20 12l-3-3 M20 12l-3 3 M12 4l-3 3 M12 4l3 3 M12 20l-3-3 M12 20l3-3\" /><circle cx=\"12\" cy=\"12\" r=\"2\" /></svg>",
+    "sha256": "328bbcca6597a224f8f9f7faf07651065008ab059421712df565d6a7d2454f1a",
+    "family": "Input Agent",
+    "colorMode": "monochrome",
+    "researchRecords": [],
+    "professionalRows": [
+      11
+    ],
+    "evidence": "existing research action / original visual metaphor",
+    "sourceRefs": [
+      "survey/comprehensive-panel-survey/source/professional-actions.csv"
+    ]
+  },
+  {
+    "category": "cad",
+    "id": "precision-rotate",
+    "label": "精确旋转",
+    "pattern": "precision.*rotat|精准旋转",
+    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M20 8a9 9 0 1 0 1 7 M20 3v5h-5 M12 4v4 M3 12h4 M12 17v4\" /><circle cx=\"12\" cy=\"12\" r=\"2\" /></svg>",
+    "sha256": "a688b6aeb88b449a137da40ee33f4d4ad4b6e17557cdb31ed2799115c80b07b3",
+    "family": "Input Agent",
+    "colorMode": "monochrome",
+    "researchRecords": [],
+    "professionalRows": [
+      12
+    ],
+    "evidence": "existing research action / original visual metaphor",
+    "sourceRefs": [
+      "survey/comprehensive-panel-survey/source/professional-actions.csv"
+    ]
+  },
+  {
+    "category": "cad",
+    "id": "precision-scale",
+    "label": "精确缩放",
+    "pattern": "precision.*scal|精准缩放",
+    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"3\" y=\"13\" width=\"8\" height=\"8\" rx=\"0\"/><path d=\"M14 3h7v7 M21 3 12 12 M3 3v5 M3 3h5 M16 21h5v-5\" /></svg>",
+    "sha256": "c5fc33a44c6cf529abad0f56203e4de249f9eff22fa7eeadd97d94f2f53fbbc2",
+    "family": "Input Agent",
+    "colorMode": "monochrome",
+    "researchRecords": [],
+    "professionalRows": [
+      13
+    ],
+    "evidence": "existing research action / original visual metaphor",
+    "sourceRefs": [
+      "survey/comprehensive-panel-survey/source/professional-actions.csv"
+    ]
+  },
+  {
+    "category": "cad",
+    "id": "anchor-add",
+    "label": "添加锚点",
+    "pattern": "add anchor|添加锚点",
+    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M3 19c4 0 4-12 9-12s5 12 9 12 M17 3h4 M19 1v4\" /><rect x=\"10\" y=\"5\" width=\"4\" height=\"4\" rx=\"0\"/></svg>",
+    "sha256": "5686625efb39b354c76f3ffb3292b53d20804ebf1094cd128e3a0d8cc6610897",
+    "family": "Input Agent",
+    "colorMode": "monochrome",
+    "researchRecords": [
+      "kc:illustrator:50996",
+      "kc:illustrator:50997"
+    ],
+    "professionalRows": [],
+    "evidence": "existing research action / original visual metaphor",
+    "sourceRefs": [
+      "survey/keycombiner-shortcuts/source/shortcuts.json"
+    ]
+  },
+  {
+    "category": "cad",
+    "id": "anchor-remove",
+    "label": "删除锚点",
+    "pattern": "delete anchor|remove anchor|删除锚点",
+    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M3 19c4 0 4-12 9-12s5 12 9 12 M16 3h6\" /><rect x=\"10\" y=\"5\" width=\"4\" height=\"4\" rx=\"0\"/></svg>",
+    "sha256": "dcf2166e0f4313f6c1e9bd7b44a7b849188d199a2ed3bb7e5883c1c8242bf3f4",
+    "family": "Input Agent",
+    "colorMode": "monochrome",
+    "researchRecords": [
+      "kc:illustrator:50864",
+      "kc:illustrator:50996"
+    ],
+    "professionalRows": [],
+    "evidence": "existing research action / original visual metaphor",
+    "sourceRefs": [
+      "survey/keycombiner-shortcuts/source/shortcuts.json"
+    ]
+  },
+  {
+    "category": "cad",
+    "id": "width-tool",
+    "label": "路径宽度",
+    "pattern": "width tool|variable width",
+    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M12 2c-1 8-7 10-7 20 M12 2c1 8 7 10 7 20 M3 15h18 M3 15l3-3m-3 3 3 3 M21 15l-3-3m3 3-3 3\" /></svg>",
+    "sha256": "e1f3eea9ba4fbc61d8e1dcbcbe9eb1c0176c339a1991d2cb60022b10880a5e47",
+    "family": "Input Agent",
+    "colorMode": "monochrome",
+    "researchRecords": [
+      "kc:illustrator:50878"
+    ],
+    "professionalRows": [],
+    "evidence": "existing research action / original visual metaphor",
+    "sourceRefs": [
+      "survey/keycombiner-shortcuts/source/shortcuts.json"
+    ]
+  },
+  {
+    "category": "cad",
+    "id": "shape-builder",
+    "label": "形状生成",
+    "pattern": "shape builder|形状生成",
+    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"3\" y=\"4\" width=\"11\" height=\"11\" rx=\"1\"/><circle cx=\"15\" cy=\"15\" r=\"6\" /><path d=\"M8 8v4 M6 10h4\" /></svg>",
+    "sha256": "0f6b58320efa30029c07c90e169521272af258a1ede7fc49ab5d06b841449cb6",
+    "family": "Input Agent",
+    "colorMode": "monochrome",
+    "researchRecords": [
+      "kc:illustrator:50880",
+      "kc:illustrator:51003",
+      "kc:illustrator:51004"
+    ],
+    "professionalRows": [],
+    "evidence": "existing research action / original visual metaphor",
+    "sourceRefs": [
+      "survey/keycombiner-shortcuts/source/shortcuts.json"
+    ]
+  },
+  {
+    "category": "timeline",
+    "id": "razor",
+    "label": "剃刀分割",
+    "pattern": "razor|blade|剃刀",
+    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m13 2 8 8-7 7-3-3-5 5-3-3 5-5-3-3Z M3 22h18\" /></svg>",
+    "sha256": "9c79ca9545fe16d86828277d3ef344d784b948f4b6db72dc2c3a0bd3e31d4888",
+    "family": "Input Agent",
+    "colorMode": "monochrome",
+    "researchRecords": [
+      "kc:final-cut-pro:99877",
+      "kc:davinci-resolve:376070",
+      "kc:davinci-resolve:376077"
+    ],
+    "professionalRows": [],
+    "evidence": "existing research action / original visual metaphor",
+    "sourceRefs": [
+      "survey/keycombiner-shortcuts/source/shortcuts.json"
+    ]
+  },
+  {
+    "category": "timeline",
+    "id": "ripple-delete",
+    "label": "波纹删除",
+    "pattern": "ripple delete|波纹删除",
+    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"2\" y=\"7\" width=\"5\" height=\"10\" rx=\"1\"/><rect x=\"17\" y=\"7\" width=\"5\" height=\"10\" rx=\"1\"/><path d=\"m10 4 4 4m0-4-4 4 M7 12h3m-2-2 2 2-2 2 M17 12h-3m2-2-2 2 2 2 M10 20h4\" /></svg>",
+    "sha256": "123dbf83c130a620d58d4f174bcd61d5c4adb92329e00c71a43cfdfe0fd0cb21",
+    "family": "Input Agent",
+    "colorMode": "monochrome",
+    "researchRecords": [
+      "kc:davinci-resolve:376075",
+      "kc:davinci-resolve:376115"
+    ],
+    "professionalRows": [],
+    "evidence": "existing research action / original visual metaphor",
+    "sourceRefs": [
+      "survey/keycombiner-shortcuts/source/shortcuts.json"
+    ]
+  },
+  {
+    "category": "timeline",
+    "id": "ripple-trim",
+    "label": "波纹修剪",
+    "pattern": "ripple.*trim|dynamic trim",
+    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"2\" y=\"7\" width=\"8\" height=\"10\" rx=\"1\"/><rect x=\"14\" y=\"7\" width=\"8\" height=\"10\" rx=\"1\"/><path d=\"M10 3v18 M7 4h3m0 16H7 M18 4h4m-2-2 2 2-2 2\" /></svg>",
+    "sha256": "ff15098738d8c95bd6b48dfdfdba4065e01fe21bba383262e116542af395b3ba",
+    "family": "Input Agent",
+    "colorMode": "monochrome",
+    "researchRecords": [
+      "kc:davinci-resolve:376060"
+    ],
+    "professionalRows": [],
+    "evidence": "existing research action / original visual metaphor",
+    "sourceRefs": [
+      "survey/keycombiner-shortcuts/source/shortcuts.json"
+    ]
+  },
+  {
+    "category": "timeline",
+    "id": "rolling-edit",
+    "label": "滚动编辑",
+    "pattern": "rolling edit|rolling trim",
+    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"2\" y=\"7\" width=\"20\" height=\"10\" rx=\"1\"/><path d=\"M12 3v18 M9 4h6 M9 20h6 M4 12h4m-2-2 2 2-2 2 M20 12h-4m2-2-2 2 2 2\" /></svg>",
+    "sha256": "0d3b60cb3ab360fb7d9294e72997c52f4d11619a38ef67e114c38d868bafbf3b",
+    "family": "Input Agent",
+    "colorMode": "monochrome",
+    "researchRecords": [],
+    "professionalRows": [],
+    "evidence": "user design requirement / original visual metaphor",
+    "sourceRefs": [
+      "docs/icon-library.md#专业图标补齐--2026-10-22",
+      "conversation: drawing, capture, agent and precision-control requirements"
+    ]
+  },
+  {
+    "category": "timeline",
+    "id": "slip",
+    "label": "滑移内容",
+    "pattern": "\\bslip\\b",
+    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"3\" y=\"6\" width=\"18\" height=\"12\" rx=\"1\"/><path d=\"M7 6v12 M17 6v12 M9 12h6m-4-2-2 2 2 2m2-4 2 2-2 2\" /></svg>",
+    "sha256": "77bde48e124169a3e713021cd544dc2007412232c20543e4cd926d2746cb59fe",
+    "family": "Input Agent",
+    "colorMode": "monochrome",
+    "researchRecords": [
+      "kc:davinci-resolve:376074"
+    ],
+    "professionalRows": [],
+    "evidence": "existing research action / original visual metaphor",
+    "sourceRefs": [
+      "survey/keycombiner-shortcuts/source/shortcuts.json"
+    ]
+  },
+  {
+    "category": "timeline",
+    "id": "slide",
+    "label": "滑动片段",
+    "pattern": "\\bslide mode\\b|slip and slide",
+    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"8\" y=\"6\" width=\"8\" height=\"12\" rx=\"1\"/><path d=\"M2 8v8 M22 8v8 M2 12h4m-2-2-2 2 2 2 M22 12h-4m2-2 2 2-2 2\" /></svg>",
+    "sha256": "899f3ddc1cdc8f1cbb40916a68bad247d5647ff707a702c8b582108a728ce5bc",
+    "family": "Input Agent",
+    "colorMode": "monochrome",
+    "researchRecords": [
+      "kc:davinci-resolve:376074"
+    ],
+    "professionalRows": [],
+    "evidence": "existing research action / original visual metaphor",
+    "sourceRefs": [
+      "survey/keycombiner-shortcuts/source/shortcuts.json"
+    ]
+  },
+  {
+    "category": "timeline",
+    "id": "mark-in",
+    "label": "标记入点",
+    "pattern": "mark in|in point",
+    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M8 3H4v18h4 M4 12h15m-4-4 4 4-4 4\" /></svg>",
+    "sha256": "16792a60d82afa2a10d961aefb3192b4988dd6edbbdb8235ec9f9f79bb60111f",
+    "family": "Input Agent",
+    "colorMode": "monochrome",
+    "researchRecords": [
+      "kc:firefox:55127",
+      "kc:firefox:55128",
+      "kc:vimium:53836",
+      "kc:after-effects:43173",
+      "kc:after-effects:43175",
+      "kc:after-effects:43176",
+      "kc:after-effects:43257",
+      "kc:after-effects:43258",
+      "kc:after-effects:43259",
+      "kc:after-effects:43260",
+      "kc:illustrator:51013",
+      "kc:davinci-resolve:376045",
+      "kc:davinci-resolve:376047",
+      "kc:davinci-resolve:376064",
+      "kc:davinci-resolve:376092",
+      "kc:acrobat:94811"
+    ],
+    "professionalRows": [],
+    "evidence": "existing research action / original visual metaphor",
+    "sourceRefs": [
+      "survey/keycombiner-shortcuts/source/shortcuts.json"
+    ]
+  },
+  {
+    "category": "timeline",
+    "id": "mark-out",
+    "label": "标记出点",
+    "pattern": "mark out|out point",
+    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M16 3h4v18h-4 M20 12H5m4-4-4 4 4 4\" /></svg>",
+    "sha256": "1d5d879ffe7a2da347040343b7e8e5ff46ec26b0cf3b42f332226ae2cc3b9710",
+    "family": "Input Agent",
+    "colorMode": "monochrome",
+    "researchRecords": [
+      "kc:after-effects:43174",
+      "kc:after-effects:43175",
+      "kc:after-effects:43176",
+      "kc:after-effects:43257",
+      "kc:after-effects:43258",
+      "kc:after-effects:43259",
+      "kc:after-effects:43261",
+      "kc:davinci-resolve:376046",
+      "kc:davinci-resolve:376048",
+      "kc:davinci-resolve:376065",
+      "kc:davinci-resolve:376092"
+    ],
+    "professionalRows": [],
+    "evidence": "existing research action / original visual metaphor",
+    "sourceRefs": [
+      "survey/keycombiner-shortcuts/source/shortcuts.json"
+    ]
+  },
+  {
+    "category": "timeline",
+    "id": "keyframe-add",
+    "label": "添加关键帧",
+    "pattern": "add.*keyframe|keyframe.*add",
+    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m9 5 7 7-7 7-7-7Z M18 2v6 M15 5h6\" /></svg>",
+    "sha256": "2fc2c3b452756a01702aa747123b685b93b7da69bb18b79ceabd9ba302fceb6f",
+    "family": "Input Agent",
+    "colorMode": "monochrome",
+    "researchRecords": [],
+    "professionalRows": [],
+    "evidence": "user design requirement / original visual metaphor",
+    "sourceRefs": [
+      "docs/icon-library.md#专业图标补齐--2026-10-22",
+      "conversation: drawing, capture, agent and precision-control requirements"
+    ]
+  },
+  {
+    "category": "timeline",
+    "id": "keyframe-prev",
+    "label": "上一关键帧",
+    "pattern": "previous keyframe",
+    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m15 5 7 7-7 7-7-7Z M5 6v12 M5 12l-3-3m3 3-3 3\" /></svg>",
+    "sha256": "a10248a9f885229d2832a1a16b07bfd610117fc5011960a697e9ca7abae593b2",
+    "family": "Input Agent",
+    "colorMode": "monochrome",
+    "researchRecords": [
+      "kc:davinci-resolve:376031"
+    ],
+    "professionalRows": [],
+    "evidence": "existing research action / original visual metaphor",
+    "sourceRefs": [
+      "survey/keycombiner-shortcuts/source/shortcuts.json"
+    ]
+  },
+  {
+    "category": "timeline",
+    "id": "keyframe-next",
+    "label": "下一关键帧",
+    "pattern": "next keyframe",
+    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m9 5 7 7-7 7-7-7Z M19 6v12 M19 12l3-3m-3 3 3 3\" /></svg>",
+    "sha256": "5c606b74af3f804874f9a9760f9fecc421894ae284679de6a6e42de528df85db",
+    "family": "Input Agent",
+    "colorMode": "monochrome",
+    "researchRecords": [
+      "kc:davinci-resolve:376032"
+    ],
+    "professionalRows": [],
+    "evidence": "existing research action / original visual metaphor",
+    "sourceRefs": [
+      "survey/keycombiner-shortcuts/source/shortcuts.json"
+    ]
+  },
+  {
+    "category": "timeline",
+    "id": "trim-start",
+    "label": "修剪开头",
+    "pattern": "trim start|trim.*start",
+    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"8\" y=\"7\" width=\"14\" height=\"10\" rx=\"1\"/><path d=\"M8 3v18 M2 12h4m-2-2 2 2-2 2\" /></svg>",
+    "sha256": "1743592903117c96558c716c5c6b9546b3b42248c5c8a1bf20656d26d658e9d3",
+    "family": "Input Agent",
+    "colorMode": "monochrome",
+    "researchRecords": [
+      "kc:final-cut-pro:99726",
+      "kc:final-cut-pro:99727",
+      "kc:davinci-resolve:376099"
+    ],
+    "professionalRows": [],
+    "evidence": "existing research action / original visual metaphor",
+    "sourceRefs": [
+      "survey/keycombiner-shortcuts/source/shortcuts.json"
+    ]
+  },
+  {
+    "category": "timeline",
+    "id": "trim-end",
+    "label": "修剪结尾",
+    "pattern": "trim end|trim.*end",
+    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"2\" y=\"7\" width=\"14\" height=\"10\" rx=\"1\"/><path d=\"M16 3v18 M22 12h-4m2-2-2 2 2 2\" /></svg>",
+    "sha256": "a468bba13cfe9b2e04d1f05abcdee1e51927b90f071defa398703da3804bdc02",
+    "family": "Input Agent",
+    "colorMode": "monochrome",
+    "researchRecords": [
+      "kc:final-cut-pro:99725",
+      "kc:final-cut-pro:99727",
+      "kc:davinci-resolve:376100"
+    ],
+    "professionalRows": [],
+    "evidence": "existing research action / original visual metaphor",
+    "sourceRefs": [
+      "survey/keycombiner-shortcuts/source/shortcuts.json"
+    ]
+  },
+  {
+    "category": "timeline",
+    "id": "link-clips",
+    "label": "链接片段",
+    "pattern": "link clips|linked selection|链接片段",
+    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"2\" y=\"4\" width=\"7\" height=\"16\" rx=\"1\"/><rect x=\"15\" y=\"4\" width=\"7\" height=\"16\" rx=\"1\"/><path d=\"M7 12h10 M9 9l-2 3 2 3 M15 9l2 3-2 3\" /></svg>",
+    "sha256": "bd2ac3b259f508e5b7582fae2aca40a7a62bc4efe18ac7659930aca90835aa51",
+    "family": "Input Agent",
+    "colorMode": "monochrome",
+    "researchRecords": [],
+    "professionalRows": [],
+    "evidence": "user design requirement / original visual metaphor",
+    "sourceRefs": [
+      "docs/icon-library.md#专业图标补齐--2026-10-22",
+      "conversation: drawing, capture, agent and precision-control requirements"
+    ]
+  },
+  {
+    "category": "timeline",
+    "id": "unlink-clips",
+    "label": "解除片段链接",
+    "pattern": "unlink|解除.*链接",
+    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M8 8V4H2v16h6v-4 M16 8V4h6v16h-6v-4 M6 12h3 M15 12h3 M10 4l4 16\" /></svg>",
+    "sha256": "7cea4f4c2f6c2263ba3bf0f30cef0ead534a2b764339f3872374f4229d6129d2",
+    "family": "Input Agent",
+    "colorMode": "monochrome",
+    "researchRecords": [
+      "kc:inkscape:69009"
+    ],
+    "professionalRows": [],
+    "evidence": "existing research action / original visual metaphor",
+    "sourceRefs": [
+      "survey/keycombiner-shortcuts/source/shortcuts.json"
+    ]
+  },
+  {
+    "category": "timeline",
+    "id": "jog-dial",
+    "label": "逐帧旋钮",
+    "pattern": "frame (forward|backward)|next frame|previous frame|逐帧",
+    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"12\" cy=\"12\" r=\"8\" /><path d=\"M12 2v2 M22 12h-2 M12 22v-2 M2 12h2 M10 9l5 3-5 3Z\" /></svg>",
+    "sha256": "e9d47b983e6af58912fbe10e6c35b3e064e1fccd894792d78c074e4ead0c263c",
+    "family": "Input Agent",
+    "colorMode": "monochrome",
+    "researchRecords": [
+      "kc:firefox:55070",
+      "kc:firefox:55071",
+      "kc:vimium:53829",
+      "kc:figma:604854",
+      "kc:figma:604855",
+      "kc:figma:604858",
+      "kc:figma:604859",
+      "kc:final-cut-pro:99830",
+      "kc:final-cut-pro:99835",
+      "kc:davinci-resolve:376041",
+      "kc:vlc-player:40892"
+    ],
+    "professionalRows": [],
+    "evidence": "existing research action / original visual metaphor",
+    "sourceRefs": [
+      "survey/keycombiner-shortcuts/source/shortcuts.json"
+    ]
+  },
+  {
+    "category": "sheet",
+    "id": "cell-edit",
+    "label": "编辑单元格",
+    "pattern": "edit.*cell|cell.*edit|编辑单元格",
+    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"2\" y=\"3\" width=\"20\" height=\"18\" rx=\"1\"/><path d=\"M2 8h20 M8 3v18 M12 16l6-6 2 2-6 6h-2Z\" /></svg>",
+    "sha256": "86ec74ab693ee2bd126243b334eaee14645928da700360785a18ff591f2c5dde",
+    "family": "Input Agent",
+    "colorMode": "monochrome",
+    "researchRecords": [
+      "kc:airtable:62443",
+      "kc:excel:50104",
+      "kc:coda:250779",
+      "kc:mondaycom:91673"
+    ],
+    "professionalRows": [],
+    "evidence": "existing research action / original visual metaphor",
+    "sourceRefs": [
+      "survey/keycombiner-shortcuts/source/shortcuts.json"
+    ]
+  },
+  {
+    "category": "sheet",
+    "id": "cell-newline",
+    "label": "单元格内换行",
+    "pattern": "line break.*cell|new line.*cell|单元格内换行",
+    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"2\" y=\"3\" width=\"20\" height=\"18\" rx=\"1\"/><path d=\"M6 7h12 M18 11v5H7m3-3-3 3 3 3\" /></svg>",
+    "sha256": "9c7f0e85b89f814fe040d0ae405df15ca4fe2ceb567679319010c1c66ec288bf",
+    "family": "Input Agent",
+    "colorMode": "monochrome",
+    "researchRecords": [
+      "kc:excel:50364"
+    ],
+    "professionalRows": [],
+    "evidence": "existing research action / original visual metaphor",
+    "sourceRefs": [
+      "survey/keycombiner-shortcuts/source/shortcuts.json"
+    ]
+  },
+  {
+    "category": "sheet",
+    "id": "fill-down",
+    "label": "向下填充",
+    "pattern": "fill down|向下填充",
+    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"4\" y=\"2\" width=\"16\" height=\"20\" rx=\"1\"/><path d=\"M4 8h16 M12 10v8m-3-3 3 3 3-3\" /></svg>",
+    "sha256": "4ad31ee2e224dbe43763f58f74a24a2dcd1f9d45fb64558271c4f5f88ae11e40",
+    "family": "Input Agent",
+    "colorMode": "monochrome",
+    "researchRecords": [
+      "kc:excel:50156",
+      "kc:sheets:39812"
+    ],
+    "professionalRows": [],
+    "evidence": "existing research action / original visual metaphor",
+    "sourceRefs": [
+      "survey/keycombiner-shortcuts/source/shortcuts.json"
+    ]
+  },
+  {
+    "category": "sheet",
+    "id": "fill-right",
+    "label": "向右填充",
+    "pattern": "fill right|向右填充",
+    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"2\" y=\"4\" width=\"20\" height=\"16\" rx=\"1\"/><path d=\"M8 4v16 M10 12h8m-3-3 3 3-3 3\" /></svg>",
+    "sha256": "8c2cad0289cd00f79ddbc22bbb39af5d18afe5435fb9e0f13ed8234b44eb6093",
+    "family": "Input Agent",
+    "colorMode": "monochrome",
+    "researchRecords": [
+      "kc:excel:50157",
+      "kc:sheets:39813"
+    ],
+    "professionalRows": [],
+    "evidence": "existing research action / original visual metaphor",
+    "sourceRefs": [
+      "survey/keycombiner-shortcuts/source/shortcuts.json"
+    ]
+  },
+  {
+    "category": "sheet",
+    "id": "select-row",
+    "label": "选择整行",
+    "pattern": "select.*row|选择.*行|整行",
+    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"2\" y=\"3\" width=\"20\" height=\"18\" rx=\"1\"/><path d=\"M2 9h20 M2 15h20 M8 3v6m0 6v6 M16 3v6m0 6v6 M5 12h14\" /></svg>",
+    "sha256": "a6f3e4b18a4d7e4f3270e910eca4807ea1f9e9d82811500a87dab818f6f4f241",
+    "family": "Input Agent",
+    "colorMode": "monochrome",
+    "researchRecords": [
+      "kc:spotify:255778",
+      "kc:excel:50082",
+      "kc:excel:50084",
+      "kc:excel:50090",
+      "kc:excel:50180",
+      "kc:excel:50182",
+      "kc:excel:50194",
+      "kc:excel:50196",
+      "kc:sheets:39805",
+      "kc:final-cut-pro:99642",
+      "kc:final-cut-pro:99684",
+      "kc:final-cut-pro:99756",
+      "kc:final-cut-pro:99793",
+      "kc:final-cut-pro:99812",
+      "kc:coda:250771",
+      "kc:coda:250772",
+      "kc:acrobat:94835",
+      "kc:acrobat:94888",
+      "kc:acrobat:94889"
+    ],
+    "professionalRows": [],
+    "evidence": "existing research action / original visual metaphor",
+    "sourceRefs": [
+      "survey/keycombiner-shortcuts/source/shortcuts.json"
+    ]
+  },
+  {
+    "category": "sheet",
+    "id": "select-column",
+    "label": "选择整列",
+    "pattern": "select.*column|选择.*列|整列",
+    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"3\" y=\"2\" width=\"18\" height=\"20\" rx=\"1\"/><path d=\"M9 2v20 M15 2v20 M3 8h6m6 0h6 M3 16h6m6 0h6 M12 5v14\" /></svg>",
+    "sha256": "1d36e9596134f58e003b44e42ae297782c7689aa0b521e43d55d8ffd78b3cf44",
+    "family": "Input Agent",
+    "colorMode": "monochrome",
+    "researchRecords": [
+      "kc:xcode:72094",
+      "kc:xcode:72095",
+      "kc:excel:50081",
+      "kc:excel:50083",
+      "kc:excel:50089",
+      "kc:excel:50179",
+      "kc:excel:50181",
+      "kc:excel:50195",
+      "kc:sheets:39804",
+      "kc:amazing-marvin:139448"
+    ],
+    "professionalRows": [],
+    "evidence": "existing research action / original visual metaphor",
+    "sourceRefs": [
+      "survey/keycombiner-shortcuts/source/shortcuts.json"
+    ]
+  },
+  {
+    "category": "sheet",
+    "id": "freeze-panes",
+    "label": "冻结窗格",
+    "pattern": "freeze panes|冻结窗格",
+    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"2\" y=\"3\" width=\"20\" height=\"18\" rx=\"1\"/><path d=\"M2 8h20 M8 3v18 M15 11v7 M12 13l6 3 M12 16l6-3\" /></svg>",
+    "sha256": "c3201f87c36bf57f547ab207ed4d32e88ef00d7e336709df0405e2956ab2523a",
+    "family": "Input Agent",
+    "colorMode": "monochrome",
+    "researchRecords": [],
+    "professionalRows": [],
+    "evidence": "user design requirement / original visual metaphor",
+    "sourceRefs": [
+      "docs/icon-library.md#专业图标补齐--2026-10-22",
+      "conversation: drawing, capture, agent and precision-control requirements"
+    ]
+  },
+  {
+    "category": "sheet",
+    "id": "absolute-reference",
+    "label": "绝对引用",
+    "pattern": "absolute.*reference|relative.*reference|绝对引用",
+    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"3\" y=\"3\" width=\"18\" height=\"18\" rx=\"1\"/><path d=\"M12 6v12 M16 8h-6a2 2 0 0 0 0 4h4a2 2 0 0 1 0 4H8\" /></svg>",
+    "sha256": "13977a313e018fd682d2aaa0ddf841a9edef3ad6a97236ae8c1b99cf6cc80f9e",
+    "family": "Input Agent",
+    "colorMode": "monochrome",
+    "researchRecords": [
+      "kc:excel:50226",
+      "kc:sheets:39909"
+    ],
+    "professionalRows": [],
+    "evidence": "existing research action / original visual metaphor",
+    "sourceRefs": [
+      "survey/keycombiner-shortcuts/source/shortcuts.json"
+    ]
+  },
+  {
+    "category": "context",
+    "id": "screen-capture",
+    "label": "截图",
+    "pattern": "screenshot|screen capture|截图",
+    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"3\" y=\"4\" width=\"18\" height=\"13\" rx=\"1\"/><path d=\"M8 21h8 M12 17v4 M7 8h3 M7 8v3 M17 13h-3 M17 13v-3\" /></svg>",
+    "sha256": "45a7d95464e6dbf0db2a937e3fa801d4ff6a31a7ee9155bf33dababd0592a737",
+    "family": "Input Agent",
+    "colorMode": "monochrome",
+    "researchRecords": [
+      "kc:paint-3d:116750",
+      "kc:chromebook:329571",
+      "kc:chromebook:329572",
+      "kc:chromebook:329573"
+    ],
+    "professionalRows": [],
+    "evidence": "existing research action / original visual metaphor",
+    "sourceRefs": [
+      "survey/keycombiner-shortcuts/source/shortcuts.json"
+    ]
+  },
+  {
+    "category": "context",
+    "id": "screen-record",
+    "label": "录屏",
+    "pattern": "screen record|录屏",
+    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"3\" y=\"4\" width=\"18\" height=\"13\" rx=\"1\"/><circle cx=\"12\" cy=\"10.5\" r=\"3\" /><path d=\"M8 21h8 M12 17v4\" /></svg>",
+    "sha256": "dc250012883f64662dfecb69e78280b88f9bd666ac7d412eca53da1182793cdd",
+    "family": "Input Agent",
+    "colorMode": "monochrome",
+    "researchRecords": [],
+    "professionalRows": [],
+    "evidence": "user design requirement / original visual metaphor",
+    "sourceRefs": [
+      "docs/icon-library.md#专业图标补齐--2026-10-22",
+      "conversation: drawing, capture, agent and precision-control requirements"
+    ]
+  },
+  {
+    "category": "context",
+    "id": "model-picker",
+    "label": "选择模型",
+    "pattern": "model (menu|picker)|模型",
+    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m8 3 6 3-6 3-6-3Z M2 6v7l6 3 6-3V6 M8 9v7 M17 17l3 3 3-3\" /></svg>",
+    "sha256": "d14414a1044e1f9172bcac2b218fbb8cec8ae2596575e9dd3a9f7792388e63aa",
+    "family": "Input Agent",
+    "colorMode": "monochrome",
+    "researchRecords": [],
+    "professionalRows": [],
+    "evidence": "user design requirement / original visual metaphor",
+    "sourceRefs": [
+      "docs/icon-library.md#专业图标补齐--2026-10-22",
+      "conversation: drawing, capture, agent and precision-control requirements"
+    ]
+  },
+  {
+    "category": "context",
+    "id": "reasoning-level",
+    "label": "思考强度",
+    "pattern": "think|reasoning|思考强度",
+    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M3 18v3 M8 14v7 M13 10v11 M18 6v15 M3 9l5-5 5 2 8-4\" /></svg>",
+    "sha256": "591a30e9de7a9ffaa7588f0be60f5ccfa71b6c3d778620e4cbb8397d677dd5df",
+    "family": "Input Agent",
+    "colorMode": "monochrome",
+    "researchRecords": [],
+    "professionalRows": [],
+    "evidence": "user design requirement / original visual metaphor",
+    "sourceRefs": [
+      "docs/icon-library.md#专业图标补齐--2026-10-22",
+      "conversation: drawing, capture, agent and precision-control requirements"
+    ]
+  },
+  {
+    "category": "context",
+    "id": "plan-mode",
+    "label": "计划模式",
+    "pattern": "plan mode|工作模式.*计划|计划模式",
+    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"4\" y=\"3\" width=\"16\" height=\"18\" rx=\"2\"/><path d=\"M8 7h8 M8 12h3 M8 17h3 M15 11v6m-2-2 2 2 2-2\" /></svg>",
+    "sha256": "cced56ac6a4e1cc58cf1ffb9cd4c6cd32eca58d7d85a55d33c2e7a388b9eb6bf",
+    "family": "Input Agent",
+    "colorMode": "monochrome",
+    "researchRecords": [],
+    "professionalRows": [],
+    "evidence": "user design requirement / original visual metaphor",
+    "sourceRefs": [
+      "docs/icon-library.md#专业图标补齐--2026-10-22",
+      "conversation: drawing, capture, agent and precision-control requirements"
+    ]
+  },
+  {
+    "category": "context",
+    "id": "execution-mode",
+    "label": "执行模式",
+    "pattern": "execute mode|execution mode|工作模式.*执行|执行模式",
+    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"3\" y=\"3\" width=\"18\" height=\"18\" rx=\"2\"/><path d=\"m9 7 7 5-7 5Z\" /></svg>",
+    "sha256": "8212269fb10e9885aefd26c4519ecc7ccc711f252de9624435e1005e66e24755",
+    "family": "Input Agent",
+    "colorMode": "monochrome",
+    "researchRecords": [],
+    "professionalRows": [],
+    "evidence": "user design requirement / original visual metaphor",
+    "sourceRefs": [
+      "docs/icon-library.md#专业图标补齐--2026-10-22",
+      "conversation: drawing, capture, agent and precision-control requirements"
+    ]
+  },
+  {
+    "category": "context",
+    "id": "approve-scope",
+    "label": "批准当前范围",
+    "pattern": "approve|批准|允许",
+    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M8 3H3v5 M16 3h5v5 M3 16v5h5 M21 16v5h-5 M7 12l3 3 7-7\" /></svg>",
+    "sha256": "411a297847bf5fac58ab92df4b6b7e3e8f4669625bef03336e04dd1da2c449e6",
+    "family": "Input Agent",
+    "colorMode": "monochrome",
+    "researchRecords": [],
+    "professionalRows": [],
+    "evidence": "user design requirement / original visual metaphor",
+    "sourceRefs": [
+      "docs/icon-library.md#专业图标补齐--2026-10-22",
+      "conversation: drawing, capture, agent and precision-control requirements"
+    ]
+  },
+  {
+    "category": "context",
+    "id": "context-compact",
+    "label": "压缩上下文",
+    "pattern": "compact|上下文.*压缩|context.*summar",
+    "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M3 3h18 M3 7h18 M3 17h18 M3 21h18 M7 10l5 3 5-3 M7 14l5-3 5 3\" /></svg>",
+    "sha256": "efa633e39550100b848e93da639a8728ba4790f93262f5153127dced97b5f289",
+    "family": "Input Agent",
+    "colorMode": "monochrome",
+    "researchRecords": [
+      "kc:emmet:102278",
+      "kc:docs:390858",
+      "kc:sheets:39823",
+      "kc:sheets:39908",
+      "kc:smartgit:71034"
+    ],
+    "professionalRows": [],
+    "evidence": "existing research action / original visual metaphor",
+    "sourceRefs": [
+      "survey/keycombiner-shortcuts/source/shortcuts.json"
+    ]
+  }
+]

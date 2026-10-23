@@ -1,6 +1,7 @@
+import {sentenceParameters} from './workbuddy-sentence';
 import {objectInteraction} from "./workbuddy-object";
 import {materialsInteraction,submitMaterials,type ReceiptWorkflow} from './workbuddy-materials';
-import {wbAdaptiveInteraction,stripLegacyColorAnnotation,inferWbInput,wbInput,roadmapSlides,type WorkBuddyInput} from './workbuddy-input';
+import {wbAdaptiveInteraction,stripLegacyColorAnnotation,inferWbInput,wbInput,initialWbInput,roadmapSlides,type WorkBuddyInput} from './workbuddy-input';
 import { initialFileBrowser, seedFileBrowser, migrateFileBrowser, fileBrowserInteraction, fileTargetFocus, fileTargetDraft, fileTargetEdit, fileTargetSubmit, reconcileOfficeFiles, type FileBrowserState, type FileFormat } from './workbuddy-files';
 import type { State, Command, OfficeFile } from "./model";
 import { money, totals } from "./model";
@@ -44,6 +45,7 @@ export interface WbDraft {
 export interface WbTask {
   sourceFiles?:string[];
   receipts?: ReceiptWorkflow;
+  referenceRequest?: boolean;
   input?: WorkBuddyInput;
   id: string;
   title: string;
@@ -545,6 +547,7 @@ export function restoreWorkBuddy(
     if (s.app === "workbuddy" && s.texts["ai-draft"])
       s.workbuddy.drafts.new.text = s.texts["ai-draft"];
   }
+  if(s.workbuddy.tasks.some(t=>t.receipts&&t.title==='整理演示票据')){backup('mobile-input:backup:receipt-title-2026-10-19',JSON.stringify(s.workbuddy));for(const t of s.workbuddy.tasks)if(t.receipts&&t.title==='整理演示票据')t.title='票据汇总';}
   migrateFileBrowser(s, backup);
   const w = s.workbuddy;
   for(const [id,draft] of Object.entries(w.drafts)) {
@@ -821,7 +824,7 @@ export function workBuddyInteraction(
         d = t ? wbDraftFor(s, t.id) : null;
       if (!t || !d || c.targetId !== t.id || c.targetRevision !== t.revision)
         return "目标已变化，草稿已保留";
-      const text = String(v.text ?? "");
+      let text = String(v.text ?? "");
       if (text.length > 20000) return "内容过长";
       if (v.revision !== d.revision) return "草稿版本已变化，请重新确认";
       if (c.type === "wb-edit") {
@@ -840,6 +843,7 @@ export function workBuddyInteraction(
         return null;
       }
       const specialSubmit=fileTargetSubmit(s,t.id,text,c.id);if(specialSubmit!==undefined)return specialSubmit;
+      if(!text.trim()&&t.id.startsWith("wb:draft:")&&w.tasks.find(x=>x.id===w.task)?.referenceRequest&&d.attachments.length)text='根据补充材料完善销售汇报';
       if (!text.trim() && t.id.startsWith("wb:draft:")&&!w.tasks.find(x=>x.id===w.task)?.receipts?.materials.length) return "请输入内容";
       if (t.id.startsWith("wb:draft:")) {
         if(d.input?.sketch.strokes.length&&!d.input.sketch.confirmed)return "先确认草图，再发送";
@@ -858,12 +862,14 @@ export function workBuddyInteraction(
               project: previous.project,
             }
           : undefined;
+        if(previous?.referenceRequest&&previous.status==='needs-materials'&&!d.attachments.length)return '请先选择文件或采集参考材料';
         if(previous?.receipts)return submitMaterials(s,previous,text,c.id);
         const adaptive=!!d.input;
         if(adaptive)inferWbInput(d,text);
-        const task = startTask(s, c.id, text, kind, config);
-        if(previous?.status==="draft"){w.tasks=w.tasks.filter(x=>x.id!==previous.id);delete w.drafts[previous.id];}
-        if (previous&&previous.status!=="draft") {
+        const task = startTask(s, c.id, text, previous?.referenceRequest?(kind||"slides"):kind, config);
+        if(previous?.referenceRequest){task.referenceRequest=true;task.title=previous.title;task.messages=[...previous.messages,...task.messages];}
+        if(previous&&(previous.status==="draft"||previous.referenceRequest)){w.tasks=w.tasks.filter(x=>x.id!==previous.id);delete w.drafts[previous.id];}
+        if (previous&&previous.status!=="draft"&&!previous.referenceRequest) {
           task.messages = [...previous.messages, ...task.messages];
           task.title = previous.title + " · 追问";
         }
@@ -871,7 +877,7 @@ export function workBuddyInteraction(
         d.revision++;
         d.attachments = [];
         d.references = [];
-        if(adaptive){w.drafts[task.id].input=structuredClone(task.input);focus(s,`wb:draft:${task.id}`,task.title);}
+        if(adaptive){d.input=initialWbInput();w.drafts[task.id].input=initialWbInput();focus(s,`wb:draft:${task.id}`,task.title);}
         return null;
       }
       const [, type, entity] = t.id.split(":");
@@ -917,6 +923,9 @@ export function workBuddyInteraction(
       d.attachments = v.remove
         ? d.attachments.filter((x) => x !== id)
         : [...new Set([...d.attachments, id])];
+      if(!v.remove&&(v.slot==='document'||v.slot==='path')&&sentenceParameters(d.text,{task:w.task,target:s.target?.id||'',targetRevision:s.target?.revision||0,inputRevision:d.revision}).some(x=>x.kind===v.slot&&x.phrase===v.phrase)){
+        const input=wbInput(d),previous=input.materialSlots?.[v.slot];if(previous&&previous.phrase===v.phrase&&previous.file!==id)d.attachments=d.attachments.filter(f=>f!==previous.file);(input.materialSlots??={})[v.slot]={phrase:String(v.phrase),file:id};input.revision++;
+      }
       return null;
     }
     case "wb-reference": {

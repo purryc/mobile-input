@@ -8,6 +8,7 @@ export function useWorkBuddyInput(id: string, label: string, initialText = "") {
   const r = useRuntime(),
     remote = wbDraftFor(r.state, id),
     key = `mobile-input:workbuddy-draft:${role}:${id}`;
+  const [generation] = useState(r.state.demoGeneration||0);
   const [saved] = useState(() => {
     try {
       const v = JSON.parse(localStorage.getItem(key) || "null");
@@ -33,6 +34,7 @@ export function useWorkBuddyInput(id: string, label: string, initialText = "") {
     mounted = useRef(true),
     blockedRef = useRef(Boolean(saved));
   function persist() {
+    if((currentState().demoGeneration||0)!==generation)return;
     try {
       localStorage.setItem(
         key,
@@ -80,7 +82,7 @@ export function useWorkBuddyInput(id: string, label: string, initialText = "") {
     if (blockedRef.current) return false;
     const state = currentState();
     if (state.app !== "workbuddy") return false;
-    if (explicit || state.target?.id !== id) {
+    if (explicit || state.target?.id !== id || state.inputSession?.phase !== 'active') {
       const ack = await command("wb-focus", { id, label, text: initialText });
       if (!ack.ok) return false;
     }

@@ -1,0 +1,177 @@
+{
+  "model": "jev-latest",
+  "state": {
+    "app": {
+      "id": "wechat",
+      "visible_view": "陈总的当前会话"
+    },
+    "focus": {
+      "status": "known",
+      "editable": true,
+      "role": "聊天回复正文",
+      "target_id": "wechat:chen:composer",
+      "revision": 7,
+      "purpose_source": "semantic_hint_unregistered_example"
+    },
+    "draft": {
+      "text": "",
+      "phase": "confirmed"
+    },
+    "visible_context": [
+      {
+        "id": "msg-18",
+        "text": "10月20日14:00线上开会讨论采购方案，请帮我记下。",
+        "source": "当前可见的来信",
+        "authorized": true,
+        "revision": 1
+      }
+    ],
+    "agent_request": null,
+    "capabilities": {
+      "panels": [
+        "paint",
+        "presentation",
+        "game",
+        "agent_input",
+        "text_input",
+        "agent_request",
+        "shortcuts"
+      ],
+      "controls": [
+        "color",
+        "sketch",
+        "file",
+        "camera",
+        "capture"
+      ],
+      "services": [
+        "calendar",
+        "map"
+      ],
+      "polish": [
+        "prompt_clarity",
+        "email_tone",
+        "chat_concise",
+        "document_clarity"
+      ]
+    },
+    "interaction": {
+      "locked": false,
+      "connected": true
+    },
+    "input_session": {
+      "enabled": true,
+      "snapshot_id": "wechat-example-1"
+    },
+    "application_control": {
+      "preset_id": null,
+      "default_panel": [
+        "keyboard",
+        "trackpad"
+      ],
+      "verified_commands": []
+    },
+    "selected_task": null,
+    "reply_state": {
+      "source_id": "msg-18",
+      "is_reply_target": true,
+      "user_started_input": false,
+      "adopted": false,
+      "dismissed": false
+    }
+  },
+  "questions": {
+    "field_purpose": {
+      "type": "choice",
+      "instructions": "当前可编辑字段用于什么？依据focus和当前视图，不单凭应用名。此题仅示范未注册字段的语义推断；注册用途已知时直接采用系统值并省略此题。不要把应用预设或任务状态当字段用途。",
+      "criteria": {
+        "agent_prompt": "向Agent提交或补充指令",
+        "chat_reply": "回复当前聊天消息",
+        "email_body": "邮件正文",
+        "document_text": "普通文档正文",
+        "short_label": "图层名称等短标签",
+        "other": "其他用途",
+        "unknown": "无法确认用途"
+      }
+    },
+    "intent_clarity": {
+      "type": "choice",
+      "instructions": "只判断当前已确认输入或选中请求的目标是否可以理解。不因缺少具体参数或待补材料就认定目标不清楚；不把语音中间稿当最终意图。",
+      "criteria": {
+        "clear": "能理解用户想完成什么，具体参数或材料可以尚未提供",
+        "unclear": "不知道用户究竟要完成什么，需要澄清目标",
+        "conflicting": "当前目标表达存在无法同时满足的矛盾",
+        "not_applicable": "无已确认输入或请求可判断"
+      }
+    },
+    "input_assistance": {
+      "type": "choice",
+      "instructions": "依据当前已确认输入或真实Agent补充请求，需要哪类辅助输入？仅适用于AI任务输入或真实补充请求；普通正文不自动附加参数工具。只考虑用户实际表达或任务明确索要的内容，不按任务类型虚构需要补充的参数。已给定但用户可继续精确表达的参数也可提供辅助；意图明确不等于无需辅助。",
+      "criteria": {
+        "none": "无需额外输入辅助",
+        "parameter": "仅需参数输入或精确调整，参数可能已有值，也可能未定",
+        "material": "仅需文件、照片、手绘、截图等材料表达",
+        "both": "同时涉及参数和材料表达",
+        "not_applicable": "普通文本或无可判断的输入目标"
+      }
+    },
+    "reply_mode": {
+      "type": "choice",
+      "instructions": "依据可见且已授权来信、focus和reply_state判断适合哪种回复建议。必须有可回复来源、绑定可编辑回复目标、正文为空、用户尚未开始输入且未关闭建议。否则none。不得推定用户愿意参加会议或接受条件。只决定建议方向，不生成正文。",
+      "criteria": {
+        "none": "不适用或用户已开始输入/已采用/已关闭",
+        "acknowledge": "可仅确认收到，不虚构承诺",
+        "user_decision": "需要用户选择同意、拒绝、询问等立场",
+        "uncertain": "证据不足"
+      }
+    },
+    "polish_prompt_clarity": {
+      "type": "noul",
+      "instructions": "当前确认的非空正文/选区是否适合提供“Agent指令目标和表达更明确”润色入口？要求可编辑目标且该候选在capabilities.polish中。只评估改写入口，不回答问题、不执行指令、不补造事实。空正文为否。",
+      "criteria": {
+        "true": "场景匹配且有可改写内容",
+        "false": "场景不匹配、无内容或没有可编辑目标"
+      }
+    },
+    "polish_email_tone": {
+      "type": "noul",
+      "instructions": "当前确认的非空正文/选区是否适合提供“邮件正文语气更礼貌”润色入口？要求可编辑目标且该候选在capabilities.polish中。只评估改写入口，不回答问题、不执行指令、不补造事实。空正文为否。",
+      "criteria": {
+        "true": "场景匹配且有可改写内容",
+        "false": "场景不匹配、无内容或没有可编辑目标"
+      }
+    },
+    "polish_chat_concise": {
+      "type": "noul",
+      "instructions": "当前确认的非空正文/选区是否适合提供“聊天回复更简洁自然”润色入口？要求可编辑目标且该候选在capabilities.polish中。只评估改写入口，不回答问题、不执行指令、不补造事实。空正文为否。",
+      "criteria": {
+        "true": "场景匹配且有可改写内容",
+        "false": "场景不匹配、无内容或没有可编辑目标"
+      }
+    },
+    "polish_document_clarity": {
+      "type": "noul",
+      "instructions": "当前确认的非空正文/选区是否适合提供“文档正文条理更清楚”润色入口？要求可编辑目标且该候选在capabilities.polish中。只评估改写入口，不回答问题、不执行指令、不补造事实。空正文为否。",
+      "criteria": {
+        "true": "场景匹配且有可改写内容",
+        "false": "场景不匹配、无内容或没有可编辑目标"
+      }
+    },
+    "service_calendar": {
+      "type": "noul",
+      "instructions": "visible_context中当前可见且授权来源是否与具体会面或事件安排有关，适合推荐calendar服务？必须在capabilities.services可用。不要求参数已经齐全。不要把正在起草的指令当执行授权。只判断推荐相关性。",
+      "criteria": {
+        "true": "有明确来源依据且服务可用",
+        "false": "无相关来源或服务不可用"
+      }
+    },
+    "service_map": {
+      "type": "noul",
+      "instructions": "visible_context中当前可见且授权来源是否与明确出行或到访目的地有关，适合推荐map服务？必须在capabilities.services可用。不要求参数已经齐全。不要把正在起草的指令当执行授权。只判断推荐相关性。",
+      "criteria": {
+        "true": "有明确来源依据且服务可用",
+        "false": "无相关来源或服务不可用"
+      }
+    }
+  }
+}

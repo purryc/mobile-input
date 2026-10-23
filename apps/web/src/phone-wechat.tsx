@@ -25,9 +25,13 @@ function ChatEditor({id}:{id:string}){
  const [draft,setDraft]=useState<string>(restored.text),[service,setService]=useState<Action|null>(null),[speech,setSpeech]=useState('idle'),[polish,setPolish]=useState(false),[blocked,setBlocked]=useState(Boolean(restored.pending)),[pad,setPad]=useState(false),[sending,setSending]=useState(false),[history,setHistory]=useState<string[]>([]),[future,setFuture]=useState<string[]>([]),[online,setOnline]=useState(false),[error,setError]=useState('');
  const area=useRef<HTMLTextAreaElement>(null),sel=useRef({start:0,end:0}),value=useRef(draft),anchor=useRef<Target|null>(null),revision=useRef(remote.revision),session=useRef(uid()),seq=useRef(0),queued=useRef<string|null>(null),inflight=useRef<Promise<void>|null>(null),speechId=useRef(''),speechBefore=useRef(''),speechSelection=useRef({start:0,end:0}),press=useRef(false),dirty=useRef(Boolean(restored.pending)),blockedRef=useRef(Boolean(restored.pending)),mounted=useRef(true),timer=useRef<ReturnType<typeof setTimeout>|null>(null),lastWrite=useRef(0);
  useEffect(()=>{mounted.current=true;return()=>{mounted.current=false;if(timer.current)clearTimeout(timer.current);if(speechId.current)window.MobileNative?.cancelRecognition(speechId.current);};},[]);
- function persist(){localStorage.setItem(cacheKey,JSON.stringify({text:value.current,pending:dirty.current}));}
+ const [generation]=useState(s.demoGeneration||0);
+ function persist(){if((currentState().demoGeneration||0)!==generation)return;localStorage.setItem(cacheKey,JSON.stringify({text:value.current,pending:dirty.current}));}
  function block(){blockedRef.current=true;setBlocked(true);persist();}
  const active=s.target,context=s.chat.context,selected=context?.conversation===id?s.chat.messages[id].find(m=>m.id===context.messageId)?.text:null;
+ const [touched,setTouched]=useState(false);
+ useEffect(()=>setTouched(false),[context?.messageId]);
+ const showReplies=!touched&&!draft.trim()&&!s.texts['reply-dismissed:'+id+':'+context?.messageId];
  const ready=s.chat.activation?.phase==='ready';
  const [pop]=useState(()=>{const key='mobile-input:read-shown',epoch=s.chat.activation?.epoch||'';const fresh=sessionStorage.getItem(key)!==epoch;sessionStorage.setItem(key,epoch);return fresh;});
 
@@ -56,6 +60,7 @@ function ChatEditor({id}:{id:string}){
   if(queued.current!==null)return flush();
  }
  function update(text:string,remember=true){
+  if(text.trim())setTouched(true);
   command('switch-cancel');if(remember&&text!==value.current){const previous=value.current;setHistory(h=>[...h,previous].slice(-40));setFuture([]);}value.current=text;setDraft(text);dirty.current=true;persist();
   if(!blockedRef.current){queued.current=text;if(!timer.current)timer.current=setTimeout(()=>{timer.current=null;void flush();},Math.max(0,100-(Date.now()-lastWrite.current)));lastWrite.current=Date.now();}
  }
@@ -80,7 +85,7 @@ function ChatEditor({id}:{id:string}){
 
  const editing=usePhoneEditing(draft,update,area,`${id}:${active?.revision}`,r.connected&&!blocked);
  const actions=recommendations(s);
- return <><section className="glass-context"><h1><ChatAvatar identity={id}/>{chatTitles[id]}</h1>{selected?<><blockquote>{selected}</blockquote><label>建议回复</label><div className={"reply-options "+(pop?"pop-actions":"")}>{suggestions(selected).map((text,index)=><button style={{animationDelay:`${index*110}ms`}} disabled={sending||!r.connected} key={text} onClick={()=>reply(text)}>{text}<I.ChevronRight size={20}/></button>)}</div><label className={!ready?"actions-pending":""}>推荐下一步</label><div className={"related-actions "+(ready?"ready ":"pending ")+(pop?"pop-actions":"")}>{(ready?actions:[]).map((a,index)=><button style={{animationDelay:`${(index+2)*110}ms`}} key={a.id} onClick={()=>{command('switch-cancel');setService(a);}}><HoverIcon app={a.app}/>{a.label}</button>)}</div></>:<div className="compose-heading"><I.MessageCircle size={24}/><span>回复 {chatTitles[id]}</span></div>}</section>
+ return <><section className="glass-context"><h1><ChatAvatar identity={id}/>{chatTitles[id]}</h1>{selected?<><blockquote>{selected}</blockquote><>{showReplies&&<><label>建议回复</label><div className={"reply-options "+(pop?"pop-actions":"")}>{suggestions(selected).map((text,index)=><button style={{animationDelay:`${index*110}ms`}} disabled={sending||!r.connected} key={text} onClick={()=>reply(text)}>{text}<I.ChevronRight size={20}/></button>)}</div></>}</><label className={!ready?"actions-pending":""}>推荐下一步</label><div className={"related-actions "+(ready?"ready ":"pending ")+(pop?"pop-actions":"")}>{(ready?actions:[]).map((a,index)=><button style={{animationDelay:`${(index+2)*110}ms`}} key={a.id} onClick={()=>{command('switch-cancel');setService(a);}}><HoverIcon app={a.app}/>{a.label}</button>)}</div></>:<div className="compose-heading"><I.MessageCircle size={24}/><span>回复 {chatTitles[id]}</span></div>}</section>
  <section className="glass-input">
  {blocked&&<div className="draft-warning">草稿已保留<button onClick={()=>{blockedRef.current=false;setBlocked(false);anchor.current=null;dirty.current=true;const text=value.current;setTimeout(()=>{queued.current=text;void flush();},0);}}>继续编辑当前会话</button></div>}
 

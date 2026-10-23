@@ -167,6 +167,7 @@ function FieldEditor({
     <textarea
       aria-label={label}
       value={value}
+      onClick={focus}
       onFocus={focus}
       onChange={(e) => change(e.target.value)}
     />
@@ -174,6 +175,7 @@ function FieldEditor({
     <input
       aria-label={label}
       value={value}
+      onClick={focus}
       onFocus={focus}
       onChange={(e) => change(e.target.value)}
     />
@@ -299,6 +301,7 @@ function FileAI({ s, v, f, onGuard }: { s: State; v: FileView; f: WbFile; onGuar
           aria-label="文件 AI 指令"
           placeholder="输入修改要求…"
           value={input.text}
+          onPointerDown={input.activate}
           onFocus={input.focus}
           onChange={(e) => input.update(e.target.value)}
         />
@@ -952,7 +955,7 @@ export function FileSurface({
                   ))}
                 </aside>
                 <div>
-                  <WorkBuddyObjectSurface s={s} view={v.id} file={f.id}>
+                  <WorkBuddyObjectSurface s={s} view={v.id} file={f.id} readOnly={readOnly}>
                   <SlideCanvas
                     s={{
                       ...s,
@@ -960,7 +963,7 @@ export function FileSurface({
                       slide: Math.min(slide, (body.slides?.length || 1) - 1),
                       presenting: false,
                     }}
-                    objectStyles={body.objectStyles}
+                    objectStyles={body.objectStyles} textRuns={body.textRuns} paragraphAlign={body.paragraphAlign}
                     onSelect={
                       readOnly ? () => {} : (path, label) => void command('wb-object-select',{view:v.id,file:f.id,path,label})
                     }

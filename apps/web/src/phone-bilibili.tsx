@@ -15,6 +15,7 @@ import './bilibili.css';
 export function PhoneBilibili(){const r=useRuntime();return <BiliInput key={r.state.bilibili.epoch+':'+r.connected}/>;}
 function BiliInput(){
  const r=useRuntime(),b=r.state.bilibili,video=currentBili(r.state),key=`mobile-input:bilibili:${video.id}`;
+ const [generation]=useState(r.state.demoGeneration||0);
  const [saved]=useState(()=>{try{return JSON.parse(localStorage.getItem(key)||'null');}catch{return null;}});
  const [text,setText]=useState<string>(saved?.text??b.drafts[video.id].text),[style,setStyle]=useState<DanmakuStyle>(saved?.style??b.drafts[video.id].style),[blocked,setBlocked]=useState(Boolean(saved?.pending)),[busy,setBusy]=useState(false),[menu,setMenu]=useState<'style'|'color'|null>(null),[mode,setMode]=useState<'keyboard'|'trackpad'|null>(null),[capture,setCapture]=useState(false);
  const [coinRequest,setCoinRequest]=useState<{id:string;video:string}|null>(()=>{try{return JSON.parse(localStorage.getItem('mobile-input:bilibili:coin-request')||'null');}catch{return null;}});
@@ -22,7 +23,7 @@ function BiliInput(){
  const actionBusy=useRef(false),requestText=useRef<string>(saved?.requestText??saved?.text??'');
  const area=useRef<HTMLTextAreaElement>(null),value=useRef(text),styleRef=useRef(style),pending=useRef(false),sequence=useRef(0),session=useRef(uid()),queued=useRef(false),running=useRef<Promise<void>|null>(null),alive=useRef(true),anchor=useRef<{id:string;revision:number}|null>(null),block=useRef(blocked),request=useRef<string>(saved?.request||''),track=useRef({x:0,at:0});
  value.current=text;styleRef.current=style;
- const persist=()=>localStorage.setItem(key,JSON.stringify({text:value.current,style:styleRef.current,pending:pending.current,request:request.current,requestText:requestText.current}));
+ const persist=()=>{if((currentState().demoGeneration||0)===generation)localStorage.setItem(key,JSON.stringify({text:value.current,style:styleRef.current,pending:pending.current,request:request.current,requestText:requestText.current}));};
  const target=()=>({video:video.id,epoch:b.epoch});
  const send=(type:string,fields:Record<string,unknown>={})=>command(type,{...target(),...fields});
  const focused=r.state.target?.id===`bili:${video.id}`;

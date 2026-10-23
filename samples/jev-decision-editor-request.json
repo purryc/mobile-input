@@ -1,0 +1,25 @@
+{
+  "model": "jev-1.13.0",
+  "state": {
+    "snapshot_key": "session-8/editor-2/clip-7/rev-41",
+    "application": {"id": "example-editor", "mode": "timeline"},
+    "selection": {"clip_id": "clip-7", "at_cut": true},
+    "confirmed_intent": "检查切点前后一帧的衔接，不改音量",
+    "candidates": {
+      "frame_step": {"meaning": "前后逐帧检查", "available": true},
+      "preview_volume": {"meaning": "调整预览音量", "available": true}
+    }
+  },
+  "questions": {
+    "action_relevance_frame_step": {
+      "type": "noul",
+      "instructions": "候选frame_step是否直接帮助完成当前confirmed_intent？只判断任务相关性，不输出命令，不把可用等同于相关。",
+      "criteria": {"true": "直接支持当前任务", "false": "无关、矛盾或证据不足"}
+    },
+    "action_relevance_preview_volume": {
+      "type": "noul",
+      "instructions": "候选preview_volume是否直接帮助完成当前confirmed_intent？尊重用户明确排除的操作。",
+      "criteria": {"true": "直接支持当前任务", "false": "无关、用户明确排除或证据不足"}
+    }
+  }
+}

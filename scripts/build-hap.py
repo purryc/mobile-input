@@ -1,8 +1,9 @@
 from pathlib import Path
-import subprocess,os,shutil,json,sys
+import subprocess,os,shutil,json,sys,time
 root=Path(__file__).resolve().parents[1]
 dev=Path('/Applications/DevEco-Studio.app/Contents')
 roles=sys.argv[1:] or ['tablet','phone']
+generation=time.time_ns()//1_000_000
 for role in roles:
  src=root/'apps/harmony'/role
  target=Path.home()/'.cache'/f'mobile-input-{role}'
@@ -20,6 +21,9 @@ for role in roles:
  resources=target/'entry/src/main/resources/rawfile/web'
  if resources.exists():shutil.rmtree(resources)
  shutil.copytree(root/'dist',resources)
+ index=resources/'index.html'
+ index.write_text(index.read_text().replace('<head>',f'<head><script>window.__INPUT_AGENT_BUILD__={generation};</script>',1))
+ (resources/'demo-build.json').write_text(json.dumps({'generation':generation,'role':role}))
  env=os.environ.copy();env.update(JAVA_HOME=str(dev/'jbr/Contents/Home'),DEVECO_SDK_HOME=str(dev/'sdk'),NODE_HOME=str(dev/'tools/node'))
  env['PATH']=str(dev/'tools/node/bin')+':'+str(dev/'jbr/Contents/Home/bin')+':'+env['PATH']
  r=subprocess.run([str(dev/'tools/hvigor/bin/hvigorw'),'assembleHap','-p','product=default','--no-daemon'],cwd=target,env=env)

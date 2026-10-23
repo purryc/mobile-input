@@ -1,0 +1,179 @@
+{
+  "accent": "#FF4419",
+  "theme": {
+    "source": "desktop-icon",
+    "sourcePath": "/Users/hmi/Documents/mobile input agent/apps/web/public/assets/apps/wps.svg",
+    "iconHash": "89c14b24916eb5be6107eefe34813899f2a09b9351f4824d778660b7ace7d858",
+    "method": "raster-128-hue12-neutral-filter-v1",
+    "seed": "#FF4419",
+    "accent": "#FF4419",
+    "onAccent": "#182431",
+    "accentForeground": "#182431",
+    "contrast": 4.562118713016912,
+    "background": [
+      "#FFF3F0",
+      "#FFFAF9",
+      "#FFE9E3"
+    ],
+    "eligiblePixels": 2750,
+    "excludedPixels": 13634,
+    "dominantShare": 0.5574545454545454,
+    "fallback": null
+  },
+  "background": [
+    "#FFF3F0",
+    "#FFFAF9",
+    "#FFE9E3"
+  ],
+  "items": [
+    {
+      "key": "bold",
+      "functionId": "format.bold",
+      "label": "加粗",
+      "icon": "Bold",
+      "componentId": "professional-action-key",
+      "definitionIcon": "lucide:Bold"
+    },
+    {
+      "key": "italic",
+      "functionId": "format.italic",
+      "label": "斜体",
+      "icon": "Italic",
+      "componentId": "professional-action-key",
+      "definitionIcon": "lucide:Italic"
+    },
+    {
+      "key": "underline",
+      "functionId": "format.underline",
+      "label": "下划线",
+      "icon": "Underline",
+      "componentId": "professional-action-key",
+      "definitionIcon": "lucide:Underline"
+    },
+    {
+      "key": "smaller",
+      "functionId": "format.size",
+      "label": "减小字号",
+      "icon": "AArrowDown",
+      "arg": -1,
+      "componentId": "professional-action-key",
+      "definitionIcon": "lucide:Type"
+    },
+    {
+      "key": "larger",
+      "functionId": "format.size",
+      "label": "增大字号",
+      "icon": "AArrowUp",
+      "arg": 1,
+      "componentId": "professional-action-key",
+      "definitionIcon": "lucide:Type"
+    },
+    {
+      "key": "color",
+      "functionId": "format.color",
+      "label": "文字颜色",
+      "icon": "Palette",
+      "componentId": "professional-action-key",
+      "definitionIcon": "lucide:Palette"
+    },
+    {
+      "key": "left",
+      "functionId": "format.alignment",
+      "label": "左对齐",
+      "icon": "AlignLeft",
+      "arg": "left",
+      "componentId": "professional-action-key",
+      "definitionIcon": "lucide:AlignLeft"
+    },
+    {
+      "key": "center",
+      "functionId": "format.alignment",
+      "label": "居中",
+      "icon": "AlignCenter",
+      "arg": "center",
+      "componentId": "professional-action-key",
+      "definitionIcon": "lucide:AlignLeft"
+    },
+    {
+      "key": "right",
+      "functionId": "format.alignment",
+      "label": "右对齐",
+      "icon": "AlignRight",
+      "arg": "right",
+      "componentId": "professional-action-key",
+      "definitionIcon": "lucide:AlignLeft"
+    },
+    {
+      "key": "link",
+      "functionId": "format.link",
+      "label": "链接",
+      "icon": "Link",
+      "componentId": "professional-action-key",
+      "definitionIcon": "lucide:Link"
+    },
+    {
+      "key": "save",
+      "functionId": "document.save",
+      "label": "保存文档",
+      "icon": "Save",
+      "componentId": "professional-action-key",
+      "definitionIcon": "lucide:Save"
+    },
+    {
+      "key": "strike",
+      "functionId": "format.strike",
+      "label": "删除线",
+      "icon": "Strikethrough",
+      "componentId": "professional-action-key",
+      "definitionIcon": "lucide:Strikethrough"
+    },
+    {
+      "key": "justify",
+      "functionId": "format.alignment",
+      "label": "两端对齐",
+      "icon": "AlignJustify",
+      "arg": "justify",
+      "componentId": "professional-action-key",
+      "definitionIcon": "lucide:AlignLeft"
+    }
+  ],
+  "keyIcons": {
+    "Bold": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.65\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-bold\"><path d=\"M6 12h9a4 4 0 0 1 0 8H7a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h7a4 4 0 0 1 0 8\"></path></svg>",
+    "Italic": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.65\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-italic\"><line x1=\"19\" x2=\"10\" y1=\"4\" y2=\"4\"></line><line x1=\"14\" x2=\"5\" y1=\"20\" y2=\"20\"></line><line x1=\"15\" x2=\"9\" y1=\"4\" y2=\"20\"></line></svg>",
+    "Underline": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.65\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-underline\"><path d=\"M6 4v6a6 6 0 0 0 12 0V4\"></path><line x1=\"4\" x2=\"20\" y1=\"20\" y2=\"20\"></line></svg>",
+    "AArrowDown": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.65\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-aarrow-down\"><path d=\"M3.5 13h6\"></path><path d=\"m2 16 4.5-9 4.5 9\"></path><path d=\"M18 7v9\"></path><path d=\"m14 12 4 4 4-4\"></path></svg>",
+    "AArrowUp": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.65\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-aarrow-up\"><path d=\"M3.5 13h6\"></path><path d=\"m2 16 4.5-9 4.5 9\"></path><path d=\"M18 16V7\"></path><path d=\"m14 11 4-4 4 4\"></path></svg>",
+    "Palette": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.65\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-palette\"><circle cx=\"13.5\" cy=\"6.5\" r=\".5\" fill=\"currentColor\"></circle><circle cx=\"17.5\" cy=\"10.5\" r=\".5\" fill=\"currentColor\"></circle><circle cx=\"8.5\" cy=\"7.5\" r=\".5\" fill=\"currentColor\"></circle><circle cx=\"6.5\" cy=\"12.5\" r=\".5\" fill=\"currentColor\"></circle><path d=\"M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z\"></path></svg>",
+    "AlignLeft": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.65\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-align-left\"><path d=\"M15 12H3\"></path><path d=\"M17 18H3\"></path><path d=\"M21 6H3\"></path></svg>",
+    "AlignCenter": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.65\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-align-center\"><path d=\"M17 12H7\"></path><path d=\"M19 18H5\"></path><path d=\"M21 6H3\"></path></svg>",
+    "AlignRight": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.65\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-align-right\"><path d=\"M21 12H9\"></path><path d=\"M21 18H7\"></path><path d=\"M21 6H3\"></path></svg>",
+    "Link": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.65\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-link\"><path d=\"M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71\"></path><path d=\"M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71\"></path></svg>",
+    "Save": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.65\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-save\"><path d=\"M15.2 3a2 2 0 0 1 1.4.6l3.8 3.8a2 2 0 0 1 .6 1.4V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z\"></path><path d=\"M17 21v-7a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v7\"></path><path d=\"M7 3v4a1 1 0 0 0 1 1h7\"></path></svg>",
+    "Strikethrough": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.65\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-strikethrough\"><path d=\"M16 4H9a3 3 0 0 0-2.83 4\"></path><path d=\"M14 12a4 4 0 0 1 0 8H6\"></path><line x1=\"4\" x2=\"20\" y1=\"12\" y2=\"12\"></line></svg>",
+    "AlignJustify": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.65\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-align-justify\"><path d=\"M3 12h18\"></path><path d=\"M3 18h18\"></path><path d=\"M3 6h18\"></path></svg>"
+  },
+  "dockIcons": {
+    "select-all": "<svg preserveAspectRatio=\"none\" overflow=\"visible\" style=\"display: block;\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n<g id=\"Frame\">\n<path id=\"Vector\" d=\"M8 3H3V8M16 3H21V8M3 16V21H8M21 16V21H16\" stroke=\"#122D39\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n<path id=\"Vector_2\" d=\"M16 7H8C7.44772 7 7 7.44772 7 8V16C7 16.5523 7.44772 17 8 17H16C16.5523 17 17 16.5523 17 16V8C17 7.44772 16.5523 7 16 7Z\" stroke=\"#122D39\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n</g>\n</svg>\n",
+    "copy": "<svg preserveAspectRatio=\"none\" overflow=\"visible\" style=\"display: block;\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n<g id=\"Vector\">\n<path id=\"Vector_2\" d=\"M20 8H10C8.89543 8 8 8.89543 8 10V20C8 21.1046 8.89543 22 10 22H20C21.1046 22 22 21.1046 22 20V10C22 8.89543 21.1046 8 20 8Z\" stroke=\"#122D39\" stroke-width=\"1.65\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n<path id=\"Vector_3\" d=\"M4 16C2.9 16 2 15.1 2 14V4C2 2.9 2.9 2 4 2H14C15.1 2 16 2.9 16 4\" stroke=\"#122D39\" stroke-width=\"1.65\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n</g>\n</svg>\n",
+    "cut": "<svg preserveAspectRatio=\"none\" overflow=\"visible\" style=\"display: block;\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n<g id=\"Frame\">\n<path id=\"Vector\" d=\"M6 9C7.65685 9 9 7.65685 9 6C9 4.34315 7.65685 3 6 3C4.34315 3 3 4.34315 3 6C3 7.65685 4.34315 9 6 9Z\" stroke=\"#122D39\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n<path id=\"Vector_2\" d=\"M6 21C7.65685 21 9 19.6569 9 18C9 16.3431 7.65685 15 6 15C4.34315 15 3 16.3431 3 18C3 19.6569 4.34315 21 6 21Z\" stroke=\"#122D39\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n<path id=\"Vector_3\" d=\"M8.12 8.12L20.88 20.88M14 14L21 3M8.12 15.88L12 12\" stroke=\"#122D39\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n</g>\n</svg>\n",
+    "paste": "<svg preserveAspectRatio=\"none\" overflow=\"visible\" style=\"display: block;\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n<g id=\"Vector\">\n<path id=\"Vector_2\" d=\"M15 2H9C8.73478 2 8.48043 2.10536 8.29289 2.29289C8.10536 2.48043 8 2.73478 8 3V5C8 5.6 8.4 6 9 6H15C15.6 6 16 5.6 16 5V3C16 2.4 15.6 2 15 2Z\" stroke=\"#122D39\" stroke-width=\"1.65\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n<path id=\"Vector_3\" d=\"M8 4H6C5.46957 4 4.96086 4.21071 4.58579 4.58579C4.21071 4.96086 4 5.46957 4 6V20C4 20.5304 4.21071 21.0391 4.58579 21.4142C4.96086 21.7893 5.46957 22 6 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20M16 4H18C18.5304 4 19.0391 4.21071 19.4142 4.58579C19.7893 4.96086 20 5.46957 20 6V8M11 14H21\" stroke=\"#122D39\" stroke-width=\"1.65\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n<path id=\"Vector_4\" d=\"M17 10L21 14L17 18\" stroke=\"#203B45\" stroke-width=\"1.65\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n</g>\n</svg>\n",
+    "delete": "<svg preserveAspectRatio=\"none\" overflow=\"visible\" style=\"display: block;\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n<g id=\"Frame\">\n<path id=\"Vector\" d=\"M3 6H21M8 6V4C8 3.73478 8.10536 3.48043 8.29289 3.29289C8.48043 3.10536 8.73478 3 9 3H15C15.2652 3 15.5196 3.10536 15.7071 3.29289C15.8946 3.48043 16 3.73478 16 4V6M5 6L6 20H18L19 6M10 10V17M14 10V17\" stroke=\"#122D39\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n</g>\n</svg>\n",
+    "undo": "<svg preserveAspectRatio=\"none\" overflow=\"visible\" style=\"display: block;\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n<g id=\"Vector\">\n<path id=\"Vector_2\" d=\"M9 14L4 9L9 4\" stroke=\"#122D39\" stroke-width=\"1.65\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n<path id=\"Vector_3\" d=\"M4 9H14.5C15.2223 9 15.9375 9.14226 16.6048 9.41866C17.272 9.69506 17.8784 10.1002 18.3891 10.6109C18.8998 11.1216 19.3049 11.728 19.5813 12.3952C19.8577 13.0625 20 13.7777 20 14.5C20 15.2223 19.8577 15.9375 19.5813 16.6048C19.3049 17.272 18.8998 17.8784 18.3891 18.3891C17.8784 18.8998 17.272 19.3049 16.6048 19.5813C15.9375 19.8577 15.2223 20 14.5 20H11\" stroke=\"#122D39\" stroke-width=\"1.65\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n</g>\n</svg>\n",
+    "redo": "<svg preserveAspectRatio=\"none\" overflow=\"visible\" style=\"display: block;\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n<g id=\"Vector\">\n<path id=\"Vector_2\" d=\"M15 14L20 9L15 4\" stroke=\"#122D39\" stroke-width=\"1.65\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n<path id=\"Vector_3\" d=\"M20 9H9.5C8.04131 9 6.64236 9.57946 5.61091 10.6109C4.57946 11.6424 4 13.0413 4 14.5C4 15.2223 4.14226 15.9375 4.41866 16.6048C4.69506 17.272 5.10019 17.8784 5.61091 18.3891C6.64236 19.4205 8.04131 20 9.5 20H13\" stroke=\"#122D39\" stroke-width=\"1.65\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n</g>\n</svg>\n",
+    "capture": "<svg preserveAspectRatio=\"none\" overflow=\"visible\" style=\"display: block;\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n<g id=\"Material Outlined / screenshot_monitor\">\n<path id=\"Vector\" d=\"M20 3H4C2.89 3 2 3.89 2 5V17C2 18.1 2.89 19 4 19H8V21H16V19H20C21.1 19 22 18.1 22 17V5C22 3.89 21.1 3 20 3ZM20 17H4V5H20V17Z\" fill=\"#173743\"/>\n<path id=\"Vector_2\" d=\"M6.5 7.5H9V6H5V10H6.5V7.5Z\" fill=\"#173743\"/>\n<path id=\"Vector_3\" d=\"M19 12H17.5V14.5H15V16H19V12Z\" fill=\"#173743\"/>\n</g>\n</svg>\n",
+    "keyboard": "<svg preserveAspectRatio=\"none\" overflow=\"visible\" style=\"display: block;\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n<g id=\"Vector\">\n<path id=\"Vector_2\" d=\"M10 8H10.01\" stroke=\"#122D39\" stroke-width=\"1.65\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n<path id=\"Vector_3\" d=\"M12 12H12.01\" stroke=\"#122D39\" stroke-width=\"1.65\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n<path id=\"Vector_4\" d=\"M14 8H14.01\" stroke=\"#203B45\" stroke-width=\"1.65\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n<path id=\"Vector_5\" d=\"M16 12H16.01\" stroke=\"#203B45\" stroke-width=\"1.65\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n<path id=\"Vector_6\" d=\"M18 8H18.01\" stroke=\"#203B45\" stroke-width=\"1.65\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n<path id=\"Vector_7\" d=\"M6 8H6.01\" stroke=\"#203B45\" stroke-width=\"1.65\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n<path id=\"Vector_8\" d=\"M7 16H17\" stroke=\"#203B45\" stroke-width=\"1.65\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n<path id=\"Vector_9\" d=\"M8 12H8.01\" stroke=\"#203B45\" stroke-width=\"1.65\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n<path id=\"Vector_10\" d=\"M20 4H4C2.89543 4 2 4.89543 2 6V18C2 19.1046 2.89543 20 4 20H20C21.1046 20 22 19.1046 22 18V6C22 4.89543 21.1046 4 20 4Z\" stroke=\"#203B45\" stroke-width=\"1.65\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n</g>\n</svg>\n",
+    "trackpad": "<svg preserveAspectRatio=\"none\" overflow=\"visible\" style=\"display: block;\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n<g id=\"Vector\">\n<path id=\"Vector_2\" d=\"M20 4H4C2.89543 4 2 4.89543 2 6V18C2 19.1046 2.89543 20 4 20H20C21.1046 20 22 19.1046 22 18V6C22 4.89543 21.1046 4 20 4Z\" stroke=\"#122D39\" stroke-width=\"1.65\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n<path id=\"Vector_3\" d=\"M2 14H22\" stroke=\"#122D39\" stroke-width=\"1.65\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n<path id=\"Vector_4\" d=\"M12 20V14\" stroke=\"#203B45\" stroke-width=\"1.65\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n</g>\n</svg>\n",
+    "mic": "<svg preserveAspectRatio=\"none\" overflow=\"visible\" style=\"display: block;\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n<g id=\"Vector\">\n<path id=\"Vector_2\" d=\"M12 2C11.2044 2 10.4413 2.31607 9.87868 2.87868C9.31607 3.44129 9 4.20435 9 5V12C9 12.7956 9.31607 13.5587 9.87868 14.1213C10.4413 14.6839 11.2044 15 12 15C12.7956 15 13.5587 14.6839 14.1213 14.1213C14.6839 13.5587 15 12.7956 15 12V5C15 4.20435 14.6839 3.44129 14.1213 2.87868C13.5587 2.31607 12.7956 2 12 2Z\" stroke=\"#146C64\" stroke-width=\"1.65\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n<path id=\"Vector_3\" d=\"M19 10V12C19 13.8565 18.2625 15.637 16.9497 16.9497C15.637 18.2625 13.8565 19 12 19C10.1435 19 8.36301 18.2625 7.05025 16.9497C5.7375 15.637 5 13.8565 5 12V10\" stroke=\"#146C64\" stroke-width=\"1.65\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n<path id=\"Vector_4\" d=\"M12 19V22\" stroke=\"#146C64\" stroke-width=\"1.65\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n</g>\n</svg>\n"
+  },
+  "logo": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"64\" height=\"64\" viewBox=\"0 0 64 64\"><rect width=\"64\" height=\"64\" rx=\"14\" fill=\"white\" /><svg x=\"10\" y=\"18\" width=\"44\" height=\"28.6\" viewBox=\"0 0 28 18.2003\">\n    <path fill-rule=\"evenodd\" clip-rule=\"evenodd\" d=\"M18.8212 18.2003H18.8134C18.8057 18.2003 18.798 18.2002 18.7903 18.2001C18.7889 18.2 18.7874 18.2 18.7858 18.2L18.7903 18.2001C18.1412 18.1914 17.5186 17.8323 17.203 17.2139C17.2026 17.2132 17.2023 17.2126 17.202 17.2119L14.6918 12.2776L16.7232 8.28788L18.8172 12.4041L23.2839 3.62417L17.4523 3.62418C16.4533 3.62418 15.6434 2.81423 15.6434 1.81511V1.80908C15.6434 0.809959 16.4533 1.42038e-05 17.4523 1.42038e-05H26.1891C27.1882 1.42038e-05 27.998 0.809959 27.998 1.80908L27.9981 1.8215C28.0121 2.12424 27.9502 2.43465 27.803 2.72405L20.4326 17.2119L20.4316 17.2139C20.1168 17.8309 19.4962 18.1898 18.8487 18.2001C18.8473 18.2 18.8459 18.2 18.8445 18.2L18.8487 18.2001C18.8395 18.2002 18.8304 18.2003 18.8212 18.2003Z\" fill=\"url(#paint0_linear)\" />\n    <path fill-rule=\"evenodd\" clip-rule=\"evenodd\" d=\"M17.6121 8.19983e-07L25.0809 8.19983e-07L23.1137 3.62416H17.6121V8.19983e-07Z\" fill=\"url(#paint1_linear)\" />\n    <path fill-rule=\"evenodd\" clip-rule=\"evenodd\" d=\"M20.7394 0C20.383 0.0137268 20.0478 0.115258 19.7337 0.304592C19.4196 0.493927 19.1496 0.804717 18.9236 1.23696L18.9286 1.22753L10.7977 17.2105C10.4777 17.8395 9.84117 18.2013 9.1814 18.2003C8.52161 18.2013 7.88509 17.8396 7.56505 17.2105L0.19758 2.7282C0.0155022 2.37029 -0.0364642 1.98024 0.0241366 1.61213C0.123443 0.705439 0.890684 0 1.82243 0H11.2524C12.0052 0 12.6506 0.460514 12.9231 1.11562L13.3077 1.87159L11.2762 5.86136L10.1381 3.62414H4.71447L9.18136 12.4047L14.9127 1.13856C15.2681 0.439965 15.9856 0 16.7693 0H20.7394Z\" fill=\"url(#paint2_linear)\" />\n    <path fill-rule=\"evenodd\" clip-rule=\"evenodd\" d=\"M20.7394 8.19983e-07C20.383 0.0137276 20.0478 0.115258 19.7338 0.304593C19.4322 0.486355 19.1713 0.780049 18.951 1.18568L18.9267 1.23104L13.7413 11.4242L10.5979 9.62026L14.9128 1.13856C15.2682 0.439966 15.9856 8.19983e-07 16.7694 8.19983e-07H20.7394Z\" fill=\"url(#paint3_linear)\" />\n    <defs>\n      <linearGradient id=\"paint0_linear\" x1=\"21.3459\" y1=\"1.42038e-05\" x2=\"21.3459\" y2=\"18.2003\" gradientUnits=\"userSpaceOnUse\">\n        <stop stop-color=\"#FF1C1F\" />\n        <stop offset=\"1\" stop-color=\"#FF4A04\" />\n      </linearGradient>\n      <linearGradient id=\"paint1_linear\" x1=\"18.8296\" y1=\"1.50755\" x2=\"23.1054\" y2=\"3.62396\" gradientUnits=\"userSpaceOnUse\">\n        <stop stop-color=\"#BD0000\" />\n        <stop offset=\"0.770833\" stop-color=\"#BD0000\" stop-opacity=\"0\" />\n      </linearGradient>\n      <linearGradient id=\"paint2_linear\" x1=\"10.3697\" y1=\"0\" x2=\"10.3697\" y2=\"18.2003\" gradientUnits=\"userSpaceOnUse\">\n        <stop stop-color=\"#FF1C1F\" />\n        <stop offset=\"1\" stop-color=\"#FF4A04\" />\n      </linearGradient>\n      <linearGradient id=\"paint3_linear\" x1=\"15.6687\" y1=\"8.19983e-07\" x2=\"15.6687\" y2=\"7.94891\" gradientUnits=\"userSpaceOnUse\">\n        <stop stop-color=\"#FF9825\" />\n        <stop offset=\"1\" stop-color=\"#FF9825\" stop-opacity=\"0\" />\n      </linearGradient>\n    </defs>\n  </svg>\n  </svg>",
+  "sourceComponents": [
+    "professional-action-key",
+    "input-dock",
+    "edit-tools",
+    "stepper",
+    "color-refinement",
+    "keyboard",
+    "trackpad"
+  ],
+  "scope": "isolated-preview-document"
+}

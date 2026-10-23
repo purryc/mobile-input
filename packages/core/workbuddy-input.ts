@@ -1,10 +1,11 @@
 import type {Command,State,Slide} from './model';
 import {workBuddyIntents,colorValue,intentColors} from './workbuddy-intents';
+import {sentenceParameters,validateSentenceValue,type ValueKind} from './workbuddy-sentence';
 import type {WbDraft} from './workbuddy';
 
 export interface InputColor {word:string;hex:string;source:'system_default'|'user_edit';original:string}
 export interface InputSketch {strokes:number[][][];confirmed:boolean;interpretation:{left:string;right:string}|null}
-export interface WorkBuddyInput {revision:number;color:InputColor|null;dismissedColor?:InputColor;excludedColors:string[];layout:boolean;sketch:InputSketch;mode:'keyboard'|'trackpad'|null;}
+export interface WorkBuddyInput {revision:number;materialSlots?:Partial<Record<'camera'|'screenshot'|'recording'|'document'|'path',{phrase:string;file:string}>>;inlineValues?:Partial<Record<ValueKind,{phrase:string;value:string}>>;color:InputColor|null;dismissedColor?:InputColor;excludedColors:string[];layout:boolean;sketch:InputSketch;mode:'keyboard'|'trackpad'|null;}
 export const initialWbInput=():WorkBuddyInput=>({revision:0,color:null,excludedColors:[],layout:false,sketch:{strokes:[],confirmed:false,interpretation:null},mode:null});
 export const wbInput=(d:WbDraft)=>d.input??(d.input=initialWbInput());
 /** Deterministic demo grammar; does not pretend to understand arbitrary language. */
@@ -43,6 +44,14 @@ export function wbAdaptiveInteraction(s:State,c:Command):string|null|undefined {
     if(v.draftRevision!==d.revision)return '意图结果已过期';inferWbInput(d,d.text);
     const next=stripLegacyColorAnnotation(d.text);
     if(next!==d.text){d.text=next;d.revision++;t.value=next;}break;
+  }
+  case 'inline-value':{
+    const kind=String(v.kind),value=String(v.value||'').trim();
+    if(v.draftRevision!==d.revision)return '文字已变化，请重新选择';
+    const source=sentenceParameters(d.text,{task:id,target:t.id,targetRevision:t.revision,inputRevision:d.revision}).find(x=>x.kind===kind&&x.phrase===v.phrase);
+    if(!source||!validateSentenceValue(kind,value))return '参数或来源无效';
+    d.text=d.text.slice(0,source.start)+value+d.text.slice(source.end);d.revision++;t.value=d.text;
+    (input.inlineValues??={})[kind as ValueKind]={phrase:value,value};break;
   }
   case 'color':{const hex=String(v.hex||'').toUpperCase();if(!/^#[0-9A-F]{6}$/.test(hex))return '请输入六位 HEX 色值';delete input.dismissedColor;input.color={word:input.color?.word||'自定义',original:input.color?.original||'',hex,source:'user_edit'};break;}
   case 'color-undo':if(input.color)input.dismissedColor={...input.color};input.color=null;break;

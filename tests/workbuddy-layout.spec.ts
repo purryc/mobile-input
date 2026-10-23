@@ -19,7 +19,7 @@ test('compact WorkBuddy keeps its single editor and fixed voice dock usable acro
  await phone.getByRole('button',{name:'连接',exact:true}).click();await expect(phone.getByRole('dialog',{name:'设备连接'})).toHaveCount(0);
  await tablet.getByRole('button',{name:'关闭连接设置'}).click();await tablet.locator('.demo-apps').getByRole('button',{name:'WorkBuddy',exact:true}).click();
  await tablet.getByLabel('WorkBuddy 任务输入').click();const draft=phone.getByLabel('手机 WorkBuddy 草稿');await expect(draft).toBeVisible();
- await draft.fill('公司 Roadmap PPT，主色用蓝色');await phone.getByRole('button',{name:'调整颜色',exact:true}).click();await expect(phone.getByLabel('主色 HEX')).toHaveValue('#1971C2');
+ await draft.fill('公司 Roadmap PPT，主色用蓝色');await phone.locator('.sentence-token[data-kind=color]').click();await expect(phone.getByLabel('主色 HEX')).toHaveValue('#1971C2');
  await inViewport(phone,'.input-dock');await expect(draft).toHaveCount(1);
  const checkMiddle=async()=>{
   const bounds=await phone.locator('.wb-adaptive-middle').boundingBox();
@@ -39,7 +39,7 @@ test('compact WorkBuddy keeps its single editor and fixed voice dock usable acro
  const originalVoice=(await phone.locator('.input-voice').boundingBox())!;
  await phone.screenshot({path:'artifacts/adaptive-input/compact-color-phone.png'});
  await draft.fill('公司 Roadmap PPT，主色用蓝色，左侧里程碑，右侧关键成果。');
- await phone.getByRole('button',{name:'画个布局',exact:true}).click();await expect(phone.getByLabel('任务手绘画板')).toBeVisible();
+ await phone.getByRole('button',{name:'画一下',exact:true}).click();await expect(phone.getByLabel('任务手绘画板')).toBeVisible();
  await checkMiddle();
  const confirm=await phone.getByRole('button',{name:'确认草图'}).boundingBox(),middle=await phone.locator('.wb-adaptive-middle').boundingBox();
  expect(confirm!.y).toBeGreaterThanOrEqual(middle!.y);
@@ -72,7 +72,7 @@ test('compact WorkBuddy keeps its single editor and fixed voice dock usable acro
  await phone.getByRole('button',{name:'作为任务参考',exact:true}).click();
  await expect(panel).toContainText('已加入任务参考');
  await phone.getByRole('button',{name:'返回输入',exact:true}).click();
- await expect(draft).toHaveValue(/Roadmap/);await expect(tablet.locator('.wb-message.user')).toHaveCount(0);
+ await expect(draft).toHaveAttribute('data-value',/Roadmap/);await expect(tablet.locator('.wb-message.user')).toHaveCount(0);
  await context.close();
 });
 

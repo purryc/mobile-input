@@ -1,8 +1,28 @@
 # Adaptive Input Design System
 
+## Canonical color foundation — 2026-10-20
+
+New designs default to Harmony blue `#0A59F7` with neutral translucent Liquid Glass. `Input / Theme` owns System and application accent modes; Material owns readable neutral text, transparent surfaces and light/dark treatment. Components inherit the owning frame's theme. Task status, parameter values and application logos remain independent. This supersedes the implicit WeChat default and hard-coded WorkBuddy theme inside generic docks. Contract and migration scope: [Liquid Glass color tokens](liquid-glass-color-tokens.md). The migration scope now includes historical application scenes, transitions and component masters across pages 0:1, 21:6225 and 2:2. GoPaint uses separate accent-fill and readable accent-foreground roles; ordinary dark-surface text/icons remain light.
+
+## Generated shortcut panel · 12 slots — 2026-10-20
+
+Design experiment only, in Figma `1903:88793`. Replaces the prior nine-slot placeholder capacity, without changing the runtime renderer. The main panel contains eleven registered actions and one fixed trailing More folder; no duplicate editing actions from the shared dock. More previews its first four actions and opens a popup with at most nine keys (3×3), no close icon; tap outside to dismiss. It supports a 450 ms hold to enter arrangement mode. Arrangement never executes an action. Do not display the generic Current document heading.
+
+Insertion commits on drop: subsequent actions shift and the last action moves to the front of More. More itself never moves. Drag cancellation restores the previous order. Returning an action to More puts it first and backfills the last main slot from the previous overflow head. Keep a user's app/scene order; new generated actions enter More. Freeze generation updates during holds, dragging and arrangement. Figma uses scripted paths; arbitrary drag geometry, persistence and gesture arbitration remain development work.
+
+Selected layout A uses 3×4 at 96 px; remove B/C comparison screens while retaining referenced components. Animate pickup, leaving the popup, neighbor displacement, release and the trailing key shrinking into More as consecutive states. Displacement before release is reversible preview only. Standard expanded trackpad uses 3×4 at 72 px; compact 390×700 uses seven actions plus More in 4×2 at 80 px. Temporarily hidden actions return to their prior positions when space recovers. If the overflow exceeds nine, paginate rather than add a fourth row; the current main flow contains six overflow actions. Preserve the 368 px shared expanded dock and its voice/mouse geometry. Component and prototype ledger: [12-slot design record](nine-key-layout-placeholder.md).
+
+## Desktop / WorkBuddy trackpad parity — 2026-10-20
+
+Supersedes the scene-specific voice and taller desktop exceptions below. Desktop default and WorkBuddy use the same expanded dock: 390 × 368, a 354 × 222 dot-grid surface, and the shared 56 px footer. Voice always shows the microphone plus 智慧语音 in trackpad mode; keyboard mode may retain its icon-only voice. Keep 96 + 8 + 146 + 8 + 96 footer geometry, centered joined mouse keys and application theme. Anchor the dock to the bottom, extend its glass through the native safe area, and preserve existing pointer/voice routing. Desktop has no unowned composer. Verification evidence is recorded separately from design and device claims.
+
+## Trackpad bottom-row revision — 2026-10-19
+
+Design override: the expanded trackpad ends with keyboard toggle, trackpad toggle, a joined left/right mouse-key group, and smart voice at the bottom-right. At 390 px phone width, the 354 px inner row has a 96 px mode area, 8 px gap, 146 px joined mouse group, 8 px gap, and 96 px voice area. Each mode control has a 44 px visual within a non-overlapping 48 px hit area. The mouse group uses one glass outline with a fine central divider; its independent left and right hit regions are 73 px each. All controls remain 56 px high. The mouse group is centered exactly under the gesture surface. Preserve the existing voice label or icon-only treatment of each scene, mouse actions, dotted surface and dock height. Apply to shared trackpad variants and the taller desktop-default trackpad; update prototype hit areas with the new mode/voice positions. This revision is Figma/design-only and does not claim a runtime layout update.
+
 ## Delivery
 
-Editable design-only library in Figma file `ApFLno64NcMoA17MiPFfZh`, page `2:2`. The current scope uses one Liquid Glass skin, eight application themes, phone and fold-PC lower-screen layouts, component states, motion examples, and a future rendering contract. No application source, device protocol, real model connection or Code Connect implementation is included.
+Editable design-only library in Figma file `ApFLno64NcMoA17MiPFfZh`, page `2:2`. The current scope uses one Liquid Glass skin, a System default and application themes, phone and fold-PC lower-screen layouts, component states, motion examples, and a future rendering contract. No application source, device protocol, real model connection or Code Connect implementation is included.
 
 Page sections: foundations; actions and parameters; text and contextual controls; dedicated panels; game; phone recipes; fold-PC recipes; decision/rendering contract; transitions. Component masters and existing referenced sources occupy separate dependency sections. The main demo controllers and transition examples were aligned to the three-region hierarchy on 2026-10-14. The WorkBuddy section is updated in place under the dated revisions below.
 
@@ -30,6 +50,10 @@ Interaction locks take precedence over a new UI plan. During drawing, dragging o
 Suggested replies follow the current WeChat demo contract: explicit tap sends the selected suggestion, while the independently owned draft remains. Ordinary draft send remains its own action. Attachment and external-service actions require host implementations and do not imply a live integration.
 
 ## Decision and UI API mapping
+
+2026-10-19: [Complete decision flow and explanations](jev-decision-flow.md) are synchronized with Notion Design Skill and PRD. The existing overview is followed by entry `148:882`, updated full flow `137:882`, and control generation `148:883`. Explicit entry enables a following input session; registered presets or the default keyboard/trackpad provide the base. Target clarity, input assistance and concrete control matching remain independent questions, with local capability enforcement.
+
+Current clarification (2026-10-16, latest user correction): First-round questions classify input context, goal clarity, required input assistance, polish type and contextual service recommendation. Color/sketch are second-level control matches, not mandatory top-level questions. A clear goal can still benefit from parameter refinement or require materials. Send one observed state and independently worded questions; same-batch answers do not read one another. Known control types can map locally; uncertain semantic matches can use additional questions, batched up front when their evidence/candidates are already available. Local capability, target/version and interaction-lock enforcement remains mandatory. See [current question definitions and request examples](jev-decision-api-examples.md). This is a design contract, not verified integration.
 
 - Jev: `state` plus typed `questions`; Choice routes task/mode, Noul decides whether an adaptive affordance is relevant, Score ranks candidate utility. It supplies decisions rather than copy or layout code. Official reference: https://docs.typesafe.ai/introduction/quickstart
 - OpenAI Decisions: typed questions over text/images; adapter maps its result to the same internal decision contract. Do not assume vendor confidence values are interchangeable. https://developers.openai.com/api/docs/guides/decisions
@@ -306,3 +330,97 @@ Scope: editable Figma design, component registry and Notion rules only. No appli
 - Notion Design Skill and PRD were updated with the 2026-10-15 contract and current Figma links; superseded purpose-selection prose and removed-frame links were replaced.
 
 Validation: visual review covered normal/compact sketch, color-only, expanded text, Agent request/recording, screenshot and expanded keyboard. Primary Close/Confirm/Send targets are at least 48 px, and primary actions remain above the dock. A targeted Figma audit resolved 142 prototype destinations with no missing nodes before the final minor interaction refinements. Editable snapshots and discrete prototype transitions are design evidence only; arbitrary drawing, live ASR/capture, execution and device safe areas still require runtime verification.
+
+
+## Sentence-embedded parameter inputs — 2026-10-16
+
+Design revision: stable confirmed task text exposes editable parameter controls at the original phrase position inside the sole composer. Color is the actual swatch plus the recognized color name; photo is an add-photo slot; layout is an empty canvas placeholder labelled 画一下. Do not duplicate these with a separate action-chip row. Unrecognized text stays ordinary editable text. This revision supersedes the prior color label 调整颜色 and hiding its entry while its panel is open for these revised examples.
+
+The layout placeholder is empty until the user draws. Opening shows a blank drawing surface; original left/right layout wording remains context, never pre-populated guessed strokes. Close is top-right; explicit adoption is bottom-right. Close preserves unfinished strokes; confirmed content replaces the placeholder with an editable thumbnail at the same sentence position. Selecting a parameter, closing a panel or adopting a sketch never submits the task. Color updates immediately without Done. Parameters stay visible and selected while their editor is open.
+
+Keep one composer, existing task cards and fixed dock. Tool bodies share available middle space; no automatic tool opening or reflow during recording, dragging or drawing. Latest design override (2026-10-16): a single auxiliary parameter widget may be open. Clicking another sentence parameter replaces the current widget; clicking the active parameter or top-right Close collapses it. Replacement preserves values and unfinished strokes and never adopts or submits. This replaces the former multiple-tool design rule; the existing runtime remains unchanged until separately implemented. Photo picking, arbitrary drawing and speech are simulated; no runtime changes.
+
+Figma implementation: sentence-parameter family `1740:46458`, composer family `1740:46795`, library section `1740:46437`. Existing WorkBuddy mainline frames updated in place: `5:8435`, `1372:25427`, `1372:25571`, `1372:25846`, `15:5743`, `1286:6473`; photo-source entry reuses `1646:11696`. Photo-source buttons remain illustrative; the canvas click reveals example user strokes for prototype review. No real photo acquisition or freehand drawing is claimed.
+
+
+### Compact inline parameters and exclusive widget — 2026-10-16
+
+Parameter tags are 32 px high visually, aligned within text lines, with 48 px non-overlapping hit wrappers. They use a small value preview, short value/slot label, subtle glass edge and no large pill shadow. Ordinary action chips retain 48 px visual height and action labels. Inline color, photo and layout parameters remain visible while any widget is open, making direct replacement possible. No repeated external action row, top summaries or stacked parameter widgets.
+
+The active widget is marked on its in-text tag. Closing or replacing it preserves task-owned content; color is live without Done, sketch adoption remains bottom-right. Explicit parameter selection is required to open a widget; recognition never opens or switches it. Keep the sole composer, fixed dock and submit semantics. Figma states model the interaction; this does not certify runtime persistence or editing.
+
+### Elastic middle-region correction — 2026-10-16
+
+The latest sentence-parameter family must fill its parent's available adaptive region. With no auxiliary widget, the sole composer fills it. With one widget, the editor retains a readable sentence viewport and fixed Send; the active widget uses the remaining height. The drawing surface grows inside its fixed tool and confirmation rows. Never hide sentence fragments or parameter tags to make a frame fit. Inline parameter visuals hug their labels, retain 48 px hit rows, and wrap instead of clipping. Longer prose scrolls inside the editor; all parameter entries in the reviewed example remain visible. Remove superseded overview/compact specimens from the main storyboard after redirecting incoming prototype references; keep distinct Agent and object-input branches.
+
+### Inline reference parameter inventory — 2026-10-16
+
+The canvas entry uses an editable canvas-and-pen icon; blank artwork remains inside the editor, not as an ambiguous plus icon on the tag. Extend the same compact parameter family with screenshot, screen recording, file selection and recognized file-path values. Photos retain the existing photo slot. All tags occupy the original phrase position and use the single active widget rule.
+
+- Screenshot opens the current-source capture preview; adoption stores a reference at the original slot.
+- Photo opens the appropriate camera/photo selection path; only adopted media becomes a material.
+- Recording opens recording controls; selecting the slot never starts recording automatically. Start/stop remain explicit, adoption yields a thumbnail/duration.
+- File selection opens file management. A recognized file path displays the file-type icon and basename; clicking permits replacement in file management. Preserve full path and task identity as binding data; recognizing a string does not certify an accessible or adopted file. Missing/inaccessible values offer reselection in the panel.
+- A parameter stores or refines a value/material. An action chip invokes an operation or service. Neither choosing nor adopting a parameter sends a task.
+- Future candidates, not implemented in this pass: date/time, size/count/range, style/tone, and explicit target/object selection. Create entries only for supported, stable intent; do not convert every noun into a control.
+
+### Two-state inline parameters — 2026-10-16
+
+The approved visual contract contains only Suggested (unfilled, suggested to complete) and Default (recognized value displayed). Editing replaces the visible value without introducing a third user-modified badge or style. This presentation rule does not discard protected task values or binding metadata. Extend the existing family with Scope, Format, Template, Size and Count, each in both states. Example pairs: 选择范围 / 第3–5页; 选择格式 / PPT; 选择模板 / 周报模板; 设置尺寸 / 16:9; 设置数量 / 3个. Keep the same compact glass geometry and explicit click-to-open, one-widget-at-a-time behavior. No new selection panel or runtime integration is implied by the library variants.
+
+### Entry, session routing and control generation — 2026-10-19
+
+Canonical current rules: [完整规则与解释](jev-decision-flow.md), synchronized to Notion Design Skill §7.1–7.6 and PRD §§4, 4.3, 5.1. This section replaces the older focus-first / shortcuts-only routing diagram and per-color question hierarchy.
+
+- Explicit mobile-input entry enables an input session; device connection alone does not. Supported entry surfaces are the 手机输入 action, virtual keyboard/trackpad, and unambiguous adapted text-input regions. System bidirectional sharing takes priority over ambiguous screen touching; a mouse cursor or arbitrary game area is not an entry target.
+- Once enabled, follow user-initiated current applications/operations. Release old continuous controls, preserve original task content, and revalidate new binding. Background requests do not steal focus. Disconnect/background/exit stops unsafe remote writes; resume revalidates, never replays.
+- Closing phone Input Agent ends the phone input session; return through an explicit entry. Returning to the desktop/background or losing the connection pauses control and preserves owned content. Foreground return/reconnection revalidates scope and versions; unsynced/conflicting content requires explicit recovery. Closing the connection dialog only dismisses settings. Ending phone input does not cancel running large-screen Agent tasks. Native termination detection remains a platform validation item.
+- Use a registered and available scenario preset, otherwise a default keyboard/trackpad plus current-app common actions. Preserve the user's selected input mode. A preset offers temporary text input when editing a title/layer name, then restores its prior controls.
+- Application shortcut scope and text-field binding are separate. Missing text focus does not block supported application controls, and does not create an unowned composer. Existing protected unsynced content keeps its original ownership.
+- Independent commands map to Button. Reliable same-quantity increment/decrement commands may map to a relative Dial/Stepper. Slider requires min/max/current plus real set-value and feedback capabilities; bounded Dial may serve fine adjustment. Bounds alone do not establish an absolute position. Undo/redo remain buttons.
+- Jev can independently assess six semantic question families: field_purpose (only if unregistered), intent_clarity, input_assistance, per-candidate polish relevance, reply_mode and per-service relevance against the same initial state. Application controls, field purpose and selected task state are separate dimensions, not one mutually exclusive input_context. Evidence and registered candidates may permit widget_choice in that batch. Local deterministic mappings need no model call. The model cannot invent authorization, shortcut commands, actual values, endpoints or receipts; uncertain answers degrade only that enhancement.
+- Agent text allows inline parameter/material help and optional prompt polish; ordinary text receives contextual polish. A replyable incoming context plus an untouched empty draft shows generated reply suggestions. Adoption updates the same bidirectional edit session on both screens without sending; starting independent input dismisses suggestions and shows the editor with scene polish. Late suggestions never overwrite a draft or reopen dismissed recommendations. Clearing text does not automatically reopen them within the same reply target. Explicitly selected real requests expose only their actual options. Whole-goal ambiguity does not suppress a clear local material need.
+- Recommendations coexist with current input. Selection and successful opening bind the new service/task as current operation; failure/cancellation preserves the original. Suggested/Default parameter states, one auxiliary widget, manual priority, material adoption and explicit submission remain unchanged.
+
+Editable pages: [入口](https://www.figma.com/slides/ylIR7XjcoubXhUiTmEuNI6/Mobile-Input-Agent?node-id=148-882) · [总流程](https://www.figma.com/slides/ylIR7XjcoubXhUiTmEuNI6/Mobile-Input-Agent?node-id=137-882) · [生成规则](https://www.figma.com/slides/ylIR7XjcoubXhUiTmEuNI6/Mobile-Input-Agent?node-id=148-883). Existing overview/demo at 99:883 is preserved. These are design rules, not evidence of runtime or platform integration.
+
+```mermaid
+flowchart TB
+  S["已建联并启用手机输入"] --> C["同一版本上下文：应用与模式 · 输入焦点 · 已选任务 · 可见内容 · 能力"]
+  C --> A["A 场景输入：当前要做什么"]
+  C --> B["B 上下文服务：还可以做什么"]
+  A --> P["应用控制"]
+  P --> P1["有预设：绘画 / 演示 / 游戏"]
+  P --> P2["无预设：默认键盘 / 触控板<br>已验证快捷键 → 常用面板"]
+  A --> T["当前文本框"]
+  T --> T1["Agent 指令输入"]
+  T1 --> I["目标是否清楚？<br>是否需要参数或材料辅助？"]
+  I --> W["按意图片段匹配句内入口<br>另提供 Prompt 优化"]
+  A --> Q["用户选中的 Agent 任务"]
+  Q --> Q1["按真实请求展示选择 / 补充<br>材料 / 支持的停止或继续"]
+  Q1 -->|需要补充文字| T1
+  T --> T2["普通文本输入"]
+  T2 --> R{"有可回复上下文且用户尚未输入？"}
+  R -->|是| R1["直接展示回复建议"]
+  R1 -->|采用| R2["填入大屏与手机的同一编辑内容<br>允许继续修改，不发送"]
+  R1 -->|未采用并开始输入| R3["收起回复建议<br>展开编辑区与场景化润色"]
+  R -->|否| R3
+  R2 -->|继续编辑| R3
+  B --> B1["按可见内容匹配可用服务目录<br>本地或第三方应用卡片"]
+  B1 -->|用户选择| B2["打开服务并校验新目标"]
+  B2 -->|成功：成为当前操作| C
+  B2 -->|取消 / 失败| B3["保持原操作与草稿"]
+```
+
+# WorkBuddy task paths and PPT selection editing · 2026-10-19
+
+Current WorkBuddy design is organized as application/task entry → create Roadmap PPT → edit the same PPT, with receipt aggregation as an independent task branch. See [task-path contract](workbuddy-task-paths-design.md). Figma section `109:5262` now includes paired large-screen/phone states; selected-text formatting uses `1794:47008`, link editing `1794:47009`, and paired journey variants `1799:51154`.
+
+Phone formatting exposes AI edit, bold, italic, underline, strike and link with 48 px targets, plus optional color/size/alignment. Preserve target selection, distinguish mixed/unavailable, and do not offer inline code for PPT. Formatting is immediate and undoable; AI instructions require explicit Send. No phone Review, modification preview or Apply screen. Receipt materials are photo/document only. Removed screenshot-flow and compact-showcase links must not be recreated.
+
+Application switching, task switching, file opening and target activation are distinct. Existing 1200 ms large-screen app cycling remains. Figma simulates interaction; phone selection synchronization, format readback, link editing and end-to-end AI editing remain development TODOs. No runtime code changed in this design delivery.
+
+
+### Trackpad surface revision — 2026-10-19
+
+The shared gesture surface uses a subtle editable dot grid over translucent glass so it reads as a touch surface rather than an empty composer. This supersedes the plain white surface treatment. Keep the 354 × 222 gesture area, 288 px panel and integrated bottom controls unchanged. No placeholder, caret, pointer illustration or helper text. Master: `1493:31242`; review: `1801:15147`. Figma visual rule only; runtime and device acceptance are separate.

@@ -1,15 +1,15 @@
-.input-dock{--input-ink:var(--dock-fg,#122d39);--input-accent:#146c64;--input-soft:#e0efec;--input-control:#ffffff4d;--input-surface:#ffffffba;--input-edge:#fffffffa;flex:0 0 auto;position:relative;background:#ffffff38;color:var(--input-ink);border:1px solid var(--input-edge);border-radius:26px;padding:7px 17px 11px;box-sizing:border-box;z-index:5;backdrop-filter:blur(14px);box-shadow:0 7px 18px #33617514,inset 0 1px 1px #ffffffc7}
-.input-dock.input-dock button{color:inherit;border:1px solid var(--input-edge);background:var(--input-control);min-height:48px;min-width:0;padding:0;border-radius:14px;display:flex;align-items:center;justify-content:center;gap:4px;font-family:inherit;box-shadow:0 7px 18px #33617514,inset 0 1px 1px #ffffffc7;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+.input-dock{--input-ink:var(--dock-fg,#122d39);--input-accent:#146c64;--input-soft:#e0efec;--input-control:#ffffff4d;--input-surface:#ffffffba;--input-edge:#fffffffa;--input-bg:var(--dock-bg,#ffffff38);--input-recording:#cce3df;--input-shadow:0 7px 18px #33617514,inset 0 1px 1px #ffffffc7;--input-key-shadow:var(--input-shadow);--input-icon-filter:none;--input-pad:#e3eff166;--input-pad-edge:#c2d4d966;flex:0 0 auto;position:relative;background:var(--input-bg);color:var(--input-ink);border:1px solid var(--input-edge);border-radius:26px;padding:7px 17px 11px;box-sizing:border-box;z-index:5;backdrop-filter:blur(14px);box-shadow:var(--input-shadow)}
+.input-dock.input-dock button{color:inherit;border:1px solid var(--input-edge);background:var(--input-control);min-height:48px;min-width:0;padding:0;border-radius:14px;display:flex;align-items:center;justify-content:center;gap:4px;font-family:system-ui,sans-serif;box-shadow:var(--input-key-shadow);-webkit-tap-highlight-color:transparent;touch-action:manipulation}
 .input-dock button:disabled{opacity:.32}.input-dock button:active:not(:disabled){background:var(--input-soft)}
-.input-dock .input-dock-icon{display:block;width:24px;height:24px;flex:none;object-fit:contain}
+.input-dock .input-dock-icon{display:block;width:24px;height:24px;flex:none;object-fit:contain;filter:var(--input-icon-filter)}
 .input-dock .input-edit-tools{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));height:48px;margin:0 -15px;gap:0}
 .input-dock .input-edit-tools button{border:0;background:transparent;box-shadow:none;border-radius:16px}
-.input-dock .input-bottom-row{display:grid;grid-template-columns:48px 48px minmax(0,1fr);gap:8px;height:56px;margin-top:12px}
+.input-dock .input-bottom-row{display:grid;grid-template-columns:96px minmax(96px,1fr) 96px;gap:8px;height:56px;margin-top:12px}
 .input-dock .input-bottom-row button{height:56px;min-height:56px;font-size:14px}
 .input-dock .input-bottom-row .input-mode-key{background:var(--input-surface)}
 .input-dock .input-bottom-row [aria-pressed=true]{background:var(--input-soft);border-color:var(--input-accent)}
-.input-dock .input-bottom-row .input-voice{background:var(--input-soft);color:var(--input-accent);font-size:14px;border-radius:99px;gap:8px}
-.input-dock .input-voice.recording{background:#cce3df;border-color:var(--input-accent)}
+.input-dock .input-bottom-row .input-voice{background:var(--input-soft);color:var(--input-accent);font-size:12px;border-radius:16px;gap:4px;white-space:nowrap}
+.input-dock .input-voice.recording{background:var(--input-recording);border-color:var(--input-accent)}
 .input-dock .input-voice:active{transform:none}.input-dock .input-voice{touch-action:none;user-select:none;-webkit-user-select:none}
 .input-dock .input-keyboard,.input-dock .input-trackpad{height:222px;min-height:222px;margin-top:12px;box-sizing:border-box;position:relative}
 .input-dock .input-keyboard{display:flex;flex-direction:column;gap:10px}
@@ -19,24 +19,26 @@
 .input-dock .input-key-row{display:flex;justify-content:center;gap:2px;height:48px;flex:none}
 .input-dock .input-key-row button{flex:1;min-width:0;font-size:16px;border-radius:10px;font-weight:400}
 .input-dock .input-key-row .input-key-modifier{flex:0 0 48px;font-size:16px}
-.input-dock.expanded .input-bottom-row{margin-top:10px;grid-template-columns:48px 48px minmax(48px,90fr) minmax(78px,88fr) 48px}
-.input-dock.mode-trackpad .input-bottom-row{grid-template-columns:48px 48px minmax(42px,68fr) minmax(78px,90fr) minmax(42px,68fr)}
-.input-dock.expanded .input-voice{border-radius:14px;font-size:11px;gap:0;white-space:nowrap}
-.input-dock .input-track-surface{height:100%;border:1px solid #c2d4d966;border-radius:18px;background:#f7fbfbf0;position:relative;touch-action:none;overflow:hidden;box-sizing:border-box}
+.input-dock.expanded .input-bottom-row{margin-top:10px}
+
+.input-dock .input-voice .input-dock-icon{width:20px;height:20px}
+.input-dock .input-voice span{position:static;display:block;clip-path:none;width:auto;height:auto;overflow:visible;line-height:20px;flex:none}
+.input-dock .input-track-surface{height:100%;border:1px solid var(--input-pad-edge);border-radius:18px;background:var(--input-pad);position:relative;touch-action:none;overflow:hidden;box-sizing:border-box}
 .input-dock .input-track-surface i{position:absolute;left:0;top:50%;width:4px;height:4px;border-radius:2px;background:#dce6ec}
 .input-dock .input-language-menu{position:absolute;left:0;right:0;top:52px;background:var(--input-surface);backdrop-filter:blur(20px);border:1px solid var(--input-edge);border-radius:16px;padding:6px;z-index:2;box-shadow:0 8px 24px #122d3926;display:grid;gap:4px}
 .input-dock .input-language-menu button{background:var(--input-soft)}
-.input-dock .input-cancel{position:absolute;right:20px;bottom:72px;min-height:32px;font-size:11px;padding:0 12px;background:var(--input-soft);z-index:3}
 .input-dock .input-error{position:absolute;bottom:100%;background:#452e36;color:white;padding:8px;border-radius:10px;max-width:90%;font-size:12px}.input-dock .input-error button{display:inline-flex;min-height:28px}
 .shared-input-pointer{position:fixed;pointer-events:none;z-index:9999;color:#4d85ff;filter:drop-shadow(0 1px 2px #fff)}
 .bili-controller .input-dock{--input-accent:#277fba;--input-soft:#deedf7}
-.paint-phone .input-dock{--input-accent:#82acff;--input-soft:#263d60;--input-control:#ffffff0d;--input-surface:#ffffff14;--input-edge:#ffffff33;background:#202226c9;box-shadow:0 7px 18px #0002,inset 0 1px 1px #ffffff18}
-.paint-phone .input-dock button{box-shadow:inset 0 1px 1px #ffffff15}
-.paint-phone .input-dock-icon{filter:brightness(0) invert(1)}
-.paint-phone .input-track-surface{background:#171c24;border-color:#ffffff22}
-.paint-phone .input-voice.recording{background:#31588f}
-@media(max-width:370px){.input-dock{padding-left:10px;padding-right:10px}.input-dock .input-edit-tools{margin-left:-8px;margin-right:-8px}.input-dock.expanded .input-bottom-row{gap:5px}.input-dock .input-keyboard-top{gap:6px}.input-dock .input-key-row .input-key-modifier{flex-basis:44px}}
+.paint-phone .input-dock{--input-ink:#f3f4f5;--input-accent:#82acff;--input-soft:#263d60;--input-control:#ffffff0d;--input-surface:#ffffff14;--input-edge:#ffffff33;--input-bg:#202226c9;--input-shadow:0 7px 18px #0002,inset 0 1px 1px #ffffff18;--input-key-shadow:inset 0 1px 1px #ffffff15;--input-icon-filter:brightness(0) invert(1);--input-pad:#171c24;--input-pad-edge:#ffffff22;--input-recording:#31588f}
+@media(max-width:370px){.input-dock{padding-left:10px;padding-right:10px}.input-dock .input-edit-tools{margin-left:-8px;margin-right:-8px}.input-dock .input-keyboard-top{gap:6px}.input-dock .input-key-row .input-key-modifier{flex-basis:44px}}
 
 .bili-phone>.input-dock{margin-left:-18px;margin-right:-18px;width:calc(100% + 36px)}
 
-.input-dock.mode-keyboard .input-voice span{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+
+
+/* Shared geometry in every scene and mode; only tokens change with theme. */
+.input-keyboard-actions{display:grid;grid-template-columns:minmax(48px,1fr) 48px;gap:4px;min-width:0}
+.input-mode-pair{display:grid;grid-template-columns:1fr 1fr;gap:0}.input-dock .input-mode-pair .input-mode-key{margin:0;min-height:56px;border-radius:16px}
+.input-mouse-pair{display:flex;border:1px solid var(--input-edge);border-radius:16px;overflow:hidden;background:var(--input-control);position:relative}.input-mouse-pair:after{content:'';position:absolute;left:50%;top:12px;bottom:12px;width:1px;background:#9ab7bd77;pointer-events:none}.input-dock .input-mouse-pair button{width:50%;min-width:48px;border:0;box-shadow:none;background:transparent;border-radius:0}
+.input-dock .input-track-surface{background-color:var(--input-pad);background-image:radial-gradient(circle,#8ba8b699 .7px,transparent .9px);background-size:14px 14px;background-position:7px 7px}.input-dock .input-track-surface i{display:none}

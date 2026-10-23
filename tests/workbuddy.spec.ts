@@ -46,17 +46,17 @@ test("WorkBuddy phone activates only on focus, syncs text, edits emoji and submi
     "采购报价👨‍👩‍👧",
   );
   await phone.getByRole("button", { name: "删除", exact: true }).click();
-  await expect(phone.getByLabel("手机 WorkBuddy 草稿")).toHaveValue("采购报价");
+  await expect(phone.getByLabel("手机 WorkBuddy 草稿")).toHaveAttribute('data-value',"采购报价");
   await expect(tablet.getByLabel("WorkBuddy 任务输入")).toHaveValue("采购报价");
   await phone.getByRole("button", { name: "撤销", exact: true }).click();
-  await expect(phone.getByLabel("手机 WorkBuddy 草稿")).toHaveValue(
+  await expect(phone.getByLabel("手机 WorkBuddy 草稿")).toHaveAttribute('data-value',
     "采购报价👨‍👩‍👧",
   );
   await phone.getByRole("button", { name: "全选", exact: true }).click();
   await phone.getByRole("button", { name: "剪切", exact: true }).click();
-  await expect(phone.getByLabel("手机 WorkBuddy 草稿")).toHaveValue("");
+  await expect(phone.getByLabel("手机 WorkBuddy 草稿")).toHaveAttribute('data-value',"");
   await phone.getByRole("button", { name: "粘贴", exact: true }).click();
-  await expect(phone.getByLabel("手机 WorkBuddy 草稿")).toHaveValue(
+  await expect(phone.getByLabel("手机 WorkBuddy 草稿")).toHaveAttribute('data-value',
     "采购报价👨‍👩‍👧",
   );
   await phone.screenshot({ path: "artifacts/workbuddy-phone.png" });

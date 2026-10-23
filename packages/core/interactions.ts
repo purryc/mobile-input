@@ -90,6 +90,7 @@ export function interaction(n:State,c:Command):string|null|undefined{
   const text=String(v?.text??'');if(text.length>20000)return '内容过长';
   if(c.type==='chat-reply'){
    const context=n.chat.context;if(n.chat.activation?.phase!=='ready')return '请先点击平板输入框';if(!context||context.conversation!==id||v?.contextEpoch!==context.epoch||v?.messageId!==context.messageId)return '消息已变化';
+   const key='reply-dismissed:'+id+':'+context.messageId;if(d.text.trim()||n.texts[key])return '草稿已开始编辑';if(!text.trim())return '请输入内容';d.text=text;d.revision++;d.session='';d.sequence=0;if(n.target)n.target.value=text;n.texts[key]='1';return null;
   }else{
    if(!n.target||c.targetId!==n.target.id||c.targetRevision!==n.target.revision)return '回复目标已变化，草稿已保留';
    if(n.target.id!==`composer:${id}`)return '请选择回复框';
@@ -97,7 +98,7 @@ export function interaction(n:State,c:Command):string|null|undefined{
    if(c.type==='chat-edit'){
     const seq=Number(v?.sequence),session=String(v?.session||'');if(!session||!Number.isInteger(seq)||seq<1)return '编辑序号无效';
     if(session===d.session&&seq<=d.sequence)return '已忽略过期编辑';
-    d.text=text;d.revision++;d.sequence=seq;d.session=session;n.target.value=text;n.switcher=null;return null;
+    if(text!==d.text&&n.chat.context)n.texts['reply-dismissed:'+id+':'+n.chat.context.messageId]='1';d.text=text;d.revision++;d.sequence=seq;d.session=session;n.target.value=text;n.switcher=null;return null;
    }
   }
   if(!text.trim())return '请输入内容';

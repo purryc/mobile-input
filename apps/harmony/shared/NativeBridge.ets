@@ -3,7 +3,7 @@ import { Gemini } from './Gemini';
 import { photoCapture } from './PhotoCapture';
 import { windowCapture } from './WindowCapture';
 import { PresentationMotion } from './PresentationMotion';
-import { pasteboard } from '@kit.BasicServicesKit';
+import { pasteboard, deviceInfo } from '@kit.BasicServicesKit';
 import { socket, mdns, connection } from '@kit.NetworkKit';
 import { util } from '@kit.ArkTS';
 import { webview } from '@kit.ArkWeb';
@@ -67,7 +67,7 @@ export class NativeBridge {
   return 'pending';
  }
  captureResult(id:string):string{return this.allowed()&&ROLE==='phone'&&this.photo.id===id?JSON.stringify(this.photo):'';}
- clearCapture(id:string):string{if(!this.allowed())return 'unavailable';if(this.photo.id===id)this.photo=new CaptureResult();return 'cleared';}
+ clearCapture(id:string):string{if(!this.allowed())return 'unavailable';if(!id||this.photo.id===id)this.photo=new CaptureResult();return 'cleared';}
  role():string{return ROLE;}
  private themeSerial:number=0;
  inputTheme(dark:boolean):string {
@@ -108,7 +108,7 @@ export class NativeBridge {
  aiConfigure(key:string,model:string):string{if(!this.allowed()||ROLE!=='phone'||!this.active)return 'unavailable';return this.ai.configure(key,model)?'saved':'failed';}
  polish(id:string,text:string,style:string):string{if(!this.allowed()||ROLE!=='phone'||!this.active)return 'unavailable';void this.ai.polish(id,text,style);return 'pending';}
  cancelPolish(id:string):string{if(!this.allowed())return 'unavailable';this.ai.cancel(id);return 'cancelled';}
- ready():void {this.emit('native-ready','{}');distributedLink.webReady();}
+ ready():void {this.emit('native-ready',JSON.stringify({deviceName:deviceInfo.marketName||deviceInfo.productModel}));distributedLink.webReady();}
  transportMode():string{return distributedLink.getMode();}
  distributedStatus():string{return this.allowed()?distributedLink.snapshot():'{}';}
  selectTransport(mode:string):string{if(!this.allowed()||!['lan','distributed'].includes(mode))return 'unavailable';if(mode!==distributedLink.getMode()){this.disconnect();this.discovery?.stopSearchingMDNS();}distributedLink.select(mode);return mode;}

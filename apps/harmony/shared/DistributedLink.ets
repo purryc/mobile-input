@@ -94,9 +94,9 @@ class DistributedLink {
  private hello():void{if(this.helloSent)return;this.helloSent=true;this.write(JSON.stringify({kind:'agent-hello',protocol:SERVICE,role:ROLE}));}
  send(text:string):boolean {if(!this.available||this.mode!=='distributed')return false;this.write(text);return true;}
  private write(text:string):void{
-  const sid=this.sid,epoch=this.generation;let frames:string[];
+  const sid=this.sid,epoch=this.generation,queuedAt=Date.now();let frames:string[];
   try{frames=this.writer.frames(text);}catch(e){this.fail(e as Error);return;}
-  this.chain=this.chain.then(async():Promise<void>=>{for(const frame of frames){if(this.sid!==sid||this.generation!==epoch)return;await acm.sendMessage(sid,frame);}}).catch((e:Error)=>{if(this.sid===sid&&this.generation===epoch)this.fail(e);});
+  this.chain=this.chain.then(async():Promise<void>=>{const startedAt=Date.now();for(const frame of frames){if(this.sid!==sid||this.generation!==epoch)return;await acm.sendMessage(sid,frame);}const elapsed=Date.now()-startedAt,wait=startedAt-queuedAt;if(elapsed>250||wait>250)console.info('InputAgent transport timing frames='+frames.length+' waitMs='+wait+' sendMs='+elapsed);}).catch((e:Error)=>{if(this.sid===sid&&this.generation===epoch)this.fail(e);});
  }
  stop():void{
   const sid=this.sid,hadSession=sid>=0;this.sid=-1;this.generation++;this.available=false;this.queue=[];this.chain=Promise.resolve();clearTimeout(this.timer);

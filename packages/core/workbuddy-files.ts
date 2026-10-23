@@ -1,3 +1,4 @@
+import {updateTextRuns,selectionStyle,type TextRun} from './text-runs';
 import type {ObjectInput} from "./workbuddy-object";
 import type { State, Command, OfficeFile, Product, Slide, DataTable, ObjectTextStyle } from "./model";
 import { totals, money } from "./model";
@@ -14,6 +15,7 @@ export type FileFormat =
   | "audio"
   | "video";
 export interface FileBody {
+  textRuns?:Record<string,TextRun[]>;paragraphAlign?:Record<string,Record<number,string>>;
   objectStyles?: Record<string,ObjectTextStyle>;
   table?: DataTable;
   text: string;
@@ -148,6 +150,8 @@ export function fileReadOnly(s: State, v: FileView, id: string) {
 function officeBody(o: OfficeFile): FileBody {
   return {
     text: "",
+    ...(o.textRuns?{textRuns:clone(o.textRuns)}:{}),
+    ...(o.paragraphAlign?{paragraphAlign:clone(o.paragraphAlign)}:{}),
     ...(o.objectStyles ? {objectStyles:clone(o.objectStyles)} : {}),
     ...(o.marks ? { marks: clone(o.marks) } : {}),
     ...(o.paragraphs ? { paragraphs: clone(o.paragraphs) } : {}),
@@ -348,6 +352,7 @@ export function changePath(b: FileBody, path: string, text: string): string | nu
   } else if (type === "slide") {
     if (!b.slides?.[Number(i)] || !["title", "body", "notes"].includes(key))
       return "幻灯片对象不存在";
+    if(b.textRuns?.[path])b.textRuns[path]=updateTextRuns(b.slides[Number(i)][key as keyof Slide]||'',text,b.textRuns[path]);
     b.slides[Number(i)][key as keyof Slide] = text;
   } else if (path === "text") b.text = text;
   else return "对象不存在";
@@ -371,11 +376,12 @@ export function editBody(
   a.version++;
   a.changedAt = Date.now();
   a.highlight = [];
-  if(source!=='手机编辑')syncBindings(s,v,id);
+  if(source!=='手机编辑')syncBindings(s,v,id,source==='对象格式'||source==='对象修改');
   return null;
 }
-function syncBindings(s: State, v: FileView, id: string) {
+function syncBindings(s: State, v: FileView, id: string, objects=true) {
   const b = browserState(s);
+  for(const [target,o] of Object.entries(b.objectInputs||{}))if(objects&&o.file===id&&o.view===v.id){const a=working(s,v,id),full=pathText(a.body,o.path);o.start=Math.min(o.start??0,full.length);o.end=Math.min(o.end??full.length,full.length);o.source=full.slice(o.start,o.end);o.base=b.docs[id].revision;o.version=a.version;o.revision++;const base={color:'#122D39',size:o.path.endsWith('/title')?36:24,...a.body.objectStyles?.[o.path]};const picked=selectionStyle(full,a.body.textRuns?.[o.path],o.start,o.end,base);o.style={...picked.style,align:a.body.objectStyles?.[o.path]?.align||'left'};o.mixed=picked.mixed;const first=full.slice(0,o.start).split('\n').length-1,last=full.slice(0,Math.max(o.start,o.end-1)).split('\n').length-1;const aligns=Array.from({length:last-first+1},(_,i)=>a.body.paragraphAlign?.[o.path]?.[first+i]||o.style.align||'left');o.style.align=aligns[0] as typeof o.style.align;if(aligns.some(x=>x!==aligns[0]))o.mixed.push('align');}
   for (const [target, binding] of Object.entries(b.bindings))
     if (binding.file === id && binding.view === v.id) {
       binding.revision = b.docs[id].revision;
@@ -420,7 +426,7 @@ export function saveBrowserFile(
     f.draft = fileDraft(f.content);
     const o = s.officeFiles.find((o) => o.id === f.officeId);
     if (o) {
-      if(d.saved.objectStyles)o.objectStyles=clone(d.saved.objectStyles);
+      o.textRuns=d.saved.textRuns?clone(d.saved.textRuns):undefined;o.paragraphAlign=d.saved.paragraphAlign?clone(d.saved.paragraphAlign):undefined;if(d.saved.objectStyles)o.objectStyles=clone(d.saved.objectStyles);
       if (d.saved.marks) o.marks = clone(d.saved.marks);
       if (d.saved.table) o.table = clone(d.saved.table);
       if (d.saved.products) o.products = clone(d.saved.products);
@@ -1009,7 +1015,7 @@ export function fileBrowserInteraction(
       );
       if (err) return err;
       const edited = editBody(s, v, id, body);
-      if (!edited) syncBindings(s, v, id);
+      if (!edited) syncBindings(s, v, id, false);
       return edited;
     }
     case "wb-fb-format": {

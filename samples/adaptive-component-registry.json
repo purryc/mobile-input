@@ -4,6 +4,7 @@
   "fileKey": "ApFLno64NcMoA17MiPFfZh",
   "pageId": "2:2",
   "themes": [
+    "System",
     "WeChat",
     "Email",
     "WorkBuddy",
@@ -3213,6 +3214,147 @@
         "contextual-input-adapter"
       ],
       "prototypeBoundary": "Editable Figma design and discrete simulated transitions only; not a runtime API or device acceptance."
+    },
+    {
+      "componentId": "sentence-parameter",
+      "figmaNodeId": "1740:46458",
+      "name": "Adaptive / Input / Sentence parameter",
+      "kind": "adaptive-input",
+      "region": "adaptive",
+      "skins": [
+        "Glass"
+      ],
+      "renderOwner": "local",
+      "states": [
+        "Color",
+        "Photo",
+        "Canvas",
+        "Sketch"
+      ],
+      "props": [
+        "recognizedValue",
+        "taskId",
+        "targetId",
+        "inputRevision",
+        "activeWidget"
+      ],
+      "actions": [
+        "openAuxiliary",
+        "replaceAuxiliary",
+        "closeActiveAuxiliary"
+      ],
+      "capabilities": [
+        "contextual-input-adapter"
+      ],
+      "prototypeBoundary": "Editable Figma and discrete mock transitions only; runtime unchanged."
+    },
+    {
+      "componentId": "sentence-parameter-composer",
+      "figmaNodeId": "1740:46795",
+      "name": "Adaptive / Composer / Sentence parameters",
+      "kind": "adaptive-input",
+      "region": "adaptive",
+      "skins": [
+        "Glass"
+      ],
+      "renderOwner": "local",
+      "states": [
+        "raw",
+        "inline",
+        "color",
+        "empty",
+        "draw",
+        "confirmed",
+        "photo"
+      ],
+      "props": [
+        "recognizedValue",
+        "taskId",
+        "targetId",
+        "inputRevision",
+        "activeWidget"
+      ],
+      "actions": [
+        "openAuxiliary",
+        "replaceAuxiliary",
+        "closeActiveAuxiliary"
+      ],
+      "capabilities": [
+        "contextual-input-adapter"
+      ],
+      "prototypeBoundary": "Editable Figma and discrete mock transitions only; runtime unchanged."
+    },
+    {
+      "componentId": "text-selection-toolbar",
+      "figmaNodeId": "1794:47008",
+      "name": "Text selection / Toolbar",
+      "skins": [
+        "Glass"
+      ],
+      "states": [
+        "Default",
+        "Bold",
+        "Mixed",
+        "Unavailable"
+      ],
+      "props": [
+        "target",
+        "selection",
+        "formatStates",
+        "availableActions"
+      ],
+      "actions": [
+        "ai-edit",
+        "toggle-bold",
+        "toggle-italic",
+        "toggle-underline",
+        "toggle-strike",
+        "edit-link"
+      ],
+      "capabilities": [
+        "valid-text-selection",
+        "native-format-read-write"
+      ],
+      "figmaVariants": {
+        "Default": "1794:46730",
+        "Bold": "1794:46799",
+        "Mixed": "1794:46868",
+        "Unavailable": "1794:46939"
+      },
+      "renderOwner": "local",
+      "kind": "composition",
+      "region": "adaptive",
+      "inputStates": [],
+      "status": "design-contract-not-runtime"
+    },
+    {
+      "componentId": "selection-link-editor",
+      "figmaNodeId": "1794:47009",
+      "name": "Text selection / Link editor",
+      "skins": [
+        "Glass"
+      ],
+      "states": [
+        "Open"
+      ],
+      "props": [
+        "target",
+        "selection",
+        "url"
+      ],
+      "actions": [
+        "close",
+        "confirm-link"
+      ],
+      "capabilities": [
+        "valid-text-selection",
+        "native-link-edit"
+      ],
+      "renderOwner": "local",
+      "kind": "composition",
+      "region": "adaptive",
+      "inputStates": [],
+      "status": "design-contract-not-runtime"
     }
   ],
   "skinLabels": {
@@ -3323,15 +3465,14 @@
     "sparseAdaptiveAlignment": "sole composer fills available adaptive region when no supplemental input exists; no blank spacer",
     "denseAdaptiveContent": "scroll within adaptive region; fixed input and top target retain their bounds",
     "taskNavigation": "direct visible task cards with name + semantic dot + short status, followed by new task; no list icon gate",
-    "adaptiveComposerSizing": "No tool: fill remaining region. One tool: remaining space. Sketch: latest sentence and Send, >=64px; preserve full text.",
+    "adaptiveComposerSizing": "No widget: fill remaining region. One widget: share remaining space with sole composer; retain visible sentence parameter entries and fixed Send. Preserve full text.",
     "parameterControlSelection": "bounded continuous parameter: slider; finite discrete values: segmented/select; integer incremental quantity: stepper when appropriate; explicit action: button",
     "maxExpandedAuxiliaryTools": 1,
-    "toolSummaryMinimumHeight": 48,
     "pendingSketchSend": "disabled until explicitly confirmed; closing does not confirm; no persistent helper sentence or reserved explanation row",
     "fixedDockBackground": "extends to screen bottom, square lower corners; buttons remain above host safe area",
     "fixedDockShiftTargetPx": 20,
     "fixedDockShiftBoundary": "remove redundant bottom gap first; design baseline voice stays y776, runtime calibration deferred",
-    "expandedInputPriority": "collapse auxiliary tools to summaries, preserve keyboard/trackpad operation size and composer/send; scroll middle independently"
+    "expandedInputPriority": "Keep at most one auxiliary widget and all sentence parameter entries; shrink/scroll middle content before obscuring keyboard/trackpad, composer Send or fixed voice. No summary bars."
   },
   "taskStateSemantics": {
     "draft": {
@@ -3554,7 +3695,7 @@
     "spaceRule": "Hide the auxiliary module and expand the sole composer; fixed dock stays stable.",
     "prototypeExampleNode": "1543:38028",
     "prototypeBoundary": "Figma visibility variables simulate the current example; runtime state must be scoped by app/task/target/input revision/intent.",
-    "recognitionResult": "Create/update a large icon-led intent chip inside the sole composer.",
+    "recognitionResult": "Convert recognized parameter spans into compact sentence tags without opening a widget.",
     "closePlacement": "panel-top-right",
     "confirmPlacement": "panel-bottom-right",
     "confirmTouchTarget": [
@@ -3562,11 +3703,12 @@
       48
     ],
     "confirmationPolicy": "Only where adoption is required; no extra Done for live color/HEX or direct formatting. Confirm adopts local input, never sends or executes.",
-    "actionArea": "Keep actions outside scrollable/drawing content; reserve bottom-right space without overlapping the fixed dock."
+    "actionArea": "Keep actions outside scrollable/drawing content; reserve bottom-right space without overlapping the fixed dock.",
+    "switchPolicy": "replace the open widget on explicit parameter click; preserve task parameters, raw strokes, attachments and text; never confirm or submit"
   },
   "intentChipContract": {
-    "heightMin": 48,
-    "placement": "inside sole composer, in text flow; no permanent toolbar shortcut",
+    "heightMin": 32,
+    "placement": "at recognized phrase position inside sole composer; compact visual tag within non-overlapping 48px text hit row",
     "props": [
       "label",
       "controlIcon",
@@ -3588,7 +3730,9 @@
       "Disabled"
     ],
     "actions": [
-      "openAuxiliary"
+      "openAuxiliary",
+      "replaceAuxiliary",
+      "closeActiveAuxiliary"
     ],
     "examples": [
       "canvas",
@@ -3601,8 +3745,11 @@
     ],
     "onClose": "retain chip and current values; return to Available",
     "onStaleOrNegation": "invalidate suggestion; retain confirmed materials",
-    "valuePresentation": "Recognized value preview + concise action; color uses current swatch + 调整颜色.",
-    "colorBinding": "One structured parameter owns swatch and picker/HEX editor; preserve original text, never append generated HEX annotations."
+    "valuePresentation": "Color: current swatch + color name; photo: image icon + add photo; layout: blank canvas icon + 画一下, adopted sketch replaces placeholder with thumbnail. Distinct from 48px action chips.",
+    "colorBinding": "One structured parameter owns swatch and picker/HEX editor; preserve original text, never append generated HEX annotations.",
+    "visualHeight": 32,
+    "hitTargetHeight": 48,
+    "remainVisibleWhileOpen": true
   },
   "materialInputContract": {
     "status": "design-contract-not-runtime",
@@ -3665,7 +3812,11 @@
       "sketch": "1286:3151",
       "text": "1642:41209",
       "compact": "1642:45284"
-    }
+    },
+    "maxExpandedWidgets": 1,
+    "selectionPolicy": "explicit parameter click only; another parameter replaces previous widget; active tag toggles closed",
+    "supersedes": "2026-10-15 multiple-open auxiliary design; runtime migration remains pending",
+    "updated": "2026-10-16"
   },
   "agentDecisionContract": {
     "status": "design-contract-not-runtime",
@@ -3705,5 +3856,170 @@
     "adopt": "bottom-right, explicit material link only; never submit/approve",
     "scopeFailure": "show actual unavailable state, never broaden source",
     "figmaFrame": "1439:45387"
+  },
+  "elasticSentenceLayout": {
+    "region": "fill-available-adaptive-height",
+    "withoutWidget": "composer-fill",
+    "withWidget": "one-widget-plus-readable-composer",
+    "tagSizing": "hug-content-and-wrap",
+    "hiddenSentenceFragments": false,
+    "hitHeightMin": 48,
+    "designEvidence": "artifacts/adaptive-design-system/inline-parameters-2026-10-16/elastic-audit.json"
+  },
+  "inlineReferenceParameters": {
+    "componentSet": "1740:46458",
+    "canvasIcon": "canvas-and-pen",
+    "types": [
+      "color",
+      "photo",
+      "canvas",
+      "sketch",
+      "screenshot",
+      "screen-recording",
+      "file",
+      "file-path"
+    ],
+    "filePath": {
+      "display": "file-icon-and-basename",
+      "activate": "open-file-manager-to-reselect",
+      "preserve": [
+        "full-path",
+        "app",
+        "task",
+        "target",
+        "revision"
+      ],
+      "recognitionIsAdoption": false
+    },
+    "recording": {
+      "select": "open-controls",
+      "start": "explicit",
+      "adopt": "explicit"
+    },
+    "submitOnAdopt": false,
+    "runtimeImplemented": false
+  },
+  "inlineParameterPresentation": {
+    "componentSet": "1740:46458",
+    "states": [
+      "Suggested",
+      "Default"
+    ],
+    "modifiedVisualState": false,
+    "afterEdit": "replace-visible-value",
+    "visualHeight": 32,
+    "hitHeightMin": 48,
+    "newTypes": {
+      "scope": {
+        "suggested": "选择范围",
+        "default": "第3–5页",
+        "figma": [
+          "1769:46926",
+          "1769:46935"
+        ]
+      },
+      "format": {
+        "suggested": "选择格式",
+        "default": "PPT",
+        "figma": [
+          "1769:46944",
+          "1769:46953"
+        ]
+      },
+      "template": {
+        "suggested": "选择模板",
+        "default": "周报模板",
+        "figma": [
+          "1769:46962",
+          "1769:46971"
+        ]
+      },
+      "size": {
+        "suggested": "设置尺寸",
+        "default": "16:9",
+        "figma": [
+          "1769:46980",
+          "1769:46989"
+        ]
+      },
+      "count": {
+        "suggested": "设置数量",
+        "default": "3 个",
+        "figma": [
+          "1769:46998",
+          "1769:47006"
+        ]
+      }
+    },
+    "runtimeImplemented": false
+  },
+  "workbuddyTaskPathContract": {
+    "status": "design-contract-not-runtime",
+    "updated": "2026-10-19",
+    "section": "109:5262",
+    "hierarchy": [
+      "application",
+      "task",
+      "file",
+      "object-or-selection",
+      "operation"
+    ],
+    "groups": [
+      "entry",
+      "create-roadmap-ppt",
+      "edit-same-ppt",
+      "receipt-aggregation"
+    ],
+    "pairedJourneyComponent": "1799:51154",
+    "entryFrames": [
+      "1801:13253",
+      "1801:13648",
+      "1801:13915"
+    ],
+    "pptFrames": [
+      "1372:26398",
+      "5:8847",
+      "1801:15147",
+      "1801:15658"
+    ],
+    "receiptActions": [
+      "拍摄票据",
+      "添加文档"
+    ],
+    "appSwitchIdleMs": 1200,
+    "manualFormatting": "Apply to valid bound range immediately; undoable; no submit or implicit save.",
+    "aiEditing": "Explicit Send from sole instruction composer; result on large screen.",
+    "excluded": [
+      "phone-review",
+      "phone-diff",
+      "phone-apply",
+      "ppt-inline-code",
+      "receipt-sketch"
+    ],
+    "developmentTodo": [
+      "selection-sync-and-version",
+      "format-readback-and-mixed-state",
+      "selection-format-and-undo",
+      "link-editing",
+      "bound-ai-edit",
+      "cross-app-return",
+      "dual-device-validation"
+    ]
+  },
+  "defaultTheme": "System",
+  "colorContract": {
+    "collectionId": "VariableCollectionId:1933:94481",
+    "defaultAccent": "#0A59F7",
+    "ownership": "scene-container",
+    "inheritance": "generic controls inherit theme and material; no app mode pinned inside shared dock",
+    "accentForeground": "VariableID:1943:94701",
+    "onAccent": "VariableID:1943:94702",
+    "independentColors": [
+      "task-status",
+      "parameter-value",
+      "application-logo",
+      "fc-material"
+    ],
+    "reference": "docs/liquid-glass-color-tokens.md"
   }
 }

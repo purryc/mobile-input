@@ -1,0 +1,16 @@
+{
+  "string": [
+    {
+      "name": "app_name",
+      "value": "HID Probe"
+    },
+    {
+      "name": "module_desc",
+      "value": "Independent Bluetooth keyboard probe"
+    },
+    {
+      "name": "bluetooth_reason",
+      "value": "Connect to the selected Mac for keyboard testing"
+    }
+  ]
+}

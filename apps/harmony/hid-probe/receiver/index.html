@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>HID Probe · Mac 接收验证</title>
+<style>
+body{font:18px/1.6 system-ui;color:#17243b;background:#f3f6fb;margin:0;padding:40px}
+main{max-width:850px;margin:auto}h1{font-size:32px}textarea{box-sizing:border-box;width:100%;height:160px;padding:24px;font:36px system-ui;border:2px solid #9cb0d1;border-radius:16px;background:white}textarea:focus{outline:3px solid #bfd4ff}#status{padding:16px;background:#e4ebf8;border-radius:12px}pre{font-size:14px;white-space:pre-wrap;overflow-wrap:anywhere}button{font:inherit;padding:10px 20px;border:0;border-radius:10px;background:#245be1;color:white}
+</style>
+<main>
+<h1>Mac 输入验证</h1>
+<p>聚焦下方空白框，再从手机探针发送 rea。</p>
+<textarea id="input" aria-label="蓝牙键盘测试输入框" spellcheck="false" autocomplete="off"></textarea>
+<p id="status" role="status">等待输入</p>
+<button id="reset">开始新一轮</button>
+<pre id="events"></pre>
+</main>
+<script>
+const field = document.querySelector('#input');
+const status = document.querySelector('#status');
+const output = document.querySelector('#events');
+let run = crypto.randomUUID(), events = [], pending = new Set(), logFailed = false;
+function show() {
+  const complete = field.value === 'rea' && pending.size === 0 &&
+    ['KeyR','KeyE','KeyA'].every(code => events.some(e => e.type === 'keydown' && e.code === code && e.trusted) && events.some(e => e.type === 'keyup' && e.code === code && e.trusted));
+  status.textContent = logFailed ? '本地证据记录失败，请停止测试' : complete ? '已观察到 rea 及完整按下 / 松开事件' : `已收到 ${events.length} 个事件；当前文本：${field.value || '空'}`;
+  output.textContent = events.slice(-15).map(e => JSON.stringify(e)).join('\n');
+}
+for (const type of ['keydown','keyup','input']) field.addEventListener(type, event => {
+  const row = {run, time:new Date().toISOString(),type:event.type,trusted:event.isTrusted,code:event.code||'',key:event.key||'',repeat:event.repeat||false,inputType:event.inputType||'',value:field.value};
+  if (type === 'keydown') pending.add(row.code);
+  if (type === 'keyup') pending.delete(row.code);
+  events.push(row); show();
+  fetch('/events',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(row)})
+    .then(response => {if(!response.ok)throw new Error('logging');})
+    .catch(() => {logFailed = true; show();});
+});
+document.querySelector('#reset').addEventListener('click',()=>{run=crypto.randomUUID();events=[];pending.clear();logFailed=false;field.value='';status.textContent='等待输入';output.textContent='';field.focus();});
+</script>
+</html>

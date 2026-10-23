@@ -23,14 +23,22 @@ export function submitMaterials(s:State,t:WbTask,text:string,id:string):string|n
  ensureSummary(s);const doc=browserState(s).docs[fileId];
  r.revision++;r.request={id,version:r.revision,scope,file:fileId,fileRevision:doc.revision,draftRevision:d.revision+1,rows:structuredClone(r.rows),status:'pending'};
  t.status='approval';t.messages.push({id:id+'-user',role:'user',text:text||'整理这些演示票据'},{id:id+'-scope',role:'assistant',text:`等待批准：向票据汇总.xlsx 追加 ${r.rows.length} 行，保留现有数据。范围：当前演示工作区。`});
- d.text='';d.revision++;if(s.target?.id===`wb:draft:${t.id}`)s.target.value='';return null;
+ t.input=d.input?structuredClone(d.input):undefined;t.sourceFiles=[...new Set([...(t.sourceFiles||[]),...d.attachments])];d.attachments=[];d.references=[];d.input=initialWbInput();d.text='';d.revision++;if(s.target?.id===`wb:draft:${t.id}`)s.target.value='';return null;
 }
 export function materialsInteraction(s:State,c:Command):string|null|undefined{
- if(!['wb-material-task','wb-material','wb-approval'].includes(c.type))return undefined;
+ if(!['wb-reference-task','wb-material-task','wb-material','wb-approval'].includes(c.type))return undefined;
  const w=s.workbuddy,v=(c.value||{}) as Record<string,unknown>;
+ if(c.type==='wb-reference-task'){
+  if(s.app!=='workbuddy')return 'WorkBuddy 已退出';
+  let task=w.tasks.find(t=>t.referenceRequest&&t.status==='needs-materials');
+  if(!task){const id=c.id;task={id,title:'补充汇报材料',referenceRequest:true,messages:[{id:id+'-prompt',role:'assistant',text:'请补充客户资料和汇报参考。可以选择文件，或从视频中截取画面、录制片段，再补充需要强调的内容。'}],status:'needs-materials',kind:'slides',mode:'agent',model:w.settings.model,expert:'',project:'chengxing',favorite:false,step:0,epoch:id,startedAt:0,elapsed:0,files:[],dataVersion:s.reportRevision};w.tasks.unshift(task);w.drafts[id]={...fileDraft(),input:initialWbInput()};}
+  w.task=task.id;w.page='task';w.preview=[];w.previewActive=null;w.filePanel=false;
+  s.target={id:`wb:draft:${task.id}`,app:'workbuddy',kind:'text',label:task.title,revision:s.revision+1,value:w.drafts[task.id].text};return null;
+ }
+
  if(c.type==='wb-material-task'){
   let task=w.tasks.find(t=>t.receipts);
-  if(!task){const id=c.id;task={id,title:'整理演示票据',messages:[{id:id+'-prompt',role:'assistant',text:'补充要整理的演示票据，核对后再批准写入。'}],status:'needs-materials',kind:null,mode:'agent',model:w.settings.model,expert:'',project:'chengxing',favorite:false,step:0,epoch:id,startedAt:0,elapsed:0,files:[],dataVersion:s.reportRevision,receipts:{revision:0,materials:[],rows:[],request:null}};w.tasks.unshift(task);w.drafts[id]={...fileDraft(),input:initialWbInput()};}
+  if(!task){const id=c.id;task={id,title:'票据汇总',messages:[{id:id+'-prompt',role:'assistant',text:'补充要整理的演示票据，核对后再批准写入。'}],status:'needs-materials',kind:null,mode:'agent',model:w.settings.model,expert:'',project:'chengxing',favorite:false,step:0,epoch:id,startedAt:0,elapsed:0,files:[],dataVersion:s.reportRevision,receipts:{revision:0,materials:[],rows:[],request:null}};w.tasks.unshift(task);w.drafts[id]={...fileDraft(),input:initialWbInput()};}
   w.task=task.id;w.page='task';w.preview=[];w.previewActive=null;w.filePanel=false;
   s.target={id:`wb:draft:${task.id}`,app:'workbuddy',kind:'text',label:task.title,revision:s.revision+1,value:w.drafts[task.id].text};return null;
  }

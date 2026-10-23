@@ -2,7 +2,7 @@ import {GeminiAccount} from './ai-polish';
 import {createContext,useContext,useEffect,useRef,useState,type ReactNode,type RefObject} from 'react';
 import {Link2,ScanLine,RefreshCw,X,TabletSmartphone,ChevronRight,Check} from 'lucide-react';
 import QRCode from 'qrcode';
-import {command,connect,pin,role,useRuntime,selectConnectionMethod,discoverDistributed,connectDistributed,type ConnectionMethod} from './runtime';
+import {command,connect,pin,role,useRuntime,toast,selectConnectionMethod,discoverDistributed,connectDistributed,type ConnectionMethod} from './runtime';
 import {useBack} from './back';
 import {usePhoneInsets} from './phone-insets';
 
@@ -19,8 +19,10 @@ export function ConnectionButton({className=''}:{className?:string}){
 export function ConnectionAccess({children}:{children:ReactNode}){
  const r=useRuntime(),phone=role==='phone',insets=usePhoneInsets();
  const [opened,setOpened]=useState(phone&&!r.connected),[address,setAddress]=useState(r.address||''),[code,setCode]=useState(''),[qr,setQr]=useState('');
+ const [confirmReset,setConfirmReset]=useState(false),[resetting,setResetting]=useState(false);
+ async function reset(){setResetting(true);const ack=await command('demo-reset');if(ack.ok)toast('演示已重置');else setResetting(false);}
  const priorConnected=useRef(r.connected),entry=useRef<HTMLButtonElement>(null),panel=useRef<HTMLElement>(null);
- const inline=(!phone&&r.state.app==='workbuddy'&&!!r.state.workbuddy.fileBrowser?.visible&&!!r.state.workbuddy.fileBrowser.windows.length)||phone&&(r.state.app==='paint'||!['desktop','wechat','slides','mario','bilibili'].includes(r.state.app)&&(r.connected||!!r.state.editSession?.key)||r.state.app==='bilibili'||r.state.app==='slides'||r.state.app==='mario'||r.state.app==='workbuddy'&&r.connected&&!!r.state.target?.id.startsWith('wb:')||r.state.app==='wechat'&&r.connected&&r.state.chat.activation?.phase==='ready');
+ const inline=(!phone&&r.state.app==='workbuddy'&&!!r.state.workbuddy.fileBrowser?.visible&&!!r.state.workbuddy.fileBrowser.windows.length)||phone&&['active','paused'].includes(r.state.inputSession?.phase||'')&&(r.state.app==='desktop'||r.state.app==='paint'||!['desktop','wechat','slides','mario','bilibili'].includes(r.state.app)&&(r.connected||!!r.state.editSession?.key)||r.state.app==='bilibili'||r.state.app==='slides'||r.state.app==='mario'||r.state.app==='workbuddy'&&r.connected&&!!r.state.target?.id.startsWith('wb:')||r.state.app==='wechat'&&r.connected&&r.state.chat.activation?.phase==='ready');
  function selectMethod(method:ConnectionMethod){selectConnectionMethod(method);if(method==='distributed')discoverDistributed();}
  const host=r.address||location.hostname;
  const status=r.connected?(phone?'已连接工作台':'手机已连接'):r.status;
@@ -74,6 +76,10 @@ export function ConnectionAccess({children}:{children:ReactNode}){
       <button className="primary" type="submit" disabled={code.length!==6}>连接</button>
      </form>
     </>:<div className="agent-tablet-pair"><h3>用手机扫码连接</h3>{qr&&<img src={qr} width="200" height="200" alt="配对二维码"/>}<span>配对码</span><div className="pair-code">{pin}</div><small>{host}</small></div>}</div>}
+    <section className="connection-reset" aria-label="重置演示数据">
+     {confirmReset?<><p>清空两端输入历史、消息、任务、材料和文件修改，恢复演示初始内容。连接设置和 API 配置保留。</p><div><button disabled={resetting} onClick={()=>setConfirmReset(false)}>取消</button><button className="reset-confirm" disabled={resetting||phone&&!r.connected} onClick={reset}>确认重置</button></div></>:<button disabled={phone&&!r.connected} onClick={()=>setConfirmReset(true)}><RefreshCw size={18}/>重置演示</button>}
+     {phone&&!r.connected&&<small>连接大屏后可重置两端数据</small>}
+    </section>
     {phone&&<details className="connection-account"><summary>Gemini API</summary><GeminiAccount/></details>}
    </section>
   </div>}

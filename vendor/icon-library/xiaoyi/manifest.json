@@ -1,0 +1,3242 @@
+{
+  "version": "3.0",
+  "grid": 24,
+  "defaultStroke": 1.65,
+  "count": 97,
+  "icons": [
+    {
+      "id": "v7-news-color",
+      "label": "彩色资讯",
+      "category": "彩色功能",
+      "aliases": [],
+      "nodes": [
+        [
+          "rect",
+          {
+            "x": 3,
+            "y": 2,
+            "width": 17,
+            "height": 20,
+            "rx": 4,
+            "fill": "#a16bec",
+            "stroke": "none"
+          }
+        ],
+        [
+          "path",
+          {
+            "d": "M7 7h3m4 0h2M7 11h9M7 15h5",
+            "stroke": "#f3e5ff"
+          }
+        ],
+        [
+          "path",
+          {
+            "d": "m18 13 1.5 2.5 3 .5-2 2 .5 3-3-1-2 1 .2-3-2-2 3-.5Z",
+            "fill": "#d6b4ff",
+            "stroke": "none"
+          }
+        ]
+      ],
+      "source": "L19",
+      "colorMode": "source-color",
+      "viewBox": "0 0 24 24",
+      "strokeWidth": 1.65,
+      "cap": "round",
+      "join": "round",
+      "confidence": "参考重绘",
+      "note": "据参考中的语义与轮廓人工重绘，路径与笔画参数为拟合值，非官方矢量原件。",
+      "labelEn": "Colored news",
+      "categoryEn": "Colored semantic icons",
+      "confidenceEn": "Reference redraw",
+      "noteEn": "Hand-redrawn from the reference meaning and outline. Paths and strokes are fitted estimates, not official vectors."
+    },
+    {
+      "id": "v7-sparkles-color",
+      "label": "彩色建议",
+      "category": "彩色功能",
+      "aliases": [],
+      "nodes": [
+        [
+          "path",
+          {
+            "d": "M8 1 10 7 15 9 10 11 8 17 6 11 1 9 6 7Z",
+            "fill": "#b590f4",
+            "stroke": "none"
+          }
+        ],
+        [
+          "path",
+          {
+            "d": "m17 10 2 4 4 2-4 2-2 5-2-5-4-2 4-2Z",
+            "fill": "#ad7bef",
+            "stroke": "none"
+          }
+        ]
+      ],
+      "source": "L19",
+      "colorMode": "source-color",
+      "viewBox": "0 0 24 24",
+      "strokeWidth": 1.65,
+      "cap": "round",
+      "join": "round",
+      "confidence": "参考重绘",
+      "note": "据参考中的语义与轮廓人工重绘，路径与笔画参数为拟合值，非官方矢量原件。",
+      "labelEn": "Colored suggestion",
+      "categoryEn": "Colored semantic icons",
+      "confidenceEn": "Reference redraw",
+      "noteEn": "Hand-redrawn from the reference meaning and outline. Paths and strokes are fitted estimates, not official vectors."
+    },
+    {
+      "id": "v7-claw-color",
+      "label": "彩色 Claw",
+      "category": "彩色功能",
+      "aliases": [],
+      "nodes": [
+        [
+          "path",
+          {
+            "d": "M20 5C15-1 4 3 3 12c-1 7 5 11 11 9l5-4-5-1-5 4-5-4 5-8 11-3ZM14 16l4-5",
+            "stroke": "#ee512e"
+          }
+        ]
+      ],
+      "source": "L19",
+      "colorMode": "source-color",
+      "viewBox": "0 0 24 24",
+      "strokeWidth": 1.65,
+      "cap": "round",
+      "join": "round",
+      "confidence": "参考重绘",
+      "note": "据参考中的语义与轮廓人工重绘，路径与笔画参数为拟合值，非官方矢量原件。",
+      "labelEn": "Colored Claw",
+      "categoryEn": "Colored semantic icons",
+      "confidenceEn": "Reference redraw",
+      "noteEn": "Hand-redrawn from the reference meaning and outline. Paths and strokes are fitted estimates, not official vectors."
+    },
+    {
+      "id": "v7-clean-color",
+      "label": "彩色清灰",
+      "category": "彩色功能",
+      "aliases": [],
+      "nodes": [
+        [
+          "circle",
+          {
+            "cx": 12,
+            "cy": 12,
+            "r": 10,
+            "fill": "#5da9bd",
+            "stroke": "none"
+          }
+        ],
+        [
+          "path",
+          {
+            "d": "M5 18h14M7 17v-6h10v6M10 11V6h4v5M10 6l2-3M10 14v2m4-2v2",
+            "stroke": "#d3f2f7"
+          }
+        ]
+      ],
+      "source": "L19",
+      "colorMode": "source-color",
+      "viewBox": "0 0 24 24",
+      "strokeWidth": 1.65,
+      "cap": "round",
+      "join": "round",
+      "confidence": "参考重绘",
+      "note": "据参考中的语义与轮廓人工重绘，路径与笔画参数为拟合值，非官方矢量原件。",
+      "labelEn": "Colored cleaning",
+      "categoryEn": "Colored semantic icons",
+      "confidenceEn": "Reference redraw",
+      "noteEn": "Hand-redrawn from the reference meaning and outline. Paths and strokes are fitted estimates, not official vectors."
+    },
+    {
+      "id": "v7-charge-color",
+      "label": "彩色充电",
+      "category": "彩色功能",
+      "aliases": [],
+      "nodes": [
+        [
+          "circle",
+          {
+            "cx": 12,
+            "cy": 12,
+            "r": 10,
+            "fill": "#6ab5bc",
+            "stroke": "none"
+          }
+        ],
+        [
+          "path",
+          {
+            "d": "m13 4-7 9h5l-1 7 8-10h-5Z",
+            "stroke": "#d6f8fb"
+          }
+        ]
+      ],
+      "source": "L19",
+      "colorMode": "source-color",
+      "viewBox": "0 0 24 24",
+      "strokeWidth": 1.65,
+      "cap": "round",
+      "join": "round",
+      "confidence": "参考重绘",
+      "note": "据参考中的语义与轮廓人工重绘，路径与笔画参数为拟合值，非官方矢量原件。",
+      "labelEn": "Colored charging",
+      "categoryEn": "Colored semantic icons",
+      "confidenceEn": "Reference redraw",
+      "noteEn": "Hand-redrawn from the reference meaning and outline. Paths and strokes are fitted estimates, not official vectors."
+    },
+    {
+      "id": "v7-settings-color",
+      "label": "彩色整理",
+      "category": "彩色功能",
+      "aliases": [],
+      "nodes": [
+        [
+          "circle",
+          {
+            "cx": 12,
+            "cy": 12,
+            "r": 10,
+            "fill": "#bb849f",
+            "stroke": "none"
+          }
+        ],
+        [
+          "path",
+          {
+            "d": "m10 5 4 0 1 2 2 1 2 2v4l-2 1-1 2-2 2h-4l-1-2-2-1-2-2v-4l2-1 1-2Z",
+            "stroke": "#f8dced"
+          }
+        ],
+        [
+          "circle",
+          {
+            "cx": 12,
+            "cy": 12,
+            "r": 3,
+            "stroke": "#f8dced"
+          }
+        ]
+      ],
+      "source": "L19",
+      "colorMode": "source-color",
+      "viewBox": "0 0 24 24",
+      "strokeWidth": 1.65,
+      "cap": "round",
+      "join": "round",
+      "confidence": "参考重绘",
+      "note": "据参考中的语义与轮廓人工重绘，路径与笔画参数为拟合值，非官方矢量原件。",
+      "labelEn": "Colored organization",
+      "categoryEn": "Colored semantic icons",
+      "confidenceEn": "Reference redraw",
+      "noteEn": "Hand-redrawn from the reference meaning and outline. Paths and strokes are fitted estimates, not official vectors."
+    },
+    {
+      "id": "v7-car-color",
+      "label": "彩色出行",
+      "category": "彩色功能",
+      "aliases": [],
+      "nodes": [
+        [
+          "circle",
+          {
+            "cx": 12,
+            "cy": 12,
+            "r": 10,
+            "fill": "#6bb4c7",
+            "stroke": "none"
+          }
+        ],
+        [
+          "path",
+          {
+            "d": "M6 10 8 6h8l2 4M5 10h14v7H5ZM7 17v2m10-2v2M7 12h2m6 0h2M9 15h6",
+            "stroke": "#d6f0f8"
+          }
+        ]
+      ],
+      "source": "L19",
+      "colorMode": "source-color",
+      "viewBox": "0 0 24 24",
+      "strokeWidth": 1.65,
+      "cap": "round",
+      "join": "round",
+      "confidence": "参考重绘",
+      "note": "据参考中的语义与轮廓人工重绘，路径与笔画参数为拟合值，非官方矢量原件。",
+      "labelEn": "Colored travel",
+      "categoryEn": "Colored semantic icons",
+      "confidenceEn": "Reference redraw",
+      "noteEn": "Hand-redrawn from the reference meaning and outline. Paths and strokes are fitted estimates, not official vectors."
+    },
+    {
+      "id": "v7-retouch-color",
+      "label": "彩色修图",
+      "category": "彩色功能",
+      "aliases": [],
+      "nodes": [
+        [
+          "circle",
+          {
+            "cx": 12,
+            "cy": 12,
+            "r": 10,
+            "fill": "#def5ff",
+            "stroke": "none"
+          }
+        ],
+        [
+          "path",
+          {
+            "d": "M6 5h12v15H6Z",
+            "fill": "#27b9f4",
+            "stroke": "none"
+          }
+        ],
+        [
+          "path",
+          {
+            "d": "m6 18 5-7 3 4 2-2 3 6Z",
+            "fill": "#f5fcff",
+            "stroke": "none"
+          }
+        ],
+        [
+          "path",
+          {
+            "d": "m7 2 .8 2.4L10 5l-2.2.6L7 8l-.8-2.4L4 5l2.2-.6Z",
+            "fill": "#287ae8",
+            "stroke": "none"
+          }
+        ]
+      ],
+      "source": "L19",
+      "colorMode": "source-color",
+      "viewBox": "0 0 24 24",
+      "strokeWidth": 1.65,
+      "cap": "round",
+      "join": "round",
+      "confidence": "参考重绘",
+      "note": "据参考中的语义与轮廓人工重绘，路径与笔画参数为拟合值，非官方矢量原件。",
+      "labelEn": "Colored retouch",
+      "categoryEn": "Colored semantic icons",
+      "confidenceEn": "Reference redraw",
+      "noteEn": "Hand-redrawn from the reference meaning and outline. Paths and strokes are fitted estimates, not official vectors."
+    },
+    {
+      "id": "v7-helper-color",
+      "label": "彩色帮帮忙",
+      "category": "彩色功能",
+      "aliases": [],
+      "nodes": [
+        [
+          "circle",
+          {
+            "cx": 12,
+            "cy": 12,
+            "r": 10,
+            "fill": "#c1b6ee",
+            "stroke": "none"
+          }
+        ],
+        [
+          "path",
+          {
+            "d": "M3 9C5 1 15 0 20 5L18 12Z",
+            "fill": "#efb9c3",
+            "stroke": "none"
+          }
+        ],
+        [
+          "path",
+          {
+            "d": "M3 14c3 9 14 10 18-1L18 8Z",
+            "fill": "#8dd6f2",
+            "stroke": "none"
+          }
+        ],
+        [
+          "rect",
+          {
+            "x": 5,
+            "y": 6,
+            "width": 14,
+            "height": 13,
+            "rx": 6,
+            "fill": "#effcff",
+            "stroke": "none"
+          }
+        ],
+        [
+          "ellipse",
+          {
+            "cx": 9,
+            "cy": 12,
+            "rx": 1.3,
+            "ry": 2.4,
+            "fill": "#243a59",
+            "stroke": "none"
+          }
+        ],
+        [
+          "ellipse",
+          {
+            "cx": 15,
+            "cy": 12,
+            "rx": 1.3,
+            "ry": 2.4,
+            "fill": "#243a59",
+            "stroke": "none"
+          }
+        ]
+      ],
+      "source": "L19",
+      "colorMode": "source-color",
+      "viewBox": "0 0 24 24",
+      "strokeWidth": 1.65,
+      "cap": "round",
+      "join": "round",
+      "confidence": "参考重绘",
+      "note": "据参考中的语义与轮廓人工重绘，路径与笔画参数为拟合值，非官方矢量原件。",
+      "labelEn": "Colored helper",
+      "categoryEn": "Colored semantic icons",
+      "confidenceEn": "Reference redraw",
+      "noteEn": "Hand-redrawn from the reference meaning and outline. Paths and strokes are fitted estimates, not official vectors."
+    },
+    {
+      "id": "v7-time-color",
+      "label": "彩色时光机",
+      "category": "彩色功能",
+      "aliases": [],
+      "nodes": [
+        [
+          "circle",
+          {
+            "cx": 12,
+            "cy": 12,
+            "r": 10,
+            "fill": "#f6a025",
+            "stroke": "none"
+          }
+        ],
+        [
+          "path",
+          {
+            "d": "M3 8C5 1 17 0 21 9L12 12Z",
+            "fill": "#ffd35b",
+            "stroke": "none"
+          }
+        ],
+        [
+          "rect",
+          {
+            "x": 6,
+            "y": 8,
+            "width": 12,
+            "height": 11,
+            "rx": 2,
+            "fill": "#fff0c9",
+            "stroke": "none"
+          }
+        ],
+        [
+          "path",
+          {
+            "d": "M8 12h8M8 15h5",
+            "stroke": "#ffd266"
+          }
+        ]
+      ],
+      "source": "L19",
+      "colorMode": "source-color",
+      "viewBox": "0 0 24 24",
+      "strokeWidth": 1.65,
+      "cap": "round",
+      "join": "round",
+      "confidence": "参考重绘",
+      "note": "据参考中的语义与轮廓人工重绘，路径与笔画参数为拟合值，非官方矢量原件。",
+      "labelEn": "Colored time machine",
+      "categoryEn": "Colored semantic icons",
+      "confidenceEn": "Reference redraw",
+      "noteEn": "Hand-redrawn from the reference meaning and outline. Paths and strokes are fitted estimates, not official vectors."
+    },
+    {
+      "id": "v7-keyboard",
+      "label": "智能键盘",
+      "category": "输入",
+      "aliases": [],
+      "nodes": [
+        [
+          "path",
+          {
+            "d": "M4 8h16v12H4ZM7 12h1m3 0h1m3 0h1M7 16h10M6 2l1 3 3 1-3 1-1 3-1-3-3-1 3-1Z"
+          }
+        ]
+      ],
+      "source": "L19",
+      "colorMode": "currentColor",
+      "viewBox": "0 0 24 24",
+      "strokeWidth": 1.65,
+      "cap": "round",
+      "join": "round",
+      "confidence": "参考重绘",
+      "note": "据参考中的语义与轮廓人工重绘，路径与笔画参数为拟合值，非官方矢量原件。",
+      "labelEn": "Smart keyboard",
+      "categoryEn": "Input",
+      "confidenceEn": "Reference redraw",
+      "noteEn": "Hand-redrawn from the reference meaning and outline. Paths and strokes are fitted estimates, not official vectors."
+    },
+    {
+      "id": "v7-voice",
+      "label": "语音输入环",
+      "category": "输入",
+      "aliases": [],
+      "nodes": [
+        [
+          "path",
+          {
+            "d": "M8 9v6m3-9v12m3-10v8m3-6v4"
+          }
+        ],
+        [
+          "circle",
+          {
+            "cx": 12,
+            "cy": 12,
+            "r": 10
+          }
+        ]
+      ],
+      "source": "L19",
+      "colorMode": "currentColor",
+      "viewBox": "0 0 24 24",
+      "strokeWidth": 1.65,
+      "cap": "round",
+      "join": "round",
+      "confidence": "参考重绘",
+      "note": "据参考中的语义与轮廓人工重绘，路径与笔画参数为拟合值，非官方矢量原件。",
+      "labelEn": "Voice input ring",
+      "categoryEn": "Input",
+      "confidenceEn": "Reference redraw",
+      "noteEn": "Hand-redrawn from the reference meaning and outline. Paths and strokes are fitted estimates, not official vectors."
+    },
+    {
+      "id": "v7-reasoning",
+      "label": "深度思考结",
+      "category": "输入",
+      "aliases": [],
+      "nodes": [
+        [
+          "path",
+          {
+            "d": "M6 4c7-5 17 12 11 16S-2 8 4 5s18 6 16 12S2 19 4 10s15-12 16-5S7 23 4 17 12 0 18 4"
+          }
+        ]
+      ],
+      "source": "L19",
+      "colorMode": "currentColor",
+      "viewBox": "0 0 24 24",
+      "strokeWidth": 1.65,
+      "cap": "round",
+      "join": "round",
+      "confidence": "参考重绘",
+      "note": "据参考中的语义与轮廓人工重绘，路径与笔画参数为拟合值，非官方矢量原件。",
+      "labelEn": "Reasoning knot",
+      "categoryEn": "Input",
+      "confidenceEn": "Reference redraw",
+      "noteEn": "Hand-redrawn from the reference meaning and outline. Paths and strokes are fitted estimates, not official vectors."
+    },
+    {
+      "id": "v7-menu",
+      "label": "对话侧栏",
+      "category": "输入",
+      "aliases": [],
+      "nodes": [
+        [
+          "path",
+          {
+            "d": "M3 5h18M3 12h10M3 19h18m-4-11 4 4-4 4"
+          }
+        ]
+      ],
+      "source": "L19",
+      "colorMode": "currentColor",
+      "viewBox": "0 0 24 24",
+      "strokeWidth": 1.65,
+      "cap": "round",
+      "join": "round",
+      "confidence": "参考重绘",
+      "note": "据参考中的语义与轮廓人工重绘，路径与笔画参数为拟合值，非官方矢量原件。",
+      "labelEn": "Conversation sidebar",
+      "categoryEn": "Input",
+      "confidenceEn": "Reference redraw",
+      "noteEn": "Hand-redrawn from the reference meaning and outline. Paths and strokes are fitted estimates, not official vectors."
+    },
+    {
+      "id": "v7-call",
+      "label": "智能通话",
+      "category": "输入",
+      "aliases": [],
+      "nodes": [
+        [
+          "path",
+          {
+            "d": "M5 4 2 7c0 7 8 15 15 15l4-4-5-4-3 3-6-6 2-3ZM17 1l1 3 3 1-3 1-1 3-1-3-3-1 3-1Z"
+          }
+        ]
+      ],
+      "source": "L19",
+      "colorMode": "currentColor",
+      "viewBox": "0 0 24 24",
+      "strokeWidth": 1.65,
+      "cap": "round",
+      "join": "round",
+      "confidence": "参考重绘",
+      "note": "据参考中的语义与轮廓人工重绘，路径与笔画参数为拟合值，非官方矢量原件。",
+      "labelEn": "AI call",
+      "categoryEn": "Input",
+      "confidenceEn": "Reference redraw",
+      "noteEn": "Hand-redrawn from the reference meaning and outline. Paths and strokes are fitted estimates, not official vectors."
+    },
+    {
+      "id": "v7-clean",
+      "label": "扬声器清理",
+      "category": "输入",
+      "aliases": [],
+      "nodes": [
+        [
+          "path",
+          {
+            "d": "M3 19h18M5 19v-7h14v7M9 12V6h6v6M9 6l2-3 3 2M9 15v3m6-3v3"
+          }
+        ]
+      ],
+      "source": "L19",
+      "colorMode": "currentColor",
+      "viewBox": "0 0 24 24",
+      "strokeWidth": 1.65,
+      "cap": "round",
+      "join": "round",
+      "confidence": "参考重绘",
+      "note": "据参考中的语义与轮廓人工重绘，路径与笔画参数为拟合值，非官方矢量原件。",
+      "labelEn": "Speaker cleaning",
+      "categoryEn": "Input",
+      "confidenceEn": "Reference redraw",
+      "noteEn": "Hand-redrawn from the reference meaning and outline. Paths and strokes are fitted estimates, not official vectors."
+    },
+    {
+      "id": "v7-charge",
+      "label": "充电模式",
+      "category": "输入",
+      "aliases": [],
+      "nodes": [
+        [
+          "path",
+          {
+            "d": "m13 2-9 12h7l-1 8 10-13h-7Z"
+          }
+        ]
+      ],
+      "source": "L19",
+      "colorMode": "currentColor",
+      "viewBox": "0 0 24 24",
+      "strokeWidth": 1.65,
+      "cap": "round",
+      "join": "round",
+      "confidence": "参考重绘",
+      "note": "据参考中的语义与轮廓人工重绘，路径与笔画参数为拟合值，非官方矢量原件。",
+      "labelEn": "Charging mode",
+      "categoryEn": "Input",
+      "confidenceEn": "Reference redraw",
+      "noteEn": "Hand-redrawn from the reference meaning and outline. Paths and strokes are fitted estimates, not official vectors."
+    },
+    {
+      "id": "v7-car",
+      "label": "出行技能",
+      "category": "输入",
+      "aliases": [],
+      "nodes": [
+        [
+          "path",
+          {
+            "d": "M4 10 6 4h12l2 6M3 10h18v9H3ZM6 19v2m12-2v2M6 13h2m8 0h2M8 16h8"
+          }
+        ]
+      ],
+      "source": "L19",
+      "colorMode": "currentColor",
+      "viewBox": "0 0 24 24",
+      "strokeWidth": 1.65,
+      "cap": "round",
+      "join": "round",
+      "confidence": "参考重绘",
+      "note": "据参考中的语义与轮廓人工重绘，路径与笔画参数为拟合值，非官方矢量原件。",
+      "labelEn": "Travel skill",
+      "categoryEn": "Input",
+      "confidenceEn": "Reference redraw",
+      "noteEn": "Hand-redrawn from the reference meaning and outline. Paths and strokes are fitted estimates, not official vectors."
+    },
+    {
+      "id": "thumbs-up",
+      "label": "赞同",
+      "category": "输入",
+      "aliases": [],
+      "nodes": [
+        [
+          "path",
+          {
+            "d": "M8 11 12 3c3 0 2 5 2 6h6v5l-3 7H8ZM3 11h5v10H3Z"
+          }
+        ]
+      ],
+      "source": "L19",
+      "colorMode": "currentColor",
+      "viewBox": "0 0 24 24",
+      "strokeWidth": 1.65,
+      "cap": "round",
+      "join": "round",
+      "confidence": "参考重绘",
+      "note": "据参考中的语义与轮廓人工重绘，路径与笔画参数为拟合值，非官方矢量原件。",
+      "labelEn": "Helpful",
+      "categoryEn": "Input",
+      "confidenceEn": "Reference redraw",
+      "noteEn": "Hand-redrawn from the reference meaning and outline. Paths and strokes are fitted estimates, not official vectors."
+    },
+    {
+      "id": "thumbs-down",
+      "label": "不赞同",
+      "category": "输入",
+      "aliases": [],
+      "nodes": [
+        [
+          "path",
+          {
+            "d": "M8 13 12 21c3 0 2-5 2-6h6V10l-3-7H8ZM3 13h5V3H3Z"
+          }
+        ]
+      ],
+      "source": "L19",
+      "colorMode": "currentColor",
+      "viewBox": "0 0 24 24",
+      "strokeWidth": 1.65,
+      "cap": "round",
+      "join": "round",
+      "confidence": "参考重绘",
+      "note": "据参考中的语义与轮廓人工重绘，路径与笔画参数为拟合值，非官方矢量原件。",
+      "labelEn": "Not helpful",
+      "categoryEn": "Input",
+      "confidenceEn": "Reference redraw",
+      "noteEn": "Hand-redrawn from the reference meaning and outline. Paths and strokes are fitted estimates, not official vectors."
+    },
+    {
+      "id": "phone-end",
+      "label": "挂断电话",
+      "category": "声音",
+      "aliases": [],
+      "nodes": [
+        [
+          "path",
+          {
+            "d": "M3 10.5c5-5.2 13-5.2 18 0v4c0 .8-.6 1.3-1.4 1.1l-4-1c-.6-.2-1-.6-1-1.2v-2a10 10 0 0 0-5.2 0v2c0 .6-.4 1-1 1.2l-4 1C3.6 15.8 3 15.3 3 14.5Z",
+            "fill": "currentColor",
+            "stroke": "none"
+          }
+        ]
+      ],
+      "source": "W18",
+      "colorMode": "currentColor",
+      "viewBox": "0 0 24 24",
+      "strokeWidth": 1.65,
+      "cap": "round",
+      "join": "round",
+      "confidence": "参考重绘",
+      "note": "据参考中的语义与轮廓人工重绘，路径与笔画参数为拟合值，非官方矢量原件。",
+      "labelEn": "End call",
+      "categoryEn": "Sound",
+      "confidenceEn": "Reference redraw",
+      "noteEn": "Hand-redrawn from the reference meaning and outline. Paths and strokes are fitted estimates, not official vectors."
+    },
+    {
+      "id": "camera-flip",
+      "label": "翻转摄像头",
+      "category": "输入",
+      "aliases": [],
+      "nodes": [
+        [
+          "path",
+          {
+            "d": "M5 8h3l1-3h6l1 3h3v9H5Z"
+          }
+        ],
+        [
+          "circle",
+          {
+            "cx": 12,
+            "cy": 12,
+            "r": 3
+          }
+        ],
+        [
+          "path",
+          {
+            "d": "M3 15c-2 4 3 6 8 6m10-6c2 4-3 6-8 6m-4-2 2 2-2 2"
+          }
+        ]
+      ],
+      "source": "W18",
+      "colorMode": "currentColor",
+      "viewBox": "0 0 24 24",
+      "strokeWidth": 1.65,
+      "cap": "round",
+      "join": "round",
+      "confidence": "参考重绘",
+      "note": "据参考中的语义与轮廓人工重绘，路径与笔画参数为拟合值，非官方矢量原件。",
+      "labelEn": "Flip camera",
+      "categoryEn": "Input",
+      "confidenceEn": "Reference redraw",
+      "noteEn": "Hand-redrawn from the reference meaning and outline. Paths and strokes are fitted estimates, not official vectors."
+    },
+    {
+      "id": "video-camera",
+      "label": "视频通话",
+      "category": "输入",
+      "aliases": [],
+      "nodes": [
+        [
+          "rect",
+          {
+            "x": 3,
+            "y": 6,
+            "width": 12,
+            "height": 12,
+            "rx": 3,
+            "fill": "currentColor",
+            "stroke": "none"
+          }
+        ],
+        [
+          "path",
+          {
+            "d": "m17 9 4-2v10l-4-2Z",
+            "fill": "currentColor",
+            "stroke": "none"
+          }
+        ]
+      ],
+      "source": "W18",
+      "colorMode": "currentColor",
+      "viewBox": "0 0 24 24",
+      "strokeWidth": 1.65,
+      "cap": "round",
+      "join": "round",
+      "confidence": "参考重绘",
+      "note": "据参考中的语义与轮廓人工重绘，路径与笔画参数为拟合值，非官方矢量原件。",
+      "labelEn": "Video call",
+      "categoryEn": "Input",
+      "confidenceEn": "Reference redraw",
+      "noteEn": "Hand-redrawn from the reference meaning and outline. Paths and strokes are fitted estimates, not official vectors."
+    },
+    {
+      "id": "arrow-up",
+      "label": "向上",
+      "category": "导航",
+      "aliases": [
+        "ArrowUp"
+      ],
+      "nodes": [
+        [
+          "path",
+          {
+            "d": "M12 20V4m-6 6 6-6 6 6"
+          }
+        ]
+      ],
+      "source": "L09",
+      "colorMode": "currentColor",
+      "viewBox": "0 0 24 24",
+      "strokeWidth": 1.65,
+      "cap": "round",
+      "join": "round",
+      "confidence": "参考重绘",
+      "note": "据参考中的语义与轮廓人工重绘，路径与笔画参数为拟合值，非官方矢量原件。",
+      "labelEn": "Up",
+      "categoryEn": "Navigation",
+      "confidenceEn": "Reference redraw",
+      "noteEn": "Hand-redrawn from the reference meaning and outline. Paths and strokes are fitted estimates, not official vectors."
+    },
+    {
+      "id": "arrow-down",
+      "label": "向下",
+      "category": "导航",
+      "aliases": [
+        "ArrowDown"
+      ],
+      "nodes": [
+        [
+          "path",
+          {
+            "d": "M12 4v16m-6-6 6 6 6-6"
+          }
+        ]
+      ],
+      "source": "L11",
+      "colorMode": "currentColor",
+      "viewBox": "0 0 24 24",
+      "strokeWidth": 1.65,
+      "cap": "round",
+      "join": "round",
+      "confidence": "参考重绘",
+      "note": "据参考中的语义与轮廓人工重绘，路径与笔画参数为拟合值，非官方矢量原件。",
+      "labelEn": "Down",
+      "categoryEn": "Navigation",
+      "confidenceEn": "Reference redraw",
+      "noteEn": "Hand-redrawn from the reference meaning and outline. Paths and strokes are fitted estimates, not official vectors."
+    },
+    {
+      "id": "arrow-left",
+      "label": "返回",
+      "category": "导航",
+      "aliases": [
+        "ArrowLeft"
+      ],
+      "nodes": [
+        [
+          "path",
+          {
+            "d": "m14.5 4.5-7.5 7.5 7.5 7.5"
+          }
+        ]
+      ],
+      "source": "L09,L15",
+      "colorMode": "currentColor",
+      "viewBox": "0 0 24 24",
+      "strokeWidth": 1.65,
+      "cap": "round",
+      "join": "round",
+      "confidence": "参考重绘",
+      "note": "据参考中的语义与轮廓人工重绘，路径与笔画参数为拟合值，非官方矢量原件。",
+      "labelEn": "Back",
+      "categoryEn": "Navigation",
+      "confidenceEn": "Reference redraw",
+      "noteEn": "Hand-redrawn from the reference meaning and outline. Paths and strokes are fitted estimates, not official vectors."
+    },
+    {
+      "id": "arrow-right",
+      "label": "前进",
+      "category": "导航",
+      "aliases": [
+        "ArrowRight"
+      ],
+      "nodes": [
+        [
+          "path",
+          {
+            "d": "m9.5 4.5 7.5 7.5-7.5 7.5"
+          }
+        ]
+      ],
+      "source": "extension",
+      "colorMode": "currentColor",
+      "viewBox": "0 0 24 24",
+      "strokeWidth": 1.65,
+      "cap": "round",
+      "join": "round",
+      "confidence": "风格扩展",
+      "note": "为完整系统补充的图标，无直接小艺截图证据。",
+      "labelEn": "Forward",
+      "categoryEn": "Navigation",
+      "confidenceEn": "Style extension",
+      "noteEn": "An extension for system completeness, without direct Xiaoyi screenshot evidence."
+    },
+    {
+      "id": "chevron-down",
+      "label": "下拉",
+      "category": "导航",
+      "aliases": [
+        "ChevronDown"
+      ],
+      "nodes": [
+        [
+          "path",
+          {
+            "d": "m6.5 9.5 5.5 5 5.5-5"
+          }
+        ]
+      ],
+      "source": "L12",
+      "colorMode": "currentColor",
+      "viewBox": "0 0 24 24",
+      "strokeWidth": 1.65,
+      "cap": "round",
+      "join": "round",
+      "confidence": "参考重绘",
+      "note": "据参考中的语义与轮廓人工重绘，路径与笔画参数为拟合值，非官方矢量原件。",
+      "labelEn": "Chevron down",
+      "categoryEn": "Navigation",
+      "confidenceEn": "Reference redraw",
+      "noteEn": "Hand-redrawn from the reference meaning and outline. Paths and strokes are fitted estimates, not official vectors."
+    },
+    {
+      "id": "chevron-up",
+      "label": "上拉",
+      "category": "导航",
+      "aliases": [
+        "ChevronUp"
+      ],
+      "nodes": [
+        [
+          "path",
+          {
+            "d": "m6.5 14.5 5.5-5 5.5 5"
+          }
+        ]
+      ],
+      "source": "extension",
+      "colorMode": "currentColor",
+      "viewBox": "0 0 24 24",
+      "strokeWidth": 1.65,
+      "cap": "round",
+      "join": "round",
+      "confidence": "风格扩展",
+      "note": "为完整系统补充的图标，无直接小艺截图证据。",
+      "labelEn": "Chevron up",
+      "categoryEn": "Navigation",
+      "confidenceEn": "Style extension",
+      "noteEn": "An extension for system completeness, without direct Xiaoyi screenshot evidence."
+    },
+    {
+      "id": "chevron-left",
+      "label": "上一项",
+      "category": "导航",
+      "aliases": [
+        "ChevronLeft"
+      ],
+      "nodes": [
+        [
+          "path",
+          {
+            "d": "m14.5 6.5-5 5.5 5 5.5"
+          }
+        ]
+      ],
+      "source": "extension",
+      "colorMode": "currentColor",
+      "viewBox": "0 0 24 24",
+      "strokeWidth": 1.65,
+      "cap": "round",
+      "join": "round",
+      "confidence": "风格扩展",
+      "note": "为完整系统补充的图标，无直接小艺截图证据。",
+      "labelEn": "Previous",
+      "categoryEn": "Navigation",
+      "confidenceEn": "Style extension",
+      "noteEn": "An extension for system completeness, without direct Xiaoyi screenshot evidence."
+    },
+    {
+      "id": "chevron-right",
+      "label": "下一项",
+      "category": "导航",
+      "aliases": [
+        "ChevronRight"
+      ],
+      "nodes": [
+        [
+          "path",
+          {
+            "d": "m9.5 6.5 5 5.5-5 5.5"
+          }
+        ]
+      ],
+      "source": "L17",
+      "colorMode": "currentColor",
+      "viewBox": "0 0 24 24",
+      "strokeWidth": 1.65,
+      "cap": "round",
+      "join": "round",
+      "confidence": "参考重绘",
+      "note": "据参考中的语义与轮廓人工重绘，路径与笔画参数为拟合值，非官方矢量原件。",
+      "labelEn": "Next",
+      "categoryEn": "Navigation",
+      "confidenceEn": "Reference redraw",
+      "noteEn": "Hand-redrawn from the reference meaning and outline. Paths and strokes are fitted estimates, not official vectors."
+    },
+    {
+      "id": "close",
+      "label": "关闭",
+      "category": "导航",
+      "aliases": [
+        "X"
+      ],
+      "nodes": [
+        [
+          "path",
+          {
+            "d": "m5.5 5.5 13 13m0-13-13 13"
+          }
+        ]
+      ],
+      "source": "L09,L11,L12",
+      "colorMode": "currentColor",
+      "viewBox": "0 0 24 24",
+      "strokeWidth": 1.65,
+      "cap": "round",
+      "join": "round",
+      "confidence": "参考重绘",
+      "note": "据参考中的语义与轮廓人工重绘，路径与笔画参数为拟合值，非官方矢量原件。",
+      "labelEn": "Off",
+      "categoryEn": "Navigation",
+      "confidenceEn": "Reference redraw",
+      "noteEn": "Hand-redrawn from the reference meaning and outline. Paths and strokes are fitted estimates, not official vectors."
+    },
+    {
+      "id": "plus",
+      "label": "添加",
+      "category": "导航",
+      "aliases": [
+        "Plus"
+      ],
+      "nodes": [
+        [
+          "path",
+          {
+            "d": "M12 5v14M5 12h14"
+          }
+        ]
+      ],
+      "source": "L15",
+      "colorMode": "currentColor",
+      "viewBox": "0 0 24 24",
+      "strokeWidth": 1.65,
+      "cap": "round",
+      "join": "round",
+      "confidence": "参考重绘",
+      "note": "据参考中的语义与轮廓人工重绘，路径与笔画参数为拟合值，非官方矢量原件。",
+      "labelEn": "Add",
+      "categoryEn": "Navigation",
+      "confidenceEn": "Reference redraw",
+      "noteEn": "Hand-redrawn from the reference meaning and outline. Paths and strokes are fitted estimates, not official vectors."
+    },
+    {
+      "id": "minus",
+      "label": "减去",
+      "category": "导航",
+      "aliases": [
+        "Minus"
+      ],
+      "nodes": [
+        [
+          "path",
+          {
+            "d": "M5 12h14"
+          }
+        ]
+      ],
+      "source": "extension",
+      "colorMode": "currentColor",
+      "viewBox": "0 0 24 24",
+      "strokeWidth": 1.65,
+      "cap": "round",
+      "join": "round",
+      "confidence": "风格扩展",
+      "note": "为完整系统补充的图标，无直接小艺截图证据。",
+      "labelEn": "Subtract",
+      "categoryEn": "Navigation",
+      "confidenceEn": "Style extension",
+      "noteEn": "An extension for system completeness, without direct Xiaoyi screenshot evidence."
+    },
+    {
+      "id": "more",
+      "label": "更多",
+      "category": "导航",
+      "aliases": [
+        "MoreHorizontal"
+      ],
+      "nodes": [
+        [
+          "circle",
+          {
+            "cx": 5,
+            "cy": 12,
+            "r": 1
+          }
+        ],
+        [
+          "circle",
+          {
+            "cx": 12,
+            "cy": 12,
+            "r": 1
+          }
+        ],
+        [
+          "circle",
+          {
+            "cx": 19,
+            "cy": 12,
+            "r": 1
+          }
+        ]
+      ],
+      "source": "extension",
+      "colorMode": "currentColor",
+      "viewBox": "0 0 24 24",
+      "strokeWidth": 1.65,
+      "cap": "round",
+      "join": "round",
+      "confidence": "风格扩展",
+      "note": "为完整系统补充的图标，无直接小艺截图证据。",
+      "labelEn": "More",
+      "categoryEn": "Navigation",
+      "confidenceEn": "Style extension",
+      "noteEn": "An extension for system completeness, without direct Xiaoyi screenshot evidence."
+    },
+    {
+      "id": "grid-four",
+      "label": "四点菜单",
+      "category": "导航",
+      "aliases": [
+        "Grip"
+      ],
+      "nodes": [
+        [
+          "circle",
+          {
+            "cx": 7,
+            "cy": 6.5,
+            "r": 1.5
+          }
+        ],
+        [
+          "circle",
+          {
+            "cx": 17,
+            "cy": 6.5,
+            "r": 1.5
+          }
+        ],
+        [
+          "circle",
+          {
+            "cx": 7,
+            "cy": 17.5,
+            "r": 1.5
+          }
+        ],
+        [
+          "circle",
+          {
+            "cx": 17,
+            "cy": 17.5,
+            "r": 1.5
+          }
+        ]
+      ],
+      "source": "L09,L15",
+      "colorMode": "currentColor",
+      "viewBox": "0 0 24 24",
+      "strokeWidth": 1.65,
+      "cap": "round",
+      "join": "round",
+      "confidence": "参考重绘",
+      "note": "据参考中的语义与轮廓人工重绘，路径与笔画参数为拟合值，非官方矢量原件。",
+      "labelEn": "Four-dot menu",
+      "categoryEn": "Navigation",
+      "confidenceEn": "Reference redraw",
+      "noteEn": "Hand-redrawn from the reference meaning and outline. Paths and strokes are fitted estimates, not official vectors."
+    },
+    {
+      "id": "menu",
+      "label": "菜单",
+      "category": "导航",
+      "aliases": [
+        "Menu"
+      ],
+      "nodes": [
+        [
+          "path",
+          {
+            "d": "M4 6h16M4 12h16M4 18h16"
+          }
+        ]
+      ],
+      "source": "extension",
+      "colorMode": "currentColor",
+      "viewBox": "0 0 24 24",
+      "strokeWidth": 1.65,
+      "cap": "round",
+      "join": "round",
+      "confidence": "风格扩展",
+      "note": "为完整系统补充的图标，无直接小艺截图证据。",
+      "labelEn": "Menu",
+      "categoryEn": "Navigation",
+      "confidenceEn": "Style extension",
+      "noteEn": "An extension for system completeness, without direct Xiaoyi screenshot evidence."
+    },
+    {
+      "id": "expand",
+      "label": "展开",
+      "category": "导航",
+      "aliases": [
+        "Maximize"
+      ],
+      "nodes": [
+        [
+          "path",
+          {
+            "d": "M9 4H4v5m11-5h5v5M4 15v5h5m11-5v5h-5"
+          }
+        ]
+      ],
+      "source": "L06",
+      "colorMode": "currentColor",
+      "viewBox": "0 0 24 24",
+      "strokeWidth": 1.65,
+      "cap": "round",
+      "join": "round",
+      "confidence": "参考重绘",
+      "note": "据参考中的语义与轮廓人工重绘，路径与笔画参数为拟合值，非官方矢量原件。",
+      "labelEn": "Expand",
+      "categoryEn": "Navigation",
+      "confidenceEn": "Reference redraw",
+      "noteEn": "Hand-redrawn from the reference meaning and outline. Paths and strokes are fitted estimates, not official vectors."
+    },
+    {
+      "id": "collapse",
+      "label": "收起",
+      "category": "导航",
+      "aliases": [
+        "Minimize"
+      ],
+      "nodes": [
+        [
+          "path",
+          {
+            "d": "M4 9h5V4m11 5h-5V4M4 15h5v5m11-5h-5v5"
+          }
+        ]
+      ],
+      "source": "extension",
+      "colorMode": "currentColor",
+      "viewBox": "0 0 24 24",
+      "strokeWidth": 1.65,
+      "cap": "round",
+      "join": "round",
+      "confidence": "风格扩展",
+      "note": "为完整系统补充的图标，无直接小艺截图证据。",
+      "labelEn": "Collapse",
+      "categoryEn": "Navigation",
+      "confidenceEn": "Style extension",
+      "noteEn": "An extension for system completeness, without direct Xiaoyi screenshot evidence."
+    },
+    {
+      "id": "undo",
+      "label": "撤销",
+      "category": "编辑",
+      "aliases": [
+        "Undo"
+      ],
+      "nodes": [
+        [
+          "path",
+          {
+            "d": "M8 5 3.5 9 8 13M4 9h10.5a5.5 5.5 0 0 1 0 11H7"
+          }
+        ]
+      ],
+      "source": "L09",
+      "colorMode": "currentColor",
+      "viewBox": "0 0 24 24",
+      "strokeWidth": 1.65,
+      "cap": "round",
+      "join": "round",
+      "confidence": "参考重绘",
+      "note": "据参考中的语义与轮廓人工重绘，路径与笔画参数为拟合值，非官方矢量原件。",
+      "labelEn": "Undo",
+      "categoryEn": "Edit",
+      "confidenceEn": "Reference redraw",
+      "noteEn": "Hand-redrawn from the reference meaning and outline. Paths and strokes are fitted estimates, not official vectors."
+    },
+    {
+      "id": "redo",
+      "label": "重做",
+      "category": "编辑",
+      "aliases": [
+        "Redo"
+      ],
+      "nodes": [
+        [
+          "path",
+          {
+            "d": "m16 5 4.5 4-4.5 4m4-4H9.5a5.5 5.5 0 0 0 0 11H17"
+          }
+        ]
+      ],
+      "source": "L09",
+      "colorMode": "currentColor",
+      "viewBox": "0 0 24 24",
+      "strokeWidth": 1.65,
+      "cap": "round",
+      "join": "round",
+      "confidence": "参考重绘",
+      "note": "据参考中的语义与轮廓人工重绘，路径与笔画参数为拟合值，非官方矢量原件。",
+      "labelEn": "Redo",
+      "categoryEn": "Edit",
+      "confidenceEn": "Reference redraw",
+      "noteEn": "Hand-redrawn from the reference meaning and outline. Paths and strokes are fitted estimates, not official vectors."
+    },
+    {
+      "id": "keyboard",
+      "label": "键盘",
+      "category": "输入",
+      "aliases": [
+        "Keyboard"
+      ],
+      "nodes": [
+        [
+          "rect",
+          {
+            "x": 3,
+            "y": 6,
+            "width": 18,
+            "height": 13,
+            "rx": 3
+          }
+        ],
+        [
+          "path",
+          {
+            "d": "M6.5 10h.01m3.5 0h.01m3.5 0h.01m3.5 0h.01M6.5 13h.01m3.5 0h.01m3.5 0h.01m3.5 0h.01M8 16h8"
+          }
+        ]
+      ],
+      "source": "L06,L11",
+      "colorMode": "currentColor",
+      "viewBox": "0 0 24 24",
+      "strokeWidth": 1.65,
+      "cap": "round",
+      "join": "round",
+      "confidence": "参考重绘",
+      "note": "据参考中的语义与轮廓人工重绘，路径与笔画参数为拟合值，非官方矢量原件。",
+      "labelEn": "Keyboard",
+      "categoryEn": "Input",
+      "confidenceEn": "Reference redraw",
+      "noteEn": "Hand-redrawn from the reference meaning and outline. Paths and strokes are fitted estimates, not official vectors."
+    },
+    {
+      "id": "microphone",
+      "label": "麦克风",
+      "category": "输入",
+      "aliases": [
+        "Mic"
+      ],
+      "nodes": [
+        [
+          "rect",
+          {
+            "x": 9,
+            "y": 3,
+            "width": 6,
+            "height": 12,
+            "rx": 3
+          }
+        ],
+        [
+          "path",
+          {
+            "d": "M5.5 11v1a6.5 6.5 0 0 0 13 0v-1M12 18.5V22"
+          }
+        ]
+      ],
+      "source": "L06,L18",
+      "colorMode": "currentColor",
+      "viewBox": "0 0 24 24",
+      "strokeWidth": 1.65,
+      "cap": "round",
+      "join": "round",
+      "confidence": "参考重绘",
+      "note": "据参考中的语义与轮廓人工重绘，路径与笔画参数为拟合值，非官方矢量原件。",
+      "labelEn": "Microphone",
+      "categoryEn": "Input",
+      "confidenceEn": "Reference redraw",
+      "noteEn": "Hand-redrawn from the reference meaning and outline. Paths and strokes are fitted estimates, not official vectors."
+    },
+    {
+      "id": "microphone-off",
+      "label": "麦克风关闭",
+      "category": "输入",
+      "aliases": [
+        "MicOff"
+      ],
+      "nodes": [
+        [
+          "path",
+          {
+            "d": "M9 7V6a3 3 0 0 1 6 0v5M9 10v2a3 3 0 0 0 4.5 2.6M5.5 11v1a6.5 6.5 0 0 0 11.2 4.5M18.5 11v1a6.5 6.5 0 0 1-.3 2M12 18.5V22M3 3l18 18"
+          }
+        ]
+      ],
+      "source": "extension",
+      "colorMode": "currentColor",
+      "viewBox": "0 0 24 24",
+      "strokeWidth": 1.65,
+      "cap": "round",
+      "join": "round",
+      "confidence": "风格扩展",
+      "note": "为完整系统补充的图标，无直接小艺截图证据。",
+      "labelEn": "Microphone off",
+      "categoryEn": "Input",
+      "confidenceEn": "Style extension",
+      "noteEn": "An extension for system completeness, without direct Xiaoyi screenshot evidence."
+    },
+    {
+      "id": "camera",
+      "label": "摄像头",
+      "category": "输入",
+      "aliases": [
+        "Camera"
+      ],
+      "nodes": [
+        [
+          "path",
+          {
+            "d": "M8 6 9.5 3.5h5L16 6h3.5a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-15a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2Z"
+          }
+        ],
+        [
+          "circle",
+          {
+            "cx": 12,
+            "cy": 12.5,
+            "r": 4
+          }
+        ]
+      ],
+      "source": "L06",
+      "colorMode": "currentColor",
+      "viewBox": "0 0 24 24",
+      "strokeWidth": 1.65,
+      "cap": "round",
+      "join": "round",
+      "confidence": "参考重绘",
+      "note": "据参考中的语义与轮廓人工重绘，路径与笔画参数为拟合值，非官方矢量原件。",
+      "labelEn": "Camera",
+      "categoryEn": "Input",
+      "confidenceEn": "Reference redraw",
+      "noteEn": "Hand-redrawn from the reference meaning and outline. Paths and strokes are fitted estimates, not official vectors."
+    },
+    {
+      "id": "camera-off",
+      "label": "关闭摄像头",
+      "category": "输入",
+      "aliases": [
+        "CameraOff"
+      ],
+      "nodes": [
+        [
+          "path",
+          {
+            "d": "M8.5 4.5h6L16 7h3.5a2 2 0 0 1 2 2v7M18 20H4.5a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2H6M9.2 10.2a4 4 0 0 0 5.6 5.6M3 3l18 18"
+          }
+        ]
+      ],
+      "source": "L06",
+      "colorMode": "currentColor",
+      "viewBox": "0 0 24 24",
+      "strokeWidth": 1.65,
+      "cap": "round",
+      "join": "round",
+      "confidence": "参考重绘",
+      "note": "据参考中的语义与轮廓人工重绘，路径与笔画参数为拟合值，非官方矢量原件。",
+      "labelEn": "Turn camera off",
+      "categoryEn": "Input",
+      "confidenceEn": "Reference redraw",
+      "noteEn": "Hand-redrawn from the reference meaning and outline. Paths and strokes are fitted estimates, not official vectors."
+    },
+    {
+      "id": "headphones",
+      "label": "耳机",
+      "category": "声音",
+      "aliases": [
+        "Headphones"
+      ],
+      "nodes": [
+        [
+          "path",
+          {
+            "d": "M4 14V11a8 8 0 0 1 16 0v3"
+          }
+        ],
+        [
+          "rect",
+          {
+            "x": 3,
+            "y": 12,
+            "width": 4,
+            "height": 8,
+            "rx": 2
+          }
+        ],
+        [
+          "rect",
+          {
+            "x": 17,
+            "y": 12,
+            "width": 4,
+            "height": 8,
+            "rx": 2
+          }
+        ]
+      ],
+      "source": "L15",
+      "colorMode": "currentColor",
+      "viewBox": "0 0 24 24",
+      "strokeWidth": 1.65,
+      "cap": "round",
+      "join": "round",
+      "confidence": "参考重绘",
+      "note": "据参考中的语义与轮廓人工重绘，路径与笔画参数为拟合值，非官方矢量原件。",
+      "labelEn": "Headphones",
+      "categoryEn": "Sound",
+      "confidenceEn": "Reference redraw",
+      "noteEn": "Hand-redrawn from the reference meaning and outline. Paths and strokes are fitted estimates, not official vectors."
+    },
+    {
+      "id": "volume",
+      "label": "声音",
+      "category": "声音",
+      "aliases": [
+        "Volume2"
+      ],
+      "nodes": [
+        [
+          "path",
+          {
+            "d": "M4 9h4l5-4v14l-5-4H4ZM17 8a6 6 0 0 1 0 8m2.5-10.5a9.5 9.5 0 0 1 0 13"
+          }
+        ]
+      ],
+      "source": "L11",
+      "colorMode": "currentColor",
+      "viewBox": "0 0 24 24",
+      "strokeWidth": 1.65,
+      "cap": "round",
+      "join": "round",
+      "confidence": "参考重绘",
+      "note": "据参考中的语义与轮廓人工重绘，路径与笔画参数为拟合值，非官方矢量原件。",
+      "labelEn": "Sound",
+      "categoryEn": "Sound",
+      "confidenceEn": "Reference redraw",
+      "noteEn": "Hand-redrawn from the reference meaning and outline. Paths and strokes are fitted estimates, not official vectors."
+    },
+    {
+      "id": "volume-off",
+      "label": "静音",
+      "category": "声音",
+      "aliases": [
+        "VolumeX"
+      ],
+      "nodes": [
+        [
+          "path",
+          {
+            "d": "M4 9h4l5-4v14l-5-4H4Zm13 1 5 5m0-5-5 5"
+          }
+        ]
+      ],
+      "source": "L11",
+      "colorMode": "currentColor",
+      "viewBox": "0 0 24 24",
+      "strokeWidth": 1.65,
+      "cap": "round",
+      "join": "round",
+      "confidence": "参考重绘",
+      "note": "据参考中的语义与轮廓人工重绘，路径与笔画参数为拟合值，非官方矢量原件。",
+      "labelEn": "Mute",
+      "categoryEn": "Sound",
+      "confidenceEn": "Reference redraw",
+      "noteEn": "Hand-redrawn from the reference meaning and outline. Paths and strokes are fitted estimates, not official vectors."
+    },
+    {
+      "id": "audio-wave",
+      "label": "声波",
+      "category": "声音",
+      "aliases": [
+        "AudioLines"
+      ],
+      "nodes": [
+        [
+          "path",
+          {
+            "d": "M3 10v4m3-8v12m3-14v16m3-12v8m3-11v14m3-11v8m3-6v4"
+          }
+        ]
+      ],
+      "source": "L09",
+      "colorMode": "currentColor",
+      "viewBox": "0 0 24 24",
+      "strokeWidth": 1.65,
+      "cap": "round",
+      "join": "round",
+      "confidence": "参考重绘",
+      "note": "据参考中的语义与轮廓人工重绘，路径与笔画参数为拟合值，非官方矢量原件。",
+      "labelEn": "Sound wave",
+      "categoryEn": "Sound",
+      "confidenceEn": "Reference redraw",
+      "noteEn": "Hand-redrawn from the reference meaning and outline. Paths and strokes are fitted estimates, not official vectors."
+    },
+    {
+      "id": "send",
+      "label": "发送",
+      "category": "输入",
+      "aliases": [
+        "Send"
+      ],
+      "nodes": [
+        [
+          "circle",
+          {
+            "cx": 12,
+            "cy": 12,
+            "r": 9
+          }
+        ],
+        [
+          "path",
+          {
+            "d": "M12 17V7m-4 4 4-4 4 4"
+          }
+        ]
+      ],
+      "source": "L09",
+      "colorMode": "currentColor",
+      "viewBox": "0 0 24 24",
+      "strokeWidth": 1.65,
+      "cap": "round",
+      "join": "round",
+      "confidence": "参考重绘",
+      "note": "据参考中的语义与轮廓人工重绘，路径与笔画参数为拟合值，非官方矢量原件。",
+      "labelEn": "Send",
+      "categoryEn": "Input",
+      "confidenceEn": "Reference redraw",
+      "noteEn": "Hand-redrawn from the reference meaning and outline. Paths and strokes are fitted estimates, not official vectors."
+    },
+    {
+      "id": "attach",
+      "label": "附件",
+      "category": "输入",
+      "aliases": [
+        "Paperclip"
+      ],
+      "nodes": [
+        [
+          "path",
+          {
+            "d": "m8 13 6.5-6.5a2.1 2.1 0 0 1 3 3L9 18a4 4 0 0 1-5.7-5.7l9-9a5.8 5.8 0 0 1 8.2 8.2l-8.2 8.2"
+          }
+        ]
+      ],
+      "source": "extension",
+      "colorMode": "currentColor",
+      "viewBox": "0 0 24 24",
+      "strokeWidth": 1.65,
+      "cap": "round",
+      "join": "round",
+      "confidence": "风格扩展",
+      "note": "为完整系统补充的图标，无直接小艺截图证据。",
+      "labelEn": "Attachment",
+      "categoryEn": "Input",
+      "confidenceEn": "Style extension",
+      "noteEn": "An extension for system completeness, without direct Xiaoyi screenshot evidence."
+    },
+    {
+      "id": "image",
+      "label": "图片",
+      "category": "内容",
+      "aliases": [
+        "Image"
+      ],
+      "nodes": [
+        [
+          "rect",
+          {
+            "x": 3,
+            "y": 3,
+            "width": 18,
+            "height": 18,
+            "rx": 3
+          }
+        ],
+        [
+          "circle",
+          {
+            "cx": 8,
+            "cy": 8,
+            "r": 1.5
+          }
+        ],
+        [
+          "path",
+          {
+            "d": "m4 17 5-5 4 4 3-3 5 5"
+          }
+        ]
+      ],
+      "source": "L12",
+      "colorMode": "currentColor",
+      "viewBox": "0 0 24 24",
+      "strokeWidth": 1.65,
+      "cap": "round",
+      "join": "round",
+      "confidence": "参考重绘",
+      "note": "据参考中的语义与轮廓人工重绘，路径与笔画参数为拟合值，非官方矢量原件。",
+      "labelEn": "Image",
+      "categoryEn": "Content",
+      "confidenceEn": "Reference redraw",
+      "noteEn": "Hand-redrawn from the reference meaning and outline. Paths and strokes are fitted estimates, not official vectors."
+    },
+    {
+      "id": "scan",
+      "label": "识图搜索",
+      "category": "智能",
+      "aliases": [
+        "ScanLine"
+      ],
+      "nodes": [
+        [
+          "path",
+          {
+            "d": "M8 3H5a2 2 0 0 0-2 2v3m13-5h3a2 2 0 0 1 2 2v3M3 16v3a2 2 0 0 0 2 2h3m8 0h3a2 2 0 0 0 2-2v-3M3 12h18"
+          }
+        ]
+      ],
+      "source": "L12",
+      "colorMode": "currentColor",
+      "viewBox": "0 0 24 24",
+      "strokeWidth": 1.65,
+      "cap": "round",
+      "join": "round",
+      "confidence": "参考重绘",
+      "note": "据参考中的语义与轮廓人工重绘，路径与笔画参数为拟合值，非官方矢量原件。",
+      "labelEn": "Visual search",
+      "categoryEn": "Intelligence",
+      "confidenceEn": "Reference redraw",
+      "noteEn": "Hand-redrawn from the reference meaning and outline. Paths and strokes are fitted estimates, not official vectors."
+    },
+    {
+      "id": "eye",
+      "label": "识别屏幕",
+      "category": "智能",
+      "aliases": [
+        "Eye"
+      ],
+      "nodes": [
+        [
+          "path",
+          {
+            "d": "M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"
+          }
+        ],
+        [
+          "circle",
+          {
+            "cx": 12,
+            "cy": 12,
+            "r": 3
+          }
+        ]
+      ],
+      "source": "L15",
+      "colorMode": "currentColor",
+      "viewBox": "0 0 24 24",
+      "strokeWidth": 1.65,
+      "cap": "round",
+      "join": "round",
+      "confidence": "参考重绘",
+      "note": "据参考中的语义与轮廓人工重绘，路径与笔画参数为拟合值，非官方矢量原件。",
+      "labelEn": "Read screen",
+      "categoryEn": "Intelligence",
+      "confidenceEn": "Reference redraw",
+      "noteEn": "Hand-redrawn from the reference meaning and outline. Paths and strokes are fitted estimates, not official vectors."
+    },
+    {
+      "id": "sparkles",
+      "label": "小艺智能",
+      "category": "智能",
+      "aliases": [
+        "Sparkles"
+      ],
+      "nodes": [
+        [
+          "path",
+          {
+            "d": "M12 3c.8 5.5 3.5 8.2 9 9-5.5.8-8.2 3.5-9 9-.8-5.5-3.5-8.2-9-9 5.5-.8 8.2-3.5 9-9ZM20 2v4m-2-2h4"
+          }
+        ]
+      ],
+      "source": "L09,L12",
+      "colorMode": "currentColor",
+      "viewBox": "0 0 24 24",
+      "strokeWidth": 1.65,
+      "cap": "round",
+      "join": "round",
+      "confidence": "参考重绘",
+      "note": "据参考中的语义与轮廓人工重绘，路径与笔画参数为拟合值，非官方矢量原件。",
+      "labelEn": "Xiaoyi intelligence",
+      "categoryEn": "Intelligence",
+      "confidenceEn": "Reference redraw",
+      "noteEn": "Hand-redrawn from the reference meaning and outline. Paths and strokes are fitted estimates, not official vectors."
+    },
+    {
+      "id": "summarize",
+      "label": "摘要",
+      "category": "帮写",
+      "aliases": [
+        "Summarize"
+      ],
+      "nodes": [
+        [
+          "path",
+          {
+            "d": "M12 4h4a3 3 0 0 1 3 3v12a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-8M9 11h6m-6 4h6M6 2c.4 2.3 1.7 3.6 4 4-2.3.4-3.6 1.7-4 4-.4-2.3-1.7-3.6-4-4 2.3-.4 3.6-1.7 4-4Z"
+          }
+        ]
+      ],
+      "source": "L09",
+      "colorMode": "currentColor",
+      "viewBox": "0 0 24 24",
+      "strokeWidth": 1.65,
+      "cap": "round",
+      "join": "round",
+      "confidence": "参考重绘",
+      "note": "据参考中的语义与轮廓人工重绘，路径与笔画参数为拟合值，非官方矢量原件。",
+      "labelEn": "Summary",
+      "categoryEn": "Writing",
+      "confidenceEn": "Reference redraw",
+      "noteEn": "Hand-redrawn from the reference meaning and outline. Paths and strokes are fitted estimates, not official vectors."
+    },
+    {
+      "id": "proofread",
+      "label": "校正文本",
+      "category": "帮写",
+      "aliases": [
+        "Proofread"
+      ],
+      "nodes": [
+        [
+          "path",
+          {
+            "d": "M19 10V5a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h7M8 7h7M8 11h5m1 6 3 3 5-6"
+          }
+        ]
+      ],
+      "source": "L09",
+      "colorMode": "currentColor",
+      "viewBox": "0 0 24 24",
+      "strokeWidth": 1.65,
+      "cap": "round",
+      "join": "round",
+      "confidence": "参考重绘",
+      "note": "据参考中的语义与轮廓人工重绘，路径与笔画参数为拟合值，非官方矢量原件。",
+      "labelEn": "Proofread",
+      "categoryEn": "Writing",
+      "confidenceEn": "Reference redraw",
+      "noteEn": "Hand-redrawn from the reference meaning and outline. Paths and strokes are fitted estimates, not official vectors."
+    },
+    {
+      "id": "rewrite",
+      "label": "润色改写",
+      "category": "帮写",
+      "aliases": [
+        "Rewrite"
+      ],
+      "nodes": [
+        [
+          "path",
+          {
+            "d": "m7 17 9-9 3 3-9 9-4 1ZM16 8l1.5-1.5a2.1 2.1 0 0 1 3 3L19 11M6 2c.3 2.1 1.9 3.7 4 4-2.1.3-3.7 1.9-4 4-.3-2.1-1.9-3.7-4-4 2.1-.3 3.7-1.9 4-4ZM19 17v5m-2.5-2.5h5"
+          }
+        ]
+      ],
+      "source": "L09",
+      "colorMode": "currentColor",
+      "viewBox": "0 0 24 24",
+      "strokeWidth": 1.65,
+      "cap": "round",
+      "join": "round",
+      "confidence": "参考重绘",
+      "note": "据参考中的语义与轮廓人工重绘，路径与笔画参数为拟合值，非官方矢量原件。",
+      "labelEn": "Polish",
+      "categoryEn": "Writing",
+      "confidenceEn": "Reference redraw",
+      "noteEn": "Hand-redrawn from the reference meaning and outline. Paths and strokes are fitted estimates, not official vectors."
+    },
+    {
+      "id": "tone",
+      "label": "语气改写",
+      "category": "帮写",
+      "aliases": [
+        "Tone"
+      ],
+      "nodes": [
+        [
+          "path",
+          {
+            "d": "M4.6 5.5a9 9 0 1 0 14.8 0M8 9v6m4-8v10m4-7v4M9 3h6"
+          }
+        ]
+      ],
+      "source": "L09",
+      "colorMode": "currentColor",
+      "viewBox": "0 0 24 24",
+      "strokeWidth": 1.65,
+      "cap": "round",
+      "join": "round",
+      "confidence": "参考重绘",
+      "note": "据参考中的语义与轮廓人工重绘，路径与笔画参数为拟合值，非官方矢量原件。",
+      "labelEn": "Change tone",
+      "categoryEn": "Writing",
+      "confidenceEn": "Reference redraw",
+      "noteEn": "Hand-redrawn from the reference meaning and outline. Paths and strokes are fitted estimates, not official vectors."
+    },
+    {
+      "id": "expand-text",
+      "label": "扩写",
+      "category": "帮写",
+      "aliases": [
+        "ExpandText"
+      ],
+      "nodes": [
+        [
+          "rect",
+          {
+            "x": 8,
+            "y": 6,
+            "width": 12,
+            "height": 15,
+            "rx": 2
+          }
+        ],
+        [
+          "path",
+          {
+            "d": "M15 3H6a2 2 0 0 0-2 2v12M12 10h4m-4 4h4m-4 3h4"
+          }
+        ]
+      ],
+      "source": "L09",
+      "colorMode": "currentColor",
+      "viewBox": "0 0 24 24",
+      "strokeWidth": 1.65,
+      "cap": "round",
+      "join": "round",
+      "confidence": "参考重绘",
+      "note": "据参考中的语义与轮廓人工重绘，路径与笔画参数为拟合值，非官方矢量原件。",
+      "labelEn": "Expand",
+      "categoryEn": "Writing",
+      "confidenceEn": "Reference redraw",
+      "noteEn": "Hand-redrawn from the reference meaning and outline. Paths and strokes are fitted estimates, not official vectors."
+    },
+    {
+      "id": "paragraph",
+      "label": "分段小结",
+      "category": "帮写",
+      "aliases": [
+        "Paragraph"
+      ],
+      "nodes": [
+        [
+          "path",
+          {
+            "d": "m3 6 1.5 1.5L7 4m3 2h11M3 12l1.5 1.5L7 10m3 2h11M3 18l1.5 1.5L7 16m3 2h11"
+          }
+        ]
+      ],
+      "source": "L09",
+      "colorMode": "currentColor",
+      "viewBox": "0 0 24 24",
+      "strokeWidth": 1.65,
+      "cap": "round",
+      "join": "round",
+      "confidence": "参考重绘",
+      "note": "据参考中的语义与轮廓人工重绘，路径与笔画参数为拟合值，非官方矢量原件。",
+      "labelEn": "Section summaries",
+      "categoryEn": "Writing",
+      "confidenceEn": "Reference redraw",
+      "noteEn": "Hand-redrawn from the reference meaning and outline. Paths and strokes are fitted estimates, not official vectors."
+    },
+    {
+      "id": "meeting",
+      "label": "会议排版",
+      "category": "帮写",
+      "aliases": [
+        "Meeting"
+      ],
+      "nodes": [
+        [
+          "path",
+          {
+            "d": "M8 5V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v1M3 10h18"
+          }
+        ],
+        [
+          "rect",
+          {
+            "x": 3,
+            "y": 5,
+            "width": 18,
+            "height": 16,
+            "rx": 2.5
+          }
+        ],
+        [
+          "path",
+          {
+            "d": "M8 14h8m-8 4h6"
+          }
+        ]
+      ],
+      "source": "L09",
+      "colorMode": "currentColor",
+      "viewBox": "0 0 24 24",
+      "strokeWidth": 1.65,
+      "cap": "round",
+      "join": "round",
+      "confidence": "参考重绘",
+      "note": "据参考中的语义与轮廓人工重绘，路径与笔画参数为拟合值，非官方矢量原件。",
+      "labelEn": "Meeting format",
+      "categoryEn": "Writing",
+      "confidenceEn": "Reference redraw",
+      "noteEn": "Hand-redrawn from the reference meaning and outline. Paths and strokes are fitted estimates, not official vectors."
+    },
+    {
+      "id": "mindmap",
+      "label": "生成脑图",
+      "category": "智能",
+      "aliases": [
+        "Mindmap"
+      ],
+      "nodes": [
+        [
+          "rect",
+          {
+            "x": 2,
+            "y": 9,
+            "width": 7,
+            "height": 6,
+            "rx": 2
+          }
+        ],
+        [
+          "rect",
+          {
+            "x": 15,
+            "y": 2,
+            "width": 7,
+            "height": 5,
+            "rx": 1.5
+          }
+        ],
+        [
+          "rect",
+          {
+            "x": 15,
+            "y": 17,
+            "width": 7,
+            "height": 5,
+            "rx": 1.5
+          }
+        ],
+        [
+          "path",
+          {
+            "d": "M9 12h3V4.5h3M12 12v7.5h3"
+          }
+        ]
+      ],
+      "source": "extension",
+      "colorMode": "currentColor",
+      "viewBox": "0 0 24 24",
+      "strokeWidth": 1.65,
+      "cap": "round",
+      "join": "round",
+      "confidence": "风格扩展",
+      "note": "为完整系统补充的图标，无直接小艺截图证据。",
+      "labelEn": "Create mind map",
+      "categoryEn": "Intelligence",
+      "confidenceEn": "Style extension",
+      "noteEn": "An extension for system completeness, without direct Xiaoyi screenshot evidence."
+    },
+    {
+      "id": "translate",
+      "label": "翻译",
+      "category": "智能",
+      "aliases": [
+        "Translate"
+      ],
+      "nodes": [
+        [
+          "path",
+          {
+            "d": "M3 5h12M9 2v3m-3 3c1.5 5 4 7 8 8m-2-11c-.7 5.5-3.5 9-8.5 12M13 21l4-11 4 11m-6.5-4h5"
+          }
+        ]
+      ],
+      "source": "L13",
+      "colorMode": "currentColor",
+      "viewBox": "0 0 24 24",
+      "strokeWidth": 1.65,
+      "cap": "round",
+      "join": "round",
+      "confidence": "参考重绘",
+      "note": "据参考中的语义与轮廓人工重绘，路径与笔画参数为拟合值，非官方矢量原件。",
+      "labelEn": "Translate",
+      "categoryEn": "Intelligence",
+      "confidenceEn": "Reference redraw",
+      "noteEn": "Hand-redrawn from the reference meaning and outline. Paths and strokes are fitted estimates, not official vectors."
+    },
+    {
+      "id": "circle-select",
+      "label": "圈选",
+      "category": "智能",
+      "aliases": [
+        "CircleSelect"
+      ],
+      "nodes": [
+        [
+          "path",
+          {
+            "d": "M18.6 17.6c3.2-2.4 3.5-7.2 1.2-10.5S13 2.8 8 4.2 1.4 10 3.7 14.5s7.6 6.5 11.2 3.7C19.5 14.6 13.6 13 12 16c-1.6 3 1 6 4.5 5"
+          }
+        ]
+      ],
+      "source": "L12",
+      "colorMode": "currentColor",
+      "viewBox": "0 0 24 24",
+      "strokeWidth": 1.65,
+      "cap": "round",
+      "join": "round",
+      "confidence": "参考重绘",
+      "note": "据参考中的语义与轮廓人工重绘，路径与笔画参数为拟合值，非官方矢量原件。",
+      "labelEn": "Circle selection",
+      "categoryEn": "Intelligence",
+      "confidenceEn": "Reference redraw",
+      "noteEn": "Hand-redrawn from the reference meaning and outline. Paths and strokes are fitted estimates, not official vectors."
+    },
+    {
+      "id": "screen-analyze",
+      "label": "识屏分析",
+      "category": "智能",
+      "aliases": [
+        "ScreenAnalyze"
+      ],
+      "nodes": [
+        [
+          "rect",
+          {
+            "x": 3,
+            "y": 3,
+            "width": 18,
+            "height": 15,
+            "rx": 3
+          }
+        ],
+        [
+          "path",
+          {
+            "d": "M8 22h8m-4-4v4M7 10s2-3 5-3 5 3 5 3-2 3-5 3-5-3-5-3Z"
+          }
+        ],
+        [
+          "circle",
+          {
+            "cx": 12,
+            "cy": 10,
+            "r": 1
+          }
+        ]
+      ],
+      "source": "extension",
+      "colorMode": "currentColor",
+      "viewBox": "0 0 24 24",
+      "strokeWidth": 1.65,
+      "cap": "round",
+      "join": "round",
+      "confidence": "风格扩展",
+      "note": "为完整系统补充的图标，无直接小艺截图证据。",
+      "labelEn": "Screen analysis",
+      "categoryEn": "Intelligence",
+      "confidenceEn": "Style extension",
+      "noteEn": "An extension for system completeness, without direct Xiaoyi screenshot evidence."
+    },
+    {
+      "id": "bookmark",
+      "label": "收藏",
+      "category": "内容",
+      "aliases": [
+        "Bookmark"
+      ],
+      "nodes": [
+        [
+          "path",
+          {
+            "d": "M6 21V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v16l-6-4Z"
+          }
+        ]
+      ],
+      "source": "extension",
+      "colorMode": "currentColor",
+      "viewBox": "0 0 24 24",
+      "strokeWidth": 1.65,
+      "cap": "round",
+      "join": "round",
+      "confidence": "风格扩展",
+      "note": "为完整系统补充的图标，无直接小艺截图证据。",
+      "labelEn": "Save",
+      "categoryEn": "Content",
+      "confidenceEn": "Style extension",
+      "noteEn": "An extension for system completeness, without direct Xiaoyi screenshot evidence."
+    },
+    {
+      "id": "file",
+      "label": "文档",
+      "category": "内容",
+      "aliases": [
+        "FileText"
+      ],
+      "nodes": [
+        [
+          "path",
+          {
+            "d": "M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9ZM14 3v6h6M8 13h8m-8 4h6"
+          }
+        ]
+      ],
+      "source": "L05,L07",
+      "colorMode": "currentColor",
+      "viewBox": "0 0 24 24",
+      "strokeWidth": 1.65,
+      "cap": "round",
+      "join": "round",
+      "confidence": "参考重绘",
+      "note": "据参考中的语义与轮廓人工重绘，路径与笔画参数为拟合值，非官方矢量原件。",
+      "labelEn": "Document",
+      "categoryEn": "Content",
+      "confidenceEn": "Reference redraw",
+      "noteEn": "Hand-redrawn from the reference meaning and outline. Paths and strokes are fitted estimates, not official vectors."
+    },
+    {
+      "id": "clipboard",
+      "label": "剪贴板",
+      "category": "内容",
+      "aliases": [
+        "Clipboard"
+      ],
+      "nodes": [
+        [
+          "path",
+          {
+            "d": "M8 5H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"
+          }
+        ],
+        [
+          "rect",
+          {
+            "x": 8,
+            "y": 2,
+            "width": 8,
+            "height": 5,
+            "rx": 2
+          }
+        ]
+      ],
+      "source": "extension",
+      "colorMode": "currentColor",
+      "viewBox": "0 0 24 24",
+      "strokeWidth": 1.65,
+      "cap": "round",
+      "join": "round",
+      "confidence": "风格扩展",
+      "note": "为完整系统补充的图标，无直接小艺截图证据。",
+      "labelEn": "Clipboard",
+      "categoryEn": "Content",
+      "confidenceEn": "Style extension",
+      "noteEn": "An extension for system completeness, without direct Xiaoyi screenshot evidence."
+    },
+    {
+      "id": "copy",
+      "label": "复制",
+      "category": "编辑",
+      "aliases": [
+        "Copy"
+      ],
+      "nodes": [
+        [
+          "rect",
+          {
+            "x": 8,
+            "y": 8,
+            "width": 12,
+            "height": 13,
+            "rx": 2
+          }
+        ],
+        [
+          "path",
+          {
+            "d": "M15 4V3H5a2 2 0 0 0-2 2v11h1"
+          }
+        ]
+      ],
+      "source": "L13",
+      "colorMode": "currentColor",
+      "viewBox": "0 0 24 24",
+      "strokeWidth": 1.65,
+      "cap": "round",
+      "join": "round",
+      "confidence": "参考重绘",
+      "note": "据参考中的语义与轮廓人工重绘，路径与笔画参数为拟合值，非官方矢量原件。",
+      "labelEn": "Copy",
+      "categoryEn": "Edit",
+      "confidenceEn": "Reference redraw",
+      "noteEn": "Hand-redrawn from the reference meaning and outline. Paths and strokes are fitted estimates, not official vectors."
+    },
+    {
+      "id": "book",
+      "label": "阅读",
+      "category": "内容",
+      "aliases": [
+        "BookOpen"
+      ],
+      "nodes": [
+        [
+          "path",
+          {
+            "d": "M12 5c-3-2-6-2-10-1v15c4-1 7-1 10 1 3-2 6-2 10-1V4c-4-1-7-1-10 1Zm0 0v15"
+          }
+        ]
+      ],
+      "source": "extension",
+      "colorMode": "currentColor",
+      "viewBox": "0 0 24 24",
+      "strokeWidth": 1.65,
+      "cap": "round",
+      "join": "round",
+      "confidence": "风格扩展",
+      "note": "为完整系统补充的图标，无直接小艺截图证据。",
+      "labelEn": "Reading",
+      "categoryEn": "Content",
+      "confidenceEn": "Style extension",
+      "noteEn": "An extension for system completeness, without direct Xiaoyi screenshot evidence."
+    },
+    {
+      "id": "folder",
+      "label": "文件夹",
+      "category": "内容",
+      "aliases": [
+        "Folder"
+      ],
+      "nodes": [
+        [
+          "path",
+          {
+            "d": "M3 7V5a2 2 0 0 1 2-2h4l3 3h7a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Zm0 1h18"
+          }
+        ]
+      ],
+      "source": "extension",
+      "colorMode": "currentColor",
+      "viewBox": "0 0 24 24",
+      "strokeWidth": 1.65,
+      "cap": "round",
+      "join": "round",
+      "confidence": "风格扩展",
+      "note": "为完整系统补充的图标，无直接小艺截图证据。",
+      "labelEn": "Folder",
+      "categoryEn": "Content",
+      "confidenceEn": "Style extension",
+      "noteEn": "An extension for system completeness, without direct Xiaoyi screenshot evidence."
+    },
+    {
+      "id": "calendar",
+      "label": "日历",
+      "category": "服务",
+      "aliases": [
+        "Calendar"
+      ],
+      "nodes": [
+        [
+          "rect",
+          {
+            "x": 3,
+            "y": 5,
+            "width": 18,
+            "height": 16,
+            "rx": 3
+          }
+        ],
+        [
+          "path",
+          {
+            "d": "M7 2v6m10-6v6M3 10h18M7 14h2m6 0h2m-10 4h2"
+          }
+        ]
+      ],
+      "source": "extension",
+      "colorMode": "currentColor",
+      "viewBox": "0 0 24 24",
+      "strokeWidth": 1.65,
+      "cap": "round",
+      "join": "round",
+      "confidence": "风格扩展",
+      "note": "为完整系统补充的图标，无直接小艺截图证据。",
+      "labelEn": "Calendar",
+      "categoryEn": "Service",
+      "confidenceEn": "Style extension",
+      "noteEn": "An extension for system completeness, without direct Xiaoyi screenshot evidence."
+    },
+    {
+      "id": "clock",
+      "label": "时间",
+      "category": "服务",
+      "aliases": [
+        "Clock"
+      ],
+      "nodes": [
+        [
+          "circle",
+          {
+            "cx": 12,
+            "cy": 12,
+            "r": 9
+          }
+        ],
+        [
+          "path",
+          {
+            "d": "M12 6v6l4 3"
+          }
+        ]
+      ],
+      "source": "extension",
+      "colorMode": "currentColor",
+      "viewBox": "0 0 24 24",
+      "strokeWidth": 1.65,
+      "cap": "round",
+      "join": "round",
+      "confidence": "风格扩展",
+      "note": "为完整系统补充的图标，无直接小艺截图证据。",
+      "labelEn": "Time",
+      "categoryEn": "Service",
+      "confidenceEn": "Style extension",
+      "noteEn": "An extension for system completeness, without direct Xiaoyi screenshot evidence."
+    },
+    {
+      "id": "map-pin",
+      "label": "位置",
+      "category": "服务",
+      "aliases": [
+        "MapPin"
+      ],
+      "nodes": [
+        [
+          "path",
+          {
+            "d": "M12 22s8-8 8-13a8 8 0 0 0-16 0c0 5 8 13 8 13Z"
+          }
+        ],
+        [
+          "circle",
+          {
+            "cx": 12,
+            "cy": 9,
+            "r": 3
+          }
+        ]
+      ],
+      "source": "extension",
+      "colorMode": "currentColor",
+      "viewBox": "0 0 24 24",
+      "strokeWidth": 1.65,
+      "cap": "round",
+      "join": "round",
+      "confidence": "风格扩展",
+      "note": "为完整系统补充的图标，无直接小艺截图证据。",
+      "labelEn": "Location",
+      "categoryEn": "Service",
+      "confidenceEn": "Style extension",
+      "noteEn": "An extension for system completeness, without direct Xiaoyi screenshot evidence."
+    },
+    {
+      "id": "search",
+      "label": "搜索",
+      "category": "导航",
+      "aliases": [
+        "Search"
+      ],
+      "nodes": [
+        [
+          "circle",
+          {
+            "cx": 10.5,
+            "cy": 10.5,
+            "r": 7
+          }
+        ],
+        [
+          "path",
+          {
+            "d": "m16 16 5 5"
+          }
+        ]
+      ],
+      "source": "L11,L15",
+      "colorMode": "currentColor",
+      "viewBox": "0 0 24 24",
+      "strokeWidth": 1.65,
+      "cap": "round",
+      "join": "round",
+      "confidence": "参考重绘",
+      "note": "据参考中的语义与轮廓人工重绘，路径与笔画参数为拟合值，非官方矢量原件。",
+      "labelEn": "Search",
+      "categoryEn": "Navigation",
+      "confidenceEn": "Reference redraw",
+      "noteEn": "Hand-redrawn from the reference meaning and outline. Paths and strokes are fitted estimates, not official vectors."
+    },
+    {
+      "id": "edit",
+      "label": "编辑",
+      "category": "编辑",
+      "aliases": [
+        "PenLine"
+      ],
+      "nodes": [
+        [
+          "path",
+          {
+            "d": "m4 15 12-12a2.1 2.1 0 0 1 3 3L7 18l-4 1Zm10-10 3 3M3 22h18"
+          }
+        ]
+      ],
+      "source": "L09",
+      "colorMode": "currentColor",
+      "viewBox": "0 0 24 24",
+      "strokeWidth": 1.65,
+      "cap": "round",
+      "join": "round",
+      "confidence": "参考重绘",
+      "note": "据参考中的语义与轮廓人工重绘，路径与笔画参数为拟合值，非官方矢量原件。",
+      "labelEn": "Edit",
+      "categoryEn": "Edit",
+      "confidenceEn": "Reference redraw",
+      "noteEn": "Hand-redrawn from the reference meaning and outline. Paths and strokes are fitted estimates, not official vectors."
+    },
+    {
+      "id": "check",
+      "label": "完成",
+      "category": "反馈",
+      "aliases": [
+        "Check"
+      ],
+      "nodes": [
+        [
+          "path",
+          {
+            "d": "m3 12 6 6L21 5"
+          }
+        ]
+      ],
+      "source": "L09",
+      "colorMode": "currentColor",
+      "viewBox": "0 0 24 24",
+      "strokeWidth": 1.65,
+      "cap": "round",
+      "join": "round",
+      "confidence": "参考重绘",
+      "note": "据参考中的语义与轮廓人工重绘，路径与笔画参数为拟合值，非官方矢量原件。",
+      "labelEn": "Done",
+      "categoryEn": "Feedback",
+      "confidenceEn": "Reference redraw",
+      "noteEn": "Hand-redrawn from the reference meaning and outline. Paths and strokes are fitted estimates, not official vectors."
+    },
+    {
+      "id": "list-checks",
+      "label": "校验清单",
+      "category": "反馈",
+      "aliases": [
+        "ListChecks"
+      ],
+      "nodes": [
+        [
+          "path",
+          {
+            "d": "m3 6 2 2 3-4m3 2h10M3 12l2 2 3-4m3 2h10M3 18l2 2 3-4m3 2h10"
+          }
+        ]
+      ],
+      "source": "extension",
+      "colorMode": "currentColor",
+      "viewBox": "0 0 24 24",
+      "strokeWidth": 1.65,
+      "cap": "round",
+      "join": "round",
+      "confidence": "风格扩展",
+      "note": "为完整系统补充的图标，无直接小艺截图证据。",
+      "labelEn": "Checklist",
+      "categoryEn": "Feedback",
+      "confidenceEn": "Style extension",
+      "noteEn": "An extension for system completeness, without direct Xiaoyi screenshot evidence."
+    },
+    {
+      "id": "heart",
+      "label": "喜欢",
+      "category": "反馈",
+      "aliases": [
+        "Heart"
+      ],
+      "nodes": [
+        [
+          "path",
+          {
+            "d": "M12 21 4 13C-2 6 7-1 12 6c5-7 14 0 8 7Z"
+          }
+        ]
+      ],
+      "source": "L15",
+      "colorMode": "currentColor",
+      "viewBox": "0 0 24 24",
+      "strokeWidth": 1.65,
+      "cap": "round",
+      "join": "round",
+      "confidence": "参考重绘",
+      "note": "据参考中的语义与轮廓人工重绘，路径与笔画参数为拟合值，非官方矢量原件。",
+      "labelEn": "Like",
+      "categoryEn": "Feedback",
+      "confidenceEn": "Reference redraw",
+      "noteEn": "Hand-redrawn from the reference meaning and outline. Paths and strokes are fitted estimates, not official vectors."
+    },
+    {
+      "id": "star",
+      "label": "星标",
+      "category": "反馈",
+      "aliases": [
+        "Star"
+      ],
+      "nodes": [
+        [
+          "path",
+          {
+            "d": "m12 2 3.1 6.5 7.1 1-5.1 5 .9 7-6-3.2L6 21.5l.9-7-5.1-5 7.1-1Z"
+          }
+        ]
+      ],
+      "source": "L15",
+      "colorMode": "currentColor",
+      "viewBox": "0 0 24 24",
+      "strokeWidth": 1.65,
+      "cap": "round",
+      "join": "round",
+      "confidence": "参考重绘",
+      "note": "据参考中的语义与轮廓人工重绘，路径与笔画参数为拟合值，非官方矢量原件。",
+      "labelEn": "Star",
+      "categoryEn": "Feedback",
+      "confidenceEn": "Reference redraw",
+      "noteEn": "Hand-redrawn from the reference meaning and outline. Paths and strokes are fitted estimates, not official vectors."
+    },
+    {
+      "id": "share",
+      "label": "分享",
+      "category": "内容",
+      "aliases": [
+        "Share2"
+      ],
+      "nodes": [
+        [
+          "path",
+          {
+            "d": "M15 8V3l7 7-7 7v-5c-6 0-9 3-11 7 0-7 3-11 11-11Z"
+          }
+        ]
+      ],
+      "source": "L12,L13",
+      "colorMode": "currentColor",
+      "viewBox": "0 0 24 24",
+      "strokeWidth": 1.65,
+      "cap": "round",
+      "join": "round",
+      "confidence": "参考重绘",
+      "note": "据参考中的语义与轮廓人工重绘，路径与笔画参数为拟合值，非官方矢量原件。",
+      "labelEn": "Share",
+      "categoryEn": "Content",
+      "confidenceEn": "Reference redraw",
+      "noteEn": "Hand-redrawn from the reference meaning and outline. Paths and strokes are fitted estimates, not official vectors."
+    },
+    {
+      "id": "refresh",
+      "label": "重新生成",
+      "category": "反馈",
+      "aliases": [
+        "RefreshCw"
+      ],
+      "nodes": [
+        [
+          "path",
+          {
+            "d": "M20 8a8.5 8.5 0 0 0-14.5-3L3 8m0-5v5h5m-4 8a8.5 8.5 0 0 0 14.5 3L21 16m0 5v-5h-5"
+          }
+        ]
+      ],
+      "source": "extension",
+      "colorMode": "currentColor",
+      "viewBox": "0 0 24 24",
+      "strokeWidth": 1.65,
+      "cap": "round",
+      "join": "round",
+      "confidence": "风格扩展",
+      "note": "为完整系统补充的图标，无直接小艺截图证据。",
+      "labelEn": "Regenerate",
+      "categoryEn": "Feedback",
+      "confidenceEn": "Style extension",
+      "noteEn": "An extension for system completeness, without direct Xiaoyi screenshot evidence."
+    },
+    {
+      "id": "settings",
+      "label": "设置",
+      "category": "导航",
+      "aliases": [
+        "Settings"
+      ],
+      "nodes": [
+        [
+          "path",
+          {
+            "d": "M10 2h4l.8 3 2 .9 2.7-.9 2 3.5-2 2.1v2.3l2 2.1-2 3.5-2.7-.9-2 .9-.8 3h-4l-.8-3-2-.9-2.7.9-2-3.5 2-2.1v-2.3l-2-2.1 2-3.5 2.7.9 2-.9Z"
+          }
+        ],
+        [
+          "circle",
+          {
+            "cx": 12,
+            "cy": 11.85,
+            "r": 3
+          }
+        ]
+      ],
+      "source": "extension",
+      "colorMode": "currentColor",
+      "viewBox": "0 0 24 24",
+      "strokeWidth": 1.65,
+      "cap": "round",
+      "join": "round",
+      "confidence": "风格扩展",
+      "note": "为完整系统补充的图标，无直接小艺截图证据。",
+      "labelEn": "Settings",
+      "categoryEn": "Navigation",
+      "confidenceEn": "Style extension",
+      "noteEn": "An extension for system completeness, without direct Xiaoyi screenshot evidence."
+    },
+    {
+      "id": "download",
+      "label": "下载",
+      "category": "内容",
+      "aliases": [
+        "Download"
+      ],
+      "nodes": [
+        [
+          "path",
+          {
+            "d": "M12 2v13m-5-5 5 5 5-5M3 15v5a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1v-5"
+          }
+        ]
+      ],
+      "source": "extension",
+      "colorMode": "currentColor",
+      "viewBox": "0 0 24 24",
+      "strokeWidth": 1.65,
+      "cap": "round",
+      "join": "round",
+      "confidence": "风格扩展",
+      "note": "为完整系统补充的图标，无直接小艺截图证据。",
+      "labelEn": "Download",
+      "categoryEn": "Content",
+      "confidenceEn": "Style extension",
+      "noteEn": "An extension for system completeness, without direct Xiaoyi screenshot evidence."
+    },
+    {
+      "id": "upload",
+      "label": "上传",
+      "category": "内容",
+      "aliases": [
+        "Upload"
+      ],
+      "nodes": [
+        [
+          "path",
+          {
+            "d": "M12 15V2M7 7l5-5 5 5M3 15v5a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1v-5"
+          }
+        ]
+      ],
+      "source": "extension",
+      "colorMode": "currentColor",
+      "viewBox": "0 0 24 24",
+      "strokeWidth": 1.65,
+      "cap": "round",
+      "join": "round",
+      "confidence": "风格扩展",
+      "note": "为完整系统补充的图标，无直接小艺截图证据。",
+      "labelEn": "Upload",
+      "categoryEn": "Content",
+      "confidenceEn": "Style extension",
+      "noteEn": "An extension for system completeness, without direct Xiaoyi screenshot evidence."
+    },
+    {
+      "id": "trash",
+      "label": "删除",
+      "category": "编辑",
+      "aliases": [
+        "Trash"
+      ],
+      "nodes": [
+        [
+          "path",
+          {
+            "d": "M3 6h18M9 6V3h6v3M5 6l1 15h12l1-15M10 10v7m4-7v7"
+          }
+        ]
+      ],
+      "source": "extension",
+      "colorMode": "currentColor",
+      "viewBox": "0 0 24 24",
+      "strokeWidth": 1.65,
+      "cap": "round",
+      "join": "round",
+      "confidence": "风格扩展",
+      "note": "为完整系统补充的图标，无直接小艺截图证据。",
+      "labelEn": "Delete",
+      "categoryEn": "Edit",
+      "confidenceEn": "Style extension",
+      "noteEn": "An extension for system completeness, without direct Xiaoyi screenshot evidence."
+    },
+    {
+      "id": "link",
+      "label": "链接",
+      "category": "内容",
+      "aliases": [
+        "Link"
+      ],
+      "nodes": [
+        [
+          "path",
+          {
+            "d": "m10 14 4-4m-5.5-.5-2 2a3.2 3.2 0 0 0 4.5 4.5l3-3a3.2 3.2 0 0 0 0-4.5m1 2 2-2A3.2 3.2 0 0 0 12.5 4l-3 3a3.2 3.2 0 0 0 0 4.5"
+          }
+        ]
+      ],
+      "source": "extension",
+      "colorMode": "currentColor",
+      "viewBox": "0 0 24 24",
+      "strokeWidth": 1.65,
+      "cap": "round",
+      "join": "round",
+      "confidence": "风格扩展",
+      "note": "为完整系统补充的图标，无直接小艺截图证据。",
+      "labelEn": "Link",
+      "categoryEn": "Content",
+      "confidenceEn": "Style extension",
+      "noteEn": "An extension for system completeness, without direct Xiaoyi screenshot evidence."
+    },
+    {
+      "id": "message",
+      "label": "对话",
+      "category": "内容",
+      "aliases": [
+        "MessageCircle"
+      ],
+      "nodes": [
+        [
+          "path",
+          {
+            "d": "M21 11a9 9 0 0 1-9 9c-1.7 0-3.2-.4-4.5-1.2L3 21l1.2-4.5A9 9 0 1 1 21 11Z"
+          }
+        ],
+        [
+          "circle",
+          {
+            "cx": 8,
+            "cy": 11,
+            "r": 0.6
+          }
+        ],
+        [
+          "circle",
+          {
+            "cx": 12,
+            "cy": 11,
+            "r": 0.6
+          }
+        ],
+        [
+          "circle",
+          {
+            "cx": 16,
+            "cy": 11,
+            "r": 0.6
+          }
+        ]
+      ],
+      "source": "L15",
+      "colorMode": "currentColor",
+      "viewBox": "0 0 24 24",
+      "strokeWidth": 1.65,
+      "cap": "round",
+      "join": "round",
+      "confidence": "参考重绘",
+      "note": "据参考中的语义与轮廓人工重绘，路径与笔画参数为拟合值，非官方矢量原件。",
+      "labelEn": "Conversation",
+      "categoryEn": "Content",
+      "confidenceEn": "Reference redraw",
+      "noteEn": "Hand-redrawn from the reference meaning and outline. Paths and strokes are fitted estimates, not official vectors."
+    },
+    {
+      "id": "stop",
+      "label": "停止",
+      "category": "声音",
+      "aliases": [
+        "Square"
+      ],
+      "nodes": [
+        [
+          "rect",
+          {
+            "x": 5,
+            "y": 5,
+            "width": 14,
+            "height": 14,
+            "rx": 3
+          }
+        ]
+      ],
+      "source": "L11",
+      "colorMode": "currentColor",
+      "viewBox": "0 0 24 24",
+      "strokeWidth": 1.65,
+      "cap": "round",
+      "join": "round",
+      "confidence": "参考重绘",
+      "note": "据参考中的语义与轮廓人工重绘，路径与笔画参数为拟合值，非官方矢量原件。",
+      "labelEn": "Stop",
+      "categoryEn": "Sound",
+      "confidenceEn": "Reference redraw",
+      "noteEn": "Hand-redrawn from the reference meaning and outline. Paths and strokes are fitted estimates, not official vectors."
+    },
+    {
+      "id": "align-left",
+      "label": "段落",
+      "category": "编辑",
+      "aliases": [
+        "AlignLeft"
+      ],
+      "nodes": [
+        [
+          "path",
+          {
+            "d": "M3 5h18M3 10h12M3 15h18M3 20h12"
+          }
+        ]
+      ],
+      "source": "extension",
+      "colorMode": "currentColor",
+      "viewBox": "0 0 24 24",
+      "strokeWidth": 1.65,
+      "cap": "round",
+      "join": "round",
+      "confidence": "风格扩展",
+      "note": "为完整系统补充的图标，无直接小艺截图证据。",
+      "labelEn": "Paragraph",
+      "categoryEn": "Edit",
+      "confidenceEn": "Style extension",
+      "noteEn": "An extension for system completeness, without direct Xiaoyi screenshot evidence."
+    },
+    {
+      "id": "play",
+      "label": "播放",
+      "category": "声音",
+      "aliases": [
+        "Play"
+      ],
+      "nodes": [
+        [
+          "path",
+          {
+            "d": "M7 3v18l14-9Z"
+          }
+        ]
+      ],
+      "source": "L11",
+      "colorMode": "currentColor",
+      "viewBox": "0 0 24 24",
+      "strokeWidth": 1.65,
+      "cap": "round",
+      "join": "round",
+      "confidence": "参考重绘",
+      "note": "据参考中的语义与轮廓人工重绘，路径与笔画参数为拟合值，非官方矢量原件。",
+      "labelEn": "Play",
+      "categoryEn": "Sound",
+      "confidenceEn": "Reference redraw",
+      "noteEn": "Hand-redrawn from the reference meaning and outline. Paths and strokes are fitted estimates, not official vectors."
+    },
+    {
+      "id": "pause",
+      "label": "暂停",
+      "category": "声音",
+      "aliases": [
+        "Pause"
+      ],
+      "nodes": [
+        [
+          "rect",
+          {
+            "x": 6,
+            "y": 3,
+            "width": 3,
+            "height": 18,
+            "rx": 1
+          }
+        ],
+        [
+          "rect",
+          {
+            "x": 15,
+            "y": 3,
+            "width": 3,
+            "height": 18,
+            "rx": 1
+          }
+        ]
+      ],
+      "source": "extension",
+      "colorMode": "currentColor",
+      "viewBox": "0 0 24 24",
+      "strokeWidth": 1.65,
+      "cap": "round",
+      "join": "round",
+      "confidence": "风格扩展",
+      "note": "为完整系统补充的图标，无直接小艺截图证据。",
+      "labelEn": "Pause",
+      "categoryEn": "Sound",
+      "confidenceEn": "Style extension",
+      "noteEn": "An extension for system completeness, without direct Xiaoyi screenshot evidence."
+    },
+    {
+      "id": "history",
+      "label": "历史",
+      "category": "内容",
+      "aliases": [
+        "History"
+      ],
+      "nodes": [
+        [
+          "path",
+          {
+            "d": "M3 10a9 9 0 1 1 1.5 7M3 4v6h6M12 7v5l4 2"
+          }
+        ]
+      ],
+      "source": "extension",
+      "colorMode": "currentColor",
+      "viewBox": "0 0 24 24",
+      "strokeWidth": 1.65,
+      "cap": "round",
+      "join": "round",
+      "confidence": "风格扩展",
+      "note": "为完整系统补充的图标，无直接小艺截图证据。",
+      "labelEn": "History",
+      "categoryEn": "Content",
+      "confidenceEn": "Style extension",
+      "noteEn": "An extension for system completeness, without direct Xiaoyi screenshot evidence."
+    },
+    {
+      "id": "warning",
+      "label": "提醒",
+      "category": "反馈",
+      "aliases": [
+        "Warning"
+      ],
+      "nodes": [
+        [
+          "path",
+          {
+            "d": "M10 4a2.3 2.3 0 0 1 4 0l8 14a2 2 0 0 1-1.8 3H3.8A2 2 0 0 1 2 18ZM12 8v6"
+          }
+        ],
+        [
+          "circle",
+          {
+            "cx": 12,
+            "cy": 17.5,
+            "r": 0.6
+          }
+        ]
+      ],
+      "source": "extension",
+      "colorMode": "currentColor",
+      "viewBox": "0 0 24 24",
+      "strokeWidth": 1.65,
+      "cap": "round",
+      "join": "round",
+      "confidence": "风格扩展",
+      "note": "为完整系统补充的图标，无直接小艺截图证据。",
+      "labelEn": "Reminder",
+      "categoryEn": "Feedback",
+      "confidenceEn": "Style extension",
+      "noteEn": "An extension for system completeness, without direct Xiaoyi screenshot evidence."
+    },
+    {
+      "id": "info",
+      "label": "信息",
+      "category": "反馈",
+      "aliases": [
+        "Info"
+      ],
+      "nodes": [
+        [
+          "circle",
+          {
+            "cx": 12,
+            "cy": 12,
+            "r": 9
+          }
+        ],
+        [
+          "path",
+          {
+            "d": "M12 11v6"
+          }
+        ],
+        [
+          "circle",
+          {
+            "cx": 12,
+            "cy": 7,
+            "r": 0.6
+          }
+        ]
+      ],
+      "source": "extension",
+      "colorMode": "currentColor",
+      "viewBox": "0 0 24 24",
+      "strokeWidth": 1.65,
+      "cap": "round",
+      "join": "round",
+      "confidence": "风格扩展",
+      "note": "为完整系统补充的图标，无直接小艺截图证据。",
+      "labelEn": "Information",
+      "categoryEn": "Feedback",
+      "confidenceEn": "Style extension",
+      "noteEn": "An extension for system completeness, without direct Xiaoyi screenshot evidence."
+    }
+  ]
+}

@@ -1,3 +1,4 @@
+import {enableInput} from './enable-input';
 import {test,expect,type Locator} from '@playwright/test';
 
 test('FC landscape layout, simultaneous keys, rotation release and top-right app cycle',async({browser})=>{
@@ -14,6 +15,7 @@ test('FC landscape layout, simultaneous keys, rotation release and top-right app
  await phone.getByLabel('配对码',{exact:true}).fill(pin);
  await phone.getByRole('button',{name:'连接',exact:true}).click();
  await expect(phone.getByText('已连接工作台')).toBeVisible();
+ await enableInput(tablet,phone);
  await tablet.getByRole('button',{name:'Super Mario',exact:true}).click();
  await expect(tablet.locator('.game')).toHaveAttribute('data-ready','true',{timeout:15000});
  await expect(phone.locator('.fc-stage')).toHaveAttribute('data-layout','landscape');

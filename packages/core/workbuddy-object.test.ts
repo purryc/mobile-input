@@ -3,7 +3,7 @@ import {Store,type Command} from './model';
 import {activeFileView,fileBody,browserState} from './workbuddy-files';
 import {objectContext} from './workbuddy-object';
 function fixture(){const store=new Store();let i=0;const send=(type:string,value:unknown={},extra:Partial<Command>={})=>store.dispatch({id:'obj-'+(++i),type,app:store.state.app,value,...extra});send('open','workbuddy');send('wb-fb-open',{file:'sales-slides'});const view=()=>activeFileView(store.state);const select=(path='slide/2/title')=>send('wb-object-select',{view:view().id,file:'sales-slides',path});select();const anchor=()=>({targetId:store.state.target!.id,targetRevision:store.state.target!.revision});const instruction=(text='把标题改为“季度增长路线图”，简洁一点')=>{const t=store.state.target!,d=store.state.workbuddy.entityDrafts[t.id];return send('wb-edit',{text,revision:d.revision,session:'phone',sequence:d.sequence+1},anchor());};const preview=()=>{const d=store.state.workbuddy.entityDrafts[store.state.target!.id];return send('wb-submit',{text:d.text,revision:d.revision},anchor());};const apply=()=>send('wb-object-apply',{preview:objectContext(store.state)!.preview!.id},anchor());return {store,send,view,select,anchor,instruction,preview,apply};}
-test('explicit object submit saves selected text once without a phone preview',()=>{
+test('explicit object submit changes working text once and waits for manual save',()=>{
  const f=fixture(),before=structuredClone(fileBody(f.store.state,f.view(),'sales-slides'));f.instruction();
  assert.deepEqual(fileBody(f.store.state,f.view(),'sales-slides'),before);
  assert.equal(f.send('wb-object-style',{style:{color:'#1971C2',size:32,align:'center'},revision:0},f.anchor()).ok,true);
@@ -11,9 +11,10 @@ test('explicit object submit saves selected text once without a phone preview',(
  const d=f.store.state.workbuddy.entityDrafts[f.store.state.target!.id],request={id:'explicit-submit',type:'wb-submit',app:'workbuddy' as const,value:{text:d.text,revision:d.revision},...f.anchor()};
  assert.equal(f.store.dispatch(request).ok,true);const count=browserState(f.store.state).docs['sales-slides'].changes.length;
  assert.equal(f.store.dispatch(request).ok,true);assert.equal(browserState(f.store.state).docs['sales-slides'].changes.length,count);
+ assert.equal(f.store.state.officeFiles.find(x=>x.id==='sample-slides')!.slides![2].title,before.slides![2].title);f.send('wb-fb-save',{file:'sales-slides'});
  const after=browserState(f.store.state).docs['sales-slides'].saved;
  assert.equal(after.slides![2].title,'季度增长路线图');assert.equal(after.slides![2].body,before.slides![2].body);assert.deepEqual(after.slides![0],before.slides![0]);
- assert.deepEqual(after.objectStyles!['slide/2/title'],{color:'#1971C2',size:32,align:'center'});
+ assert.deepEqual(after.textRuns!['slide/2/title'][0].style,{color:'#1971C2',size:32});assert.equal(after.paragraphAlign!['slide/2/title'][0],'center');
  assert.equal(f.store.state.officeFiles.find(x=>x.id==='sample-slides')!.slides![2].title,'季度增长路线图');assert.equal(objectContext(f.store.state)!.preview,null);
  assert.equal(f.send('wb-object-apply',{preview:'old'},f.anchor()).ok,false);
 });

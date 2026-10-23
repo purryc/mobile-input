@@ -1,12 +1,28 @@
 # 键盘与触控板按稿更新
 
+## 全场景共享与手动开合 — 2026-10-20
+
+- 最新规则覆盖下方旧版几何描述：桌面、微信、邮件、笔记、豆包、WorkBuddy、Bilibili、绘画使用唯一 `InputDock`。收起、键盘、触控板和录音状态均显示语音文字；场景只提供颜色 token 与操作能力，不覆写内部尺寸。
+- 手动展开状态移出任务组件生命周期。切任务、切对象、同步及专用控制器返回均保留选择；只有用户切模式或收起改变偏好。系统中文输入临时接管，结束后恢复。
+- 触控面增加短时轻点与双击；移动、取消、双指和按键拖动不产生附加点击。保留鼠标合并队列及紧凑回执。
+- 已同步在线 PRD，并读取核对新增规则；本地完整规则与分层验收见 [共享输入规则](shared-input-prd-2026-10-20.md)。
+
+## Desktop / WorkBuddy parity — 2026-10-20
+
+- Fixed the desktop-only hidden voice label and stretched gesture surface. Both scenes now render the same `InputDock`: 368 px expanded height, 222 px dotted touch surface, joined mouse keys centered, microphone plus 智慧语音 on the right. Desktop retains blue, WorkBuddy retains teal. The latest all-scene revision also keeps the keyboard voice label visible.
+- Desktop now uses bottom auto spacing and the same native bottom-inset padding as WorkBuddy. No changes to voice routing, explicit submission, input activation or pointer event behavior.
+- Figma: updated desktop masters `1849:82877` / `1849:83970`, labeled voice `1891:88793`, and bottom-anchored instance `1850:20423` in `5:11016`. Existing WorkBuddy shared pad `1493:31242` / dock `1493:55602` remains the reference. Default-page screenshot in Slides `202:913` refreshed in place.
+- Verified: `npm run check`; 138 core tests; `npm run build`; `tests/trackpad-parity.spec.ts` (1 passed). Browser comparison at 390 × 844 and 360 × 700 asserts identical dock, surface, mode, joined-key and voice geometry, visible voice text, centered mouse keys, unobscured Send and draft preservation through keyboard/trackpad switching. Screenshots: `artifacts/trackpad-parity/`.
+- Figma screenshot inspected. This is design and browser verification; signed HAP installation and real-device acceptance were not performed this turn.
+
+
 ## 视觉基准
 
 2026-10-14 读取 Figma `ApFLno64NcMoA17MiPFfZh` 中 `1493:55578`，使用当前 `1493:55590` 键盘与 `1493:55602` 触控板，覆盖早期独立底栏版本。设计文档的透明玻璃与整合最后一排规则同步应用。
 
 - 390 px 基准：收起 136 px、展开 368 px；顶部编辑工具 48 px；面板内容 222 px，最后一排 56 px，合计面板 288 px。
-- 键盘 ABC／123／表情选择、三排 48 px 按键、大小写与退格；最后一排是键盘、触控板、空格、智慧语音、回车。
-- 触控板使用空白浅色表面，最后一排是键盘、触控板、空白左键、智慧语音、空白右键。两键保留无障碍标签与实际点击行为。
+- 键盘 ABC／123／表情选择、三排 48 px 按键、大小写与退格；最后一排左侧模式切换，中间空格／回车，右侧带文字的智慧语音。
+- 触控板使用点阵玻璃表面，最后一排左侧模式切换、中间连体左右键、右侧带文字的智慧语音。两键保留无障碍标签与实际点击行为。
 - 细亮边、透明底与柔和阴影，工具栏共用一层玻璃。移除箭头角标、触控板指针插图、重复底栏与文字鼠标键。
 - 设计中的 12 个 SVG 均本地保存，24×24 原始尺寸不变，来源／哈希见 `reference/input-dock-figma.json`。绘画沿用深色蓝色主题，其他专用游戏／演讲控制器不变。
 

@@ -1,0 +1,22 @@
+{
+  "updated": "2026-10-19",
+  "source": "https://www.stcn.com/article/detail/1821377.html",
+  "sourceTitle": "鸿蒙操作系统在电脑端首次亮相！首款鸿蒙电脑将于5月19日发布",
+  "referenceOnly": "reference/private/harmony-pc-2026-10-19/",
+  "composition": [
+    "深蓝色星球壁纸",
+    "左侧应用图标",
+    "右侧天气、日历及备忘卡片"
+  ],
+  "implementation": "apps/web/src/desktop-wallpaper.tsx",
+  "assetPolicy": "星球由本地 Canvas 绘制；文章图片仅存于私有参考目录，不随 Web 或 HAP 打包。应用沿用已有审核图标。",
+  "differences": [
+    "按既有要求不增加底部 Dock",
+    "九个可演示应用全部保留",
+    "右下角状态区域包含键盘入口、Wi-Fi/声音/电池外观图标及设备时间；小键盘没有搜索框",
+    "天气为固定演示数据，日历使用设备日期",
+    "保留右上角连接入口；底部时间按用户补充截图显示，顶部不重复绘制时钟"
+  ],
+  "pixelIdentity": false,
+  "statusBoundary": "时间来自设备；Wi-Fi、声音、电池图标仅复刻外观，不显示虚构信号强度、电量数值或连接成功状态。"
+}

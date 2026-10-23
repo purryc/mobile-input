@@ -54,3 +54,5 @@
 .searching{animation:connection-spin 1s linear infinite}@keyframes connection-spin{to{transform:rotate(360deg)}}@keyframes connection-reveal{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
 @media(prefers-reduced-motion:reduce){.searching,.connection-detail{animation:none}}
 .agent-connection-panel>header{position:sticky;top:0;z-index:2;background:#f9fbfd;box-shadow:0 8px 8px #f9fbfd}
+
+.connection-reset{margin-top:20px;padding-top:12px;border-top:1px solid #e4eaf0}.connection-reset>button{width:100%;gap:8px;justify-content:center}.connection-reset button{min-height:48px;border-radius:12px;padding:0 18px;background:#edf2f7;color:#344c61}.connection-reset p{font-size:13px;line-height:1.7;color:#526879}.connection-reset>div{display:flex;justify-content:flex-end;gap:12px}.connection-reset .reset-confirm{background:#a63a42;color:white}.connection-reset small{display:block;margin-top:8px;color:#6d7c8d}

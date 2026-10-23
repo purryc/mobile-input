@@ -1,3 +1,4 @@
+import type {TextInputHandle} from './text-input-handle';
 import {polishActionsForTarget} from '../../../packages/core/polish-actions';
 import {wbDraftFor} from '../../../packages/core/workbuddy';
 import { useEffect, useRef, useState, type RefObject } from 'react';
@@ -6,7 +7,7 @@ import {requestPolish} from './ai-polish';
 import {currentState, uid } from './runtime';
 
 /** Shared native input lifecycle. Transcripts are drafts; no action in this hook submits. */
-export function usePhoneEditing(text:string, update:(text:string)=>void, area:RefObject<HTMLTextAreaElement|null>, identity:string, connected:boolean, commandMode=false) {
+export function usePhoneEditing(text:string, update:(text:string)=>void, area:RefObject<TextInputHandle|null>, identity:string, connected:boolean, commandMode=false) {
   const value=useRef(text),apply=useRef(update),identityRef=useRef(identity);value.current=text;apply.current=update;identityRef.current=identity;
   const [polishing,setPolishing]=useState(false),[polishError,setPolishError]=useState('');
   const polishRequest=useRef<AbortController|null>(null),editGeneration=useRef(0),available=useRef(connected);available.current=connected;
@@ -32,7 +33,7 @@ export function usePhoneEditing(text:string, update:(text:string)=>void, area:Re
   }
   function start(){if(session.current||!connected)return;if(!window.MobileNative){setError('语音输入需在手机应用中使用');return;}session.current=uid();speechBinding.current={identity:identityRef.current,commandMode};recognition.current='';before.current=value.current;speechSelection.current=commandMode?{start:0,end:before.current.length}:{...selection.current};heard.current=false;if(commandMode)change('',false);setError('');setPolish(false);setSpeech('starting');window.MobileNative.startRecognition(session.current,false,true);}
   function stop(){if(!session.current)return;setSpeech('finishing');window.MobileNative?.stopRecognition(session.current);}
-  function cancel(){if(timer.current)clearTimeout(timer.current);down.current=false;if(!session.current)return;window.MobileNative?.cancelRecognition(session.current);session.current='';setSpeech('idle');change(before.current,false);}
+  function cancel(){if(timer.current)clearTimeout(timer.current);down.current=false;suppressClick.current=true;const cancelled=session.current;if(!cancelled)return;session.current='';recognition.current='';setSpeech('idle');setCompletion(null);change(before.current,false);selection.current={...speechSelection.current};area.current?.setSelectionRange(selection.current.start,selection.current.end);window.MobileNative?.cancelRecognition(cancelled);}
   useEffect(()=>{const listener=(event:Event)=>{const d=(event as CustomEvent).detail;if(!session.current||d.sessionId!==session.current)return;
     if(d.type==='start')setSpeech('recording');
     if(d.type==='partial'||d.type==='final'){if(!/[\p{L}\p{N}]/u.test(String(d.text||'')))return;heard.current=true;recognition.current=String(d.text);const {start,end}=speechSelection.current;change(before.current.slice(0,start)+String(d.text||'')+before.current.slice(end),false);}

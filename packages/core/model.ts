@@ -1,3 +1,6 @@
+import {updateTextRuns} from './text-runs';
+import type {TextRun,TextStyle} from './text-runs';
+import {inputSessionInteraction,reconcileInputSession,type InputSession} from './input-session';
 import {initialPaint,paintInteraction,writePaintText,type PaintState} from './paint';
 import {reconcileEditSession,validateEdit,type EditSession,type InputPointer} from './edit-session';
 import {captureInteraction,reconcileCapture,type CaptureState} from './capture';
@@ -32,26 +35,31 @@ export const initialSlides:Slide[]=[
 {title:'下一步，推进确认',body:'陈朗 / 今天：发送修订报价\n林悦 / 周五：确认采购方案\n周宁 / 确认后：锁定库存\n交付团队 / 到货前：准备配置清单',notes:salesSpeakerNotes[5]}];
 export interface Stroke {points:[number,number][];color:string;size:number;eraser:boolean;}
 export interface DataTable {columns:string[];rows:string[][];}
-export interface ObjectTextStyle {color?:string;size?:number;align?:'left'|'center'|'right';}
-export interface OfficeFile{objectStyles?:Record<string,ObjectTextStyle>;table?:DataTable;id:string;kind:'sheet'|'word'|'slides';name:string;marks?:Record<string,string[]>;products?:Product[];paragraphs?:string[];slides?:Slide[];}
-export interface State {paint:PaintState;editSession?:EditSession;inputPointer?:InputPointer;capture?:CaptureState|null;bilibili:BilibiliState;workbuddy:WorkBuddyState;presentation:PresentationState;officeFiles:OfficeFile[];officeFile:string|null;chat:ChatState;switcher:Switcher|null;app:AppId;recent:AppId[];revision:number;target:Target|null;products:Product[];reportProducts:Product[];reportRevision:number;paragraphs:string[];slides:Slide[];slide:number;presenting:boolean;startedAt:number;mailId:string;draft:string;recipient:string;subject:string;mails:Mail[];texts:Record<string,string>;color:string;brush:number;eraser:boolean;strokes:Stroke[];noteStrokes:Stroke[];playing:boolean;progress:number;mediaIndex:number;gamePaused:boolean;gameEpoch:number;gameKeys:string[];gameHeartbeat:number;}
+export interface ObjectTextStyle extends TextStyle {color?:string;size?:number;align?:'left'|'center'|'right';}
+export interface OfficeFile{textRuns?:Record<string,TextRun[]>;paragraphAlign?:Record<string,Record<number,string>>;objectStyles?:Record<string,ObjectTextStyle>;table?:DataTable;id:string;kind:'sheet'|'word'|'slides';name:string;marks?:Record<string,string[]>;products?:Product[];paragraphs?:string[];slides?:Slide[];}
+export interface State {demoGeneration?:number;tabletName?:string;inputSession?:InputSession;desktopOverlay?:'search'|'tasks'|null;paint:PaintState;editSession?:EditSession;inputPointer?:InputPointer;capture?:CaptureState|null;bilibili:BilibiliState;workbuddy:WorkBuddyState;presentation:PresentationState;officeFiles:OfficeFile[];officeFile:string|null;chat:ChatState;switcher:Switcher|null;app:AppId;recent:AppId[];revision:number;target:Target|null;products:Product[];reportProducts:Product[];reportRevision:number;paragraphs:string[];slides:Slide[];slide:number;presenting:boolean;startedAt:number;mailId:string;draft:string;recipient:string;subject:string;mails:Mail[];texts:Record<string,string>;color:string;brush:number;eraser:boolean;strokes:Stroke[];noteStrokes:Stroke[];playing:boolean;progress:number;mediaIndex:number;gamePaused:boolean;gameEpoch:number;gameKeys:string[];gameHeartbeat:number;}
 export function initialState():State{const state:State={paint:initialPaint(),bilibili:initialBilibili(),workbuddy:initialWorkBuddy(),presentation:presentationState(),officeFiles:[],officeFile:null,chat:initialChats(),switcher:null,app:'desktop',recent:[],revision:0,target:null,products:structuredClone(initialProducts),reportProducts:structuredClone(initialProducts),reportRevision:0,paragraphs:['澄星设计办公设备采购方案','项目目标：为新办公室配置 30 套一致的办公设备，在 10 月 28 日前完成交付与验收。','产品配置：轻舟 Pro 商务笔记本、明境 27 英寸显示器、畅联 USB-C 扩展坞，每种各 30 件。','服务安排：统一配置、现场安装与售后联络。客户确认方案后锁定库存，按阶段完成验收。','交付安排：10 月 24 日到货，10 月 26 日完成配置，10 月 28 日客户验收。'],slides:structuredClone(initialSlides),slide:0,presenting:false,startedAt:0,mailId:'m1',draft:'',recipient:'lin.yue@example.com',subject:'回复：新办公室设备采购需求 · 30 套',mails:structuredClone(mails),texts:{'speaker-notes-version':'2','wechat-draft':'','notes-text':'澄星项目会议记录\n确认 30 套设备数量与到货时间。','ai-draft':'','media-comment':''},color:'#ed5b94',brush:8,eraser:false,strokes:[],noteStrokes:[],playing:false,progress:0,mediaIndex:0,gamePaused:false,gameEpoch:0,gameKeys:[],gameHeartbeat:0};state.officeFiles=[{id:'sample-sheet',kind:'sheet',name:'采购与客户报价.xlsx',products:structuredClone(state.products)},{id:'sample-word',kind:'word',name:'澄星设计采购方案.docx',paragraphs:[...state.paragraphs]},{id:'sample-slides',kind:'slides',name:'销售进展汇报.pptx',slides:structuredClone(state.slides)} ];seedWorkBuddy(state);seedFileBrowser(state);return state;}
-export interface Command {id:string;type:string;app?:AppId;targetId?:string;targetRevision?:number;sessionId?:number;value?:unknown;}
+export interface Command {demoGeneration?:number;inputClient?:string;inputSession?:string;id:string;type:string;app?:AppId;targetId?:string;targetRevision?:number;sessionId?:number;value?:unknown;}
 export interface Ack {id:string;ok:boolean;error?:string;revision:number;}
 export function select(s:State,id:string,label:string,kind:Target['kind'],value:string):State{return {...s,revision:s.revision+1,target:{id,label,kind,app:s.app,revision:s.revision+1,value}};}
 const mutating=new Set(['input','format']);
 export function apply(s:State,c:Command):{state:State;ack:Ack}{
+ if(c.demoGeneration!==undefined&&c.demoGeneration!==(s.demoGeneration||0))return {state:s,ack:{id:c.id,ok:false,error:'演示已重置，请同步后重试',revision:s.revision}};
+ if(c.type==='demo-reset'){const next=initialState();next.demoGeneration=Math.max(Date.now(),(s.demoGeneration||0)+1);next.revision=s.revision+1;next.tabletName=s.tabletName;return {state:next,ack:{id:c.id,ok:true,revision:next.revision}};}
+ if(c.inputClient!==undefined&&!c.type.startsWith('input-session-')&&!['release','switch-cancel'].includes(c.type)){const a=s.inputSession;if(!a||a.phase!=='active'||a.client!==c.inputClient||a.id!==c.inputSession)return {state:s,ack:{id:c.id,ok:false,error:'输入会话已暂停，请重新启用',revision:s.revision}};}
  let forwarded=c;
  if(c.type==='edit-sync'){const error=validateEdit(s,c);if(error)return {state:s,ack:{id:c.id,ok:false,error,revision:s.revision}};forwarded={...c,type:'input',value:(c.value as any).text,app:s.app,targetId:s.target!.id,targetRevision:s.target!.revision};}
- const result=applyInternal(s,forwarded);if(result.ack.ok){if(s.app!==result.state.app)result.state.inputPointer=undefined;if(s.app!==result.state.app&&result.state.paint&&(s.app==='paint'||result.state.app==='paint'))result.state.paint.epoch++;reconcileEditSession(s,result.state,c);}return result;
+ const result=applyInternal(s,forwarded);if(result.ack.ok&&c.type!=='input-pointer'){reconcileInputSession(s,result.state,c);if(s.app!==result.state.app){result.state.inputPointer=undefined;result.state.desktopOverlay=null;}if(s.app!==result.state.app&&result.state.paint&&(s.app==='paint'||result.state.app==='paint'))result.state.paint.epoch++;reconcileEditSession(s,result.state,c);}return result;
 }
 function applyInternal(s:State,c:Command):{state:State;ack:Ack}{
  const fail=(error:string)=>({state:s,ack:{id:c.id,ok:false,error,revision:s.revision}});
  if(['slide','present'].includes(c.type)&&c.sessionId!==undefined&&c.sessionId!==s.startedAt)return fail('放映会话已变化，请同步后重试');
  if(mutating.has(c.type)&&(!s.target||c.targetId!==s.target.id||c.targetRevision!==s.target.revision||c.app!==s.app))return fail('目标已变化，请重新确认后提交');
  if(c.app&&c.app!==s.app&&!['open','switch-step','switch-cancel','switch-commit','release'].includes(c.type))return fail('应用已切换');
+ if(c.type==='input-pointer'){const v=c.value;const p=v as any;if(!p||!Number.isFinite(p.x)||!Number.isFinite(p.y)||!['move','left','double','right','down','up','scroll','cancel'].includes(p.action))return fail('指向数据无效');const pointer:InputPointer|undefined=p.action==='cancel'?undefined:{x:Math.max(0,Math.min(1,p.x)),y:Math.max(0,Math.min(1,p.y)),action:p.action,event:c.id,app:s.app,held:p.action==='down'||p.action==='move'&&!!s.inputPointer?.held,dy:Number.isFinite(p.dy)?Math.max(-500,Math.min(500,p.dy)):0};return {state:{...s,inputPointer:pointer},ack:{id:c.id,ok:true,revision:s.revision}};}
  const n=structuredClone(s);const v=c.value;
- const painting=paintInteraction(n,c);
+ const sessionResult=inputSessionInteraction(n,c);
+ const painting=sessionResult===undefined?paintInteraction(n,c):sessionResult;
  const captureResult=painting===undefined?captureInteraction(n,c):painting;
  const biliResult=captureResult===undefined?biliInteraction(n,c):captureResult;
  const wbResult=biliResult===undefined?workBuddyInteraction(n,c):biliResult;
@@ -59,8 +67,9 @@ function applyInternal(s:State,c:Command):{state:State;ack:Ack}{
  const result=handled===undefined?interaction(n,c):handled;
  if(result!==undefined){if(result)return fail(result);if(c.type.startsWith('paint-')){while(new TextEncoder().encode(JSON.stringify(n)).length>1800000&&n.paint.past.length)n.paint.past.shift();if(new TextEncoder().encode(JSON.stringify(n)).length>1800000)return fail('画作已达到当前演示容量');}reconcileCapture(n);reconcileOfficeFiles(n);if(c.type.startsWith('capture-')&&new TextEncoder().encode(JSON.stringify(n)).length>1800000)return fail('本地参考材料已满，请先移除旧材料');n.revision=s.revision+1;return {state:n,ack:{id:c.id,ok:true,revision:n.revision}};}
  switch(c.type){
+ case 'device-name':if(c.inputClient!==undefined||typeof v!=='string'||!v||v.length>128)return fail('设备名称无效');n.tabletName=v;break;
+ case 'desktop-action':{if(n.app!=='desktop')return fail('请先返回桌面');if(v==='search'){n.desktopOverlay='search';n.target={id:'desktop-search',app:'desktop',label:'搜索应用',kind:'text',revision:s.revision+1,value:n.texts['desktop-search']||''};}else if(v==='tasks')n.desktopOverlay='tasks';else if(v==='escape'){n.desktopOverlay=null;n.target=null;n.texts['desktop-escape']=c.id;}else return fail('操作不存在');break;}
  case 'input-unfocus':n.target=null;break;
- case 'input-pointer':{const p=v as any;if(!p||!Number.isFinite(p.x)||!Number.isFinite(p.y)||!['move','left','right'].includes(p.action))return fail('指向数据无效');n.inputPointer={x:Math.max(0,Math.min(1,p.x)),y:Math.max(0,Math.min(1,p.y)),action:p.action,event:c.id,app:n.app};break;}
  case 'open':{n.inputPointer=undefined;if(!['desktop',...apps.map(a=>a[0])].includes(String(v)))return fail('应用不存在');launch(n,v as AppId);break;}
  case 'select':{const t=v as Target;if(!t?.id||!t.label||!['text','number','drawing','slide','media','game','message'].includes(t.kind))return fail('对象无效');n.target={...t,app:n.app,revision:s.revision+1};break;}
  case 'input':{
@@ -69,15 +78,16 @@ function applyInternal(s:State,c:Command):{state:State;ack:Ack}{
  else if(t.id.startsWith('table:')){const [,file,row,col]=t.id.split(':');const table=n.officeFiles.find(f=>f.id===file&&f.id===n.officeFile)?.table;const i=Number(row),j=Number(col);if(n.app!=='sheet'||!table||!Number.isInteger(i)||!Number.isInteger(j)||i<0||j<0||!table.rows[i]||j>=table.columns.length)return fail('单元格对象无效');table.rows[i][j]=text;}
  else if(t.id.startsWith('cell:')){const [,row,field]=t.id.split(':');const p=n.products[Number(row)];const key=field as 'quantity'|'cost'|'price'|'discount';const x=Number(text);if(!p||!['quantity','cost','price','discount'].includes(key)||!text.trim()||!Number.isFinite(x)||x<0||(key==='discount'&&x>100)||(key==='quantity'&&!Number.isInteger(x)))return fail('请输入有效的数量或金额');p[key]=x;}
  else if(t.id.startsWith('paragraph:')){const i=Number(t.id.split(':')[1]);if(!Number.isInteger(i)||i<0||i>=n.paragraphs.length)return fail('段落对象无效');n.paragraphs[i]=text;}
- else if(t.id.startsWith('slide:')){const [,i,key]=t.id.split(':');if(!n.slides[Number(i)]||!['title','body','notes'].includes(key))return fail('幻灯片对象无效');n.slides[Number(i)][key as keyof Slide]=text;}
- else if(t.id==='mail-draft')n.draft=text;else if(t.id==='mail-to')n.recipient=text;else if(t.id==='mail-subject')n.subject=text;else n.texts[t.id]=text;
+ else if(t.id.startsWith('slide:')){const [,i,key]=t.id.split(':');if(!n.slides[Number(i)]||!['title','body','notes'].includes(key))return fail('幻灯片对象无效');const file=n.officeFiles.find(f=>f.id===n.officeFile),path=`slide/${i}/${key}`;if(file?.textRuns?.[path])file.textRuns[path]=updateTextRuns(n.slides[Number(i)][key as keyof Slide]||'',text,file.textRuns[path]);n.slides[Number(i)][key as keyof Slide]=text;}
+ else if(t.id==='mail-draft'){if(text!==n.draft)n.texts['mail-reply-dismissed:'+n.mailId]='1';n.draft=text;}else if(t.id==='mail-to')n.recipient=text;else if(t.id==='mail-subject')n.subject=text;else n.texts[t.id]=text;
  if(t.id.startsWith('paragraph:')||t.id.startsWith('slide:'))n.texts['edited:'+t.id]='1';
  t.value=text;t.revision=s.revision+1;break;}
  case 'format':{const t=n.target!;if(!t.id.startsWith('paragraph:'))return fail('当前对象不支持格式');n.texts['format:'+t.id]=String(v);break;}
  case 'mail-open':n.mailId=String(v);n.target=null;n.texts['composing']='0';break;
  case 'mail-resume':n.texts['composing']='1';n.target={id:'mail-draft',app:n.app,kind:'text',label:'邮件正文',value:n.draft,revision:s.revision+1};break;
  case 'mail-star':n.texts['star:'+n.mailId]=n.texts['star:'+n.mailId]==='1'?'0':'1';break;
- case 'mail-compose':{n.texts['composing']='1';const m=n.mails.find(x=>x.id===n.mailId);n.recipient=v==='new'?'':(m?.sent?m.to:m?.address)??'';n.subject=v==='new'?'':'回复：'+(m?.subject??'');n.draft='';n.target={id:'mail-draft',app:n.app,kind:'text',label:'邮件正文',value:'',revision:s.revision+1};break;}
+ case 'mail-compose':{n.texts['composing']='1';n.texts['mail-reply-source']=v==='new'?'':n.mailId;const m=n.mails.find(x=>x.id===n.mailId);n.recipient=v==='new'?'':(m?.sent?m.to:m?.address)??'';n.subject=v==='new'?'':'回复：'+(m?.subject??'');n.draft='';n.target={id:'mail-draft',app:n.app,kind:'text',label:'邮件正文',value:'',revision:s.revision+1};break;}
+ case 'mail-adopt':{const m=n.mails.find(x=>x.id===n.mailId);const p=v as {source:string;text:string};if(!p||typeof p.text!=='string'||!p.text.trim()||p.text.length>20000||n.target?.id!=='mail-draft'||n.draft||n.texts['mail-reply-dismissed:'+n.mailId]||!m||m.id!==p.source||n.texts['mail-reply-source']!==m.id)return fail('邮件回复目标已变化');n.draft=p.text;n.target.value=p.text;n.texts['mail-reply-dismissed:'+m.id]='1';break;}
  case 'mail-send':if(!n.recipient.includes('@')||!n.draft.trim())return fail('请填写收件人和正文');n.mails.unshift({id:c.id,from:'陈朗 · 锐行办公',address:'chen.lang@example.com',to:n.recipient,subject:n.subject||'采购方案跟进',body:n.draft,time:'刚刚',sent:true});n.mailId=c.id;n.draft='';n.target=null;n.texts['composing']='0';break;
  case 'report-refresh':{
  n.reportProducts=structuredClone(n.products);n.reportRevision++;
@@ -116,7 +126,9 @@ export class Store {
  state:State;private seen=new Map<string,Ack>();private history:State[]=[];
  constructor(state=initialState()){this.state=state;}
  dispatch(c:Command):Ack {const old=this.seen.get(c.id);if(old)return old;let result:{state:State;ack:Ack};
- if(c.type==='undo'){const previous=this.history.pop();if(previous){previous.revision=this.state.revision+1;previous.target=null;previous.gameKeys=[];result={state:previous,ack:{id:c.id,ok:true,revision:previous.revision}};}else result={state:this.state,ack:{id:c.id,ok:false,error:'没有可撤销的修改',revision:this.state.revision}};}
+ if(c.demoGeneration!==undefined&&c.demoGeneration!==(this.state.demoGeneration||0)){return {id:c.id,ok:false,error:'演示已重置，请同步后重试',revision:this.state.revision};}
+ if(c.type==='demo-reset'){result=apply(this.state,c);if(result.ack.ok){this.history=[];this.seen.clear();}}
+ else if(c.type==='undo'){const previous=this.history.pop();if(previous){previous.revision=this.state.revision+1;previous.target=null;previous.gameKeys=[];result={state:previous,ack:{id:c.id,ok:true,revision:previous.revision}};}else result={state:this.state,ack:{id:c.id,ok:false,error:'没有可撤销的修改',revision:this.state.revision}};}
  else {result=apply(this.state,c);if(result.ack.ok&&['input','format','mail-send','report-refresh'].includes(c.type)){this.history.push(structuredClone(this.state));if(this.history.length>30)this.history.shift();}}
  this.state=result.state;this.seen.set(c.id,result.ack);if(this.seen.size>1000)this.seen.delete(this.seen.keys().next().value!);return result.ack;}
 }

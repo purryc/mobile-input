@@ -1,0 +1,30 @@
+import {test} from 'node:test';
+import assert from 'node:assert/strict';
+import {sentenceParameters,validateSentenceValue} from './workbuddy-sentence';
+import {Store,type Command} from './model';
+const binding={task:'new',target:'wb:draft:new',targetRevision:1,inputRevision:0};
+test('sentence parameters preserve source offsets, prose, negation and path identity',()=>{
+ const text='主色用深红色，左侧放里程碑，右侧放成果。参考添加照片，截图，录屏，选择文件，/demo/采购方案.docx。第3–5页，PPT，周报模板，16:9，3个';
+ const params=sentenceParameters(text,binding);assert.equal(new Set(params.map(x=>x.kind)).size,12);
+ for(const p of params)assert.equal(text.slice(p.start,p.end),p.phrase);
+ assert.equal(params.find(x=>x.kind==='color')?.phrase,'深红色');assert.equal(params.find(x=>x.kind==='sketch')?.phrase,'');
+ assert.equal(params.find(x=>x.kind==='path')?.value,'采购方案.docx');
+ assert.deepEqual(sentenceParameters('不要红色，不用画个布局，不要截图，先不录屏，无需添加照片，不要选择文件，不用周报模板',binding),[]);
+ assert.equal(sentenceParameters('指标飘红，让人左右为难。',binding).length,0);
+ assert.deepEqual(sentenceParameters('今天15:30见3个客户。',binding),[]);
+ assert.deepEqual(sentenceParameters('参考/demo/红色PPT.docx',binding).map(x=>x.kind),['path']);
+});
+test('inline values bind task, source and draft revision; duplicate or obsolete updates cannot overwrite',()=>{
+ const store=new Store();let i=0;const send=(type:string,value:unknown={},extra:Partial<Command>={})=>store.dispatch({id:String(++i),type,value,...extra});
+ send('open','workbuddy');send('wb-focus',{id:'wb:draft:new'});const t=store.state.target!,target={targetId:t.id,targetRevision:t.revision};
+ send('wb-edit',{text:'选择格式，设置数量',revision:0,session:'s',sequence:1},target);
+ const d=store.state.workbuddy.drafts.new;
+ const args={action:'inline-value',kind:'count',value:'3个',phrase:'设置数量',revision:d.input?.revision||0,draftRevision:d.revision};
+ const command={id:'inline-once',type:'wb-input',value:args,...target};assert.equal(store.dispatch(command).ok,true);const saved=store.state.workbuddy.drafts.new.input!;assert.equal(saved.inlineValues?.count?.value,'3个');assert.equal(store.dispatch(command).ok,true);assert.equal(store.state.workbuddy.drafts.new.input!.revision,saved.revision);
+ assert.equal(send('wb-input',{...args,value:'5个'},target).ok,false);
+ assert.equal(send('wb-input',{...args,revision:saved.revision,draftRevision:-1},target).ok,false);
+ assert.equal(store.state.workbuddy.drafts.new.text,'选择格式，3个');
+ send('wb-input-task',{action:'new'});assert.equal(store.state.workbuddy.drafts[store.state.workbuddy.task].input?.inlineValues,undefined);
+ assert.equal(send('wb-input',{...args,revision:saved.revision},target).ok,false);
+ assert.equal(validateSentenceValue('size','0:9'),false);assert.equal(validateSentenceValue('count','0个'),false);assert.equal(validateSentenceValue('scope','第3–5页'),true);
+});

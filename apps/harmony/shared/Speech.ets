@@ -3,6 +3,7 @@ import {speechRecognizer} from '@kit.CoreSpeechKit';
 import {webview} from '@kit.ArkWeb';
 import {common,abilityAccessCtrl,Permissions} from '@kit.AbilityKit';
 import {BusinessError} from '@kit.BasicServicesKit';
+import {vibrator} from '@kit.SensorServiceKit';
 
 class SpeechDetail {
  sessionId:string='';type:string='';text:string='';message:string='';energy:number=0;
@@ -21,6 +22,7 @@ export class Speech {
  private manual:boolean=false;
  private completedText:string='';
  private currentText:string='';
+ private microphoneOpen:boolean=false;
  constructor(context:common.UIAbilityContext,controller:webview.WebviewController){this.context=context;this.controller=controller;}
  private async permission(list:Permissions[]):Promise<void>{const result=await abilityAccessCtrl.createAtManager().requestPermissionsFromUser(this.context,list);if(result.authResults.some((value:number)=>value!==0))throw new Error('请在系统设置中允许所需权限');}
  startRecognition(id:string,_legacyOnline:boolean,manual:boolean=false):string {this.manual=manual;this.cancelRecognition('');this.sessionId=id;this.finishing=false;this.speaking=false;this.lastLoud=0;this.completedText='';this.currentText='';this.start(id).catch((e:Error)=>{if(this.sessionId===id){const code=(e as BusinessError).code;const message=e.message==='请在系统设置中允许所需权限'||code===201?'请在系统设置中允许麦克风权限':code===1002200006||code===1002200008?'语音服务正在释放，请稍后重试':`语音引擎暂不可用${Number.isFinite(code)?`（${code}）`:''}，请重试`;this.emit('error','',message);this.release();}});return 'starting';}
@@ -31,7 +33,13 @@ export class Speech {
   engine=await speechRecognizer.createEngine({language:'zh-CN',online:1,extraParams:{locate:'CN',recognizerMode:'short'}});
   if(this.sessionId!==id){engine.shutdown();return;}this.engine=engine;
   engine.setListener({
-   onStart:(sessionId:string,eventMessage:string):void=>{if(sessionId===this.sessionId){this.emit('start');this.capturer?.start().catch(()=>{this.emit('error','','无法开始采音，请重试');this.release();});}},
+   onStart:(sessionId:string,eventMessage:string):void=>{
+    if(sessionId!==this.sessionId||this.finishing)return;
+    this.capturer?.start().then(()=>{
+     if(sessionId!==this.sessionId||this.finishing||!this.capturer)return;
+     this.setMicrophoneOpen(true);this.emit('start');
+    }).catch(()=>{if(sessionId===this.sessionId){this.emit('error','','无法开始采音，请重试');this.release();}});
+   },
    onEvent:(sessionId:string,eventCode:number,eventMessage:string):void=>{},
    onResult:(sessionId:string,result:speechRecognizer.SpeechRecognitionResult):void=>{if(sessionId!==this.sessionId)return;if(result.result&&!this.speaking){this.speaking=true;this.emit('speechstart');}this.currentText=this.completedText+result.result;this.emit(result.isLast||this.finishing?'final':'partial',this.currentText);if(result.isFinal)this.completedText=this.currentText;},
    onComplete:(sessionId:string,eventMessage:string):void=>{if(sessionId===this.sessionId){if(this.currentText)this.emit('final',this.currentText);this.emit('complete',this.currentText);this.release();}},
@@ -53,7 +61,12 @@ export class Speech {
  }
  stopRecognition(id:string):string{if(id!==this.sessionId||this.finishing)return 'idle';if(!this.engine||!this.capturer){this.emit('complete');this.release();return 'stopped';}this.finishing=true;this.stopAudio().then(()=>{if(this.sessionId===id&&this.engine){try{this.engine.finish(id);}catch{this.emit('error','','未能结束转写，请重试');this.release();}}});return 'stopping';}
  cancelRecognition(id:string):string{if(id&&id!==this.sessionId)return 'idle';this.release();return 'cancelled';}
- private async stopAudio():Promise<void>{const capturer=this.capturer;this.capturer=null;if(!capturer)return;try{capturer.off('readData');await capturer.stop();}catch{}try{await capturer.release();}catch{}}
+ private setMicrophoneOpen(value:boolean):void{
+  if(this.microphoneOpen===value)return;this.microphoneOpen=value;
+  // One pulse per actual capture boundary. Haptic support is optional.
+  try{vibrator.startVibration({type:'time',duration:25},{usage:'touch'}).catch(()=>{});}catch{}
+ }
+ private async stopAudio():Promise<void>{const capturer=this.capturer;this.capturer=null;this.setMicrophoneOpen(false);if(!capturer)return;try{capturer.off('readData');await capturer.stop();}catch{}try{await capturer.release();}catch{}}
  private release():void{this.sessionId='';this.finishing=false;this.stopAudio();if(this.engine){try{this.engine.shutdown();}catch{}this.engine=null;}this.remainder=new Uint8Array(0);}
  private emit(type:string,text:string='',message:string='',energy:number=0):void{const detail:SpeechDetail={sessionId:this.sessionId,type,text,message,energy};this.controller.runJavaScript(`window.dispatchEvent(new CustomEvent('native-speech',{detail:${JSON.stringify(detail)}}));`).catch(()=>{});}
 }

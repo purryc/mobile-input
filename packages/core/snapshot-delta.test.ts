@@ -9,3 +9,9 @@ test('snapshot deltas cover array insertions/removals and reject unsafe paths',(
  for(const [a,b] of [[{a:[1,2]},{a:[1,2,3]}],[{a:{b:1,c:2}},{a:{b:2}}],[{a:1},{a:null}]])assert.deepEqual(applySnapshotDelta(a,snapshotDelta(a,b)),b);
  assert.throws(()=>applySnapshotDelta({},[{path:['__proto__','x'],value:1}]));assert.throws(()=>applySnapshotDelta({},[{path:['missing','x'],value:1}]));
 });
+test('business deltas replace transient pointer atomically after independent receipts',()=>{
+ const before={revision:1,inputPointer:{x:.1,y:.2,event:'old'}};
+ const after={revision:2,inputPointer:{x:.9,y:.3,event:'latest'}};
+ const phone={revision:1,inputPointer:undefined};
+ assert.deepEqual(applySnapshotDelta(phone,snapshotDelta(before,after)),after);
+});

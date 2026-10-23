@@ -2,9 +2,10 @@ import {useEffect,useRef,useState} from 'react';
 import {command,currentState,uid,useRuntime} from './runtime';
 /** Ordinary field sync. Recovery storage is only for unacknowledged edits. */
 export function useEditSession(){const r=useRuntime(),e=r.state.editSession,identity=e?.key||'',epoch=e?.epoch||0,key='mobile-input:edit-recovery:'+identity;
+ const [generation]=useState(r.state.demoGeneration||0);
  const [text,setText]=useState(e?.text||''),[conflict,setConflict]=useState(false),[busy,setBusy]=useState(false);
  const value=useRef(text),dirty=useRef(false),queued=useRef(false),running=useRef(false),version=useRef(e?.version||0),source=useRef(uid()),sequence=useRef(0),alive=useRef(true),blocked=useRef(false),binding=useRef({identity:'',epoch:0,key:''});
- const persist=()=>{if(dirty.current&&binding.current.identity)localStorage.setItem(binding.current.key,JSON.stringify({text:value.current,pending:true}));else localStorage.removeItem(binding.current.key);};
+ const persist=()=>{if((currentState().demoGeneration||0)!==generation)return;if(dirty.current&&binding.current.identity)localStorage.setItem(binding.current.key,JSON.stringify({text:value.current,pending:true}));else localStorage.removeItem(binding.current.key);};
  useEffect(()=>{alive.current=true;return()=>{alive.current=false;persist();};},[]);
  useEffect(()=>{persist();binding.current={identity,epoch,key};queued.current=false;dirty.current=false;blocked.current=false;version.current=e?.version||0;let next=e?.text||'';try{const saved=JSON.parse(localStorage.getItem(key)||'null');if(saved?.pending){next=saved.text;dirty.current=true;blocked.current=true;}}catch{}value.current=next;setText(next);setConflict(blocked.current);},[identity,epoch]);
  useEffect(()=>{if(!e)return;if(!dirty.current&&!running.current){version.current=e.version;value.current=e.text;setText(e.text);}else if(!running.current&&e.version!==version.current){blocked.current=true;setConflict(true);}},[e?.version,e?.text]);
