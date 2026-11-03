@@ -1,3 +1,6 @@
+import {DeckService} from './DeckService';
+import { MacLink } from './MacLink';
+import { MacFiles } from './MacFiles';
 import { distributedLink } from './DistributedLink';
 import { Gemini } from './Gemini';
 import { photoCapture } from './PhotoCapture';
@@ -9,7 +12,7 @@ import { util } from '@kit.ArkTS';
 import { webview } from '@kit.ArkWeb';
 import { common } from '@kit.AbilityKit';
 import { scanBarcode } from '@kit.ScanKit';
-import { window } from '@kit.ArkUI';
+import { window, promptAction } from '@kit.ArkUI';
 import { Speech } from './Speech';
 import { ROLE } from './Config';
 import { LOCAL_ORIGIN } from './LocalAssets';
@@ -22,8 +25,11 @@ export class NativeBridge {
  private client:socket.TCPSocket|null=null;
  private peer:socket.TCPSocketConnection|null=null;
  private discovery:mdns.DiscoveryService|null=null;
+ private mac:MacLink;
+ private macFiles:MacFiles;
  private speech:Speech;
  private ai:Gemini;
+ private deck:DeckService;
  private motion:PresentationMotion;
  private active:boolean=true;
  private photo:CaptureResult=new CaptureResult();
@@ -37,7 +43,23 @@ export class NativeBridge {
  private service:mdns.LocalServiceInfo={serviceType:'_mobileinput._tcp',serviceName:'Input Agent',port:39871};
  private context:common.UIAbilityContext;
  private controller:webview.WebviewController;
- constructor(context:common.UIAbilityContext,controller:webview.WebviewController){AppStorage.setOrCreate<string>('pasteRequest','');this.context=context;this.controller=controller;this.speech=new Speech(context,controller);this.ai=new Gemini(context,(name:string,data:string)=>this.emit(name,data));this.motion=new PresentationMotion(controller);distributedLink.configure(context);distributedLink.attach((name:string,data:string)=>this.emit(name,data));}
+ constructor(context:common.UIAbilityContext,controller:webview.WebviewController){this.deck=new DeckService((name:string,data:string)=>this.emit(name,data));this.macFiles=new MacFiles(context,(name:string,data:string)=>this.emit(name,data));this.mac=new MacLink((name:string,data:string)=>this.emit(name,data));AppStorage.setOrCreate<string>('pasteRequest','');this.context=context;this.controller=controller;this.speech=new Speech(context,controller);this.ai=new Gemini(context,(name:string,data:string)=>this.emit(name,data));this.motion=new PresentationMotion(controller);distributedLink.configure(context);distributedLink.attach((name:string,data:string)=>this.emit(name,data));}
+ deckConfigure(key:string,model:string):string{return this.allowed()&&this.active&&ROLE==='tablet'?this.deck.configure(key,model):'unavailable';}
+ deckControl(operation:string):string{if(!this.allowed()||ROLE!=='tablet')return 'unavailable';if(operation==='status')this.deck.status();else if(operation==='remove')this.deck.remove();return 'requested';}
+ deckBegin(id:string,length:number):string{return this.allowed()&&this.active&&ROLE==='tablet'?this.deck.begin(id,length):'unavailable';}
+ deckChunk(id:string,offset:number,part:string):string{return this.allowed()&&this.active&&ROLE==='tablet'?this.deck.chunk(id,offset,part):'unavailable';}
+ deckModel(id:string,body:string):string{return this.allowed()&&this.active&&ROLE==='tablet'?this.deck.start(id,body):'unavailable';}
+ deckCancel(id:string):string{if(!this.allowed()||ROLE!=='tablet')return 'unavailable';this.deck.cancel(id);return 'cancelled';}
+ deckPickFile(id:string,kind:string):string{return this.allowed()?this.macFiles.pick(id,kind==='photo'?'gallery':kind):'unavailable';}
+ deckReadFile(handle:string,offset:number):string{return this.allowed()?this.macFiles.read(handle,offset):'';}
+ deckReleaseFile(handle:string):string{return this.allowed()?this.macFiles.release(handle):'unavailable';}
+ macConnect(channel:string,address:string,port:number,pin:string):string {if(!this.allowed()||!this.active||ROLE!=='phone')return 'unavailable';this.motion.stop();this.speech.cancelRecognition('');return this.mac.connect(channel,address,port,pin);}
+ macSend(channel:string,data:string):string {return this.allowed()&&this.active&&ROLE==='phone'?this.mac.send(channel,data):'unavailable';}
+ macPickFile(id:string,kind:string):string{return this.allowed()&&ROLE==='phone'?this.macFiles.pick(id,kind):'unavailable';}
+ macReadFile(handle:string,offset:number):string{return this.allowed()&&ROLE==='phone'?this.macFiles.read(handle,offset):'';}
+ macReleaseFile(handle:string):string{return this.allowed()?this.macFiles.release(handle):'unavailable';}
+ macResume(channel:string):string {if(!this.allowed()||!this.active||ROLE!=='phone')return 'unavailable';return this.mac.resume(channel);}
+ macClose():string {return this.allowed()?this.mac.close():'unavailable';}
  clipboard(id:string,operation:string,text:string):string {
   if(!this.allowed())return 'unavailable';
   const result:ClipboardResult={id,ok:false,text:'',error:''};
@@ -68,6 +90,7 @@ export class NativeBridge {
  }
  captureResult(id:string):string{return this.allowed()&&ROLE==='phone'&&this.photo.id===id?JSON.stringify(this.photo):'';}
  clearCapture(id:string):string{if(!this.allowed())return 'unavailable';if(!id||this.photo.id===id)this.photo=new CaptureResult();return 'cleared';}
+ inputToast(message:string):string{if(!this.allowed()||!this.active||message.length>200)return 'unavailable';try{promptAction.showToast({message,duration:3000,bottom:88});return 'shown';}catch{return 'unavailable';}}
  role():string{return ROLE;}
  private themeSerial:number=0;
  inputTheme(dark:boolean):string {
@@ -84,7 +107,7 @@ export class NativeBridge {
   const version=++this.layoutVersion;
   window.getLastWindow(this.context).then((w:window.Window)=>{
    if(version!==this.layoutVersion)return;
-   w.setPreferredOrientation(enabled?window.Orientation.LANDSCAPE:window.Orientation.AUTO_ROTATION).catch(()=>this.status('error','无法旋转屏幕，请横放手机'));
+   w.setPreferredOrientation(enabled?window.Orientation.LANDSCAPE:window.Orientation.AUTO_ROTATION_RESTRICTED).catch(()=>this.status('error','无法旋转屏幕，请横放手机'));
   }).catch(()=>this.status('error','无法旋转屏幕，请横放手机'));
   return 'requested';
  }
@@ -169,6 +192,6 @@ export class NativeBridge {
  startRecognition(id:string,online:boolean,manual:boolean=false):string{if(!this.allowed())return 'unavailable';return this.speech.startRecognition(id,online,manual);}
  stopRecognition(id:string):string{return this.speech.stopRecognition(id);}
  cancelRecognition(id:string):string{return this.speech.cancelRecognition(id);}
- foreground(value:boolean):void{this.active=value;this.emit('native-foreground',JSON.stringify(value));if(value)this.ai.status();if(!value){this.ai.cancel('');this.motion.stop();this.speech.cancelRecognition('');distributedLink.stop();this.disconnect();}}
- close():void{distributedLink.stop();this.ai.close();this.photo=new CaptureResult();this.disconnect();this.server?.close();this.server=null;this.discovery?.stopSearchingMDNS();mdns.removeLocalService(this.context,this.service).catch(()=>{});this.speech.cancelRecognition('');}
+ foreground(value:boolean):void{this.active=value;this.emit('native-foreground',JSON.stringify(value));if(value)this.ai.status();if(!value){this.deck.cancel('');this.mac.close();this.ai.cancel('');this.motion.stop();this.speech.cancelRecognition('');distributedLink.stop();this.disconnect();}}
+ close():void{this.deck.cancel('');this.macFiles.close();this.mac.close();distributedLink.stop();this.ai.close();this.photo=new CaptureResult();this.disconnect();this.server?.close();this.server=null;this.discovery?.stopSearchingMDNS();mdns.removeLocalService(this.context,this.service).catch(()=>{});this.speech.cancelRecognition('');}
 }

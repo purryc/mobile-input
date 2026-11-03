@@ -1,3 +1,6 @@
+import {markdownSelectionStyle} from './markdown-selection';
+import {validateDeck} from './web-deck';
+import type {WebDeck} from './web-deck';
 import {updateTextRuns,selectionStyle,type TextRun} from './text-runs';
 import type {ObjectInput} from "./workbuddy-object";
 import type { State, Command, OfficeFile, Product, Slide, DataTable, ObjectTextStyle } from "./model";
@@ -15,6 +18,7 @@ export type FileFormat =
   | "audio"
   | "video";
 export interface FileBody {
+  webDeck?:WebDeck;
   textRuns?:Record<string,TextRun[]>;paragraphAlign?:Record<string,Record<number,string>>;
   objectStyles?: Record<string,ObjectTextStyle>;
   table?: DataTable;
@@ -161,6 +165,7 @@ function officeBody(o: OfficeFile): FileBody {
   };
 }
 export function bodyText(b: FileBody) {
+  if(b.webDeck)return b.webDeck.pages.map(p=>p.title+"\n"+p.body).join("\n\n");
   if(b.table)return [b.table.columns,...b.table.rows].map(row=>row.join(" · ")).join("\n");
   if (b.paragraphs) return b.paragraphs.join("\n\n");
   if (b.slides)
@@ -280,6 +285,7 @@ export function migrateFileBrowser(
   seedFileBrowser(s);
   browserState(s).visible ??= false;
   delete browserState(s).objectPointer;
+  for(const o of Object.values(browserState(s).objectInputs||{}))if(o.pending){delete o.pending;o.error='上次修改已暂停，请重新发送';}
   for (const co of Object.values(browserState(s).conversations))
     if (co.pending) {
       co.pending = null;
@@ -316,8 +322,10 @@ export function fileConflict(s: State, v: FileView, id: string) {
     !!v.working[id] && v.working[id].base !== browserState(s).docs[id]?.revision
   );
 }
+function decodeObjectId(value:string){try{return decodeURIComponent(value);}catch{return '';}}
 export function pathText(b: FileBody, path: string) {
   const [type, i, key] = path.split("/");
+  if(type === "deck"){const page=b.webDeck?.pages.find(p=>p.id===decodeObjectId(i));return page&&['title','body','notes'].includes(key)?String(page[key as 'title'|'body'|'notes']):'';}
   if(type === "table")return b.table?.rows[Number(i)]?.[Number(key)] ?? "";
   if (type === "paragraph") return b.paragraphs?.[Number(i)] || "";
   if (type === "cell")
@@ -328,7 +336,11 @@ export function pathText(b: FileBody, path: string) {
 }
 export function changePath(b: FileBody, path: string, text: string): string | null {
   const [type, i, key] = path.split("/");
-  if(type === "table"){
+  if(type === "deck"){
+    const page=b.webDeck?.pages.find(p=>p.id===decodeObjectId(i));if(!page||!['title','body','notes'].includes(key))return "幻灯片对象不存在";
+    const field=key as 'title'|'body'|'notes';if(text.length>(field==='title'?160:field==='body'?1800:5000))return "对象内容过长";
+    if(b.textRuns?.[path])b.textRuns[path]=updateTextRuns(page[field],text,b.textRuns[path]);page[field]=text;
+  } else if(type === "table"){
     const row=b.table?.rows[Number(i)],column=Number(key);
     if(!row||!Number.isInteger(column)||column<0||column>=row.length)return "单元格不存在";
     row[column]=text;
@@ -365,6 +377,7 @@ export function editBody(
   body: FileBody,
   source = "手动编辑",
 ) {
+  if (body.webDeck&&!validateDeck(body.webDeck)) return "幻灯片数据无效";
   if (fileReadOnly(s, v, id)) return "文件已在另一窗口打开，当前仅可查看";
   if (fileConflict(s, v, id)) return "文件在别处发生了修改，请刷新或另存副本";
   const a = working(s, v, id);
@@ -381,7 +394,7 @@ export function editBody(
 }
 function syncBindings(s: State, v: FileView, id: string, objects=true) {
   const b = browserState(s);
-  for(const [target,o] of Object.entries(b.objectInputs||{}))if(objects&&o.file===id&&o.view===v.id){const a=working(s,v,id),full=pathText(a.body,o.path);o.start=Math.min(o.start??0,full.length);o.end=Math.min(o.end??full.length,full.length);o.source=full.slice(o.start,o.end);o.base=b.docs[id].revision;o.version=a.version;o.revision++;const base={color:'#122D39',size:o.path.endsWith('/title')?36:24,...a.body.objectStyles?.[o.path]};const picked=selectionStyle(full,a.body.textRuns?.[o.path],o.start,o.end,base);o.style={...picked.style,align:a.body.objectStyles?.[o.path]?.align||'left'};o.mixed=picked.mixed;const first=full.slice(0,o.start).split('\n').length-1,last=full.slice(0,Math.max(o.start,o.end-1)).split('\n').length-1;const aligns=Array.from({length:last-first+1},(_,i)=>a.body.paragraphAlign?.[o.path]?.[first+i]||o.style.align||'left');o.style.align=aligns[0] as typeof o.style.align;if(aligns.some(x=>x!==aligns[0]))o.mixed.push('align');}
+  for(const [target,o] of Object.entries(b.objectInputs||{}))if(objects&&o.file===id&&o.view===v.id){const a=working(s,v,id),full=pathText(a.body,o.path);o.start=Math.min(o.start??0,full.length);o.end=Math.min(o.end??full.length,full.length);o.source=full.slice(o.start,o.end);o.base=b.docs[id].revision;o.version=a.version;o.revision++;const base={color:'#122D39',size:o.path.endsWith('/title')?36:24,...a.body.objectStyles?.[o.path]};const picked=o.path==='text'?markdownSelectionStyle(full,o.start,o.end):selectionStyle(full,a.body.textRuns?.[o.path],o.start,o.end,base);o.style={...picked.style,align:a.body.objectStyles?.[o.path]?.align||'left'};o.mixed=picked.mixed;const first=full.slice(0,o.start).split('\n').length-1,last=full.slice(0,Math.max(o.start,o.end-1)).split('\n').length-1;const aligns=Array.from({length:last-first+1},(_,i)=>a.body.paragraphAlign?.[o.path]?.[first+i]||o.style.align||'left');o.style.align=aligns[0] as typeof o.style.align;if(aligns.some(x=>x!==aligns[0]))o.mixed.push('align');}
   for (const [target, binding] of Object.entries(b.bindings))
     if (binding.file === id && binding.view === v.id) {
       binding.revision = b.docs[id].revision;

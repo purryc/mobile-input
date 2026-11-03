@@ -28,3 +28,6 @@ __pycache__/
 /.playwright-mcp/
 /deliverable/
 /survey/
+
+# Private API provisioning input
+/Google API.md

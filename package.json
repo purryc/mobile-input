@@ -12,15 +12,21 @@
     "build:hap": "python3 scripts/build-hap.py",
     "samples": "tsx scripts/export-samples.ts",
     "test:browser": "playwright test",
-    "package": "python3 scripts/package-delivery.py"
+    "package": "python3 scripts/package-delivery.py",
+    "mac:bridge": "node scripts/mac-bridge/server.mjs",
+    "test:mac": "node --test scripts/mac-bridge/*.test.mjs",
+    "deck:service": "tsx scripts/web-deck-service.ts",
+    "test:deck:live": "node scripts/check-web-deck-live.mjs"
   },
   "dependencies": {
+    "@openuidev/react-lang": "1.0.2",
     "html-to-image": "1.11.13",
     "lucide-react": "^0.468.0",
     "qrcode": "^1.5.4",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "ws": "^8.18.0"
+    "ws": "^8.18.0",
+    "zod": "^4.6.7"
   },
   "devDependencies": {
     "@playwright/test": "^1.51.0",

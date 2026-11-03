@@ -1,4 +1,4 @@
-/* 5.7.7 recording: sidebar 23.4%, home composer 68% of remaining width. */
+/* Sidebar preserves the demo; new-task main area follows Mac WorkBuddy 5.9.3. */
 .tablet.scene-workbuddy .windowbar,
 .tablet.scene-workbuddy .systembar {
   display: none !important;
@@ -1514,3 +1514,6 @@
   .workbuddy .wb-composer-box.wb-linked::before { animation:none; }
   .workbuddy .wb-focus-glass { display:none; }
 }
+
+/* Current Mac new-task baseline. */
+.workbuddy .wb-home{padding-top:12vh;overflow:auto;padding-bottom:40px}.workbuddy .wb-modes button.active{background:#fff;color:#222;box-shadow:0 1px 4px #0001}.workbuddy .wb-home-entry{width:76%;max-width:980px;margin-top:7vh}.workbuddy .wb-scenes{flex-wrap:wrap;padding-right:65px}.workbuddy .wb-scenes button{padding:7px 12px;background:#f8f8f8}.wb-home-entry .deck-compose-desktop{max-width:none;margin:0;gap:0}.wb-home-entry .deck-compose-desktop>.wb-composer-options{background:#f5f5f5;margin-top:-12px;padding:22px 18px 12px;border-radius:0 0 22px 22px}.wb-home-suggestions{display:flex;flex-direction:column;align-items:flex-start;gap:12px;margin-top:40px}.workbuddy .wb-home-suggestions button{border:1px solid #e7e7e7;box-shadow:0 2px 4px #00000005;border-radius:24px;padding:10px 16px;font-size:13px;gap:20px;max-width:100%;text-align:left}

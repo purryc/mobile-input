@@ -1,3 +1,7 @@
+import {DeckTaskStatus,WebDeckComposer} from './web-deck-composer';
+import {WebDeckPlayback} from './web-deck-view';
+import {useObjectRevision} from './workbuddy-object-runner';
+import {useDeckGeneration} from './web-deck-runner';
 import { WorkBuddyFileBrowser, WorkBuddyResults } from './workbuddy-file-browser';
 import {
   useEffect,
@@ -62,6 +66,8 @@ function Glyph({ item }: { item: CatalogItem }) {
   );
 }
 export function WorkBuddy({ s }: { s: State }) {
+  useDeckGeneration(s);
+  useObjectRevision(s);
   const w = s.workbuddy;
   const [overlay, setOverlay] = useState<{ type: string; id?: string } | null>(
       null,
@@ -129,6 +135,7 @@ export function WorkBuddy({ s }: { s: State }) {
         ? wbConnectors
         : [...wbExperts, ...w.experts];
   const nav = w.settings.menu;
+  if(w.deckPlayback)return <WebDeckPlayback/>;
   if(w.fileBrowser?.visible&&w.fileBrowser.windows.length)return <WorkBuddyFileBrowser s={s}/>;
   return (
     <div className={"workbuddy" + (collapsed ? " wb-collapsed" : "")}>
@@ -150,7 +157,7 @@ export function WorkBuddy({ s }: { s: State }) {
         <div className="wb-brand">
           <div>
             <b>WorkBuddy</b>
-            <small>5.7.7</small>
+            <small>5.9.3</small>
           </div>
           <button onClick={() => go("buddy")}>
             <I.Compass size={14} />
@@ -288,7 +295,7 @@ export function WorkBuddy({ s }: { s: State }) {
           <div className="wb-home">
             <h1>WorkBuddy, 我帮你</h1>
             <div className="wb-modes">
-              {["日常办公", "代码开发", "设计创意"].map((x, i) => (
+              {["办公", "开发", "设计"].map((x, i) => (
                 <button
                   key={x}
                   className={
@@ -309,33 +316,15 @@ export function WorkBuddy({ s }: { s: State }) {
             </div>
             <div className="wb-home-entry">
               <div className="wb-scenes">
-                {[
-                  "文档处理",
-                  "金融服务",
-                  "数据分析及可视化",
-                  "个人工作台",
-                  "幻灯片",
-                ].map((x, i) => (
-                  <button key={x} onClick={() => open("templates", String(i))}>
-                    {
-                      [
-                        <I.FileText />,
-                        <I.Landmark />,
-                        <I.ChartNoAxesCombined />,
-                        <I.LayoutGrid />,
-                        <I.Presentation />,
-                      ][i]
-                    }
-                    {x}
-                  </button>
-                ))}
+                {['创作文档','金融服务','分析数据','制作PPT','深度研究','策划方案','定时任务'].map((x,i)=><button key={x} onClick={()=>x==='制作PPT'?void command('wb-deck-prepare'):open('templates',String(i))}>{x}</button>)}
                 <img
                   className="wb-mascot"
                   src="./assets/apps/workbuddy-mascot.png"
                   alt=""
                 />
               </div>
-              <Composer s={s} open={open} />
+              <WebDeckComposer key="new" taskId="new" openMenu={open}/>
+              <div className="wb-home-suggestions">{['一页图讲清 AI 如何提升办公效率','用3个可靠来源看懂一个行业问题','一周 AI 大事，3分钟看完','10个主流 AI 模型该怎么选'].map(text=><button key={text} onClick={()=>void run('template',{text})}>{text}<I.ArrowUpRight size={16}/></button>)}</div>
             </div>
           </div>
         ) : (
@@ -457,7 +446,8 @@ export function WorkBuddy({ s }: { s: State }) {
                         <div className="wb-message-text">{m.text}</div>
                       </div>
                     ))}
-                    {task.status !== "complete" && !task.receipts && (
+                    {task.deckJob && <DeckTaskStatus taskId={task.id} results={false}/>}
+                    {task.status !== "complete" && !task.receipts && !task.deckJob && (
                       <div className="wb-execution">
                         <strong>
                           <img src={logo} alt="" />
@@ -557,12 +547,13 @@ export function WorkBuddy({ s }: { s: State }) {
                           <button
                             key={id}
                             className="wb-file-card"
+                            aria-label={task.deckJob?"打开网页演示":undefined}
                             onClick={() => run("preview", { id })}
                           >
                             <FileSymbol file={f} />
                             <span>
                               {f.name}
-                              <small>查看工作成果</small>
+                              <small>{task.deckJob?"打开网页演示":"查看工作成果"}</small>
                             </span>
                             <I.PanelRightOpen size={18} />
                           </button>
@@ -585,7 +576,7 @@ export function WorkBuddy({ s }: { s: State }) {
                       </div>
                     )}
                   </div>
-                  <Composer key={w.task} s={s} open={open} />
+                  {task.deckJob ? <WebDeckComposer key={w.task} taskId={task.id}/> : <Composer key={w.task} s={s} open={open} />}
                 </section>
                 {(w.previewActive || w.filePanel) && <WorkBuddyResults s={s} />}
               </div>

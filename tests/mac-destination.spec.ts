@@ -1,0 +1,48 @@
+import {test,expect} from '@playwright/test';
+test('three destinations isolate real controls and preserve shared dock at both heights',async({page})=>{
+ const sent:any[]=[];let state={device:'测试 Mac',permission:true,app:'codex',appName:'Codex',windowTitle:'独立测试任务',window:'window-a',target:'field-a',text:'原始文字',editable:true,textKnown:true,selection:[4,0],capabilities:['replace-text','insert-text','pointer','escape','submit']};
+ await page.routeWebSocket('ws://127.0.0.1:39872/control',socket=>{socket.onMessage(raw=>{const m=JSON.parse(String(raw));sent.push(m);if(m.kind==='pair'){socket.send(JSON.stringify({kind:'connected',session:'test-session'}));socket.send(JSON.stringify({kind:'state',session:'test-session',state}));}if(m.kind==='command'){if(m.op==='replace-text'){expect(m.base).toBe(state.text);state={...state,text:m.text};}socket.send(JSON.stringify({kind:'ack',id:m.id,session:'test-session',ok:true,outcome:'verified',state}));}});});
+ await page.setViewportSize({width:390,height:844});await page.goto('/?role=phone&bridge=5191');
+ await expect(page.getByRole('radio',{name:'平板演示'})).toBeChecked();
+ await page.getByRole('radio',{name:'Mac 应用'}).check();await expect(page.getByRole('radio',{name:'鸿蒙分布式'})).toHaveCount(0);await expect(page.getByRole('button',{name:'重置演示',exact:true})).toHaveCount(0);
+ await page.getByLabel('Mac 地址',{exact:true}).fill('127.0.0.1');await page.getByLabel('Mac 配对码',{exact:true}).fill('123456');await page.getByRole('button',{name:'连接 Mac',exact:true}).click();
+ await expect(page.getByLabel('Mac 输入',{exact:true})).toHaveValue('原始文字');await page.getByLabel('Mac 输入',{exact:true}).fill('中文输入😀');
+ await expect.poll(()=>sent.filter(m=>m.op==='replace-text').at(-1)?.text).toBe('中文输入😀');expect(sent.some(m=>m.action==='submit')).toBe(false);
+ for(const height of [844,700]){await page.setViewportSize({width:390,height});const voice=page.getByRole('button',{name:'智慧语音',exact:true});await expect(voice).toBeVisible();const b=(await voice.boundingBox())!;expect(b.y+b.height).toBeLessThanOrEqual(height);await expect(page.locator('.input-voice span')).toHaveText('智慧语音');}
+ await page.getByRole('button',{name:'连接设置',exact:true}).click();await page.getByRole('radio',{name:'鸿蒙应用',exact:false}).check();await expect(page.getByText('真实鸿蒙应用尚未接通',{exact:true})).toBeVisible();expect(sent.some(m=>m.op==='release')).toBe(true);
+ await page.getByRole('radio',{name:'平板演示'}).check();await expect(page.getByRole('radio',{name:'鸿蒙分布式'})).toBeVisible();
+});
+test('Mac target changes preserve phone input and never auto-submit or replay it',async({page})=>{
+ const sent:any[]=[];let socketRef:any;const s={device:'测试 Mac',permission:true,app:'codex',appName:'Codex',windowTitle:'任务 A',window:'wa',target:'ta',text:'',editable:true,textKnown:true,selection:[0,0],capabilities:['replace-text','insert-text','pointer']};
+ await page.routeWebSocket('ws://127.0.0.1:39872/control',socket=>{socketRef=socket;socket.onMessage(raw=>{const m=JSON.parse(String(raw));sent.push(m);if(m.kind==='pair'){socket.send(JSON.stringify({kind:'connected',session:'test-session'}));socket.send(JSON.stringify({kind:'state',session:'test-session',state:s}));}});});
+ await page.goto('/?role=phone&bridge=5191');await page.getByRole('radio',{name:'Mac 应用'}).check();await page.getByLabel('Mac 地址',{exact:true}).fill('127.0.0.1');await page.getByLabel('Mac 配对码',{exact:true}).fill('123456');await page.getByRole('button',{name:'连接 Mac',exact:true}).click();await page.getByLabel('Mac 输入',{exact:true}).fill('只属于任务 A');
+ socketRef.send(JSON.stringify({kind:'state',session:'test-session',state:{...s,windowTitle:'任务 B',window:'wb',target:'tb',text:'B 的内容'}}));await expect(page.getByLabel('Mac 输入',{exact:true})).toHaveValue('B 的内容');await page.waitForTimeout(300);
+ expect(sent.filter(m=>m.op==='replace-text'&&m.target==='tb')).toHaveLength(0);expect(await page.evaluate(()=>localStorage.getItem('input-agent-mac-protected-input'))).toContain('只属于任务 A');
+});
+
+test('Codex shares Agent panel geometry with WorkBuddy and changes only its theme',async({page})=>{
+ const base={device:'测试 Mac',permission:true,windowTitle:'当前任务',taskTitle:'当前任务',window:'layout-window',target:'layout-field',text:'测试草稿',editable:true,textKnown:true,selection:[0,0],capabilities:['replace-text','insert-text','pointer']};let socketRef:any;
+ await page.routeWebSocket('ws://127.0.0.1:39872/control',socket=>{socketRef=socket;socket.onMessage(raw=>{const m=JSON.parse(String(raw));if(m.kind==='pair'){socket.send(JSON.stringify({kind:'connected',session:'layout-session'}));socket.send(JSON.stringify({kind:'state',session:'layout-session',state:{...base,app:'codex'}}));}if(m.kind==='command')socket.send(JSON.stringify({kind:'ack',id:m.id,session:'layout-session',ok:true,outcome:'executed'}));});});
+ await page.setViewportSize({width:390,height:844});await page.goto('/?role=phone&bridge=5191');await page.getByRole('radio',{name:'Mac 应用'}).check();await page.getByLabel('Mac 地址',{exact:true}).fill('127.0.0.1');await page.getByLabel('Mac 配对码',{exact:true}).fill('123456');await page.getByRole('button',{name:'连接 Mac',exact:true}).click();
+ for(const height of [844,700]){await page.setViewportSize({width:390,height});const geometry:any={};for(const app of ['codex','workbuddy']){socketRef.send(JSON.stringify({kind:'state',session:'layout-session',state:{...base,app,target:app+'-field'}}));await expect(page.locator('.mac-agent-'+app)).toBeVisible();await page.getByRole('button',{name:'触控板',exact:true}).click();if(!(await page.locator('.input-track-surface').count()))await page.getByRole('button',{name:'触控板',exact:true}).click();const dock=(await page.locator('.input-dock').boundingBox())!;const voice=(await page.getByRole('button',{name:'智慧语音',exact:true}).boundingBox())!;geometry[app]={dock,voice,header:(await page.locator('.mac-phone>header').boundingBox())!};expect(voice.y+voice.height).toBeLessThanOrEqual(height);if(app==='codex'){await expect(page.locator('.mac-agent-codex')).toHaveAttribute('data-theme-source','manual');expect(await page.locator('.mac-agent-codex').evaluate(el=>getComputedStyle(el).getPropertyValue('--dock-accent').trim())).toBe('#0d0d0d');expect(await page.locator('.input-voice').evaluate(el=>getComputedStyle(el).color)).toBe('rgb(13, 13, 13)');await page.screenshot({path:`artifacts/mac-bridge/codex-${height}.png`});}}
+ expect(geometry.codex.header.height).toBe(geometry.workbuddy.header.height);expect(geometry.codex.dock).toEqual(geometry.workbuddy.dock);expect(geometry.codex.voice).toEqual(geometry.workbuddy.voice);}
+});
+
+test('empty recognition uses a three-second black toast without shifting the shared collapsed voice bar',async({page})=>{
+ let socketRef:any;const base={device:'测试 Mac',permission:true,windowTitle:'语音测试',taskTitle:'语音测试',window:'toast-window',target:'toast-field',text:'保留原来的草稿',editable:true,textKnown:true,selection:[7,0],capabilities:['replace-text','insert-text','pointer']};
+ await page.routeWebSocket('ws://127.0.0.1:39872/control',socket=>{socketRef=socket;socket.onMessage(raw=>{const m=JSON.parse(String(raw));if(m.kind==='pair'){socket.send(JSON.stringify({kind:'connected',session:'toast-session'}));socket.send(JSON.stringify({kind:'state',session:'toast-session',state:{...base,app:'codex'}}));}if(m.kind==='command')socket.send(JSON.stringify({kind:'ack',id:m.id,session:'toast-session',ok:true,outcome:'verified'}));});});
+ await page.setViewportSize({width:390,height:700});await page.goto('/?role=phone&bridge=5191');await page.getByRole('radio',{name:'Mac 应用'}).check();await page.getByLabel('Mac 地址',{exact:true}).fill('127.0.0.1');await page.getByLabel('Mac 配对码',{exact:true}).fill('123456');await page.getByRole('button',{name:'连接 Mac',exact:true}).click();
+ await page.evaluate(()=>{const w=window as any;w.MobileNative={startRecognition:(sessionId:string)=>{w.emptySpeechId=sessionId;window.dispatchEvent(new CustomEvent('native-speech',{detail:{sessionId,type:'start'}}));},stopRecognition:(sessionId:string)=>window.dispatchEvent(new CustomEvent('native-speech',{detail:{sessionId,type:'complete',text:''}})),cancelRecognition:()=>{}};});
+ await page.clock.install();
+ for(const app of ['codex','workbuddy']){
+  socketRef.send(JSON.stringify({kind:'state',session:'toast-session',state:{...base,app,target:app+'-toast'}}));await expect(page.locator('.mac-agent-'+app)).toBeVisible();const active=page.locator('.input-mode-key[aria-pressed=true]');if(await active.count())await active.click();
+  const field=app==='codex'?page.getByLabel('Mac 输入',{exact:true}):page.locator('.wb-sentence-composer');if(app==='codex')await expect(field).toHaveValue(base.text);else await expect(field).toHaveText(base.text);
+  const voice=page.getByRole('button',{name:'智慧语音',exact:true});const before=(await voice.boundingBox())!;expect(before.width).toBe(240);expect(before.height).toBe(56);
+  for(let attempt=0;attempt<2;attempt++){
+   await voice.click();await voice.click();const toast=page.getByRole('alert');await expect(toast).toHaveText('未识别到文字，请重新说一次');await expect(toast.locator('button')).toHaveCount(0);expect(await toast.evaluate(el=>getComputedStyle(el).backgroundColor)).toBe('rgb(22, 22, 22)');expect(await voice.boundingBox()).toEqual(before);await expect(page.locator('.input-error')).toHaveCount(0);
+   await page.clock.fastForward(2800);await expect(toast).toBeVisible();await page.screenshot({path:`artifacts/shared-dock/${app}-empty-toast.png`});await page.clock.fastForward(250);await expect(toast).toHaveCount(0);
+  }
+  if(app==='codex')await expect(field).toHaveValue(base.text);else await expect(field).toHaveText(base.text);
+  expect(await voice.boundingBox()).toEqual(before);
+ }
+});

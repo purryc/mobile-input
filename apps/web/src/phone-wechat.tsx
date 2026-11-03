@@ -1,3 +1,4 @@
+import {ApplicationActionChip} from './application-action-chip';
 import {PolishControls} from './ai-polish';
 import {InputDock} from './input-dock';
 import {usePhoneEditing} from './use-phone-editing';
@@ -83,13 +84,13 @@ function ChatEditor({id}:{id:string}){
  const replyLock=useRef(false);
  async function reply(text:string){if(replyLock.current||!context)return;replyLock.current=true;setSending(true);await command('chat-reply',{conversation:id,text,contextEpoch:context.epoch,messageId:context.messageId},{app:'wechat'});setTimeout(()=>{replyLock.current=false;if(mounted.current)setSending(false);},500);}
 
- const editing=usePhoneEditing(draft,update,area,`${id}:${active?.revision}`,r.connected&&!blocked);
+ const editing=usePhoneEditing(draft,update,area,`${id}:${active?.id}`,r.connected&&!blocked);
  const actions=recommendations(s);
- return <><section className="glass-context"><h1><ChatAvatar identity={id}/>{chatTitles[id]}</h1>{selected?<><blockquote>{selected}</blockquote><>{showReplies&&<><label>建议回复</label><div className={"reply-options "+(pop?"pop-actions":"")}>{suggestions(selected).map((text,index)=><button style={{animationDelay:`${index*110}ms`}} disabled={sending||!r.connected} key={text} onClick={()=>reply(text)}>{text}<I.ChevronRight size={20}/></button>)}</div></>}</><label className={!ready?"actions-pending":""}>推荐下一步</label><div className={"related-actions "+(ready?"ready ":"pending ")+(pop?"pop-actions":"")}>{(ready?actions:[]).map((a,index)=><button style={{animationDelay:`${(index+2)*110}ms`}} key={a.id} onClick={()=>{command('switch-cancel');setService(a);}}><HoverIcon app={a.app}/>{a.label}</button>)}</div></>:<div className="compose-heading"><I.MessageCircle size={24}/><span>回复 {chatTitles[id]}</span></div>}</section>
+ return <><section className="glass-context"><h1><ChatAvatar identity={id}/>{chatTitles[id]}</h1>{selected?<><blockquote>{selected}</blockquote><>{showReplies&&<><label>建议回复</label><div className={"reply-options "+(pop?"pop-actions":"")}>{suggestions(selected).map((text,index)=><button style={{animationDelay:`${index*110}ms`}} disabled={sending||!r.connected} key={text} onClick={()=>reply(text)}>{text}<I.ChevronRight size={20}/></button>)}</div></>}</><label className={!ready?"actions-pending":""}>推荐下一步</label><div className={"related-actions "+(ready?"ready ":"pending ")+(pop?"pop-actions":"")}>{(ready?actions:[]).map((a,index)=><ApplicationActionChip style={{animationDelay:`${(index+2)*110}ms`}} key={a.id} onClick={()=>{command('switch-cancel');setService(a);}}><HoverIcon app={a.app}/>{a.label}</ApplicationActionChip>)}</div></>:<div className="compose-heading"><I.MessageCircle size={24}/><span>回复 {chatTitles[id]}</span></div>}</section>
  <section className="glass-input">
  {blocked&&<div className="draft-warning">草稿已保留<button onClick={()=>{blockedRef.current=false;setBlocked(false);anchor.current=null;dirty.current=true;const text=value.current;setTimeout(()=>{queued.current=text;void flush();},0);}}>继续编辑当前会话</button></div>}
 
- <div className="phone-draft-surface"><textarea ref={area} aria-label="手机输入草稿" placeholder="输入回复…" value={draft} onSelect={editing.select} onFocus={()=>{command('switch-cancel');void bind();}} onChange={e=>{editing.selection.current={start:e.target.selectionStart,end:e.target.selectionEnd};editing.change(e.target.value);}} onKeyUp={editing.select}/><div className="polish-slot">{editing.polish&&<PolishControls editing={editing}/>}</div></div>
+ <div className="phone-draft-surface"><textarea ref={area} aria-label="手机输入草稿" placeholder="输入回复…" value={draft} onSelect={editing.select} onFocus={()=>{command('switch-cancel');void bind();}} onChange={e=>{editing.selection.current={start:e.target.selectionStart,end:e.target.selectionEnd};editing.change(e.target.value);}} onKeyUp={editing.select}/></div>
  <button className="wechat-inline-send" aria-label="发送回复" disabled={!draft.trim()||blocked||editing.speech!=='idle'||sending} onClick={send}><I.ArrowUp size={18}/>发送</button>
- </section><InputDock editing={editing} area={area} disabled={blocked||sending||!r.connected}/>{service&&<ServicePage action={service} onClose={()=>setService(null)}/>}</>;
+ </section>{editing.polish&&<PolishControls editing={editing}/>}<InputDock editing={editing} area={area} disabled={blocked||sending||!r.connected}/>{service&&<ServicePage action={service} onClose={()=>setService(null)}/>}</>;
 }

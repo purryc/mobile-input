@@ -161,24 +161,6 @@
 .workbuddy-phone .wb-phone-draft textarea::placeholder {
   color: #a0a9b7;
 }
-.workbuddy-phone .wb-phone-polish {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  min-height: 43px;
-  flex: none;
-  font-size: 11px;
-  color: #7c85a0;
-}
-.workbuddy-phone .wb-phone-polish button {
-  min-height: 28px;
-  min-width: 42px;
-  font-size: 11px;
-  padding: 4px 8px;
-  border-radius: 15px;
-  background: #edf0f8;
-  color: #747c94;
-}
 .workbuddy-phone .wb-phone-error {
   min-height: 34px;
   font-size: 11px;

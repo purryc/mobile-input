@@ -40,5 +40,12 @@
 /* Shared geometry in every scene and mode; only tokens change with theme. */
 .input-keyboard-actions{display:grid;grid-template-columns:minmax(48px,1fr) 48px;gap:4px;min-width:0}
 .input-mode-pair{display:grid;grid-template-columns:1fr 1fr;gap:0}.input-dock .input-mode-pair .input-mode-key{margin:0;min-height:56px;border-radius:16px}
-.input-mouse-pair{display:flex;border:1px solid var(--input-edge);border-radius:16px;overflow:hidden;background:var(--input-control);position:relative}.input-mouse-pair:after{content:'';position:absolute;left:50%;top:12px;bottom:12px;width:1px;background:#9ab7bd77;pointer-events:none}.input-dock .input-mouse-pair button{width:50%;min-width:48px;border:0;box-shadow:none;background:transparent;border-radius:0}
-.input-dock .input-track-surface{background-color:var(--input-pad);background-image:radial-gradient(circle,#8ba8b699 .7px,transparent .9px);background-size:14px 14px;background-position:7px 7px}.input-dock .input-track-surface i{display:none}
+.input-mouse-pair{display:flex;border:1px solid var(--input-edge);border-radius:16px;overflow:hidden;background:var(--input-control);position:relative}.input-mouse-pair:after{content:'';position:absolute;left:50%;top:12px;bottom:12px;width:1px;background:var(--input-divider,#9ab7bd77);pointer-events:none}.input-dock .input-mouse-pair button{width:50%;min-width:48px;border:0;box-shadow:none;background:transparent;border-radius:0}
+.input-dock .input-track-surface{background-color:var(--input-pad);background-image:radial-gradient(circle,var(--input-pad-dot,#8ba8b699) .7px,transparent .9px);background-size:14px 14px;background-position:7px 7px}.input-dock .input-track-surface i{display:none}
+
+/* Minimized Figma master: modes 104 + gap 10 + fluid voice (240 at 390). */
+.input-dock:not(.expanded) .input-bottom-row{grid-template-columns:104px minmax(0,1fr);gap:10px}
+.input-dock:not(.expanded) .input-mode-pair{height:48px;align-self:center;gap:4px;border-radius:16px;background:var(--input-control);box-shadow:inset 0 0 0 1px var(--input-edge)}
+.input-dock:not(.expanded) .input-mode-pair .input-mode-key{height:48px;min-height:48px;background:transparent}
+.input-dock:not(.expanded) .input-bottom-row .input-voice{width:100%;border-radius:999px;font-size:14px;gap:8px}
+.input-dock:not(.expanded) .input-voice .input-dock-icon{width:24px;height:24px}

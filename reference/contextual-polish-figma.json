@@ -1,0 +1,18 @@
+{
+  "date": "2026-11-03",
+  "fileKey": "ApFLno64NcMoA17MiPFfZh",
+  "nodes": [
+    "1591:39306",
+    "271:3871",
+    "2276:39359",
+    "2288:113158"
+  ],
+  "ruleSource": "https://app.notion.com/p/3f9194db24c38165996cf89b22e7d69e",
+  "rules": [
+    "G20",
+    "APP-WX-02"
+  ],
+  "method": "Read current Figma design context and reference screenshots; read Notion. No design writes.",
+  "assets": "Existing lucide-react Pencil and Sparkles for smart-pencil mark; existing Hover logos retained. No new remote runtime assets.",
+  "implementationRecord": "docs/contextual-polish-2026-11-03.md"
+}

@@ -1,0 +1,15 @@
+import {mkdirSync,writeFileSync,chmodSync} from 'node:fs';
+import {homedir} from 'node:os';import {fileURLToPath} from 'node:url';import {execFileSync} from 'node:child_process';
+const root=fileURLToPath(new URL('../../',import.meta.url)),home=homedir(),label='com.hmilab.input-agent.mac-bridge',domain=`gui/${process.getuid()}`,support=home+'/Library/Application Support/Input Agent';
+const xml=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&apos;'}[c]));
+mkdirSync(support,{recursive:true,mode:0o700});chmodSync(support,0o700);mkdirSync(home+'/Library/LaunchAgents',{recursive:true});
+const plist=home+'/Library/LaunchAgents/'+label+'.plist';
+writeFileSync(plist,`<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"><plist version="1.0"><dict><key>Label</key><string>${label}</string><key>ProgramArguments</key><array><string>${xml(process.execPath)}</string><string>${xml(root+'scripts/mac-bridge/server.mjs')}</string></array><key>WorkingDirectory</key><string>${xml(root)}</string><key>RunAtLoad</key><true/><key>KeepAlive</key><true/><key>ThrottleInterval</key><integer>10</integer><key>StandardOutPath</key><string>${xml(support+'/bridge.log')}</string><key>StandardErrorPath</key><string>${xml(support+'/bridge-error.log')}</string></dict></plist>`,{mode:0o600});
+const app=home+'/Applications/Input Agent 连接.app/Contents';mkdirSync(app+'/MacOS',{recursive:true});
+writeFileSync(app+'/Info.plist',`<?xml version="1.0" encoding="UTF-8"?><plist version="1.0"><dict><key>CFBundleName</key><string>Input Agent 连接</string><key>CFBundleIdentifier</key><string>com.hmilab.input-agent.connection</string><key>CFBundleExecutable</key><string>connect</string><key>CFBundlePackageType</key><string>APPL</string><key>LSUIElement</key><true/></dict></plist>`);
+writeFileSync(app+'/MacOS/connect',`#!/bin/sh\n/bin/launchctl kickstart ${domain}/${label} >/dev/null 2>&1\ni=0\nwhile [ $i -lt 30 ]; do\n  /usr/bin/curl -fsS -o /dev/null http://127.0.0.1:39873/ && break\n  i=$((i+1))\n  /bin/sleep 1\ndone\n/usr/bin/open http://127.0.0.1:39873/\n`,{mode:0o755});chmodSync(app+'/MacOS/connect',0o755);
+try{execFileSync('/bin/launchctl',['bootout',domain+'/'+label],{stdio:'ignore'});}catch{}
+// Only replace this project's old manually started companion; never kill other listeners.
+try{const pids=execFileSync('/usr/sbin/lsof',['-tiTCP:39872','-sTCP:LISTEN'],{encoding:'utf8'}).trim().split(/\s+/);for(const pid of pids){const args=execFileSync('/bin/ps',['-p',pid,'-o','command='],{encoding:'utf8'});if(args.includes('scripts/mac-bridge/server.mjs'))process.kill(Number(pid),'SIGTERM');else throw Error('Port 39872 belongs to another application');}}catch(e){if(e.message?.includes('belongs'))throw e;}
+await new Promise(r=>setTimeout(r,1200));execFileSync('/bin/launchctl',['bootstrap',domain,plist]);
+console.log('Installed: '+home+'/Applications/Input Agent 连接.app');console.log('Connection page: http://127.0.0.1:39873/');

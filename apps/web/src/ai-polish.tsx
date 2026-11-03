@@ -2,6 +2,7 @@ import {useEffect,useState} from 'react';
 import {uid} from './runtime';
 import type {usePhoneEditing} from './use-phone-editing';
 import './ai-polish.css';
+import {ContextualPolishActions} from './contextual-polish-actions';
 import {GEMINI_POLISH_MODEL} from '../../../packages/core/gemini-polish';
 export function requestPolish(text:string,style:string,signal:AbortSignal):Promise<string>{
  return new Promise((resolve,reject)=>{
@@ -16,7 +17,8 @@ export function requestPolish(text:string,style:string,signal:AbortSignal):Promi
  });
 }
 export function PolishControls({editing}:{editing:ReturnType<typeof usePhoneEditing>}){
- return <div className="real-polish"><span>{editing.polishing?'正在润色…':'AI润色'}</span>{editing.polishing?<button onClick={editing.cancelPolish}>取消</button>:editing.polishActions.map(k=><button key={k.id} disabled={!editing.canPolish||editing.speech!=='idle'} onPointerDown={e=>e.preventDefault()} onClick={()=>void editing.refine(k.id)}>{k.label}</button>)}{editing.polishError&&<div role="alert" className="polish-error">{editing.polishError}<button onClick={()=>window.dispatchEvent(new Event('ai-settings-open'))}>Gemini 设置</button></div>}</div>;
+ if(!editing.polish)return null;
+ return <ContextualPolishActions actions={editing.polishActions} binding={editing.polishBinding} activeAction={editing.polishAction} failedAction={editing.polishFailedAction} disabled={!editing.canPolish||editing.speech!=='idle'} error={editing.polishError} onAction={id=>void editing.refine(id)}/>;
 }
 interface AiStatus {connected:boolean;pending:boolean;model:string;error:string;verified?:boolean;}
 export function GeminiAccount(){

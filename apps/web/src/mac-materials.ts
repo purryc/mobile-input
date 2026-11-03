@@ -1,0 +1,23 @@
+import {deckNative} from './web-deck-native';
+import {macCommand,macSnapshot,type MacState} from './mac-link';
+import type {LiveMaterial} from '../../../packages/core/live-workbuddy';
+export async function pickMacMaterial(kind:'document'|'photo',deck=false):Promise<File|null>{
+ if(!window.MobileNative)return new Promise(resolve=>{const input=document.createElement('input');input.type='file';input.accept=kind==='photo'?(deck?'image/png,image/jpeg,image/webp':'image/*'):(deck?'.pdf,.txt,.md':'.pdf,.docx,.doc,.pptx,.xlsx,.txt,.md,.csv');if(kind==='photo'&&!deck)input.capture='environment';input.onchange=()=>resolve(input.files?.[0]||null);input.oncancel=()=>resolve(null);input.click();});
+ const native=deckNative();const pick=deck?deckNative()?.deckPickFile?.bind(native):window.MobileNative.macPickFile?.bind(window.MobileNative);
+ if(!pick)throw Error('手机需更新文件选择组件');
+ const selected=await new Promise<{handle:string;name:string;size:number}|null>((resolve,reject)=>{const id=crypto.randomUUID();const listener=(e:Event)=>{const d=(e as CustomEvent).detail;if(d.id!==id)return;clearTimeout(timer);window.removeEventListener('native-mac-file',listener);d.ok?resolve(d):/取消/.test(d.error)?resolve(null):reject(Error(d.error));};const timer=setTimeout(()=>{window.removeEventListener('native-mac-file',listener);reject(Error('文件选择已超时，原输入已保留'));},180000);window.addEventListener('native-mac-file',listener);if(pick(id,kind)==='unavailable'){clearTimeout(timer);window.removeEventListener('native-mac-file',listener);reject(Error('文件选择尚未可用'));}});
+ if(!selected)return null;
+ const parts:Uint8Array<ArrayBuffer>[]=[];try{const limit=(deck?8:20)*1024*1024;if(!Number.isSafeInteger(selected.size)||selected.size<1||selected.size>limit)throw Error(`请选择 ${deck?8:20} MB 以内的文件`);for(let offset=0;offset<selected.size;){const chunk=(deck?deckNative()?.deckReadFile?.(selected.handle,offset):window.MobileNative.macReadFile?.(selected.handle,offset));if(!chunk||chunk.length>65536)throw Error('文件未完整读取，原输入已保留');const bytes=Uint8Array.from(atob(chunk),c=>c.charCodeAt(0));if(!bytes.length||offset+bytes.length>selected.size)throw Error('文件读取长度不符，原输入已保留');parts.push(bytes);offset+=bytes.length;}return new File(parts,selected.name,{type:kind==='photo'?'image/jpeg':'application/octet-stream'});}finally{if(deck)deckNative()?.deckReleaseFile?.(selected.handle);else window.MobileNative.macReleaseFile?.(selected.handle);}
+}
+export async function uploadMacMaterial(file:File,kind:LiveMaterial['kind'],binding:MacState):Promise<LiveMaterial>{
+ if(file.size>20*1024*1024||!file.size)throw Error('请选择 20 MB 以内的文件');const session=macSnapshot().session;
+ const valid=()=>{const s=macSnapshot();return s.connected&&s.session===session&&s.state?.window===binding.window&&s.state?.target===binding.target;};
+ const bytes=new Uint8Array(await file.arrayBuffer()),sha256=Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',bytes)),n=>n.toString(16).padStart(2,'0')).join('');
+ if(!valid())throw Error('目标已变化，材料保留在手机');const begin=await macCommand('file-begin',{name:file.name,size:file.size,sha256,fileKind:kind},binding);if(!begin.ok||!begin.fileId)throw Error(begin.error||'文件传输失败');
+ for(let offset=0;offset<bytes.length;offset+=48*1024){if(!valid())throw Error('连接或目标已变化，材料已保留');const data=btoa(String.fromCharCode(...bytes.subarray(offset,offset+48*1024)));const r=await macCommand('file-chunk',{fileId:begin.fileId,offset,data},binding);if(!r.ok)throw Error(r.error||'文件传输未完成');}
+ const result=await macCommand('file-finish',{fileId:begin.fileId},binding);if(!valid()||!result.ok||!result.file)throw Error(result.error||'文件未校验通过');return result.file;
+}
+// Native-picked files survive navigation/reconnect without being copied into demo state or logs.
+const db=()=>new Promise<IDBDatabase>((resolve,reject)=>{const r=indexedDB.open('input-agent-real-workbuddy',1);r.onupgradeneeded=()=>r.result.createObjectStore('drafts');r.onsuccess=()=>resolve(r.result);r.onerror=()=>reject(r.error);});
+export async function saveRealDraft(key:string,value:unknown){const d=await db();try{await new Promise<void>((resolve,reject)=>{const t=d.transaction('drafts','readwrite');t.objectStore('drafts').put(value,key);t.oncomplete=()=>resolve();t.onerror=()=>reject(t.error);});}finally{d.close();}}
+export async function loadRealDraft<T>(key:string):Promise<T|undefined>{const d=await db();try{return await new Promise<T|undefined>((resolve,reject)=>{const r=d.transaction('drafts').objectStore('drafts').get(key);r.onsuccess=()=>resolve(r.result);r.onerror=()=>reject(r.error);});}finally{d.close();}}

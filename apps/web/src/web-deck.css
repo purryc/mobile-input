@@ -1,0 +1,73 @@
+.deck-task{padding:20px;min-height:0;overflow:auto;flex:1}.deck-job{display:flex;gap:12px;align-items:center;flex-wrap:wrap;padding:12px 0;color:#146c64}.deck-job p{width:100%;color:#a03939}.deck-job button,.deck-editor-toolbar button,.deck-page-actions button{min-height:40px;padding:8px 14px;border-radius:12px;background:#eff4f2}.deck-compose-desktop{max-width:780px;margin:16px auto;display:flex;flex-direction:column;gap:12px}.deck-compose-desktop .live-wb-composer{min-height:180px;background:#fff;border:1px solid #e2e8e4;border-radius:22px;overflow:hidden}.deck-compose-desktop .live-wb-scroll{padding:22px;overflow:auto}.deck-compose-desktop .live-wb-composer footer{display:flex;justify-content:space-between;padding:12px 20px;border-top:1px solid #edf0ef}.deck-composer footer button{display:flex;align-items:center;gap:8px;min-height:48px;color:#146c64}.deck-compose-desktop .live-wb-aux{max-height:350px;border-radius:20px;border:1px solid #e1e8e5;background:#fff;padding:16px;overflow:auto}.deck-compose-desktop .live-wb-aux header{display:flex;justify-content:space-between}.deck-compose-desktop .live-wb-aux svg[aria-label="布局画板"]{width:100%;height:240px;touch-action:none}.deck-compose-desktop .live-wb-aux footer{display:flex;justify-content:flex-end}.deck-compose-desktop .live-wb-materials{display:flex;gap:12px;overflow-x:auto}.deck-compose-desktop .live-wb-materials>div{position:relative;flex:0 0 112px}.deck-compose-desktop .live-wb-materials img{width:112px;height:64px;object-fit:cover;border-radius:10px}.deck-compose-desktop .live-wb-materials>div>button:last-child{position:absolute;right:0;top:0;background:#fff;border-radius:50%}.deck-file{display:flex;align-items:center;gap:8px;font-size:13px;color:#37655b}.deck-file button{min-width:48px;min-height:48px}.web-deck-editor{width:100%;min-width:0;background:#f4f6f5;padding:12px}.deck-editor-toolbar{display:flex;gap:8px;margin-bottom:12px}.deck-editor-body{display:grid;grid-template-columns:140px minmax(0,1fr);gap:16px}.deck-editor-body>aside{display:flex;flex-direction:column;gap:8px}.deck-editor-body>aside button{text-align:left;padding:10px;border-radius:8px;overflow-wrap:anywhere}.deck-editor-body>aside button.active{background:#dbece5;color:#146c64}.deck-editor-body main{min-width:0}.web-deck-page{aspect-ratio:16/9;width:100%;container-type:inline-size;padding:5%;box-sizing:border-box;overflow:hidden;display:flex;flex-direction:column;position:relative;border-radius:8px;box-shadow:0 8px 25px #16382b0d}.deck-eyebrow{color:var(--deck-primary);font-size:clamp(9px,1.1cqw,15px);letter-spacing:.18em}.web-deck-page h1{font-size:clamp(18px,3.7cqw,55px);line-height:1.16;margin:2% 0 4%;overflow-wrap:anywhere;white-space:pre-wrap}.deck-page-content{flex:1;min-height:0;display:flex;gap:5%}.deck-copy{flex:1;min-width:0;overflow:hidden}.deck-copy p{font-size:clamp(12px,2cqw,28px);line-height:1.55;margin:0 0 .65em;white-space:pre-wrap;overflow-wrap:anywhere}.deck-photos{display:flex;gap:8px;flex:1;min-width:0;min-height:0}.deck-photos img{width:100%;min-width:0;flex:1;border-radius:12px}.layout-image-right .deck-photos{order:2}.layout-stack .deck-page-content{flex-direction:column}.layout-stack .deck-photos{max-height:55%}.layout-cover{justify-content:center}.layout-cover .deck-page-content{flex:0 1 50%}.layout-cards .deck-copy{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.layout-cards .deck-copy p{border-top:3px solid var(--deck-primary);padding:12px}.layout-full-image .deck-photos{flex:2}.deck-editor-body fieldset{border:0;padding:16px 0;min-width:0}.deck-editor-body label{display:block;font-size:13px;margin:8px 0}.deck-editor-body input:not([type=color]),.deck-editor-body textarea{display:block;width:100%;box-sizing:border-box;padding:10px;border:1px solid #d5ded9;border-radius:8px;font:inherit;background:white}.deck-editor-body textarea{min-height:95px;resize:vertical}.deck-page-actions,.deck-colors,.deck-revise{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.deck-revise{margin-top:16px}.deck-colors label{display:flex;align-items:center;gap:6px}.deck-playback{position:fixed;inset:0;background:#111;z-index:50;display:flex;align-items:center;justify-content:center}.deck-playback>.web-deck-page,.deck-playback>div:has(.web-deck-page){width:min(100vw,177.77vh);max-height:100vh}.deck-playback header,.deck-playback footer{position:absolute;left:24px;right:24px;display:flex;gap:18px;color:white;z-index:1}.deck-playback header{top:16px;text-shadow:0 1px 4px #000}.deck-playback footer{bottom:16px;justify-content:center}.deck-playback button{background:#182431dd;padding:12px 24px;border-radius:12px;color:white;min-height:48px}.deck-phone-player{height:100%;display:flex;flex-direction:column;padding:24px 16px;gap:20px;background:#f3f7f4}.deck-phone-player header{display:flex;gap:10px;align-items:center}.deck-phone-player article{overflow:auto;flex:1;white-space:pre-wrap;line-height:1.8}.deck-phone-player footer{display:flex;gap:8px}.deck-phone-player button{min-height:48px;padding:8px;background:white;border-radius:12px;flex:1}@media(max-width:700px){.deck-editor-body{grid-template-columns:1fr}.deck-editor-body>aside{flex-direction:row;overflow:auto}.deck-editor-body>aside button{min-width:120px}}
+/* Keep application header/aside rules outside generated page contents. */
+.web-deck-editor{container-name:deck-editor;container-type:inline-size}
+.web-deck-page>header{display:block;position:static;inset:auto;flex:none;width:auto;height:auto;padding:0;margin:0;border:0;background:transparent;color:inherit;box-shadow:none;text-shadow:none}
+.web-deck-page h1{font-size:4.2cqw}.deck-copy p{font-size:2.3cqw}.deck-eyebrow{font-size:1.4cqw}
+.deck-playback>header,.deck-playback>footer{position:absolute}
+.deck-playback .web-deck-page>header{position:static;color:inherit;text-shadow:none}
+.deck-editor-body>aside{position:static;width:auto;height:auto;padding:0;border:0;background:transparent}
+.deck-editor-body>main{padding:0;overflow:visible}
+
+
+
+
+
+
+@container deck-editor (max-width:650px){.deck-editor-body{grid-template-columns:1fr;gap:12px}.deck-editor-body>aside{flex-direction:row;overflow-x:auto;max-width:100%}.deck-editor-body>aside button{flex:0 0 108px;max-height:60px;overflow:hidden}.deck-editor-body>main{width:100%}}
+.mac-phone
+
+.deck-pending-materials{padding:8px 16px;font-size:13px;flex-shrink:0;max-height:120px;overflow:auto}.deck-pending-materials>div{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.deck-pending-materials button{min-height:48px;padding:8px}.deck-image-error{display:inline-flex;align-items:center;justify-content:center;min-height:48px;color:#923b3b;font-size:12px}
+/* Target apps receive ordinary text and native-style attachments, never phone tokens. */
+.deck-compose-desktop .deck-composer textarea{display:block;width:100%;min-height:112px;resize:vertical;background:transparent;border:0;box-shadow:none;padding:0;font:inherit;line-height:1.65;color:#222;outline:none}
+.deck-compose-desktop .deck-composer textarea::placeholder{color:#999}
+.deck-compose-desktop .live-wb-scroll{padding:16px 18px 4px}
+.deck-compose-desktop .deck-composer footer{border:0;position:relative;align-items:center;gap:10px;padding:4px 12px 10px}
+.deck-compose-desktop .deck-composer footer>span:not(.deck-model){flex:1;font-size:12px}
+.deck-compose-desktop .deck-composer footer button{justify-content:center;min-width:40px;min-height:40px;color:#222}
+.deck-compose-desktop .deck-composer footer button:last-child{background:#222;color:#fff;border-radius:50%}
+.deck-compose-desktop .deck-composer footer button:disabled{opacity:.35}
+.deck-model{font-size:13px;color:#444;max-width:210px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.deck-target-materials{display:flex;flex-wrap:wrap;gap:8px}
+.deck-target-material{display:flex;align-items:center;gap:8px;padding:6px 8px;border:1px solid #e7e7e7;border-radius:10px;margin-bottom:10px;font-size:13px;max-width:100%}
+.deck-target-material img{width:48px;height:40px;object-fit:cover;border-radius:6px}.deck-target-material span{overflow:hidden;text-overflow:ellipsis}.deck-target-material button{min-width:32px;min-height:32px}
+.deck-add-menu{position:absolute;bottom:54px;left:8px;background:#fff;border:1px solid #ddd;box-shadow:0 8px 24px #0001;border-radius:12px;z-index:5;padding:6px;display:flex;flex-direction:column}
+.deck-compose-desktop .deck-composer footer .deck-add-menu button{border-radius:6px;background:white;color:#222;padding:8px 16px}
+
+.deck-compose-desktop .deck-composer{padding:0;gap:0;border-color:#e1e1e1}
+.deck-compose-desktop .deck-composer footer>button{width:40px;height:40px;padding:8px;background:transparent;border-radius:50%;flex-shrink:0}
+.deck-compose-desktop .deck-composer footer>button:last-child{background:#222;color:#fff}
+.deck-compose-desktop .deck-composer textarea{font-weight:400;resize:none;min-height:110px}
+/* WorkBuddy 5.9.3 artifact editor: independent canvas, pinned notes/status. */
+.workbuddy .wb-task-chat{min-height:0;overflow:hidden}
+.workbuddy .wb-task-chat>.deck-compose-desktop{flex:none;width:calc(100% - 48px);margin:8px 24px 18px;max-width:none;max-height:40%;min-height:0;overflow:auto}
+.workbuddy .wb-task-chat .deck-compose-desktop .live-wb-composer{min-height:0;flex:none}
+.workbuddy .wb-task-chat .deck-compose-desktop textarea{min-height:72px;max-height:160px;resize:vertical}
+.workbuddy .wb-message.user .wb-message-text{color:#222;background:#f3f3f3;border-radius:16px;padding:12px 16px}
+.web-deck-editor{display:flex;flex-direction:column;padding:0;min-height:520px;height:100%;background:#f4f5f7}
+.deck-editor-tabs{display:flex;gap:24px;align-items:center;padding:10px 16px;background:#f6f6f6;font-size:14px;flex:none}.deck-editor-tabs b{padding:7px 0;border-bottom:2px solid #2879ed}.deck-editor-tabs button{background:transparent;color:#222}
+.deck-editor-toolbar{position:relative;display:flex;gap:6px;align-items:center;background:#fff;margin:0 8px 8px;padding:6px;border:1px solid #e1e1e1;border-radius:8px;flex:none}
+.deck-editor-toolbar button{display:flex;gap:6px;align-items:center;background:transparent;border-radius:4px;font-size:13px}
+.deck-page-menu{position:absolute;top:100%;left:40px;z-index:15;background:#fff;border:1px solid #ddd;border-radius:8px;padding:12px;display:flex;gap:10px;flex-wrap:wrap;max-width:320px;box-shadow:0 5px 20px #0002}.deck-page-menu label{display:flex;gap:6px;align-items:center;font-size:12px}.deck-page-menu input{width:30px;border:0}
+.deck-editor-body{display:grid!important;grid-template-columns:clamp(84px,20%,170px) minmax(0,1fr)!important;gap:0;flex:1;min-height:0;overflow:hidden}
+.deck-editor-body>aside{display:flex!important;flex-direction:column!important;padding:8px;border-right:1px solid #ddd;overflow:auto;gap:10px;min-height:0;max-width:none}
+.deck-editor-body>aside>button{position:relative;flex:none;max-height:none;min-width:0;padding:4px;background:#fff;border:2px solid transparent;border-radius:5px;color:#444;font-size:12px}.deck-editor-body>aside>button.active{border-color:#3478e5;background:white}.deck-editor-body>aside>button>small{position:absolute;left:0;top:0;z-index:1;background:white;padding:2px;color:#444}
+.deck-editor-body>aside .web-deck-page{border-radius:0;box-shadow:none;pointer-events:none}.deck-editor-body>aside .deck-eyebrow{font-size:1.4cqw}
+.deck-editor-body>main{display:flex;flex-direction:column;min-height:0;min-width:0;overflow:hidden!important}
+.deck-canvas-scroll{position:relative;flex:1;min-height:250px;overflow:auto;padding:78px 24px 36px;display:flex;align-items:center;justify-content:flex-start}
+.deck-canvas-scale{flex-shrink:0;max-width:none;min-width:0;margin:auto}.deck-canvas-scale .web-deck-page{box-shadow:0 2px 8px #0002;border-radius:0;overflow:visible}
+.deck-copy>div{font-size:2.3cqw;line-height:1.55;white-space:pre-wrap}.deck-copy .rich-object-paragraph{display:block}.deck-photo-object{flex:1;min-width:0;min-height:0;display:flex;position:relative}.deck-photo-object img{width:100%;height:100%;min-height:0;object-fit:contain}.deck-photo-object.selected{outline:2px solid #3478e5;outline-offset:3px}
+.deck-photo-tools{position:absolute;top:18px;left:12px;display:flex;gap:8px;background:#fff;padding:8px;border:1px solid #ddd;border-radius:8px;z-index:10;font-size:12px}
+.deck-editor-body textarea.deck-notes{flex:none;border:0;border-top:1px solid #ddd;border-radius:0;min-height:60px;height:70px;padding:14px;background:#fafafa;resize:vertical;max-height:160px;font-size:13px}
+.deck-editor-bottom{display:flex!important;position:static!important;align-items:center;gap:12px;padding:8px 12px!important;background:#fafafa!important;border-top:1px solid #ddd;font-size:12px;color:#555;flex:none;width:auto!important;height:auto!important}.deck-editor-bottom>span{flex:1}.deck-editor-bottom button{background:transparent;padding:4px;min-height:30px;color:#444}
+.deck-page-actions{justify-content:center;gap:0}.deck-page-actions button{padding:4px;min-height:32px;background:transparent}
+.wbf-content.slides:has(.web-deck-editor){padding:0;display:flex;min-height:0;overflow:hidden}.wbf-content.slides:has(.web-deck-editor)>.web-deck-editor{min-height:0;flex:1;height:auto}
+.wbf-document:has(.web-deck-editor)>.wbf-toolbar,.wbf-document:has(.web-deck-editor)>.wbf-bottom{display:none}
+.deck-canvas-scroll .wb-selection-tools{transform:none}
+
+.wbf-scroll:has(> .wbf-content > .web-deck-editor){display:flex;flex-direction:column;overflow:hidden}.wbf-scroll:has(> .wbf-content > .web-deck-editor)>.wbf-content{flex:1;min-height:0;height:100%}
+.workbuddy .web-deck-page h1{font-size:4.2cqw;line-height:1.16;margin:2% 0 4%;font-weight:600}
+.workbuddy .wbf-replica-artifact>.wbf-result-modes,.workbuddy .wbf-replica-artifact>.wbf-artifact-list{display:none}
+.workbuddy .wbf-replica-artifact .wb-preview-tabs{background:#fff;padding:10px 12px;gap:8px;min-height:48px}.workbuddy .wbf-replica-artifact .wb-preview-tabs>div{border-radius:8px;background:#f4f4f4;border:0}.workbuddy .wbf-replica-artifact .wb-preview-tabs button{font-size:14px;padding:7px;color:#222;background:transparent}
+.workbuddy .wbf-replica-artifact{width:56%;min-width:360px}
+.workbuddy .wb-task-layout>.wbf-results.wbf-replica-artifact{flex:0 0 57%;width:57%;min-width:340px}
+.workbuddy .wb-task-layout>.wbf-results.wbf-replica-artifact .wb-preview-tabs{background:white;padding:8px 12px;min-height:48px}

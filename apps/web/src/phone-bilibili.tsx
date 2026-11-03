@@ -27,7 +27,7 @@ function BiliInput(){
  const target=()=>({video:video.id,epoch:b.epoch});
  const send=(type:string,fields:Record<string,unknown>={})=>command(type,{...target(),...fields});
  const focused=r.state.target?.id===`bili:${video.id}`;
- const editing=usePhoneEditing(text,update,area,`${video.id}:${r.state.target?.revision}`,r.connected&&!blocked&&focused);
+ const editing=usePhoneEditing(text,update,area,`${video.id}:${r.state.target?.id}`,r.connected&&!blocked&&focused);
  function reject(){block.current=true;setBlocked(true);queued.current=false;persist();}
  async function focus(){if(block.current||!alive.current||currentState().target?.id!==`bili:${video.id}`)return false;const state=currentState();if(state.app!=='bilibili'||state.bilibili.epoch!==b.epoch)return false;
   if(!anchor.current){const t=state.target;if(!t)return false;anchor.current={id:t.id,revision:t.revision};}return true;}
@@ -79,9 +79,9 @@ function BiliInput(){
    <div className="bili-actions-top">{[[I.ThumbsUp,'点赞','bili-like'],[I.Star,'收藏','bili-favorite'],[I.CircleDollarSign,'投币','bili-coin']].map(([C,label,type])=>{const Icon=C as typeof I.Star;return <button key={String(type)} disabled={busy||!r.connected} onClick={()=>action(String(type))}><Icon size={21} strokeWidth={1.65}/>{type==='bili-coin'&&coinRequest?'核对投币':String(label)}</button>;})}</div><div className="bili-actions-list"><button disabled={!r.connected} onClick={()=>action('bili-view',{fullscreen:!b.fullscreen})}>{b.fullscreen?<I.List size={24}/>:<img src="./assets/bilibili/fullscreen.svg" alt=""/>}{b.fullscreen?'列表':'全屏'}</button><span/><button disabled={busy||!r.connected||b.index===0} onClick={()=>action('bili-next',{delta:-1})}><I.SkipBack size={21}/>上一条</button><button disabled={busy||!r.connected||b.index===biliVideos.length-1} onClick={()=>action('bili-next',{delta:1})}><I.SkipForward size={21}/>下一条</button></div></section>
   {(focused||blocked)&&<section className="bili-phone-composer">{blocked&&<div className="bili-target-warning">草稿已保留<button disabled={!r.connected} onClick={recover}>{request.current?'核对当前请求':'输入到当前视频'}</button></div>}
    <textarea ref={area} aria-label="手机弹幕草稿" placeholder="发个友善的弹幕" value={text} onFocus={()=>{if(!block.current)void focus();void command('switch-cancel');}} onSelect={editing.select} onChange={e=>{editing.selection.current={start:e.target.selectionStart,end:e.target.selectionEnd};editing.change(e.target.value);}}/>
-   {editing.polish&&<PolishControls editing={editing}/>}
+
    <footer><button aria-label="弹幕样式" onClick={()=>setMenu(menu==='style'?null:'style')}><I.Type size={21}/></button><button aria-label="弹幕颜色" onClick={()=>setMenu(menu==='color'?null:'color')}><I.Palette size={21}/></button><span/><button className="bili-send" disabled={busy||blocked||!r.connected||!text.trim()||editing.speech!=='idle'} aria-label="发送弹幕" onClick={submit}><I.Send size={23}/>发送</button></footer>{styleTools}
-  </section>}
+  </section>}{(focused||blocked)&&editing.polish&&<PolishControls editing={editing}/>}
   </div><InputDock editing={editing} area={area} disabled={busy||blocked||!r.connected} editable={focused} voiceDisabled={!focused}/>{capture&&<CapturePanel close={()=>setCapture(false)}/>}
  </main>;
 }

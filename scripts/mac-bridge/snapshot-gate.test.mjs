@@ -1,0 +1,2 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {SnapshotGate} from './snapshot-gate.mjs';
+test('a continuous pointer gesture cannot enqueue background AX scans, then polling resumes',()=>{let time=0;const gate=new SnapshotGate(()=>time);assert.equal(gate.canPoll(),true);for(let i=0;i<600;i++){time+=16;gate.pointer();assert.equal(gate.canPoll(),false);}time+=249;assert.equal(gate.canPoll(),false);time++;assert.equal(gate.canPoll(),true);});

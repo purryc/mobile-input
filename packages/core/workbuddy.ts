@@ -1,3 +1,7 @@
+import {emptyDeckInput} from './web-deck';
+import {projectTargetInput,workBuddyInputCapabilities} from './live-workbuddy';
+import {workBuddyDeckInteraction} from './workbuddy-deck';
+import type {DeckInput,DeckJob} from './web-deck';
 import {sentenceParameters} from './workbuddy-sentence';
 import {objectInteraction} from "./workbuddy-object";
 import {materialsInteraction,submitMaterials,type ReceiptWorkflow} from './workbuddy-materials';
@@ -34,6 +38,8 @@ export type TaskStatus =
   | "paused"
   | "complete";
 export interface WbDraft {
+  owner?:string;
+  deckInput?:DeckInput;
   input?: WorkBuddyInput;
   text: string;
   revision: number;
@@ -43,6 +49,7 @@ export interface WbDraft {
   references: string[];
 }
 export interface WbTask {
+  deckJob?:DeckJob;
   sourceFiles?:string[];
   receipts?: ReceiptWorkflow;
   referenceRequest?: boolean;
@@ -101,6 +108,7 @@ export interface WbAssistant {
   messages: { role: string; text: string }[];
 }
 export interface WorkBuddyState {
+  deckPlayback?:{file:string;view:string;pageId:string};
   version: 1;
   fileBrowser?: FileBrowserState;
   page: WorkBuddyPage;
@@ -561,18 +569,21 @@ export function restoreWorkBuddy(
   }
   w.mailDrafts ??= [];
   w.settings.buddyExpert ??= "sales";
+  delete w.deckPlayback;
   w.preview = [];
   w.previewActive = null;
   w.filePanel = false;
   for (const task of w.tasks)
     if (task.status === "running") {
       task.status = "paused";
+      if(task.deckJob)task.deckJob.stage="已暂停，可重新生成";
       task.epoch += ":restored";
     }
   pauseWorkBuddy(s);
   return s;
 }
 export function pauseWorkBuddy(s: State) {
+  for(const o of Object.values(s.workbuddy.fileBrowser?.objectInputs||{}))if(o.pending){delete o.pending;o.error='修改已暂停，请重新发送';}
   for(const co of Object.values(s.workbuddy.fileBrowser?.conversations||{}))if(co.pending){co.pending=null;co.unknown="修改已暂停，请重新发送";}
   for (const task of s.workbuddy.tasks)
     if (task.status === "running") {
@@ -580,6 +591,7 @@ export function pauseWorkBuddy(s: State) {
       task.startedAt = 0;
       task.status = "paused";
       task.epoch += ":paused";
+      if(task.deckJob)task.deckJob.stage="已暂停，可重新生成";
     }
 }
 export function wbDraftFor(s: State, targetId: string) {
@@ -615,7 +627,7 @@ function focus(s: State, id: string, label?: string, initialText = "") {
     app: "workbuddy",
     kind: "text",
     label: label || "WorkBuddy 输入",
-    value: d.text,
+    value: d.deckInput?projectTargetInput(d.text,d.deckInput.parameters,d.deckInput.assets,workBuddyInputCapabilities).text:d.text,
     revision: s.revision + 1,
   };
   return null;
@@ -787,6 +799,7 @@ export function workBuddyInteraction(
   if (!c.type.startsWith("wb-")) return undefined;
   if (s.app !== "workbuddy") return "WorkBuddy 已退出";
   const objectResult=objectInteraction(s,c);if(objectResult!==undefined)return objectResult;
+  const deckResult=workBuddyDeckInteraction(s,c);if(deckResult!==undefined)return deckResult;
   const materialResult=materialsInteraction(s,c);if(materialResult!==undefined)return materialResult;
   const adaptiveResult=wbAdaptiveInteraction(s,c);if(adaptiveResult!==undefined)return adaptiveResult;
   const browserResult=fileBrowserInteraction(s,c);if(browserResult!==undefined)return browserResult;
@@ -812,6 +825,7 @@ export function workBuddyInteraction(
       if (s.target?.id === id) s.target = null;
       return null;
     case "wb-focus":
+      if(id==='wb:draft:new'){w.drafts.new.owner??=c.id;w.drafts.new.deckInput??=emptyDeckInput();}
       return focus(
         s,
         id,
@@ -834,11 +848,12 @@ export function workBuddyInteraction(
           return "编辑序号无效";
         if (session === d.session && seq <= d.sequence) return "已忽略过期编辑";
         const fileError=fileTargetEdit(s,t.id,text);if(fileError)return fileError;
+        if(t.id==='wb:draft:new')d.deckInput??=emptyDeckInput();
         d.text = text;
         d.revision++;
         d.sequence = seq;
         d.session = session;
-        t.value = text;
+        t.value = d.deckInput?projectTargetInput(text,d.deckInput.parameters,d.deckInput.assets,workBuddyInputCapabilities).text:text;
         s.switcher = null;
         return null;
       }
@@ -877,6 +892,7 @@ export function workBuddyInteraction(
         d.revision++;
         d.attachments = [];
         d.references = [];
+        if(t.id==='wb:draft:new'){d.deckInput=emptyDeckInput();delete d.owner;}
         if(adaptive){d.input=initialWbInput();w.drafts[task.id].input=initialWbInput();focus(s,`wb:draft:${task.id}`,task.title);}
         return null;
       }
@@ -942,6 +958,7 @@ export function workBuddyInteraction(
     case "wb-task": {
       const t = w.tasks.find((x) => x.id === id);
       if (!t) return "任务不存在";
+      if(t.deckJob&&["stop","continue","confirm","type"].includes(String(v.action)))return "请使用网页演示任务的操作入口";
       switch (v.action) {
         case "rename":
           if (!String(v.name || "").trim()) return "请输入名称";
@@ -991,7 +1008,7 @@ export function workBuddyInteraction(
     }
     case "wb-tick": {
       const t = w.tasks.find((x) => x.id === id);
-      if (!t || t.status !== "running" || v.epoch !== t.epoch)
+      if (!t || t.deckJob || t.status !== "running" || v.epoch !== t.epoch)
         return "执行轮次已过期";
       if (Date.now() - t.startedAt < 750) return "执行阶段尚未到达";
       t.step++;

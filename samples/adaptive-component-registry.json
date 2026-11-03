@@ -53,7 +53,9 @@
       "renderOwner": "local",
       "kind": "control",
       "region": "inherited",
-      "inputStates": []
+      "inputStates": [],
+      "figmaPageId": "2:2",
+      "catalogRole": "reusable-control"
     },
     {
       "componentId": "icon-button",
@@ -86,7 +88,9 @@
       "renderOwner": "local",
       "kind": "control",
       "region": "inherited",
-      "inputStates": []
+      "inputStates": [],
+      "figmaPageId": "2:2",
+      "catalogRole": "reusable-control"
     },
     {
       "componentId": "hold",
@@ -120,7 +124,9 @@
       "renderOwner": "local",
       "kind": "control",
       "region": "adaptive",
-      "inputStates": []
+      "inputStates": [],
+      "figmaPageId": "2:2",
+      "catalogRole": "reusable-control"
     },
     {
       "componentId": "chip",
@@ -151,7 +157,9 @@
       "renderOwner": "local",
       "kind": "control",
       "region": "inherited",
-      "inputStates": []
+      "inputStates": [],
+      "figmaPageId": "2:2",
+      "catalogRole": "reusable-control"
     },
     {
       "componentId": "switch",
@@ -182,7 +190,9 @@
       "renderOwner": "local",
       "kind": "control",
       "region": "inherited",
-      "inputStates": []
+      "inputStates": [],
+      "figmaPageId": "2:2",
+      "catalogRole": "reusable-control"
     },
     {
       "componentId": "segmented",
@@ -210,7 +220,9 @@
       "renderOwner": "local",
       "kind": "control",
       "region": "fixedInput",
-      "inputStates": []
+      "inputStates": [],
+      "figmaPageId": "2:2",
+      "catalogRole": "reusable-control"
     },
     {
       "componentId": "voice",
@@ -265,7 +277,9 @@
           "disabled"
         ]
       },
-      "designCoverage": "Recording is a distinct visual variant; existing prototype gestures are not proof of real capture."
+      "designCoverage": "Recording is a distinct visual variant; existing prototype gestures are not proof of real capture.",
+      "figmaPageId": "2:2",
+      "catalogRole": "reusable-control"
     },
     {
       "componentId": "key",
@@ -297,7 +311,9 @@
       "renderOwner": "local",
       "kind": "control",
       "region": "fixedInput",
-      "inputStates": []
+      "inputStates": [],
+      "figmaPageId": "2:2",
+      "catalogRole": "reusable-control"
     },
     {
       "componentId": "attachment",
@@ -333,7 +349,9 @@
       "renderOwner": "local",
       "kind": "control",
       "region": "adaptive",
-      "inputStates": []
+      "inputStates": [],
+      "figmaPageId": "2:2",
+      "catalogRole": "reusable-control"
     },
     {
       "componentId": "slider",
@@ -392,7 +410,9 @@
           200
         ]
       },
-      "designCoverage": "Editable states only; continuous dragging and target bounds require renderer implementation. Vertical text stays upright."
+      "designCoverage": "Editable states only; continuous dragging and target bounds require renderer implementation. Vertical text stays upright.",
+      "figmaPageId": "2:2",
+      "catalogRole": "reusable-control"
     },
     {
       "componentId": "stepper",
@@ -426,7 +446,15 @@
       "renderOwner": "local",
       "kind": "control",
       "region": "adaptive",
-      "inputStates": []
+      "inputStates": [],
+      "productPptDesignExample": {
+        "figmaSectionId": "109:5262",
+        "librarySectionId": "2161:98910",
+        "date": "2026-11-02",
+        "status": "editable-design-and-preset-prototype-only"
+      },
+      "figmaPageId": "2:2",
+      "catalogRole": "reusable-control"
     },
     {
       "componentId": "color",
@@ -455,7 +483,9 @@
       "renderOwner": "local",
       "kind": "control",
       "region": "adaptive",
-      "inputStates": []
+      "inputStates": [],
+      "figmaPageId": "2:2",
+      "catalogRole": "reusable-control"
     },
     {
       "componentId": "date",
@@ -492,7 +522,9 @@
       "region": "adaptive",
       "inputStates": [],
       "dismissibleWhenGenerated": true,
-      "lifecycleContract": "auxiliaryLifecycle"
+      "lifecycleContract": "auxiliaryLifecycle",
+      "figmaPageId": "2:2",
+      "catalogRole": "reusable-control"
     },
     {
       "componentId": "choice",
@@ -525,7 +557,9 @@
       "renderOwner": "local",
       "kind": "control",
       "region": "adaptive",
-      "inputStates": []
+      "inputStates": [],
+      "figmaPageId": "2:2",
+      "catalogRole": "reusable-control"
     },
     {
       "componentId": "topic",
@@ -556,7 +590,9 @@
       "renderOwner": "local",
       "kind": "control",
       "region": "target",
-      "inputStates": []
+      "inputStates": [],
+      "figmaPageId": "2:2",
+      "catalogRole": "reusable-control"
     },
     {
       "componentId": "feedback",
@@ -594,7 +630,9 @@
       "renderOwner": "local",
       "kind": "control",
       "region": "inherited",
-      "inputStates": []
+      "inputStates": [],
+      "figmaPageId": "2:2",
+      "catalogRole": "reusable-control"
     },
     {
       "componentId": "edit-tools",
@@ -629,7 +667,9 @@
       "renderOwner": "local",
       "kind": "control",
       "region": "fixedInput",
-      "inputStates": []
+      "inputStates": [],
+      "figmaPageId": "2:2",
+      "catalogRole": "reusable-control"
     },
     {
       "componentId": "composer",
@@ -648,7 +688,6 @@
       "props": [
         "value",
         "placeholder",
-        "polishOptions",
         "attachments",
         "sendEnabled",
         "parameters"
@@ -656,7 +695,6 @@
       "actions": [
         "editDraft",
         "attach",
-        "polish",
         "undo",
         "sendDraft"
       ],
@@ -681,8 +719,12 @@
         "agent-status",
         "execution-steps",
         "logs",
-        "result-details"
-      ]
+        "result-details",
+        "contextual-polish-actions"
+      ],
+      "polishComposition": "contextual-polish is a sibling 8px below Composer and above InputDock. Legacy Polish variant retains only text and Send.",
+      "figmaPageId": "2:2",
+      "catalogRole": "reusable-control"
     },
     {
       "componentId": "compact-composer",
@@ -726,7 +768,9 @@
         "execution-steps",
         "logs",
         "result-details"
-      ]
+      ],
+      "figmaPageId": "2:2",
+      "catalogRole": "reusable-control"
     },
     {
       "componentId": "quote",
@@ -756,7 +800,9 @@
       "renderOwner": "local",
       "kind": "control",
       "region": "target",
-      "inputStates": []
+      "inputStates": [],
+      "figmaPageId": "2:2",
+      "catalogRole": "reusable-control"
     },
     {
       "componentId": "reply",
@@ -787,7 +833,9 @@
       "renderOwner": "local",
       "kind": "control",
       "region": "adaptive",
-      "inputStates": []
+      "inputStates": [],
+      "figmaPageId": "2:2",
+      "catalogRole": "reusable-control"
     },
     {
       "componentId": "app-action",
@@ -833,7 +881,9 @@
         "calendar": "174:2874",
         "gaode": "174:2875",
         "feishu": "174:2876"
-      }
+      },
+      "figmaPageId": "2:2",
+      "catalogRole": "reusable-control"
     },
     {
       "componentId": "task",
@@ -866,7 +916,9 @@
       "renderOwner": "local",
       "kind": "control",
       "region": "adaptive",
-      "inputStates": []
+      "inputStates": [],
+      "figmaPageId": "2:2",
+      "catalogRole": "reusable-control"
     },
     {
       "componentId": "form",
@@ -900,7 +952,9 @@
       "region": "adaptive",
       "inputStates": [],
       "dismissibleWhenGenerated": true,
-      "lifecycleContract": "auxiliaryLifecycle"
+      "lifecycleContract": "auxiliaryLifecycle",
+      "figmaPageId": "2:2",
+      "catalogRole": "reusable-control"
     },
     {
       "componentId": "formula",
@@ -934,7 +988,9 @@
       "region": "adaptive",
       "inputStates": [],
       "dismissibleWhenGenerated": true,
-      "lifecycleContract": "auxiliaryLifecycle"
+      "lifecycleContract": "auxiliaryLifecycle",
+      "figmaPageId": "2:2",
+      "catalogRole": "reusable-control"
     },
     {
       "componentId": "status-row",
@@ -964,7 +1020,9 @@
       "renderOwner": "local",
       "kind": "control",
       "region": "target",
-      "inputStates": []
+      "inputStates": [],
+      "figmaPageId": "2:2",
+      "catalogRole": "reusable-control"
     },
     {
       "componentId": "keyboard",
@@ -1004,7 +1062,9 @@
       "renderOwner": "local",
       "kind": "control",
       "region": "fixedInput",
-      "inputStates": []
+      "inputStates": [],
+      "figmaPageId": "2:2",
+      "catalogRole": "reusable-control"
     },
     {
       "componentId": "numpad",
@@ -1033,7 +1093,9 @@
       "renderOwner": "local",
       "kind": "control",
       "region": "fixedInput",
-      "inputStates": []
+      "inputStates": [],
+      "figmaPageId": "2:2",
+      "catalogRole": "reusable-control"
     },
     {
       "componentId": "trackpad",
@@ -1067,7 +1129,9 @@
       "renderOwner": "local",
       "kind": "control",
       "region": "fixedInput",
-      "inputStates": []
+      "inputStates": [],
+      "figmaPageId": "2:2",
+      "catalogRole": "reusable-control"
     },
     {
       "componentId": "sketch",
@@ -1114,7 +1178,9 @@
       "footerAction": false,
       "dismissibleWhenGenerated": true,
       "lifecycleContract": "auxiliaryLifecycle",
-      "closePlacement": "panel-top-right"
+      "closePlacement": "panel-top-right",
+      "figmaPageId": "2:2",
+      "catalogRole": "reusable-control"
     },
     {
       "componentId": "camera",
@@ -1148,7 +1214,9 @@
       "region": "adaptive",
       "inputStates": [],
       "dismissibleWhenGenerated": true,
-      "lifecycleContract": "auxiliaryLifecycle"
+      "lifecycleContract": "auxiliaryLifecycle",
+      "figmaPageId": "2:2",
+      "catalogRole": "reusable-control"
     },
     {
       "componentId": "pen-settings",
@@ -1182,7 +1250,9 @@
       "renderOwner": "local",
       "kind": "control",
       "region": "adaptive",
-      "inputStates": []
+      "inputStates": [],
+      "figmaPageId": "2:2",
+      "catalogRole": "reusable-control"
     },
     {
       "componentId": "presentation-tools",
@@ -1219,7 +1289,9 @@
       "renderOwner": "local",
       "kind": "control",
       "region": "fixedInput",
-      "inputStates": []
+      "inputStates": [],
+      "figmaPageId": "2:2",
+      "catalogRole": "reusable-control"
     },
     {
       "componentId": "notes",
@@ -1247,7 +1319,9 @@
       "renderOwner": "local",
       "kind": "control",
       "region": "adaptive",
-      "inputStates": []
+      "inputStates": [],
+      "figmaPageId": "2:2",
+      "catalogRole": "reusable-control"
     },
     {
       "componentId": "game",
@@ -1280,7 +1354,9 @@
       "renderOwner": "local",
       "kind": "control",
       "region": "fixedInput",
-      "inputStates": []
+      "inputStates": [],
+      "figmaPageId": "2:2",
+      "catalogRole": "reusable-control"
     },
     {
       "componentId": "recipe-wechat-phone",
@@ -1325,7 +1401,9 @@
         "Minimized",
         "Keyboard",
         "Trackpad"
-      ]
+      ],
+      "figmaPageId": "0:1",
+      "catalogRole": "scene-source"
     },
     {
       "componentId": "recipe-doubao-phone",
@@ -1363,7 +1441,9 @@
         "Minimized",
         "Keyboard",
         "Trackpad"
-      ]
+      ],
+      "figmaPageId": "0:1",
+      "catalogRole": "scene-source"
     },
     {
       "componentId": "recipe-sheet-phone",
@@ -1400,7 +1480,9 @@
         "Minimized",
         "Keyboard",
         "Trackpad"
-      ]
+      ],
+      "figmaPageId": "0:1",
+      "catalogRole": "scene-source"
     },
     {
       "componentId": "recipe-presentation-phone",
@@ -1436,7 +1518,9 @@
         "Minimized",
         "Keyboard",
         "Trackpad"
-      ]
+      ],
+      "figmaPageId": "0:1",
+      "catalogRole": "scene-source"
     },
     {
       "componentId": "recipe-wechat-pc",
@@ -1479,7 +1563,9 @@
         "Minimized",
         "Keyboard",
         "Trackpad"
-      ]
+      ],
+      "figmaPageId": "0:1",
+      "catalogRole": "scene-source"
     },
     {
       "componentId": "recipe-doubao-pc",
@@ -1516,7 +1602,9 @@
         "Minimized",
         "Keyboard",
         "Trackpad"
-      ]
+      ],
+      "figmaPageId": "0:1",
+      "catalogRole": "scene-source"
     },
     {
       "componentId": "recipe-sheet-pc",
@@ -1552,7 +1640,9 @@
         "Minimized",
         "Keyboard",
         "Trackpad"
-      ]
+      ],
+      "figmaPageId": "0:1",
+      "catalogRole": "scene-source"
     },
     {
       "componentId": "recipe-presentation-pc",
@@ -1588,7 +1678,9 @@
         "Minimized",
         "Keyboard",
         "Trackpad"
-      ]
+      ],
+      "figmaPageId": "0:1",
+      "catalogRole": "scene-source"
     },
     {
       "componentId": "motion-app",
@@ -1620,7 +1712,9 @@
       "renderOwner": "local",
       "kind": "motion",
       "region": "motion",
-      "inputStates": []
+      "inputStates": [],
+      "figmaPageId": "0:1",
+      "catalogRole": "scene-source"
     },
     {
       "componentId": "motion-context",
@@ -1652,7 +1746,9 @@
       "renderOwner": "local",
       "kind": "motion",
       "region": "motion",
-      "inputStates": []
+      "inputStates": [],
+      "figmaPageId": "0:1",
+      "catalogRole": "scene-source"
     },
     {
       "componentId": "motion-panel",
@@ -1684,7 +1780,9 @@
       "renderOwner": "local",
       "kind": "motion",
       "region": "motion",
-      "inputStates": []
+      "inputStates": [],
+      "figmaPageId": "0:1",
+      "catalogRole": "scene-source"
     },
     {
       "componentId": "palette",
@@ -1719,7 +1817,9 @@
       "renderOwner": "local",
       "kind": "control",
       "region": "adaptive",
-      "inputStates": []
+      "inputStates": [],
+      "figmaPageId": "2:2",
+      "catalogRole": "reusable-control"
     },
     {
       "componentId": "input-dock",
@@ -1758,7 +1858,9 @@
         "inputModeSelector",
         "voice"
       ],
-      "send": false
+      "send": false,
+      "figmaPageId": "2:2",
+      "catalogRole": "reusable-control"
     },
     {
       "componentId": "adaptive-workspace",
@@ -1790,7 +1892,9 @@
         "Glass/Canvas": "1309:20480",
         "Glass/Color": "1309:20510"
       },
-      "inputStates": []
+      "inputStates": [],
+      "figmaPageId": "2:2",
+      "catalogRole": "reusable-control"
     },
     {
       "componentId": "agent-task-status",
@@ -1840,7 +1944,9 @@
         "reducedMotion": "Static",
         "stopWhen": "task-no-longer-needs-user-action",
         "scope": "figma-prototype; runtime-not-updated"
-      }
+      },
+      "figmaPageId": "2:2",
+      "catalogRole": "reusable-control"
     },
     {
       "componentId": "inline-color",
@@ -1880,7 +1986,9 @@
       "renderOwner": "local",
       "kind": "control",
       "region": "adaptive",
-      "inputStates": []
+      "inputStates": [],
+      "figmaPageId": "2:2",
+      "catalogRole": "reusable-control"
     },
     {
       "componentId": "color-refinement",
@@ -1902,7 +2010,10 @@
         "source",
         "hex",
         "validation",
-        "targetId"
+        "targetId",
+        "parameterId",
+        "parameterTarget",
+        "scopeRef"
       ],
       "actions": [
         "setColor",
@@ -1926,7 +2037,32 @@
       "applyMode": "live-draft",
       "requiresCompletion": false,
       "dismissibleWhenGenerated": true,
-      "lifecycleContract": "auxiliaryLifecycle"
+      "lifecycleContract": "auxiliaryLifecycle",
+      "productPptDesignExample": {
+        "figmaSectionId": "109:5262",
+        "librarySectionId": "2161:98910",
+        "date": "2026-11-02",
+        "status": "editable-design-and-preset-prototype-only"
+      },
+      "multiColorDesignContract": {
+        "identity": [
+          "taskRef",
+          "parameterTarget",
+          "scopeRef"
+        ],
+        "targets": [
+          "background",
+          "primary",
+          "text"
+        ],
+        "opening": "one-widget-at-a-time",
+        "updates": "current-parameter-only",
+        "themeIndependent": true,
+        "unexpressedPreferences": "not-required",
+        "runtimeApiAdded": false
+      },
+      "figmaPageId": "2:2",
+      "catalogRole": "reusable-control"
     },
     {
       "componentId": "layout-intent",
@@ -1981,7 +2117,58 @@
       "footerAction": false,
       "dismissibleWhenGenerated": true,
       "lifecycleContract": "auxiliaryLifecycle",
-      "closePlacement": "panel-top-right"
+      "closePlacement": "panel-top-right",
+      "productPptDesignExample": {
+        "figmaSectionId": "109:5262",
+        "librarySectionId": "2161:98910",
+        "date": "2026-11-02",
+        "status": "editable-design-and-preset-prototype-only"
+      },
+      "productPptScope": {
+        "kind": "single-semantic-slide",
+        "example": "产品展示页",
+        "rawSketchPreserved": true,
+        "noWholeDeckImplicitScope": true
+      },
+      "adoptedSketchPresentation": {
+        "placement": "inside-sole-composer-before-all-prose",
+        "componentId": "2215:110046",
+        "thumbnailInline": false,
+        "content": [
+          "raw-sketch-preview"
+        ],
+        "open": "reopen-layout-canvas",
+        "remove": "remove-only-current-task-sketch",
+        "preserve": [
+          "original-prose",
+          "other-parameters",
+          "other-materials"
+        ],
+        "visibility": "sketchAdopted",
+        "size": [
+          112,
+          64
+        ],
+        "compactExpandedHeight": 48,
+        "compactComponentId": "2216:109771",
+        "inlineEntryAfterAdoption": false,
+        "reopen": "attachment-only",
+        "emptyOrRemoved": "restore-inline-canvas-entry-if-intent-remains",
+        "exampleSketchText": false,
+        "presentation": "corner-thumbnail-only",
+        "alignment": "top-left-above-prose",
+        "fullWidth": false,
+        "labelsVisible": false,
+        "previewWidth": 96,
+        "compactSize": [
+          96,
+          48
+        ],
+        "deleteControl": "top-right-overlay-cross",
+        "semanticTarget": "retained-in-attachment-data-and-canvas-title"
+      },
+      "figmaPageId": "2:2",
+      "catalogRole": "reusable-control"
     },
     {
       "componentId": "parameter-composer",
@@ -2027,7 +2214,9 @@
         "execution-steps",
         "logs",
         "result-details"
-      ]
+      ],
+      "figmaPageId": "2:2",
+      "catalogRole": "reusable-control"
     },
     {
       "componentId": "intent-recognition-sweep",
@@ -2056,7 +2245,9 @@
       "region": "adaptive",
       "inputStates": [],
       "durationMs": 550,
-      "reducedMotionState": "Settled"
+      "reducedMotionState": "Settled",
+      "figmaPageId": "2:2",
+      "catalogRole": "reusable-control"
     },
     {
       "componentId": "sketch-attachment",
@@ -2085,7 +2276,46 @@
       "region": "inside-composer",
       "figmaVariants": {
         "Glass/Default": "1401:45584"
-      }
+      },
+      "adoptedSketchPresentation": {
+        "placement": "inside-sole-composer-before-all-prose",
+        "componentId": "2215:110046",
+        "thumbnailInline": false,
+        "content": [
+          "raw-sketch-preview"
+        ],
+        "open": "reopen-layout-canvas",
+        "remove": "remove-only-current-task-sketch",
+        "preserve": [
+          "original-prose",
+          "other-parameters",
+          "other-materials"
+        ],
+        "visibility": "sketchAdopted",
+        "size": [
+          112,
+          64
+        ],
+        "compactExpandedHeight": 48,
+        "compactComponentId": "2216:109771",
+        "inlineEntryAfterAdoption": false,
+        "reopen": "attachment-only",
+        "emptyOrRemoved": "restore-inline-canvas-entry-if-intent-remains",
+        "exampleSketchText": false,
+        "presentation": "corner-thumbnail-only",
+        "alignment": "top-left-above-prose",
+        "fullWidth": false,
+        "labelsVisible": false,
+        "previewWidth": 96,
+        "compactSize": [
+          96,
+          48
+        ],
+        "deleteControl": "top-right-overlay-cross",
+        "semanticTarget": "retained-in-attachment-data-and-canvas-title"
+      },
+      "figmaPageId": "2:2",
+      "catalogRole": "reusable-control"
     },
     {
       "componentId": "media-controls",
@@ -2132,7 +2362,9 @@
         "Glass/Default": "1357:21822"
       },
       "outcomeOwner": "pc",
-      "phoneResultUI": false
+      "phoneResultUI": false,
+      "figmaPageId": "2:2",
+      "catalogRole": "reusable-control"
     },
     {
       "componentId": "visible-task-navigation",
@@ -2164,7 +2396,9 @@
         48,
         64
       ],
-      "taskDraftOwnership": "task id + target revision; switching restores input; creating does not execute"
+      "taskDraftOwnership": "task id + target revision; switching restores input; creating does not execute",
+      "figmaPageId": "2:2",
+      "catalogRole": "reusable-control"
     },
     {
       "componentId": "flexible-composer-region",
@@ -2202,7 +2436,9 @@
         "Top task tracking and fixed input bounds remain unchanged.",
         "Send remains inside composer at bottom-right."
       ],
-      "lifecycleContract": "auxiliaryLifecycle"
+      "lifecycleContract": "auxiliaryLifecycle",
+      "figmaPageId": "2:2",
+      "catalogRole": "reusable-control"
     },
     {
       "componentId": "media-playback",
@@ -2221,7 +2457,9 @@
       },
       "region": "adaptive",
       "renderOwner": "local",
-      "status": "design-prototype-only"
+      "status": "design-prototype-only",
+      "figmaPageId": "2:2",
+      "catalogRole": "reusable-control"
     },
     {
       "componentId": "media-playback-speed",
@@ -2242,7 +2480,9 @@
       },
       "region": "adaptive",
       "renderOwner": "local",
-      "status": "design-prototype-only"
+      "status": "design-prototype-only",
+      "figmaPageId": "2:2",
+      "catalogRole": "reusable-control"
     },
     {
       "componentId": "media-playback-volume",
@@ -2284,7 +2524,9 @@
         "max": 100,
         "unit": "%"
       },
-      "touchTrackHeight": 48
+      "touchTrackHeight": 48,
+      "figmaPageId": "2:2",
+      "catalogRole": "reusable-control"
     },
     {
       "skins": [
@@ -2317,7 +2559,9 @@
         "selectTool",
         "setBrushSize",
         "setPaintColor"
-      ]
+      ],
+      "figmaPageId": "2:2",
+      "catalogRole": "reusable-control"
     },
     {
       "skins": [
@@ -2346,7 +2590,9 @@
       "actions": [
         "setBrushSize"
       ],
-      "touchTrackHeight": 48
+      "touchTrackHeight": 48,
+      "figmaPageId": "2:2",
+      "catalogRole": "reusable-control"
     },
     {
       "skins": [
@@ -2378,7 +2624,9 @@
       ],
       "actions": [
         "setPaintColor"
-      ]
+      ],
+      "figmaPageId": "2:2",
+      "catalogRole": "reusable-control"
     },
     {
       "componentId": "painting-voice-command-dock",
@@ -2413,7 +2661,9 @@
       "prototypeBoundary": "Only voice-state transitions are simulated. Recording end never implies execution. Preserve default input controls; text visibility requires valid editable focus.",
       "name": "Default input dock / Smart Voice",
       "baseComponent": "1493:55578",
-      "label": "智慧语音"
+      "label": "智慧语音",
+      "figmaPageId": "2:2",
+      "catalogRole": "reusable-control"
     },
     {
       "componentId": "intent-chip",
@@ -2444,7 +2694,9 @@
         "Available": "1550:37680",
         "Active": "1550:37689",
         "Disabled": "1550:37698"
-      }
+      },
+      "figmaPageId": "2:2",
+      "catalogRole": "reusable-control"
     },
     {
       "componentId": "intent-chip-composer",
@@ -2468,13 +2720,15 @@
         "closeAuxiliary"
       ],
       "capabilities": [],
-      "examplesNodeId": "1552:38914",
+      "examplesNodeId": "1372:25427",
       "tools": [
         "Canvas",
         "Camera",
         "Document"
       ],
-      "prototypeBoundary": "Open/close state simulation only; no recognition, device capture or document upload."
+      "prototypeBoundary": "Open/close state simulation only; no recognition, device capture or document upload.",
+      "figmaPageId": "2:2",
+      "catalogRole": "reusable-control"
     },
     {
       "componentId": "professional-fader",
@@ -2514,7 +2768,9 @@
         "Pan/Adjusting": "1571:38443",
         "Expression/Adjusting": "1571:38473"
       },
-      "prototypeBoundary": "Visual press states only. The Figma variants do not implement continuous value changes or audio/MIDI."
+      "prototypeBoundary": "Visual press states only. The Figma variants do not implement continuous value changes or audio/MIDI.",
+      "figmaPageId": "2:2",
+      "catalogRole": "reusable-control"
     },
     {
       "componentId": "professional-action-key",
@@ -2551,7 +2807,9 @@
         "Toggle/Default": "1574:38279",
         "Toggle/Selected": "1574:38282"
       },
-      "prototypeBoundary": "Toggle and momentary feedback are distinct. No execution receipt or connected app is simulated."
+      "prototypeBoundary": "Toggle and momentary feedback are distinct. No execution receipt or connected app is simulated.",
+      "figmaPageId": "2:2",
+      "catalogRole": "reusable-control"
     },
     {
       "componentId": "professional-action-deck",
@@ -2573,7 +2831,9 @@
       "capabilities": [
         "target-action-adapter"
       ],
-      "examplesNodeId": "1568:38677"
+      "examplesNodeId": "1568:38677",
+      "figmaPageId": "2:2",
+      "catalogRole": "reusable-control"
     },
     {
       "componentId": "professional-intent-composer",
@@ -2599,7 +2859,9 @@
         "editable-target"
       ],
       "examplesNodeId": "1568:38677",
-      "prototypeBoundary": "Single composer with actual-value color chip; opening or dismissing the color module does not submit."
+      "prototypeBoundary": "Single composer with actual-value color chip; opening or dismissing the color module does not submit.",
+      "figmaPageId": "2:2",
+      "catalogRole": "reusable-control"
     },
     {
       "componentId": "relative-encoder",
@@ -2641,7 +2903,7 @@
         "target-parameter-adapter"
       ],
       "examplesNodeId": "1578:39517",
-      "prototypeBoundary": "Editable visual and discrete press/mode states only; no continuous rotation, audio, MIDI or video-frame integration.",
+      "prototypeBoundary": "Editable native vectors and discrete preset states only. Encoder drag enters Adjusting; modifier press/release changes parameter; Shuttle drag/release returns to neutral. No arbitrary continuous rotation, MIDI, audio or video integration.",
       "sizes": [
         "L",
         "M",
@@ -2655,7 +2917,12 @@
             430
           ],
           "dialDiameter": 240,
-          "ticks": 48
+          "ticks": 0,
+          "thumbVisualDiameter": 48,
+          "thumbHitTarget": [
+            52,
+            52
+          ]
         },
         "M": {
           "panel": [
@@ -2663,7 +2930,12 @@
             352
           ],
           "dialDiameter": 184,
-          "ticks": 36
+          "ticks": 0,
+          "thumbVisualDiameter": 40,
+          "thumbHitTarget": [
+            48,
+            48
+          ]
         },
         "S": {
           "panel": [
@@ -2671,7 +2943,12 @@
             280
           ],
           "dialDiameter": 144,
-          "ticks": 24
+          "ticks": 0,
+          "thumbVisualDiameter": 32,
+          "thumbHitTarget": [
+            48,
+            48
+          ]
         },
         "minimumSecondaryTouchTarget": [
           48,
@@ -2679,7 +2956,21 @@
         ],
         "selectionRule": "Available space and task priority; never resize during an active gesture. Reduce density/context before primary-value readability.",
         "layoutRule": "Independent layout per size, not full-component proportional scaling."
-      }
+      },
+      "visualRevision": "2026-10-29-ring-glass-thumb",
+      "stateExamplesNodeId": "2146:98520",
+      "visualContract": {
+        "surface": "translucent-glass-plate",
+        "track": "neutral-ring",
+        "thumb": "raised-glass-lens",
+        "accent": "theme/accent-foreground",
+        "currentValue": "authoritative-readback-only; examples are simulated",
+        "gestureTrail": "short-open-arc; never absolute percentage",
+        "timecode": "outside-ring",
+        "themes": "System default; inherit current app and Material mode"
+      },
+      "figmaPageId": "2:2",
+      "catalogRole": "reusable-control"
     },
     {
       "componentId": "rotary-modifier",
@@ -2719,7 +3010,7 @@
         "target-parameter-adapter"
       ],
       "examplesNodeId": "1578:39517",
-      "prototypeBoundary": "Editable visual and discrete press/mode states only; no continuous rotation, audio, MIDI or video-frame integration.",
+      "prototypeBoundary": "Editable native vectors and discrete preset states only. Encoder drag enters Adjusting; modifier press/release changes parameter; Shuttle drag/release returns to neutral. No arbitrary continuous rotation, MIDI, audio or video integration.",
       "sizes": [
         "L",
         "M",
@@ -2733,7 +3024,12 @@
             430
           ],
           "dialDiameter": 240,
-          "ticks": 48
+          "ticks": 0,
+          "thumbVisualDiameter": 48,
+          "thumbHitTarget": [
+            52,
+            52
+          ]
         },
         "M": {
           "panel": [
@@ -2741,7 +3037,12 @@
             352
           ],
           "dialDiameter": 184,
-          "ticks": 36
+          "ticks": 0,
+          "thumbVisualDiameter": 40,
+          "thumbHitTarget": [
+            48,
+            48
+          ]
         },
         "S": {
           "panel": [
@@ -2749,7 +3050,12 @@
             280
           ],
           "dialDiameter": 144,
-          "ticks": 24
+          "ticks": 0,
+          "thumbVisualDiameter": 32,
+          "thumbHitTarget": [
+            48,
+            48
+          ]
         },
         "minimumSecondaryTouchTarget": [
           48,
@@ -2757,7 +3063,21 @@
         ],
         "selectionRule": "Available space and task priority; never resize during an active gesture. Reduce density/context before primary-value readability.",
         "layoutRule": "Independent layout per size, not full-component proportional scaling."
-      }
+      },
+      "visualRevision": "2026-10-29-ring-glass-thumb",
+      "stateExamplesNodeId": "2146:98520",
+      "visualContract": {
+        "surface": "translucent-glass-plate",
+        "track": "neutral-ring",
+        "thumb": "raised-glass-lens",
+        "accent": "theme/accent-foreground",
+        "currentValue": "authoritative-readback-only; examples are simulated",
+        "gestureTrail": "short-open-arc; never absolute percentage",
+        "timecode": "outside-ring",
+        "themes": "System default; inherit current app and Material mode"
+      },
+      "figmaPageId": "2:2",
+      "catalogRole": "reusable-control"
     },
     {
       "componentId": "jog-shuttle",
@@ -2801,7 +3121,7 @@
         "target-parameter-adapter"
       ],
       "examplesNodeId": "1578:39517",
-      "prototypeBoundary": "Editable visual and discrete press/mode states only; no continuous rotation, audio, MIDI or video-frame integration.",
+      "prototypeBoundary": "Editable native vectors and discrete preset states only. Encoder drag enters Adjusting; modifier press/release changes parameter; Shuttle drag/release returns to neutral. No arbitrary continuous rotation, MIDI, audio or video integration.",
       "sizes": [
         "L",
         "M",
@@ -2815,7 +3135,12 @@
             430
           ],
           "dialDiameter": 240,
-          "ticks": 48
+          "ticks": 0,
+          "thumbVisualDiameter": 48,
+          "thumbHitTarget": [
+            52,
+            52
+          ]
         },
         "M": {
           "panel": [
@@ -2823,7 +3148,12 @@
             352
           ],
           "dialDiameter": 184,
-          "ticks": 36
+          "ticks": 0,
+          "thumbVisualDiameter": 40,
+          "thumbHitTarget": [
+            48,
+            48
+          ]
         },
         "S": {
           "panel": [
@@ -2831,7 +3161,12 @@
             280
           ],
           "dialDiameter": 144,
-          "ticks": 24
+          "ticks": 0,
+          "thumbVisualDiameter": 32,
+          "thumbHitTarget": [
+            48,
+            48
+          ]
         },
         "minimumSecondaryTouchTarget": [
           48,
@@ -2839,7 +3174,21 @@
         ],
         "selectionRule": "Available space and task priority; never resize during an active gesture. Reduce density/context before primary-value readability.",
         "layoutRule": "Independent layout per size, not full-component proportional scaling."
-      }
+      },
+      "visualRevision": "2026-10-29-ring-glass-thumb",
+      "stateExamplesNodeId": "2146:98520",
+      "visualContract": {
+        "surface": "translucent-glass-plate",
+        "track": "neutral-ring",
+        "thumb": "raised-glass-lens",
+        "accent": "theme/accent-foreground",
+        "currentValue": "authoritative-readback-only; examples are simulated",
+        "gestureTrail": "short-open-arc; never absolute percentage",
+        "timecode": "outside-ring",
+        "themes": "System default; inherit current app and Material mode"
+      },
+      "figmaPageId": "2:2",
+      "catalogRole": "reusable-control"
     },
     {
       "componentId": "task-attention-pulse",
@@ -2867,7 +3216,9 @@
       "kind": "control",
       "region": "target",
       "renderOwner": "local",
-      "prototypeOnly": true
+      "prototypeOnly": true,
+      "figmaPageId": "2:2",
+      "catalogRole": "reusable-control"
     },
     {
       "componentId": "material-source",
@@ -2910,7 +3261,9 @@
       "capabilities": [
         "material-input-adapter"
       ],
-      "prototypeBoundary": "Editable design states only. File import/upload, camera, capture, transfer and target readability require separately verified platform adapters."
+      "prototypeBoundary": "Editable design states only. File import/upload, camera, capture, transfer and target readability require separately verified platform adapters.",
+      "figmaPageId": "2:2",
+      "catalogRole": "reusable-control"
     },
     {
       "componentId": "material-preview",
@@ -2952,7 +3305,15 @@
       "capabilities": [
         "material-input-adapter"
       ],
-      "prototypeBoundary": "Editable design states only. File import/upload, camera, capture, transfer and target readability require separately verified platform adapters."
+      "prototypeBoundary": "Editable design states only. File import/upload, camera, capture, transfer and target readability require separately verified platform adapters.",
+      "productPptDesignExample": {
+        "figmaSectionId": "109:5262",
+        "librarySectionId": "2161:98910",
+        "date": "2026-11-02",
+        "status": "editable-design-and-preset-prototype-only"
+      },
+      "figmaPageId": "2:2",
+      "catalogRole": "reusable-control"
     },
     {
       "componentId": "material-attachment",
@@ -2997,7 +3358,9 @@
       "capabilities": [
         "material-input-adapter"
       ],
-      "prototypeBoundary": "Editable design states only. File import/upload, camera, capture, transfer and target readability require separately verified platform adapters."
+      "prototypeBoundary": "Editable design states only. File import/upload, camera, capture, transfer and target readability require separately verified platform adapters.",
+      "figmaPageId": "2:2",
+      "catalogRole": "reusable-control"
     },
     {
       "componentId": "dynamic-auxiliary-workspace",
@@ -3041,7 +3404,9 @@
       "capabilities": [
         "contextual-input-adapter"
       ],
-      "prototypeBoundary": "Editable Figma design and discrete simulated transitions only; not a runtime API or device acceptance."
+      "prototypeBoundary": "Editable Figma design and discrete simulated transitions only; not a runtime API or device acceptance.",
+      "figmaPageId": "2:2",
+      "catalogRole": "reusable-control"
     },
     {
       "componentId": "tool-summary",
@@ -3073,7 +3438,9 @@
       "capabilities": [
         "contextual-input-adapter"
       ],
-      "prototypeBoundary": "Editable Figma design and discrete simulated transitions only; not a runtime API or device acceptance."
+      "prototypeBoundary": "Editable Figma design and discrete simulated transitions only; not a runtime API or device acceptance.",
+      "figmaPageId": "2:2",
+      "catalogRole": "reusable-control"
     },
     {
       "componentId": "compact-task-composer",
@@ -3110,7 +3477,9 @@
       "capabilities": [
         "contextual-input-adapter"
       ],
-      "prototypeBoundary": "Editable Figma design and discrete simulated transitions only; not a runtime API or device acceptance."
+      "prototypeBoundary": "Editable Figma design and discrete simulated transitions only; not a runtime API or device acceptance.",
+      "figmaPageId": "2:2",
+      "catalogRole": "reusable-control"
     },
     {
       "componentId": "agent-decision-request",
@@ -3159,7 +3528,9 @@
       "capabilities": [
         "contextual-input-adapter"
       ],
-      "prototypeBoundary": "Editable Figma design and discrete simulated transitions only; not a runtime API or device acceptance."
+      "prototypeBoundary": "Editable Figma design and discrete simulated transitions only; not a runtime API or device acceptance.",
+      "figmaPageId": "2:2",
+      "catalogRole": "reusable-control"
     },
     {
       "componentId": "capture-direct-preview",
@@ -3213,7 +3584,9 @@
       "capabilities": [
         "contextual-input-adapter"
       ],
-      "prototypeBoundary": "Editable Figma design and discrete simulated transitions only; not a runtime API or device acceptance."
+      "prototypeBoundary": "Editable Figma design and discrete simulated transitions only; not a runtime API or device acceptance.",
+      "figmaPageId": "2:2",
+      "catalogRole": "reusable-control"
     },
     {
       "componentId": "sentence-parameter",
@@ -3236,7 +3609,10 @@
         "taskId",
         "targetId",
         "inputRevision",
-        "activeWidget"
+        "activeWidget",
+        "parameterId",
+        "parameterTarget",
+        "scopeRef"
       ],
       "actions": [
         "openAuxiliary",
@@ -3246,7 +3622,32 @@
       "capabilities": [
         "contextual-input-adapter"
       ],
-      "prototypeBoundary": "Editable Figma and discrete mock transitions only; runtime unchanged."
+      "prototypeBoundary": "Editable Figma and discrete mock transitions only; runtime unchanged.",
+      "productPptDesignExample": {
+        "figmaSectionId": "109:5262",
+        "librarySectionId": "2161:98910",
+        "date": "2026-11-02",
+        "status": "editable-design-and-preset-prototype-only"
+      },
+      "multiColorDesignContract": {
+        "identity": [
+          "taskRef",
+          "parameterTarget",
+          "scopeRef"
+        ],
+        "targets": [
+          "background",
+          "primary",
+          "text"
+        ],
+        "opening": "one-widget-at-a-time",
+        "updates": "current-parameter-only",
+        "themeIndependent": true,
+        "unexpressedPreferences": "not-required",
+        "runtimeApiAdded": false
+      },
+      "figmaPageId": "2:2",
+      "catalogRole": "reusable-control"
     },
     {
       "componentId": "sentence-parameter-composer",
@@ -3282,7 +3683,34 @@
       "capabilities": [
         "contextual-input-adapter"
       ],
-      "prototypeBoundary": "Editable Figma and discrete mock transitions only; runtime unchanged."
+      "prototypeBoundary": "Editable Figma and discrete mock transitions only; runtime unchanged.",
+      "productPptDesignExample": {
+        "figmaSectionId": "109:5262",
+        "librarySectionId": "2161:98910",
+        "date": "2026-11-02",
+        "status": "editable-design-and-preset-prototype-only"
+      },
+      "productPptInputKinds": [
+        "reference-material",
+        "insert-photo",
+        "scoped-color",
+        "single-slide-layout",
+        "duration-minutes"
+      ],
+      "keyPointsPresentation": "ordinary editable prose; no checklist or priority editor",
+      "inlineFlowRule": "正文、标点和参数按原始语序连续自然换行；chip视觉28px、段落行高32px，不再按48px控件行撑开段落。行内命中按32px行盒互不重叠；发送、关闭、采用等独立动作仍至少48px。",
+      "roadmapReferenceExample": {
+        "section": "109:5262",
+        "inline": "1372:25427",
+        "picker": "2195:42563",
+        "filled": "1286:6473",
+        "ready": "1286:6473",
+        "library": "2300:113897",
+        "stateIsolation": "Roadmap-only prototype variables",
+        "confirmationRequired": false
+      },
+      "figmaPageId": "2:2",
+      "catalogRole": "reusable-control"
     },
     {
       "componentId": "text-selection-toolbar",
@@ -3325,7 +3753,9 @@
       "kind": "composition",
       "region": "adaptive",
       "inputStates": [],
-      "status": "design-contract-not-runtime"
+      "status": "design-contract-not-runtime",
+      "figmaPageId": "2:2",
+      "catalogRole": "reusable-control"
     },
     {
       "componentId": "selection-link-editor",
@@ -3354,7 +3784,583 @@
       "kind": "composition",
       "region": "adaptive",
       "inputStates": [],
-      "status": "design-contract-not-runtime"
+      "status": "design-contract-not-runtime",
+      "figmaPageId": "2:2",
+      "catalogRole": "reusable-control"
+    },
+    {
+      "componentId": "product-ppt-reference",
+      "figmaNodeId": "2200:112909",
+      "name": "System / Document picker · single selection",
+      "skins": [
+        "System"
+      ],
+      "props": [
+        "accepted-file-types",
+        "selection-mode",
+        "task-owner"
+      ],
+      "kind": "reference-material",
+      "region": "system-modal",
+      "renderOwner": "design-only",
+      "capabilities": [],
+      "status": "design-contract-not-runtime",
+      "states": [
+        "Default"
+      ],
+      "actions": [
+        "selectFileAndReturn",
+        "dismiss"
+      ],
+      "designEvidence": "artifacts/workbuddy-product-ppt-2026-11-02/delivery-index.json",
+      "runtimeApiAdded": false,
+      "inlineDisplay": {
+        "suggested": "上传图标＋上传文件",
+        "adopted": "原位显示文件名、参考图片或链接",
+        "reopen": "点击原文件chip重新选择；选择即回填，关闭不改变原值",
+        "documentVisualComponent": "2178:111729",
+        "uploaderVisualComponent": "2184:111739"
+      },
+      "fileSelectionRule": "系统DocumentViewPicker返回单选文件后直接回填原句chip；应用无二次确认；系统自身的完成按钮依平台和多选模式保留。取消保持原值；选择、上传、解析、目标可读分别验证；不自动发送。",
+      "fileRowComponent": "2188:111730",
+      "exampleFrames": {
+        "start": "1372:25427",
+        "picker": "2195:42563",
+        "filled": "1286:6473"
+      },
+      "nativeBoundary": {
+        "provider": "HarmonyOS DocumentViewPicker",
+        "prototype": "system-interaction-illustration-not-exact-version-replica",
+        "sharedDockVisible": false,
+        "appHeaderVisible": false,
+        "platformSources": [
+          "https://developer.huawei.com/consumer/cn/doc/doccenter-dev-faq/faqs-local-file-manager-50",
+          "https://developer.android.com/training/data-storage/shared/documents-files"
+        ]
+      },
+      "figmaPageId": "0:1",
+      "catalogRole": "scene-source"
+    },
+    {
+      "componentId": "product-ppt-photos",
+      "figmaNodeId": "2161:99072",
+      "name": "Product PPT / Photos",
+      "skins": [
+        "Glass"
+      ],
+      "props": [
+        "assets",
+        "selectedIds",
+        "referenceRole",
+        "insertionRole"
+      ],
+      "kind": "insert-photo",
+      "region": "adaptive",
+      "renderOwner": "design-only",
+      "capabilities": [],
+      "status": "design-contract-not-runtime",
+      "states": [
+        "Default"
+      ],
+      "actions": [
+        "select",
+        "capture",
+        "remove",
+        "dismiss",
+        "confirmAndClose"
+      ],
+      "designEvidence": "artifacts/workbuddy-product-ppt-2026-11-02/delivery-index.json",
+      "runtimeApiAdded": false,
+      "prototypeSimulation": {
+        "sampleAsset": "real Unsplash photograph; full image and detail crop of the same camera",
+        "captureAndTransfer": "not-integrated",
+        "sameAssetSupportsBothRoles": true
+      },
+      "referenceRoleControl": {
+        "visible": false,
+        "reason": "User removed the redundant also-reference option."
+      },
+      "photoSource": "https://unsplash.com/photos/a-red-camera-sitting-on-top-of-a-blue-surface-iegXREq9HrE",
+      "adoption": "immediate-on-selection-or-capture-return",
+      "confirmationButton": true,
+      "dismissEffect": "preserve-attached-photos",
+      "autoSubmit": false,
+      "visualAttachmentPresentation": {
+        "figmaFrame": "2232:110038",
+        "position": "inside-sole-composer-before-prose",
+        "direction": "horizontal",
+        "overflow": "horizontal-scroll",
+        "gap": 8,
+        "items": [
+          "adopted-layout",
+          "attached-photos"
+        ],
+        "delete": "each-thumbnail-top-right",
+        "photoEntryAfterAttach": false,
+        "photoEntryAfterLastRemoval": "restore-if-intent-remains",
+        "noAttachments": "collapse-row",
+        "photoComponent": "2232:110017",
+        "compactPhotoComponent": "2232:110030",
+        "photoEntryVariable": "VariableID:2232:110015",
+        "rowVisibleVariable": "VariableID:2232:110016",
+        "runtimeChanged": false
+      },
+      "parameterWidgetActions": {
+        "closePosition": "top-right",
+        "confirmPosition": "bottom-right",
+        "confirmHitTargetMin": 48,
+        "placement": "beside-last-content-row-when-space-permits",
+        "confirmEffect": "finish-current-parameter-and-collapse-widget",
+        "submitsTask": false,
+        "closeEffect": "preserve-current-values-and-unadopted-strokes",
+        "liveColorAndNumberWriteback": true,
+        "nativeFilePicker": "platform-owned-selection-completion-no-extra-app-page",
+        "updatedAt": "2026-11-03",
+        "evidence": "design-and-prototype-only"
+      },
+      "figmaPageId": "2:2",
+      "catalogRole": "reusable-control"
+    },
+    {
+      "componentId": "product-ppt-duration",
+      "figmaNodeId": "2161:99119",
+      "name": "Product PPT / Duration",
+      "skins": [
+        "Glass"
+      ],
+      "props": [
+        "value",
+        "unit",
+        "step"
+      ],
+      "kind": "duration-minutes",
+      "region": "adaptive",
+      "renderOwner": "design-only",
+      "capabilities": [],
+      "status": "design-contract-not-runtime",
+      "states": [
+        "Default"
+      ],
+      "actions": [
+        "increment",
+        "decrement",
+        "editValue",
+        "dismiss",
+        "confirmAndClose"
+      ],
+      "designEvidence": "artifacts/workbuddy-product-ppt-2026-11-02/delivery-index.json",
+      "runtimeApiAdded": false,
+      "prototypeSimulation": {
+        "step": 1,
+        "min": 1,
+        "max": 60,
+        "unit": "minute",
+        "limitIsDemoOnly": true,
+        "freeNumericEntry": "design-only"
+      },
+      "compactSize": {
+        "width": 322,
+        "height": 112
+      },
+      "parameterWidgetActions": {
+        "closePosition": "top-right",
+        "confirmPosition": "bottom-right",
+        "confirmHitTargetMin": 48,
+        "placement": "beside-last-content-row-when-space-permits",
+        "confirmEffect": "finish-current-parameter-and-collapse-widget",
+        "submitsTask": false,
+        "closeEffect": "preserve-current-values-and-unadopted-strokes",
+        "liveColorAndNumberWriteback": true,
+        "nativeFilePicker": "platform-owned-selection-completion-no-extra-app-page",
+        "updatedAt": "2026-11-03",
+        "evidence": "design-and-prototype-only"
+      },
+      "confirmationButton": true,
+      "figmaPageId": "2:2",
+      "catalogRole": "reusable-control"
+    },
+    {
+      "componentId": "product-ppt-scoped-color",
+      "figmaNodeId": "2161:98983",
+      "name": "Product PPT / Picker / primary",
+      "skins": [
+        "Glass"
+      ],
+      "props": [
+        "parameterId",
+        "parameterTarget",
+        "scopeRef",
+        "color",
+        "hex"
+      ],
+      "kind": "scoped-color",
+      "region": "adaptive",
+      "renderOwner": "design-only",
+      "capabilities": [],
+      "status": "design-contract-not-runtime",
+      "states": [
+        "Default"
+      ],
+      "actions": [
+        "selectColor",
+        "setHex",
+        "dismiss",
+        "confirmAndClose"
+      ],
+      "designEvidence": "artifacts/workbuddy-product-ppt-2026-11-02/delivery-index.json",
+      "runtimeApiAdded": false,
+      "figmaVariants": {
+        "background": "2161:98961",
+        "primary": "2161:98983",
+        "text": "2161:99005"
+      },
+      "parameterWidgetActions": {
+        "closePosition": "top-right",
+        "confirmPosition": "bottom-right",
+        "confirmHitTargetMin": 48,
+        "placement": "beside-last-content-row-when-space-permits",
+        "confirmEffect": "finish-current-parameter-and-collapse-widget",
+        "submitsTask": false,
+        "closeEffect": "preserve-current-values-and-unadopted-strokes",
+        "liveColorAndNumberWriteback": true,
+        "nativeFilePicker": "platform-owned-selection-completion-no-extra-app-page",
+        "updatedAt": "2026-11-03",
+        "evidence": "design-and-prototype-only"
+      },
+      "confirmationButton": true,
+      "figmaPageId": "2:2",
+      "catalogRole": "reusable-control"
+    },
+    {
+      "componentId": "product-ppt-layout",
+      "figmaNodeId": "2161:99138",
+      "name": "Product PPT / Layout canvas",
+      "skins": [
+        "Glass"
+      ],
+      "props": [
+        "semanticSlideTarget",
+        "rawSketch",
+        "annotations",
+        "adopted"
+      ],
+      "kind": "single-slide-layout",
+      "region": "adaptive",
+      "renderOwner": "design-only",
+      "capabilities": [],
+      "status": "design-contract-not-runtime",
+      "states": [
+        "Default"
+      ],
+      "actions": [
+        "draw",
+        "annotate",
+        "adopt",
+        "dismiss",
+        "confirmAndClose"
+      ],
+      "designEvidence": "artifacts/workbuddy-product-ppt-2026-11-02/delivery-index.json",
+      "runtimeApiAdded": false,
+      "adoptedSketchPresentation": {
+        "placement": "inside-sole-composer-before-all-prose",
+        "componentId": "2215:110046",
+        "thumbnailInline": false,
+        "content": [
+          "raw-sketch-preview"
+        ],
+        "open": "reopen-layout-canvas",
+        "remove": "remove-only-current-task-sketch",
+        "preserve": [
+          "original-prose",
+          "other-parameters",
+          "other-materials"
+        ],
+        "visibility": "sketchAdopted",
+        "size": [
+          112,
+          64
+        ],
+        "compactExpandedHeight": 48,
+        "compactComponentId": "2216:109771",
+        "inlineEntryAfterAdoption": false,
+        "reopen": "attachment-only",
+        "emptyOrRemoved": "restore-inline-canvas-entry-if-intent-remains",
+        "exampleSketchText": false,
+        "presentation": "corner-thumbnail-only",
+        "alignment": "top-left-above-prose",
+        "fullWidth": false,
+        "labelsVisible": false,
+        "previewWidth": 96,
+        "compactSize": [
+          96,
+          48
+        ],
+        "deleteControl": "top-right-overlay-cross",
+        "semanticTarget": "retained-in-attachment-data-and-canvas-title"
+      },
+      "visualAttachmentPresentation": {
+        "figmaFrame": "2232:110038",
+        "position": "inside-sole-composer-before-prose",
+        "direction": "horizontal",
+        "overflow": "horizontal-scroll",
+        "gap": 8,
+        "items": [
+          "adopted-layout",
+          "attached-photos"
+        ],
+        "delete": "each-thumbnail-top-right",
+        "photoEntryAfterAttach": false,
+        "photoEntryAfterLastRemoval": "restore-if-intent-remains",
+        "noAttachments": "collapse-row",
+        "photoComponent": "2232:110017",
+        "compactPhotoComponent": "2232:110030",
+        "photoEntryVariable": "VariableID:2232:110015",
+        "rowVisibleVariable": "VariableID:2232:110016",
+        "runtimeChanged": false
+      },
+      "parameterWidgetActions": {
+        "closePosition": "top-right",
+        "confirmPosition": "bottom-right",
+        "confirmHitTargetMin": 48,
+        "placement": "beside-last-content-row-when-space-permits",
+        "confirmEffect": "finish-current-parameter-and-collapse-widget",
+        "submitsTask": false,
+        "closeEffect": "preserve-current-values-and-unadopted-strokes",
+        "liveColorAndNumberWriteback": true,
+        "nativeFilePicker": "platform-owned-selection-completion-no-extra-app-page",
+        "updatedAt": "2026-11-03",
+        "evidence": "design-and-prototype-only"
+      },
+      "confirmationButton": true,
+      "figmaPageId": "2:2",
+      "catalogRole": "reusable-control"
+    },
+    {
+      "componentId": "product-ppt-composer",
+      "figmaNodeId": "2161:99195",
+      "name": "Product PPT / Composer",
+      "skins": [
+        "Glass"
+      ],
+      "props": [
+        "originalPrompt",
+        "parameters",
+        "assets",
+        "activeWidget"
+      ],
+      "kind": "composer",
+      "region": "adaptive",
+      "renderOwner": "design-only",
+      "capabilities": [],
+      "status": "design-contract-not-runtime",
+      "states": [
+        "Suggested",
+        "Default"
+      ],
+      "actions": [
+        "openParameter",
+        "dismissParameter",
+        "send"
+      ],
+      "designEvidence": "artifacts/workbuddy-product-ppt-2026-11-02/delivery-index.json",
+      "runtimeApiAdded": false,
+      "inlineFlowRule": "正文、标点和参数按原始语序连续自然换行；chip视觉28px、段落行高32px，不再按48px控件行撑开段落。行内命中按32px行盒互不重叠；发送、关闭、采用等独立动作仍至少48px。",
+      "adoptedSketchPresentation": {
+        "placement": "inside-sole-composer-before-all-prose",
+        "componentId": "2215:110046",
+        "thumbnailInline": false,
+        "content": [
+          "raw-sketch-preview"
+        ],
+        "open": "reopen-layout-canvas",
+        "remove": "remove-only-current-task-sketch",
+        "preserve": [
+          "original-prose",
+          "other-parameters",
+          "other-materials"
+        ],
+        "visibility": "sketchAdopted",
+        "size": [
+          112,
+          64
+        ],
+        "compactExpandedHeight": 48,
+        "compactComponentId": "2216:109771",
+        "inlineEntryAfterAdoption": false,
+        "reopen": "attachment-only",
+        "emptyOrRemoved": "restore-inline-canvas-entry-if-intent-remains",
+        "exampleSketchText": false,
+        "presentation": "corner-thumbnail-only",
+        "alignment": "top-left-above-prose",
+        "fullWidth": false,
+        "labelsVisible": false,
+        "previewWidth": 96,
+        "compactSize": [
+          96,
+          48
+        ],
+        "deleteControl": "top-right-overlay-cross",
+        "semanticTarget": "retained-in-attachment-data-and-canvas-title"
+      },
+      "visualAttachmentPresentation": {
+        "figmaFrame": "2232:110038",
+        "position": "inside-sole-composer-before-prose",
+        "direction": "horizontal",
+        "overflow": "horizontal-scroll",
+        "gap": 8,
+        "items": [
+          "adopted-layout",
+          "attached-photos"
+        ],
+        "delete": "each-thumbnail-top-right",
+        "photoEntryAfterAttach": false,
+        "photoEntryAfterLastRemoval": "restore-if-intent-remains",
+        "noAttachments": "collapse-row",
+        "photoComponent": "2232:110017",
+        "compactPhotoComponent": "2232:110030",
+        "photoEntryVariable": "VariableID:2232:110015",
+        "rowVisibleVariable": "VariableID:2232:110016",
+        "runtimeChanged": false
+      },
+      "figmaPageId": "2:2",
+      "catalogRole": "reusable-control"
+    },
+    {
+      "componentId": "application-action-chip",
+      "figmaNodeId": "271:3871",
+      "name": "Action / Application action chip",
+      "skins": [
+        "Glass"
+      ],
+      "states": [
+        "Default",
+        "Pressed",
+        "Disabled",
+        "Loading",
+        "Error"
+      ],
+      "props": [
+        "label",
+        "icon",
+        "theme",
+        "state",
+        "showIcon"
+      ],
+      "actions": [
+        "invoke"
+      ],
+      "kind": "control",
+      "region": "adaptive",
+      "minTouchSize": 48,
+      "figmaVariants": {
+        "Glass/Default": "271:3769",
+        "Glass/Pressed": "271:3786",
+        "Glass/Disabled": "271:3803",
+        "Glass/Loading": "2271:110305",
+        "Glass/Error": "2271:110308"
+      },
+      "usage": "Service actions retain destination app logos. Polish actions hide decorative icons; a smart-pencil icon belongs only to the shared inline group title. Pressed is transient.",
+      "figmaPageId": "2:2",
+      "catalogRole": "reusable-control"
+    },
+    {
+      "componentId": "contextual-polish",
+      "figmaNodeId": "1591:39306",
+      "name": "Action / Contextual polish",
+      "skins": [
+        "Glass"
+      ],
+      "states": [
+        "Ready",
+        "Loading",
+        "Error",
+        "Unavailable"
+      ],
+      "props": [
+        "actions",
+        "targetBinding",
+        "targetVersion",
+        "state",
+        "activeActionId",
+        "theme"
+      ],
+      "actions": [
+        "rewriteBoundText",
+        "undoRewrite",
+        "retryRewrite"
+      ],
+      "kind": "composition",
+      "region": "adaptive",
+      "reuses": [
+        "application-action-chip"
+      ],
+      "maxActions": 3,
+      "minTouchSize": 48,
+      "placement": {
+        "siblingOf": "composer",
+        "after": "composer",
+        "before": "input-dock",
+        "gap": 8,
+        "outerCard": false,
+        "titleRow": false,
+        "overflow": "right-action-region-horizontal-scroll",
+        "actionWidth": "hug-content; minimum 80px in current examples",
+        "inlineTitle": {
+          "label": "AI润色",
+          "icon": "smart-pencil",
+          "figmaNodeId": "2288:113170",
+          "interactive": false,
+          "fixed": true
+        },
+        "actionIcons": false
+      },
+      "figmaVariants": {
+        "WorkBuddy/Ready": "1591:39222",
+        "WeChat/Ready": "1591:39230",
+        "Mail/Ready": "1591:39238",
+        "Document/Ready": "1591:39246",
+        "WorkBuddy/Loading": "1591:39294",
+        "WorkBuddy/Error": "1591:39298",
+        "WorkBuddy/Unavailable": "2279:112887"
+      },
+      "visibility": "Stable non-empty editable text or valid selection only. No empty reserved row on empty, pure-command, numeric or default-painting routes.",
+      "behavior": [
+        "Rewrite only the bound text or valid selection; preserve explicit facts and parameters.",
+        "Only the invoked action loads; block repeated invocation while busy.",
+        "Never send or submit an Agent task; recording stop does not invoke polish.",
+        "Failure keeps original text; allow retry. Reject results for a changed target or version.",
+        "Undo restores the prior text. No persistent selected action state."
+      ],
+      "designPrototype": {
+        "section": "2276:39359",
+        "entry": "2276:39360",
+        "failure": "2276:40368",
+        "changedTarget": "2276:40513",
+        "evidence": "Preset design simulation only; no model or device validation.",
+        "failureEntry": "2282:40547"
+      },
+      "runtimeImplementedByThisRevision": true,
+      "validationExamples": {
+        "compactMail": "2283:113033",
+        "longLabels": "2283:113158",
+        "compactWorkBuddyTrackpad": "2167:107430",
+        "compactWorkBuddyKeyboard": "2167:108002"
+      },
+      "titleIconNodeId": "2288:113158",
+      "typography": {
+        "titleAndActionFontSize": 14,
+        "lineHeight": 22,
+        "verticalAlignment": "center",
+        "note": "Current Figma visual values; runtime text scaling remains separately validated."
+      },
+      "runtimeEvidence": {
+        "date": "2026-11-03",
+        "record": "docs/contextual-polish-2026-11-03.md",
+        "source": "apps/web/src/contextual-polish-actions.tsx",
+        "scope": "Source and browser/native-polish mock only; not installed, no new live model validation."
+      },
+      "figmaPageId": "2:2",
+      "catalogRole": "reusable-control"
     }
   ],
   "skinLabels": {
@@ -3607,9 +4613,11 @@
     "canonicalPage": "2:2",
     "masterSection": "277:15031",
     "categories": {
-      "atoms": "1512:25704",
-      "compositions": "1512:25705",
-      "scenarios": "1512:25706"
+      "atoms": "277:15031",
+      "compositions": "2301:113399",
+      "scenarios": "2300:113893",
+      "foundations": "274:9788",
+      "contextual": "2301:113400"
     },
     "variables": {
       "control": "VariableID:1514:25704",
@@ -3632,7 +4640,11 @@
       "diff",
       "edit-preview"
     ],
-    "objectInstructions": "Submit explicitly from the sole composer; detailed results remain on PC. No phone before/after or Apply step."
+    "objectInstructions": "Submit explicitly from the sole composer; detailed results remain on PC. No phone before/after or Apply step.",
+    "polishPlacement": "Independent sibling 8px below Composer, above InputDock. One row: fixed smart-pencil + AI润色 title on the left; up to 3 text-only action chips on the right. Only actions scroll; no outer card or launcher.",
+    "source": "https://app.notion.com/p/3f9194db24c38165996cf89b22e7d69e — G20 and APP-WX-02",
+    "designRevision": "2026-11-03; Figma and design registry only, no runtime implementation claim.",
+    "compactComposerMaster": "2275:111897"
   },
   "captureIconContract": {
     "componentNodeId": "1438:45173",
@@ -3693,7 +4705,7 @@
       48
     ],
     "spaceRule": "Hide the auxiliary module and expand the sole composer; fixed dock stays stable.",
-    "prototypeExampleNode": "1543:38028",
+    "prototypeExampleNode": "2316:110521",
     "prototypeBoundary": "Figma visibility variables simulate the current example; runtime state must be scoped by app/task/target/input revision/intent.",
     "recognitionResult": "Convert recognized parameter spans into compact sentence tags without opening a widget.",
     "closePlacement": "panel-top-right",
@@ -3951,7 +4963,41 @@
         ]
       }
     },
-    "runtimeImplemented": false
+    "runtimeImplemented": false,
+    "visualAffordance": {
+      "surfaceToken": "glass/inline-surface",
+      "surfaceVariable": "VariableID:2216:109769",
+      "surfaceAlpha": 0.16,
+      "themeWashToken": "glass/inline-theme-wash",
+      "themeWashVariable": "VariableID:2216:109770",
+      "themeWashAlpha": 0.025,
+      "border": "directional-white-highlight-gradient",
+      "borderWidth": 1,
+      "radius": 8,
+      "effects": [
+        "glass-refraction",
+        "inner-highlight",
+        "soft-drop-shadow"
+      ],
+      "chevron": false,
+      "colorValue": "swatch-only",
+      "visualHeight": 28,
+      "inlineLineHeight": 32,
+      "theme": "inherit-app-otherwise-harmony-blue"
+    },
+    "interactionAppearance": {
+      "idle": "light-neutral-translucent-glass",
+      "active": "app-theme-tint-and-outline",
+      "activeMeaning": "only-the-current-open-widget",
+      "independentOfValueState": [
+        "Suggested",
+        "Default"
+      ],
+      "chevron": false,
+      "stateProperty": "Active",
+      "componentSet": "1740:46458",
+      "comparisonFrame": "2260:110196"
+    }
   },
   "workbuddyTaskPathContract": {
     "status": "design-contract-not-runtime",
@@ -4021,5 +5067,166 @@
       "fc-material"
     ],
     "reference": "docs/liquid-glass-color-tokens.md"
+  },
+  "productPptScenario": {
+    "figmaSectionId": "109:5262",
+    "frames": {
+      "initial": "1372:25427",
+      "reference": "2195:42563",
+      "photos": "1646:11696",
+      "layout-empty": "1372:25846",
+      "layout-drawn": "15:5743",
+      "background": "2164:57048",
+      "primary": "1372:25571",
+      "text": "2164:57530",
+      "duration": "2164:57771",
+      "ready": "1286:6473",
+      "sent": "5:8573",
+      "reference-link": "2164:58435",
+      "camera": "2164:58664",
+      "compact": "2164:59124",
+      "trackpad": "2164:59339",
+      "keyboard": "2164:59929",
+      "compact-trackpad": "2167:107430",
+      "compact-keyboard": "2167:108002",
+      "raw": "5:8435"
+    },
+    "pcFrameId": "2164:60222",
+    "mainStates": 4,
+    "scope": "product-introduction-ppt-only",
+    "rulesSource": "https://app.notion.com/p/3f9194db24c38165996cf89b22e7d69e",
+    "featureIds": [
+      "MI-F021",
+      "MI-F022",
+      "MI-F023"
+    ],
+    "status": "design-and-prototype-not-production",
+    "consolidation": "Roadmap and product-introduction now share one product-introduction task and Composer",
+    "nativeFilePickerComponent": "2200:112909",
+    "parameterPresentation": {
+      "entry": "inline-token-only",
+      "addInputMenu": false,
+      "durationWidget": {
+        "width": 322,
+        "height": 112
+      },
+      "referenceLinkWidget": {
+        "width": 322,
+        "height": 120
+      },
+      "standaloneHitTargetMin": 48,
+      "remainingSpace": "composer"
+    },
+    "layoutAttachment": {
+      "placement": "inside-sole-composer-before-all-prose",
+      "componentId": "2215:110046",
+      "thumbnailInline": false,
+      "content": [
+        "raw-sketch-preview"
+      ],
+      "open": "reopen-layout-canvas",
+      "remove": "remove-only-current-task-sketch",
+      "preserve": [
+        "original-prose",
+        "other-parameters",
+        "other-materials"
+      ],
+      "visibility": "sketchAdopted",
+      "size": [
+        112,
+        64
+      ],
+      "compactExpandedHeight": 48,
+      "compactComponentId": "2216:109771",
+      "inlineEntryAfterAdoption": false,
+      "reopen": "attachment-only",
+      "emptyOrRemoved": "restore-inline-canvas-entry-if-intent-remains",
+      "exampleSketchText": false,
+      "presentation": "corner-thumbnail-only",
+      "alignment": "top-left-above-prose",
+      "fullWidth": false,
+      "labelsVisible": false,
+      "previewWidth": 96,
+      "compactSize": [
+        96,
+        48
+      ],
+      "deleteControl": "top-right-overlay-cross",
+      "semanticTarget": "retained-in-attachment-data-and-canvas-title"
+    },
+    "visualAttachments": {
+      "figmaFrame": "2232:110038",
+      "position": "inside-sole-composer-before-prose",
+      "direction": "horizontal",
+      "overflow": "horizontal-scroll",
+      "gap": 8,
+      "items": [
+        "adopted-layout",
+        "attached-photos"
+      ],
+      "delete": "each-thumbnail-top-right",
+      "photoEntryAfterAttach": false,
+      "photoEntryAfterLastRemoval": "restore-if-intent-remains",
+      "noAttachments": "collapse-row",
+      "photoComponent": "2232:110017",
+      "compactPhotoComponent": "2232:110030",
+      "photoEntryVariable": "VariableID:2232:110015",
+      "rowVisibleVariable": "VariableID:2232:110016",
+      "runtimeChanged": false
+    },
+    "parameterWidgetActions": {
+      "closePosition": "top-right",
+      "confirmPosition": "bottom-right",
+      "confirmHitTargetMin": 48,
+      "placement": "beside-last-content-row-when-space-permits",
+      "confirmEffect": "finish-current-parameter-and-collapse-widget",
+      "submitsTask": false,
+      "closeEffect": "preserve-current-values-and-unadopted-strokes",
+      "liveColorAndNumberWriteback": true,
+      "nativeFilePicker": "platform-owned-selection-completion-no-extra-app-page",
+      "updatedAt": "2026-11-03",
+      "evidence": "design-and-prototype-only"
+    }
+  },
+  "voiceVisualContract": {
+    "default": "neutral-glass-no-pressed-fill",
+    "pressed": "momentary-gesture-only",
+    "recording": "independent-capture-state",
+    "preserveLabelAndGeometry": true,
+    "componentSet": "270:3577",
+    "defaultComponent": "270:3519",
+    "runtimeChanged": false
+  },
+  "figmaOrganization": {
+    "designSystemPage": "2:2",
+    "prototypePage": "0:1",
+    "iconPage": "1972:25479",
+    "sceneSources": "2300:113893",
+    "prototypeGroups": {
+      "system": "109:5276",
+      "wechat": "109:5254",
+      "email": "109:5260",
+      "workbuddy": "109:5262",
+      "wpsWord": "109:5265",
+      "wpsSheet": "109:5267",
+      "wpsPresentation": "109:5269",
+      "bilibili": "1358:12211",
+      "goPaint": "1443:16041",
+      "mario": "109:5273",
+      "doubao": "198:2436",
+      "feishu": "2318:110524",
+      "notion": "2318:110525",
+      "figma": "2318:110526",
+      "cursor": "2318:110527",
+      "videoEditing": "2318:110535",
+      "shortcutGrid": "2300:113898"
+    },
+    "sections": {
+      "foundations": "274:9788",
+      "atoms": "277:15031",
+      "inputCompositions": "2301:113399",
+      "contextCompositions": "2301:113400"
+    },
+    "policy": "Reusable controls and essential states only on Design System; full screens, journeys and scenario validation only on complete prototype page. Referenced screen masters live in the final scene-source area. Icons live on icon page. Preserve existing component identities; do not copy flows."
   }
 }

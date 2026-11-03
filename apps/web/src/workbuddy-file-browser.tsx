@@ -1,3 +1,6 @@
+import {WorkBuddyMarkdownEditor} from './workbuddy-markdown-editor';
+import {DirectObjectText} from './workbuddy-direct-text';
+import {WebDeckEditor} from './web-deck-view';
 import {WorkBuddyObjectSurface} from './workbuddy-object-surface';
 import { useEffect, useLayoutEffect, useRef, useState, type ReactNode } from "react";
 import * as I from "lucide-react";
@@ -620,7 +623,7 @@ export function FileSurface({
           <I.Redo2 size={16} />
         </button>
         <i />
-        {!readOnly && (
+        {!readOnly && !body.webDeck && !["markdown","text","slides"].includes(f.kind) && (
           <>
             <button className="wbf-ai-action" onClick={ai}>
               <I.Sparkles size={15} />
@@ -739,7 +742,7 @@ export function FileSurface({
                     <button
                       className={slide === body.slides?.[page] ? "active" : ""}
                       key={i}
-                      onClick={() => setSlide(i)}
+                      onClick={() => {setSlide(i);void command("unfocus");}}
                     >
                       {i + 1}. {slide.title}
                     </button>
@@ -940,14 +943,14 @@ export function FileSurface({
                 </p>
               </>
             )}
-            {f.kind === "slides" && (
+            {body.webDeck ? <WebDeckEditor key={f.id} file={f.id} view={v.id}/> : f.kind === "slides" && (
               <div className="wbf-slides">
                 <aside>
                   {body.slides?.map((x, i) => (
                     <button
                       className={slide === i ? "active" : ""}
                       key={i}
-                      onClick={() => setSlide(i)}
+                      onClick={() => {setSlide(i);void command("unfocus");}}
                     >
                       <b>{i + 1}</b>
                       <span>{x.title}</span>
@@ -963,31 +966,14 @@ export function FileSurface({
                       slide: Math.min(slide, (body.slides?.length || 1) - 1),
                       presenting: false,
                     }}
+                    renderObject={(field,text)=><DirectObjectText key={slide+field} text={text} path={`slide/${slide}/${field}`} view={v.id} file={f.id} readonly={readOnly||conflict} label={field==='title'?'幻灯片标题':'幻灯片正文'} runs={body.textRuns?.[`slide/${slide}/${field}`]} align={body.paragraphAlign?.[`slide/${slide}/${field}`]} base={field==='title'?36:24}/>}
                     objectStyles={body.objectStyles} textRuns={body.textRuns} paragraphAlign={body.paragraphAlign}
                     onSelect={
-                      readOnly ? () => {} : (path, label) => void command('wb-object-select',{view:v.id,file:f.id,path,label})
+                      readOnly ? () => {} : (path, label) => void command('wb-object-select',{localEdit:true,view:v.id,file:f.id,path,label})
                     }
                   />
                   </WorkBuddyObjectSurface>
-                  {!readOnly && (
-                    <div className="wbf-slide-fields">
-                      <FieldEditor
-                        s={s}
-                        v={v}
-                        f={f}
-                        path={"slide/" + slide + "/title"}
-                        label="幻灯片标题"
-                      />
-                      <FieldEditor
-                        s={s}
-                        v={v}
-                        f={f}
-                        path={"slide/" + slide + "/body"}
-                        label="幻灯片正文"
-                        multiline
-                      />
-                    </div>
-                  )}
+
                 </div>
               </div>
             )}
@@ -1004,34 +990,8 @@ export function FileSurface({
                   />
                 ) : (
                   <>
-                    <div
-                      className="wbf-visual-editor"
-                      onFocus={() => select("text", "文档正文")}
-                    >
-                      <TextBlocks
-                        text={body.text}
-                        query={query}
-                        onClick={() => select("text", "文档正文")}
-                        onSelection={textSelection}
-                        onEdit={
-                          readOnly
-                            ? undefined
-                            : (index, text) => {
-                                const blocks = body.text.split(/\n\n+/);
-                                if (blocks[index] !== text) {
-                                  blocks[index] = text;
-                                  void change("text", blocks.join("\n\n"));
-                                }
-                              }
-                        }
-                      />
-                    </div>
-                    <button
-                      className="wbf-edit-text"
-                      onClick={() => setSource(true)}
-                    >
-                      编辑正文
-                    </button>
+                    <WorkBuddyMarkdownEditor text={body.text} view={v.id} file={f.id} readonly={readOnly||conflict} query={query}/>
+
                   </>
                 )}
               </article>
@@ -1098,7 +1058,7 @@ export function FileSurface({
           </div>
         </div>
       </div>
-      {v.selection && (
+      {v.selection && !["markdown","text","slides"].includes(f.kind) && (
         <button className="wbf-selection" onClick={ai}>
           <I.Sparkles size={16} />
           AI 编辑 ·{" "}
@@ -1109,7 +1069,7 @@ export function FileSurface({
       )}
       <footer className="wbf-bottom">
         <span>
-          {f.kind === "slides"
+          {body.webDeck ? `共 ${body.webDeck.pages.length} 页` : f.kind === "slides"
             ? "第 " +
               (slide + 1) +
               " 页，共 " +
@@ -1587,7 +1547,7 @@ export function WorkBuddyResults({ s }: { s: State }) {
   };
   useBack(() => { if (!dirtyPrompt) return false; setDirtyPrompt(null); return true; }, 117);
   return (
-    <aside className="wb-file-panel wbf-results">
+    <aside className={"wb-file-panel wbf-results"+(f&&["markdown","text","slides"].includes(f.kind)&&b.panelMode==="artifacts"?" wbf-replica-artifact":"")}>
       <nav className="wbf-result-modes">
         {[
           ["artifacts", "产物"],
@@ -1708,13 +1668,11 @@ export function WorkBuddyResults({ s }: { s: State }) {
                     <I.Maximize2 size={15} />
                     独立窗口打开
                   </button>
-                  <button
+                  {!["markdown","text","slides"].includes(f.kind)&&<button
                     onClick={() => run("ai", { view: "panel", open: !v.ai })}
-                  >
-                    AI 对话
-                  </button>
+                  >AI 对话</button>}
                 </footer>
-                {v.ai && <FileAI key={f.id} s={s} v={v} f={f} onGuard={guard} />}
+                {v.ai && !["markdown","text","slides"].includes(f.kind) && <FileAI key={f.id} s={s} v={v} f={f} onGuard={guard} />}
               </>
             )
           )}

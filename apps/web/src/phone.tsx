@@ -1,3 +1,4 @@
+import {WebDeckPlayback} from './web-deck-view';
 import {InputSessionGate} from './input-session-ui';
 import {PhoneDesktop} from './phone-desktop';
 import {ConnectionButton} from './connection-access';
@@ -19,6 +20,7 @@ export function Phone(){
 }
 function PhoneScene(){
  const r=useRuntime();
+ if(r.state.app==='workbuddy'&&r.state.workbuddy.deckPlayback)return <WebDeckPlayback phone/>;
  if(r.state.app==='paint')return <PhonePaint/>;
  if(r.state.app==='bilibili')return <PhoneBilibili/>;
  if(r.state.app==='workbuddy'&&r.state.target?.id.startsWith('wb:'))return <PhoneWorkBuddy key={r.state.target.id}/>;

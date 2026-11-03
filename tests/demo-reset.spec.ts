@@ -39,3 +39,19 @@ test('a native build clears once, ordinary reload retains data, a new build clea
  await page.evaluate(()=>sessionStorage.setItem('test-build','102'));await page.reload();expect((await state(page)).app).toBe('desktop');expect((await state(page)).demoGeneration).toBe(102);
  expect(await page.evaluate(()=>localStorage.getItem('mobile-input:test-history'))).toBeNull();expect(await page.evaluate(()=>localStorage.getItem('input-agent-connection-method'))).toBe('lan');
 });
+
+test('newer phone build accepts older paired tablet authority without resetting tablet',async({browser})=>{
+ const tc=await browser.newContext(),pc=await browser.newContext({viewport:{width:390,height:844}}),tablet=await tc.newPage(),phone=await pc.newPage();
+ await tablet.addInitScript(()=>{(window as any).__INPUT_AGENT_BUILD__=100;});
+ await phone.addInitScript(()=>{(window as any).__INPUT_AGENT_BUILD__=200;});
+ await pair(tablet,phone);
+ expect((await state(tablet)).demoGeneration).toBe(100);
+ await expect.poll(async()=>(await state(phone)).demoGeneration).toBe(100);
+ await runtime(tablet,'open','workbuddy');await tablet.getByLabel('WorkBuddy 任务输入',{exact:true}).click();
+ await expect(phone.locator('.input-dock')).toBeVisible();
+ const old=await state(tablet);await runtime(tablet,'demo-reset');
+ await expect.poll(async()=>(await state(phone)).demoGeneration).toBeGreaterThan(200);
+ await phone.evaluate(old=>window.dispatchEvent(new CustomEvent('native-message',{detail:{kind:'snapshot',state:old}})),old);
+ expect((await state(phone)).demoGeneration).toBe((await state(tablet)).demoGeneration);
+ await tc.close();await pc.close();
+});

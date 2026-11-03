@@ -1,0 +1,8 @@
+import {asset} from '@kit.AssetStoreKit';
+import {util} from '@kit.ArkTS';
+export class MacTrustRecord {address:string='';port:number=39872;token:string='';bridgeId:string='';}
+export class MacTrust {
+ private query():asset.AssetMap {const q:asset.AssetMap=new Map();q.set(asset.Tag.ALIAS,new util.TextEncoder().encodeInto('input-agent-mac-trust-v1'));return q;}
+ read():MacTrustRecord|null {try{const q=this.query();q.set(asset.Tag.RETURN_TYPE,asset.ReturnType.ALL);const rows=asset.querySync(q);if(!rows.length)return null;const r=JSON.parse(new util.TextDecoder().decodeWithStream(rows[0].get(asset.Tag.SECRET) as Uint8Array,{stream:false})) as MacTrustRecord;return /^[a-f0-9]{64}$/.test(r.token)&&/^[a-zA-Z0-9.-]+$/.test(r.address)&&r.port>=1024&&r.port<=65535?r:null;}catch{return null;}}
+ save(record:MacTrustRecord):void {const q=this.query();q.set(asset.Tag.SECRET,new util.TextEncoder().encodeInto(JSON.stringify(record)));q.set(asset.Tag.ACCESSIBILITY,asset.Accessibility.DEVICE_UNLOCKED);q.set(asset.Tag.SYNC_TYPE,asset.SyncType.NEVER);q.set(asset.Tag.CONFLICT_RESOLUTION,asset.ConflictResolution.OVERWRITE);try{asset.addSync(q);}catch{}}
+}

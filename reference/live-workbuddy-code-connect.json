@@ -1,0 +1,23 @@
+{
+  "date": "2026-11-02",
+  "fileKey": "ApFLno64NcMoA17MiPFfZh",
+  "status": "blocked-plan",
+  "reason": "Figma Code Connect requires Organization or Enterprise library",
+  "mappings": [
+    {
+      "nodeId": "2162:107657",
+      "component": "LiveWorkBuddyEditor",
+      "source": "apps/web/src/phone-live-workbuddy.tsx"
+    },
+    {
+      "nodeId": "2161:99195",
+      "component": "SentenceComposer",
+      "source": "apps/web/src/sentence-composer.tsx"
+    },
+    {
+      "nodeId": "1493:55578",
+      "component": "InputDock",
+      "source": "apps/web/src/input-dock.tsx"
+    }
+  ]
+}

@@ -1,0 +1,79 @@
+import {PhoneControllerFrame} from './phone-controller-frame';
+import {preserveMacText} from './mac-text-recovery';
+import {toast} from './runtime';
+import {AgentComposer,AgentAuxiliary,AgentColorInput,AgentDurationInput,AgentSketchInput} from './agent-input-view';
+import {useEffect,useRef,useState} from 'react';
+import {Send,X,Check,Undo2,Trash2} from 'lucide-react';
+import {initialWbInput} from '../../../packages/core/workbuddy-input';
+import {resolveLiveParameters,projectTargetInput,reconcileTargetInput,type LiveParameter,type LiveMaterial} from '../../../packages/core/live-workbuddy';
+import {SentenceComposer} from './sentence-composer';
+import type {TextInputHandle} from './text-input-handle';
+import {usePhoneEditing} from './use-phone-editing';
+import {InputDock} from './input-dock';
+import {WorkBuddyColorPicker} from './workbuddy-color-picker';
+import {macCommand,macSnapshot,useMacLink} from './mac-link';
+import {pickMacMaterial,uploadMacMaterial,loadRealDraft,saveRealDraft} from './mac-materials';
+import './phone-live-workbuddy.css';
+import {PolishControls} from './ai-polish';
+
+type Material={localId:string;file:File;kind:LiveMaterial['kind'];remote?:LiveMaterial;remoteSession?:string;preview?:string;scope?:string};
+type Draft={text:string;parameters:LiveParameter[];materials:Material[];strokes:number[][][];sketchConfirmed:boolean};
+const blank=():Draft=>({text:'',parameters:[],materials:[],strokes:[],sketchConfirmed:false});
+const emptyInput=initialWbInput();
+/** One real target owns prose, parameter values, original material bytes and recovery. */
+export function LiveWorkBuddyEditor(){
+ const link=useMacLink(),state=link.state!,area=useRef<TextInputHandle>(null),scope=`${state.window}/${state.target}`;
+ const [draft,setDraft]=useState<Draft>(()=>({...blank(),text:state.text})),[hydrated,setHydrated]=useState(false),[error,setError]=useState(''),[active,setActive]=useState<string|null>(null),[busy,setBusy]=useState(false),[awaiting,setAwaiting]=useState(false),[unknown,setUnknown]=useState(false),[hex,setHex]=useState(''),[duration,setDuration]=useState('');
+ const mounted=useRef(true),current=useRef(draft),bound=useRef(state),base=useRef(state.text),dirty=useRef(false),revision=useRef(0),epoch=useRef(0),syncing=useRef(false),transaction=useRef(false),ready=useRef(false),gesture=useRef(false),latestScope=useRef(scope),waiting=useRef(false);current.current=draft;bound.current=state;latestScope.current=scope;
+ function projection(d:Draft){return projectTargetInput(d.text,d.parameters,d.materials.map(m=>({id:m.localId,name:m.file.name,kind:m.kind,scope:m.scope})),{text:bound.current.capabilities.includes('replace-text'),attachments:bound.current.capabilities.includes('workbuddy-attach')?['document','photo','sketch']:[]});}
+ const canEdit=hydrated&&state.editable&&state.capabilities.includes('replace-text'),connected=link.connected&&link.synced&&state.app==='workbuddy';
+ const persist=(next:Draft)=>{current.current=next;setDraft(next);if(ready.current)void saveRealDraft(scope,next).catch(()=>setError('手机存储不足，请保留当前输入并重试'));};
+ function change(text:string){if(transaction.current)return;revision.current++;dirty.current=true;persist({...current.current,text,parameters:resolveLiveParameters(text,current.current.parameters)});}
+ const editing=usePhoneEditing(draft.text,change,area,scope,connected&&canEdit&&!busy,false,{target:{app:'workbuddy',id:scope,kind:'text'},stamp:()=>JSON.stringify([macSnapshot().session,macSnapshot().state?.target,macSnapshot().state?.text])});
+ const adopt=(remote:typeof state)=>{if(remote.target!==bound.current.target||remote.window!==bound.current.window||!remote.textKnown)return;
+  const projected=projection(current.current).text;
+  if(remote.text===base.current||remote.text===projected){base.current=remote.text;dirty.current=projected!==remote.text;waiting.current=false;setAwaiting(false);if(dirty.current)queueMicrotask(()=>void flushRef.current());return;}
+  preserveMacText(scope,current.current.text,remote.text);if(dirty.current)toast('已同步 Mac 最新内容，手机输入已保留副本');dirty.current=false;waiting.current=false;setAwaiting(false);base.current=remote.text;revision.current++;persist({...current.current,...reconcileTargetInput(current.current.text,current.current.parameters,remote.text,projected)});setError('');};
+ const flush=async():Promise<boolean>=>{if(!ready.current||syncing.current||transaction.current||!dirty.current||!connected||!canEdit||awaiting)return !dirty.current;const target=bound.current,version=epoch.current,text=projection(current.current).text;syncing.current=true;
+  const r=await macCommand('replace-text',{text,base:base.current},target);syncing.current=false;if(epoch.current!==version)return false;
+  if(r.ok&&r.outcome==='verified'){base.current=text;dirty.current=projection(current.current).text!==text;if(dirty.current)queueMicrotask(()=>void flushRef.current());return true;}
+  waiting.current=true;setAwaiting(true);if(r.state)adopt(r.state);else setError(r.error||'正在核对 Mac 内容');return false;};
+ const flushRef=useRef(flush);flushRef.current=flush;
+ useEffect(()=>{let cancelled=false;++epoch.current;revision.current++;ready.current=false;setHydrated(false);dirty.current=false;base.current=state.text;current.current={...blank(),text:state.text};setDraft(current.current);setActive(null);setAwaiting(false);setUnknown(false);setError('');
+  void loadRealDraft<Draft>(scope).then(saved=>{if(cancelled)return;if(saved){preserveMacText(scope,saved.text,state.text);current.current={...saved,text:dirty.current?current.current.text:bound.current.textKnown?(projection(saved).text===bound.current.text?saved.text:bound.current.text):saved.text,parameters:resolveLiveParameters(dirty.current?current.current.text:bound.current.textKnown?(projection(saved).text===bound.current.text?saved.text:bound.current.text):saved.text,dirty.current?current.current.parameters:saved.parameters),materials:saved.materials.map(m=>({...m,preview:m.kind==='photo'?URL.createObjectURL(m.file):m.preview}))};setDraft(current.current);}else if(!dirty.current){current.current={...blank(),text:bound.current.text,parameters:resolveLiveParameters(bound.current.text)};setDraft(current.current);}waiting.current=false;ready.current=true;setHydrated(true);if(dirty.current)queueMicrotask(()=>void flushRef.current());}).catch(()=>{if(!cancelled){ready.current=true;setHydrated(true);}});
+  return()=>{cancelled=true;epoch.current++;};
+ },[scope]);
+ useEffect(()=>{if(!ready.current||syncing.current||transaction.current||!connected||!state.textKnown)return;if(waiting.current||state.text!==base.current)adopt(state);},[state,scope,connected]);
+ useEffect(()=>{if(!connected){epoch.current++;setActive(null);waiting.current=true;setAwaiting(true);}},[connected]);
+ useEffect(()=>{const t=setTimeout(()=>void flushRef.current(),180);return()=>clearTimeout(t);},[draft.text,draft.parameters,draft.materials,connected,awaiting]);
+ useEffect(()=>{if(editing.speech!=='idle'||gesture.current)return;
+  persist({...current.current,parameters:resolveLiveParameters(current.current.text,current.current.parameters)});
+ },[draft.text,scope,editing.speech]);
+ useEffect(()=>{mounted.current=true;return()=>{mounted.current=false;for(const m of current.current.materials)if(m.preview?.startsWith('blob:'))URL.revokeObjectURL(m.preview);};},[]);
+ const parameter=draft.parameters.find(p=>p.id===active);
+ function updateParameter(value:string){if(busy||transaction.current||!parameter)return;if(parameter.kind==='duration')setDuration(value);revision.current++;dirty.current=true;persist({...current.current,parameters:current.current.parameters.map(p=>p.id===parameter.id?{...p,value,manual:true,label:p.kind==='duration'?value:p.kind==='color'?Object.entries({'#C92A2A':'红色','#356FE4':'蓝色','#182431':'黑色','#D9DEDF':'灰色'}).find(([c])=>c===value)?.[1]||'自选色':p.label}:p)});}
+ async function choose(kind:'document'|'photo',materialScope='全文'){const identity=scope,original=current.current;setBusy(true);try{const file=await pickMacMaterial(kind);if(!file)return;const material:Material={scope:materialScope,localId:crypto.randomUUID(),file,kind,preview:kind==='photo'?URL.createObjectURL(file):undefined};if(!mounted.current||latestScope.current!==identity){const saved=await loadRealDraft<Draft>(identity)||original;await saveRealDraft(identity,{...saved,materials:[...saved.materials,material]});return;}persist({...current.current,materials:[...current.current.materials,material]});setActive(null);}catch(e){if(mounted.current&&latestScope.current===identity)setError((e as Error).message);}finally{if(mounted.current&&latestScope.current===identity)setBusy(false);}}
+ function open(id:string){if(busy)return;const p=current.current.parameters.find(p=>p.id===id);if(!p)return;area.current?.blur();if(active===id){setActive(null);return;}if(p.kind==='document'||p.kind==='photo'){void choose(p.kind,p.scope);return;}setActive(id);setHex(p.value);setDuration(p.value);}
+ async function adoptSketch(){const identity=scope;if(!draft.strokes.some(s=>s.length>1))return;const canvas=document.createElement('canvas');canvas.width=1320;canvas.height=960;const ctx=canvas.getContext('2d')!;ctx.fillStyle='#FFFFFF';ctx.fillRect(0,0,1320,960);ctx.strokeStyle='#146c64';ctx.lineWidth=7;ctx.lineCap='round';for(const stroke of draft.strokes){ctx.beginPath();stroke.forEach(([x,y],i)=>i?ctx.lineTo(x*1320,y*960):ctx.moveTo(x*1320,y*960));ctx.stroke();}const blob=await new Promise<Blob|null>(resolve=>canvas.toBlob(resolve,'image/png'));if(!blob||latestScope.current!==identity)return;const file=new File([blob],'布局草图.png',{type:'image/png'});dirty.current=true;persist({...current.current,sketchConfirmed:true,materials:[...current.current.materials.filter(m=>m.kind!=='sketch'),{localId:crypto.randomUUID(),file,kind:'sketch',scope:parameter?.scope||'未指定',preview:canvas.toDataURL()}]});setActive(null);}
+ function point(e:React.PointerEvent<SVGSVGElement>){const rect=e.currentTarget.getBoundingClientRect();return [Math.max(0,Math.min(1,(e.clientX-rect.left)/rect.width)),Math.max(0,Math.min(1,(e.clientY-rect.top)/rect.height))];}
+ async function send(){if(busy||awaiting||unknown||!connected||editing.speech!=='idle')return;setBusy(true);setError('');const identity=scope,target=state,session=link.session;const valid=()=>latestScope.current===identity&&macSnapshot().session===session;
+  try{if(projection(current.current).unavailable.length)throw Error(projection(current.current).unavailable.map(x=>x.reason).join('；'));if(current.current.strokes.length&&!current.current.sketchConfirmed)throw Error('请先采用或清空未完成的草图');if(syncing.current)throw Error('文字正在同步，请稍后发送');if(dirty.current&&!await flushRef.current())return;transaction.current=true;const frozen=structuredClone(current.current),materials:LiveMaterial[]=[];
+   for(const material of frozen.materials){if(!valid())throw Error('目标已变化，输入已保留');const remote=material.remoteSession===session&&material.remote?material.remote:await uploadMacMaterial(material.file,material.kind,target);materials.push({...remote,scope:material.scope});persist({...current.current,materials:current.current.materials.map(m=>m.localId===material.localId?{...m,remote,remoteSession:session}:m)});}
+   if(!valid())throw Error('目标已变化，输入已保留');const text=projection(frozen).text;if(text!==base.current){const r=await macCommand('replace-text',{text,base:base.current},target);if(!r.ok||r.outcome!=='verified')throw Error(r.error||'文本核对失败');base.current=text;}
+   if(!valid())throw Error('目标已变化，输入已保留');if(materials.length){const r=await macCommand('workbuddy-attach',{files:materials.map(m=>m.id),base:text},target);if(!r.ok||r.outcome!=='verified')throw Error(r.error||'附件核对失败');}
+   if(!valid())throw Error('目标已变化，输入已保留');const r=await macCommand('workbuddy-submit',{base:text,files:materials.map(m=>m.id)},target);
+   if(r.ok&&r.outcome==='verified'){await saveRealDraft(identity,blank());if(!valid()||!mounted.current)return;dirty.current=false;base.current=r.state?.text||'';persist({...blank(),text:base.current});setActive(null);}else{if(!valid()||!mounted.current)return;if(r.outcome==='unknown')setUnknown(true);throw Error(r.error||'任务发送未确认');}
+  }catch(e){setError((e as Error).message);}finally{transaction.current=false;setBusy(false);}}
+ const visible=draft.parameters.filter(p=>draft.text.slice(p.start,p.end)===p.phrase).filter(p=>!(p.kind==='sketch'&&draft.sketchConfirmed)&&!(p.kind==='photo'&&draft.materials.some(m=>m.kind==='photo'))).map(p=>p.kind==='document'&&draft.materials.some(m=>m.kind==='document')?{...p,label:draft.materials.find(m=>m.kind==='document')!.file.name}:p);
+ return <PhoneControllerFrame disabled={busy} beforeSwitch={editing.cancel} beforeChange={async()=>{editing.cancel();await flushRef.current();}} dock={<InputDock area={area} editing={editing} editable={canEdit&&!busy} voiceDisabled={!connected||!canEdit||busy} initialMode={null} remote={{connected:connected&&state.capabilities.includes('pointer'),scope:`mac/${link.session}/${state.window}`,target:scope,position:state.pointer,sendPointer:v=>macCommand('pointer',v as Record<string,unknown>,state)}}/>}>
+  {(parameter||active==='sketch')&&<AgentAuxiliary title={parameter?.role||'布局草图'} busy={busy} onClose={()=>setActive(null)}>{parameter?.kind==='color'?<AgentColorInput value={parameter.value} label={parameter.role} onChange={updateParameter} onActive={v=>{gesture.current=v;}}/>:parameter?.kind==='duration'?<AgentDurationInput value={parameter.value} onChange={updateParameter}/>:<AgentSketchInput strokes={draft.strokes} onChange={strokes=>persist({...current.current,strokes,sketchConfirmed:false})} onActive={v=>{gesture.current=v;}} onAdopt={()=>void adoptSketch()} busy={busy}/>}</AgentAuxiliary>}
+  <AgentComposer busy={busy} footer={<button disabled={busy||unknown||awaiting||!connected||!canEdit||!draft.text.trim()} onClick={()=>void send()}><Send size={22}/>{busy?'处理中':'发送'}</button>}>
+   {!!draft.materials.length&&<div className="live-wb-materials">{draft.materials.map(m=><div key={m.localId} className="live-wb-material"><button aria-label={'查看 '+m.file.name} onClick={()=>{if(m.kind==='sketch')setActive(draft.parameters.find(p=>p.kind==='sketch')?.id||'sketch');else if(m.kind==='photo')setActive(m.localId);else void choose('document');}}>{m.preview?<img src={m.preview} alt={m.file.name}/>:<span>{m.file.name}</span>}</button><button aria-label={'删除 '+m.file.name} onClick={()=>{dirty.current=true;persist({...draft,materials:draft.materials.filter(x=>x.localId!==m.localId),...(m.kind==='sketch'?{sketchConfirmed:false,strokes:[]}: {})});}}><X size={20}/></button></div>)}</div>}
+   {canEdit||draft.text?<SentenceComposer ref={area} text={draft.text} files={[]} parameters={[]} input={emptyInput} active={null} disabled={!canEdit||busy} placeholder="输入你的任务要求" onChange={editing.change} onSelect={editing.select} onFocus={()=>{}} onOpen={()=>{}} live={{parameters:visible,active,open}}/>:<p className="mac-empty">在 WorkBuddy 点击任务输入框</p>}
+  </AgentComposer>{editing.polish&&<PolishControls editing={editing}/>}
+
+  {draft.materials.find(m=>m.localId===active)?.preview&&<section className="live-wb-preview"><button aria-label="关闭照片预览" onClick={()=>setActive(null)}><X/></button><img src={draft.materials.find(m=>m.localId===active)!.preview} alt="所选照片"/></section>}
+
+  {error&&<p role="status" className="mac-error">{error}</p>}
+ </PhoneControllerFrame>;
+}

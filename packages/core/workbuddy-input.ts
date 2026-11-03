@@ -1,3 +1,4 @@
+import {projectTargetInput,workBuddyInputCapabilities} from './live-workbuddy';
 import type {Command,State,Slide} from './model';
 import {workBuddyIntents,colorValue,intentColors} from './workbuddy-intents';
 import {sentenceParameters,validateSentenceValue,type ValueKind} from './workbuddy-sentence';
@@ -32,7 +33,7 @@ export function wbAdaptiveInteraction(s:State,c:Command):string|null|undefined {
   if(!task&&v.id!=='new')return '任务不存在';
   const id=task?.id||'new',d=w.drafts[id];if(!d)return '草稿不存在';
   w.task=id;w.page=task?'task':'home';w.preview=[];w.previewActive=null;w.filePanel=false;
-  s.target={id:`wb:draft:${id}`,app:'workbuddy',kind:'text',label:task?.title||'新建任务',value:d.text,revision:s.revision+1};return null;
+  s.target={id:`wb:draft:${id}`,app:'workbuddy',kind:'text',label:task?.title||'新建任务',value:d.deckInput?projectTargetInput(d.text,d.deckInput.parameters,d.deckInput.assets,workBuddyInputCapabilities).text:d.text,revision:s.revision+1};return null;
  }
  if(c.type!=='wb-input')return undefined;
  const v=(c.value||{}) as Record<string,unknown>,t=s.target,w=s.workbuddy;

@@ -7,7 +7,7 @@ export default class EntryAbility extends UIAbility {
  onCollaborate(params:Record<string,Object>):AbilityConstant.CollaborateResult {distributedLink.configure(this.context);return distributedLink.accept(params) as AbilityConstant.CollaborateResult;}
  onWindowStageCreate(stage:window.WindowStage):void {
   const w=stage.getMainWindowSync();w.setWindowLayoutFullScreen(true);
-  w.setPreferredOrientation(ROLE==='tablet'?window.Orientation.LANDSCAPE:window.Orientation.AUTO_ROTATION);
+  w.setPreferredOrientation(ROLE==='tablet'?window.Orientation.LANDSCAPE:window.Orientation.AUTO_ROTATION_RESTRICTED);
   stage.loadContent('pages/Index');
  }
  onBackground():void {AppStorage.set('foreground',false);}

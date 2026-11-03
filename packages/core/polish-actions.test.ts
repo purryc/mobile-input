@@ -1,9 +1,9 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
-import {polishActionsForTarget,polishInstruction} from './polish-actions';
+import {polishActionsForTarget,polishInstruction,contextualPolishActions} from './polish-actions';
 const labels=(app:string,id:string,kind='text')=>polishActionsForTarget({app,id,kind}).map(a=>a.label);
 test('polish suggestions follow editable scene and keep new tasks format neutral',()=>{
- assert.deepEqual(labels('wechat','composer'),['自然回复','更礼貌','简短回复']);
+ assert.deepEqual(labels('wechat','composer'),['更自然','更礼貌','更简洁']);
  assert.deepEqual(labels('workbuddy','wb:task:new'),['说清需求','整理要点','精简指令']);
  assert.deepEqual(labels('workbuddy','wb:object:f:slide/0/title'),['说清需求','整理要点','精简指令']);
  assert.deepEqual(labels('workbuddy','wb:doc:f:slide/0/title'),['标题清晰','精简标题','修正语病']);
@@ -21,4 +21,14 @@ test('every exposed action has an allowlisted rewrite instruction, unknown actio
   for(const action of actions)assert.ok(polishInstruction(action.id));
  }
  assert.equal(polishInstruction('execute-task'),'');assert.ok(polishInstruction('简洁'));
+});
+
+test('contextual actions do not pad short content and respect actual purpose',()=>{
+ const wx={app:'wechat',id:'composer',kind:'text'};
+ assert.equal(contextualPolishActions(wx,'收到，谢谢').length,1);
+ assert.deepEqual(contextualPolishActions(wx,'12345'),[]);
+ assert.deepEqual(contextualPolishActions(wx,''),[]);
+ assert.equal(contextualPolishActions({app:'paint',id:'paint-command',kind:'command'},'新建图层').length,0);
+ assert.equal(contextualPolishActions(wx,'不要改语气，请保留我的原话，明天下午两点开会。').some(a=>a.id==='polite'),false);
+ assert.equal(contextualPolishActions({app:'mail',id:'mail-draft',kind:'text'},'明天方便一起吃饭吗？').some(a=>a.id==='mail-professional'),false);
 });

@@ -1,6 +1,15 @@
-.real-polish{display:flex;align-items:center;flex-wrap:wrap;gap:8px;min-height:32px;flex:none;font-size:11px}
-.real-polish>span{white-space:nowrap}.real-polish>button{min-height:32px!important;padding:4px 10px!important;font-size:12px!important}
-.polish-error{width:100%;font-size:12px;color:#9b503a;display:flex;align-items:center;gap:6px}.polish-error button{font-size:11px!important;min-height:32px!important}
+.contextual-polish{flex:0 0 auto;min-width:0;max-width:100%;margin:0;color:var(--input-ink,var(--dock-fg,inherit));box-sizing:border-box}
+.contextual-polish-row{display:flex;align-items:center;gap:8px;min-height:48px;min-width:0}
+.contextual-polish-title{width:72px;flex:0 0 72px;display:flex;align-items:center;gap:4px;white-space:nowrap;font:500 14px/22px system-ui,sans-serif}
+.polish-smart-pencil{width:20px;height:20px;position:relative;flex:none;display:inline-flex;align-items:flex-end}.polish-smart-pencil>svg:last-child{position:absolute;right:0;top:0}
+.contextual-polish-options{display:flex;gap:8px;min-width:0;flex:1;overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:none;padding:0}
+.contextual-polish-options::-webkit-scrollbar{display:none}.polish-error{margin:4px 0 0;font-size:12px;line-height:18px;color:inherit;overflow-wrap:anywhere}
+/* Read shared dock tokens in the adapter; scene geometry and services stay independent. */
 .gemini-account{border-top:1px solid #b7c8d855;margin-top:18px;padding-top:16px;font-size:13px}.gemini-account header{display:flex;justify-content:space-between;gap:12px}.gemini-account small{display:block;overflow-wrap:anywhere;margin:10px 0;color:#5f7180}.gemini-account>div{display:flex;gap:8px;margin-top:12px}.gemini-account button{min-height:48px;padding:8px 12px;background:#fff;border:1px solid #ccd4da;border-radius:12px;color:#18212b}.gemini-account p{font-size:12px;color:#a33939}.agent-connection-panel:has(.gemini-account){max-height:calc(100dvh - 100px);overflow:auto}
 
 .gemini-account label{display:grid;gap:6px;margin-top:12px}.gemini-account input{min-height:48px;min-width:0;width:100%;box-sizing:border-box;border:1px solid #ccd4da;border-radius:10px;padding:8px 12px;background:white;color:#18212b}
+
+/* One spacing owner, independent of controller destination or parent gap. */
+.polish-stack.polish-stack{row-gap:8px}
+.polish-stack.polish-stack:has(>.contextual-polish:last-child){padding-bottom:8px!important}
+.polish-stack.polish-stack>.contextual-polish{margin-top:0;margin-bottom:0}

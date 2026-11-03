@@ -12,7 +12,7 @@ const sourceText=(node:Node):string=>{
  return Array.from(node.childNodes).map((child,i)=>((child.nodeName==='DIV'||child.nodeName==='P')&&i>0?'\n':'')+sourceText(child)).join('');
 };
 const iconNames:Partial<Record<SentenceKind,string>>={camera:'photo',sketch:'canvas',document:'file'};
-export interface SentenceComposerProps {text:string;files:WbFile[];parameters:SentenceParameter[];input:WorkBuddyInput;active:SentenceKind|null;disabled:boolean;placeholder:string;loading?:{start:number;end:number};onChange:(text:string)=>void;onSelect:()=>void;onFocus:()=>void;onOpen:(kind:SentenceKind)=>void;}
+export interface SentenceComposerProps {text:string;files:WbFile[];parameters:SentenceParameter[];input:WorkBuddyInput;active:SentenceKind|null;disabled:boolean;placeholder:string;loading?:{start:number;end:number};onChange:(text:string)=>void;onSelect:()=>void;onFocus:()=>void;onOpen:(kind:SentenceKind)=>void;live?:{parameters:import('../../../packages/core/live-workbuddy').LiveParameter[];active:string|null;open:(id:string)=>void};}
 /** The DOM is editable, but the authority remains plain text + task-owned parameter bindings. */
 export const SentenceComposer=forwardRef<TextInputHandle,SentenceComposerProps>(function SentenceComposer(p,ref){
  const root=useRef<HTMLDivElement>(null),composing=useRef(false),selection=useRef({start:0,end:0}),latest=useRef(p);latest.current=p;
@@ -44,6 +44,13 @@ export const SentenceComposer=forwardRef<TextInputHandle,SentenceComposerProps>(
   const el=root.current;if(!el||composing.current)return;const state=latest.current,focused=document.activeElement===el,saved={...readSelection()},fragment=document.createDocumentFragment();
   function plain(start:number,end:number){if(end<=start)return;const l=state.loading;if(l&&l.start>=start&&l.end<=end){fragment.append(document.createTextNode(state.text.slice(start,l.start)));const mark=document.createElement('mark');mark.dataset.recognizing='color';mark.textContent=state.text.slice(l.start,l.end);fragment.append(mark,document.createTextNode(state.text.slice(l.end,end)));}else fragment.append(document.createTextNode(state.text.slice(start,end)));}
   let cursor=0;
+  if(state.live)for(const token of state.live.parameters){
+   if(token.start<cursor||state.text.slice(token.start,token.end)!==token.phrase)continue;plain(cursor,token.start);cursor=token.end;
+   const hit=document.createElement('span');hit.className='sentence-token-hit';hit.dataset.source=token.phrase;hit.contentEditable='false';
+   const button=document.createElement('button');button.type='button';button.className='sentence-token';button.disabled=state.disabled;button.dataset.kind=token.kind;button.dataset.state=token.manual?'default':'suggested';button.setAttribute('aria-label',`${token.role} ${token.label}`);button.setAttribute('aria-pressed',String(state.live.active===token.id));
+   const face=document.createElement('span');face.className='sentence-token-face';if(token.kind==='color'&&/^#[0-9A-Fa-f]{6}$/.test(token.value)){const swatch=document.createElement('i');swatch.className='sentence-swatch';swatch.style.background=token.value;face.append(swatch);}else if(['document','photo','sketch'].includes(token.kind)){const icon=document.createElement('img');icon.src=`./assets/figma/sentence-parameters/${token.kind==='document'?'file':token.kind==='photo'?'photo':'canvas'}.svg`;icon.alt='';icon.className='sentence-icon';face.append(icon);}
+   face.append(document.createTextNode(token.label));button.append(face);button.onpointerdown=e=>{e.preventDefault();readSelection();};button.onclick=()=>latest.current.live?.open(token.id);hit.append(button);fragment.append(hit);
+  }
   for(const token of state.parameters){if(token.start<cursor)continue;plain(cursor,token.start);cursor=token.end;
    const hit=document.createElement('span');hit.className='sentence-token-hit';hit.dataset.source=state.text.slice(token.start,token.end);hit.dataset.kind=token.kind;hit.contentEditable='false';
    const button=document.createElement('button');button.type='button';button.className='sentence-token';button.dataset.kind=token.kind;button.dataset.state=token.suggested?'suggested':'default';button.setAttribute('aria-pressed',String(state.active===token.kind));button.disabled=state.disabled;const face=document.createElement('span');face.className='sentence-token-face';button.append(face);
@@ -64,7 +71,7 @@ export const SentenceComposer=forwardRef<TextInputHandle,SentenceComposerProps>(
   plain(cursor,state.text.length);if(state.text.endsWith('\n'))fragment.append(document.createElement('br'));if(!fragment.childNodes.length)fragment.append(document.createTextNode(''));
   el.replaceChildren(fragment);el.dataset.value=state.text;if(focused)setSelectionRange(saved.start,saved.end);
  }
- useLayoutEffect(render,[p.text,JSON.stringify(p.parameters),p.input.revision,p.active,p.disabled,p.loading?.start,p.loading?.end,p.files.map(f=>f.id+f.name).join('|')]);
+ useLayoutEffect(render,[p.text,JSON.stringify(p.parameters),JSON.stringify(p.live?.parameters),p.live?.active,p.input.revision,p.active,p.disabled,p.loading?.start,p.loading?.end,p.files.map(f=>f.id+f.name).join('|')]);
  useEffect(()=>{const listener=()=>{if(document.activeElement===root.current){readSelection();latest.current.onSelect();}};document.addEventListener('selectionchange',listener);return()=>document.removeEventListener('selectionchange',listener);},[]);
  function changed(){if(composing.current)return;readSelection();const text=sourceText(root.current!);latest.current.onSelect();latest.current.onChange(text);}
  return <div ref={root} className="wb-sentence-composer" role="textbox" aria-multiline="true" aria-label="手机 WorkBuddy 草稿" contentEditable suppressContentEditableWarning inputMode="none" data-placeholder={p.placeholder} onFocus={p.onFocus} onInput={changed} onCompositionStart={()=>{composing.current=true;}} onCompositionEnd={()=>{composing.current=false;changed();}} onPaste={e=>{e.preventDefault();const s=readSelection(),value=latest.current.text,insert=e.clipboardData.getData('text/plain');latest.current.onChange(value.slice(0,s.start)+insert+value.slice(s.end));requestAnimationFrame(()=>setSelectionRange(s.start+insert.length,s.start+insert.length));}}/>

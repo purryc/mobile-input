@@ -1,60 +1,50 @@
-# Mobile Input Agent design specification
+# Mobile Input Agent｜Slides 索引
 
-## Default trackpad parity — 2026-10-20
+更新：2026-10-28。当前为 **18 页主讲**。恢复原深蓝三屏封面，双屏体验章节以既有 84 秒 Demo 录屏开场。总预算 14 分钟（含视频），预留 1 分钟；尚未真人计时试讲。
 
-Refreshed Slides image `202:913` (slide `148:882`) from current editable source `5:11016`: shared 368 px expanded dock, 222 px dotted surface, joined mouse keys and labeled right-side 智慧语音. Preserved image position, dimensions and surrounding slide content. WorkBuddy images already use this geometry.
+- [原 Figma Slides](https://www.figma.com/slides/ylIR7XjcoubXhUiTmEuNI6/Mobile-Input-Agent?node-id=1-42)
+- [逐页口播与计时](slides-15min-speaker-guide.md)
+- [唯一设计规则](https://app.notion.com/p/3f9194db24c38165996cf89b22e7d69e)
+- [Survey](https://app.notion.com/p/402194db24c381ccaa06c2329f97a1f4)
 
+## 当前页序
 
-## 2026-10-19 · 连体触控板按键同步
+| 页 | 核心内容 | 时长 | 累计区间 |
+|---|---|---|---|
+| 1 | [系统级手机输入 / 随应用与任务 / 切换输入面板](https://www.figma.com/slides/ylIR7XjcoubXhUiTmEuNI6?node-id=1-42) | 0:10 | 0:00–0:10 |
+| 2 | [竞品分析：表达、控制与任务协作的能力边界](https://www.figma.com/slides/ylIR7XjcoubXhUiTmEuNI6?node-id=361-328) | 0:50 | 0:10–1:00 |
+| 3 | [用户需求：高效表达、连续创作与跨任务操作](https://www.figma.com/slides/ylIR7XjcoubXhUiTmEuNI6?node-id=17-36) | 0:45 | 1:00–1:45 |
+| 4 | [产品方案：以手机承载大屏场景的输入与控制](https://www.figma.com/slides/ylIR7XjcoubXhUiTmEuNI6?node-id=17-71) | 0:30 | 1:45–2:15 |
+| 5 | [双屏协同演示：手机输入，大屏同步操作](https://www.figma.com/slides/ylIR7XjcoubXhUiTmEuNI6?node-id=390-3) | 1:30 | 2:15–3:45 |
+| 6 | [应用场景：文本、Agent、专业操作与娱乐](https://www.figma.com/slides/ylIR7XjcoubXhUiTmEuNI6?node-id=361-511) | 0:15 | 3:45–4:00 |
+| 7 | [输入启用：多入口激活，面板跟随当前应用](https://www.figma.com/slides/ylIR7XjcoubXhUiTmEuNI6?node-id=319-14) | 0:30 | 4:00–4:30 |
+| 8 | [场景化文本优化：按字段用途推荐润色方式](https://www.figma.com/slides/ylIR7XjcoubXhUiTmEuNI6?node-id=349-2) | 0:45 | 4:30–5:15 |
+| 9 | [Agent 辅助输入：识别指令中的参数与材料需求](https://www.figma.com/slides/ylIR7XjcoubXhUiTmEuNI6?node-id=5-27) | 0:55 | 5:15–6:10 |
+| 10 | [Agent 人工决策：批准、拒绝、做选择与补充要求](https://www.figma.com/slides/ylIR7XjcoubXhUiTmEuNI6?node-id=5-43) | 0:40 | 6:10–6:50 |
+| 11 | [PPT 场景适配：按编辑对象与放映状态切换面板](https://www.figma.com/slides/ylIR7XjcoubXhUiTmEuNI6?node-id=309-2) | 1:00 | 6:50–7:50 |
+| 12 | [Word 编辑适配：同步正文，按选区提供编辑操作](https://www.figma.com/slides/ylIR7XjcoubXhUiTmEuNI6?node-id=309-34) | 0:30 | 7:50–8:20 |
+| 13 | [专用场景控制：绘画工具、媒体遥控与游戏手柄](https://www.figma.com/slides/ylIR7XjcoubXhUiTmEuNI6?node-id=319-44) | 0:25 | 8:20–8:45 |
+| 14 | [上下文推荐：基于当前消息提供回复与服务入口](https://www.figma.com/slides/ylIR7XjcoubXhUiTmEuNI6?node-id=18-112) | 0:35 | 8:45–9:20 |
+| 15 | [场景判定：当前操作与上下文服务并行决策](https://www.figma.com/slides/ylIR7XjcoubXhUiTmEuNI6?node-id=323-3) | 1:10 | 9:20–10:30 |
+| 16 | [面板布局：固定顶部与底栏，中部承载场景操作](https://www.figma.com/slides/ylIR7XjcoubXhUiTmEuNI6?node-id=4-76) | 0:35 | 10:30–11:05 |
+| 17 | [面板生成：优先复用预设，按能力组合组件](https://www.figma.com/slides/ylIR7XjcoubXhUiTmEuNI6?node-id=339-2) | 1:50 | 11:05–12:55 |
+| 18 | [实施优先级：基础输入、单应用生成与跨应用扩展](https://www.figma.com/slides/ylIR7XjcoubXhUiTmEuNI6?node-id=6-68) | 1:05 | 12:55–14:00 |
 
-- 最新底行：键盘／触控板切换在左，中间左右鼠标键共用玻璃外框、细线分隔，智慧语音在右。两侧收窄，中间按键组与触控面居中。
-- Figma 主画布核对 9 处、组件库核对 94 处母版／实例；另补齐旧 `271:4363` / `271:4386` 母版，覆盖折叠 PC 场景及输入面板过渡示例。过渡页面未发现独立旧触控板。保留手机／宽屏各自尺寸和操作目标。
-- Slides 第 3 页 `148:882`：`202:913` 使用默认桌面源 `5:11016` 的最新图。
-- Slides 第 11 页 `4:76`：`210:690` 使用源 `1860:22890` 的最新展开态；收起态保持原稿。
-- Slides 第 16 页 `5:43`：`5:62` 使用 `1857:86161`（与 `5:8847` 同源）的最新手机对象编辑图。
-- 三处截图原位替换，保持尺寸、位置、页面文字和排版；Slides 图片为源设计的展示快照，可编辑控件继续保留在 Design 文件。已回读图片哈希并检查三页最终截图及宽屏母版。未修改运行代码。
+## 本轮修订
 
-- [Figma Slides · 23页](https://www.figma.com/slides/ylIR7XjcoubXhUiTmEuNI6/Mobile-Input-Agent)
-- [当前PRD](https://app.notion.com/p/3f9194db24c381bf8b76c804062303e3)
-- [Design Skill](https://app.notion.com/p/3f9194db24c38165996cf89b22e7d69e)
-- [Mobile Input Survey](https://purryc.github.io/mobile-input-agent-research/)
-- [可编辑控件库](https://www.figma.com/design/ApFLno64NcMoA17MiPFfZh?node-id=2-2)
-- Updated: 2026-10-19
-- Audience: 设备厂商与系统集成评审；产品、设计、技术细节放附录。交付设计文档与组件，不修改运行代码。
+- 恢复原深蓝三屏封面并保留当前文案；正文接竞品、四类人群痛点与方案。既有 `Input-Agent-Walkthrough-84s.mp4` 嵌入 `390:3`，位于双屏体验章节首屏（总第 5 页），保留用户恢复的完整场景地图。
+- 入口 03 在两张手机上方加入实际桌面／WorkBuddy demo；WorkBuddy 案例改为两端真实 demo 截图。
+- PPT 五态与 Word 三态使用真实 Mac WPS 界面，手机复用设计；不将此组合表述为鸿蒙已接通。
+- 文本优化页使用实际应用字段截取；人物插图与真实应用截图分别标注。
+- 总流程、布局、生成和优先级为通用规则，去掉大屏样例。生成页补齐三层资产的多个样例及 Token／Icon 基础。
+- Claude CLI Opus 5.5 独立文本评审已核实；采纳预设直达、合法候选、Slider 数据约束、宿主执行校验与回读建议。
+- 本轮仅修改 Slides、讲稿和素材记录；不改 Notion、运行代码或功能进度。
 
-## Narrative and visual contract
+材料、评审与截图记录：`artifacts/slides-15min-2026-10-28/revision-v3/`。
 
-当前结构为14页主讲＋9页附录。主线为：定位→已有方案与机会→四类用户当前痛点→对应解决方案→Demo与三种面板路径→场景与入口→双屏实例→能力到面板的生成机制→稳定操作→上下文服务与任务介入→厂商试点验证。完整规则、七类决策问题、控件库和场景细节放附录。
-保留1920×1080，Noto Sans SC／Inter、浅色阅读面与蓝／青／淡紫强调。封面与结尾深蓝。文字、图表、架构及布局为原生可编辑节点；既有控制器与研究图像保留源链接。
-ImageGen客户情境图采用折叠PC展开大屏、未连接物理键盘／鼠标的情境；绘画按用户指定采用大屏平放、一手持笔一手持手机，其余场景以立放大屏为主。手机承接文字、语音、指向与场景控制。该图是示意，不能冒充访谈、设备兼容验证或付费证据。研究产品能力、公开使用个案、本产品收益与采购假设分别表达。所有人物与材料示例为生成或虚构，不含私人邮件。
+## 历史记录（仅追溯）
 
-## Slide index
-
-| 页 | 内容 | Figma node |
-| --- | --- | --- |
-| 01 | 定位 | `1:42` |
-| 02 | 已有方案与机会 | `4:13` |
-| 03 | 四类用户当前使用场景与痛点 | `17:36` |
-| 04 | 四类场景对应的系统级输入方案 | `17:71` |
-| 05 | 产品总览与Demo | `99:883` |
-| 06 | 四类场景 | `4:42` |
-| 07 | 进入与退出 | `148:882` |
-| 08 | 核心例子：表达 | `5:27` |
-| 09 | 核心例子：操作 | `19:76` |
-| 10 | 生成机制 | `17:94` |
-| 11 | 界面稳定性 | `4:76` |
-| 12 | 上下文服务 | `18:112` |
-| 13 | 任务介入 | `5:43` |
-| 14 | 验证与下一步 | `6:68` |
-| 15 | 附录 A1 · 总流程 | `137:882` |
-| 16 | 附录 A2 · 判定到UI | `148:883` |
-| 17 | 附录 A3 · 控件库 | `19:4` |
-| 18 | 附录 A4 · 文字 | `5:5` |
-| 19 | 附录 A5 · 材料 | `18:137` |
-| 20 | 附录 A6 · 绘画 | `6:2` |
-| 21 | 附录 A7 · 演示 | `5:65` |
-| 22 | 附录 A8 · 媒体 | `6:24` |
-| 23 | 附录 A9 · 游戏 | `6:46` |
+以下是旧版本修订，不再定义当前页序和现行交互；当前交互以链接的Notion规范为准。
 
 ## Rules synchronized with PRD
 

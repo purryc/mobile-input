@@ -76,5 +76,18 @@
       "path": "apps/web/public/assets/figma/input-dock/return.svg",
       "sha256": "8e3ec107f066bbc3603af445411f7a9969edc9743a34b8c4e62b98abfd531777"
     }
-  ]
+  ],
+  "collapsedRevision": {
+    "date": "2026-11-03",
+    "referenceNode": "1801:13915",
+    "masterNode": "1493:55579",
+    "viewportWidth": 390,
+    "rowWidth": 354,
+    "modeWidth": 104,
+    "gap": 10,
+    "voiceWidth": 240,
+    "voiceHeight": 56,
+    "iconSize": 24,
+    "assets": "Reuse reviewed original SVGs from the same component set; no new screenshot crops."
+  }
 }

@@ -173,7 +173,7 @@ test("phone edits file targets, sends AI instructions and WPS reads saved canoni
   await expect(phone.getByRole("dialog", {name:"设备连接"})).toHaveCount(0);
   await tablet.getByRole("button", { name: "关闭连接设置" }).click();
   await fileBrowser(tablet);
-  await expect(phone.locator(".generic-shortcuts")).toBeVisible();
+  await expect(phone.getByRole("main",{name:"手机待机桌面"})).toBeVisible();
   await tablet.locator(".wbf-word .word-paragraph").nth(1).click();
   await phone
     .getByLabel("手机 WorkBuddy 草稿")

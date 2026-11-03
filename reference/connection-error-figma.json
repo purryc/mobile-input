@@ -1,0 +1,18 @@
+{
+  "date": "2026-11-03",
+  "fileKey": "ApFLno64NcMoA17MiPFfZh",
+  "frameId": "2267:38044",
+  "componentId": "2267:38142",
+  "libraryReuse": {
+    "buttons": [
+      "270:3261",
+      "270:3271"
+    ],
+    "icon": "1975:30331",
+    "dock": "1493:55579",
+    "primaryVariable": "VariableID:1839:20366"
+  },
+  "font": "Noto Sans SC",
+  "implementation": "apps/web/src/connection-error.tsx",
+  "scope": "Editable error window; connection and recovery behavior verified separately in browser"
+}

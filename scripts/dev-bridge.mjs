@@ -10,8 +10,8 @@ server.on('connection',socket=>{
    else if(m.role==='phone'&&tablet&&m.pin===pin){phone?.close();phone=socket;clearTimeout(timer);tablet.send(JSON.stringify({kind:'connected'}));phone.send(JSON.stringify({kind:'connected'}));}
    else socket.send(JSON.stringify({kind:'error',message:'配对码不正确，或平板尚未打开'}));return;
   }
-  if(socket===phone&&['command','sync'].includes(m.kind))tablet?.send(bytes.toString());
-  if(socket===tablet&&['snapshot','ack','pointer-ack'].includes(m.kind))phone?.send(bytes.toString());
+  if(socket===phone&&['command','sync','deck-asset'].includes(m.kind))tablet?.send(bytes.toString());
+  if(socket===tablet&&['snapshot','ack','pointer-ack','deck-asset-reply'].includes(m.kind))phone?.send(bytes.toString());
  });
  socket.on('close',()=>{clearTimeout(timer);if(socket===tablet){tablet=null;phone?.send(JSON.stringify({kind:'disconnected'}));phone?.close();phone=null;}if(socket===phone){phone=null;tablet?.send(JSON.stringify({kind:'disconnected'}));}});
 });

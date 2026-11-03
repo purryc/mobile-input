@@ -4,8 +4,8 @@ const actions:PolishAction[]=[
  {id:'concise',label:'精简表达',instruction:'精简冗余和重复，保持原有语气与全部关键要求。'},
  {id:'polite',label:'更礼貌',instruction:'使表达礼貌、自然，保留原有立场，不新增承诺或客套事实。'},
  {id:'formal',label:'规范表述',instruction:'改为清楚、规范的书面表述，保持原意。'},
- {id:'chat-natural',label:'自然回复',instruction:'将聊天草稿改得口语、自然，像本人直接回复；不要替用户编造答复。'},
- {id:'chat-short',label:'简短回复',instruction:'将聊天草稿缩短为简洁回复，保留时间、事项、立场和明确要求。'},
+ {id:'chat-natural',label:'更自然',instruction:'将聊天草稿改得口语、自然，像本人直接回复；不要替用户编造答复。'},
+ {id:'chat-short',label:'更简洁',instruction:'将聊天草稿缩短为简洁回复，保留时间、事项、立场和明确要求。'},
  {id:'task-clear',label:'说清需求',instruction:'把发给 AI 助手的任务指令说清楚，区分目标、已有条件和约束。不执行任务、不提供答案、不补充用户未给出的条件或成果类型。'},
  {id:'task-points',label:'整理要点',instruction:'将任务指令整理为清晰的要点，保留要求、限制、否定和相互关系。不执行任务、不新增需求。'},
  {id:'task-short',label:'精简指令',instruction:'压缩发给 AI 助手的指令，去掉口头重复，完整保留目标和约束；不得执行该指令。'},
@@ -42,4 +42,13 @@ export function polishActionsForTarget(t:PolishTarget|null):PolishAction[]{
 export function polishInstruction(id:string):string{
  const legacy=id==='简洁'?'concise':id==='礼貌'?'polite':id==='正式'?'formal':id;
  return actions.find(a=>a.id===legacy)?.instruction||'';
+}
+/** Content gates recommendations; native instruction IDs remain unchanged. */
+export function contextualPolishActions(t:PolishTarget|null,text:string):PolishAction[]{
+ const value=text.trim();if(!value||!/[\p{L}]/u.test(value)||/^(?:https?:\/\/\S+|#[a-f\d]{3,8}|[\w.+-]+@[\w.-]+)$/i.test(value))return [];
+ let result=polishActionsForTarget(t);
+ if(t?.app==='mail'&&!t.id.includes('subject')&&!/客户|报价|采购|合同|供应商|订单/.test(value))result=pick(value.length>30?['polite','mail-request','concise']:['polite','concise']);
+ if(/不要(?:改|改变|调整)(?:变)?语气|保留原(?:有)?语气/.test(value))result=result.filter(a=>!['polite','formal','chat-natural','mail-professional','speech-natural'].includes(a.id));
+ if(value.length<=8)result=result.slice(0,1);
+ return result.slice(0,3);
 }

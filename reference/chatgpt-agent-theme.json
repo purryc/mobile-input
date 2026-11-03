@@ -1,0 +1,11 @@
+{
+  "date": "2026-11-03",
+  "identity": "codex",
+  "themeSource": "manual",
+  "direction": "ChatGPT neutral monochrome as requested; does not claim live OS theme tracking",
+  "iconSource": "installed ChatGPT.app/Contents/Resources/icon-chatgpt.icns",
+  "asset": "apps/web/public/assets/apps/chatgpt.png",
+  "sha256": "30e302b50143e1d8204e938e5a590b6eaf30b4c714fb11b39e3ea35da40bca93",
+  "guidelines": "https://openai.com/brand/",
+  "designRules": "https://app.notion.com/p/3f9194db24c38165996cf89b22e7d69e"
+}

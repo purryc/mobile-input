@@ -19,6 +19,8 @@ for(const fault of ['lost-ack','lost-command'] as const)test(`Bilibili coin ${fa
  await expect.poll(()=>coinCommands).toBe(1);if(fault==='lost-ack')await expect(tablet.getByText('演示硬币余额 5')).toBeVisible();
  // Unmount before any receipt; persistent request must outlive the controller and page.
  await phone.reload();await phone.getByLabel('平板地址').fill('localhost');await phone.getByLabel('配对码',{exact:true}).fill(pin);await phone.getByRole('button',{name:'连接',exact:true}).click();
+ // A new phone process needs an explicit field activation after pairing.
+ await tablet.getByLabel('平板弹幕输入').click();
  await expect(phone.getByRole('button',{name:'核对投币',exact:true})).toBeEnabled();await phone.getByRole('button',{name:'核对投币',exact:true}).click();
  await expect(phone.getByRole('button',{name:'投币',exact:true})).toBeEnabled();expect(coinCommands).toBe(1);
  await expect(tablet.getByText(`演示硬币余额 ${fault==='lost-ack'?5:6}`)).toBeVisible();await expect(tablet.locator('.bili-feedback')).toContainText(fault==='lost-ack'?'1 枚':'未执行');

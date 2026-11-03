@@ -1,3 +1,7 @@
+import {WebDeckSettings} from './web-deck-settings';
+import {ConnectionError} from './connection-error';
+import {useControlDestination,selectControlDestination} from './control-destination';
+import {connectMac,disconnectMac,resumeMac,useMacLink} from './mac-link';
 import {GeminiAccount} from './ai-polish';
 import {createContext,useContext,useEffect,useRef,useState,type ReactNode,type RefObject} from 'react';
 import {Link2,ScanLine,RefreshCw,X,TabletSmartphone,ChevronRight,Check} from 'lucide-react';
@@ -17,21 +21,27 @@ export function ConnectionButton({className=''}:{className?:string}){
 
 /** One connection entry survives application changes without unmounting editors. */
 export function ConnectionAccess({children}:{children:ReactNode}){
+ const destination=useControlDestination(),mac=useMacLink();
  const r=useRuntime(),phone=role==='phone',insets=usePhoneInsets();
  const [opened,setOpened]=useState(phone&&!r.connected),[address,setAddress]=useState(r.address||''),[code,setCode]=useState(''),[qr,setQr]=useState('');
  const [confirmReset,setConfirmReset]=useState(false),[resetting,setResetting]=useState(false);
  async function reset(){setResetting(true);const ack=await command('demo-reset');if(ack.ok)toast('演示已重置');else setResetting(false);}
  const priorConnected=useRef(r.connected),entry=useRef<HTMLButtonElement>(null),panel=useRef<HTMLElement>(null);
- const inline=(!phone&&r.state.app==='workbuddy'&&!!r.state.workbuddy.fileBrowser?.visible&&!!r.state.workbuddy.fileBrowser.windows.length)||phone&&['active','paused'].includes(r.state.inputSession?.phase||'')&&(r.state.app==='desktop'||r.state.app==='paint'||!['desktop','wechat','slides','mario','bilibili'].includes(r.state.app)&&(r.connected||!!r.state.editSession?.key)||r.state.app==='bilibili'||r.state.app==='slides'||r.state.app==='mario'||r.state.app==='workbuddy'&&r.connected&&!!r.state.target?.id.startsWith('wb:')||r.state.app==='wechat'&&r.connected&&r.state.chat.activation?.phase==='ready');
+ const real=phone&&destination!=='demo',activeConnected=real?(destination==='mac'&&mac.connected&&mac.synced):r.connected;
+ const [failure,setFailure]=useState(false),loss=useRef({connected:activeConnected,destination}),intentional=useRef(false),background=useRef(document.hidden);
+ useEffect(()=>{const native=(e:Event)=>{background.current=!(e as CustomEvent).detail;};const visibility=()=>{background.current=document.hidden;};window.addEventListener('native-foreground',native);document.addEventListener('visibilitychange',visibility);return()=>{window.removeEventListener('native-foreground',native);document.removeEventListener('visibilitychange',visibility);};},[]);
+ useEffect(()=>{const previous=loss.current;loss.current={connected:activeConnected,destination};if(activeConnected||previous.destination!==destination){setFailure(false);intentional.current=false;return;}if(!phone||!previous.connected||intentional.current||background.current){intentional.current=false;return;}const timer=setTimeout(()=>{if(!background.current){window.dispatchEvent(new Event('connection-open'));setOpened(false);setFailure(true);}},1000);return()=>clearTimeout(timer);},[activeConnected,destination]);
+ function reconnectFailure(){if(destination==='mac'&&mac.canResume)resumeMac();else{setFailure(false);show();}}
+ const inline=real||(!phone&&r.state.app==='workbuddy'&&!!r.state.workbuddy.fileBrowser?.visible&&!!r.state.workbuddy.fileBrowser.windows.length)||phone&&['active','paused'].includes(r.state.inputSession?.phase||'')&&(r.state.app==='desktop'||r.state.app==='paint'||!['desktop','wechat','slides','mario','bilibili'].includes(r.state.app)&&(r.connected||!!r.state.editSession?.key)||r.state.app==='bilibili'||r.state.app==='slides'||r.state.app==='mario'||r.state.app==='workbuddy'&&r.connected&&!!r.state.target?.id.startsWith('wb:')||r.state.app==='wechat'&&r.connected&&r.state.chat.activation?.phase==='ready');
  function selectMethod(method:ConnectionMethod){selectConnectionMethod(method);if(method==='distributed')discoverDistributed();}
  const host=r.address||location.hostname;
- const status=r.connected?(phone?'已连接工作台':'手机已连接'):r.status;
+ const status=real?(destination==='mac'?mac.status:'真实鸿蒙应用尚未接通'):r.connected?(phone?'已连接工作台':'手机已连接'):r.status;
  function close(){setOpened(false);entry.current?.focus();}
- function show(){if(r.connected)void command('switch-cancel');if(!phone&&r.method==='lan')window.MobileNative?.host(pin);window.dispatchEvent(new Event('connection-open'));setOpened(true);}
+ function show(){if(!real&&r.connected)void command('switch-cancel');if(!phone&&r.method==='lan')window.MobileNative?.host(pin);window.dispatchEvent(new Event('connection-open'));setOpened(true);}
  useEffect(()=>{const open=()=>show();window.addEventListener('ai-settings-open',open);return()=>window.removeEventListener('ai-settings-open',open);},[]);
  useBack(()=>{if(!opened)return false;close();return true;},200);
- useEffect(()=>{if(r.address)setAddress(r.address);},[r.address]);
- useEffect(()=>{if(phone&&r.connected&&!priorConnected.current)close();priorConnected.current=r.connected;},[r.connected]);
+ useEffect(()=>{setAddress(real?mac.address:r.address||'');setCode('');},[r.address,destination]);
+ useEffect(()=>{if(phone&&activeConnected&&!priorConnected.current)close();priorConnected.current=activeConnected;},[activeConnected]);
  useEffect(()=>{if(phone||r.method!=='lan')return;let current=true;QRCode.toDataURL(JSON.stringify({kind:'mobile-input',address:host,pin}),{width:240,margin:1}).then(value=>{if(current)setQr(value);}).catch(()=>{if(current)setQr('');});return()=>{current=false;};},[host,phone,r.method]);
  useEffect(()=>{if(!opened)return;panel.current?.focus();const key=(event:KeyboardEvent)=>{
   if(event.key==='Escape'){event.preventDefault();event.stopImmediatePropagation();close();}
@@ -41,8 +51,8 @@ export function ConnectionAccess({children}:{children:ReactNode}){
    else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first?.focus();}
   }
  };window.addEventListener('keydown',key,true);return()=>window.removeEventListener('keydown',key,true);},[opened]);
- return <ConnectionContext.Provider value={{opened,show,entry,status,connected:r.connected}}><div className={'agent-shell agent-'+role+(inline?' inline-connection':'')} style={insets}>
-  <div className="agent-workspace" inert={opened}>{children}</div>
+ return <ConnectionContext.Provider value={{opened,show,entry,status,connected:activeConnected}}><div className={'agent-shell agent-'+role+(inline?' inline-connection':'')} style={insets}>
+  <div className="agent-workspace" inert={opened||failure}>{children}</div>
   {!inline&&<header className="agent-status-area">
    {phone&&<div className="agent-identity"><b>Input Agent</b><span>{status}</span></div>}
    <ConnectionButton/>
@@ -50,8 +60,11 @@ export function ConnectionAccess({children}:{children:ReactNode}){
   {opened&&<div className="scrim agent-connection-scrim" onPointerDown={e=>{if(e.target===e.currentTarget)close();}}>
    <section ref={panel} className="agent-connection-panel" role="dialog" aria-modal="true" aria-labelledby="connection-title" tabIndex={-1} onClick={e=>e.stopPropagation()}>
     <header><h2 id="connection-title">设备连接</h2><button aria-label="关闭连接设置" onClick={close}><X size={22}/></button></header>
-    <div className="agent-link-state" role="status"><i data-connected={r.connected}/><span>{status}</span></div>
-    <fieldset className="connection-methods"><legend>连接方式</legend>
+    <div className="agent-link-state" role="status"><i data-connected={activeConnected}/><span>{status}</span></div>
+    {phone&&<fieldset className="connection-methods connection-destinations"><legend>控制目标</legend>{([['demo','平板演示','现有九个演示应用'],['mac','Mac 应用','WorkBuddy · Codex · WPS'],['harmony','鸿蒙应用','通过 Mac 桥接 · 尚未接通']] as const).map(([id,label,detail])=><label className="connection-method" data-selected={destination===id} key={id}><input type="radio" name="control-destination" value={id} checked={destination===id} onChange={()=>{if(r.connected&&destination==='demo'){void command('release');void command('input-session-pause');}selectControlDestination(id);setConfirmReset(false);}}/><span className="method-copy"><b>{label}</b><small>{detail}</small></span><span className="method-radio" aria-hidden>{destination===id&&<i/>}</span></label>)}</fieldset>}
+    {real?<section className="connection-detail">
+     {destination==='mac'?<><h3>连接 Mac</h3>{mac.canResume&&!mac.connected&&<button className="connection-retry" onClick={resumeMac}>重新连接这台 Mac</button>}<p className="connection-mac-note">在 Mac 打开“Input Agent 连接”扫码配对。配对后自动重连，USB 优先。</p>{window.MobileNative&&<button className="connection-scan primary" onClick={()=>window.MobileNative?.scan()}><ScanLine size={22}/>扫描 Mac 二维码</button>}<form className="connect-panel" onSubmit={e=>{e.preventDefault();connectMac(address.trim(),code);}}><label>Mac 地址<input aria-label="Mac 地址" value={address} placeholder={mac.address||'同一网络的 Mac 地址'} onChange={e=>setAddress(e.target.value)}/></label><label>配对码<input aria-label="Mac 配对码" inputMode="numeric" maxLength={6} value={code} onChange={e=>setCode(e.target.value.replace(/\D/g,''))}/></label><button className="primary" disabled={code.length!==6||!address.trim()}>连接 Mac</button></form>{mac.connected&&<button className="connection-retry" onClick={()=>{intentional.current=true;disconnectMac();}}>断开 Mac</button>}</>:<><h3>通过 Mac 控制真实平板</h3><p className="connection-mac-note">入口已准备。真实应用读写适配完成并验证后开放；不会切入演示应用代替真实控制。</p></>}
+    </section>:<><fieldset className="connection-methods"><legend>连接方式</legend>
      <label className="connection-method" data-selected={r.method==='distributed'}>
       <input type="radio" name="connection-method" value="distributed" checked={r.method==='distributed'} onChange={()=>selectMethod('distributed')}/>
       <span className="method-icon"><TabletSmartphone size={22}/></span><span className="method-copy"><b>鸿蒙分布式</b><small>连接附近的同账号设备</small></span><span className="method-radio" aria-hidden>{r.method==='distributed'&&<i/>}</span>
@@ -80,8 +93,11 @@ export function ConnectionAccess({children}:{children:ReactNode}){
      {confirmReset?<><p>清空两端输入历史、消息、任务、材料和文件修改，恢复演示初始内容。连接设置和 API 配置保留。</p><div><button disabled={resetting} onClick={()=>setConfirmReset(false)}>取消</button><button className="reset-confirm" disabled={resetting||phone&&!r.connected} onClick={reset}>确认重置</button></div></>:<button disabled={phone&&!r.connected} onClick={()=>setConfirmReset(true)}><RefreshCw size={18}/>重置演示</button>}
      {phone&&!r.connected&&<small>连接大屏后可重置两端数据</small>}
     </section>
+    </>}
+    {!phone&&window.MobileNative&&<WebDeckSettings/>}
     {phone&&<details className="connection-account"><summary>Gemini API</summary><GeminiAccount/></details>}
    </section>
   </div>}
+ {failure&&!activeConnected&&<ConnectionError device={destination==='mac'?mac.state?.device||'Mac':r.distributed.peer||'平板'} onDismiss={()=>setFailure(false)} onReconnect={reconnectFailure} reconnecting={destination==='mac'&&mac.status==='正在连接 Mac'}/>}
  </div></ConnectionContext.Provider>;
 }

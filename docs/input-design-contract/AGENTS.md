@@ -18,3 +18,9 @@
 - `component-functions.md`, `.csv`, `.json`, and `.html` join the existing components and functions by component ID. The HTML is a self-contained illustrated index for Notion embedding; the Markdown/CSV retain editable text.
 - `component-previews/` contains read-only PNG exports from existing Figma component variants, named by component ID; `manifest.json` records exact source nodes and provenance. No component redesign is implied.
 - The combined view preserves every component and every function; unmatched components are marked as unbound, not silently removed.
+
+## Documentation thread scope · 2026-10-23
+
+- This OpenUI discussion thread is for product management, interaction design and development documentation: learn OpenUI usage/contracts and distill applicable rules into the existing canonical Notion Design page. Framework setup or a working preview is not the main deliverable.
+- Keep product goals/scope/acceptance, design behavior/components/states, and development schemas/integration/evidence explicit. Do not start runtime development from a documentation discussion without a user implementation request. This applies to this thread, not unrelated development tasks.
+- The one-off WPS shortcut preview is retired at the user's request. Remove its source, generated bundle/screenshots and active entry links; retain confirmed design rules and unrelated production WPS functionality. Do not regenerate this test automatically.

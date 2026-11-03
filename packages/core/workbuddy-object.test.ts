@@ -9,7 +9,7 @@ test('explicit object submit changes working text once and waits for manual save
  assert.equal(f.send('wb-object-style',{style:{color:'#1971C2',size:32,align:'center'},revision:0},f.anchor()).ok,true);
  assert.equal(fileBody(f.store.state,f.view(),'sales-slides').slides![2].title,before.slides![2].title);
  const d=f.store.state.workbuddy.entityDrafts[f.store.state.target!.id],request={id:'explicit-submit',type:'wb-submit',app:'workbuddy' as const,value:{text:d.text,revision:d.revision},...f.anchor()};
- assert.equal(f.store.dispatch(request).ok,true);const count=browserState(f.store.state).docs['sales-slides'].changes.length;
+ assert.equal(f.store.dispatch(request).ok,true);const pending=objectContext(f.store.state)!.pending!;assert.equal(f.send('wb-object-ai-finish',{owner:f.store.state.target!.id,request:pending.id,text:'季度增长路线图'}).ok,true);const count=browserState(f.store.state).docs['sales-slides'].changes.length;
  assert.equal(f.store.dispatch(request).ok,true);assert.equal(browserState(f.store.state).docs['sales-slides'].changes.length,count);
  assert.equal(f.store.state.officeFiles.find(x=>x.id==='sample-slides')!.slides![2].title,before.slides![2].title);f.send('wb-fb-save',{file:'sales-slides'});
  const after=browserState(f.store.state).docs['sales-slides'].saved;
@@ -25,12 +25,12 @@ test('working-copy edits and new targets reject old object submits and preserve 
  assert.equal(f.send('wb-submit',value,anchor).ok,false);assert.equal(fileBody(f.store.state,f.view(),'sales-slides').slides![2].body,'另一端的新内容');
  f.select('slide/3/title');assert.equal(f.send('wb-submit',value,anchor).ok,false);assert.match(f.store.state.workbuddy.entityDrafts[id].text,/季度增长路线图/);
 });
-test('reload does not execute drafts or legacy previews; stale revisions and unknown instructions fail',()=>{
+test('reload does not execute drafts or legacy previews; stale revisions fail and freeform instructions queue AI',()=>{
  const f=fixture();f.instruction();const old=fileBody(f.store.state,f.view(),'sales-slides').slides![2].title;
  const saved=new Store(structuredClone(f.store.state));assert.equal(saved.state.officeFiles.find(x=>x.id==='sample-slides')!.slides![2].title,old);
  const o=objectContext(saved.state)!;browserState(saved.state).docs[o.file].revision++;
  const d=saved.state.workbuddy.entityDrafts[saved.state.target!.id];assert.equal(saved.dispatch({id:'after-restore',type:'wb-submit',app:'workbuddy',value:{text:d.text,revision:d.revision},...f.anchor()}).ok,false);
- assert.equal(f.send('wb-object-style',{style:{size:900},revision:0},f.anchor()).ok,false);f.instruction('帮我做得好看点');assert.equal(f.preview().ok,false);
+ assert.equal(f.send('wb-object-style',{style:{size:900},revision:0},f.anchor()).ok,false);f.instruction('帮我做得好看点');assert.equal(f.preview().ok,true);assert.ok(objectContext(f.store.state)!.pending);
 });
 
 test('object pointer binds view and object version, rejects reordered samples and releases on disconnect',()=>{

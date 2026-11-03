@@ -1,3 +1,5 @@
+import {receiveDeckPacket,deckConnectionChanged} from './web-deck-device';
+import {controlDestination} from './control-destination';
 import {clearDemoCaches,prepareDemoBuild} from './demo-cache';
 import {snapshotDelta,applySnapshotDelta,type Delta} from '../../../packages/core/snapshot-delta';
 import {restorePaint} from '../../../packages/core/paint';
@@ -10,7 +12,7 @@ import {useSyncExternalStore} from 'react';
 import {Store,initialState,describe,type State,type Command,type Ack} from '../../../packages/core/model';
 export type ConnectionMethod='lan'|'distributed';
 export interface DistributedStatus {phase:string;message:string;devices:{id:string;name:string;type:string}[];peer:string;}
-export interface Native {transportMode?():string;selectTransport?(mode:string):string;distributedDiscover?():string;distributedConnect?(id:string):string;distributedStatus?():string;aiControl?(operation:string):string;aiConfigure?(key:string,model:string):string;polish?(id:string,text:string,style:string):string;cancelPolish?(id:string):string;inputTheme?(dark:boolean):string;captureResult?(id:string):string;clearCapture?(id:string):string;capture?(id:string,kind:string):string;layoutInsets?():string;presentationMotion?(id:string,operation:string):string;gameLayout?(enabled:boolean):string;clipboard(id:string,operation:string,text:string):string;role():string;host(pin:string):string;connect(address:string,pin:string):string;discover():string;send(data:string):string;scan():string;startRecognition(id:string,online:boolean,manual?:boolean):string;stopRecognition(id:string):string;cancelRecognition(id:string):string;}
+export interface Native {inputToast?(message:string):string;macPickFile?(id:string,kind:string):string;macReadFile?(handle:string,offset:number):string;macReleaseFile?(handle:string):string;macConnect?(channel:string,address:string,port:number,pin:string):string;macSend?(channel:string,data:string):string;macClose?():string;macResume?(channel:string):string;transportMode?():string;selectTransport?(mode:string):string;distributedDiscover?():string;distributedConnect?(id:string):string;distributedStatus?():string;aiControl?(operation:string):string;aiConfigure?(key:string,model:string):string;polish?(id:string,text:string,style:string):string;cancelPolish?(id:string):string;inputTheme?(dark:boolean):string;captureResult?(id:string):string;clearCapture?(id:string):string;capture?(id:string,kind:string):string;layoutInsets?():string;presentationMotion?(id:string,operation:string):string;gameLayout?(enabled:boolean):string;clipboard(id:string,operation:string,text:string):string;role():string;host(pin:string):string;connect(address:string,pin:string):string;discover():string;send(data:string):string;scan():string;startRecognition(id:string,online:boolean,manual?:boolean):string;stopRecognition(id:string):string;cancelRecognition(id:string):string;}
 declare global {interface Window {MobileNative?:Native;__INPUT_AGENT_BUILD__?:number;}}
 export const role=window.MobileNative?.role()==='phone'||location.hash.includes('phone')||new URLSearchParams(location.search).get('role')==='phone'?'phone':'tablet';
 const pinArray=new Uint32Array(1);crypto.getRandomValues(pinArray);
@@ -24,7 +26,7 @@ let method:ConnectionMethod|null=savedMethod==='lan'||savedMethod==='distributed
 let distributed:DistributedStatus={phase:'idle',message:'',devices:[],peer:''};
 let snap={method,distributed,state:store.state,connected:false,syncing:false,status:role==='tablet'?'等待手机连接':'未连接',address:'',toast:'',pin};
 const listeners=new Set<()=>void>();
-function notify(){snap={...snap};for(const f of listeners)f();}
+function notify(){snap={...snap};for(const f of listeners)f();deckConnectionChanged();}
 export function useRuntime(){return useSyncExternalStore(f=>{listeners.add(f);return()=>listeners.delete(f);},()=>snap);}
 export function toast(t:string){snap.toast=t;notify();setTimeout(()=>{if(snap.toast===t){snap.toast='';notify();}},4000);}
 const requestedPort=Number(new URLSearchParams(location.search).get('bridge'));
@@ -33,7 +35,7 @@ let ws:WebSocket|undefined;let credentials:{address:string;pin:string}|undefined
 const pending=new Map<string,{resolve:(a:Ack)=>void;timer:ReturnType<typeof setTimeout>;failureKey?:string;ack?:Ack;type:string}>();
 const reportedGestures=new Set<string>();
 function commandError(message:string,key?:string){if(key){if(reportedGestures.has(key))return;reportedGestures.add(key);if(reportedGestures.size>64)reportedGestures.delete(reportedGestures.values().next().value!);}toast(message);}
-function transmit(data:unknown){const text=JSON.stringify(data);if(window.MobileNative?.send)return window.MobileNative.send(text)==='sent';if(ws?.readyState===1){ws.send(text);return true;}return false;}
+function transmit(data:unknown){if(role==='phone'&&controlDestination()!=='demo')return false;const text=JSON.stringify(data);if(window.MobileNative?.send)return window.MobileNative.send(text)==='sent';if(ws?.readyState===1){ws.send(text);return true;}return false;}
 let sentSnapshot:State|undefined;let receivedSnapshot=false;
 let transportConnected=false,syncRequest='',syncSince=0,lastProbe=0,probeId='';
 function requestStateSync(){
@@ -65,7 +67,10 @@ function handleDemoReset(next:State){
 }
 function publish(){handleDemoReset(store.state);snap.state=store.state;notify();sendSnapshot();clearTimeout(saveTimer);saveTimer=setTimeout(()=>localStorage.setItem('mobile-input-state-v1',JSON.stringify({...store.state,gameKeys:[]})),300);}
 function saveCritical(type:string,ok:boolean){if(!ok||!type.startsWith('paint-')&&!type.startsWith('wb-')&&!type.startsWith('bili-')||['wb-edit','wb-focus'].includes(type))return;clearTimeout(saveTimer);try{localStorage.setItem('mobile-input-state-v1',JSON.stringify({...store.state,gameKeys:[]}));}catch{toast('本地保存失败，请导出数据');}}
+export function sendDeckPacket(packet:unknown){return snap.connected&&transmit(packet);}
+export function deckLinkReady(){return snap.connected;}
 function receive(m:{kind:string;state?:State;command?:Command;ack?:Ack;message?:string;base?:number;session?:number;delta?:Delta[];pointer?:State['inputPointer'];app?:State['app'];syncId?:string;probeId?:string;stamp?:string;demoGeneration?:number}){
+ if(m.kind==='deck-asset'||m.kind==='deck-asset-reply'){void receiveDeckPacket(m);return;}
  if(m.kind==='connected'){connected();return;}
  if(m.kind==='disconnected'){disconnected();return;}
  if(m.kind==='error'){snap.status=m.message||'连接失败';notify();return;}
@@ -75,7 +80,7 @@ function receive(m:{kind:string;state?:State;command?:Command;ack?:Ack;message?:
   if(!transportConnected||m.probeId!==probeId)return;
   probeId='';if(m.session===snap.state.startedAt&&typeof m.base==='number'&&m.base<snap.state.revision)return;if(m.stamp!==stateStamp(snap.state))requestStateSync();return;
  }
- if(m.kind==='command'&&role==='tablet'&&m.command){if(['capture-started',...(snap.state.capture?.kind==='camera'?[]:['capture-ready','capture-failed']),'chat-read-stage','present-volume-result','wb-tick','wb-fb-ai-finish','bili-time'].includes(m.command.type))return;const ack=store.dispatch({...m.command,demoGeneration:m.command.demoGeneration||0,inputClient:m.command.inputClient||''});if(m.command.type==='input-pointer'){snap.state=store.state;notify();transmit({kind:'pointer-ack',ack,pointer:store.state.inputPointer,app:store.state.app,session:store.state.startedAt});return;}publish();if(!ack.ok&&m.command.type.startsWith('bili-'))toast(ack.error||'视频操作失败');saveCritical(m.command.type,ack.ok);if(m.command.type!=='input-pointer')transmit({kind:'ack',ack});}
+ if(m.kind==='command'&&role==='tablet'&&m.command){if(['capture-started',...(snap.state.capture?.kind==='camera'?[]:['capture-ready','capture-failed']),'chat-read-stage','present-volume-result','wb-tick','wb-deck-stage','wb-deck-complete','wb-deck-failed','wb-fb-ai-finish','bili-time'].includes(m.command.type))return;const ack=store.dispatch({...m.command,demoGeneration:m.command.demoGeneration||0,inputClient:m.command.inputClient||''});if(m.command.type==='input-pointer'){snap.state=store.state;notify();transmit({kind:'pointer-ack',ack,pointer:store.state.inputPointer,app:store.state.app,session:store.state.startedAt});return;}publish();if(!ack.ok&&m.command.type.startsWith('bili-'))toast(ack.error||'视频操作失败');saveCritical(m.command.type,ack.ok);if(m.command.type!=='input-pointer')transmit({kind:'ack',ack});}
  if(m.kind==='snapshot-delta'&&role==='phone'){
   if(syncRequest)return;
   if((m.demoGeneration||0)!==(snap.state.demoGeneration||0)){if((m.demoGeneration||0)>(snap.state.demoGeneration||0))requestStateSync();return;}
@@ -89,7 +94,10 @@ function receive(m:{kind:string;state?:State;command?:Command;ack?:Ack;message?:
    if(!transportConnected||m.syncId&&m.syncId!==syncRequest)return;
    if(syncRequest&&m.syncId!==syncRequest)return;
   }
-  if((m.state.demoGeneration||0)<(snap.state.demoGeneration||0))return;
+  // Build numbers belong to each installed package; the paired tablet owns demo
+  // generations. A freshly upgraded phone must accept its first authority snapshot,
+  // even when the tablet was built earlier. Later packets still cannot roll back a reset.
+  if(receivedSnapshot&&(m.state.demoGeneration||0)<(snap.state.demoGeneration||0))return;
   handleDemoReset(m.state);
   if(!syncRequest&&m.state.startedAt===snap.state.startedAt&&m.state.revision<snap.state.revision)return;
   syncRequest='';syncSince=0;snap.syncing=false;
@@ -109,10 +117,10 @@ function settleReceipt(id:string){const p=pending.get(id),ack=p?.ack;if(!p||!ack
 }
 function connected(){clearTimeout(reconnect);transportConnected=true;syncRequest='';probeId='';lastProbe=Date.now();snap.syncing=role==='phone'&&method==='distributed';receivedSnapshot=false;sentSnapshot=undefined;snap.connected=role==='tablet'||method!=='distributed';snap.status=method==='distributed'&&role==='phone'?'正在同步工作台':'已连接';notify();if(role==='tablet'){if(method!=='distributed')publish();}else requestStateSync();}
 function disconnected(){transportConnected=false;syncRequest='';probeId='';syncSince=0;snap.syncing=false;sentSnapshot=undefined;receivedSnapshot=false;snap.connected=false;snap.status='连接已断开，正在重新连接';if(role==='tablet'){store.dispatch({id:uid(),type:'release'});store.dispatch({id:uid(),type:'input-session-pause'});snap.state=store.state;}notify();for(const [id,p] of pending){clearTimeout(p.timer);p.resolve({id,ok:false,error:'连接中断，请核对平板结果',revision:snap.state.revision});}pending.clear();if(method!=='distributed'&&role==='phone'&&credentials){clearTimeout(reconnect);reconnect=setTimeout(()=>connect(credentials!.address,credentials!.pin),2500);}else if(role==='tablet'&&!window.MobileNative&&ws?.readyState!==1){clearTimeout(reconnect);reconnect=setTimeout(()=>startWeb(pin),2500);}}
-export async function command(type:string,value?:unknown,anchor?:{id?:string;targetId?:string;targetRevision?:number;app?:State['app']}):Promise<Ack>{const c:Command={demoGeneration:snap.state.demoGeneration||0,...(role==='phone'?{inputClient:snap.state.inputSession?.client||'',inputSession:snap.state.inputSession?.id||''}:{}),id:uid(),type,value,app:snap.state.app,sessionId:snap.state.startedAt,...anchor};if(role==='tablet'){const ack=store.dispatch(c);if(!ack.ok)toast(ack.error||'操作失败');publish();saveCritical(type,ack.ok);if(ack.ok&&!snap.connected&&['select','chat-focus','wb-focus','wb-fb-focus','wb-object-select','paint-focus','bili-focus','mail-compose','mail-resume'].includes(type))toast('手机尚未连接，请打开右上角连接设置');return ack;}
+export async function command(type:string,value?:unknown,anchor?:{id?:string;targetId?:string;targetRevision?:number;app?:State['app']}):Promise<Ack>{if(role==='phone'&&controlDestination()!=='demo')return {id:uid(),ok:false,error:'当前为真实应用控制，演示命令已暂停',revision:snap.state.revision};const c:Command={demoGeneration:snap.state.demoGeneration||0,...(role==='phone'?{inputClient:snap.state.inputSession?.client||'',inputSession:snap.state.inputSession?.id||''}:{}),id:uid(),type,value,app:snap.state.app,sessionId:snap.state.startedAt,...anchor};if(role==='tablet'){const ack=store.dispatch(c);if(!ack.ok)toast(ack.error||'操作失败');publish();saveCritical(type,ack.ok);if(ack.ok&&!snap.connected&&!(value&&typeof value==='object'&&'localEdit' in value&&value.localEdit===true)&&['select','chat-focus','wb-focus','wb-fb-focus','wb-object-select','paint-focus','bili-focus','mail-compose','mail-resume'].includes(type))toast('手机尚未连接，请打开右上角连接设置');return ack;}
  if(!snap.connected){toast('尚未连接，输入已保留');return {id:c.id,ok:false,error:'未连接',revision:snap.state.revision};}
  const failureKey=type.startsWith('present-')&&value&&typeof value==='object'&&'gesture' in value?String(value.gesture):undefined;
- return new Promise(resolve=>{const timer=setTimeout(()=>{pending.delete(c.id);resolve({id:c.id,ok:false,error:'未收到回执，请核对平板',revision:snap.state.revision});commandError('未收到回执，请核对平板',failureKey);requestStateSync();},method==='distributed'&&type.startsWith('capture-')?30000:4000);pending.set(c.id,{resolve,timer,failureKey,type});transmit({kind:'command',command:c});});}
+ return new Promise(resolve=>{const timer=setTimeout(()=>{pending.delete(c.id);resolve({id:c.id,ok:false,error:'未收到回执，请核对平板',revision:snap.state.revision});commandError('未收到回执，请核对平板',failureKey);requestStateSync();},method==='distributed'&&(type.startsWith('capture-')||type.startsWith('wb-deck-'))?30000:4000);pending.set(c.id,{resolve,timer,failureKey,type});transmit({kind:'command',command:c});});}
 export function choose(id:string,label:string,kind:'text'|'number'|'drawing'|'slide'|'media'|'game'|'message',value=''){return command('select',{id,label,kind,value});}
 export function input(value:string){const t=snap.state.target;return command('input',value,{targetId:t?.id,targetRevision:t?.revision});}
 export function connect(address:string,code:string){if(method!=='lan')selectConnectionMethod('lan');credentials={address,pin:code};snap.status='正在连接';notify();if(window.MobileNative){window.MobileNative.connect(address,code);return;}startWeb(code,address);}
@@ -123,7 +131,7 @@ function start(){if(started)return;started=true;if(window.MobileNative){if(metho
 window.addEventListener('native-ready',e=>{const name=(e as CustomEvent).detail?.deviceName;if(role==='tablet'&&typeof name==='string')void command('device-name',name);start();});
 window.addEventListener('native-message',e=>receive((e as CustomEvent).detail));
 window.addEventListener('native-status',e=>{const d=(e as CustomEvent).detail;if(d.transport&&d.transport!==method)return;if(method==='distributed'&&!d.transport)return;if(d.type==='connected')connected();else if(d.type==='disconnected'){disconnected();if(method==='distributed'){snap.status='协同连接已断开，请重新连接';notify();}}else{if(d.address)snap.address=d.address;snap.status=d.type==='hosting'?'等待手机连接':d.type==='found'?'已发现平板':d.message||snap.status;notify();}});
-window.addEventListener('native-scan',e=>{try{const d=JSON.parse((e as CustomEvent).detail);if(method!=='lan')return;if(d.kind==='mobile-input'&&typeof d.address==='string'&&/^\d{6}$/.test(d.pin))connect(d.address,d.pin);else toast('这不是 Input Agent 配对码');}catch{toast('无法读取配对信息');}});
+window.addEventListener('native-scan',e=>{try{const d=JSON.parse((e as CustomEvent).detail);if(method!=='lan'||controlDestination()!=='demo')return;if(d.kind==='mobile-input'&&typeof d.address==='string'&&/^\d{6}$/.test(d.pin))connect(d.address,d.pin);else toast('这不是 Input Agent 配对码');}catch{toast('无法读取配对信息');}});
 window.addEventListener('native-foreground',e=>{if(role==='tablet')command('presentation-active',Boolean((e as CustomEvent).detail));if(!(e as CustomEvent).detail){command('release');command('input-session-pause');}else if(method==='distributed'&&role==='phone')requestStateSync();else if(method!=='distributed'&&credentials)connect(credentials.address,credentials.pin);});
 document.addEventListener('visibilitychange',()=>{if(role==='tablet')command('presentation-active',!document.hidden);if(document.hidden){command('release');command('input-session-pause');}else if(method==='distributed'&&role==='phone')requestStateSync();});
 setInterval(()=>{if(role==='tablet'&&((store.state.gameKeys.length&&Date.now()-store.state.gameHeartbeat>700)||(store.state.presentation.pointer.active&&Date.now()-store.state.presentation.pointer.heartbeat>700))){store.dispatch({id:uid(),type:'release'});publish();}},200);
@@ -135,7 +143,7 @@ window.addEventListener('native-back',navigateBack);
 
 export function currentState(){return snap.state;}
 
-setInterval(()=>{if(role!=='tablet'||document.hidden||snap.state.app!=='workbuddy')return;for(const task of [...store.state.workbuddy.tasks])if(task.status==='running'&&Date.now()-task.startedAt>=750)command('wb-tick',{id:task.id,epoch:task.epoch});const now=new Date();for(const a of [...store.state.workbuddy.automations])if(a.enabled&&a.lastDay!==now.toLocaleDateString('en-CA')&&a.days.includes(now.getDay())&&a.time===now.toTimeString().slice(0,5))command('wb-automation',{id:a.id,action:'due'});},1000);
+setInterval(()=>{if(role!=='tablet'||document.hidden||snap.state.app!=='workbuddy')return;for(const task of [...store.state.workbuddy.tasks])if(!task.deckJob&&task.status==='running'&&Date.now()-task.startedAt>=750)command('wb-tick',{id:task.id,epoch:task.epoch});const now=new Date();for(const a of [...store.state.workbuddy.automations])if(a.enabled&&a.lastDay!==now.toLocaleDateString('en-CA')&&a.days.includes(now.getDay())&&a.time===now.toTimeString().slice(0,5))command('wb-automation',{id:a.id,action:'due'});},1000);
 
 setInterval(()=>{if(role!=="tablet"||document.hidden||snap.state.app!=="workbuddy")return;const b=browserState(store.state);if(!b)return;for(const [file,co]of Object.entries(b.conversations))if(co.pending&&Date.now()-co.pending.at>=700)command("wb-fb-ai-finish",{file,epoch:co.pending.id});for(const view of [...b.windows,b.panel])for(const file of view.tabs){const format=store.state.workbuddy.files.find(f=>f.id===file)?.kind,a=view.working[file];if(a&&["markdown","text"].includes(format||"")&&Date.now()-a.changedAt>=500&&fileDirty(store.state,view,file)&&a.base===b.docs[file]?.revision)command("wb-fb-save",{view:view.id,file,source:"自动保存"});}},100);
 
@@ -168,3 +176,5 @@ setInterval(()=>{
  if(now-lastProbe<1500)return;
  lastProbe=now;probeId=uid();transmit({kind:'state-probe',probeId});
 },500);
+
+window.addEventListener('control-destination-change',()=>{if(role==='phone'&&controlDestination()==='demo')retryStateSync();});

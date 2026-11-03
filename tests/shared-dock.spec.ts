@@ -10,9 +10,9 @@ async function layout(page:Page){return page.locator('.input-dock').evaluate(el=
  return {x:r.x-d.x,y:r.y-d.bottom,width:r.width,height:r.height,clip:s.clipPath,visible:s.display!=='none'&&s.visibility!=='hidden'&&l.width>30&&l.height>10,fits:l.left>=r.left&&l.right<=r.right&&l.top>=r.top&&l.bottom<=r.bottom,text:label.textContent};
 });}
 test('all shared scenes keep labeled voice and fixed footer geometry in every mode',async({browser})=>{
- const ctx=await browser.newContext(),tablet=await ctx.newPage(),phone=await ctx.newPage();await pair(tablet,phone);
+ const ctx=await browser.newContext(),tablet=await ctx.newPage(),phone=await ctx.newPage();await pair(tablet,phone);test.setTimeout(90000);
  for(const [width,height] of [[390,844],[390,700],[360,700]]){
-  await phone.setViewportSize({width,height});let baseline:Awaited<ReturnType<typeof layout>>|undefined;
+  await phone.setViewportSize({width,height});const baseline:Record<string,Awaited<ReturnType<typeof layout>>>={};
   for(const app of ['desktop','workbuddy','wechat','mail','notes','doubao','paint','bilibili']){
    await command(tablet,'open',app);
    if(app==='workbuddy')await command(tablet,'wb-focus',{id:'wb:draft:new'});
@@ -21,10 +21,10 @@ test('all shared scenes keep labeled voice and fixed footer geometry in every mo
    for(const mode of ['keyboard','trackpad','collapsed']){
     if(mode==='collapsed'){const active=phone.locator('.input-mode-key[aria-pressed=true]');if(await active.count())await active.click();}
     else{const button=phone.getByRole('button',{name:mode==='keyboard'?'键盘':'触控板',exact:true});if(await button.getAttribute('aria-pressed')!=='true')await button.click();}
-    const g=await layout(phone);expect(g.visible,app+'/'+mode).toBe(true);expect(g.fits,app+'/'+mode).toBe(true);expect(g.clip).toBe('none');expect(g.text).toBe('智慧语音');expect(g.width).toBe(96);expect(g.height).toBe(56);
-    if(!baseline)baseline=g;else expect(g,app+'/'+mode).toEqual(baseline);
+    const g=await layout(phone);expect(g.visible,app+'/'+mode).toBe(true);expect(g.fits,app+'/'+mode).toBe(true);expect(g.clip).toBe('none');expect(g.text).toBe('智慧语音');expect(g.width).toBe(mode==='collapsed'?(width===360?224:240):96);expect(g.height).toBe(56);
+    if(!baseline[mode])baseline[mode]=g;else expect(g,app+'/'+mode).toEqual(baseline[mode]);
     const d=(await phone.locator('.input-dock').boundingBox())!;expect(d.x).toBeGreaterThanOrEqual(0);expect(d.x+d.width).toBeLessThanOrEqual(width+.5);expect(d.y+d.height).toBeLessThanOrEqual(height+.5);
-    if(width===390&&mode==='keyboard')await phone.locator('.input-dock').screenshot({path:`artifacts/shared-dock/${app}-keyboard.png`});
+    if(width===390&&height===844)await phone.locator('.input-dock').screenshot({path:`artifacts/shared-dock/${app}-${mode}.png`});
    }
   }
  }
@@ -39,7 +39,7 @@ test('manual dock mode survives task remounts, object revisions and explicit col
   await expect(phone.getByLabel('展开触控板')).toBeVisible();
  }
  await phone.getByRole('button',{name:'键盘',exact:true}).click();
- await phone.getByRole('button',{name:'新建输入任务',exact:true}).click();
+ await phone.getByRole('button',{name:'新建 WorkBuddy 任务',exact:true}).click();
  await expect(phone.getByLabel('展开键盘')).toBeVisible();
  await command(tablet,'wb-fb-open',{file:'sales-slides'});
  const view=await tablet.evaluate(async()=>{const r=await import(performance.getEntriesByType('resource').find(e=>/\/src\/runtime\.ts(?:\?|$)/.test(e.name))!.name);return r.currentState().workbuddy.fileBrowser.windows.at(-1).id;});

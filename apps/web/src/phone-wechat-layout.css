@@ -14,7 +14,6 @@
 .wechat-phone .glass-input{padding:2px 16px 6px;border-radius:26px 26px 0 0}
 .wechat-phone .edit-tools{height:48px;margin:0 -6px 2px}
 .wechat-phone .phone-draft-surface textarea{height:64px;min-height:48px;padding:10px 12px;font-size:14px;line-height:21px}
-.wechat-phone .polish-slot{height:30px;min-height:30px}
 .wechat-phone .speech-status-slot{height:20px}
 .wechat-phone .glass-bottom>button{height:48px}
 /* Keep all controls reachable on shorter displays; only long source text scrolls. */
@@ -25,6 +24,8 @@
 .wechat-phone .edit-tools,.wechat-phone .speech-status-slot,.wechat-phone .glass-bottom{flex-shrink:0}
 .wechat-phone .phone-draft-surface{display:flex;flex-direction:column;flex:1;min-height:96px}
 .wechat-phone .phone-draft-surface textarea{flex:1;min-height:64px;height:0}
-.wechat-phone .polish-slot{flex-shrink:0}
 /* Shared input rules: one synced field, fixed dock, scrollable context. */
 .wechat-phone{height:100dvh;overflow:hidden}.wechat-phone .glass-status{flex:none;gap:12px}.wechat-phone .glass-status>span:nth-child(2){margin-right:auto}.wechat-phone .glass-status>button{min-width:44px;min-height:44px}.wechat-phone .glass-context{flex:1 1 auto;min-height:0;overflow:auto}.wechat-phone .glass-input{position:relative;flex:0 1 180px;min-height:125px;padding:10px 16px 42px;background:#ffffff88;margin:0 16px 8px;border-radius:22px}.wechat-phone .phone-draft-surface{min-height:70px}.wechat-phone .phone-draft-surface textarea{min-height:40px}.wechat-inline-send{position:absolute;right:14px;bottom:8px;height:34px;min-width:68px;border:0;border-radius:18px;background:#3b817b;color:white;display:flex;align-items:center;justify-content:center;gap:4px}.wechat-phone .input-dock{--dock-bg:#dce9e9d9}.wechat-phone:has(.input-dock.expanded) .glass-input{flex-basis:120px;min-height:110px}.wechat-phone:has(.input-dock.expanded) .glass-context{flex-basis:70px}
+/* The reusable polish row follows the composer; service recommendations remain above it. */
+.wechat-phone .glass-input:has(+ .contextual-polish){margin-bottom:0}
+.wechat-phone>.contextual-polish{margin-left:16px;margin-right:16px}

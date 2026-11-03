@@ -3,6 +3,8 @@ export const LOCAL_ORIGIN:string='https://mobile-input.invalid/';
 // Serve packaged resources under one local origin so modules, fonts and fetch work.
 // No request handled here is forwarded to the network.
 export function localResponse(url:string,context:common.UIAbilityContext):WebResourceResponse {
+ // ArkWeb documents null as passthrough; this SDK callback type omits null.
+ if(url.startsWith('blob:'+LOCAL_ORIGIN))return null!;
  const response=new WebResourceResponse();
  response.setResponseEncoding('utf-8');
  try {
