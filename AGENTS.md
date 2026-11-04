@@ -1,3 +1,7 @@
+# Public demo access override · 2026-11-04
+
+- User explicitly requests a public Vercel demo link that others can open without login. Disable Vercel SSO protection for this standalone project; do not reintroduce login or an access-code gate. This supersedes the earlier authenticated-generation/deployment requirement below. Keep Google credentials server-only and preserve same-origin input validation and the existing explicit-Send behavior.
+
 # Standalone color repair and hosted handoff · 2026-11-04
 
 - User explicitly authorizes repairing the black color widget, packaging all standalone-project source into a ZIP, uploading to the existing Google Drive TEMP folder, and publishing the Web app on Vercel. This overrides this branch's earlier no-cloud-publication limit; do not push Git or modify main/native apps/Figma.

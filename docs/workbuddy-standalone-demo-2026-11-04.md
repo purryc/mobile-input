@@ -104,6 +104,6 @@ npm run preview:workbuddy-demo -- --port 5208
 - 字体黑色和未指定角色的黑色入口均显示黑/灰/白预设与灰阶滑条，主题色仍保持自己的预设。
 - `scripts/workbuddy-demo-release.mjs` 从入口递归收集完整本地依赖，包含源码、共享模块、静态资源、测试、锁文件、本机服务与 Vercel 路由。不包含私人草稿、截图、密钥、设备包、node_modules 或 Git 历史。ZIP 顶层 README 和 SOURCE-MANIFEST.json 说明来源和启动方法。
 - 解压后运行 `npm ci`、`npm run dev:workbuddy-demo` 即可启动；`npm run build:workbuddy-demo` 构建生产资源。压缩包内 `npm test` 为本版相关的 24 项核心测试，原工作区全量核心测试为 234 项；17 项 Chrome 浏览器回归已通过。
-- Vercel 项目为 `purrycs-projects/workbuddy-web-demo`，线上生成密钥仅放在 Vercel Secret 环境变量，所有部署启用 Vercel 登录保护（含生产域名）。首次访问需登录拥有该项目权限的 Vercel 账号。
+- Vercel 项目为 `purrycs-projects/workbuddy-web-demo`，线上生成密钥仅放在 Vercel Secret 环境变量。按用户最新要求，Vercel 登录保护已关闭，分享 https://workbuddy-web-demo.vercel.app 即可直接体验，无需账号或访问码。
 - Vercel 线上版每次请求的材料总量请控制在约 3 MB 内（JSON 编码上限 4.3 MB），超限会保留草稿并提示改用本机版；本机原有 8 MB 单份/24 MB 总量限制保留。线上浏览器存储与 localhost 独立，不自动上传旧草稿。
 - Vercel 部署适配在 `api/workbuddy-demo/[action].ts`，配置为 `vercel.workbuddy-demo.json`（交付包同时提供 `vercel.json`）。部署命令从解压目录运行 `npx vercel link --project workbuddy-web-demo --scope purrycs-projects`，核对项目后使用 `npx vercel deploy --prod`；不需要 Git push。
