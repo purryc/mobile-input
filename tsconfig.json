@@ -16,6 +16,7 @@
   "include": [
     "apps/web/src",
     "packages/core",
+    "api",
     "vite.config.ts",
     "vite.workbuddy-demo.config.ts"
   ]

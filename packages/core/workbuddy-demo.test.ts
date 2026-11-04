@@ -247,3 +247,36 @@ test("unpunctuated colloquial ASR keeps independent colors and minimal document 
     0,
   );
 });
+
+test("font ASR copula preserves scoped black color binding and manual value", () => {
+  const text = "主题色是用红色，字体适用黑色的微软雅黑";
+  const draft = editDemoText(newDemoState().drafts[0], text);
+  const color = draft.parameters.find((p) => p.role === "字体")!;
+  assert.equal(color.phrase, "黑色");
+  assert.equal(text.slice(color.start, color.end), "黑色");
+  assert.equal(draft.parameters.filter((p) => p.role === "颜色").length, 0);
+  draft.parameters = draft.parameters.map((p) =>
+    p.id === color.id
+      ? {
+          ...p,
+          id: "color:全文:颜色",
+          role: "颜色",
+          manual: true,
+          value: "#000000",
+          label: "#000000",
+        }
+      : p,
+  );
+  assert.equal(
+    editDemoText(draft, text + "，正文简短").parameters.find(
+      (p) => p.role === "字体",
+    )?.value,
+    "#000000",
+  );
+  assert.equal(
+    editDemoText(draft, "不要字体适用黑色").parameters.filter(
+      (p) => p.kind === "color",
+    ).length,
+    0,
+  );
+});

@@ -1,3 +1,10 @@
+# Standalone color repair and hosted handoff · 2026-11-04
+
+- User explicitly authorizes repairing the black color widget, packaging all standalone-project source into a ZIP, uploading to the existing Google Drive TEMP folder, and publishing the Web app on Vercel. This overrides this branch's earlier no-cloud-publication limit; do not push Git or modify main/native apps/Figma.
+- Recognize bounded 字体适用黑色/字体是用黑色 as font color, retain source offsets/negation/manual values. Generic black/gray color entries must offer neutral presets and a grayscale ramp, not the red theme palette. Keep role palettes and accepted widget dimensions.
+- Keep release tooling in scripts/workbuddy-demo-*. Package a dependency-complete standalone source tree (including shared transitive modules, assets, tests, lockfile, local/hosted config and startup docs); verify a clean extracted build. Delivery staging and checksums stay under ignored artifacts/workbuddy-demo/release/. Exclude secrets, local drafts, personal media, native builds, caches and Git history.
+- Hosted API adaptation must preserve explicit Send, pending-material guards, NDJSON stages, cancellation, same-origin access and server-only credentials. Respect hosted payload limits with actionable feedback. Do not expose the existing paid model credential through a public unauthenticated generation endpoint. Verify the resolved Vercel project before publishing; keep source ZIP and deployed snapshot traceable and verify the Drive upload metadata/checksum.
+
 # Standalone generated results · 2026-11-04
 
 - The user now explicitly extends this demo beyond input snapshots: Send opens the existing tablet WorkBuddy task/conversation and tabbed artifact layout, with real presentation, document and image generation. This supersedes the input-only/model prohibition below, only for this standalone branch.

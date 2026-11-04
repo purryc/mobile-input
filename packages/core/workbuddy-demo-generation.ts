@@ -2,13 +2,13 @@ import {
   generateDeck,
   type DeckModelCall,
   type DeckSource,
-} from "./web-deck-generation";
+} from "./web-deck-generation.js";
 import {
   validAsset,
   validParameter,
   type DeckInput,
   type WebDeck,
-} from "./web-deck";
+} from "./web-deck.js";
 import type { LiveParameter } from "./live-workbuddy";
 
 export type DemoOutput =

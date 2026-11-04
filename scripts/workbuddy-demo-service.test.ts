@@ -79,7 +79,7 @@ test("loopback service calls real-shaped Google contracts, streams outputs, reje
     sources: [],
   };
   const post = (data = body, extra = {}) =>
-    originalFetch(url + "/api/workbuddy-demo/generate", {
+    originalFetch(url + "/api/workbuddy-demo/generate?action=generate", {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify(data),
@@ -87,7 +87,7 @@ test("loopback service calls real-shaped Google contracts, streams outputs, reje
     });
   try {
     const status = (await (
-      await originalFetch(url + "/api/workbuddy-demo/status")
+      await originalFetch(url + "/api/workbuddy-demo/status?action=status")
     ).json()) as any;
     assert.equal(status.configured, true);
     assert.equal(JSON.stringify(status).includes("test-only"), false);

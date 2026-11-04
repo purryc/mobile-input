@@ -55,10 +55,16 @@ export async function runDemoGeneration(
   };
   validateDemoGeneration(input);
   signal.throwIfAborted();
+  const payload = JSON.stringify(input);
+  const hosted = !["localhost", "127.0.0.1", "[::1]"].includes(
+    location.hostname,
+  );
+  if (hosted && new Blob([payload]).size > 4300000)
+    throw Error("线上版材料总量请控制在 3 MB 内；较大材料请使用本机版");
   const response = await fetch("/api/workbuddy-demo/generate", {
     method: "POST",
     headers: { "content-type": "application/json" },
-    body: JSON.stringify(input),
+    body: payload,
     signal,
   });
   if (!response.ok) {

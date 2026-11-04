@@ -7,7 +7,7 @@ import {
   validateDemoGeneration,
   type DemoModels,
   type DemoGenerationInput,
-} from "../packages/core/workbuddy-demo-generation";
+} from "../packages/core/workbuddy-demo-generation.js";
 
 const keyFile =
   process.env.WORKBUDDY_DEMO_KEY_FILE ||
@@ -104,20 +104,29 @@ export function workbuddyDemoMiddleware(
   res: ServerResponse,
   next: () => void,
 ) {
-  if (!req.url?.startsWith("/api/workbuddy-demo/")) {
+  const path = new URL(req.url || "/", "http://localhost").pathname;
+  if (!path.startsWith("/api/workbuddy-demo/")) {
     next();
     return;
   }
-  void (async () => {
+  return (async () => {
     const host = req.headers.host || "";
+    const hosted = process.env.VERCEL === "1";
+    const allowedHosts = [
+      process.env.VERCEL_URL,
+      process.env.VERCEL_PROJECT_PRODUCTION_URL,
+    ].filter(Boolean);
+    const allowedHost = hosted
+      ? allowedHosts.includes(host)
+      : /^(localhost|127\.0\.0\.1)(:\d+)?$/.test(host);
     if (
-      !/^(localhost|127\.0\.0\.1)(:\d+)?$/.test(host) ||
+      !allowedHost ||
       (req.headers.origin && new URL(req.headers.origin).host !== host)
     )
-      throw Error("只允许本机演示页面访问");
+      throw Error("只允许当前演示页面同源访问");
     res.setHeader("Cache-Control", "no-store");
     res.setHeader("X-Content-Type-Options", "nosniff");
-    if (req.method === "GET" && req.url === "/api/workbuddy-demo/status") {
+    if (req.method === "GET" && path === "/api/workbuddy-demo/status") {
       res.setHeader("Content-Type", "application/json");
       res.end(
         JSON.stringify({
@@ -128,19 +137,35 @@ export function workbuddyDemoMiddleware(
       );
       return;
     }
-    if (req.method !== "POST" || req.url !== "/api/workbuddy-demo/generate") {
+    if (req.method !== "POST" || path !== "/api/workbuddy-demo/generate") {
       res.statusCode = 404;
       res.end();
       return;
     }
     if (active >= 2) throw Error("已有两个任务正在生成，请稍后重试");
+    // Vercel may supply an already parsed body; local Vite supplies the raw stream.
+    const parsedBody = (req as IncomingMessage & { body?: unknown }).body;
     const chunks: Buffer[] = [];
     let size = 0;
-    for await (const chunk of req) {
-      size += chunk.length;
-      if (size > 35 * 1024 * 1024) throw Error("材料过大，请减少后重试");
-      chunks.push(chunk);
-    }
+    if (parsedBody !== undefined) {
+      const data = Buffer.isBuffer(parsedBody)
+        ? parsedBody
+        : Buffer.from(
+            typeof parsedBody === "string"
+              ? parsedBody
+              : JSON.stringify(parsedBody),
+          );
+      chunks.push(data);
+      size = data.length;
+    } else
+      for await (const chunk of req) {
+        size += chunk.length;
+        if (size > (hosted ? 4300000 : 35 * 1024 * 1024))
+          throw Error("材料过大，请减少后重试");
+        chunks.push(chunk);
+      }
+    if (hosted && size > 4300000)
+      throw Error("线上版材料总量请控制在 3 MB 内；较大材料请使用本机版");
     let body: DemoGenerationInput;
     try {
       body = JSON.parse(Buffer.concat(chunks).toString());

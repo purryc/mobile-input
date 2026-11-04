@@ -33,7 +33,7 @@ export function extractLiveParameters(text:string):LiveParameter[]{
  // the original string so display/source offsets never refer to normalized prose.
  const roles:Record<string,string>={主色:'主题色',主题:'主题色',主题测试:'主题色',文字:'字体'};
  const aliases:Record<string,string>={红:'红色',蓝:'蓝色',黑:'黑色',白:'白色',灰:'灰色',绿:'绿色',黄:'黄色',橙:'橙色',紫:'紫色'};
- for(const m of text.matchAll(/(背景|主题测试|主题色|主色|主题|字体|文字|标题|强调色)(?:的)?(?:颜色|色)?(?:呢|啊|嗯)?[\s。．，,：:]{0,6}(?:我想|我希望|希望)?(?:设置成|设置为|换成|改成|改为|设为|采用|使用|选择|要用|是用|用|要|是|为)?[\s。．，,：:]{0,6}(#[0-9a-fA-F]{6}|高级灰|深红|红色?|蓝色?|黑色?|白色?|灰色?|绿色?|黄色?|橙色?|紫色?)(?=$|[\s，,。；;！!？?、的]|背景|字体|文字|主题|主色|然后|还有|以及|需要|参考|再|并|我|加|讲)/g)){
+ for(const m of text.matchAll(/(背景|主题测试|主题色|主色|主题|字体|文字|标题|强调色)(?:的)?(?:颜色|色)?(?:呢|啊|嗯)?[\s。．，,：:]{0,6}(?:我想|我希望|希望)?(?:设置成|设置为|换成|改成|改为|设为|采用|使用|适用|选择|要用|是用|用|要|是|为)?[\s。．，,：:]{0,6}(#[0-9a-fA-F]{6}|高级灰|深红|红色?|蓝色?|黑色?|白色?|灰色?|绿色?|黄色?|橙色?|紫色?)(?=$|[\s，,。；;！!？?、的]|背景|字体|文字|主题|主色|然后|还有|以及|需要|参考|再|并|我|加|讲)/g)){
   const before=text.slice(Math.max(0,m.index!-30),m.index!).split(/[，,。；;\n]/).at(-1)||'';
   if(/(?:不要|不用|别|取消|不需要|无需)[^，,]*$/.test(before))continue;
   const prefix=text.slice(0,m.index!).split(/[。；;\n]/).at(-1)||'';
@@ -57,7 +57,7 @@ export function extractLiveParameters(text:string):LiveParameter[]{
  return [...last.values()].sort((a,b)=>a.start-b.start).map(p=>({...p,id:`${p.kind}:${p.scope}:${p.role}`}));
 }
 export function resolveLiveParameters(text:string,previous:LiveParameter[]=[]):LiveParameter[]{
- return extractLiveParameters(text).map(p=>{const canonical=(role:string)=>({主色:'主题色',主题:'主题色',主题测试:'主题色',文字:'字体'} as Record<string,string>)[role]||role;const old=previous.find(x=>x.id===p.id||x.kind===p.kind&&x.scope===p.scope&&canonical(x.role)===p.role);return old?.manual&&old.phrase===p.phrase?{...p,value:old.value,label:old.label,manual:true}:p;});
+ return extractLiveParameters(text).map(p=>{const canonical=(role:string)=>({主色:'主题色',主题:'主题色',主题测试:'主题色',文字:'字体'} as Record<string,string>)[role]||role;const old=previous.find(x=>x.id===p.id||x.kind===p.kind&&x.scope===p.scope&&canonical(x.role)===p.role)||previous.find(x=>x.kind==='color'&&p.kind==='color'&&x.role==='颜色'&&x.scope===p.scope&&x.phrase===p.phrase&&x.start===p.start&&x.end===p.end);return old?.manual&&old.phrase===p.phrase?{...p,value:old.value,label:old.label,manual:true}:p;});
 }
 /** The editor stays rich locally; adapters only receive this target-compatible projection. */
 export interface TargetMaterial {id:string;name:string;kind:'document'|'photo'|'sketch';scope?:string;}

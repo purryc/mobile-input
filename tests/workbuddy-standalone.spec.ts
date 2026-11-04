@@ -555,3 +555,40 @@ test("existing saved ASR draft reparses colors without losing materials or sourc
     page.getByRole("button", { name: "1 张图片待确认" }),
   ).toBeVisible();
 });
+
+test("black font and generic black chips open neutral palettes and keep independent roles", async ({
+  page,
+}) => {
+  await open(page);
+  await editor(page).fill("主题色是用红色，字体适用黑色的微软雅黑");
+  const chips = page.locator(".sentence-token[data-kind=color]");
+  await expect(chips).toHaveCount(2);
+  await chips.last().click();
+  await expect(
+    page.getByRole("button", { name: "字体 #000000", exact: true }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("slider", { name: "连续调色", exact: true }),
+  ).toHaveCSS(
+    "background-image",
+    "linear-gradient(90deg, rgb(250, 250, 250), rgb(20, 20, 20))",
+  );
+  await page.getByRole("button", { name: "字体 #000000", exact: true }).click();
+  await expect(page.getByRole("textbox", { name: "字体 HEX" })).toHaveValue(
+    "#000000",
+  );
+  await page.getByRole("button", { name: "关闭辅助输入" }).click();
+  await chips.first().click();
+  await expect(
+    page.getByRole("button", { name: "主题色 #C92A2A", exact: true }),
+  ).toBeVisible();
+  await page.getByRole("button", { name: "关闭辅助输入" }).click();
+  await editor(page).fill("用黑色");
+  await page.locator(".sentence-token[data-kind=color]").click();
+  await expect(
+    page.getByRole("button", { name: "颜色 #000000", exact: true }),
+  ).toBeVisible();
+  await page.screenshot({
+    path: "artifacts/workbuddy-demo/evidence/black-color-picker.png",
+  });
+});
