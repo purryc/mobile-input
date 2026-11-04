@@ -413,3 +413,136 @@ test("final speech correction cannot open an obsolete provisional widget", async
     page.getByRole("button", { name: "开始语音输入", exact: true }),
   ).toBeVisible();
 });
+
+test("tablet shell and icon-only microphone; each chip toggles its own anchored widget", async ({
+  page,
+}) => {
+  await open(page);
+  await expect(
+    page.getByRole("heading", { name: "WorkBuddy, 我帮你" }),
+  ).toBeVisible();
+  await expect(page.locator(".wb-sidebar")).toBeVisible();
+  await expect(page.locator(".wb-modes")).toHaveText("办公开发设计");
+  const mic = page.getByRole("button", { name: "开始语音输入", exact: true });
+  await expect(mic).toHaveText("");
+  const voiceBox = (await mic.boundingBox())!;
+  expect(voiceBox.width).toBe(40);
+  expect(voiceBox.height).toBe(40);
+  expect(
+    await page
+      .locator(".demo-add>button")
+      .evaluate((el) => getComputedStyle(el).backgroundColor),
+  ).toBe("rgba(0, 0, 0, 0)");
+  await editor(page).fill(
+    "背景呢用灰色字体呢用黑色主题色呢是用红色需要参考一个我的一个本地的文件",
+  );
+  const chips = page.locator(".sentence-token[data-kind=color]");
+  await expect(chips).toHaveCount(3);
+  const first = chips.first();
+  await first.click();
+  await expect(first).toHaveAttribute("aria-expanded", "true");
+  await expect(first).toHaveAttribute("aria-controls", "demo-input-widget");
+  const popup = page.locator("#demo-input-widget");
+  await expect(popup).toBeVisible();
+  async function aligned() {
+    const chip = (await first.locator(".sentence-token-face").boundingBox())!,
+      box = (await popup.boundingBox())!;
+    expect(Math.abs(box.x - chip.x)).toBeLessThan(1);
+    expect(Math.abs(box.y - (chip.y + chip.height + 8))).toBeLessThan(1);
+  }
+  await expect
+    .poll(async () => {
+      const chip = await first.boundingBox(),
+        box = await popup.boundingBox();
+      return !!chip && !!box && Math.abs(box.x - chip.x) < 1;
+    })
+    .toBe(true);
+  await aligned();
+  await first.click();
+  await expect(popup).toHaveCount(0);
+  await expect(first).toHaveAttribute("aria-expanded", "false");
+  await chips.nth(1).click();
+  await expect(popup).toHaveCount(1);
+  await expect(page.getByText("文字颜色", { exact: true })).toBeVisible();
+  await first.click();
+  await expect(popup).toHaveCount(1);
+  await expect(page.getByText("背景颜色", { exact: true })).toBeVisible();
+  await page.setViewportSize({ width: 1280, height: 800 });
+  await expect
+    .poll(async () => {
+      const chip = (await first.locator(".sentence-token-face").boundingBox())!,
+        box = (await popup.boundingBox())!;
+      return (
+        Math.abs(box.x - chip.x) < 1 &&
+        Math.abs(box.y - chip.y - chip.height - 8) < 1
+      );
+    })
+    .toBe(true);
+  await page.locator(".wb-home").evaluate((el) => (el.scrollTop += 60));
+  await expect
+    .poll(async () => {
+      const chip = (await first.locator(".sentence-token-face").boundingBox())!,
+        box = (await popup.boundingBox())!;
+      return Math.abs(box.y - chip.y - chip.height - 8) < 1;
+    })
+    .toBe(true);
+  await page.keyboard.press("Escape");
+  await expect(popup).toHaveCount(0);
+  await page.setViewportSize({ width: 1440, height: 960 });
+  await page.locator(".wb-home").evaluate((el) => (el.scrollTop = 0));
+  await first.click();
+  await page.screenshot({
+    path: "artifacts/workbuddy-demo/evidence/chip-anchored-color.png",
+  });
+});
+
+test("existing saved ASR draft reparses colors without losing materials or source text", async ({
+  page,
+}) => {
+  await open(page);
+  const text =
+    "我想做一个11分钟的演讲稿可以请呢用灰色字体呢用黑色主题色呢是用红色需要参考一个我的一个本地的文件然后还想添加一些产品照片我会画一下";
+  await editor(page).fill(text);
+  await expect(page.getByLabel("保存状态")).toHaveText("保存在这台电脑");
+  await page.evaluate(async () => {
+    await new Promise<void>((resolve, reject) => {
+      const request = indexedDB.open("workbuddy-standalone-demo-v1");
+      request.onsuccess = () => {
+        const db = request.result,
+          tx = db.transaction("state", "readwrite"),
+          store = tx.objectStore("state"),
+          read = store.get("current");
+        read.onsuccess = () => {
+          const state = read.result,
+            draft = state.drafts.find((d: any) => d.id === state.active);
+          draft.parameters = [];
+          draft.pendingPhotos = [
+            {
+              id: "retained-photo",
+              name: "保留图片.png",
+              kind: "photo",
+              scope: "全文",
+              blob: new Blob(["test bytes"], { type: "image/png" }),
+              size: 10,
+            },
+          ];
+          store.put(state, "current");
+        };
+        tx.oncomplete = () => {
+          db.close();
+          resolve();
+        };
+        tx.onerror = () => reject(tx.error);
+      };
+    });
+  });
+  await page.reload();
+  await expect(editor(page)).toHaveAttribute("data-value", text);
+  await expect(page.locator(".sentence-token[data-kind=color]")).toHaveCount(3);
+  await expect(page.locator(".sentence-token[data-kind=document]")).toHaveText(
+    "本地的文件",
+  );
+  await expect(
+    page.getByRole("button", { name: "1 张图片待确认" }),
+  ).toBeVisible();
+});

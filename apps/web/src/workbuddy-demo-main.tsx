@@ -2,6 +2,23 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 import { createRoot } from "react-dom/client";
 import {
   ArrowUp,
+  ArrowUpRight,
+  BriefcaseBusiness,
+  CodeXml,
+  Palette,
+  PanelLeft,
+  Search,
+  CirclePlus,
+  Bot,
+  GraduationCap,
+  AlarmClock,
+  BookOpen,
+  Folder,
+  LayoutGrid,
+  Compass,
+  ChevronDown,
+  ShieldCheck,
+  Bell,
   Camera,
   Check,
   ChevronLeft,
@@ -45,7 +62,9 @@ import type { TextInputHandle } from "./text-input-handle";
 import { loadDemo, saveDemo } from "./workbuddy-demo-storage";
 import "./workbuddy.css";
 import "./phone-live-workbuddy.css";
+import "./web-deck.css";
 import "./workbuddy-demo.css";
+import { WorkBuddyDemoPopover } from "./workbuddy-demo-popover";
 
 const noInput = initialWbInput();
 type Panel = { kind: LiveInputKind; scope: string; id?: string; role?: string };
@@ -180,6 +199,10 @@ function CameraCapture({
 function App() {
   const [state, setState] = useState<DemoState | null>(null),
     latest = useRef<DemoState | null>(null);
+  const [collapsed, setCollapsed] = useState(false),
+    [mode, setMode] = useState(0),
+    [searchOpen, setSearchOpen] = useState(false),
+    [search, setSearch] = useState("");
   const pendingWrites = useRef(0),
     [saving, setSaving] = useState(false);
   const [loadError, setLoadError] = useState(""),
@@ -383,7 +406,12 @@ function App() {
   function openPanel(next: Panel) {
     void afterSpeech(() => {
       setAddMenu(false);
-      setPanel(next);
+      const parameter = latest.current?.drafts
+        .find((d) => d.id === latest.current?.active)
+        ?.parameters.find(
+          (p) => p.kind === next.kind && p.scope === next.scope,
+        );
+      setPanel({ ...next, id: next.id || parameter?.id });
     });
   }
   function openParameter(id: string) {
@@ -394,7 +422,11 @@ function App() {
         ?.parameters.find((p) => p.id === id);
       if (p) {
         setAddMenu(false);
-        setPanel({ kind: p.kind, scope: p.scope, id: p.id, role: p.role });
+        setPanel((current) =>
+          current?.id === p.id
+            ? null
+            : { kind: p.kind, scope: p.scope, id: p.id, role: p.role },
+        );
       }
     });
   }
@@ -624,35 +656,133 @@ function App() {
     );
   }
   return (
-    <div className="workbuddy demo-app live-workbuddy">
-      <aside className="demo-sidebar">
-        <div className="demo-brand">
-          <img src="./assets/apps/workbuddy.svg" alt="" />
-          <strong>WorkBuddy</strong>
+    <div
+      className={
+        "workbuddy demo-app live-workbuddy" + (collapsed ? " wb-collapsed" : "")
+      }
+    >
+      <aside className="wb-sidebar">
+        <div className="wb-brand-row">
+          <button
+            className="wb-back"
+            aria-label="返回"
+            onClick={() => {
+              setPanel(null);
+              setPreview(null);
+            }}
+          >
+            <ChevronLeft />
+          </button>
+          <button
+            aria-label={collapsed ? "展开侧栏" : "收起侧栏"}
+            onClick={() => setCollapsed(!collapsed)}
+          >
+            <PanelLeft size={17} />
+          </button>
+          <button
+            aria-label="搜索任务"
+            onClick={() => setSearchOpen(!searchOpen)}
+          >
+            <Search size={17} />
+          </button>
         </div>
-        <button className="demo-new" onClick={createDraft} disabled={busy}>
-          <Plus size={18} />
-          新建演示
-        </button>
-        <div className="demo-history-label">最近的输入</div>
-        <nav aria-label="演示草稿">
-          {state.drafts.map((d) => (
-            <button
-              key={d.id}
-              aria-current={d.id === draft.id ? "page" : undefined}
-              onClick={() => switchDraft(d.id)}
-              disabled={busy}
-            >
-              <span>{d.text.trim().slice(0, 24) || "新的想法"}</span>
-              <small>{d.requests.length ? "已发送" : "草稿"}</small>
-            </button>
-          ))}
+        <div className="wb-brand">
+          <div>
+            <b>WorkBuddy</b>
+            <small>5.9.3</small>
+          </div>
+          <button
+            aria-disabled="true"
+            onClick={() => report("本演示仅展示任务输入。")}
+          >
+            <Compass size={14} />
+            发现应用
+            <ChevronDown size={12} />
+          </button>
+        </div>
+        <nav>
+          <button
+            className="active"
+            aria-label="新建演示"
+            onClick={createDraft}
+            disabled={busy}
+          >
+            <CirclePlus size={17} />
+            新建任务
+          </button>
+          {[
+            [Bot, "助理"],
+            [GraduationCap, "专家·技能·连接器"],
+            [AlarmClock, "定时任务"],
+            [BookOpen, "资料库"],
+            [Folder, "项目"],
+          ].map(([Icon, label]) => {
+            const Glyph = Icon as typeof Bot;
+            return (
+              <button
+                key={String(label)}
+                aria-disabled="true"
+                onClick={() => report("本演示仅展示任务输入。")}
+              >
+                <Glyph size={17} />
+                {String(label)}
+                {label === "助理" && <small>BETA</small>}
+              </button>
+            );
+          })}
+          <button
+            aria-disabled="true"
+            onClick={() => report("本演示仅展示任务输入。")}
+          >
+            <LayoutGrid size={17} />
+            更多<span>管理</span>
+          </button>
         </nav>
-        <div className="demo-sidebar-bottom">
-          <span role="status" aria-label="保存状态">
-            <i />
-            {saving ? "正在保存…" : saveFailed ? "尚未保存" : "保存在这台电脑"}
+        <div className="wb-history">
+          {searchOpen && (
+            <input
+              autoFocus
+              aria-label="搜索演示草稿"
+              placeholder="搜索任务"
+              value={search}
+              onChange={(event) => setSearch(event.target.value)}
+            />
+          )}
+          <small>任务 ({state.drafts.length})</small>
+          <div role="navigation" aria-label="演示草稿">
+            {state.drafts
+              .filter((d) => !search || d.text.includes(search))
+              .map((d) => (
+                <div
+                  className={
+                    "wb-history-item " + (d.id === draft.id ? "active" : "")
+                  }
+                  key={d.id}
+                >
+                  <button
+                    aria-current={d.id === draft.id ? "page" : undefined}
+                    onClick={() => switchDraft(d.id)}
+                    disabled={busy}
+                  >
+                    <span>{d.text.trim().slice(0, 24) || "新建任务"}</span>
+                  </button>
+                  <small>{d.requests.length ? "已发送" : "草稿"}</small>
+                </div>
+              ))}
+          </div>
+          <small>空间 (0)</small>
+        </div>
+        <footer>
+          <span className="wb-account">
+            <img src="./assets/apps/workbuddy.svg" alt="" />
+            陈朗
           </span>
+          <button
+            aria-label="消息中心"
+            onClick={() => report("当前没有新消息。")}
+          >
+            <Bell size={17} />
+          </button>
           <button
             aria-label="清理演示"
             onClick={() => {
@@ -662,336 +792,417 @@ function App() {
           >
             <Trash2 size={17} />
           </button>
-        </div>
+        </footer>
+        <span className="demo-save-state" role="status" aria-label="保存状态">
+          {saving ? "正在保存…" : saveFailed ? "尚未保存" : "保存在这台电脑"}
+        </span>
       </aside>
-      <main className="demo-main">
-        <header className="demo-topbar">
-          <span>新建任务</span>
-          <span className="demo-edition">多模态输入演示</span>
-        </header>
-        <div className={"demo-content" + (latestRequest ? " has-request" : "")}>
-          <div className="demo-greeting">
-            <img src="./assets/apps/workbuddy-mascot.png" alt="" />
-            <h1>今天，想完成什么？</h1>
-            <p>说出你的想法，边说边完善。</p>
+      <main className="wb-main">
+        <div className={"wb-home" + (panel ? " has-open-widget" : "")}>
+          <h1>WorkBuddy, 我帮你</h1>
+          <div className="wb-modes">
+            {["办公", "开发", "设计"].map((label, index) => (
+              <button
+                key={label}
+                className={mode === index ? "active" : ""}
+                onClick={() => setMode(index)}
+              >
+                {
+                  [
+                    <BriefcaseBusiness size={14} />,
+                    <CodeXml size={14} />,
+                    <Palette size={14} />,
+                  ][index]
+                }
+                {label}
+              </button>
+            ))}
           </div>
-          <div className="demo-input-stack">
-            {panel && (
-              <div className="demo-widget-wrap">
-                <AgentAuxiliary
-                  title={
-                    panel.kind === "photo"
-                      ? "图片选择"
-                      : panel.kind === "color"
-                        ? colorTitle(panel.role || "主题色")
-                        : panel.kind === "duration"
-                          ? "演讲时长"
-                          : panel.kind === "document"
-                            ? "参考资料"
-                            : panel.scope === "全文"
-                              ? "布局草图"
-                              : `${panel.scope} · 布局草图`
+          <div className="wb-home-entry">
+            <div className="wb-scenes">
+              {[
+                "创作文档",
+                "金融服务",
+                "分析数据",
+                "制作PPT",
+                "深度研究",
+                "策划方案",
+                "定时任务",
+              ].map((label) => (
+                <button
+                  key={label}
+                  onClick={() =>
+                    void afterSpeech(() =>
+                      update(draft.id, (d) =>
+                        editDemoText(d, d.text ? d.text + "，" + label : label),
+                      ),
+                    )
                   }
-                  busy={busy}
+                >
+                  {label}
+                </button>
+              ))}
+              <img
+                className="wb-mascot"
+                src="./assets/apps/workbuddy-mascot.png"
+                alt=""
+              />
+            </div>
+            <div className="demo-input-stack deck-compose-desktop">
+              {panel && (
+                <WorkBuddyDemoPopover
+                  key={panel.id || panel.kind + panel.scope}
+                  anchorId={panel.id}
                   onClose={() => {
                     setPanel(null);
                     setDrawing(false);
                   }}
                 >
-                  {panel.kind === "color" && (
-                    <AgentColorInput
-                      key={panel.id}
-                      label={panel.role || "主题色"}
-                      value={parameter?.value || "#146C64"}
-                      onChange={changeParameter}
-                      onActive={setDrawing}
-                      onDone={() => setPanel(null)}
-                    />
-                  )}
-                  {panel.kind === "duration" && (
-                    <AgentDurationInput
-                      value={parameter?.value || ""}
-                      onChange={changeParameter}
-                    />
-                  )}
-                  {panel.kind === "photo" && (
-                    <AgentPhotoInput
-                      onChoose={() => pick("photo", panel.scope)}
-                      onCapture={() =>
-                        setCamera({ owner: draft.id, scope: panel.scope })
-                      }
-                      onDone={() => {
-                        update(draft.id, (d) => ({
-                          ...d,
-                          materials: [...d.materials, ...d.pendingPhotos],
-                          pendingPhotos: [],
-                        }));
-                        setPanel(null);
-                      }}
-                    >
-                      {photos.map((m) => materialTile(m, true))}
-                    </AgentPhotoInput>
-                  )}
-                  {panel.kind === "sketch" && (
-                    <AgentSketchInput
-                      key={draft.id + panel.scope}
-                      strokes={sketches}
-                      onChange={changeSketch}
-                      onActive={setDrawing}
-                      onAdopt={() => void adoptSketch()}
-                      busy={busy}
-                    />
-                  )}
-                  {panel.kind === "document" && (
-                    <div className="demo-documents">
-                      {draft.materials
-                        .filter((m) => m.kind === "document")
-                        .map((m) => materialTile(m))}
-                      <button onClick={() => pick("document", panel.scope)}>
-                        <Plus size={18} />
-                        添加参考资料
-                      </button>
-                    </div>
-                  )}
-                </AgentAuxiliary>
-              </div>
-            )}
-            <AgentComposer
-              className="demo-composer"
-              label="WorkBuddy 任务输入区"
-              footer={
-                <>
-                  <div className="demo-add">
-                    <button
-                      aria-label="添加内容"
-                      aria-expanded={addMenu}
-                      onClick={() =>
-                        void afterSpeech(() => setAddMenu(!addMenu))
-                      }
-                      disabled={busy || drawing}
-                    >
-                      <Plus size={20} />
-                    </button>
-                    {addMenu && (
-                      <div className="demo-add-menu">
-                        <button
-                          onClick={() => {
-                            setAddMenu(false);
-                            pick("document");
-                          }}
-                        >
-                          <FileText size={17} />
-                          参考文件
-                        </button>
-                        <button
-                          onClick={() =>
-                            openPanel({ kind: "photo", scope: "全文" })
-                          }
-                        >
-                          <ImagePlus size={17} />
-                          图片
-                        </button>
-                        <button
-                          onClick={() =>
-                            openPanel({ kind: "sketch", scope: "全文" })
-                          }
-                        >
-                          <LayoutTemplate size={17} />
-                          布局草图
+                  <AgentAuxiliary
+                    title={
+                      panel.kind === "photo"
+                        ? "图片选择"
+                        : panel.kind === "color"
+                          ? panel.role === "颜色"
+                            ? "颜色选择"
+                            : colorTitle(panel.role || "主题色")
+                          : panel.kind === "duration"
+                            ? "演讲时长"
+                            : panel.kind === "document"
+                              ? "参考资料"
+                              : panel.scope === "全文"
+                                ? "布局草图"
+                                : `${panel.scope} · 布局草图`
+                    }
+                    busy={busy}
+                    onClose={() => {
+                      setPanel(null);
+                      setDrawing(false);
+                    }}
+                  >
+                    {panel.kind === "color" && (
+                      <AgentColorInput
+                        key={panel.id}
+                        label={panel.role || "主题色"}
+                        value={parameter?.value || "#146C64"}
+                        onChange={changeParameter}
+                        onActive={setDrawing}
+                        onDone={() => setPanel(null)}
+                      />
+                    )}
+                    {panel.kind === "duration" && (
+                      <AgentDurationInput
+                        value={parameter?.value || ""}
+                        onChange={changeParameter}
+                      />
+                    )}
+                    {panel.kind === "photo" && (
+                      <AgentPhotoInput
+                        onChoose={() => pick("photo", panel.scope)}
+                        onCapture={() =>
+                          setCamera({ owner: draft.id, scope: panel.scope })
+                        }
+                        onDone={() => {
+                          update(draft.id, (d) => ({
+                            ...d,
+                            materials: [...d.materials, ...d.pendingPhotos],
+                            pendingPhotos: [],
+                          }));
+                          setPanel(null);
+                        }}
+                      >
+                        {photos.map((m) => materialTile(m, true))}
+                      </AgentPhotoInput>
+                    )}
+                    {panel.kind === "sketch" && (
+                      <AgentSketchInput
+                        key={draft.id + panel.scope}
+                        strokes={sketches}
+                        onChange={changeSketch}
+                        onActive={setDrawing}
+                        onAdopt={() => void adoptSketch()}
+                        busy={busy}
+                      />
+                    )}
+                    {panel.kind === "document" && (
+                      <div className="demo-documents">
+                        {draft.materials
+                          .filter((m) => m.kind === "document")
+                          .map((m) => materialTile(m))}
+                        <button onClick={() => pick("document", panel.scope)}>
+                          <Plus size={18} />
+                          添加参考资料
                         </button>
                       </div>
                     )}
-                  </div>
-                  <span className="demo-footer-space" />
-                  <button
-                    className="demo-voice"
-                    aria-label={
-                      phase === "idle" ? "开始语音输入" : "停止语音输入"
-                    }
-                    aria-pressed={phase !== "idle"}
-                    data-phase={phase}
-                    disabled={busy || drawing || phase === "stopping"}
-                    onClick={toggleVoice}
-                  >
-                    {phase === "idle" ? (
-                      <Mic size={18} />
-                    ) : (
-                      <span className="demo-wave" aria-hidden>
-                        <i />
-                        <i />
-                        <i />
-                        <i />
-                      </span>
-                    )}
-                    <span>语音输入</span>
-                  </button>
-                  <button
-                    className="demo-send"
-                    aria-label="发送请求"
-                    data-accepted={sent}
-                    disabled={
-                      busy || drawing || !draft.text.trim() || phase !== "idle"
-                    }
-                    onClick={send}
-                  >
-                    <ArrowUp size={20} />
-                  </button>
-                </>
-              }
-            >
-              {draft.materials.length > 0 && (
-                <div className="demo-attachments" aria-label="已确认的材料">
-                  {draft.materials.map((m) => materialTile(m))}
-                </div>
+                  </AgentAuxiliary>
+                </WorkBuddyDemoPopover>
               )}
-              <div
-                onPointerDownCapture={(event) => {
-                  if (
-                    (event.target as HTMLElement).closest(
-                      ".wb-sentence-composer",
-                    ) &&
-                    !(event.target as HTMLElement).closest(".sentence-token")
-                  )
-                    stopForTyping();
-                }}
-                onKeyDown={(event) => {
-                  if (
-                    (event.ctrlKey || event.metaKey) &&
-                    event.key === "Enter"
-                  ) {
-                    event.preventDefault();
-                    if (!busy && !drawing && phase === "idle") send();
-                  }
-                }}
+              <AgentComposer
+                className="deck-composer demo-composer"
+                label="WorkBuddy 任务输入区"
+                footer={
+                  <>
+                    <div className="demo-add">
+                      <button
+                        aria-label="添加内容"
+                        aria-expanded={addMenu}
+                        onClick={() =>
+                          void afterSpeech(() => setAddMenu(!addMenu))
+                        }
+                        disabled={busy || drawing}
+                      >
+                        <Plus size={20} />
+                      </button>
+                      {addMenu && (
+                        <div className="demo-add-menu">
+                          <button
+                            onClick={() => {
+                              setAddMenu(false);
+                              pick("document");
+                            }}
+                          >
+                            <FileText size={17} />
+                            参考文件
+                          </button>
+                          <button
+                            onClick={() =>
+                              openPanel({ kind: "photo", scope: "全文" })
+                            }
+                          >
+                            <ImagePlus size={17} />
+                            图片
+                          </button>
+                          <button
+                            onClick={() =>
+                              openPanel({ kind: "sketch", scope: "全文" })
+                            }
+                          >
+                            <LayoutTemplate size={17} />
+                            布局草图
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                    <span className="demo-footer-space" />
+                    <button
+                      className="demo-voice"
+                      aria-label={
+                        phase === "idle" ? "开始语音输入" : "停止语音输入"
+                      }
+                      aria-pressed={phase !== "idle"}
+                      data-phase={phase}
+                      disabled={busy || drawing || phase === "stopping"}
+                      onClick={toggleVoice}
+                    >
+                      <Mic size={20} />
+                    </button>
+                    <button
+                      className="demo-send"
+                      aria-label="发送请求"
+                      data-accepted={sent}
+                      disabled={
+                        busy ||
+                        drawing ||
+                        !draft.text.trim() ||
+                        phase !== "idle"
+                      }
+                      onClick={send}
+                    >
+                      <ArrowUp size={20} />
+                    </button>
+                  </>
+                }
               >
-                <SentenceComposer
-                  ref={area}
-                  label="WorkBuddy 任务输入"
-                  inputMode="text"
-                  text={draft.text}
-                  parameters={[]}
-                  input={noInput}
-                  files={[]}
-                  active={null}
-                  disabled={busy}
-                  placeholder="描述你的任务，或点击语音输入…"
-                  onSelect={() => {}}
-                  onFocus={stopForTyping}
-                  onChange={(text) => {
-                    stopForTyping();
-                    update(draft.id, (d) => editDemoText(d, text));
-                  }}
-                  onOpen={() => {}}
-                  live={{
-                    parameters: draft.parameters.map((parameter) => {
-                      const file =
-                        parameter.kind === "document"
-                          ? draft.materials.find(
-                              (material) =>
-                                material.kind === "document" &&
-                                material.scope === parameter.scope,
-                            )
-                          : undefined;
-                      return file
-                        ? { ...parameter, label: file.name }
-                        : parameter;
-                    }),
-                    active: panel?.id || null,
-                    open: openParameter,
-                  }}
-                />
-              </div>
-            </AgentComposer>
-            {
-              <div className="demo-pending">
-                {draft.pendingPhotos.length > 0 && (
-                  <button
-                    onClick={() => openPanel({ kind: "photo", scope: "全文" })}
-                  >
-                    {draft.pendingPhotos.length} 张图片待确认
-                    <ChevronLeft
-                      size={13}
-                      style={{ transform: "rotate(180deg)" }}
-                    />
-                  </button>
+                {draft.materials.length > 0 && (
+                  <div className="demo-attachments" aria-label="已确认的材料">
+                    {draft.materials.map((m) => materialTile(m))}
+                  </div>
                 )}
-                {pendingSketch && (
+                <div
+                  onPointerDownCapture={(event) => {
+                    if (
+                      (event.target as HTMLElement).closest(
+                        ".wb-sentence-composer",
+                      ) &&
+                      !(event.target as HTMLElement).closest(".sentence-token")
+                    )
+                      stopForTyping();
+                  }}
+                  onKeyDown={(event) => {
+                    if (
+                      (event.ctrlKey || event.metaKey) &&
+                      event.key === "Enter"
+                    ) {
+                      event.preventDefault();
+                      if (!busy && !drawing && phase === "idle") send();
+                    }
+                  }}
+                >
+                  <SentenceComposer
+                    ref={area}
+                    label="WorkBuddy 任务输入"
+                    inputMode="text"
+                    text={draft.text}
+                    parameters={[]}
+                    input={noInput}
+                    files={[]}
+                    active={null}
+                    disabled={busy}
+                    placeholder="今天帮你做些什么？@ 添加上下文，/调用技能与指令"
+                    onSelect={() => {}}
+                    onFocus={stopForTyping}
+                    onChange={(text) => {
+                      stopForTyping();
+                      update(draft.id, (d) => editDemoText(d, text));
+                    }}
+                    onOpen={() => {}}
+                    live={{
+                      controlsId: "demo-input-widget",
+                      parameters: draft.parameters.map((parameter) => {
+                        const file =
+                          parameter.kind === "document"
+                            ? draft.materials.find(
+                                (material) =>
+                                  material.kind === "document" &&
+                                  material.scope === parameter.scope,
+                              )
+                            : undefined;
+                        return file
+                          ? { ...parameter, label: file.name }
+                          : parameter;
+                      }),
+                      active: panel?.id || null,
+                      open: openParameter,
+                    }}
+                  />
+                </div>
+              </AgentComposer>
+              <div className="wb-composer-options">
+                <button onClick={() => pick("document")}>
+                  <Folder size={16} />
+                  选择工作空间
+                  <ChevronDown size={12} />
+                </button>
+                <button
+                  aria-disabled="true"
+                  onClick={() =>
+                    report("本演示只在本机整理输入，不执行外部任务。")
+                  }
+                >
+                  <ShieldCheck size={16} />
+                  默认权限
+                  <ChevronDown size={12} />
+                </button>
+              </div>
+              {
+                <div className="demo-pending">
+                  {draft.pendingPhotos.length > 0 && (
+                    <button
+                      onClick={() =>
+                        openPanel({ kind: "photo", scope: "全文" })
+                      }
+                    >
+                      {draft.pendingPhotos.length} 张图片待确认
+                      <ChevronLeft
+                        size={13}
+                        style={{ transform: "rotate(180deg)" }}
+                      />
+                    </button>
+                  )}
+                  {pendingSketch && (
+                    <button
+                      onClick={() =>
+                        openPanel({ kind: "sketch", scope: pendingSketch[0] })
+                      }
+                    >
+                      布局草图待确认
+                      <ChevronLeft
+                        size={13}
+                        style={{ transform: "rotate(180deg)" }}
+                      />
+                    </button>
+                  )}
+                </div>
+              }
+            </div>
+            {!latestRequest && (
+              <div className="wb-home-suggestions">
+                {[
+                  "一页图讲清 AI 如何提升办公效率",
+                  "用3个可靠来源看懂一个行业问题",
+                  "一周 AI 大事，3分钟看完",
+                  "10个主流 AI 模型该怎么选",
+                ].map((text) => (
                   <button
+                    key={text}
                     onClick={() =>
-                      openPanel({ kind: "sketch", scope: pendingSketch[0] })
+                      void afterSpeech(() =>
+                        update(draft.id, (d) => editDemoText(d, text)),
+                      )
                     }
                   >
-                    布局草图待确认
-                    <ChevronLeft
-                      size={13}
-                      style={{ transform: "rotate(180deg)" }}
-                    />
+                    {text}
+                    <ArrowUpRight size={16} />
                   </button>
-                )}
-              </div>
-            }
-            {!draft.text && !draft.materials.length && (
-              <div className="demo-hints">
-                <span>试着说</span>
-                <p>
-                  “做一份产品介绍，主题色用红色，背景用灰色，讲五分钟，再加几张产品图片。”
-                </p>
+                ))}
               </div>
             )}
+            {latestRequest && (
+              <section className="demo-result" aria-label="发送的请求">
+                <header>
+                  <span>
+                    <Check size={16} />
+                    本次请求
+                  </span>
+                  <small>
+                    已整理 ·{" "}
+                    {new Date(latestRequest.at).toLocaleTimeString("zh-CN", {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })}
+                  </small>
+                </header>
+                <p>{latestRequest.text}</p>
+                {latestRequest.materials.length > 0 && (
+                  <div className="demo-result-materials">
+                    {latestRequest.materials.map((m) => (
+                      <MaterialDownload key={m.id} material={m} />
+                    ))}
+                  </div>
+                )}
+                <details>
+                  <summary>
+                    查看参数与发送记录（{draft.requests.length}）
+                  </summary>
+                  <dl>
+                    {latestRequest.parameters.map((p) => (
+                      <div key={p.id}>
+                        <dt>
+                          {p.scope} · {p.kind === "photo" ? "图片" : p.role}
+                        </dt>
+                        <dd>{p.value || p.label}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                  {draft.requests.slice(1).map((r) => (
+                    <article key={r.id}>
+                      <small>
+                        {new Date(r.at).toLocaleTimeString("zh-CN")}
+                      </small>
+                      <p>{r.text}</p>
+                      <div className="demo-result-materials">
+                        {r.materials.map((m) => (
+                          <MaterialDownload key={m.id} material={m} />
+                        ))}
+                      </div>
+                    </article>
+                  ))}
+                </details>
+              </section>
+            )}
           </div>
-          {latestRequest && (
-            <section className="demo-result" aria-label="发送的请求">
-              <header>
-                <span>
-                  <Check size={16} />
-                  本次请求
-                </span>
-                <small>
-                  已整理 ·{" "}
-                  {new Date(latestRequest.at).toLocaleTimeString("zh-CN", {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                  })}
-                </small>
-              </header>
-              <p>{latestRequest.text}</p>
-              {latestRequest.materials.length > 0 && (
-                <div className="demo-result-materials">
-                  {latestRequest.materials.map((m) => (
-                    <MaterialDownload key={m.id} material={m} />
-                  ))}
-                </div>
-              )}
-              <details>
-                <summary>查看参数与发送记录（{draft.requests.length}）</summary>
-                <dl>
-                  {latestRequest.parameters.map((p) => (
-                    <div key={p.id}>
-                      <dt>
-                        {p.scope} · {p.kind === "photo" ? "图片" : p.role}
-                      </dt>
-                      <dd>{p.value || p.label}</dd>
-                    </div>
-                  ))}
-                </dl>
-                {draft.requests.slice(1).map((r) => (
-                  <article key={r.id}>
-                    <small>{new Date(r.at).toLocaleTimeString("zh-CN")}</small>
-                    <p>{r.text}</p>
-                    <div className="demo-result-materials">
-                      {r.materials.map((m) => (
-                        <MaterialDownload key={m.id} material={m} />
-                      ))}
-                    </div>
-                  </article>
-                ))}
-              </details>
-            </section>
-          )}
         </div>
-        <footer className="demo-page-footer">
-          WorkBuddy · Dynamic multimodal input
-        </footer>
       </main>
       <input
         hidden

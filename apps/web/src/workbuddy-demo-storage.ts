@@ -1,5 +1,6 @@
 import {
   newDemoState,
+  editDemoText,
   type DemoState,
 } from "../../../packages/core/workbuddy-demo-state";
 const database = "workbuddy-standalone-demo-v1";
@@ -36,7 +37,16 @@ export async function loadDemo(): Promise<DemoState> {
         reject(Error("演示存储版本不兼容"));
         return;
       }
-      resolve(value || newDemoState());
+      resolve(
+        value
+          ? {
+              ...value,
+              drafts: value.drafts.map((draft: DemoState["drafts"][number]) =>
+                editDemoText(draft, draft.text),
+              ),
+            }
+          : newDemoState(),
+      );
     };
     request.onerror = () => reject(request.error);
   });

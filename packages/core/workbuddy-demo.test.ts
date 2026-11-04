@@ -192,3 +192,58 @@ test("pending materials block send; snapshots preserve bytes and parameters afte
   assert.equal(request.parameters[0].value, "#C92A2A");
   assert.equal(await request.materials[0].blob.text(), "bytes");
 });
+
+test("unpunctuated colloquial ASR keeps independent colors and minimal document spans", () => {
+  const text =
+    "哈啰哈啰哈啰我想做一个11分钟的演讲稿可以请呢用灰色字体呢用黑色主题色呢是用红色需要参考一个我的一个本地的文件然后还想添加一些产品照片不取那我会画一下";
+  const d = editDemoText(newDemoState().drafts[0], text);
+  assert.deepEqual(
+    d.parameters
+      .filter((p) => p.kind === "color")
+      .map((p) => [p.role, p.value]),
+    [
+      ["颜色", "#D9DEDF"],
+      ["字体", "#182431"],
+      ["主题色", "#C92A2A"],
+    ],
+  );
+  // Without an actual 背景 role, the explicit color stays generic; no role is invented.
+  assert.equal(
+    d.parameters.find((p) => p.kind === "document")?.phrase,
+    "本地的文件",
+  );
+  for (const p of d.parameters)
+    assert.equal(text.slice(p.start, p.end), p.phrase);
+  const explicit = editDemoText(
+    d,
+    "背景呢用灰色字体呢用黑色主题色呢是用红色需要参考一个我的一个本地的文件",
+  );
+  assert.deepEqual(
+    explicit.parameters
+      .filter((p) => p.kind === "color")
+      .map((p) => [p.role, p.value]),
+    [
+      ["背景", "#D9DEDF"],
+      ["字体", "#182431"],
+      ["主题色", "#C92A2A"],
+    ],
+  );
+  assert.equal(
+    explicit.parameters.find((p) => p.kind === "document")?.phrase,
+    "本地的文件",
+  );
+  assert.equal(
+    editDemoText(
+      d,
+      "不要背景呢用灰色，不要字体呢用黑色，不要主题色呢是用红色。",
+    ).parameters.length,
+    0,
+  );
+  assert.equal(
+    editDemoText(
+      d,
+      "主题呢用红利，背景呢用一个文件，字体呢用于资料。",
+    ).parameters.filter((p) => p.kind === "color").length,
+    0,
+  );
+});

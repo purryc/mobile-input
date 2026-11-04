@@ -1,3 +1,9 @@
+# Standalone visual and chip-anchor correction · 2026-11-04
+
+- User correction: preserve the existing tablet WorkBuddy home/sidebar/composer appearance and its icon-only microphone button. Reuse its markup/classes and CSS instead of a new green voice pill, greeting, branding or toolbar. Keep execution local and input-only.
+- Auxiliary widgets toggle from their own sentence chip, below the chip and left-aligned. Track the chip through wrapping/scroll/resize, keep one widget open and preserve pending materials when closed. At viewport edges keep the widget reachable and the anchor visually connected; do not move a drawing surface during a gesture.
+- Fix colloquial ASR color bindings such as 背景呢用灰色字体呢用黑色主题色呢是用红色, without rewriting source text. Document spans must not swallow preceding colors or requests. Test original offsets, independent color roles, negation, manual overrides and uninterrupted speech. Explicit 用灰色 without a reliable role gets a generic 颜色 binding, never an inferred background/theme. Existing saved drafts must reparse without dropping their attachments or manual values.
+
 # Standalone WorkBuddy Web demo · 2026-11-04
 
 - This branch implements the user-approved single-computer Chrome input demonstration. Its base is 49a25cd; main and the original worktree are outside this task. No automatic push, device operations, Figma edits, AI polish, model generation or real Agent execution.
