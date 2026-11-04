@@ -57,9 +57,11 @@ wss.on('connection',socket=>{
   if(m.op==='pointer')snapshotGate.pointer();
   pending++;
   const result=await receipts.run(m.id,m.seq,async()=>{
-   if(m.op.startsWith('file-')||['workbuddy-attach','workbuddy-submit'].includes(m.op)){
+   if(m.op.startsWith('file-')||['workbuddy-attach','workbuddy-submit','agent-attach','agent-submit'].includes(m.op)){
     if(m.op==='file-chunk'){try{return await files.command(m,owner);}catch(error){return {ok:false,error:error.message,outcome:'rejected'};}}
-    const current=await invoke({op:'state'},valid);if(!valid()||current.state?.app!=='workbuddy'||current.state?.window!==m.window||current.state?.target!==m.target)return {ok:false,error:'文件或任务目标已变化',outcome:'rejected'};
+    const current=await invoke({op:'state'},valid);if(!valid()||!['workbuddy','codex','chatgpt','gemini'].includes(current.state?.app)||current.state?.window!==m.window||current.state?.target!==m.target)return {ok:false,error:'文件或任务目标已变化',outcome:'rejected'};
+    if((m.op.startsWith('file-')||m.op.endsWith('-attach'))&&!current.state.capabilities.includes('agent-attach')&&!current.state.capabilities.includes('workbuddy-attach'))return {ok:false,outcome:'rejected',error:'当前应用附件接入尚未验证，材料保留在手机'};
+    if(m.op.startsWith('workbuddy-')&&current.state.app!=='workbuddy')return {ok:false,outcome:'rejected',error:'旧操作与当前应用不符'};
     try{
      if(m.op.startsWith('file-'))return await files.command(m,owner);
      const adopted=files.get(m.files,owner);return invoke({...m,paths:adopted.map(f=>f.path),names:adopted.map(f=>f.name)},valid);

@@ -835,5 +835,22 @@
   "连接大屏": "Connect to display",
   "专家·技能·连接器": "Experts · Skills · Connectors",
   "任务输入": "Task prompt",
-  "内容编辑": "Edit content"
+  "内容编辑": "Edit content",
+  "发送到": "Send to",
+  "请在电脑打开任务输入框": "Open a prompt editor on your computer",
+  "上次发送结果未确认，请先在电脑核对。": "The last submission is unconfirmed. Check your computer first.",
+  "核对后清空本次输入": "Clear this draft after checking",
+  "状态未提供": "Status unavailable",
+  "有新回复": "New reply",
+  "就绪": "Ready",
+  "需要输入": "Needs input",
+  "提交修改": "Submit edit",
+  "继续编辑": "Edit",
+  "拒绝修改": "Reject",
+  "接受修改": "Accept",
+  "修改建议": "Proposed edit",
+  "修改前": "Before",
+  "修改后": "After",
+  "修改原文": "Edit document",
+  "内容较长，请在电脑查看完整修改": "View the complete change on your computer"
 }

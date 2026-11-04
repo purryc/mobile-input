@@ -1,3 +1,26 @@
+## 2026-11-04 · Shared Agent input and native editing continuation
+
+### 中文
+
+- 统一演示 WorkBuddy、Mac WorkBuddy/Codex 和已登记 ChatGPT/Gemini 网页的 Agent 输入组合，复用任务条、句内参数、材料、润色和 InputDock；保留各应用主题及真实能力边界。
+- 微信直接进入共享输入界面，保留读屏、建议回复采用、服务推荐和连续听写；建议不自动发送。
+- 接入 Codex/ChatGPT/Gemini 真实附件上传与回读，材料保持原会话归属；不以文件名代替实际附件。
+- 修复 Codex 当前任务同步、Recents 顺序与真实状态，读取 Queue/Steer 等实际操作；未知状态不显示推测标记。
+- 修复光标和语音插入位置、Codex 中性主题；改善触控板拖选并允许指针到达系统 Dock。移除常驻的未知发送结果确认块，保留内部防重复提交保护。
+- 接续选区 Add to chat/Edit 以及修改结果 Edit/Reject/Accept。结果 Edit 返回真实原文编辑位置；仅修改已验证的文本片段。接受、拒绝均由用户明确操作。
+- 本轮源码同步保留两端原生工程和共享源码；最新维护更新只安装手机和 Mac 桥接，平板未再次安装。原有数据、配对和原生密钥保留。
+- 验证和限制详见 [同步记录](docs/github-sync-2026-11-04.md)。未上传 HAP、密钥、私人截图或录屏；真实修改接受/拒绝与模型执行不以模拟测试替代验收。
+
+### English
+
+- Share Agent input composition across demo WorkBuddy, native Mac WorkBuddy/Codex and registered ChatGPT/Gemini pages, retaining application themes and verified capabilities.
+- Reuse the common WeChat editor, recommendation adoption, speech and polish flow without automatic sending.
+- Add verified native attachment uploads and readback for Codex, ChatGPT and Gemini, preserving conversation ownership and actual bytes.
+- Repair Codex conversation synchronization, native Recents ordering and evidenced status; mirror observed Queue/Steer controls without inventing task state.
+- Correct caret/dictation insertion and neutral Codex styling; improve trackpad dragging and full-display Dock access. Remove the persistent uncertain-send confirmation UI while retaining replay protection.
+- Connect selection actions and inline-edit review controls. Result-card Edit returns to the verified document editor; Accept/Reject require explicit user actions and scoped readback.
+- Preserve device data and pairing. The latest maintenance build updated phone and Mac companion only. See the [validation record](docs/github-sync-2026-11-04.md) for simulated versus physical evidence and remaining checks. Source publication excludes credentials, private evidence and HAP binaries.
+
 ## 2026-10-23 · Source and design-definition sync
 
 - 同步 10 月 16–20 日的原型更新：WorkBuddy 句内参数、材料接续与发送清空、成果选区格式编辑、回复建议采用、桌面与手机输入会话。

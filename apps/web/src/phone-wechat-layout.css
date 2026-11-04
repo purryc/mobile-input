@@ -31,3 +31,12 @@
 .wechat-phone>.contextual-polish{margin-left:16px;margin-right:16px}
 
 .wechat-phone .wechat-begin-input{margin:8px 14px;flex:none;min-height:48px;border:1px solid #ffffffc7;border-radius:18px;background:#ffffff9e;color:inherit;font-size:15px}
+/* Shared frame owns safe area, header, dock and polish spacing. */
+.phone-controller.wechat-phone .controller-body{gap:8px;padding:0 16px}
+.phone-controller.wechat-phone .glass-context{padding:0;flex:1 1 auto;min-height:0}
+.phone-controller.wechat-phone .glass-input{margin:0;flex:0 1 180px;min-height:112px}
+.phone-controller.wechat-phone .glass-input:has(+.contextual-polish){margin:0}
+.phone-controller.wechat-phone .reply-options button{min-height:48px}
+.phone-controller.wechat-phone .wechat-inline-send{background:var(--dock-accent);min-height:40px}
+.phone-controller.wechat-phone:has(.input-dock.expanded) .glass-input{flex-basis:112px}
+.phone-controller.wechat-phone blockquote[aria-busy=true]{border-color:rgb(var(--controller-seed)/.3)}

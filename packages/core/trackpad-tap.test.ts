@@ -21,3 +21,13 @@ test('distant or late second tap is a new single click',()=>{
  t.begin(2,100,0,100);assert.equal(t.end(2,100,0,150),'left');
  t.begin(3,100,0,600);assert.equal(t.end(3,100,0,650),'left');
 });
+test('tap then second-contact movement starts drag once and releases even after a long hold',()=>{
+ const t=new TrackpadTap();t.begin(1,10,20,0);assert.equal(t.end(1,10,20,80),'left');
+ t.begin(2,10,20,160);assert.equal(t.move(2,15,20),undefined);assert.equal(t.move(2,22,20),'down');
+ assert.equal(t.move(2,100,20),undefined);assert.equal(t.end(2,100,20,2200),'up');
+ t.begin(3,100,20,2300);assert.equal(t.move(3,120,20),undefined);assert.equal(t.end(3,120,20,2350),undefined);
+});
+test('cancelled or extra contact cannot leave a drag gesture latched',()=>{
+ const t=new TrackpadTap();t.begin(1,0,0,0);t.end(1,0,0,50);t.begin(2,0,0,120);assert.equal(t.move(2,20,0),'down');t.cancel();assert.equal(t.end(2,20,0,200),undefined);
+ t.begin(1,0,0,300);t.end(1,0,0,350);t.begin(2,0,0,400);t.begin(3,0,0,410);assert.equal(t.move(2,20,0),undefined);
+});

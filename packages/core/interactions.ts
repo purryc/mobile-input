@@ -66,6 +66,15 @@ export function interaction(n:State,c:Command):string|null|undefined{
   activate(n,'desktop');return null;
  }
  case 'chat-open':{const id=String(c.value);if(!n.chat.messages[id])return '会话不存在';n.chat.conversation=id;n.target=null;n.chat.activation=null;setChatContext(n,id,c.id);return null;}
+ case 'chat-read':{
+  const id=String(v?.conversation),mid=String(v?.sourceMessageId||'');
+  if(n.app!=='wechat'||n.chat.conversation!==id)return '会话已变化';
+  const message=n.chat.messages[id]?.find(m=>m.id===mid&&!m.me);if(!message)return '消息不存在';
+  if(n.chat.activation&&n.chat.context?.messageId===mid)return null;
+  setChatContext(n,id,c.id,mid,true);
+  n.chat.activation={epoch:c.id,conversation:id,messageId:mid,startedAt:Date.now()-CHAT_READ_TIMING.pulse,phase:'scan'};
+  return null;
+ }
  case 'chat-focus':{
   const id=String(v?.conversation);if(n.app!=='wechat'||n.chat.conversation!==id)return '会话已变化';
   const mid=String(v?.messageId||'');const m=n.chat.messages[id]?.find(m=>m.id===mid);
@@ -73,12 +82,14 @@ export function interaction(n:State,c:Command):string|null|undefined{
   if(!mid&&n.target?.id===`composer:${id}`&&n.chat.activation&&(!v?.sourceMessageId||v.sourceMessageId===n.chat.context?.messageId)){n.switcher=null;return null;}
   const sourceId=mid||String(v?.sourceMessageId||'');
   if(sourceId&&!n.chat.messages[id]?.some(m=>m.id===sourceId))return '消息不存在';
-  setChatContext(n,id,c.id,sourceId||undefined,!mid);
-  n.chat.activation=!mid&&n.chat.context?{epoch:c.id,conversation:id,messageId:n.chat.context.messageId,startedAt:Date.now(),phase:'pulse'}:null;
+  const retainRead=!mid&&v?.preserveRead===true&&n.chat.context?.conversation===id&&(!sourceId||sourceId===n.chat.context.messageId)&&!!n.chat.activation;
+  if(!retainRead){setChatContext(n,id,c.id,sourceId||undefined,!mid);
+   n.chat.activation=!mid&&n.chat.context?{epoch:c.id,conversation:id,messageId:n.chat.context.messageId,startedAt:Date.now(),phase:'pulse'}:null;}
+
   n.target={id:mid?`message:${id}:${mid}`:`composer:${id}`,label:chatTitles[id],app:'wechat',kind:mid?'message':'text',revision:n.revision+1,value:mid?m!.text:n.chat.drafts[id].text};n.switcher=null;return null;
  }
  case 'chat-read-stage':{
-  const a=n.chat.activation;if(n.app!=='wechat'||!a||v?.epoch!==a.epoch||n.chat.conversation!==a.conversation||n.target?.id!==`composer:${a.conversation}`)return '读取已取消';
+  const a=n.chat.activation;if(n.app!=='wechat'||!a||v?.epoch!==a.epoch||n.chat.conversation!==a.conversation||n.chat.context?.messageId!==a.messageId)return '读取已取消';
   const elapsed=Date.now()-a.startedAt;
   if(v?.phase==='scan'&&a.phase==='pulse'&&elapsed>=CHAT_READ_TIMING.pulse){a.phase='scan';return null;}
   if(v?.phase==='ready'&&a.phase==='scan'&&elapsed>=CHAT_READ_TIMING.pulse+CHAT_READ_TIMING.scan){a.phase='ready';return null;}
@@ -89,8 +100,8 @@ export function interaction(n:State,c:Command):string|null|undefined{
   if(n.app!=='wechat'||n.chat.conversation!==id||!d)return '回复目标已变化，草稿已保留';
   const text=String(v?.text??'');if(text.length>20000)return '内容过长';
   if(c.type==='chat-reply'){
-   const context=n.chat.context;if(n.chat.activation?.phase!=='ready')return '请先点击平板输入框';if(!context||context.conversation!==id||v?.contextEpoch!==context.epoch||v?.messageId!==context.messageId)return '消息已变化';
-   const key='reply-dismissed:'+id+':'+context.messageId;if(d.text.trim()||n.texts[key])return '草稿已开始编辑';if(!text.trim())return '请输入内容';d.text=text;d.revision++;d.session='';d.sequence=0;if(n.target)n.target.value=text;n.texts[key]='1';return null;
+   const context=n.chat.context;if(n.chat.activation?.phase!=='ready')return '正在读取消息，请稍后';if(!context||context.conversation!==id||v?.contextEpoch!==context.epoch||v?.messageId!==context.messageId)return '消息已变化';
+   const key='reply-dismissed:'+id+':'+context.messageId;if(d.text.trim()||n.texts[key])return '草稿已开始编辑';if(!text.trim())return '请输入内容';d.text=text;d.revision++;d.session='';d.sequence=0;if(n.target?.id!==`composer:${id}`)n.target={id:`composer:${id}`,label:chatTitles[id],app:'wechat',kind:'text',revision:n.revision+1,value:text};else n.target.value=text;n.texts[key]='1';return null;
   }else{
    if(!n.target||c.targetId!==n.target.id||c.targetRevision!==n.target.revision)return '回复目标已变化，草稿已保留';
    if(n.target.id!==`composer:${id}`)return '请选择回复框';

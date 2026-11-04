@@ -1,4 +1,4 @@
-.input-dock{--input-ink:var(--dock-fg,#122d39);--input-accent:#146c64;--input-soft:#e0efec;--input-control:#ffffff4d;--input-surface:#ffffffba;--input-edge:#fffffffa;--input-bg:var(--dock-bg,#ffffff38);--input-recording:#cce3df;--input-shadow:0 7px 18px #33617514,inset 0 1px 1px #ffffffc7;--input-key-shadow:var(--input-shadow);--input-icon-filter:none;--input-pad:#e3eff166;--input-pad-edge:#c2d4d966;flex:0 0 auto;position:relative;background:var(--input-bg);color:var(--input-ink);border:1px solid var(--input-edge);border-radius:26px;padding:7px 17px 11px;box-sizing:border-box;z-index:5;backdrop-filter:blur(14px);box-shadow:var(--input-shadow)}
+.input-dock{--input-ink:var(--dock-fg,#122d39);--input-accent:var(--dock-accent,#0a59f7);--input-soft:color-mix(in srgb,var(--input-accent) 10%,transparent);--input-control:#ffffff4d;--input-surface:#ffffffba;--input-edge:#fffffffa;--input-bg:var(--dock-bg,#ffffff38);--input-recording:color-mix(in srgb,var(--input-accent) 22%,transparent);--input-shadow:0 7px 18px #33617514,inset 0 1px 1px #ffffffc7;--input-key-shadow:var(--input-shadow);--input-icon-filter:none;--input-pad:#e3eff166;--input-pad-edge:#c2d4d966;flex:0 0 auto;position:relative;background:var(--input-bg);color:var(--input-ink);border:1px solid var(--input-edge);border-radius:26px;padding:7px 17px 11px;box-sizing:border-box;z-index:5;backdrop-filter:blur(14px);box-shadow:var(--input-shadow)}
 .input-dock.input-dock button{color:inherit;border:1px solid var(--input-edge);background:var(--input-control);min-height:48px;min-width:0;padding:0;border-radius:14px;display:flex;align-items:center;justify-content:center;gap:4px;font-family:system-ui,sans-serif;box-shadow:var(--input-key-shadow);-webkit-tap-highlight-color:transparent;touch-action:manipulation}
 .input-dock button:disabled{opacity:.32}.input-dock button:active:not(:disabled){background:var(--input-soft)}
 .input-dock .input-dock-icon{display:block;width:24px;height:24px;flex:none;object-fit:contain;filter:var(--input-icon-filter)}
@@ -9,7 +9,7 @@
 .input-dock .input-bottom-row .input-mode-key{background:var(--input-surface)}
 .input-dock .input-bottom-row [aria-pressed=true]{background:var(--input-soft);border-color:var(--input-accent)}
 .input-dock .input-bottom-row .input-voice{background:var(--input-soft);color:var(--input-accent);font-size:12px;border-radius:16px;gap:4px;white-space:nowrap}
-.input-dock .input-voice.recording{background:var(--input-recording);border-color:var(--input-accent)}
+.input-dock .input-bottom-row .input-voice.recording{background:var(--input-recording);border-color:var(--input-accent)}
 .input-dock .input-voice:active{transform:none}.input-dock .input-voice{touch-action:none;user-select:none;-webkit-user-select:none}
 .input-dock .input-keyboard,.input-dock .input-trackpad{height:222px;min-height:222px;margin-top:12px;box-sizing:border-box;position:relative}
 .input-dock .input-keyboard{display:flex;flex-direction:column;gap:10px}
@@ -49,3 +49,6 @@
 .input-dock:not(.expanded) .input-mode-pair .input-mode-key{height:48px;min-height:48px;background:transparent}
 .input-dock:not(.expanded) .input-bottom-row .input-voice{width:100%;border-radius:999px;font-size:14px;gap:8px}
 .input-dock:not(.expanded) .input-voice .input-dock-icon{width:24px;height:24px}
+
+/* Microphone uses the shared scene accent, never a baked-in application color. */
+.input-dock .input-voice .input-voice-symbol{background:currentColor;mask:url("/assets/figma/input-dock/mic.svg") center/contain no-repeat;-webkit-mask:url("/assets/figma/input-dock/mic.svg") center/contain no-repeat;filter:none}

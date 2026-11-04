@@ -33,6 +33,15 @@ export function WeChat({s}:{s:State}){
  useEffect(()=>{if(area.current)area.current.scrollTop=area.current.scrollHeight;},[id]);
  useEffect(()=>{if(input.current){input.current.style.height='0px';input.current.style.height=Math.min(108,Math.max(40,input.current.scrollHeight))+'px';}},[id,id?s.chat.drafts[id].text:'']);
  const activation=s.chat.activation;
+ // The tablet owns source selection. Reading and reply focus are independent.
+ useEffect(()=>{
+  if(!r.connected||s.app!=='wechat'||!s.chat.conversation||activation)return;
+  const viewport=area.current?.getBoundingClientRect();
+  const visible=viewport?Array.from(area.current!.querySelectorAll<HTMLElement>('[data-message-id]')).filter(el=>{const b=el.getBoundingClientRect();return b.bottom>viewport.top+8&&b.top<viewport.bottom-8;}).map(el=>el.dataset.messageId!):[];
+  const sourceMessageId=visibleMessageSource(s,id,visible);
+  if(sourceMessageId)void command('chat-read',{conversation:id,sourceMessageId});
+ },[id,r.connected,s.chat.conversation,activation?.epoch]);
+
  useEffect(()=>{
   if(!activation||!r.connected||activation.phase==='ready'){setPhase('idle');return;}
   setPhase(activation.phase);

@@ -28,7 +28,7 @@ export function polishActionsForTarget(t:PolishTarget|null):PolishAction[]{
  if(t.app==='wechat')return pick(['chat-natural','polite','chat-short']);
  if(t.app==='bilibili')return pick(['comment-natural','comment-short','polite']);
  if(t.app==='workbuddy'&&!t.id.startsWith('wb:doc:'))return pick(['task-points','task-short']);
- if(t.app==='doubao'||t.app==='codex')return pick(['task-points','task-short']);
+ if(['doubao','codex','chatgpt','gemini'].includes(t.app))return pick(['task-points','task-short']);
  if(t.app==='paint')return pick(t.id.endsWith(':name')?['label-clear','concise','fix']:['formal','concise','fix']);
  if(t.app==='slides'||t.app==='workbuddy'&&t.id.includes(':slide/')){
   if(/(?:[:/])notes$/.test(t.id))return pick(['speech-natural','points','speech-short']);
@@ -45,7 +45,7 @@ export function polishInstruction(id:string):string{
 }
 /** Content gates recommendations; native instruction IDs remain unchanged. */
 export function contextualPolishActions(t:PolishTarget|null,text:string):PolishAction[]{
- const value=text.trim();if(!value||!/[\p{L}]/u.test(value)||/^(?:https?:\/\/\S+|#[a-f\d]{3,8}|[\w.+-]+@[\w.-]+)$/i.test(value))return [];
+ const value=text.trim();if(!t||t.kind!=='text'||!value||!/[\p{L}]/u.test(value)||/^(?:https?:\/\/\S+|#[a-f\d]{3,8}|[\w.+-]+@[\w.-]+)$/i.test(value))return [];
  let result=polishActionsForTarget(t);
  if(result.some(a=>a.id==='task-points')){
   // Count editable prose rather than parameter-only input. No native dependencies.
@@ -53,6 +53,19 @@ export function contextualPolishActions(t:PolishTarget|null,text:string):PolishA
   const count=(prose.match(/[\p{L}\p{N}]/gu)||[]).length,clauses=prose.split(/[，,。；;！!？?\n]/).filter(s=>/[\p{L}\p{N}]/u.test(s));
   const repeat=/(.{2,12})[，,。\s]*\1|然后.*然后|就是.*就是|那个.*那个/.test(prose);
   return result.filter(a=>a.id==='task-points'?count>=12&&clauses.length>=2:count>=80||repeat);
+ }
+ if(t?.app==='wechat'){
+  const count=(value.match(/[\p{L}\p{N}]/gu)||[]).length;if(count<6)return [];
+  const fillers=(value.match(/嗯|呃|那个|就是|然后/g)||[]).length,repeat=/(.{2,12})[，,。\s]*\1/.test(value);
+  const keepTone=/不要(?:改|改变|调整)(?:变)?语气|保留原(?:有)?语气/.test(value);
+  const ids:string[]=[];
+  if(fillers>=2||repeat)ids.push('fix');
+  if(count>=36||count>=18&&(fillers>=2||repeat))ids.push('chat-short');
+  if(!keepTone){
+   if(/^(?:不行|别|赶紧|快点|你(?:必须|得))|凭什么|怎么还没|[！!]{2,}/.test(value))ids.push('polite');
+   else if(/您好|敬请|烦请|特此|综上|鉴于|贵方/.test(value)||count>=20)ids.push('chat-natural');
+  }
+  return pick(ids).slice(0,3);
  }
  if(t?.app==='mail'&&!t.id.includes('subject')&&!/客户|报价|采购|合同|供应商|订单/.test(value))result=pick(value.length>30?['polite','mail-request','concise']:['polite','concise']);
  if(/不要(?:改|改变|调整)(?:变)?语气|保留原(?:有)?语气/.test(value))result=result.filter(a=>!['polite','formal','chat-natural','mail-professional','speech-natural'].includes(a.id));

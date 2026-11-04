@@ -1,3 +1,4 @@
+import {clampSelection,selectionAfterTextChange} from '../../../packages/core/text-selection';
 import {uiText} from './i18n';
 import './sentence-composer.css';
 import type {WbFile} from '../../../packages/core/workbuddy';
@@ -14,7 +15,7 @@ const sourceText=(node:Node):string=>{
  return Array.from(node.childNodes).map((child,i)=>((child.nodeName==='DIV'||child.nodeName==='P')&&i>0?'\n':'')+sourceText(child)).join('');
 };
 const iconNames:Partial<Record<SentenceKind,string>>={camera:'photo',sketch:'canvas',document:'file'};
-export interface SentenceComposerProps {text:string;files:WbFile[];parameters:SentenceParameter[];input:WorkBuddyInput;active:SentenceKind|null;disabled:boolean;placeholder:string;loading?:{start:number;end:number};onChange:(text:string)=>void;onSelect:()=>void;onFocus:()=>void;onOpen:(kind:SentenceKind)=>void;live?:{parameters:import('../../../packages/core/live-workbuddy').LiveParameter[];active:string|null;open:(id:string)=>void};}
+export interface SentenceComposerProps {ariaLabel?:string;text:string;files:WbFile[];parameters:SentenceParameter[];input:WorkBuddyInput;active:SentenceKind|null;disabled:boolean;placeholder:string;loading?:{start:number;end:number};onChange:(text:string)=>void;onSelect:()=>void;onFocus:()=>void;onOpen:(kind:SentenceKind)=>void;live?:{parameters:import('../../../packages/core/live-workbuddy').LiveParameter[];active:string|null;open:(id:string)=>void};}
 /** The DOM is editable, but the authority remains plain text + task-owned parameter bindings. */
 export const SentenceComposer=forwardRef<TextInputHandle,SentenceComposerProps>(function SentenceComposer(p,ref){
  const root=useRef<HTMLDivElement>(null),composing=useRef(false),selection=useRef({start:0,end:0}),latest=useRef(p);latest.current=p;
@@ -36,14 +37,14 @@ export const SentenceComposer=forwardRef<TextInputHandle,SentenceComposerProps>(
    remaining-=length;
   }return [el,el.childNodes.length];
  }
- function setSelectionRange(start:number,end:number){selection.current={start,end};if(!root.current)return;const a=position(start),b=position(end),range=document.createRange();range.setStart(...a);range.setEnd(...b);const s=window.getSelection();s?.removeAllRanges();s?.addRange(range);}
+ function setSelectionRange(start:number,end:number){selection.current=clampSelection({start,end},latest.current.text.length);start=selection.current.start;end=selection.current.end;if(!root.current)return;const a=position(start),b=position(end),range=document.createRange();range.setStart(...a);range.setEnd(...b);const s=window.getSelection();s?.removeAllRanges();s?.addRange(range);}
  useImperativeHandle(ref,()=>({
   get selectionStart(){return readSelection().start;},get selectionEnd(){return readSelection().end;},
   focus(){root.current?.focus();},blur(){root.current?.blur();},select(){setSelectionRange(0,sourceText(root.current!).length);},setSelectionRange,
   get inputMode(){return root.current?.inputMode||'none';},set inputMode(v){if(root.current)root.current.inputMode=v;},get dataset(){return root.current!.dataset;},
  }));
  function render(){
-  const el=root.current;if(!el||composing.current)return;const state=latest.current,focused=document.activeElement===el,saved={...readSelection()},fragment=document.createDocumentFragment();
+  const el=root.current;if(!el||composing.current)return;const state=latest.current,focused=document.activeElement===el,saved=selectionAfterTextChange(sourceText(el),state.text,readSelection()),fragment=document.createDocumentFragment();
   function plain(start:number,end:number){if(end<=start)return;const l=state.loading;if(l&&l.start>=start&&l.end<=end){fragment.append(document.createTextNode(state.text.slice(start,l.start)));const mark=document.createElement('mark');mark.dataset.recognizing='color';mark.textContent=state.text.slice(l.start,l.end);fragment.append(mark,document.createTextNode(state.text.slice(l.end,end)));}else fragment.append(document.createTextNode(state.text.slice(start,end)));}
   let cursor=0;
   if(state.live)for(const token of state.live.parameters){
@@ -76,5 +77,5 @@ export const SentenceComposer=forwardRef<TextInputHandle,SentenceComposerProps>(
  useLayoutEffect(render,[p.text,JSON.stringify(p.parameters),JSON.stringify(p.live?.parameters),p.live?.active,p.input.revision,p.active,p.disabled,p.loading?.start,p.loading?.end,p.files.map(f=>f.id+f.name).join('|')]);
  useEffect(()=>{const listener=()=>{if(document.activeElement===root.current){readSelection();latest.current.onSelect();}};document.addEventListener('selectionchange',listener);return()=>document.removeEventListener('selectionchange',listener);},[]);
  function changed(){if(composing.current)return;readSelection();const text=sourceText(root.current!);latest.current.onSelect();latest.current.onChange(text);}
- return <div ref={root} className="wb-sentence-composer" role="textbox" aria-multiline="true" aria-label={uiText("手机 WorkBuddy 草稿")} contentEditable={!p.disabled} suppressContentEditableWarning inputMode="none" data-placeholder={p.placeholder} onFocus={p.onFocus} onInput={changed} onCompositionStart={()=>{composing.current=true;}} onCompositionEnd={()=>{composing.current=false;changed();}} onPaste={e=>{e.preventDefault();const s=readSelection(),value=latest.current.text,insert=e.clipboardData.getData('text/plain');latest.current.onChange(value.slice(0,s.start)+insert+value.slice(s.end));requestAnimationFrame(()=>setSelectionRange(s.start+insert.length,s.start+insert.length));}}/>
+ return <div ref={root} className="wb-sentence-composer" role="textbox" aria-multiline="true" aria-label={p.ariaLabel||uiText("手机 WorkBuddy 草稿")} contentEditable={!p.disabled} suppressContentEditableWarning inputMode="none" data-placeholder={p.placeholder} onFocus={p.onFocus} onInput={changed} onCompositionStart={()=>{composing.current=true;}} onCompositionEnd={()=>{composing.current=false;changed();}} onPaste={e=>{e.preventDefault();const s=readSelection(),value=latest.current.text,insert=e.clipboardData.getData('text/plain');latest.current.onChange(value.slice(0,s.start)+insert+value.slice(s.end));requestAnimationFrame(()=>{setSelectionRange(s.start+insert.length,s.start+insert.length);latest.current.onSelect();});}}/>
 });

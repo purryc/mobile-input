@@ -1,6 +1,6 @@
 import {uiText} from './i18n';
 import {Children,useEffect,useRef,useState,type ReactNode} from 'react';
-import {AgentWidgetColor,WidgetIcon} from './agent-widget-color';
+import {AgentWidgetColor,WidgetIcon,colorTitle} from './agent-widget-color';
 import {SKETCH_WIDTH,SKETCH_HEIGHT,eraseSketchAt} from '../../../packages/core/agent-sketch';
 export function AgentComposer({children,footer,busy=false,className='',label}:{children:ReactNode;footer?:ReactNode;busy?:boolean;className?:string;label?:string}){return <section aria-label={label} className={'live-wb-composer '+className} inert={busy}><div className="live-wb-scroll">{children}</div>{footer&&<footer>{footer}</footer>}</section>;}
 export function AgentAuxiliary({title,onClose,children,busy=false}:{title:string;onClose:()=>void;children:ReactNode;busy?:boolean}){return <section className="live-wb-aux" inert={busy}><header><b>{title}</b><button aria-label={uiText("关闭辅助输入")} onClick={onClose}><WidgetIcon name="close"/></button></header>{children}</section>;}
@@ -19,4 +19,12 @@ export function AgentSketchInput({strokes,onChange,onEnd,onActive,onAdopt,busy=f
  <button aria-label={uiText("画笔")} aria-pressed={tool==='pen'} onClick={()=>setTool('pen')}><WidgetIcon name="pen"/></button><button aria-label={uiText("橡皮")} aria-pressed={tool==='eraser'} onClick={()=>setTool('eraser')}><WidgetIcon name="eraser"/></button>
  <button aria-label={uiText("撤销笔迹")} disabled={busy||(!strokes.length&&!history.current.length)} onClick={()=>{const next=history.current.pop()??lines.current.slice(0,-1);update(next);setRevision(n=>n+1);onEnd?.(next);}}><WidgetIcon name="undo"/></button><button aria-label={uiText("清空笔迹")} disabled={!strokes.length||busy} onClick={()=>{remember(lines.current);update([]);onEnd?.([]);}}><WidgetIcon name="clear"/></button><span/>
  <button aria-label={uiText("采用布局草图")} disabled={busy||!strokes.some(s=>s.length>1)} onClick={onAdopt}><WidgetIcon name="check"/></button></footer></>;
+}
+
+/** All supported destinations render the same parameter widget; only callbacks differ. */
+export function AgentParameterWidget({parameter,active,busy=false,onClose,onValue,onActive,strokes,onStrokes,onStrokeEnd,onAdoptSketch,photos,onChoosePhoto,onCapture,onConfirmPhotos}:{parameter?:import('../../../packages/core/live-workbuddy').LiveParameter;active:string|null;busy?:boolean;onClose:()=>void;onValue:(value:string)=>void;onActive:(active:boolean)=>void;strokes:number[][][];onStrokes:(strokes:number[][][])=>void;onStrokeEnd?:(strokes:number[][][])=>void;onAdoptSketch:()=>void;photos?:ReactNode;onChoosePhoto:()=>void;onCapture:()=>void;onConfirmPhotos:()=>void}){
+ const kind=parameter?.kind||(active==='photos'?'photo':active==='sketch'?'sketch':undefined);
+ if(!kind||kind==='document')return null;
+ const title=kind==='photo'?uiText('图片选择'):kind==='color'?colorTitle(parameter!.role):kind==='sketch'?(parameter?.scope&&parameter.scope!=='全文'?parameter.scope:uiText('布局草图')):parameter?.role||uiText('演讲时长');
+ return <AgentAuxiliary title={title} busy={busy} onClose={onClose}>{kind==='photo'?<AgentPhotoInput busy={busy} onChoose={onChoosePhoto} onCapture={onCapture} onDone={onConfirmPhotos}>{photos}</AgentPhotoInput>:kind==='color'?<AgentColorInput key={parameter!.id} value={parameter!.value} label={parameter!.role} onChange={onValue} onActive={onActive} onDone={onClose}/>:kind==='duration'?<AgentDurationInput value={parameter!.value} onChange={onValue}/>:<AgentSketchInput strokes={strokes} onChange={onStrokes} onEnd={onStrokeEnd} onActive={onActive} onAdopt={onAdoptSketch} busy={busy}/>}</AgentAuxiliary>;
 }

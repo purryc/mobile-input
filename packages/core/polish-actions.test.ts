@@ -25,10 +25,20 @@ test('every exposed action has an allowlisted rewrite instruction, unknown actio
 
 test('contextual actions do not pad short content and respect actual purpose',()=>{
  const wx={app:'wechat',id:'composer',kind:'text'};
- assert.equal(contextualPolishActions(wx,'收到，谢谢').length,1);
+ assert.equal(contextualPolishActions(wx,'收到，谢谢').length,0);
  assert.deepEqual(contextualPolishActions(wx,'12345'),[]);
  assert.deepEqual(contextualPolishActions(wx,''),[]);
  assert.equal(contextualPolishActions({app:'paint',id:'paint-command',kind:'command'},'新建图层').length,0);
  assert.equal(contextualPolishActions(wx,'不要改语气，请保留我的原话，明天下午两点开会。').some(a=>a.id==='polite'),false);
  assert.equal(contextualPolishActions({app:'mail',id:'mail-draft',kind:'text'},'明天方便一起吃饭吗？').some(a=>a.id==='mail-professional'),false);
+});
+
+test('chat actions select distinct edits without assuming relationship or changing tone constraints',()=>{
+ const target={app:'wechat',id:'composer',kind:'text'};
+ assert.deepEqual(contextualPolishActions(target,'赶紧把已经确认的资料发给我！').map(a=>a.id),['polite']);
+ assert.deepEqual(contextualPolishActions(target,'烦请确认明天下午两点的会议安排。').map(a=>a.id),['chat-natural']);
+ const actions=contextualPolishActions(target,'那个就是我想说明一下，明天下午我尽量把已确认的资料先整理出来，然后关于还没有确认的交付时间，我会等有了消息再联系大家。');
+ assert.deepEqual(actions.map(a=>a.id),['fix','chat-short','chat-natural']);
+ assert.ok(actions.every(a=>polishInstruction(a.id)));
+ assert.equal(contextualPolishActions({...target,kind:'number'},'那个就是').length,0);
 });

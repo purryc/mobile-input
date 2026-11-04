@@ -14,9 +14,10 @@ export function extractLiveParameters(text:string):LiveParameter[]{
   for(const pattern of [/(?:讲|演讲|汇报|时长|控制在|大约|约)\s*(\d{1,3}|[零一二两三四五六七八九十百]{1,5})\s*分钟/g,/(\d{1,3}|[零一二两三四五六七八九十百]{1,5})\s*分钟(?:的)?(?:演讲|演示|汇报|发言|讲话)/g])for(const m of sentence.matchAll(pattern)){if(/(?:不要|取消|别)[^，,]*$/.test(sentence.slice(0,m.index)))continue;const n=minutes(m[1]);if(n>0&&n<=60)add('duration',m,m[1],'演讲时长',String(n),String(n));}
   for(const m of sentence.matchAll(/(?:参考|依据|用|附上|添加|上传|选择)(?:这份|我的|一下|一份)?\s*([^，。；\n]{0,20}?(?:资料|文档|文件|\.pdf|\.docx))/g)){if(/(?:不要|不用|别|不)[^，,]*$/.test(sentence.slice(0,m.index)))continue;add('document',m,m[1],'参考资料','');}
   // Image invitations share one stable legacy binding; user wording stays unchanged.
-  for(const m of sentence.matchAll(/((?:本地|实拍|产品|参考)?(?:的)?(?:照片|图片)|配图|产品图|拍照)/g)){
+  for(const m of sentence.matchAll(/((?:本地|实拍|产品|参考)?(?:的)?(?:照片|图片|图像)|配图|产品图|拍照)/g)){
    const before=sentence.slice(0,m.index).split(/[，,]/).at(-1)||'';
    if(/(?:不要|不用|无需|不需要|别|取消|不)[^，,]*$/.test(before))continue;
+   if(/(?:生成|创作|绘制|画出|制作)[^，,]*$/.test(before)&&!/(?:参考|添加|选择|上传|附上|用我|拍摄)[^，,]*$/.test(before))continue;
    add('photo',m,m[1],'实拍照片','');
   }
   for(const m of sentence.matchAll(/(?:布局|排版)(?:我来|我)?画(?:一下|个|一张|出来)?|(?:我来|我)?画一下|布局|排版/g)){

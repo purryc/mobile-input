@@ -3744,12 +3744,14 @@
       "roadmapReferenceExample": {
         "section": "109:5262",
         "inline": "1372:25427",
-        "picker": "2195:42563",
-        "filled": "1286:6473",
+        "filled": "2465:108387",
         "ready": "1286:6473",
         "library": "2300:113897",
-        "stateIsolation": "Roadmap-only prototype variables",
-        "confirmationRequired": false
+        "stateIsolation": "single-task preset Figma prototype; production ownership separately verified",
+        "confirmationRequired": false,
+        "widget": "2164:58435",
+        "attached": "2465:108387",
+        "nativePicker": "platform-owned; no Figma screen"
       },
       "figmaPageId": "2:2",
       "catalogRole": "reusable-control"
@@ -3832,10 +3834,10 @@
     },
     {
       "componentId": "product-ppt-reference",
-      "figmaNodeId": "2200:112909",
-      "name": "System / Document picker · single selection",
+      "figmaNodeId": "2161:99053",
+      "name": "Input / Reference materials",
       "skins": [
-        "System"
+        "Glass"
       ],
       "props": [
         "accepted-file-types",
@@ -3843,45 +3845,65 @@
         "task-owner"
       ],
       "kind": "reference-material",
-      "region": "system-modal",
+      "region": "adaptive",
       "renderOwner": "design-only",
       "capabilities": [],
       "status": "design-contract-not-runtime",
       "states": [
-        "Default"
+        "Empty",
+        "Attached"
       ],
       "actions": [
+        "openReferenceWidget",
+        "addReferenceFile",
         "selectFileAndReturn",
+        "removeReferenceFile",
         "dismiss"
       ],
       "designEvidence": "artifacts/workbuddy-product-ppt-2026-11-02/delivery-index.json",
       "runtimeApiAdded": false,
       "inlineDisplay": {
         "suggested": "上传图标＋上传文件",
-        "adopted": "原位显示文件名、参考图片或链接",
-        "reopen": "点击原文件chip重新选择；选择即回填，关闭不改变原值",
+        "adopted": "原句位置回填文件名",
+        "reopen": "正文文件 chip 始终打开参考资料 widget；已有文件重开同一材料集合",
         "documentVisualComponent": "2178:111729",
         "uploaderVisualComponent": "2184:111739"
       },
-      "fileSelectionRule": "系统DocumentViewPicker返回单选文件后直接回填原句chip；应用无二次确认；系统自身的完成按钮依平台和多选模式保留。取消保持原值；选择、上传、解析、目标可读分别验证；不自动发送。",
+      "fileSelectionRule": "正文文件 chip → 参考资料 widget → 添加参考资料 → 系统 DocumentViewPicker；返回合法文件后回到 widget，文件卡片和原句文件名同步回填。应用不追加对勾或确认；取消保持原值；删除最后一个恢复空态及上传文件入口。所有材料绑定原任务，保留本地直到显式 Send；选择、关闭和回填不提交。",
       "fileRowComponent": "2188:111730",
       "exampleFrames": {
         "start": "1372:25427",
-        "picker": "2195:42563",
-        "filled": "1286:6473"
+        "empty": "2164:58435",
+        "attached": "2465:108387",
+        "composer": "1286:6473"
       },
       "nativeBoundary": {
         "provider": "HarmonyOS DocumentViewPicker",
-        "prototype": "system-interaction-illustration-not-exact-version-replica",
+        "prototype": "external-native-call; no OS-screen mock and no fake navigation destination",
         "sharedDockVisible": false,
         "appHeaderVisible": false,
         "platformSources": [
           "https://developer.huawei.com/consumer/cn/doc/doccenter-dev-faq/faqs-local-file-manager-50",
           "https://developer.android.com/training/data-storage/shared/documents-files"
-        ]
+        ],
+        "launch": "widget-add-action-only",
+        "figmaScreenRequired": false
       },
-      "figmaPageId": "0:1",
-      "catalogRole": "scene-source"
+      "figmaPageId": "2:2",
+      "catalogRole": "reusable-control",
+      "figmaVariants": {
+        "Empty": "2161:99053",
+        "Attached": "2465:108366"
+      },
+      "supportedFiles": {
+        "extensions": [
+          ".pdf",
+          ".txt",
+          ".md"
+        ],
+        "maxBytesPerFile": 8388608
+      },
+      "widgetConfirmationRequired": false
     },
     {
       "componentId": "product-ppt-photos",
@@ -5015,7 +5037,7 @@
     ],
     "filePath": {
       "display": "file-icon-and-basename",
-      "activate": "open-file-manager-to-reselect",
+      "activate": "open-reference-material-widget; Add launches native file picker",
       "preserve": [
         "full-path",
         "app",
@@ -5194,7 +5216,7 @@
     "figmaSectionId": "109:5262",
     "frames": {
       "initial": "1372:25427",
-      "reference": "2195:42563",
+      "reference": "2164:58435",
       "photos": "1646:11696",
       "layout-empty": "1372:25846",
       "layout-drawn": "15:5743",
@@ -5204,14 +5226,14 @@
       "duration": "2164:57771",
       "ready": "1286:6473",
       "sent": "5:8573",
-      "reference-link": "2164:58435",
       "camera": "2164:58664",
       "compact": "2164:59124",
       "trackpad": "2164:59339",
       "keyboard": "2164:59929",
       "compact-trackpad": "2167:107430",
       "compact-keyboard": "2167:108002",
-      "raw": "5:8435"
+      "raw": "5:8435",
+      "reference-attached": "2465:108387"
     },
     "pcFrameId": "2164:60222",
     "mainStates": 4,
@@ -5224,7 +5246,6 @@
     ],
     "status": "design-and-prototype-not-production",
     "consolidation": "Roadmap and product-introduction now share one product-introduction task and Composer",
-    "nativeFilePickerComponent": "2200:112909",
     "parameterPresentation": {
       "entry": "inline-token-only",
       "addInputMenu": false,
@@ -5232,12 +5253,20 @@
         "width": 322,
         "height": 112
       },
-      "referenceLinkWidget": {
-        "width": 322,
-        "height": 120
-      },
       "standaloneHitTargetMin": 48,
-      "remainingSpace": "composer"
+      "remainingSpace": "composer",
+      "referenceMaterialsWidget": {
+        "Empty": {
+          "width": 354,
+          "height": 176
+        },
+        "Attached": {
+          "width": 354,
+          "height": 272
+        },
+        "confirmationRequired": false,
+        "pickerLaunch": "add-action-only"
+      }
     },
     "layoutAttachment": {
       "placement": "inside-sole-composer-before-all-prose",
@@ -5308,6 +5337,13 @@
       "nativeFilePicker": "platform-owned-selection-completion-no-extra-app-page",
       "updatedAt": "2026-11-03",
       "evidence": "design-and-prototype-only"
+    },
+    "nativeFilePicker": {
+      "provider": "HarmonyOS DocumentViewPicker",
+      "entry": "reference-widget-add-action",
+      "figmaScreen": false,
+      "returns": "update-file-card-and-original-chip-filename",
+      "cancel": "preserve-existing-files"
     }
   },
   "voiceVisualContract": {
