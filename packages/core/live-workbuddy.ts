@@ -1,3 +1,4 @@
+import {extractEnglishParameters} from './live-workbuddy-english';
 /** Real-app input data is intentionally independent of the demo WorkBuddy state. */
 export type LiveInputKind='color'|'duration'|'document'|'photo'|'sketch';
 export interface LiveParameter {id:string;kind:LiveInputKind;start:number;end:number;phrase:string;label:string;role:string;scope:string;value:string;manual:boolean;}
@@ -53,7 +54,8 @@ export function extractLiveParameters(text:string):LiveParameter[]{
   items.push({id:'',kind:'color',start,end,phrase,label:phrase,role:'颜色',scope,value:liveColors[phrase]||phrase.toUpperCase(),manual:false});
  }
  // Correcting the same parameter in the same scope uses the last explicit value.
- const last=new Map<string,LiveParameter>();for(const p of items)last.set(`${p.kind}/${p.scope}/${p.role}`,p);
+ items.push(...extractEnglishParameters(text));
+ const last=new Map<string,LiveParameter>();for(const p of items.sort((a,b)=>a.start-b.start))last.set(`${p.kind}/${p.scope}/${p.role}`,p);
  return [...last.values()].sort((a,b)=>a.start-b.start).map(p=>({...p,id:`${p.kind}:${p.scope}:${p.role}`}));
 }
 export function resolveLiveParameters(text:string,previous:LiveParameter[]=[]):LiveParameter[]{

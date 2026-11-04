@@ -592,3 +592,43 @@ test("black font and generic black chips open neutral palettes and keep independ
     path: "artifacts/workbuddy-demo/evidence/black-color-picker.png",
   });
 });
+
+test('top-right language settings preserve content, isolate preferences and use English speech/widgets', async ({page}) => {
+  await mockSpeech(page);
+  await page.addInitScript(()=>localStorage.setItem('input-agent:ui-language','zh-CN'));
+  await open(page);
+  await editor(page).fill('保留这段文字。');
+  await page.getByRole('button',{name:'设置',exact:true}).click();
+  await page.getByRole('combobox',{name:'界面与语音语言'}).selectOption('en');
+  await expect(page.getByRole('heading',{name:"WorkBuddy, here to help"})).toBeVisible();
+  await page.getByRole('button',{name:'Close settings'}).click();
+  const input=page.getByRole('textbox',{name:'WorkBuddy task input',exact:true});
+  await expect(input).toContainText('保留这段文字。');
+  expect(await page.evaluate(()=>localStorage.getItem('input-agent:ui-language'))).toBe('zh-CN');
+  await input.fill('Create a five-minute presentation. Use a red theme, a gray background and black text. Attach my product document, add product photos, and sketch the layout.');
+  for(const kind of ['color','duration','document','photo','sketch'])await expect(page.locator(`.sentence-token[data-kind=${kind}]`).first()).toBeVisible();
+  await page.locator('.sentence-token[data-kind=photo]').click();
+  await expect(page.getByRole('button',{name:'Choose images',exact:true})).toBeVisible();
+  await page.getByRole('button',{name:'Close input tool'}).click();
+  await input.fill('');
+  await page.getByRole('button',{name:'Start voice input'}).click();
+  expect(await page.evaluate(()=>(window as any).__speech.at(-1).lang)).toBe('en-US');
+  await emit(page,'Use a red theme');
+  await emit(page,'Use a blue theme, add product photos');
+  await page.getByRole('button',{name:'Settings',exact:true}).click();
+  await page.getByRole('combobox',{name:'Interface and speech language'}).selectOption('zh-CN');
+  await emit(page,'Late callback must be ignored');
+  await expect(editor(page)).toContainText('blue');
+  await expect(editor(page)).not.toContainText('Late callback');
+  await page.getByRole('combobox',{name:'界面与语音语言'}).selectOption('en');
+  await page.getByRole('button',{name:'Close settings'}).click();
+  await expect(page.getByRole('status',{name:'Save status'})).toHaveText('Saved on this computer');
+  await page.reload();
+  await expect(input).toContainText('blue');
+  await expect(page.getByRole('button',{name:'Settings',exact:true})).toBeVisible();
+  await page.screenshot({path:'artifacts/workbuddy-demo/evidence/english-desktop.png'});
+  await page.setViewportSize({width:1024,height:768});
+  await page.getByRole('button',{name:'Settings',exact:true}).click();
+  await expect(page.getByRole('combobox',{name:'Interface and speech language'})).toBeVisible();
+  await page.screenshot({path:'artifacts/workbuddy-demo/evidence/english-tablet.png'});
+});

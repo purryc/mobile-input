@@ -32,7 +32,7 @@ const errors: Record<string, string> = {
   "audio-capture": "无法使用麦克风，请检查设备连接和系统权限后重试。",
   network: "语音连接中断，文字已保留；请检查网络后重试，也可以直接键入。",
   "language-not-supported":
-    "当前语音服务不支持普通话，请检查 Chrome 语音设置。",
+    "当前语音服务不支持所选语言，请检查 Chrome 语音设置。",
 };
 export class BrowserDictation {
   private engine: RecognitionEngine | null = null;
@@ -50,8 +50,10 @@ export class BrowserDictation {
     private factory: () => RecognitionEngine,
     private sink: SpeechSink,
   ) {}
-  start() {
+  private language = "zh-CN";
+  start(language = "zh-CN") {
     if (this.wanted || this.engine || this.stopping) return;
+    this.language = language;
     this.wanted = true;
     this.prefix = "";
     this.segment = "";
@@ -74,7 +76,7 @@ export class BrowserDictation {
     }
     this.engine = engine;
     this.segment = "";
-    engine.lang = "zh-CN";
+    engine.lang = this.language;
     engine.continuous = true;
     engine.interimResults = true;
     const valid = () => token === this.token && this.engine === engine;
@@ -86,8 +88,8 @@ export class BrowserDictation {
       // Results are cumulative within one engine run; interim entries can shrink or change.
       this.segment = Array.from(
         event.results,
-        (r) => r[0]?.transcript || "",
-      ).join("");
+        (r) => this.language.startsWith("en") ? (r[0]?.transcript || "").trim() : r[0]?.transcript || "",
+      ).join(this.language.startsWith("en") ? " " : "");
       if (this.segment.trim()) this.heard = true;
       this.sink.text(this.prefix + this.segment);
     };
@@ -117,6 +119,7 @@ export class BrowserDictation {
         return;
       }
       this.prefix += this.segment;
+      if (this.language.startsWith("en") && this.prefix && !/\s$/.test(this.prefix)) this.prefix += " ";
       this.segment = "";
       this.timer = setTimeout(() => this.begin(), 180);
     };

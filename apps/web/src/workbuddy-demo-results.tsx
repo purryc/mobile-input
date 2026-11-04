@@ -1,3 +1,4 @@
+import {uiText, uiLanguage} from "./i18n";
 import {
   createElement,
   useEffect,
@@ -127,7 +128,7 @@ function Slide({
           <EditableText
             tag="h1"
             text={page.title}
-            label="网页幻灯片标题"
+            label={uiText("网页幻灯片标题")}
             change={(title) => change({ title })}
           />
         ) : (
@@ -138,7 +139,7 @@ function Slide({
         change ? (
           <EditableText
             text={page.body}
-            label="网页幻灯片正文"
+            label={uiText("网页幻灯片正文")}
             change={(body) => change({ body })}
           />
         ) : (
@@ -237,13 +238,13 @@ async function download(artifact: DemoArtifact, materials: DemoMaterial[]) {
   const slides = artifact.deck.pages
     .map(
       (p) =>
-        `<section class="${p.layout}" style="background:${p.background};color:${p.textColor};--primary:${p.primary}"><header><small>PRODUCT PRESENTATION</small><h1>${escape(p.title)}</h1></header><main>${p.photoIds.length ? `<div class="photos">${p.photoIds.map((id) => `<img src="${photos.get(id) || ""}" style="object-fit:${p.photoFits?.[id] || p.imageFit}" alt="用户提供的图片">`).join("")}</div>` : ""}<div class="copy">${escape(p.body)}</div></main><details><summary>讲稿</summary>${escape(p.notes)}</details></section>`,
+        `<section class="${p.layout}" style="background:${p.background};color:${p.textColor};--primary:${p.primary}"><header><small>PRODUCT PRESENTATION</small><h1>${escape(p.title)}</h1></header><main>${p.photoIds.length ? `<div class="photos">${p.photoIds.map((id) => `<img src="${photos.get(id) || ""}" style="object-fit:${p.photoFits?.[id] || p.imageFit}" alt="${uiText("用户提供的图片")}">`).join("")}</div>` : ""}<div class="copy">${escape(p.body)}</div></main><details><summary>${uiText("讲稿")}</summary>${escape(p.notes)}</details></section>`,
     )
     .join("");
   saveDownload(
     new Blob(
       [
-        `<!doctype html><html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${escape(artifact.title)}</title><style>*{box-sizing:border-box}html{scroll-snap-type:y mandatory}body{margin:0;font:2vw/1.55 system-ui;background:#222}section{padding:5vh 7vw;width:100%;height:100vh;overflow:auto;display:flex;flex-direction:column;scroll-snap-align:start}h1{font-size:4vw;margin:1vh 0 4vh;white-space:pre-wrap}small{color:var(--primary);font-size:1vw;letter-spacing:.2em}main{display:flex;gap:5%;flex:1;min-height:0}.photos,.copy{flex:1;min-width:0;white-space:pre-wrap}.photos{display:flex;gap:1vw}.photos img{width:100%;min-width:0;flex:1;object-fit:contain}.image-right .photos{order:2}.stack main{flex-direction:column}.stack .photos{max-height:50%}.cover{justify-content:center}.full-image .photos{flex:2}details{font-size:14px;white-space:pre-wrap}summary{cursor:pointer}@media print{section{height:100vh;break-after:page}details{display:none}}</style>${slides}<script>addEventListener('keydown',e=>{if(['ArrowRight','ArrowDown','PageDown',' '].includes(e.key)){e.preventDefault();scrollBy(0,innerHeight)}if(['ArrowLeft','ArrowUp','PageUp'].includes(e.key)){e.preventDefault();scrollBy(0,-innerHeight)}})</script></html>`,
+        `<!doctype html><html lang="${uiLanguage()}"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${escape(artifact.title)}</title><style>*{box-sizing:border-box}html{scroll-snap-type:y mandatory}body{margin:0;font:2vw/1.55 system-ui;background:#222}section{padding:5vh 7vw;width:100%;height:100vh;overflow:auto;display:flex;flex-direction:column;scroll-snap-align:start}h1{font-size:4vw;margin:1vh 0 4vh;white-space:pre-wrap}small{color:var(--primary);font-size:1vw;letter-spacing:.2em}main{display:flex;gap:5%;flex:1;min-height:0}.photos,.copy{flex:1;min-width:0;white-space:pre-wrap}.photos{display:flex;gap:1vw}.photos img{width:100%;min-width:0;flex:1;object-fit:contain}.image-right .photos{order:2}.stack main{flex-direction:column}.stack .photos{max-height:50%}.cover{justify-content:center}.full-image .photos{flex:2}details{font-size:14px;white-space:pre-wrap}summary{cursor:pointer}@media print{section{height:100vh;break-after:page}details{display:none}}</style>${slides}<script>addEventListener('keydown',e=>{if(['ArrowRight','ArrowDown','PageDown',' '].includes(e.key)){e.preventDefault();scrollBy(0,innerHeight)}if(['ArrowLeft','ArrowUp','PageUp'].includes(e.key)){e.preventDefault();scrollBy(0,-innerHeight)}})</script></html>`,
       ],
       { type: "text/html;charset=utf-8" },
     ),
@@ -267,7 +268,7 @@ function Markdown({
             "wbf-block md-unit" + (unit.heading ? " md-h" + unit.heading : "")
           }
           role="textbox"
-          aria-label="Markdown 正文"
+          aria-label={uiText("Markdown 正文")}
           contentEditable
           suppressContentEditableWarning
           onFocus={(e) => {
@@ -374,28 +375,26 @@ function ArtifactEditor({
         </span>
         <span />
         <button
-          aria-label="下载成果"
+          aria-label={uiText("下载成果")}
           onClick={() =>
             void download(artifact, materials).catch(() =>
               setError("下载失败，请重试"),
             )
           }
         >
-          <I.Download size={16} />
-          下载
-        </button>
+          <I.Download size={16} />{uiText("下载")}</button>
       </div>
       {artifact.kind !== "image" && (
         <nav className="deck-editor-toolbar">
           <button
-            aria-label="撤销成果编辑"
+            aria-label={uiText("撤销成果编辑")}
             disabled={!artifact.history?.length}
             onClick={() => history(false)}
           >
             <I.Undo2 size={17} />
           </button>
           <button
-            aria-label="重做成果编辑"
+            aria-label={uiText("重做成果编辑")}
             disabled={!artifact.future?.length}
             onClick={() => history(true)}
           >
@@ -403,18 +402,14 @@ function ArtifactEditor({
           </button>
           {deck ? (
             <>
-              <button onClick={() => setSettings(!settings)}>
-                页面设置
-                <I.ChevronDown size={14} />
+              <button onClick={() => setSettings(!settings)}>{uiText("页面设置")}<I.ChevronDown size={14} />
               </button>
               <button onClick={() => setPlaying(true)}>
-                <I.PlayCircle size={17} />
-                放映
-              </button>
+                <I.PlayCircle size={17} />{uiText("放映")}</button>
             </>
           ) : (
             <button aria-pressed={source} onClick={() => setSource(!source)}>
-              {source ? "返回文档" : "编辑 Markdown"}
+              {uiText(source ? "返回文档" : "编辑 Markdown")}
             </button>
           )}
         </nav>
@@ -424,7 +419,7 @@ function ArtifactEditor({
           {settings && (
             <div className="demo-page-settings">
               <select
-                aria-label="页面布局"
+                aria-label={uiText("页面布局")}
                 value={page.layout}
                 onChange={(e) =>
                   patch({ layout: e.target.value as DeckPage["layout"] })
@@ -432,17 +427,17 @@ function ArtifactEditor({
               >
                 {deckLayouts.map((l, i) => (
                   <option key={l} value={l}>
-                    {layoutNames[i]}
+                    {uiText(layoutNames[i])}
                   </option>
                 ))}
               </select>
               {(["background", "primary", "textColor"] as const).map(
                 (key, i) => (
                   <label key={key}>
-                    {["背景", "主色", "文字"][i]}
+                    {uiText(["背景", "主色", "文字"][i])}
                     <input
                       type="color"
-                      aria-label={["页面背景色", "页面主色", "页面文字色"][i]}
+                      aria-label={uiText(["页面背景色", "页面主色", "页面文字色"][i])}
                       value={page[key]}
                       onChange={(e) => patch({ [key]: e.target.value })}
                     />
@@ -459,7 +454,7 @@ function ArtifactEditor({
                   const next = {
                     ...page,
                     id: crypto.randomUUID(),
-                    title: "新页面",
+                    title: uiText("新页面"),
                     body: "",
                     notes: "",
                     photoIds: [],
@@ -470,9 +465,7 @@ function ArtifactEditor({
                   });
                   setPageIndex(deck.pages.length);
                 }}
-              >
-                添加页面
-              </button>
+              >{uiText("添加页面")}</button>
               {deck.pages.map((p, i) => (
                 <button
                   key={p.id}
@@ -488,7 +481,7 @@ function ArtifactEditor({
                 {[-1, 1].map((offset) => (
                   <button
                     key={offset}
-                    aria-label={offset < 0 ? "页面上移" : "页面下移"}
+                    aria-label={uiText(offset < 0 ? "页面上移" : "页面下移")}
                     disabled={
                       index + offset < 0 || index + offset >= deck.pages.length
                     }
@@ -510,7 +503,7 @@ function ArtifactEditor({
                   </button>
                 ))}
                 <button
-                  aria-label="删除页面"
+                  aria-label={uiText("删除页面")}
                   disabled={deck.pages.length < 2}
                   onClick={() =>
                     change({
@@ -542,21 +535,19 @@ function ArtifactEditor({
               </div>
               <textarea
                 className="deck-notes"
-                aria-label="本页讲稿"
+                aria-label={uiText("本页讲稿")}
                 value={page.notes}
                 onChange={(e) => patch({ notes: e.target.value })}
               />
             </main>
           </div>
           <footer className="deck-editor-bottom">
-            <span>
-              第 {index + 1} 页 / 共 {deck.pages.length} 页
-            </span>
-            <button aria-label="播放" onClick={() => setPlaying(true)}>
+            <span>{uiLanguage() === "en" ? `Page ${index + 1} / ${deck.pages.length}` : `第 ${index + 1} 页 / 共 ${deck.pages.length} 页`}</span>
+            <button aria-label={uiText("播放")} onClick={() => setPlaying(true)}>
               <I.PlayCircle size={20} />
             </button>
             <button
-              aria-label="缩小画布"
+              aria-label={uiText("缩小画布")}
               disabled={zoom <= 50}
               onClick={() => setZoom(zoom - 10)}
             >
@@ -564,7 +555,7 @@ function ArtifactEditor({
             </button>
             <output>{zoom}%</output>
             <button
-              aria-label="放大画布"
+              aria-label={uiText("放大画布")}
               disabled={zoom >= 160}
               onClick={() => setZoom(zoom + 10)}
             >
@@ -578,7 +569,7 @@ function ArtifactEditor({
             <div className="wbf-text-page">
               {source ? (
                 <textarea
-                  aria-label="Markdown 源文档"
+                  aria-label={uiText("Markdown 源文档")}
                   value={artifact.markdown}
                   onChange={(e) =>
                     change({ kind: "document", markdown: e.target.value })
@@ -601,9 +592,9 @@ function ArtifactEditor({
           />
         </div>
       ) : null}
-      {error && <p role="alert">{error}</p>}
+      {error && <p role="alert">{uiText(error)}</p>}
       {playing && page && deck && (
-        <div className="deck-playback" role="dialog" aria-label="演示文稿放映">
+        <div className="deck-playback" role="dialog" aria-label={uiText("演示文稿放映")}>
           <Slide page={page} materials={materials} />
           <header>
             <b>{artifact.title}</b>
@@ -615,16 +606,12 @@ function ArtifactEditor({
             <button
               disabled={index === 0}
               onClick={() => setPageIndex(index - 1)}
-            >
-              上一页
-            </button>
-            <button onClick={() => setPlaying(false)}>退出放映</button>
+            >{uiText("上一页")}</button>
+            <button onClick={() => setPlaying(false)}>{uiText("退出放映")}</button>
             <button
               disabled={index === deck.pages.length - 1}
               onClick={() => setPageIndex(index + 1)}
-            >
-              下一页
-            </button>
+            >{uiText("下一页")}</button>
           </footer>
         </div>
       )}
@@ -665,12 +652,10 @@ export function DemoTaskView({
   return (
     <>
       <header className="demo-task-heading">
-        <span>{draft.requests.at(-1)?.text.slice(0, 42) || "新任务"}</span>
+        <span>{draft.requests.at(-1)?.text.slice(0, 42) || uiText("新任务")}</span>
         {files.length > 0 && closed && (
           <button onClick={() => setClosed(false)}>
-            <I.PanelRightOpen size={17} />
-            查看成果
-          </button>
+            <I.PanelRightOpen size={17} />{uiText("查看成果")}</button>
         )}
       </header>
       <div className="wb-task-layout">
@@ -679,7 +664,7 @@ export function DemoTaskView({
             className="wb-messages"
             ref={messages}
             role="region"
-            aria-label="发送的请求"
+            aria-label={uiText("发送的请求")}
           >
             {[...draft.requests].reverse().map((request) => (
               <article key={request.id} className="demo-task-turn">
@@ -692,14 +677,13 @@ export function DemoTaskView({
                   ))}
                 </div>
                 <details className="demo-request-details">
-                  <summary>
-                    查看参数与发送记录（{draft.requests.length}）
+                  <summary>{uiText("查看参数与发送记录（")}{draft.requests.length}）
                   </summary>
                   <dl>
                     {request.parameters.map((p) => (
                       <div key={p.id}>
                         <dt>
-                          {p.scope} · {p.role}
+                          {p.scope === "全文" ? uiText("全文") : p.scope} · {uiText(p.role)}
                         </dt>
                         <dd>{p.value || p.label}</dd>
                       </div>
@@ -715,29 +699,23 @@ export function DemoTaskView({
                     {request.status === "running" ? (
                       <>
                         <I.LoaderCircle size={17} className="demo-spin" />
-                        {request.stage || "准备材料"}
-                        <button onClick={() => onStop(request.id)}>
-                          停止生成
-                        </button>
+                        {uiText(request.stage || "准备材料")}
+                        <button onClick={() => onStop(request.id)}>{uiText("停止生成")}</button>
                       </>
                     ) : request.status === "complete" ? (
-                      "已生成，可打开预览和编辑。"
+                      uiText("已生成，可打开预览和编辑。")
                     ) : request.status === "failed" ||
                       request.status === "stopped" ? (
                       <>
                         <p role="alert">
-                          {request.error || "生成已停止，输入已保留。"}
+                          {uiText(request.error || "生成已停止，输入已保留。")}
                         </p>
-                        <button onClick={() => onRetry(request)}>
-                          重试生成
-                        </button>
+                        <button onClick={() => onRetry(request)}>{uiText("重试生成")}</button>
                       </>
                     ) : (
                       <>
-                        <span>已保存的请求</span>
-                        <button onClick={() => onRetry(request)}>
-                          生成成果
-                        </button>
+                        <span>{uiText("已保存的请求")}</span>
+                        <button onClick={() => onRetry(request)}>{uiText("生成成果")}</button>
                       </>
                     )}
                   </div>
@@ -745,7 +723,7 @@ export function DemoTaskView({
                     <button
                       className="wb-file-card"
                       key={a.id}
-                      aria-label={"打开 " + a.title}
+                      aria-label={uiText("打开 ") + a.title}
                       onClick={() => {
                         setSelected(a.id);
                         setClosed(false);
@@ -757,7 +735,7 @@ export function DemoTaskView({
                       <span>
                         {a.title}
                         <small>
-                          {labels[a.kind]} ·{" "}
+                          {uiText(labels[a.kind])} ·{" "}
                           {a.kind === "slides"
                             ? "HTML"
                             : a.kind === "document"
@@ -784,7 +762,7 @@ export function DemoTaskView({
         {chosen && !closed && (
           <aside
             className="wb-file-panel wbf-results wbf-replica-artifact"
-            aria-label="成果预览"
+            aria-label={uiText("成果预览")}
           >
             <div className="wb-preview-tabs" role="tablist">
               {files.map(({ artifact }) => (
@@ -801,7 +779,7 @@ export function DemoTaskView({
                   </button>
                 </div>
               ))}
-              <button aria-label="收起成果预览" onClick={() => setClosed(true)}>
+              <button aria-label={uiText("收起成果预览")} onClick={() => setClosed(true)}>
                 <I.PanelRightClose size={16} />
               </button>
             </div>

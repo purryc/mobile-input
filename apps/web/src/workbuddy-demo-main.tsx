@@ -1,9 +1,13 @@
+import {configureUILanguageStorage, setUILanguage} from "./i18n";
+import "./workbuddy-demo-i18n";
+import {uiText, useUILanguage} from "./i18n";
 import { DemoTaskView } from "./workbuddy-demo-results";
 import { runDemoGeneration } from "./workbuddy-demo-api";
 import type { DemoRequest } from "../../../packages/core/workbuddy-demo-state";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { createRoot } from "react-dom/client";
 import {
+  Settings,
   ArrowUp,
   ArrowUpRight,
   BriefcaseBusiness,
@@ -69,6 +73,7 @@ import "./web-deck.css";
 import "./workbuddy-demo.css";
 import { WorkBuddyDemoPopover } from "./workbuddy-demo-popover";
 
+configureUILanguageStorage("workbuddy-standalone-demo:language");
 const noInput = initialWbInput();
 type Panel = { kind: LiveInputKind; scope: string; id?: string; role?: string };
 type SpeechWindow = Window & {
@@ -174,15 +179,15 @@ function CameraCapture({
       className="demo-modal"
       role="dialog"
       aria-modal="true"
-      aria-label="拍摄图片"
+      aria-label={uiText("拍摄图片")}
       onKeyDown={(e) => {
         if (e.key === "Escape") onClose();
       }}
     >
       <section>
         <header>
-          <b>拍摄图片</b>
-          <button autoFocus aria-label="关闭摄像头" onClick={onClose}>
+          <b>{uiText("拍摄图片")}</b>
+          <button autoFocus aria-label={uiText("关闭摄像头")} onClick={onClose}>
             <X />
           </button>
         </header>
@@ -192,14 +197,14 @@ function CameraCapture({
           disabled={!ready || taking}
           onClick={() => void capture()}
         >
-          <Camera size={18} />
-          拍摄
-        </button>
+          <Camera size={18} />{uiText("拍摄")}</button>
       </section>
     </div>
   );
 }
 function App() {
+  const language = useUILanguage();
+  const [settingsOpen, setSettingsOpen] = useState(false);
   const jobs = useRef(new Map<string, AbortController>());
   const [state, setState] = useState<DemoState | null>(null),
     latest = useRef<DemoState | null>(null);
@@ -388,7 +393,7 @@ function App() {
       start: area.current?.selectionStart ?? current.text.length,
       end: area.current?.selectionEnd ?? current.text.length,
     };
-    speech.current?.start();
+    speech.current?.start(language === "en" ? "en-US" : "zh-CN");
   }
   function switchDraft(id: string) {
     speech.current?.cancel();
@@ -682,9 +687,9 @@ function App() {
   if (!draft || !state)
     return (
       <div className="demo-loading">
-        {loadError || "正在打开 WorkBuddy…"}
+        {uiText(loadError || "正在打开 WorkBuddy…")}
         {loadError && (
-          <button onClick={() => location.reload()}>重新加载</button>
+          <button onClick={() => location.reload()}>{uiText("重新加载")}</button>
         )}
       </div>
     );
@@ -711,7 +716,7 @@ function App() {
       >
         <button
           title={material.name}
-          aria-label={"查看 " + material.name}
+          aria-label={uiText("查看 ") + material.name}
           onClick={() => {
             if (material.kind === "sketch")
               openPanel({ kind: "sketch", scope: material.scope || "全文" });
@@ -729,7 +734,7 @@ function App() {
         </button>
         <button
           className="demo-remove"
-          aria-label={"移除 " + material.name}
+          aria-label={uiText("移除 ") + material.name}
           onClick={() => removeMaterial(material.id)}
         >
           <X size={14} />
@@ -749,7 +754,7 @@ function App() {
           }}
         >
           <AgentAuxiliary
-            title={
+            title={uiText(
               panel.kind === "photo"
                 ? "图片选择"
                 : panel.kind === "color"
@@ -762,8 +767,8 @@ function App() {
                       ? "参考资料"
                       : panel.scope === "全文"
                         ? "布局草图"
-                        : `${panel.scope} · 布局草图`
-            }
+                        : `${panel.scope} · ${uiText("布局草图")}`
+            )}
             busy={busy}
             onClose={() => {
               setPanel(null);
@@ -820,10 +825,8 @@ function App() {
                   .filter((m) => m.kind === "document")
                   .map((m) => materialTile(m))}
                 <button onClick={() => pick("document", panel.scope)}>
-                  <Plus size={18} />
-                  添加参考资料
-                </button>
-                <small>PDF、TXT、Markdown · 单份最多 8 MB</small>
+                  <Plus size={18} />{uiText("添加参考资料")}</button>
+                <small>{uiText("PDF、TXT、Markdown · 单份最多 8 MB")}</small>
               </div>
             )}
           </AgentAuxiliary>
@@ -831,12 +834,12 @@ function App() {
       )}
       <AgentComposer
         className="deck-composer demo-composer"
-        label="WorkBuddy 任务输入区"
+        label={uiText("WorkBuddy 任务输入区")}
         footer={
           <>
             <div className="demo-add">
               <button
-                aria-label="添加内容"
+                aria-label={uiText("添加内容")}
                 aria-expanded={addMenu}
                 onClick={() => void afterSpeech(() => setAddMenu(!addMenu))}
                 disabled={busy || drawing}
@@ -851,28 +854,22 @@ function App() {
                       pick("document");
                     }}
                   >
-                    <FileText size={17} />
-                    参考文件
-                  </button>
+                    <FileText size={17} />{uiText("参考文件")}</button>
                   <button
                     onClick={() => openPanel({ kind: "photo", scope: "全文" })}
                   >
-                    <ImagePlus size={17} />
-                    图片
-                  </button>
+                    <ImagePlus size={17} />{uiText("图片")}</button>
                   <button
                     onClick={() => openPanel({ kind: "sketch", scope: "全文" })}
                   >
-                    <LayoutTemplate size={17} />
-                    布局草图
-                  </button>
+                    <LayoutTemplate size={17} />{uiText("布局草图")}</button>
                 </div>
               )}
             </div>
             <span className="demo-footer-space" />
             <button
               className="demo-voice"
-              aria-label={phase === "idle" ? "开始语音输入" : "停止语音输入"}
+              aria-label={uiText(phase === "idle" ? "开始语音输入" : "停止语音输入")}
               aria-pressed={phase !== "idle"}
               data-phase={phase}
               disabled={busy || drawing || phase === "stopping"}
@@ -882,7 +879,7 @@ function App() {
             </button>
             <button
               className="demo-send"
-              aria-label="发送请求"
+              aria-label={uiText("发送请求")}
               data-accepted={sent}
               disabled={
                 busy ||
@@ -899,7 +896,7 @@ function App() {
         }
       >
         {draft.materials.length > 0 && (
-          <div className="demo-attachments" aria-label="已确认的材料">
+          <div className="demo-attachments" aria-label={uiText("已确认的材料")}>
             {draft.materials.map((m) => materialTile(m))}
           </div>
         )}
@@ -920,7 +917,7 @@ function App() {
         >
           <SentenceComposer
             ref={area}
-            label="WorkBuddy 任务输入"
+            label={uiText("WorkBuddy 任务输入")}
             inputMode="text"
             text={draft.text}
             parameters={[]}
@@ -928,7 +925,7 @@ function App() {
             files={[]}
             active={null}
             disabled={busy}
-            placeholder="今天帮你做些什么？@ 添加上下文，/调用技能与指令"
+            placeholder={uiText("今天帮你做些什么？@ 添加上下文，/调用技能与指令")}
             onSelect={() => {}}
             onFocus={stopForTyping}
             onChange={(text) => {
@@ -957,9 +954,7 @@ function App() {
       </AgentComposer>
       <div className="wb-composer-options">
         <button onClick={() => pick("document")}>
-          <Folder size={16} />
-          选择工作空间
-          <ChevronDown size={12} />
+          <Folder size={16} />{uiText("选择工作空间")}<ChevronDown size={12} />
         </button>
         <button
           aria-disabled="true"
@@ -967,17 +962,14 @@ function App() {
             report("发送后使用 Gemini 生成成果，材料仅用于当前任务。")
           }
         >
-          <ShieldCheck size={16} />
-          默认权限
-          <ChevronDown size={12} />
+          <ShieldCheck size={16} />{uiText("默认权限")}<ChevronDown size={12} />
         </button>
       </div>
       {
         <div className="demo-pending">
           {draft.pendingPhotos.length > 0 && (
             <button onClick={() => openPanel({ kind: "photo", scope: "全文" })}>
-              {draft.pendingPhotos.length} 张图片待确认
-              <ChevronLeft size={13} style={{ transform: "rotate(180deg)" }} />
+              {draft.pendingPhotos.length} {uiText("张图片待确认")}<ChevronLeft size={13} style={{ transform: "rotate(180deg)" }} />
             </button>
           )}
           {pendingSketch && (
@@ -985,9 +977,7 @@ function App() {
               onClick={() =>
                 openPanel({ kind: "sketch", scope: pendingSketch[0] })
               }
-            >
-              布局草图待确认
-              <ChevronLeft size={13} style={{ transform: "rotate(180deg)" }} />
+            >{uiText("布局草图待确认")}<ChevronLeft size={13} style={{ transform: "rotate(180deg)" }} />
             </button>
           )}
         </div>
@@ -1004,7 +994,7 @@ function App() {
         <div className="wb-brand-row">
           <button
             className="wb-back"
-            aria-label="返回"
+            aria-label={uiText("返回")}
             onClick={() => {
               setPanel(null);
               setPreview(null);
@@ -1013,13 +1003,13 @@ function App() {
             <ChevronLeft />
           </button>
           <button
-            aria-label={collapsed ? "展开侧栏" : "收起侧栏"}
+            aria-label={uiText(collapsed ? "展开侧栏" : "收起侧栏")}
             onClick={() => setCollapsed(!collapsed)}
           >
             <PanelLeft size={17} />
           </button>
           <button
-            aria-label="搜索任务"
+            aria-label={uiText("搜索任务")}
             onClick={() => setSearchOpen(!searchOpen)}
           >
             <Search size={17} />
@@ -1034,21 +1024,17 @@ function App() {
             aria-disabled="true"
             onClick={() => report("本演示仅展示任务输入。")}
           >
-            <Compass size={14} />
-            发现应用
-            <ChevronDown size={12} />
+            <Compass size={14} />{uiText("发现应用")}<ChevronDown size={12} />
           </button>
         </div>
         <nav>
           <button
             className="active"
-            aria-label="新建演示"
+            aria-label={uiText("新建演示")}
             onClick={createDraft}
             disabled={busy}
           >
-            <CirclePlus size={17} />
-            新建任务
-          </button>
+            <CirclePlus size={17} />{uiText("新建任务")}</button>
           {[
             [Bot, "助理"],
             [GraduationCap, "专家·技能·连接器"],
@@ -1059,12 +1045,12 @@ function App() {
             const Glyph = Icon as typeof Bot;
             return (
               <button
-                key={String(label)}
+                key={uiText(String(label))}
                 aria-disabled="true"
                 onClick={() => report("本演示仅展示任务输入。")}
               >
                 <Glyph size={17} />
-                {String(label)}
+                {uiText(String(label))}
                 {label === "助理" && <small>BETA</small>}
               </button>
             );
@@ -1073,22 +1059,21 @@ function App() {
             aria-disabled="true"
             onClick={() => report("本演示仅展示任务输入。")}
           >
-            <LayoutGrid size={17} />
-            更多<span>管理</span>
+            <LayoutGrid size={17} />{uiText("更多")}<span>{uiText("管理")}</span>
           </button>
         </nav>
         <div className="wb-history">
           {searchOpen && (
             <input
               autoFocus
-              aria-label="搜索演示草稿"
-              placeholder="搜索任务"
+              aria-label={uiText("搜索演示草稿")}
+              placeholder={uiText("搜索任务")}
               value={search}
               onChange={(event) => setSearch(event.target.value)}
             />
           )}
-          <small>任务 ({state.drafts.length})</small>
-          <div role="navigation" aria-label="演示草稿">
+          <small>{uiText("任务 (")}{state.drafts.length})</small>
+          <div role="navigation" aria-label={uiText("演示草稿")}>
             {state.drafts
               .filter((d) => !search || d.text.includes(search))
               .map((d) => (
@@ -1103,35 +1088,33 @@ function App() {
                     onClick={() => switchDraft(d.id)}
                     disabled={busy}
                   >
-                    <span>{d.text.trim().slice(0, 24) || "新建任务"}</span>
+                    <span>{d.text.trim().slice(0, 24) || uiText("新建任务")}</span>
                   </button>
                   <small>
-                    {d.requests[0]?.status === "running"
+                    {uiText(d.requests[0]?.status === "running"
                       ? "生成中"
                       : d.requests[0]?.status === "complete"
                         ? "已完成"
                         : d.requests.length
                           ? "已发送"
-                          : "草稿"}
+                          : "草稿")}
                   </small>
                 </div>
               ))}
           </div>
-          <small>空间 (0)</small>
+          <small>{uiText("空间 (0)")}</small>
         </div>
         <footer>
           <span className="wb-account">
-            <img src="./assets/apps/workbuddy.svg" alt="" />
-            陈朗
-          </span>
+            <img src="./assets/apps/workbuddy.svg" alt="" />{uiText("陈朗")}</span>
           <button
-            aria-label="消息中心"
+            aria-label={uiText("消息中心")}
             onClick={() => report("当前没有新消息。")}
           >
             <Bell size={17} />
           </button>
           <button
-            aria-label="清理演示"
+            aria-label={uiText("清理演示")}
             onClick={() => {
               speech.current?.cancel();
               setClearOpen(true);
@@ -1140,11 +1123,19 @@ function App() {
             <Trash2 size={17} />
           </button>
         </footer>
-        <span className="demo-save-state" role="status" aria-label="保存状态">
-          {saving ? "正在保存…" : saveFailed ? "尚未保存" : "保存在这台电脑"}
+        <span className="demo-save-state" role="status" aria-label={uiText("保存状态")}>
+          {uiText(saving ? "正在保存…" : saveFailed ? "尚未保存" : "保存在这台电脑")}
         </span>
       </aside>
       <main className="wb-main">
+        <div className="demo-settings">
+          <button aria-label={uiText("设置")} aria-expanded={settingsOpen} onClick={() => setSettingsOpen(!settingsOpen)}><Settings size={19}/></button>
+          {settingsOpen && <section role="dialog" aria-label={uiText("设置")} onKeyDown={e => {if(e.key === "Escape") setSettingsOpen(false);}}>
+            <header><b>{uiText("设置")}</b><button aria-label={uiText("关闭设置")} onClick={() => setSettingsOpen(false)}><X size={16}/></button></header>
+            <label>{uiText("界面与语音语言")}<select aria-label={uiText("界面与语音语言")} value={language} onChange={e => {speech.current?.cancel();speechBinding.current=null;setUILanguage(e.target.value === "en" ? "en" : "zh-CN");}}><option value="zh-CN">中文 · 普通话</option><option value="en">English</option></select></label>
+            <small>{uiText("切换语言不会改写你的内容。")}</small>
+          </section>}
+        </div>
         {latestRequest ? (
           <DemoTaskView
             key={draft.id}
@@ -1170,11 +1161,11 @@ function App() {
           />
         ) : (
           <div className={"wb-home" + (panel ? " has-open-widget" : "")}>
-            <h1>WorkBuddy, 我帮你</h1>
+            <h1>{uiText("WorkBuddy, 我帮你")}</h1>
             <div className="wb-modes">
               {["办公", "开发", "设计"].map((label, index) => (
                 <button
-                  key={label}
+                  key={uiText(label)}
                   className={mode === index ? "active" : ""}
                   onClick={() => setMode(index)}
                 >
@@ -1185,7 +1176,7 @@ function App() {
                       <Palette size={14} />,
                     ][index]
                   }
-                  {label}
+                  {uiText(label)}
                 </button>
               ))}
             </div>
@@ -1201,19 +1192,19 @@ function App() {
                   "定时任务",
                 ].map((label) => (
                   <button
-                    key={label}
+                    key={uiText(label)}
                     onClick={() =>
                       void afterSpeech(() =>
                         update(draft.id, (d) =>
                           editDemoText(
                             d,
-                            d.text ? d.text + "，" + label : label,
+                            d.text ? d.text + (language === "en" ? ", " : "，") + uiText(label) : uiText(label),
                           ),
                         ),
                       )
                     }
                   >
-                    {label}
+                    {uiText(label)}
                   </button>
                 ))}
                 <img
@@ -1235,11 +1226,11 @@ function App() {
                       key={text}
                       onClick={() =>
                         void afterSpeech(() =>
-                          update(draft.id, (d) => editDemoText(d, text)),
+                          update(draft.id, (d) => editDemoText(d, uiText(text))),
                         )
                       }
                     >
-                      {text}
+                      {uiText(text)}
                       <ArrowUpRight size={16} />
                     </button>
                   ))}
@@ -1263,22 +1254,18 @@ function App() {
       />
       {error && (
         <div className="demo-toast" role="alert">
-          {error}
-          <button aria-label="关闭提示" onClick={() => setError("")}>
+          {uiText(error)}
+          <button aria-label={uiText("关闭提示")} onClick={() => setError("")}>
             <X size={16} />
           </button>
         </div>
       )}
       {saveFailed && (
-        <div className="demo-save-error" role="alert">
-          本地保存失败，请释放浏览器存储后重试。当前输入仍保留。
-          <button
+        <div className="demo-save-error" role="alert">{uiText("本地保存失败，请释放浏览器存储后重试。当前输入仍保留。")}<button
             onClick={() => {
               if (latest.current) commit(latest.current);
             }}
-          >
-            重试保存
-          </button>
+          >{uiText("重试保存")}</button>
         </div>
       )}
       {camera && (
@@ -1296,7 +1283,7 @@ function App() {
           className="demo-modal"
           role="dialog"
           aria-modal="true"
-          aria-label="材料预览"
+          aria-label={uiText("材料预览")}
           onKeyDown={(e) => {
             if (e.key === "Escape") setPreview(null);
           }}
@@ -1306,7 +1293,7 @@ function App() {
               <b>{preview.name}</b>
               <button
                 autoFocus
-                aria-label="关闭预览"
+                aria-label={uiText("关闭预览")}
                 onClick={() => setPreview(null)}
               >
                 <X />
@@ -1324,15 +1311,13 @@ function App() {
           className="demo-modal"
           role="dialog"
           aria-modal="true"
-          aria-label="清理演示"
+          aria-label={uiText("清理演示")}
         >
           <section className="demo-confirm">
-            <h2>清理这份演示？</h2>
-            <p>将删除本页的草稿、材料和发送记录。</p>
+            <h2>{uiText("清理这份演示？")}</h2>
+            <p>{uiText("将删除本页的草稿、材料和发送记录。")}</p>
             <div>
-              <button autoFocus onClick={() => setClearOpen(false)}>
-                保留
-              </button>
+              <button autoFocus onClick={() => setClearOpen(false)}>{uiText("保留")}</button>
               <button
                 className="demo-primary"
                 onClick={() => {
@@ -1346,9 +1331,7 @@ function App() {
                   setClearOpen(false);
                   setAddMenu(false);
                 }}
-              >
-                清理演示数据
-              </button>
+              >{uiText("清理演示数据")}</button>
             </div>
           </section>
         </div>

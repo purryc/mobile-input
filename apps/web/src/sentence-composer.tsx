@@ -1,4 +1,4 @@
-import {uiText} from './i18n';
+import {uiText,useUILanguage} from './i18n';
 import './sentence-composer.css';
 import type {WbFile} from '../../../packages/core/workbuddy';
 import {forwardRef,useEffect,useImperativeHandle,useLayoutEffect,useRef} from 'react';
@@ -17,6 +17,7 @@ const iconNames:Partial<Record<SentenceKind,string>>={camera:'photo',sketch:'can
 export interface SentenceComposerProps {label?:string;inputMode?:'text'|'none';text:string;files:WbFile[];parameters:SentenceParameter[];input:WorkBuddyInput;active:SentenceKind|null;disabled:boolean;placeholder:string;loading?:{start:number;end:number};onChange:(text:string)=>void;onSelect:()=>void;onFocus:()=>void;onOpen:(kind:SentenceKind)=>void;live?:{controlsId?:string;parameters:import('../../../packages/core/live-workbuddy').LiveParameter[];active:string|null;open:(id:string)=>void};}
 /** The DOM is editable, but the authority remains plain text + task-owned parameter bindings. */
 export const SentenceComposer=forwardRef<TextInputHandle,SentenceComposerProps>(function SentenceComposer(p,ref){
+ const language=useUILanguage();
  const root=useRef<HTMLDivElement>(null),composing=useRef(false),selection=useRef({start:0,end:0}),latest=useRef(p);latest.current=p;
  function offset(container:Node,at:number):number{
   const el=root.current!;let total=0,found=false;
@@ -73,7 +74,7 @@ export const SentenceComposer=forwardRef<TextInputHandle,SentenceComposerProps>(
   plain(cursor,state.text.length);if(state.text.endsWith('\n'))fragment.append(document.createElement('br'));if(!fragment.childNodes.length)fragment.append(document.createTextNode(''));
   el.replaceChildren(fragment);el.dataset.value=state.text;selection.current=saved;if(focused)setSelectionRange(saved.start,saved.end);
  }
- useLayoutEffect(render,[p.text,JSON.stringify(p.parameters),JSON.stringify(p.live?.parameters),p.live?.active,p.input.revision,p.active,p.disabled,p.loading?.start,p.loading?.end,p.files.map(f=>f.id+f.name).join('|')]);
+ useLayoutEffect(render,[language,p.text,JSON.stringify(p.parameters),JSON.stringify(p.live?.parameters),p.live?.active,p.input.revision,p.active,p.disabled,p.loading?.start,p.loading?.end,p.files.map(f=>f.id+f.name).join('|')]);
  useEffect(()=>{const listener=()=>{if(document.activeElement===root.current){readSelection();latest.current.onSelect();}};document.addEventListener('selectionchange',listener);return()=>document.removeEventListener('selectionchange',listener);},[]);
  function changed(){if(composing.current)return;readSelection();const text=sourceText(root.current!);latest.current.onSelect();latest.current.onChange(text);}
  return <div ref={root} className="wb-sentence-composer" role="textbox" aria-multiline="true" aria-label={p.label||uiText("手机 WorkBuddy 草稿")} contentEditable={!p.disabled} suppressContentEditableWarning inputMode={p.inputMode||"none"} data-placeholder={p.placeholder} onFocus={p.onFocus} onInput={changed} onCompositionStart={()=>{composing.current=true;}} onCompositionEnd={()=>{composing.current=false;changed();}} onPaste={e=>{e.preventDefault();const s=readSelection(),value=latest.current.text,insert=e.clipboardData.getData('text/plain');latest.current.onChange(value.slice(0,s.start)+insert+value.slice(s.end));requestAnimationFrame(()=>setSelectionRange(s.start+insert.length,s.start+insert.length));}}/>

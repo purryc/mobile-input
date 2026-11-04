@@ -280,3 +280,40 @@ test("font ASR copula preserves scoped black color binding and manual value", ()
     0,
   );
 });
+
+test('English incremental parameters retain spans, roles, corrections, manual values and negation', () => {
+  let d = newDemoState().drafts[0];
+  const steps = ['Create a five-minute presentation.', ' Use a red theme and a gray background with black text.', ' Attach my product document, add product photos, and sketch the layout.'];
+  for (const step of steps) d = editDemoText(d, d.text + step);
+  assert.deepEqual(new Set(d.parameters.map(p=>p.kind)), new Set(['duration','color','document','photo','sketch']));
+  assert.equal(d.parameters.filter(p=>p.kind==='color').length,3);
+  for(const p of d.parameters) assert.equal(d.text.slice(p.start,p.end),p.phrase);
+  const theme=d.parameters.find(p=>p.role==='主题色')!;
+  d.parameters=d.parameters.map(p=>p===theme?{...p,value:'#123456',label:'#123456',manual:true}:p);
+  d=editDemoText(d,d.text+' Please keep it simple.');
+  assert.equal(d.parameters.find(p=>p.role==='主题色')!.value,'#123456');
+  d=editDemoText(d,d.text.replace('red theme','blue theme'));
+  assert.equal(d.parameters.find(p=>p.role==='主题色')!.value,'#356FE4');
+  d=editDemoText(d,'Do not use red. No black text. Do not add photos. Skip the layout. Generate an image and draw a chart. Create a graph.');
+  assert.equal(d.parameters.length,0);
+  d=editDemoText(d,'On slide 2, background is blue; on page 3, text is black. Speak for twenty-five minutes.');
+  assert.equal(d.parameters.find(p=>p.role==='背景')?.scope,'第2页');
+  assert.equal(d.parameters.find(p=>p.role==='字体')?.scope,'第3页');
+  assert.equal(d.parameters.find(p=>p.kind==='duration')?.value,'25');
+  d=editDemoText(d,'Speak for 5 to 10 minutes, between five and ten minutes, 1.5 minutes, or 90 minutes.');
+  assert.equal(d.parameters.length,0);
+});
+
+test('English speech language survives natural restart; switching rejects old callbacks', async () => {
+  const f=fixture(); f.speech.start('en-US');
+  const first=f.engines[0]; assert.equal(first.lang,'en-US');
+  first.emit('Use a red theme.'); first.onend?.();
+  await new Promise(r=>setTimeout(r,210));
+  const second=f.engines[1]; assert.equal(second.lang,'en-US');
+  second.emit('Add product photos.');
+  assert.equal(f.words.at(-1),'Use a red theme. Add product photos.');
+  f.speech.cancel(); f.speech.start('zh-CN');
+  second.emit('Late English result');
+  assert.equal(f.words.at(-1),'Use a red theme. Add product photos.');
+  assert.equal(f.engines.at(-1)?.lang,'zh-CN'); f.speech.cancel();
+});

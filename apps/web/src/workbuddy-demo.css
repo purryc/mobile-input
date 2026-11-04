@@ -478,3 +478,14 @@ button:disabled {
 .demo-app .demo-widget-wrap .live-wb-aux {
   background: var(--input-control);
 }
+
+.demo-settings { position: absolute; top: 16px; right: 20px; z-index: 40; }
+.demo-settings > button { width: 36px; height: 36px; display: grid; place-items: center; border: 1px solid #dce4e2; border-radius: 10px; background: #ffffffeb; color: #425d54; cursor: pointer; }
+.demo-settings section { position: absolute; top: 44px; right: 0; width: 280px; padding: 18px; border: 1px solid #dce4e2; border-radius: 16px; background: #fafffef5; box-shadow: 0 12px 40px #23483b20; }
+.demo-settings header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
+.demo-settings header button { border: 0; background: transparent; cursor: pointer; }
+.demo-settings label { display: grid; gap: 10px; font-size: 14px; }
+.demo-settings select { padding: 10px; border: 1px solid #c6d7d0; border-radius: 8px; background: white; color: #182431; }
+.demo-settings small { display: block; margin-top: 12px; color: #66786f; line-height: 1.5; }
+.demo-app .wb-main { position: relative; }
+.demo-app .demo-task-heading { padding-right: 64px; }

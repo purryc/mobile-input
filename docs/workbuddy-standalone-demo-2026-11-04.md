@@ -107,3 +107,9 @@ npm run preview:workbuddy-demo -- --port 5208
 - Vercel 项目为 `purrycs-projects/workbuddy-web-demo`，线上生成密钥仅放在 Vercel Secret 环境变量。按用户最新要求，Vercel 登录保护已关闭，分享 https://workbuddy-web-demo.vercel.app 即可直接体验，无需账号或访问码。
 - Vercel 线上版每次请求的材料总量请控制在约 3 MB 内（JSON 编码上限 4.3 MB），超限会保留草稿并提示改用本机版；本机原有 8 MB 单份/24 MB 总量限制保留。线上浏览器存储与 localhost 独立，不自动上传旧草稿。
 - Vercel 部署适配在 `api/workbuddy-demo/[action].ts`，配置为 `vercel.workbuddy-demo.json`（交付包同时提供 `vercel.json`）。部署命令从解压目录运行 `npx vercel link --project workbuddy-web-demo --scope purrycs-projects`，核对项目后使用 `npx vercel deploy --prod`；不需要 Git push。
+
+## 中英文界面、英文输入与英文交付说明 · 2026-11-04
+
+右上角设置切换中文/English，同时选择下一轮普通话或英语识别。语言偏好使用独立 `workbuddy-standalone-demo:language`，不修改原应用的偏好。切换终止当前采集并忽略迟到回调，保留已收到的转写、原始草稿和材料。中英文键入/粘贴均使用同一路径；新增英文角色颜色、1–60 分钟、文件、参考图片与草图入口，保留原始位置、手动值、否定表达和页面作用域。生成图片/图表等纯生成请求不会误开图片选择。模型提示跟随用户要求的输出语言，移除强制中文。
+
+ZIP 顶层 README 为 `docs/workbuddy-demo-README.en.md` 的英文运行指南，涵盖新电脑安装、本机密钥文件/环境变量、模型配置、本机生产预览、用户自有 Vercel 项目与 Secret 配置、公开访问验证及常见故障。保留本中文记录供追溯。语言切换自动化及模型提示检查不等于真实英文口述准确率或付费模型质量验收。

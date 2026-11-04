@@ -1,3 +1,9 @@
+# English standalone handoff and input · 2026-11-04
+
+- Add a complete English startup, Gemini credential configuration and local/Vercel deployment guide to the standalone ZIP. English README is the handoff entry; retain the Chinese engineering record separately. Package only the standalone dependency closure and preserve all secret exclusions.
+- Support English typing, paste and voice through the shared parameter path: scoped colors, bounded duration, reference files/images and layout sketches. Preserve original spans, negation, manual overrides, pending material ownership and the existing tablet UI. Add a top-right settings gear with a persistent Chinese/English interface and speech-language switch. Switching language ends the current session and rejects stale callbacks, without translating authored content. Standalone preferences use their own storage key; preserve the original app preferences.
+- Keep English grammar in packages/core/live-workbuddy-english.ts, English handoff in docs/workbuddy-demo-README.en.md, and release staging/evidence under ignored artifacts/workbuddy-demo/release/. Verify core, service, browser, production build and independent extracted startup. Update the existing ZIP/public demo and authorized Git branch; never touch main/native apps/Figma or include credentials.
+
 # Public demo access override · 2026-11-04
 
 - User explicitly requests a public Vercel demo link that others can open without login. Disable Vercel SSO protection for this standalone project; do not reintroduce login or an access-code gate. This supersedes the earlier authenticated-generation/deployment requirement below. Keep Google credentials server-only and preserve same-origin input validation and the existing explicit-Send behavior.

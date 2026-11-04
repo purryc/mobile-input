@@ -27,6 +27,7 @@ const roots = [
   "packages/core/workbuddy-demo-generation.test.ts",
   "packages/core/live-workbuddy.test.ts",
   "docs/workbuddy-standalone-demo-2026-11-04.md",
+  "docs/workbuddy-demo-README.en.md",
   "vercel.workbuddy-demo.json",
   "package-lock.json",
 ];
@@ -113,7 +114,7 @@ await cp(
   resolve(target, "vercel.json"),
 );
 await cp(
-  resolve(root, "docs/workbuddy-standalone-demo-2026-11-04.md"),
+  resolve(root, "docs/workbuddy-demo-README.en.md"),
   resolve(target, "README.md"),
 );
 await writeFile(

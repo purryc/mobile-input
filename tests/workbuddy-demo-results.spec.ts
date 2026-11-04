@@ -296,3 +296,23 @@ test("unsupported attachments fail before network submission and can be removed 
     "unsupported.docx",
   );
 });
+
+test('English result workspace translates controls without rewriting authored content', async ({page}) => {
+  await page.addInitScript(()=>localStorage.setItem('workbuddy-standalone-demo:language','en'));
+  await page.route('**/api/workbuddy-demo/generate',route=>{
+    const outputs=artifacts(route.request().postDataJSON());
+    outputs[0].title='Product launch';
+    return route.fulfill({contentType:'application/x-ndjson',body:[...outputs.map(artifact=>({artifact})),{done:true}].map(e=>JSON.stringify(e)).join('\n')+'\n'});
+  });
+  await page.goto('/');
+  await page.getByRole('textbox',{name:'WorkBuddy task input',exact:true}).fill('Create an English product presentation with a blue theme.');
+  await page.getByRole('button',{name:'Send request',exact:true}).click();
+  await expect(page.getByRole('button',{name:'Download result'})).toBeVisible();
+  await expect(page.getByRole('textbox',{name:'Slide title',exact:true})).toHaveText('新品亮相');
+  await page.screenshot({path:'artifacts/workbuddy-demo/evidence/english-results.png'});
+  await page.getByRole('button',{name:'Settings',exact:true}).click();
+  await page.getByRole('combobox',{name:'Interface and speech language'}).selectOption('zh-CN');
+  await page.getByRole('button',{name:'关闭设置'}).click();
+  await expect(page.getByRole('textbox',{name:'网页幻灯片标题',exact:true})).toHaveText('新品亮相');
+  await expect(page.getByRole('button',{name:'下载成果'})).toBeVisible();
+});
