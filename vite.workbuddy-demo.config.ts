@@ -1,3 +1,4 @@
+import { workbuddyDemoMiddleware } from "./scripts/workbuddy-demo-service";
 import { defineConfig } from "vite";
 import { cp, mkdir } from "node:fs/promises";
 import { resolve } from "node:path";
@@ -21,6 +22,7 @@ export default defineConfig({
         building = config.command === "build";
       },
       configureServer(server) {
+        server.middlewares.use(workbuddyDemoMiddleware);
         server.middlewares.use((req, _res, next) => {
           if (req.url === "/" || req.url?.startsWith("/?"))
             req.url = "/workbuddy-demo.html" + req.url.slice(1);
@@ -28,6 +30,7 @@ export default defineConfig({
         });
       },
       configurePreviewServer(server) {
+        server.middlewares.use(workbuddyDemoMiddleware);
         server.middlewares.use((req, _res, next) => {
           if (req.url === "/" || req.url?.startsWith("/?"))
             req.url = "/workbuddy-demo.html" + req.url.slice(1);

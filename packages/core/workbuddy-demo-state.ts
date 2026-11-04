@@ -1,3 +1,4 @@
+import type { DemoArtifact } from "./workbuddy-demo-generation";
 import {
   resolveLiveParameters,
   projectTargetInput,
@@ -17,6 +18,10 @@ export interface DemoRequest {
   text: string;
   parameters: LiveParameter[];
   materials: DemoMaterial[];
+  status?: "running" | "complete" | "failed" | "stopped";
+  stage?: string;
+  error?: string;
+  artifacts?: DemoArtifact[];
 }
 export interface DemoDraft {
   id: string;

@@ -1,4 +1,13 @@
 import { test, expect, type Page } from "@playwright/test";
+// Input regressions never contact a paid model. Output flows have their own fixtures below.
+test.beforeEach(async ({ page }) => {
+  await page.route("**/api/workbuddy-demo/generate", (route) =>
+    route.fulfill({
+      contentType: "application/x-ndjson",
+      body: JSON.stringify({ error: "测试环境：生成服务未配置" }) + "\n",
+    }),
+  );
+});
 const prompt =
   "参考产品资料，主题色用红色，背景用灰色，字体用黑色，讲五分钟，加产品图片，布局我画一下。";
 async function open(page: Page) {

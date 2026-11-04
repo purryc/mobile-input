@@ -67,7 +67,7 @@ export function WorkBuddyDemoPopover({
           const overflow = next.top + height - (innerHeight - 16);
           if (overflow > 0) {
             const scroller =
-              document.querySelector<HTMLElement>(".demo-app .wb-home");
+              document.querySelector<HTMLElement>(".demo-app .wb-home, .demo-task-compose");
             scroller?.scrollBy({
               top: Math.min(overflow, Math.max(0, rect.top - 24)),
               behavior: "instant",

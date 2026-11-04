@@ -41,8 +41,19 @@ export async function loadDemo(): Promise<DemoState> {
         value
           ? {
               ...value,
-              drafts: value.drafts.map((draft: DemoState["drafts"][number]) =>
-                editDemoText(draft, draft.text),
+              drafts: value.drafts.map(
+                (draft: DemoState["drafts"][number]) => ({
+                  ...editDemoText(draft, draft.text),
+                  requests: draft.requests.map((request) =>
+                    request.status === "running"
+                      ? {
+                          ...request,
+                          status: "stopped" as const,
+                          error: "页面已重新打开，上次生成已中断。可以重试。",
+                        }
+                      : request,
+                  ),
+                }),
               ),
             }
           : newDemoState(),

@@ -1,3 +1,11 @@
+# Standalone generated results · 2026-11-04
+
+- The user now explicitly extends this demo beyond input snapshots: Send opens the existing tablet WorkBuddy task/conversation and tabbed artifact layout, with real presentation, document and image generation. This supersedes the input-only/model prohibition below, only for this standalone branch.
+- Keep the accepted home, microphone, sentence controls and chip-anchored panels. Reuse tablet result/page/editor styles. Presentations are editable Web slides (HTML export), documents are Markdown, images are actual returned image bytes; never claim PPTX/DOCX or fabricate successful generation.
+- Standalone server code lives in scripts/workbuddy-demo-service.ts; generation contracts in packages/core/workbuddy-demo-generation.ts; client/view files retain workbuddy-demo- prefixes. Vite dev and preview own the loopback generation middleware, with no bridge/native runtime. Server credentials come from environment or ignored artifacts/workbuddy-demo/google-api-key and never enter frontend assets or logs.
+- Explicit Send freezes the original request and confirmed materials before any model call. Keep drafts, outputs and editable versions in the demo-only IndexedDB. Bind callbacks to request and original draft; Stop cancels and late callbacks cannot update results. Refresh marks interrupted work honestly and never retries automatically. Failures retain input and completed partial outputs; Retry is explicit.
+- Validate three output types using mocked generation, attachment bounds, error/stop/late response, owner switching, refresh, editing/export/playback and desktop/tablet layouts. Keep automated simulation distinct from real model and microphone acceptance. Do not operate devices, modify main/Figma, submit real Mac tasks or push.
+
 # Standalone visual and chip-anchor correction · 2026-11-04
 
 - User correction: preserve the existing tablet WorkBuddy home/sidebar/composer appearance and its icon-only microphone button. Reuse its markup/classes and CSS instead of a new green voice pill, greeting, branding or toolbar. Keep execution local and input-only.
