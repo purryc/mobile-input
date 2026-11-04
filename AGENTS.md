@@ -1,3 +1,11 @@
+# Standalone WorkBuddy Web demo · 2026-11-04
+
+- This branch implements the user-approved single-computer Chrome input demonstration. Its base is 49a25cd; main and the original worktree are outside this task. No automatic push, device operations, Figma edits, AI polish, model generation or real Agent execution.
+- Reuse the existing sentence parameter parser and shared widgets. Standalone code must not import runtime.ts, phone controllers, native adapters, bridge clients or generation runners.
+- Keep the independent entry at apps/web/workbuddy-demo.html; standalone source files use the workbuddy-demo- prefix in apps/web/src, core speech/state modules in packages/core, configuration at the repository root. Shared visual assets retain their existing paths. Build output and browser evidence go under ignored artifacts/workbuddy-demo/; documentation stays in docs/.
+- Use a dedicated IndexedDB database for this demo. Materials, pending photos, sketches and speech callbacks belong to their original draft. Send creates a local immutable request snapshot only. Closing panels and switching drafts never adopt pending materials.
+- Validate typecheck, core tests, independent production build and scoped Chrome tests, including speech revisions, ownership, persistence and absence of bridge/API requests. Distinguish simulated recognition from actual microphone recognition; never claim unobserved physical acceptance.
+
 # Mobile Input project rules
 
 ## Generic image selection and compact states · 2026-11-04
