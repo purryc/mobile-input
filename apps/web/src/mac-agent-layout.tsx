@@ -1,9 +1,10 @@
+import {uiText} from './i18n';
 import {toast} from './runtime';
 import {type ReactNode} from 'react';
 import {ConnectionButton} from './connection-access';
 import {macCommand} from './mac-link';
 export function MacAppSwitch({connected}:{connected:boolean}){
- return <button aria-label="切换 Mac 应用" disabled={!connected} onClick={()=>{void macCommand('app-switch',{action:'next'}).then(r=>{if(!r.ok)toast(r.error||'应用切换未完成');});}}><img src="./assets/figma/presentation/app-switch.svg" alt=""/></button>;
+ return <button aria-label={uiText("切换 Mac 应用")} disabled={!connected} onClick={()=>{void macCommand('app-switch',{action:'next'}).then(r=>{if(!r.ok)toast(r.error||'应用切换未完成');});}}><img src="./assets/figma/presentation/app-switch.svg" alt=""/></button>;
 }
 export function MacAgentHeader({app,device,status,connected}:{app:'codex'|'workbuddy';device:string;status:string;connected:boolean}){
  return <header>{app==='workbuddy'?<img src="./assets/apps/workbuddy.svg" alt=""/>:<img src="./assets/apps/chatgpt.png" alt=""/>}<div><b>{app==='codex'?'Codex':'WorkBuddy'}</b><small>{connected?(status.includes('USB')?'USB 已连接 · ':status.includes('无线')?'无线已连接 · ':'已连接 · ')+device:status}</small></div><MacAppSwitch connected={connected}/><ConnectionButton/></header>;

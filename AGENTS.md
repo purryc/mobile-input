@@ -1,5 +1,10 @@
 # Mobile Input project rules
 
+## Generic image selection and compact states · 2026-11-04
+- User override: title the shared widget 图片选择 and use 图片 for interface labels. Recognize explicit image/photo/local-image/illustration requests with the same gallery and camera capabilities; retain legacy parameter identities and pending/adopted ownership. Never interpret 图表 or 画图 as a photo request.
+- Shared demo/Mac photo input has two content-driven layouts. With no photos, show only the header/close and equal-width choose-image/camera actions; do not reserve preview space or show Confirm. Once photos exist, show the preview strip and bottom-right Confirm. Removing the last photo restores the compact state.
+- Preserve original-task pending photo ownership and explicit confirmation before Composer adoption. Picking, capture, closing or reconnecting never confirms or submits. Keep the inline photo entry after adoption. Do not modify Figma. Validate against 1646:11696 and 2164:58664; the previously authorized paired maintenance release and source backup still apply.
+
 ## Settings, persistent WorkBuddy prompt and polish · 2026-11-04
 - User authorizes initial and final GitHub source backups to purryc/mobile-input, bilingual release notes, paired maintenance builds/installations and scoped fictional validation. Exclude private inputs, credentials and binaries; preserve the current reset generation and all real Mac records.
 - One settings gear retains connection status. Shared zh-CN/en UI labels sync through tablet authority; translate application chrome only, never authored content, task/file names or generated artifacts.

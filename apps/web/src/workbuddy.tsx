@@ -1,3 +1,4 @@
+import {uiText} from './i18n';
 import {DeckTaskStatus,WebDeckComposer} from './web-deck-composer';
 import {WebDeckPlayback} from './web-deck-view';
 import {useObjectRevision} from './workbuddy-object-runner';
@@ -141,16 +142,16 @@ export function WorkBuddy({ s }: { s: State }) {
     <div className={"workbuddy" + (collapsed ? " wb-collapsed" : "")}>
       <aside className="wb-sidebar">
         <div className="wb-brand-row">
-          <button className="wb-back" aria-label="返回" onClick={navigateBack}>
+          <button className="wb-back" aria-label={uiText("返回")} onClick={navigateBack}>
             <I.ChevronLeft />
           </button>
           <button
-            aria-label="收起侧栏"
+            aria-label={uiText("收起侧栏")}
             onClick={() => setCollapsed(!collapsed)}
           >
             <I.PanelLeft size={17} />
           </button>
-          <button aria-label="搜索任务" onClick={() => open("search")}>
+          <button aria-label={uiText("搜索任务")} onClick={() => open("search")}>
             <I.Search size={17} />
           </button>
         </div>
@@ -161,8 +162,7 @@ export function WorkBuddy({ s }: { s: State }) {
           </div>
           <button onClick={() => go("buddy")}>
             <I.Compass size={14} />
-            发现应用
-            <I.ChevronDown size={12} />
+            {uiText("发现应用")}<I.ChevronDown size={12} />
           </button>
         </div>
         <nav>
@@ -180,18 +180,18 @@ export function WorkBuddy({ s }: { s: State }) {
                 onClick={() => go(p)}
               >
                 <C size={17} />
-                {p === "experts" ? "专家·技能·连接器" : wbLabels[p]}
+                {uiText(p === "experts" ? "专家·技能·连接器" : wbLabels[p])}
                 {p === "assistants" && <small>BETA</small>}
               </button>
             );
           })}
           <button onClick={() => setMore(!more)}>
             <I.LayoutGrid size={17} />
-            更多<span>管理</span>
+            {uiText("更多")}<span>{uiText("管理")}</span>
           </button>
         </nav>
         {more && (
-          <div className="wb-more"><button onClick={()=>command("wb-fb-open",{}).then(()=>setMore(false))}>文件浏览器<I.Files size={16}/></button>
+          <div className="wb-more"><button onClick={()=>command("wb-fb-open",{}).then(()=>setMore(false))}>{uiText("文件浏览器")}<I.Files size={16}/></button>
             {(
               [
                 "mailbox",
@@ -208,14 +208,14 @@ export function WorkBuddy({ s }: { s: State }) {
                   setMore(false);
                 }}
               >
-                {wbLabels[p]}
+                {uiText(wbLabels[p])}
                 <I.ChevronRight size={15} />
               </button>
             ))}
           </div>
         )}
         <div className="wb-history">
-          <small>任务 ({w.tasks.length})</small>
+          <small>{uiText("任务 (")}{w.tasks.length})</small>
           {filteredTasks.slice(0, 8).map((t) => (
             <div
               className={
@@ -238,9 +238,9 @@ export function WorkBuddy({ s }: { s: State }) {
             </div>
           ))}
           {w.tasks.length > 8 && (
-            <button onClick={() => open("search")}>查看更多</button>
+            <button onClick={() => open("search")}>{uiText("查看更多")}</button>
           )}
-          <small>空间 ({w.projects.length})</small>
+          <small>{uiText("空间 (")}{w.projects.length})</small>
           {w.projects.map((p) => (
             <div key={p.id}>
               <button
@@ -273,12 +273,12 @@ export function WorkBuddy({ s }: { s: State }) {
             <img src={logo} alt="" />
             陈朗
           </button>
-          <button aria-label="消息中心" onClick={() => go("notifications")}>
+          <button aria-label={uiText("消息中心")} onClick={() => go("notifications")}>
             <I.Bell size={17} />
             {w.notices.some((n) => !n.read) && <i />}
           </button>
           <button
-            aria-label="多端协同"
+            aria-label={uiText("多端协同")}
             onClick={() => {
               window.dispatchEvent(new Event("connection-open-request"));
               document
@@ -293,7 +293,7 @@ export function WorkBuddy({ s }: { s: State }) {
       <section className="wb-main">
         {page === "home" ? (
           <div className="wb-home">
-            <h1>WorkBuddy, 我帮你</h1>
+            <h1>{uiText("WorkBuddy, 我帮你")}</h1>
             <div className="wb-modes">
               {["办公", "开发", "设计"].map((x, i) => (
                 <button
@@ -310,13 +310,13 @@ export function WorkBuddy({ s }: { s: State }) {
                       <I.Palette size={14} />,
                     ][i]
                   }
-                  {x}
+                  {uiText(x)}
                 </button>
               ))}
             </div>
             <div className="wb-home-entry">
               <div className="wb-scenes">
-                {['创作文档','金融服务','分析数据','制作PPT','深度研究','策划方案','定时任务'].map((x,i)=><button key={x} onClick={()=>x==='制作PPT'?void command('wb-deck-prepare'):open('templates',String(i))}>{x}</button>)}
+                {['创作文档','金融服务','分析数据','制作PPT','深度研究','策划方案','定时任务'].map((x,i)=><button key={x} onClick={()=>x==='制作PPT'?void command('wb-deck-prepare'):open('templates',String(i))}>{uiText(x)}</button>)}
                 <img
                   className="wb-mascot"
                   src="./assets/apps/workbuddy-mascot.png"
@@ -346,25 +346,25 @@ export function WorkBuddy({ s }: { s: State }) {
                         ) : (
                           <I.Link />
                         )}
-                        {wbLabels[p]}
+                        {uiText(wbLabels[p])}
                       </button>
                     ),
                   )}
                 </div>
               ) : (
-                <h2>{page === "task" ? task?.title : wbLabels[page]}</h2>
+                <h2>{page === "task" ? task?.title : uiText(wbLabels[page])}</h2>
               )}
               <span />
               {page === "task" ? (
                 <>
                   <button
-                    aria-label="查看任务文件"
+                    aria-label={uiText("查看任务文件")}
                     onClick={() => run("file-panel", { open: !w.filePanel })}
                   >
                     <I.PanelRight />
                   </button>
                   <button
-                    aria-label="分享任务"
+                    aria-label={uiText("分享任务")}
                     onClick={() => {
                       run("share", { name: task?.title });
                       toast("已保存本地分享记录");
@@ -373,7 +373,7 @@ export function WorkBuddy({ s }: { s: State }) {
                     <I.Share2 />
                   </button>
                   <button
-                    aria-label="任务设置"
+                    aria-label={uiText("任务设置")}
                     onClick={() => open("task", task?.id)}
                   >
                     <I.MoreHorizontal />
@@ -384,14 +384,14 @@ export function WorkBuddy({ s }: { s: State }) {
                   <label className="wb-search">
                     <I.Search size={15} />
                     <input
-                      aria-label="搜索 WorkBuddy 内容"
+                      aria-label={uiText("搜索 WorkBuddy 内容")}
                       placeholder={"搜索" + wbLabels[page]}
                       value={search}
                       onChange={(e) => setSearch(e.target.value)}
                     />
                   </label>
                   {page === "experts" && (
-                    <button onClick={() => open("my-experts")}>我的专家</button>
+                    <button onClick={() => open("my-experts")}>{uiText("我的专家")}</button>
                   )}
                   {page === "skills" && (
                     <>
@@ -400,14 +400,13 @@ export function WorkBuddy({ s }: { s: State }) {
                           setDetail(detail === "installed" ? "" : "installed")
                         }
                       >
-                        已安装 ({w.installed.length})
+                        {uiText("已安装 (")}{w.installed.length})
                       </button>
                       <button
                         className="wb-primary"
                         onClick={() => open("skills")}
                       >
-                        ＋ 添加技能
-                      </button>
+                        {uiText("＋ 添加技能")}</button>
                     </>
                   )}
                   {["projects", "assistants", "automation", "library"].includes(
@@ -416,7 +415,7 @@ export function WorkBuddy({ s }: { s: State }) {
                     <button className="wb-primary" onClick={() => open(page)}>
                       ＋{" "}
                       {page === "library"
-                        ? "添加资料"
+                        ? uiText("添加资料")
                         : page === "automation"
                           ? "新建定时任务"
                           : page === "projects"
@@ -451,7 +450,7 @@ export function WorkBuddy({ s }: { s: State }) {
                       <div className="wb-execution">
                         <strong>
                           <img src={logo} alt="" />
-                          {statusLabels[task.status]}
+                          {uiText(statusLabels[task.status])}
                         </strong>
                         {task.status === "needs-type" ? (
                           <div className="wb-result-types">
@@ -473,7 +472,7 @@ export function WorkBuddy({ s }: { s: State }) {
                         ) : (
                           <>
                             <small>
-                              已处理{" "}
+                              {uiText("已处理")}{" "}
                               {Math.round(
                                 (task.elapsed +
                                   (task.status === "running"
@@ -481,8 +480,7 @@ export function WorkBuddy({ s }: { s: State }) {
                                     : 0)) /
                                   1000,
                               )}{" "}
-                              秒
-                            </small>
+                              {uiText("秒")}</small>
                             {[
                               "读取客户需求与项目资料",
                               "核对采购报价和交付节点",
@@ -531,7 +529,7 @@ export function WorkBuddy({ s }: { s: State }) {
                               }
                             >
                               {task.status === "running"
-                                ? "停止"
+                                ? uiText("停止")
                                 : task.status === "planned"
                                   ? "确认并开始执行"
                                   : "继续执行"}
@@ -547,13 +545,13 @@ export function WorkBuddy({ s }: { s: State }) {
                           <button
                             key={id}
                             className="wb-file-card"
-                            aria-label={task.deckJob?"打开网页演示":undefined}
+                            aria-label={task.deckJob?uiText("打开网页演示"):undefined}
                             onClick={() => run("preview", { id })}
                           >
                             <FileSymbol file={f} />
                             <span>
                               {f.name}
-                              <small>{task.deckJob?"打开网页演示":"查看工作成果"}</small>
+                              <small>{task.deckJob?uiText("打开网页演示"):"查看工作成果"}</small>
                             </span>
                             <I.PanelRightOpen size={18} />
                           </button>
@@ -563,8 +561,7 @@ export function WorkBuddy({ s }: { s: State }) {
                     {task.status === "complete" && (
                       <div className="wb-result-footer">
                         <I.CheckCircle2 size={14} />
-                        执行完成 · {Math.round(task.elapsed / 1000)} 秒
-                        <button
+                        {uiText("执行完成 ·")}{Math.round(task.elapsed / 1000)} {uiText("秒")}<button
                           onClick={() => run("share", { name: task.title })}
                         >
                           <I.Share2 size={14} />
@@ -597,7 +594,7 @@ export function WorkBuddy({ s }: { s: State }) {
                             )
                           }
                         >
-                          <b>{x}</b>
+                          <b>{uiText(x)}</b>
                           <span>
                             {
                               [
@@ -616,7 +613,7 @@ export function WorkBuddy({ s }: { s: State }) {
                 )}
                 {page === "skills" && (
                   <>
-                    <h3>精选技能</h3>
+                    <h3>{uiText("精选技能")}</h3>
                     <div className="wb-card-grid">
                       {wbSkills
                         .filter((x) => x.category === "精选")
@@ -664,7 +661,7 @@ export function WorkBuddy({ s }: { s: State }) {
                       }
                       onClick={() => setDetail(x)}
                     >
-                      {x}
+                      {uiText(x)}
                     </button>
                   ))}
                 </div>
@@ -708,7 +705,7 @@ export function WorkBuddy({ s }: { s: State }) {
                       />
                     ))}
                   {!catalogs.filter((x) => x.name.includes(search)).length && (
-                    <Empty>没有找到匹配内容</Empty>
+                    <Empty>{uiText("没有找到匹配内容")}</Empty>
                   )}
                 </div>
               </div>
@@ -734,10 +731,9 @@ export function WorkBuddy({ s }: { s: State }) {
                         <h3>{p.name}</h3>
                         <p>{p.instructions}</p>
                         <footer>
-                          {p.members.length} 位成员 ·{" "}
+                          {p.members.length} {uiText("位成员 ·")}{" "}
                           {w.tasks.filter((t) => t.project === p.id).length}{" "}
-                          项任务
-                          <I.ChevronRight />
+                          {uiText("项任务")}<I.ChevronRight />
                         </footer>
                       </button>
                     ))
@@ -783,7 +779,7 @@ export function WorkBuddy({ s }: { s: State }) {
                       }
                       onClick={() => setDetail(x)}
                     >
-                      {x}
+                      {uiText(x)}
                     </button>
                   ))}
                 </div>
@@ -844,8 +840,7 @@ export function WorkBuddy({ s }: { s: State }) {
                               }
                             >
                               <I.Play size={14} />
-                              试运行
-                            </button>
+                              {uiText("试运行")}</button>
                             <button
                               aria-label={"删除 " + a.name}
                               onClick={() => open("delete-automation", a.id)}
@@ -859,7 +854,7 @@ export function WorkBuddy({ s }: { s: State }) {
                 )}
                 {detail === "运行记录" &&
                   !w.automations.some((a) => a.records.length) && (
-                    <Empty>暂无运行记录</Empty>
+                    <Empty>{uiText("暂无运行记录")}</Empty>
                   )}
               </div>
             )}
@@ -875,10 +870,10 @@ export function WorkBuddy({ s }: { s: State }) {
             )}
             {page === "buddy" && (
               <div className="wb-scroll wb-buddy">
-                <h1>发现 Buddy 应用</h1>
+                <h1>{uiText("发现 Buddy 应用")}</h1>
                 <article>
                   <img src={logo} alt="" />
-                  <h2>销售工作台</h2>
+                  <h2>{uiText("销售工作台")}</h2>
                   <p>客户需求、采购报价、交付安排与销售汇报</p>
                   <button
                     className="wb-primary"
@@ -895,16 +890,14 @@ export function WorkBuddy({ s }: { s: State }) {
                         run("config", { key: "buddyAuthorized", value: false })
                       }
                     >
-                      撤销本地授权
-                    </button>
+                      {uiText("撤销本地授权")}</button>
                   )}
                 </article>
                 {w.settings.buddyAuthorized && (
                   <section className="wb-buddy-config">
-                    <h3>工作台配置</h3>
+                    <h3>{uiText("工作台配置")}</h3>
                     <label>
-                      默认专家
-                      <select
+                      {uiText("默认专家")}<select
                         value={w.settings.buddyExpert}
                         onChange={(e) =>
                           run("config", {
@@ -920,7 +913,7 @@ export function WorkBuddy({ s }: { s: State }) {
                         ))}
                       </select>
                     </label>
-                    <h3>销售场景</h3>
+                    <h3>{uiText("销售场景")}</h3>
                     <div className="wb-card-grid">
                       {Object.entries(resultLabels).map(([kind, name]) => (
                         <button
@@ -950,13 +943,13 @@ export function WorkBuddy({ s }: { s: State }) {
                 <div className="wb-mail-account">
                   <I.Mail size={25} />
                   <b>chen.lang@example.com</b>
-                  <small>本地演示</small>
-                  <button onClick={() => open("mail-write")}>写邮件</button>
+                  <small>{uiText("本地演示")}</small>
+                  <button onClick={() => open("mail-write")}>{uiText("写邮件")}</button>
                 </div>
                 {!detail &&
                   w.mailDrafts.map((m) => (
                     <article className="wb-mail-detail" key={m.id}>
-                      <small>草稿 · {m.recipient}</small>
+                      <small>{uiText("草稿 ·")}{m.recipient}</small>
                       <h3>{m.subject}</h3>
                       <p>{m.body}</p>
                       <button
@@ -966,8 +959,7 @@ export function WorkBuddy({ s }: { s: State }) {
                           );
                         }}
                       >
-                        引用到新任务
-                      </button>
+                        {uiText("引用到新任务")}</button>
                     </article>
                   ))}
                 {detail
@@ -987,11 +979,9 @@ export function WorkBuddy({ s }: { s: State }) {
                               );
                             }}
                           >
-                            引用到新任务
-                          </button>
+                            {uiText("引用到新任务")}</button>
                           <button onClick={() => open("mail-write", m.id)}>
-                            回复
-                          </button>
+                            {uiText("回复")}</button>
                         </article>
                       ))
                   : s.mails
@@ -1012,7 +1002,7 @@ export function WorkBuddy({ s }: { s: State }) {
             )}
             {page === "inspiration" && (
               <div className="wb-scroll">
-                <h3>销售工作灵感</h3>
+                <h3>{uiText("销售工作灵感")}</h3>
                 <div className="wb-card-grid">
                   {Object.entries(resultLabels).map(([kind, name]) => (
                     <button
@@ -1036,7 +1026,7 @@ export function WorkBuddy({ s }: { s: State }) {
             {page === "settings" && <Settings s={s} open={open} />}
             {page === "notifications" && (
               <div className="wb-scroll">
-                <button onClick={() => run("notice-read")}>全部标为已读</button>
+                <button onClick={() => run("notice-read")}>{uiText("全部标为已读")}</button>
                 {w.notices.map((n) => (
                   <div className="wb-list-row" key={n.id}>
                     <I.Bell size={18} />
@@ -1044,7 +1034,7 @@ export function WorkBuddy({ s }: { s: State }) {
                     {!n.read && <i className="wb-unread" />}
                   </div>
                 ))}
-                {!w.notices.length && <Empty>暂无消息</Empty>}
+                {!w.notices.length && <Empty>{uiText("暂无消息")}</Empty>}
               </div>
             )}
           </>
@@ -1068,12 +1058,12 @@ export function WorkBuddy({ s }: { s: State }) {
             style={menuPosition || undefined}
             role="dialog"
             aria-modal="true"
-            aria-label="WorkBuddy 面板"
+            aria-label={uiText("WorkBuddy 面板")}
             onClick={(e) => e.stopPropagation()}
           >
             <header>
               <h3>{overlayTitle(overlay.type)}</h3>
-              <button aria-label="关闭 WorkBuddy 面板" onClick={closeOverlay}>
+              <button aria-label={uiText("关闭 WorkBuddy 面板")} onClick={closeOverlay}>
                 <I.X />
               </button>
             </header>
@@ -1193,7 +1183,7 @@ function Composer({
             <I.TextQuote size={13} />
             <span>{text}</span>
             <button
-              aria-label="删除引用"
+              aria-label={uiText("删除引用")}
               onClick={() => run("reference-remove", { index })}
             >
               <I.X size={12} />
@@ -1219,8 +1209,8 @@ function Composer({
         })}
         <textarea
           ref={ref}
-          aria-label="WorkBuddy 任务输入"
-          placeholder="今天帮你做些什么？ @ 添加上下文，/调用技能与指令"
+          aria-label={uiText("WorkBuddy 任务输入")}
+          placeholder={uiText("今天帮你做些什么？ @ 添加上下文，/调用技能与指令")}
           value={editor.text}
           onFocus={() => { if (performance.now() - lastActivation.current >= 80) activateInput(); }}
           onChange={(e) => editor.update(e.target.value)}
@@ -1234,7 +1224,7 @@ function Composer({
           }}
         />
         <div className="wb-composer-tools">
-          <button aria-label="添加内容" onClick={() => open("add")}>
+          <button aria-label={uiText("添加内容")} onClick={() => open("add")}>
             <I.Plus size={19} />
           </button>
           {w.entityDrafts["selected-expert"]?.text && (
@@ -1257,7 +1247,7 @@ function Composer({
             <I.ChevronDown size={12} />
           </button>
           <button
-            aria-label="手机语音输入"
+            aria-label={uiText("手机语音输入")}
             onClick={() => {
               void editor.focus();
             }}
@@ -1266,7 +1256,7 @@ function Composer({
           </button>
           <button
             className="wb-send"
-            aria-label="发送 WorkBuddy 任务"
+            aria-label={uiText("发送 WorkBuddy 任务")}
             disabled={
               !editor.text.trim() ||
               editor.busy ||
@@ -1295,11 +1285,11 @@ function Composer({
             {modeLabels[w.settings.mode]}
           </button>
         )}
-        <small>本地演示</small>
+        <small>{uiText("本地演示")}</small>
       </div>
       {editor.blocked && (
         <div className="wb-draft-warning">
-          草稿已保留<button onClick={editor.recover}>恢复到当前输入框</button>
+          {uiText("草稿已保留")}<button onClick={editor.recover}>{uiText("恢复到当前输入框")}</button>
         </div>
       )}
     </div>
@@ -1355,9 +1345,9 @@ function ProjectDetail({
       <header className="wb-detail-header">
         <I.Folder />
         <h2>{p.name}</h2>
-        <button onClick={onEdit}>编辑项目</button>
+        <button onClick={onEdit}>{uiText("编辑项目")}</button>
       </header>
-      <h3>项目指令</h3>
+      <h3>{uiText("项目指令")}</h3>
       <EditableText
         id={"wb:project:" + id + ":instructions"}
         label="项目指令"
@@ -1371,7 +1361,7 @@ function ProjectDetail({
           </span>
         ))}
       </div>
-      <h3>任务</h3>
+      <h3>{uiText("任务")}</h3>
       {s.workbuddy.tasks
         .filter((t) => t.project === id)
         .map((t) => (
@@ -1381,13 +1371,13 @@ function ProjectDetail({
             onClick={() => go("task", t.id)}
           >
             {t.title}
-            <span>{statusLabels[t.status]}</span>
+            <span>{uiText(statusLabels[t.status])}</span>
             <I.ChevronRight />
           </button>
         ))}
     </>
   ) : (
-    <Empty>项目不存在</Empty>
+    <Empty>{uiText("项目不存在")}</Empty>
   );
 }
 function EditableText({
@@ -1414,9 +1404,8 @@ function EditableText({
         disabled={editor.busy || editor.blocked}
         onClick={() => editor.submit()}
       >
-        保存修改
-      </button>
-      {editor.blocked && <button onClick={editor.recover}>恢复草稿</button>}
+        {uiText("保存修改")}</button>
+      {editor.blocked && <button onClick={editor.recover}>{uiText("恢复草稿")}</button>}
     </div>
   );
 }
@@ -1439,14 +1428,13 @@ function AssistantDetail({
       <header className="wb-detail-header">
         <I.Bot />
         <h2>{a.name}</h2>
-        <button onClick={() => open("assistant-edit", id)}>渠道配置</button>
-        <small>{a.enabled ? "本地配置已启用" : "本地演示"}</small>
+        <button onClick={() => open("assistant-edit", id)}>{uiText("渠道配置")}</button>
+        <small>{a.enabled ? "本地配置已启用" : uiText("本地演示")}</small>
         {a.enabled && (
           <button
             onClick={() => run("assistant", { id: a.id, enabled: false })}
           >
-            停用渠道
-          </button>
+            {uiText("停用渠道")}</button>
         )}
       </header>
       <div className="wb-assistant-chat">
@@ -1457,8 +1445,8 @@ function AssistantDetail({
         ))}
       </div>
       <textarea
-        aria-label="助理消息"
-        placeholder="给助理发送需求…"
+        aria-label={uiText("助理消息")}
+        placeholder={uiText("给助理发送需求…")}
         value={editor.text}
         onPointerDown={editor.activate}
         onFocus={editor.focus}
@@ -1469,8 +1457,7 @@ function AssistantDetail({
         onClick={() => editor.submit()}
         disabled={!editor.text.trim()}
       >
-        发送
-      </button>
+        {uiText("发送")}</button>
     </>
   ) : null;
 }
@@ -1497,15 +1484,13 @@ function Library({
           className={!detail ? "active" : ""}
           onClick={() => setDetail("")}
         >
-          最近
-        </button>
+          {uiText("最近")}</button>
         <button
           className={detail === "澄星设计" ? "active" : ""}
           onClick={() => setDetail("澄星设计")}
         >
-          本地文件
-        </button>
-        <h4>项目资料</h4>
+          {uiText("本地文件")}</button>
+        <h4>{uiText("项目资料")}</h4>
         {[...new Set(w.files.map((f) => f.folder))].map((x) => (
           <button key={x} onClick={() => setDetail(x)}>
             <I.Folder size={15} />
@@ -1514,16 +1499,16 @@ function Library({
         ))}
       </aside>
       <section>
-        <h2>{detail || "最近"}</h2>
+        <h2>{detail || uiText("最近")}</h2>
         <div className="wb-filter-tabs">
-          <button>最近访问</button>
-          <button onClick={() => open("library")}>添加资料</button>
+          <button>{uiText("最近访问")}</button>
+          <button onClick={() => open("library")}>{uiText("添加资料")}</button>
         </div>
         <div className="wb-library-table">
           <header>
-            <span>名称</span>
-            <span>类型</span>
-            <span>位置</span>
+            <span>{uiText("名称")}</span>
+            <span>{uiText("类型")}</span>
+            <span>{uiText("位置")}</span>
           </header>
           {w.files
             .filter(
@@ -1553,8 +1538,7 @@ function Library({
                     await run("attach", { id: f.id });
                   }}
                 >
-                  引用
-                </button>
+                  {uiText("引用")}</button>
                 <button
                   aria-label={"删除资料 " + f.name}
                   onClick={() => open("delete-file", f.id)}
@@ -1602,7 +1586,7 @@ function Settings({
           <h2>陈朗</h2>
           <span>chen.lang@example.com</span>
         </div>
-        <small>本地演示</small>
+        <small>{uiText("本地演示")}</small>
       </div>
       {[
         ["默认模型", w.settings.model, "model"],
@@ -1616,16 +1600,16 @@ function Settings({
           <I.ChevronRight />
         </button>
       ))}
-      <h3>记忆</h3>
+      <h3>{uiText("记忆")}</h3>
       <EditableText
         id="wb:settings:memory:text"
         label="WorkBuddy 记忆"
         value={w.settings.memory}
       />
-      <h3>菜单栏</h3>
+      <h3>{uiText("菜单栏")}</h3>
       {w.settings.menu.map((p, i) => (
         <div className="wb-list-row" key={p}>
-          {wbLabels[p]}
+          {uiText(wbLabels[p])}
           <span />
           <button
             aria-label={"上移 " + wbLabels[p]}
@@ -1651,7 +1635,7 @@ function Settings({
           </button>
         </div>
       ))}
-      <h3>数据管理</h3>
+      <h3>{uiText("数据管理")}</h3>
       <button
         onClick={() => {
           const blob = new Blob([JSON.stringify(w, null, 2)], {
@@ -1665,12 +1649,11 @@ function Settings({
           setTimeout(() => URL.revokeObjectURL(url), 1000);
         }}
       >
-        导出本地数据
-        <I.Download size={18} />
+        {uiText("导出本地数据")}<I.Download size={18} />
       </button>
-      <h3>用量</h3>
+      <h3>{uiText("用量")}</h3>
       <p>
-        本地任务 {w.tasks.length} 项 · 结果文件 {w.files.length} 个 ·
+        {uiText("本地任务")}{w.tasks.length} 项 · 结果文件 {w.files.length} 个 ·
         本原型不消耗模型积分
       </p>
     </div>
@@ -1766,8 +1749,8 @@ function Overlay({
       <>
         <input
           autoFocus
-          aria-label="搜索历史任务"
-          placeholder="搜索任务…"
+          aria-label={uiText("搜索历史任务")}
+          placeholder={uiText("搜索任务…")}
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
@@ -1783,7 +1766,7 @@ function Overlay({
               }}
             >
               {t.title}
-              <small>{statusLabels[t.status]}</small>
+              <small>{uiText(statusLabels[t.status])}</small>
             </button>
           ))}
       </>
@@ -1826,7 +1809,7 @@ function Overlay({
             key={k}
             onClick={() => save("config", { key: "mode", value: k })}
           >
-            {v}
+            {uiText(v)}
             <small>
               {k === "plan"
                 ? "先审阅计划，再执行"
@@ -1847,8 +1830,8 @@ function Overlay({
             key={x}
             onClick={() => save("config", { key: "permission", value: x })}
           >
-            {x}
-            <small>仅用于本地演示任务</small>
+            {uiText(x)}
+            <small>{uiText("仅用于本地演示任务")}</small>
           </button>
         ))}
       </>
@@ -1941,16 +1924,14 @@ function Overlay({
     return (
       <>
         <label>
-          任务名称
-          <input
-            aria-label="任务名称"
+          {uiText("任务名称")}<input
+            aria-label={uiText("任务名称")}
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
         </label>
         <button onClick={() => save("task", { id, action: "rename", name })}>
-          保存名称
-        </button>
+          {uiText("保存名称")}</button>
         <button
           className="wb-menu-row"
           onClick={() => save("task", { id, action: "favorite" })}
@@ -1959,9 +1940,8 @@ function Overlay({
           {task.favorite ? "取消收藏" : "收藏任务"}
         </button>
         <label>
-          项目
-          <select
-            aria-label="任务项目"
+          {uiText("项目")}<select
+            aria-label={uiText("任务项目")}
             defaultValue={task.project}
             onChange={(e) =>
               run("project", { id: e.target.value, task: id, action: "assign" })
@@ -1978,8 +1958,7 @@ function Overlay({
           className="wb-danger"
           onClick={() => save("task", { id, action: "delete" })}
         >
-          删除任务
-        </button>
+          {uiText("删除任务")}</button>
       </>
     );
   if (type === "catalog" && catalog)
@@ -1997,19 +1976,17 @@ function Overlay({
               className="wb-primary"
               onClick={() => save("expert", { id, action: "summon" })}
             >
-              召唤{catalog.team ? "专家团" : "专家"}
+              {uiText("召唤")}{catalog.team ? "专家团" : uiText("专家")}
             </button>
             {w.experts.some((x) => x.id === id) && (
               <>
                 <button onClick={() => open("expert-edit", id)}>
-                  修改专家
-                </button>
+                  {uiText("修改专家")}</button>
                 <button
                   className="wb-danger"
                   onClick={() => save("expert", { id, action: "delete" })}
                 >
-                  删除专家
-                </button>
+                  {uiText("删除专家")}</button>
               </>
             )}
           </>
@@ -2023,7 +2000,7 @@ function Overlay({
             {w.installed.includes(id!) ? "移除技能" : "安装技能"}
           </button>
         ) : (
-          <button onClick={() => open("connector", id)}>配置连接器</button>
+          <button onClick={() => open("connector", id)}>{uiText("配置连接器")}</button>
         )}
       </>
     );
@@ -2031,8 +2008,7 @@ function Overlay({
     return (
       <>
         <button className="wb-primary" onClick={() => open("expert-create")}>
-          创建专家
-        </button>
+          {uiText("创建专家")}</button>
         {w.experts.map((x) => (
           <button
             className="wb-menu-row"
@@ -2043,14 +2019,14 @@ function Overlay({
             {x.name}
           </button>
         ))}
-        {!w.experts.length && <Empty>暂无自建专家</Empty>}
+        {!w.experts.length && <Empty>{uiText("暂无自建专家")}</Empty>}
       </>
     );
   if (type === "authorize")
     return (
       <>
         <img className="wb-authorize-icon" src={logo} alt="" />
-        <h2>销售工作台</h2>
+        <h2>{uiText("销售工作台")}</h2>
         <p>将当前项目资料、销售任务和选定能力用于本地演示。</p>
         <button
           className="wb-primary"
@@ -2058,14 +2034,13 @@ function Overlay({
             save("config", { key: "buddyAuthorized", value: true })
           }
         >
-          授权本地工作台
-        </button>
+          {uiText("授权本地工作台")}</button>
       </>
     );
   if (type.startsWith("delete-"))
     return (
       <>
-        <p>删除后将从本地列表移除。</p>
+        <p>{uiText("删除后将从本地列表移除。")}</p>
         <button
           className="wb-danger"
           onClick={() =>
@@ -2075,8 +2050,7 @@ function Overlay({
             })
           }
         >
-          确认删除
-        </button>
+          {uiText("确认删除")}</button>
       </>
     );
   if (type === "mail-write") {
@@ -2090,8 +2064,7 @@ function Overlay({
         }}
       >
         <label>
-          收件人
-          <FormInput
+          {uiText("收件人")}<FormInput
             id={`wb:form:mail-write-${id || "new"}:recipient`}
             label="收件人"
             value={recipient}
@@ -2099,8 +2072,7 @@ function Overlay({
           />
         </label>
         <label>
-          主题
-          <FormInput
+          {uiText("主题")}<FormInput
             id={`wb:form:${type}-${id || "new"}:name`}
             label="主题"
             value={name}
@@ -2108,8 +2080,7 @@ function Overlay({
           />
         </label>
         <label>
-          正文
-          <FormInput
+          {uiText("正文")}<FormInput
             id={`wb:form:${type}-${id || "new"}:body`}
             label="正文"
             multiline
@@ -2117,7 +2088,7 @@ function Overlay({
             onChange={setBody}
           />
         </label>
-        <button className="wb-primary">保存草稿</button>
+        <button className="wb-primary">{uiText("保存草稿")}</button>
       </form>
     );
   }
@@ -2169,24 +2140,21 @@ function Overlay({
           <h2>{connector?.name}</h2>
           <p>{connector?.description}</p>
           <label>
-            工作空间
-            <input value={folder} onChange={(e) => setFolder(e.target.value)} />
+            {uiText("工作空间")}<input value={folder} onChange={(e) => setFolder(e.target.value)} />
           </label>
           {w.connectors[id!]?.enabled && (
             <button
               type="button"
               onClick={() => save("connector", { id, enabled: false })}
             >
-              停用本地连接
-            </button>
+              {uiText("停用本地连接")}</button>
           )}
         </>
       ) : (
         <>
           {type !== "assistant-edit" && (
             <label>
-              名称
-              <FormInput
+              {uiText("名称")}<FormInput
                 id={`wb:form:${type}-${id || "new"}:name`}
                 label="名称"
                 value={name}
@@ -2207,7 +2175,7 @@ function Overlay({
                 ? "任务内容"
                 : type.includes("expert")
                   ? "工作方法与能力"
-                  : "项目指令"}
+                  : uiText("项目指令")}
               <FormInput
                 id={`wb:form:${type}-${id || "new"}:body`}
                 label="配置内容"
@@ -2224,18 +2192,16 @@ function Overlay({
                 checked={team}
                 onChange={(e) => setTeam(e.target.checked)}
               />
-              创建专家团
-            </label>
+              {uiText("创建专家团")}</label>
           )}
           {type.includes("assistant") && (
             <label>
-              渠道
-              <select
+              {uiText("渠道")}<select
                 value={channel}
                 onChange={(e) => setChannel(e.target.value)}
               >
                 {["企业微信", "微信", "飞书", "QQ", "钉钉"].map((x) => (
-                  <option key={x}>{x}</option>
+                  <option key={x} value={x}>{uiText(x)}</option>
                 ))}
               </select>
             </label>
@@ -2243,9 +2209,8 @@ function Overlay({
           {type.includes("automation") && (
             <>
               <label>
-                时间
-                <input
-                  aria-label="执行时间"
+                {uiText("时间")}<input
+                  aria-label={uiText("执行时间")}
                   type="time"
                   value={time}
                   onChange={(e) => setTime(e.target.value)}
@@ -2274,8 +2239,7 @@ function Overlay({
           {type === "library" && (
             <>
               <label>
-                资料类型
-                <select
+                {uiText("资料类型")}<select
                   value={kind}
                   onChange={(e) => setKind(e.target.value as ResultKind)}
                 >
@@ -2287,8 +2251,7 @@ function Overlay({
                 </select>
               </label>
               <label>
-                文件夹
-                <input
+                {uiText("文件夹")}<input
                   value={folder}
                   onChange={(e) => setFolder(e.target.value)}
                 />
@@ -2303,7 +2266,7 @@ function Overlay({
         </p>
       )}
       <button className="wb-primary" type="submit">
-        {type === "connector" ? "保存本地配置" : "保存"}
+        {type === "connector" ? "保存本地配置" : uiText("保存")}
       </button>
     </form>
   );

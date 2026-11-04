@@ -1,7 +1,7 @@
 import {test,expect,type Page} from '@playwright/test';
 import {enableInput} from './enable-input';
 async function pair(tablet:Page,phone:Page){
- await tablet.goto('/?bridge=5191');await tablet.getByRole('button',{name:'连接设置',exact:true}).click();await tablet.getByRole('radio',{name:'扫码网络建联',exact:false}).check();const pin=(await tablet.locator('.pair-code').innerText()).trim();await tablet.getByRole('button',{name:'关闭连接设置'}).click();
+ await tablet.goto('/?bridge=5191');await tablet.getByRole('button',{name:'设置',exact:true}).click();await tablet.getByRole('radio',{name:'扫码网络建联',exact:false}).check();const pin=(await tablet.locator('.pair-code').innerText()).trim();await tablet.getByRole('button',{name:'关闭连接设置'}).click();
  await phone.setViewportSize({width:390,height:844});await phone.goto('/?role=phone&bridge=5191');await phone.getByLabel('平板地址').fill('localhost');await phone.getByLabel('配对码',{exact:true}).fill(pin);await phone.getByRole('button',{name:'连接',exact:true}).click();await expect(phone.getByRole('dialog',{name:'设备连接'})).toHaveCount(0);await enableInput(tablet,phone);
 }
 async function command(page:Page,type:string,value:unknown={}){return page.evaluate(async({type,value})=>{const r=await import(performance.getEntriesByType('resource').find(e=>/\/src\/runtime\.ts(?:\?|$)/.test(e.name))!.name);return r.command(type,value);},{type,value});}

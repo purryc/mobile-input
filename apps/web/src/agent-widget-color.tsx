@@ -1,3 +1,4 @@
+import {uiText} from './i18n';
 import {useEffect,useRef,useState,type PointerEvent} from 'react';
 import {fromHex,toHex} from './workbuddy-color-picker';
 
@@ -17,11 +18,11 @@ export function AgentWidgetColor({value,label,onChange,onActive,onDone}:{value:s
  const pick=(e:PointerEvent<HTMLDivElement>)=>{const r=e.currentTarget.getBoundingClientRect(),x=Math.max(0,Math.min(1,(e.clientX-r.left)/r.width));setPosition(x);change(mix(low,high,x),false);};
  return <div className="agent-color-body">
   <div className="agent-color-presets">{palettes[kind].map((v,i)=><button key={v} aria-label={label+' '+v} aria-pressed={hex.toUpperCase()===v} onClick={()=>{setChromatic(false);change(v);}}><img src={'/reference-assets/workbuddy-widgets/'+kind+'-'+i+'.svg'} alt="" draggable={false}/></button>)}</div>
-  <div className="agent-tone-ramp" role="slider" aria-label="连续调色" aria-valuemin={0} aria-valuemax={100} aria-valuenow={Math.round(position*100)} aria-valuetext={hex} tabIndex={0} style={{backgroundImage:`linear-gradient(90deg,${low},${high})`}}
+  <div className="agent-tone-ramp" role="slider" aria-label={uiText("连续调色")} aria-valuemin={0} aria-valuemax={100} aria-valuenow={Math.round(position*100)} aria-valuetext={hex} tabIndex={0} style={{backgroundImage:`linear-gradient(90deg,${low},${high})`}}
    onPointerDown={e=>{if(!e.isPrimary||held.current!==null)return;e.preventDefault();held.current=e.pointerId;onActive(true);e.currentTarget.setPointerCapture(e.pointerId);pick(e);}}
    onPointerMove={e=>{if(e.pointerId===held.current)pick(e);}} onPointerUp={finish} onPointerCancel={finish} onLostPointerCapture={finish}
    onKeyDown={e=>{if(!['ArrowLeft','ArrowRight'].includes(e.key))return;e.preventDefault();const x=Math.max(0,Math.min(1,position+(e.key==='ArrowRight'?.01:-.01)));setPosition(x);change(mix(low,high,x));}}><i style={{left:`${position*100}%`}}/></div>
-  <input aria-label="色相" className="agent-hue" type="range" min="0" max="359" value={Math.round(hue)} onPointerDown={e=>{held.current=e.pointerId;onActive(true);}} onPointerUp={finish} onPointerCancel={finish} onBlur={finish} onChange={e=>{const h=+e.target.value;setHue(h);setChromatic(true);change(toHex({h,s:.796,v:.788}),held.current===null);}}/>
-  <div className="agent-color-bottom"><label><input aria-label={label+' HEX'} value={hex} spellCheck={false} onChange={e=>{setHex(e.target.value);if(/^#[0-9a-f]{6}$/i.test(e.target.value))change(e.target.value.toUpperCase());}} onBlur={()=>setHex(current.current)}/><i style={{background:/^#[0-9a-f]{6}$/i.test(hex)?hex:value}}/></label><button aria-label="完成颜色选择" onClick={onDone}><WidgetIcon name="check"/></button></div>
+  <input aria-label={uiText("色相")} className="agent-hue" type="range" min="0" max="359" value={Math.round(hue)} onPointerDown={e=>{held.current=e.pointerId;onActive(true);}} onPointerUp={finish} onPointerCancel={finish} onBlur={finish} onChange={e=>{const h=+e.target.value;setHue(h);setChromatic(true);change(toHex({h,s:.796,v:.788}),held.current===null);}}/>
+  <div className="agent-color-bottom"><label><input aria-label={label+' HEX'} value={hex} spellCheck={false} onChange={e=>{setHex(e.target.value);if(/^#[0-9a-f]{6}$/i.test(e.target.value))change(e.target.value.toUpperCase());}} onBlur={()=>setHex(current.current)}/><i style={{background:/^#[0-9a-f]{6}$/i.test(hex)?hex:value}}/></label><button aria-label={uiText("完成颜色选择")} onClick={onDone}><WidgetIcon name="check"/></button></div>
  </div>;
 }

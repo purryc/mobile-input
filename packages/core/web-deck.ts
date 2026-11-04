@@ -1,3 +1,4 @@
+import type {PromptArtifactContext} from './workbuddy-prompt';
 import type {LiveParameter} from './live-workbuddy';
 export type DeckLayout='cover'|'image-left'|'image-right'|'stack'|'cards'|'full-image';
 export const deckLayouts:DeckLayout[]=['cover','image-left','image-right','stack','cards','full-image'];
@@ -5,7 +6,7 @@ export interface DeckAsset {id:string;name:string;mime:string;size:number;kind:'
 export interface DeckInput {revision:number;parameters:LiveParameter[];assets:DeckAsset[];sketchDrafts?:{scope:string;replace:string;strokes:number[][][]}[];}
 export interface DeckPage {id:string;label:string;title:string;body:string;notes:string;layout:DeckLayout;photoIds:string[];background:string;primary:string;textColor:string;imageFit:'contain'|'cover';photoFits?:Record<string,'contain'|'cover'>;}
 export interface WebDeck {schemaVersion:1;id:string;title:string;pages:DeckPage[];assets:DeckAsset[];input:{text:string;parameters:LiveParameter[]};layoutNotes:string;model:string;}
-export interface DeckJob {engine:'gemini-html';stage:string;error?:string;request?:{text:string;input:DeckInput};}
+export interface DeckJob {engine:'gemini-html';stage:string;error?:string;request?:{text:string;input:DeckInput;context?:PromptArtifactContext};}
 export const emptyDeckInput=():DeckInput=>({revision:0,parameters:[],assets:[]});
 export function validParameter(p:any):p is LiveParameter {return !!p&&['color','duration','document','photo','sketch'].includes(p.kind)&&['id','phrase','label','role','scope','value'].every(k=>typeof p[k]==='string'&&p[k].length<=500)&&Number.isInteger(p.start)&&p.start>=0&&Number.isInteger(p.end)&&p.end>=p.start&&typeof p.manual==='boolean';}
 export function validStrokes(lines:any):lines is number[][][] {return Array.isArray(lines)&&lines.length<=100&&lines.every((s:any)=>Array.isArray(s)&&s.length<=2000&&s.every((p:any)=>Array.isArray(p)&&p.length===2&&p.every((v:any)=>Number.isFinite(v)&&v>=0&&v<=1)));}

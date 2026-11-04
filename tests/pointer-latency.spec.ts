@@ -7,7 +7,7 @@ test('a delayed link delivers the latest of 120 trackpad samples without replayi
   (window as any).__outbound=[];
   WebSocket.prototype.send=function(data){if(typeof data==='string')(window as any).__outbound.push(JSON.parse(data));original.call(this,data);};
  });
- await tablet.goto('/?bridge=5191');await tablet.getByRole('button',{name:'连接设置',exact:true}).click();await tablet.getByRole('radio',{name:'扫码网络建联',exact:false}).check();
+ await tablet.goto('/?bridge=5191');await tablet.getByRole('button',{name:'设置',exact:true}).click();await tablet.getByRole('radio',{name:'扫码网络建联',exact:false}).check();
  const pin=(await tablet.locator('.pair-code').innerText()).trim();
  await phone.addInitScript(()=>{
   const original=WebSocket.prototype.send;

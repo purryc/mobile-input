@@ -9,7 +9,7 @@ test('three destinations isolate real controls and preserve shared dock at both 
  await expect(page.getByLabel('Mac 输入',{exact:true})).toHaveValue('原始文字');await page.getByLabel('Mac 输入',{exact:true}).fill('中文输入😀');
  await expect.poll(()=>sent.filter(m=>m.op==='replace-text').at(-1)?.text).toBe('中文输入😀');expect(sent.some(m=>m.action==='submit')).toBe(false);
  for(const height of [844,700]){await page.setViewportSize({width:390,height});const voice=page.getByRole('button',{name:'智慧语音',exact:true});await expect(voice).toBeVisible();const b=(await voice.boundingBox())!;expect(b.y+b.height).toBeLessThanOrEqual(height);await expect(page.locator('.input-voice span')).toHaveText('智慧语音');}
- await page.getByRole('button',{name:'连接设置',exact:true}).click();await page.getByRole('radio',{name:'鸿蒙应用',exact:false}).check();await expect(page.getByText('真实鸿蒙应用尚未接通',{exact:true})).toBeVisible();expect(sent.some(m=>m.op==='release')).toBe(true);
+ await page.getByRole('button',{name:'设置',exact:true}).click();await page.getByRole('radio',{name:'鸿蒙应用',exact:false}).check();await expect(page.getByText('真实鸿蒙应用尚未接通',{exact:true})).toBeVisible();expect(sent.some(m=>m.op==='release')).toBe(true);
  await page.getByRole('radio',{name:'平板演示'}).check();await expect(page.getByRole('radio',{name:'鸿蒙分布式'})).toBeVisible();
 });
 test('Mac target changes preserve phone input and never auto-submit or replay it',async({page})=>{

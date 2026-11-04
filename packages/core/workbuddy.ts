@@ -108,6 +108,7 @@ export interface WbAssistant {
   messages: { role: string; text: string }[];
 }
 export interface WorkBuddyState {
+  lastSubmission?:{id:string;task:string;at:number};
   deckPlayback?:{file:string;view:string;pageId:string};
   version: 1;
   fileBrowser?: FileBrowserState;

@@ -58,6 +58,7 @@ export interface FileSelection {
   end?: number;
 }
 export interface FileView {
+  promptPage?:{file:string;page:string};
   id: string;
   tabs: string[];
   active: string | null;

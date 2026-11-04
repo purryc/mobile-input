@@ -1,6 +1,6 @@
 import {test,expect,type Page} from '@playwright/test';
 async function pair(tablet:Page,phone:Page){
- await tablet.goto('/?bridge=5191');await tablet.getByRole('button',{name:'连接设置',exact:true}).click();await tablet.getByRole('radio',{name:/扫码网络建联/}).check();const pin=(await tablet.locator('.pair-code').innerText()).trim();await phone.goto('/?role=phone&bridge=5191');await phone.getByRole('radio',{name:/扫码网络建联/}).check();await phone.getByLabel('平板地址').fill('localhost');await phone.getByLabel('配对码',{exact:true}).fill(pin);await phone.getByRole('button',{name:'连接',exact:true}).click();await tablet.getByRole('button',{name:'关闭连接设置'}).click();await expect(phone.getByRole('dialog',{name:'设备连接'})).toHaveCount(0);
+ await tablet.goto('/?bridge=5191');await tablet.getByRole('button',{name:'设置',exact:true}).click();await tablet.getByRole('radio',{name:/扫码网络建联/}).check();const pin=(await tablet.locator('.pair-code').innerText()).trim();await phone.goto('/?role=phone&bridge=5191');await phone.getByRole('radio',{name:/扫码网络建联/}).check();await phone.getByLabel('平板地址').fill('localhost');await phone.getByLabel('配对码',{exact:true}).fill(pin);await phone.getByRole('button',{name:'连接',exact:true}).click();await tablet.getByRole('button',{name:'关闭连接设置'}).click();await expect(phone.getByRole('dialog',{name:'设备连接'})).toHaveCount(0);
 }
 async function cmd(page:Page,type:string,value?:unknown){return page.evaluate(async({type,value})=>{const {command}=await import('/src/runtime.ts' as string);return command(type,value);},{type,value});}
 test('WeChat always has context; read completion gates recommendations, not the whole controller',async({browser})=>{
@@ -49,7 +49,7 @@ test('distributed camera return retains the mounted controller while authority r
   window.dispatchEvent(new CustomEvent('native-status',{detail:{type:'connected',transport:'distributed'}}));
  });
  const field=page.getByLabel('手机 WorkBuddy 草稿');await expect(field).toBeVisible();await field.fill('拍照返回后保留原任务和灰色背景');
- await expect.poll(()=>page.evaluate(()=> (window as any).sent.filter((m:any)=>m.kind==='command'&&m.command.type==='wb-edit').length)).toBeGreaterThan(0);
+ await expect.poll(()=>page.evaluate(()=> (window as any).sent.filter((m:any)=>m.kind==='command'&&m.command.type==='wb-deck-prompt-edit').length)).toBeGreaterThan(0);
  await field.evaluate(el=>(el as any).__mountMarker='same-editor');
  await page.evaluate(()=>{(window as any).holdSync=true;window.dispatchEvent(new CustomEvent('native-foreground',{detail:false}));});
  await expect(page.locator('.session-paused')).toBeVisible();

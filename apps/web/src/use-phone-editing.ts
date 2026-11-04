@@ -5,7 +5,7 @@ import {wbDraftFor} from '../../../packages/core/workbuddy';
 import { useEffect, useRef, useState, type RefObject } from 'react';
 import { clipboardRead, clipboardWrite } from './phone-native';
 import {requestPolish} from './ai-polish';
-import {currentState, uid } from './runtime';
+import {currentState, toast, uid } from './runtime';
 
 /** Shared native input lifecycle. Transcripts are drafts; no action in this hook submits. */
 export function usePhoneEditing(text:string, update:(text:string)=>void, area:RefObject<TextInputHandle|null>, identity:string, connected:boolean, commandMode=false, realTarget?:{target:PolishTarget;stamp:()=>string}) {
@@ -62,7 +62,8 @@ export function usePhoneEditing(text:string, update:(text:string)=>void, area:Re
       const key=targetStamp();
       if(controller.signal.aborted||!active.current||!available.current||identityRef.current!==bound||generation!==editGeneration.current||value.current!==snapshot||selection.current.start!==start||selection.current.end!==end||key!==targetKey){if(active.current&&!controller.signal.aborted)setPolishError('文字或目标已变化，已保留当前内容');return;}
       const next=selected?snapshot.slice(0,start)+result+snapshot.slice(end):result;validatePolishParameters(snapshot,next);
-      polishRequest.current=null;change(next);
+      if(next===snapshot){toast('未产生文字修改');return;}
+      change(next);
       selection.current={start:selected?start:0,end:(selected?start:0)+result.length};requestAnimationFrame(()=>area.current?.setSelectionRange(selection.current.start,selection.current.end));
     }catch(e){if(active.current&&!controller.signal.aborted){setPolishFailedAction(kind);setPolishError(e instanceof Error?e.message:'润色失败，原文已保留');}}
     finally{if(polishRequest.current===controller){polishRequest.current=null;setPolishing(false);setPolishAction('');}}

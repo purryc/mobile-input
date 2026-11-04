@@ -7,8 +7,8 @@ const actions:PolishAction[]=[
  {id:'chat-natural',label:'更自然',instruction:'将聊天草稿改得口语、自然，像本人直接回复；不要替用户编造答复。'},
  {id:'chat-short',label:'更简洁',instruction:'将聊天草稿缩短为简洁回复，保留时间、事项、立场和明确要求。'},
  {id:'task-clear',label:'说清需求',instruction:'把发给 AI 助手的任务指令说清楚，区分目标、已有条件和约束。不执行任务、不提供答案、不补充用户未给出的条件或成果类型。'},
- {id:'task-points',label:'整理要点',instruction:'将任务指令整理为清晰的要点，保留要求、限制、否定和相互关系。不执行任务、不新增需求。'},
- {id:'task-short',label:'精简指令',instruction:'压缩发给 AI 助手的指令，去掉口头重复，完整保留目标和约束；不得执行该指令。'},
+ {id:'task-points',label:'整理结构',instruction:'将任务指令整理为清晰的要点，保留要求、限制、否定和相互关系。不执行任务、不新增需求。'},
+ {id:'task-short',label:'精简表达',instruction:'压缩发给 AI 助手的指令，去掉口头重复，完整保留目标和约束；不得执行该指令。'},
  {id:'mail-professional',label:'商务表达',instruction:'将邮件草稿改为自然、专业的商务表达；不新增主题、称呼、签名、承诺或交易条件。'},
  {id:'mail-request',label:'说清诉求',instruction:'整理邮件中的诉求和已给出的下一步，使收件人容易理解；缺失的时间、责任人和要求不得补造。'},
  {id:'title-clear',label:'标题清晰',instruction:'将现有标题写得清晰、准确，只输出一个标题，保留原主题，不增加未经提供的结论。'},
@@ -27,8 +27,8 @@ export function polishActionsForTarget(t:PolishTarget|null):PolishAction[]{
  if(!t||t.kind!=='text')return [];
  if(t.app==='wechat')return pick(['chat-natural','polite','chat-short']);
  if(t.app==='bilibili')return pick(['comment-natural','comment-short','polite']);
- if(t.app==='workbuddy'&&!t.id.startsWith('wb:doc:'))return pick(['task-clear','task-points','task-short']);
- if(t.app==='doubao')return pick(['task-clear','task-points','task-short']);
+ if(t.app==='workbuddy'&&!t.id.startsWith('wb:doc:'))return pick(['task-points','task-short']);
+ if(t.app==='doubao'||t.app==='codex')return pick(['task-points','task-short']);
  if(t.app==='paint')return pick(t.id.endsWith(':name')?['label-clear','concise','fix']:['formal','concise','fix']);
  if(t.app==='slides'||t.app==='workbuddy'&&t.id.includes(':slide/')){
   if(/(?:[:/])notes$/.test(t.id))return pick(['speech-natural','points','speech-short']);
@@ -47,6 +47,13 @@ export function polishInstruction(id:string):string{
 export function contextualPolishActions(t:PolishTarget|null,text:string):PolishAction[]{
  const value=text.trim();if(!value||!/[\p{L}]/u.test(value)||/^(?:https?:\/\/\S+|#[a-f\d]{3,8}|[\w.+-]+@[\w.-]+)$/i.test(value))return [];
  let result=polishActionsForTarget(t);
+ if(result.some(a=>a.id==='task-points')){
+  // Count editable prose rather than parameter-only input. No native dependencies.
+  const prose=value.replace(/(?:背景|主题测试|主题色?|主色|字体|文字|标题|强调色)(?:的)?(?:颜色|色)?[\s。．，,：:]{0,6}(?:设置成|设置为|换成|改成|改为|设为|采用|使用|选择|要用|是用|用|要|是|为)?[\s。．，,：:]{0,6}(?:#[0-9a-f]{6}|高级灰|深红|[红蓝黑白灰绿黄橙紫]色?)/gi,'').replace(/(?:参考|添加|上传|选择|用)(?:我的|一些|产品|的|这份|一下)*?(?:文件|资料|照片|图片)|(?:布局|排版)(?:我)?画一下|(?:我)?画一下|(?:讲|时长|演讲)?[一二两三四五六七八九十\d]+分钟/g,'');
+  const count=(prose.match(/[\p{L}\p{N}]/gu)||[]).length,clauses=prose.split(/[，,。；;！!？?\n]/).filter(s=>/[\p{L}\p{N}]/u.test(s));
+  const repeat=/(.{2,12})[，,。\s]*\1|然后.*然后|就是.*就是|那个.*那个/.test(prose);
+  return result.filter(a=>a.id==='task-points'?count>=12&&clauses.length>=2:count>=80||repeat);
+ }
  if(t?.app==='mail'&&!t.id.includes('subject')&&!/客户|报价|采购|合同|供应商|订单/.test(value))result=pick(value.length>30?['polite','mail-request','concise']:['polite','concise']);
  if(/不要(?:改|改变|调整)(?:变)?语气|保留原(?:有)?语气/.test(value))result=result.filter(a=>!['polite','formal','chat-natural','mail-professional','speech-natural'].includes(a.id));
  if(value.length<=8)result=result.slice(0,1);

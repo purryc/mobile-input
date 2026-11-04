@@ -3902,7 +3902,8 @@
       "capabilities": [],
       "status": "design-contract-not-runtime",
       "states": [
-        "Default"
+        "Empty",
+        "WithPhotos"
       ],
       "actions": [
         "select",
@@ -3923,7 +3924,7 @@
         "reason": "User removed the redundant also-reference option."
       },
       "photoSource": "https://unsplash.com/photos/a-red-camera-sitting-on-top-of-a-blue-surface-iegXREq9HrE",
-      "adoption": "immediate-on-selection-or-capture-return",
+      "adoption": "explicit-widget-confirm-only",
       "confirmationButton": true,
       "dismissEffect": "preserve-attached-photos",
       "autoSubmit": false,
@@ -3938,7 +3939,7 @@
           "attached-photos"
         ],
         "delete": "each-thumbnail-top-right",
-        "photoEntryAfterAttach": false,
+        "photoEntryAfterAttach": true,
         "photoEntryAfterLastRemoval": "restore-if-intent-remains",
         "noAttachments": "collapse-row",
         "photoComponent": "2232:110017",
@@ -3964,13 +3965,33 @@
       "figmaPageId": "2:2",
       "catalogRole": "reusable-control",
       "captureReturn": {
-        "presentation": "append-captured-photo-to-composer-attachment-row",
+        "presentation": "pending-preview-in-original-task-photo-widget",
         "detailPreview": false,
-        "additionalConfirmation": false,
+        "additionalConfirmation": true,
         "preserveExistingContent": true,
         "autoSubmit": false,
         "figmaFrame": "2164:58664",
-        "evidence": "design-only"
+        "evidence": "design-and-local-browser"
+      },
+      "figmaVariants": {
+        "Empty": "2367:111152",
+        "WithPhotos": "2161:99072"
+      },
+      "emptyLayout": {
+        "height": 118,
+        "previewVisible": false,
+        "confirmVisible": false,
+        "actions": [
+          "choose-image",
+          "camera"
+        ],
+        "equalWidth": true
+      },
+      "populatedLayout": {
+        "height": 230,
+        "previewVisible": true,
+        "confirmVisible": true,
+        "lastRemoval": "return-to-empty-layout"
       }
     },
     {
@@ -4460,7 +4481,7 @@
       "overflow": "horizontal-scroll",
       "gap": 8,
       "delete": "each-thumbnail-top-right",
-      "captureReturn": "append-without-detail-preview-or-extra-confirmation",
+      "captureReturn": "pending-in-photo-widget-until-explicit-confirm",
       "autoSubmit": false
     }
   ],

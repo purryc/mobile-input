@@ -37,7 +37,7 @@ test("standalone file browser provides all formats, saved tabs, media and readab
   await expect(page.locator(".wb-sidebar")).toHaveCount(0);
   await expect(page.locator(".wbf-ai")).toHaveCount(0);
   await expect(
-    page.getByRole("button", { name: "连接设置", exact: true }),
+    page.getByRole("button", { name: "设置", exact: true }),
   ).toHaveCount(1);
   await page.screenshot({ path: "artifacts/file-browser-word.png" });
   await page.getByRole("button", { name: "和 WorkBuddy 对话" }).click();
@@ -162,7 +162,7 @@ test("phone edits file targets, sends AI instructions and WPS reads saved canoni
   const tablet = await context.newPage(),
     phone = await context.newPage();
   await home(tablet);
-  await tablet.getByRole("button", { name: "连接设置" }).click();
+  await tablet.getByRole("button", { name: "设置" }).click();
   await tablet.getByRole("radio", { name: /扫码网络建联/ }).check();
   const pin = (await tablet.locator(".pair-code").innerText()).trim();
   await phone.setViewportSize({ width: 412, height: 915 });

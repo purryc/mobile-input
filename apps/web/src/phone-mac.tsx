@@ -1,3 +1,4 @@
+import {uiText} from './i18n';
 import {PhoneControllerFrame} from './phone-controller-frame';
 import {preserveMacText} from './mac-text-recovery';
 import {toast} from './runtime';
@@ -19,7 +20,7 @@ const drafts=new Map<string,string>();
 try{Object.entries(JSON.parse(localStorage.getItem('input-agent-mac-protected-input')||'{}')).forEach(([k,v])=>{if(typeof v==='string')drafts.set(k,v);});}catch{}
 function remember(key:string,text:string){drafts.set(key,text);try{localStorage.setItem('input-agent-mac-protected-input',JSON.stringify(Object.fromEntries([...drafts].slice(-30))));}catch{}}
 export function PhoneMac(){const link=useMacLink(),destination=useControlDestination(),show=useConnectionPrompt();
- if(destination==='harmony')return <PhoneControllerFrame tasks={false}><div className="mac-empty"><h2>鸿蒙应用尚未接通</h2><button onClick={show}>连接设置</button></div></PhoneControllerFrame>;
+ if(destination==='harmony')return <PhoneControllerFrame tasks={false}><div className="mac-empty"><h2>{uiText("鸿蒙应用尚未接通")}</h2><button onClick={show}>{uiText("连接设置")}</button></div></PhoneControllerFrame>;
  if(link.state?.app==='workbuddy'&&!link.state.locked)return <LiveWorkBuddyEditor/>;
  return <MacEditor agent={link.state?.app==='codex'}/>;
 }
@@ -43,9 +44,9 @@ function MacEditor({agent=false}:{agent?:boolean}){const link=useMacLink(),s=lin
  const sub=s?.subapp;const mode=sub==='writer'?'Word':sub==='sheet'?'Sheet':sub==='presentation'?'Presentation':'System';
  return <PhoneControllerFrame className={agent?'mac-agent-codex':''} tasks={false} dock={<InputDock area={area} editing={editing} undo={!text&&s?.capabilities.includes('undo')?()=>void action('undo'):undefined} redo={!text&&s?.capabilities.includes('redo')?()=>void action('redo'):undefined} editable={editable} voiceDisabled={!link.connected||!editable} onVoiceUnavailable={show} initialMode="trackpad" onSelectionEdit={a=>void action(a==='all'?'select-all':a)} remote={{connected:link.connected&&!!s?.capabilities.includes('pointer'),scope:`mac/${link.session}/${s?.window}`,target,position:s?.pointer,sendPointer:v=>macCommand('pointer',v as Record<string,unknown>,s)}}/>}><main data-theme={mode} className={agent?'live-wb-main':undefined}>
   {!agent&&<nav className="mac-apps"><button disabled={!link.connected} onClick={()=>void macCommand('activate',{app:'workbuddy'})}>WorkBuddy</button><button disabled={!link.connected} onClick={()=>void macCommand('activate',{app:'codex'})}>Codex</button><button disabled={!link.connected} onClick={()=>void macCommand('activate',{app:'wps'})}>WPS</button></nav>}
-  {!link.connected?<div className="mac-empty"><h2>连接你的 Mac</h2><p>{link.status}</p>{link.canResume&&<button onClick={resumeMac}>重新连接</button>}<button onClick={show}>打开连接设置</button></div>:s?.locked?<div className="mac-empty"><h2>请解锁 Mac</h2><p>解锁后回到 WorkBuddy 的输入框。</p></div>:!s?.permission?<div className="mac-empty"><h2>允许辅助功能</h2><p>在 Mac 系统设置中允许 Input Agent Bridge，然后重新连接。</p></div>:<>
+  {!link.connected?<div className="mac-empty"><h2>{uiText("连接你的 Mac")}</h2><p>{link.status}</p>{link.canResume&&<button onClick={resumeMac}>{uiText("重新连接")}</button>}<button onClick={show}>{uiText("打开连接设置")}</button></div>:s?.locked?<div className="mac-empty"><h2>{uiText("请解锁 Mac")}</h2><p>{uiText("解锁后回到 WorkBuddy 的输入框。")}</p></div>:!s?.permission?<div className="mac-empty"><h2>{uiText("允许辅助功能")}</h2><p>{uiText("在 Mac 系统设置中允许 Input Agent Bridge，然后重新连接。")}</p></div>:<>
    <p className="mac-target">{s.windowTitle||'选择输入位置'}</p>
-   {editable?<AgentComposer className="mac-composer" footer={<>{!s.editable&&<button disabled={busy||!text||awaiting} onClick={()=>void insert()}>输入到 Mac</button>}{s.capabilities.includes('submit')&&<button aria-label="发送到 Codex" disabled={busy||dirty.current||!text||awaiting} onClick={()=>void action('submit')}><Send size={22}/>发送</button>}</>}><textarea ref={area} inputMode="none" aria-label="Mac 输入" value={text} onChange={e=>{editing.change(e.target.value);editing.select();}} onSelect={editing.select}/></AgentComposer>:known&&<p className="mac-empty">在电脑上点击可编辑位置，手机会显示相应输入。</p>}
+   {editable?<AgentComposer className="mac-composer" footer={<>{!s.editable&&<button disabled={busy||!text||awaiting} onClick={()=>void insert()}>{uiText("输入到 Mac")}</button>}{s.capabilities.includes('submit')&&<button aria-label={uiText("发送到 Codex")} disabled={busy||dirty.current||!text||awaiting} onClick={()=>void action('submit')}><Send size={22}/>{uiText("发送")}</button>}</>}><textarea ref={area} inputMode="none" aria-label={uiText("Mac 输入")} value={text} onChange={e=>{editing.change(e.target.value);editing.select();}} onSelect={editing.select}/></AgentComposer>:known&&<p className="mac-empty">{uiText("在电脑上点击可编辑位置，手机会显示相应输入。")}</p>}
    {!agent&&<div className="mac-actions">{s.capabilities.filter(c=>labels[c]).map(c=><button key={c} disabled={busy||awaiting} onClick={()=>void action(c)}>{labels[c]}</button>)}</div>}
   </>}
   {editable&&editing.polish&&<PolishControls editing={editing}/>}

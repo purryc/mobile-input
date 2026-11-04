@@ -296,5 +296,24 @@
       "sha256": "0b68c5ca1d7c2c10c11f6627edea8a067e7dd8a80a1a80272dc641585a8741bb",
       "source": "https://www.figma.com/design/ApFLno64NcMoA17MiPFfZh?node-id=1372-25846"
     }
-  ]
+  ],
+  "imageWidgetStates": {
+    "date": "2026-11-04",
+    "empty": {
+      "node": "1646:11696",
+      "size": [
+        354,
+        118
+      ]
+    },
+    "withImages": {
+      "node": "2164:58664",
+      "size": [
+        354,
+        230
+      ]
+    },
+    "titleOverride": "图片选择",
+    "assets": "Existing exported check/close icons reused; no seeded user images"
+  }
 }

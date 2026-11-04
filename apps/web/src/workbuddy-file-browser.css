@@ -1247,11 +1247,11 @@
   .wbf-tabs > button:not(.wbf-back) {
     padding: 4px 7px;
   }
-  .wbf-tabs > button[aria-label="和 WorkBuddy 对话"] {
+  .wbf-tabs > button[data-action="file-chat"] {
     font-size: 0;
     gap: 0;
   }
-  .wbf-tabs > button[aria-label="和 WorkBuddy 对话"] svg {
+  .wbf-tabs > button[data-action="file-chat"] svg {
     width: 20px;
   }
   .wbf-ai {

@@ -52,3 +52,8 @@ test('observed ASR theme-color homophone is bounded, source-preserving and polis
  assert.equal(extractLiveParameters('主题测试，红色，主题色改为蓝色').filter(p=>p.kind==='color').length,1);
  assert.equal(extractLiveParameters('主题测试，红色，主题色改为蓝色')[0].value,'#356FE4');
 });
+
+test('generic image invitations retain the legacy owner binding and distinguish drawing/chart requests',()=>{
+ for(const phrase of ['图片','照片','添加本地图片','还有几张产品的照片','参考产品图片','我想加配图','选产品图','拍照']){const p=extractLiveParameters(phrase);assert.equal(p.length,1,phrase);assert.equal(p[0].kind,'photo');assert.equal(p[0].id,'photo:全文:实拍照片');assert.equal(phrase.slice(p[0].start,p[0].end),p[0].phrase);}
+ for(const phrase of ['不要图片','不用产品照片','无需配图','先别拍照','画图','图表','布局我画一下'])assert.equal(extractLiveParameters(phrase).filter(p=>p.kind==='photo').length,0,phrase);
+});

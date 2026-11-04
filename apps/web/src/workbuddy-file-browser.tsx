@@ -1,3 +1,4 @@
+import {uiText} from './i18n';
 import {WorkBuddyMarkdownEditor} from './workbuddy-markdown-editor';
 import {DirectObjectText} from './workbuddy-direct-text';
 import {WebDeckEditor} from './web-deck-view';
@@ -61,8 +62,8 @@ export function WorkspaceTree({
   return (
     <div className="wbf-tree">
       <input
-        aria-label="搜索工作空间文件"
-        placeholder="搜索文件"
+        aria-label={uiText("搜索工作空间文件")}
+        placeholder={uiText("搜索文件")}
         value={search}
         onChange={(e) => setSearch(e.target.value)}
       />
@@ -198,7 +199,7 @@ function FileAI({ s, v, f, onGuard }: { s: State; v: FileView; f: WbFile; onGuar
         <img src="./assets/apps/workbuddy.svg" alt="" />
         <b>WorkBuddy</b>
         <button
-          aria-label="回到 WorkBuddy 主页"
+          aria-label={uiText("回到 WorkBuddy 主页")}
           onClick={() =>
             onGuard(() => run("exit", { view: v.id, choice: "discard" }).then((a) => {
               if (a.ok) command("wb-navigate", { page: "home" });
@@ -209,13 +210,13 @@ function FileAI({ s, v, f, onGuard }: { s: State; v: FileView; f: WbFile; onGuar
         </button>
         <span />
         <button
-          aria-label="新建文件会话"
+          aria-label={uiText("新建文件会话")}
           onClick={() => run("chat-new", { file: f.id })}
         >
           <I.MessageCirclePlus size={17} />
         </button>
         <button
-          aria-label="收起 AI 对话"
+          aria-label={uiText("收起 AI 对话")}
           onClick={() => run("ai", { view: v.id, open: false })}
         >
           <I.X size={17} />
@@ -224,8 +225,8 @@ function FileAI({ s, v, f, onGuard }: { s: State; v: FileView; f: WbFile; onGuar
       <div className="wbf-ai-messages">
         {!co?.messages.length ? (
           <div className="wbf-ai-welcome">
-            <h2>WorkBuddy, 我帮你</h2>
-            <p>围绕当前文件处理内容</p>
+            <h2>{uiText("WorkBuddy, 我帮你")}</h2>
+            <p>{uiText("围绕当前文件处理内容")}</p>
             {[
               "总结全文要点",
               "检查错别字和语病",
@@ -253,10 +254,8 @@ function FileAI({ s, v, f, onGuard }: { s: State; v: FileView; f: WbFile; onGuar
         {co?.pending && (
           <div className="wbf-thinking" role="status">
             <i />
-            正在处理所选内容…
-            <button onClick={() => run("ai-cancel", { file: f.id })}>
-              停止
-            </button>
+            {uiText("正在处理所选内容…")}<button onClick={() => run("ai-cancel", { file: f.id })}>
+              {uiText("停止")}</button>
           </div>
         )}
         {co?.unknown && (
@@ -301,8 +300,8 @@ function FileAI({ s, v, f, onGuard }: { s: State; v: FileView; f: WbFile; onGuar
           </small>
         ) : null}
         <textarea
-          aria-label="文件 AI 指令"
-          placeholder="输入修改要求…"
+          aria-label={uiText("文件 AI 指令")}
+          placeholder={uiText("输入修改要求…")}
           value={input.text}
           onPointerDown={input.activate}
           onFocus={input.focus}
@@ -310,24 +309,24 @@ function FileAI({ s, v, f, onGuard }: { s: State; v: FileView; f: WbFile; onGuar
         />
         <footer>
           <button
-            aria-label="添加文件附件"
+            aria-label={uiText("添加文件附件")}
             onClick={() => setAttachment(!attachment)}
           >
             <I.Plus size={20} />
           </button>
           <span>
-            快捷 <I.ChevronDown size={12} />
+            {uiText("快捷")}<I.ChevronDown size={12} />
           </span>
           <span />
           <button
-            aria-label="手机语音输入"
+            aria-label={uiText("手机语音输入")}
             onClick={() => input.focus().then(() => toast("已激活手机输入"))}
           >
             <I.Mic size={19} />
           </button>
           <button
             className="wbf-send"
-            aria-label="发送文件指令"
+            aria-label={uiText("发送文件指令")}
             disabled={
               input.busy || input.blocked || !input.text.trim() || !!co?.pending
             }
@@ -337,7 +336,7 @@ function FileAI({ s, v, f, onGuard }: { s: State; v: FileView; f: WbFile; onGuar
           </button>
         </footer>
         {input.blocked && (
-          <button onClick={input.recover}>恢复此文件草稿</button>
+          <button onClick={input.recover}>{uiText("恢复此文件草稿")}</button>
         )}
         {attachment && (
           <div className="wbf-attachment-menu">
@@ -513,21 +512,21 @@ export function FileSurface({
         <span>
           <b>{f.name}</b>
           <small>{dirty ? "未保存" : "已保存"}</small>
-          {readOnly && <small>只读</small>}
+          {readOnly && <small>{uiText("只读")}</small>}
         </span>
         <span />
         <button
-          aria-label="保存文件"
+          aria-label={uiText("保存文件")}
           disabled={readOnly || conflict}
           onClick={save}
         >
           <I.Save size={18} />
         </button>
-        <button aria-label="上传文件" onClick={() => setMenu(!menu)}>
+        <button aria-label={uiText("上传文件")} onClick={() => setMenu(!menu)}>
           <I.UploadCloud size={18} />
         </button>
         <button
-          aria-label="分享文件"
+          aria-label={uiText("分享文件")}
           onClick={() =>
             run("local-record", {
               file: f.id,
@@ -538,7 +537,7 @@ export function FileSurface({
         >
           <I.Share2 size={18} />
         </button>
-        <button aria-label="文件更多" onClick={() => setMenu(!menu)}>
+        <button aria-label={uiText("文件更多")} onClick={() => setMenu(!menu)}>
           <I.MoreHorizontal size={20} />
         </button>
         {menu && (
@@ -568,55 +567,49 @@ export function FileSurface({
                 )
               }
             >
-              另存副本
-            </button>
+              {uiText("另存副本")}</button>
             <button
               onClick={() => {
                 setFind(true);
                 setMenu(false);
               }}
             >
-              查找内容
-            </button>
+              {uiText("查找内容")}</button>
             <button
               onClick={() => {
                 setZoom(100);
                 setMenu(false);
               }}
             >
-              重置缩放
-            </button>
+              {uiText("重置缩放")}</button>
           </div>
         )}
       </div>
       {conflict && (
         <div className="wbf-conflict" role="alert">
-          文件在别处发生了修改。
-          <button
+          {uiText("文件在别处发生了修改。")}<button
             onClick={() =>
               onGuard(() => run("reload", { view: v.id, file: f.id }), [f.id])
             }
           >
-            刷新文件
-          </button>
+            {uiText("刷新文件")}</button>
           <button onClick={() => run("copy", { view: v.id, file: f.id })}>
-            另存副本
-          </button>
+            {uiText("另存副本")}</button>
         </div>
       )}
       <div className="wbf-toolbar">
-        <button onClick={() => setOutline(!outline)} aria-label="文档目录">
+        <button onClick={() => setOutline(!outline)} aria-label={uiText("文档目录")}>
           <I.PanelLeft size={16} />
         </button>
         <button
-          aria-label="文件撤销"
+          aria-label={uiText("文件撤销")}
           disabled={readOnly || !v.working[f.id]?.history.length}
           onClick={() => run("undo", { view: v.id, file: f.id })}
         >
           <I.Undo2 size={16} />
         </button>
         <button
-          aria-label="文件重做"
+          aria-label={uiText("文件重做")}
           disabled={readOnly || !v.working[f.id]?.future.length}
           onClick={() => run("redo", { view: v.id, file: f.id })}
         >
@@ -627,8 +620,7 @@ export function FileSurface({
           <>
             <button className="wbf-ai-action" onClick={ai}>
               <I.Sparkles size={15} />
-              AI 编辑
-            </button>
+              {uiText("AI 编辑")}</button>
             <i />
             {["word", "markdown", "text", "html"].includes(f.kind) && (
               <>
@@ -668,33 +660,33 @@ export function FileSurface({
           </button>
         )}
         <span />
-        <button aria-label="查找文件内容" onClick={() => setFind(!find)}>
+        <button aria-label={uiText("查找文件内容")} onClick={() => setFind(!find)}>
           <I.Search size={17} />
         </button>
       </div>
       {find && (
         <div className="wbf-find">
           <input
-            aria-label="查找文字"
-            placeholder="查找"
+            aria-label={uiText("查找文字")}
+            placeholder={uiText("查找")}
             value={query}
             onChange={(e) => {
               setQuery(e.target.value);
               setHit(0);
             }}
           />
-          <span>{query ? bodyText(body).split(query).length - 1 : 0} 处</span>
-          <button aria-label="上一处" onClick={() => seek(hit - 1)}>
+          <span>{query ? bodyText(body).split(query).length - 1 : 0} {uiText("处")}</span>
+          <button aria-label={uiText("上一处")} onClick={() => seek(hit - 1)}>
             <I.ChevronUp size={15} />
           </button>
-          <button aria-label="下一处" onClick={() => seek(hit + 1)}>
+          <button aria-label={uiText("下一处")} onClick={() => seek(hit + 1)}>
             <I.ChevronDown size={15} />
           </button>
           {!readOnly && ["markdown", "text", "html"].includes(f.kind) && (
             <>
               <input
-                aria-label="替换文字"
-                placeholder="替换为"
+                aria-label={uiText("替换文字")}
+                placeholder={uiText("替换为")}
                 value={replacement}
                 onChange={(e) => setReplacement(e.target.value)}
               />
@@ -704,19 +696,17 @@ export function FileSurface({
                   change("text", body.text.replace(query, replacement))
                 }
               >
-                替换
-              </button>
+                {uiText("替换")}</button>
               <button
                 disabled={!query}
                 onClick={() =>
                   change("text", body.text.split(query).join(replacement))
                 }
               >
-                全部替换
-              </button>
+                {uiText("全部替换")}</button>
             </>
           )}
-          <button aria-label="关闭查找" onClick={() => setFind(false)}>
+          <button aria-label={uiText("关闭查找")} onClick={() => setFind(false)}>
             <I.X size={15} />
           </button>
         </div>
@@ -813,12 +803,12 @@ export function FileSurface({
                         }
                   }
                 />
-                <h3>设备与报价</h3>
+                <h3>{uiText("设备与报价")}</h3>
                 <table className="doc-table">
                   <thead>
                     <tr>
-                      <th>产品</th>
-                      <th>数量</th>
+                      <th>{uiText("产品")}</th>
+                      <th>{uiText("数量")}</th>
                       <th>客户报价</th>
                     </tr>
                   </thead>
@@ -833,7 +823,7 @@ export function FileSurface({
                   </tbody>
                 </table>
                 <div className="quote-total">
-                  方案总报价 <strong>{money(report.revenue)}</strong>
+                  {uiText("方案总报价")}<strong>{money(report.revenue)}</strong>
                 </div>
               </article>
             )}
@@ -925,7 +915,7 @@ export function FileSurface({
                     />
                     <tr className="sum-row">
                       <th>{(body.products?.length || 0) + 4}</th>
-                      <td>合计</td>
+                      <td>{uiText("合计")}</td>
                       <td>
                         {body.products?.reduce((n, p) => n + p.quantity, 0)}
                       </td>
@@ -1004,7 +994,7 @@ export function FileSurface({
                 </div>
                 <div className="wbf-web-metrics">
                   <div>
-                    <span>设备数量</span>
+                    <span>{uiText("设备数量")}</span>
                     <strong>30 套</strong>
                   </div>
                   <div>
@@ -1012,7 +1002,7 @@ export function FileSurface({
                     <strong>{money(report.revenue)}</strong>
                   </div>
                   <div>
-                    <span>毛利率</span>
+                    <span>{uiText("毛利率")}</span>
                     <strong>{report.margin.toFixed(1)}%</strong>
                   </div>
                 </div>
@@ -1061,7 +1051,7 @@ export function FileSurface({
       {v.selection && !["markdown","text","slides"].includes(f.kind) && (
         <button className="wbf-selection" onClick={ai}>
           <I.Sparkles size={16} />
-          AI 编辑 ·{" "}
+          {uiText("AI 编辑 ·")}{" "}
           {v.selection.paths.length > 1
             ? v.selection.paths.length + " 个对象"
             : v.selection.text.slice(0, 24)}
@@ -1086,14 +1076,14 @@ export function FileSurface({
         {f.kind === "pdf" && (
           <>
             <button
-              aria-label="PDF 上一页"
+              aria-label={uiText("PDF 上一页")}
               disabled={!page}
               onClick={() => setPage(page - 1)}
             >
               <I.ChevronLeft size={16} />
             </button>
             <button
-              aria-label="PDF 下一页"
+              aria-label={uiText("PDF 下一页")}
               disabled={page >= body.text.split(/\n\n---\n\n/).length - 1}
               onClick={() => setPage(page + 1)}
             >
@@ -1103,14 +1093,14 @@ export function FileSurface({
         )}
         <span />
         <button
-          aria-label="缩小文件"
+          aria-label={uiText("缩小文件")}
           onClick={() => setZoom(Math.max(50, zoom - 10))}
         >
           <I.Minus size={13} />
         </button>
         <span>{zoom}%</span>
         <button
-          aria-label="放大文件"
+          aria-label={uiText("放大文件")}
           onClick={() => setZoom(Math.min(200, zoom + 10))}
         >
           <I.Plus size={13} />
@@ -1121,7 +1111,7 @@ export function FileSurface({
               onGuard(() => command("office-open", { id: f.officeId }), [f.id])
             }
           >
-            在 WPS 中打开 <I.ArrowUpRight size={14} />
+            {uiText("在 WPS 中打开")}<I.ArrowUpRight size={14} />
           </button>
         )}
       </footer>
@@ -1207,7 +1197,7 @@ export function WorkBuddyFileBrowser({ s }: { s: State }) {
   return (
     <div className="wbf-window">
       <header className="wbf-tabs">
-        <button className="wbf-back" aria-label="返回" onClick={navigateBack}>
+        <button className="wbf-back" aria-label={uiText("返回")} onClick={navigateBack}>
           <I.ChevronLeft size={23} />
         </button>
         <div className="wbf-tab-list">
@@ -1262,30 +1252,29 @@ export function WorkBuddyFileBrowser({ s }: { s: State }) {
             );
           })}
         </div>
-        <button aria-label="新建或打开文件" onClick={() => setPlus(!plus)}>
+        <button aria-label={uiText("新建或打开文件")} onClick={() => setPlus(!plus)}>
           <I.Plus size={20} />
         </button>
         <span />
         {f && (
           <button
-            aria-label="和 WorkBuddy 对话"
+            data-action="file-chat" aria-label={uiText("和 WorkBuddy 对话")}
             className={v.ai ? "active" : ""}
             onClick={() => run("ai", { view: v.id, open: !v.ai })}
           >
-            <I.MessageCircle size={18} />和 WorkBuddy 对话
-          </button>
+            <I.MessageCircle size={18} />{uiText("和 WorkBuddy 对话")}</button>
         )}
-        <button aria-label="工作空间目录" onClick={() => setTree(!tree)}>
+        <button aria-label={uiText("工作空间目录")} onClick={() => setTree(!tree)}>
           <I.FolderTree size={19} />
         </button>
-        <button aria-label="文件账号菜单" onClick={() => setAccount(!account)}>
+        <button aria-label={uiText("文件账号菜单")} onClick={() => setAccount(!account)}>
           <img src="./assets/apps/workbuddy.svg" alt="" />
         </button>
         <ConnectionButton />
       </header>
       {plus && (
         <div className="wbf-plus-menu">
-          <b>新建文件</b>
+          <b>{uiText("新建文件")}</b>
           {[
             ["word", "文档"],
             ["sheet", "表格"],
@@ -1310,9 +1299,8 @@ export function WorkBuddyFileBrowser({ s }: { s: State }) {
             }}
           >
             <I.FolderOpen size={16} />
-            打开文件
-          </button>
-          <h4>最近打开</h4>
+            {uiText("打开文件")}</button>
+          <h4>{uiText("最近打开")}</h4>
           {b.recent.map((id) => {
             const x = s.workbuddy.files.find((f) => f.id === id);
             return (
@@ -1359,16 +1347,14 @@ export function WorkBuddyFileBrowser({ s }: { s: State }) {
               setMenu(null);
             }}
           >
-            复制路径
-          </button>
+            {uiText("复制路径")}</button>
           <button
             onClick={() => {
               setTree(true);
               setMenu(null);
             }}
           >
-            打开文件位置
-          </button>
+            {uiText("打开文件位置")}</button>
           <button
             onClick={() => {
               guard(
@@ -1378,8 +1364,7 @@ export function WorkBuddyFileBrowser({ s }: { s: State }) {
               setMenu(null);
             }}
           >
-            在新窗口打开
-          </button>
+            {uiText("在新窗口打开")}</button>
         </div>
       )}
       {account && (
@@ -1390,8 +1375,7 @@ export function WorkBuddyFileBrowser({ s }: { s: State }) {
               guard(() => run("exit", { view: v.id, choice: "discard" }))
             }
           >
-            打开 WorkBuddy 主页
-          </button>
+            {uiText("打开 WorkBuddy 主页")}</button>
           <button
             onClick={() =>
               guard(() =>
@@ -1401,8 +1385,7 @@ export function WorkBuddyFileBrowser({ s }: { s: State }) {
               )
             }
           >
-            设置
-          </button>
+            {uiText("设置")}</button>
         </div>
       )}
       <div className="wbf-body">
@@ -1425,10 +1408,10 @@ export function WorkBuddyFileBrowser({ s }: { s: State }) {
         ) : (
           <div className="wbf-empty">
             <I.Files size={58} />
-            <h1>打开文件，继续工作</h1>
-            <button onClick={() => setPicker(true)}>打开文件</button>
-            <button onClick={() => setPlus(true)}>新建文件</button>
-            <h3>最近打开</h3>
+            <h1>{uiText("打开文件，继续工作")}</h1>
+            <button onClick={() => setPicker(true)}>{uiText("打开文件")}</button>
+            <button onClick={() => setPlus(true)}>{uiText("新建文件")}</button>
+            <h3>{uiText("最近打开")}</h3>
             {b.recent.slice(0, 5).map((id) => {
               const x = s.workbuddy.files.find((f) => f.id === id);
               return (
@@ -1468,11 +1451,11 @@ export function WorkBuddyFileBrowser({ s }: { s: State }) {
       </div>
       {picker && (
         <div className="wbf-overlay">
-          <div className="wbf-picker" role="dialog" aria-label="打开演示文件">
+          <div className="wbf-picker" role="dialog" aria-label={uiText("打开演示文件")}>
             <header>
-              <h2>打开文件</h2>
+              <h2>{uiText("打开文件")}</h2>
               <button
-                aria-label="关闭文件选择"
+                aria-label={uiText("关闭文件选择")}
                 onClick={() => setPicker(false)}
               >
                 <I.X />
@@ -1494,16 +1477,16 @@ export function WorkBuddyFileBrowser({ s }: { s: State }) {
           <div
             className="wbf-save-dialog"
             role="dialog"
-            aria-label="未保存修改"
+            aria-label={uiText("未保存修改")}
           >
-            <h2>保存修改？</h2>
+            <h2>{uiText("保存修改？")}</h2>
             <p>
               {prompt.ids
                 .map((id) => s.workbuddy.files.find((f) => f.id === id)?.name)
                 .join("、")}
             </p>
             <footer>
-              <button onClick={() => setPrompt(null)}>取消</button>
+              <button onClick={() => setPrompt(null)}>{uiText("取消")}</button>
               <button
                 onClick={() => {
                   for (const id of prompt.ids)
@@ -1513,11 +1496,9 @@ export function WorkBuddyFileBrowser({ s }: { s: State }) {
                   action();
                 }}
               >
-                不保存
-              </button>
+                {uiText("不保存")}</button>
               <button className="primary" onClick={savePrompt}>
-                保存
-              </button>
+                {uiText("保存")}</button>
             </footer>
           </div>
         </div>
@@ -1601,7 +1582,7 @@ export function WorkBuddyResults({ s }: { s: State }) {
               );
             })}
             <button
-              aria-label="文件目录"
+              aria-label={uiText("文件目录")}
               onClick={() =>
                 command("wb-file-panel", { open: !s.workbuddy.filePanel })
               }
@@ -1666,11 +1647,10 @@ export function WorkBuddyResults({ s }: { s: State }) {
                     }
                   >
                     <I.Maximize2 size={15} />
-                    独立窗口打开
-                  </button>
+                    {uiText("独立窗口打开")}</button>
                   {!["markdown","text","slides"].includes(f.kind)&&<button
                     onClick={() => run("ai", { view: "panel", open: !v.ai })}
-                  >AI 对话</button>}
+                  >{uiText("AI 对话")}</button>}
                 </footer>
                 {v.ai && !["markdown","text","slides"].includes(f.kind) && <FileAI key={f.id} s={s} v={v} f={f} onGuard={guard} />}
               </>
@@ -1680,8 +1660,8 @@ export function WorkBuddyResults({ s }: { s: State }) {
       )}
       {dirtyPrompt && (
         <div className="wbf-panel-save">
-          <h3>保存当前修改？</h3>
-          <button onClick={() => setDirtyPrompt(null)}>取消</button>
+          <h3>{uiText("保存当前修改？")}</h3>
+          <button onClick={() => setDirtyPrompt(null)}>{uiText("取消")}</button>
           <button
             onClick={() => {
               for (const id of dirtyPrompt.ids)
@@ -1690,8 +1670,7 @@ export function WorkBuddyResults({ s }: { s: State }) {
               setDirtyPrompt(null);
             }}
           >
-            不保存
-          </button>
+            {uiText("不保存")}</button>
           <button
             onClick={async () => {
               for (const id of dirtyPrompt.ids)
@@ -1703,8 +1682,7 @@ export function WorkBuddyResults({ s }: { s: State }) {
               setDirtyPrompt(null);
             }}
           >
-            保存
-          </button>
+            {uiText("保存")}</button>
         </div>
       )}
     </aside>
@@ -1765,7 +1743,7 @@ function LocalBrowser() {
           </div>
         ))}
         <button
-          aria-label="新建网页标签"
+          aria-label={uiText("新建网页标签")}
           onClick={() => {
             const id = Date.now();
             setTabs([...tabs, { id, history: [0], at: 0 }]);
@@ -1777,7 +1755,7 @@ function LocalBrowser() {
       </nav>
       <header>
         <button
-          aria-label="网页后退"
+          aria-label={uiText("网页后退")}
           disabled={!tab.at}
           onClick={() =>
             setTabs(
@@ -1788,7 +1766,7 @@ function LocalBrowser() {
           <I.ChevronLeft size={17} />
         </button>
         <button
-          aria-label="网页前进"
+          aria-label={uiText("网页前进")}
           disabled={tab.at >= tab.history.length - 1}
           onClick={() =>
             setTabs(
@@ -1798,11 +1776,11 @@ function LocalBrowser() {
         >
           <I.ChevronRight size={17} />
         </button>
-        <button aria-label="刷新网页" onClick={() => setRefresh(refresh + 1)}>
+        <button aria-label={uiText("刷新网页")} onClick={() => setRefresh(refresh + 1)}>
           <I.RefreshCw size={17} />
         </button>
         <input
-          aria-label="内置页面地址"
+          aria-label={uiText("内置页面地址")}
           value={address}
           onChange={(e) => setAddress(e.target.value)}
           onKeyDown={(e) => {
@@ -1816,8 +1794,8 @@ function LocalBrowser() {
       </header>
       <div className="wbf-web-tools">
         <input
-          aria-label="查找网页"
-          placeholder="查找内容"
+          aria-label={uiText("查找网页")}
+          placeholder={uiText("查找内容")}
           value={query}
           onChange={(e) => setQuery(e.target.value)}
         />

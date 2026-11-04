@@ -28,7 +28,9 @@ let snap={method,distributed,state:store.state,connected:false,linked:false,sync
 const listeners=new Set<()=>void>();
 function notify(){snap={...snap,linked:transportConnected,refreshing:snap.syncing&&receivedSnapshot&&transportConnected};for(const f of listeners)f();deckConnectionChanged();}
 export function useRuntime(){return useSyncExternalStore(f=>{listeners.add(f);return()=>listeners.delete(f);},()=>snap);}
-export function toast(t:string){snap.toast=t;notify();setTimeout(()=>{if(snap.toast===t){snap.toast='';notify();}},4000);}
+let toastTimer:ReturnType<typeof setTimeout>|undefined;
+export function dismissToast(expected:string){if(snap.toast===expected){snap.toast='';notify();}}
+export function toast(t:string){clearTimeout(toastTimer);snap.toast=t;notify();toastTimer=setTimeout(()=>dismissToast(t),3000);}
 const requestedPort=Number(new URLSearchParams(location.search).get('bridge'));
 const bridgePort=Number.isInteger(requestedPort)&&requestedPort>0&&requestedPort<65536?requestedPort:5189;
 let ws:WebSocket|undefined;let credentials:{address:string;pin:string}|undefined;let reconnect:ReturnType<typeof setTimeout>|undefined;let saveTimer:ReturnType<typeof setTimeout>;

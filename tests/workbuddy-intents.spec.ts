@@ -1,6 +1,6 @@
 import {test,expect} from '@playwright/test';
 test('new tasks, follow-ups and material tasks all expose usable color and layout inputs',async({browser})=>{
- const c=await browser.newContext(),tablet=await c.newPage(),phone=await c.newPage();await tablet.goto('/?bridge=5191');await tablet.getByRole('button',{name:'连接设置',exact:true}).click();await tablet.getByRole('radio',{name:'扫码网络建联',exact:false}).check();const pin=(await tablet.locator('.pair-code').innerText()).trim();
+ const c=await browser.newContext(),tablet=await c.newPage(),phone=await c.newPage();await tablet.goto('/?bridge=5191');await tablet.getByRole('button',{name:'设置',exact:true}).click();await tablet.getByRole('radio',{name:'扫码网络建联',exact:false}).check();const pin=(await tablet.locator('.pair-code').innerText()).trim();
  await phone.setViewportSize({width:390,height:844});await phone.goto('/?role=phone&bridge=5191');await phone.getByLabel('平板地址').fill('localhost');await phone.getByLabel('配对码',{exact:true}).fill(pin);await phone.getByRole('button',{name:'连接',exact:true}).click();await expect(phone.getByRole('dialog',{name:'设备连接'})).toHaveCount(0);await tablet.getByRole('button',{name:'关闭连接设置'}).click();await tablet.locator('.demo-apps').getByRole('button',{name:'WorkBuddy',exact:true}).click();await tablet.getByLabel('WorkBuddy 任务输入').click();
  const draft=phone.getByLabel('手机 WorkBuddy 草稿');
  for(let i=0;i<2;i++){

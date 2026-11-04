@@ -30,4 +30,6 @@
 @media(prefers-reduced-motion:reduce){.bili-reaction-effect,.bili-reaction-effect *{animation:none!important}.bili-reaction-effect>i,.bili-reaction-halo{display:none}}
 
 .bili-list-overlay .bili-reset-reactions{display:flex;align-items:center;gap:6px;min-height:48px;color:#61666d;margin-left:auto;margin-right:12px;font-size:14px}
-.bili-compose input{flex:1;min-width:0;border:0;background:transparent;color:inherit;outline:0;font-size:14px;height:44px;padding:0 12px}.bili-controller .input-dock{--dock-bg:#e5eef4}.bili-controller:has(.input-dock.expanded) .bili-input-main,.wb-adaptive-phone:has(.input-dock.expanded) .wb-adaptive-middle{min-height:0;overflow:auto}.bili-controller .bili-input-main{min-height:0;overflow:auto}
+.bili-compose input{flex:1;min-width:0;border:0;background:transparent;color:inherit;outline:0;font-size:14px;height:44px;padding:0 12px}.bili-controller .input-dock{--dock-bg:rgb(var(--controller-seed)/.06);margin-top:auto}.bili-controller:has(.input-dock.expanded) .bili-input-main,.wb-adaptive-phone:has(.input-dock.expanded) .wb-adaptive-middle{min-height:0;overflow:auto}.bili-controller .bili-input-main{min-height:0;overflow:auto}
+
+.bili-controller{box-sizing:border-box;min-height:0;overflow:hidden;padding-bottom:var(--native-bottom,env(safe-area-inset-bottom,0px));--input-accent:var(--dock-accent);--input-soft:rgb(var(--controller-seed)/.12)}

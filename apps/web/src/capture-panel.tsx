@@ -1,3 +1,4 @@
+import {uiText} from './i18n';
 import {beginNativePhoto,markNativePhotoUsed,type NativePhoto} from './native-photo-state';
 import {useEffect,useRef,useState} from 'react';
 import * as I from 'lucide-react';
@@ -36,23 +37,23 @@ export function CapturePanel({close,photo,initialKind,slot}:{close:()=>void;phot
  }
  const photoTargetMatches=!photo||(r.state.app===photo.app&&(r.state.target?.id||'')===photo.target&&(photo.app!=='workbuddy'||r.state.workbuddy.task===photo.task));
  const position=(event:React.PointerEvent<HTMLElement>)=>{const b=event.currentTarget.getBoundingClientRect();return {x:Math.max(0,Math.min(1,(event.clientX-b.left)/b.width)),y:Math.max(0,Math.min(1,(event.clientY-b.top)/b.height))};};
- return <section className="capture-panel" role="dialog" aria-label="采集参考" data-capture-exclude>
- <header><b>{c?.phase==='preview'?'采集预览':c?.phase==='used'?'已加入任务参考':'采集方式'}</b><button aria-label="关闭采集方式" onClick={cancel}><I.X size={22}/></button></header>
- <div className="capture-panel-scroll">{photo&&<div className="capture-photo-owner"><small>原任务 · {photo.taskLabel}</small><p>{photo.targetLabel}</p>{!r.connected?<p>照片保留在手机，请先恢复连接。</p>:!photoTargetMatches?<p>输入目标已变化，请回到拍照前的任务后再用。</p>:null}</div>}
- <div className="capture-source"><small>采集来源与范围</small><p>{c?.source||(r.state.app==='workbuddy'?'平板 · WorkBuddy 应用窗口':'平板 · 哔哩哔哩应用窗口')}</p></div>
+ return <section className="capture-panel" role="dialog" aria-label={uiText("采集参考")} data-capture-exclude>
+ <header><b>{c?.phase==='preview'?'采集预览':c?.phase==='used'?uiText("已加入任务参考"):uiText("采集方式")}</b><button aria-label={uiText("关闭采集方式")} onClick={cancel}><I.X size={22}/></button></header>
+ <div className="capture-panel-scroll">{photo&&<div className="capture-photo-owner"><small>{uiText("原任务 ·")}{photo.taskLabel}</small><p>{photo.targetLabel}</p>{!r.connected?<p>{uiText("照片保留在手机，请先恢复连接。")}</p>:!photoTargetMatches?<p>{uiText("输入目标已变化，请回到拍照前的任务后再用。")}</p>:null}</div>}
+ <div className="capture-source"><small>{uiText("采集来源与范围")}</small><p>{c?.source||(r.state.app==='workbuddy'?'平板 · WorkBuddy 应用窗口':'平板 · 哔哩哔哩应用窗口')}</p></div>
  {c?.phase==='preview'&&c.data?<>
  <div ref={previewElement} style={{maxWidth:`${180*(c.width||1)/(c.height||1)}px`}} className={'capture-preview '+(cropping?'cropping':'')} onPointerDown={e=>{if(!cropping)return;e.preventDefault();e.currentTarget.setPointerCapture(e.pointerId);origin.current=position(e);setCrop(null);}} onPointerMove={e=>{if(!cropping||!e.buttons)return;const p=position(e),o=origin.current;setCrop({x:Math.min(o.x,p.x),y:Math.min(o.y,p.y),width:Math.abs(o.x-p.x),height:Math.abs(o.y-p.y)});}} onPointerUp={()=>{if(crop&&(crop.width<.025||crop.height<.025))setCrop(null);}}>
- {c.kind==='recording'?<video src={c.data} controls playsInline/>:<img src={c.data} alt="实际采集预览" draggable={false}/>}
+ {c.kind==='recording'?<video src={c.data} controls playsInline/>:<img src={c.data} alt={uiText("实际采集预览")} draggable={false}/>}
  {crop&&<i style={{left:`${crop.x*100}%`,top:`${crop.y*100}%`,width:`${crop.width*100}%`,height:`${crop.height*100}%`}}/>}</div>
  <small>{c.kind==='recording'?`${((c.duration||0)/1000).toFixed(1)} 秒 · 无声录屏`:`${c.width} × ${c.height} · ${crop?'已圈选区域':'完整范围'}`}</small>
- <div className="capture-uses">{c.kind!=='recording'&&<button aria-pressed={cropping} onClick={()=>{setCropping(!cropping);setCrop(null);requestAnimationFrame(()=>previewElement.current?.scrollIntoView({block:'nearest'}));}}><I.Scan/>圈选参考范围</button>}
- {c.app==='bilibili'&&<label>加入 WorkBuddy 任务<select aria-label="采集目标任务" value={task} onChange={e=>setTask(e.target.value)}><option value="new">新建任务草稿</option>{r.state.workbuddy.tasks.map(t=><option key={t.id} value={t.id}>{t.title}</option>)}</select></label>}
- <label>用途<select aria-label="参考用途" value={purpose} onChange={e=>setPurpose(e.target.value as typeof purpose)}><option value="reference">任务参考</option><option value="layout">布局参考</option></select></label></div></>
- :c?.phase==='used'?<div className="capture-success"><I.CheckCircle/><p>已加入任务参考</p><p>{r.state.workbuddy.tasks.find(t=>t.id===(adoptedOwner||task))?.title||'当前任务'}</p><button onClick={cancel}>返回输入</button>{c.app==='bilibili'&&<button onClick={returnToTask}>返回材料任务</button>}</div>
- :c?.phase==='failed'?<div role="alert"><p>{c.error}</p><button onClick={async()=>{if(!photo)await command('capture-cancel',{id:c.id});close();}}>返回输入</button></div>
- :c&&['requested','recording','stopping'].includes(c.phase)?<div className="capture-progress">{stage==='camera'?<><video ref={video} muted playsInline autoPlay/><button onClick={takePhoto}>拍照</button></>:<><I.ScanLine/><p>{c.kind==='recording'?(c.phase==='stopping'?'正在处理录屏…':'正在录制应用窗口'):c.kind==='camera'?'等待相机返回…':'正在截取应用窗口…'}</p>{c.kind==='recording'&&<button disabled={c.phase==='stopping'} onClick={()=>command('capture-stop',{id:c.id})}>停止录屏</button>}</>}</div>
- :stage==='record'?<div className="capture-uses"><p>当前应用窗口 · 无声录屏</p><small>最长 20 秒</small><button disabled={busy} onClick={()=>request('recording')}><I.Circle/>开始录屏</button><button onClick={()=>setStage('choose')}>返回采集方式</button></div>
- :<div className="capture-choices"><button disabled={busy} onClick={()=>request('screenshot')}><I.ScanLine/>截图</button><button disabled={busy} onClick={()=>setStage('record')}><I.Video/>录屏</button><button disabled={busy} onClick={()=>request('camera')}><I.Camera/>相机</button></div>}
+ <div className="capture-uses">{c.kind!=='recording'&&<button aria-pressed={cropping} onClick={()=>{setCropping(!cropping);setCrop(null);requestAnimationFrame(()=>previewElement.current?.scrollIntoView({block:'nearest'}));}}><I.Scan/>{uiText("圈选参考范围")}</button>}
+ {c.app==='bilibili'&&<label>{uiText("加入 WorkBuddy 任务")}<select aria-label={uiText("采集目标任务")} value={task} onChange={e=>setTask(e.target.value)}><option value="new">{uiText("新建任务草稿")}</option>{r.state.workbuddy.tasks.map(t=><option key={t.id} value={t.id}>{t.title}</option>)}</select></label>}
+ <label>{uiText("用途")}<select aria-label={uiText("参考用途")} value={purpose} onChange={e=>setPurpose(e.target.value as typeof purpose)}><option value="reference">{uiText("任务参考")}</option><option value="layout">{uiText("布局参考")}</option></select></label></div></>
+ :c?.phase==='used'?<div className="capture-success"><I.CheckCircle/><p>{uiText("已加入任务参考")}</p><p>{r.state.workbuddy.tasks.find(t=>t.id===(adoptedOwner||task))?.title||'当前任务'}</p><button onClick={cancel}>{uiText("返回输入")}</button>{c.app==='bilibili'&&<button onClick={returnToTask}>{uiText("返回材料任务")}</button>}</div>
+ :c?.phase==='failed'?<div role="alert"><p>{c.error}</p><button onClick={async()=>{if(!photo)await command('capture-cancel',{id:c.id});close();}}>{uiText("返回输入")}</button></div>
+ :c&&['requested','recording','stopping'].includes(c.phase)?<div className="capture-progress">{stage==='camera'?<><video ref={video} muted playsInline autoPlay/><button onClick={takePhoto}>{uiText("拍照")}</button></>:<><I.ScanLine/><p>{c.kind==='recording'?(c.phase==='stopping'?'正在处理录屏…':'正在录制应用窗口'):c.kind==='camera'?'等待相机返回…':'正在截取应用窗口…'}</p>{c.kind==='recording'&&<button disabled={c.phase==='stopping'} onClick={()=>command('capture-stop',{id:c.id})}>{uiText("停止录屏")}</button>}</>}</div>
+ :stage==='record'?<div className="capture-uses"><p>{uiText("当前应用窗口 · 无声录屏")}</p><small>{uiText("最长 20 秒")}</small><button disabled={busy} onClick={()=>request('recording')}><I.Circle/>{uiText("开始录屏")}</button><button onClick={()=>setStage('choose')}>{uiText("返回采集方式")}</button></div>
+ :<div className="capture-choices"><button disabled={busy} onClick={()=>request('screenshot')}><I.ScanLine/>{uiText("截图")}</button><button disabled={busy} onClick={()=>setStage('record')}><I.Video/>{uiText("录屏")}</button><button disabled={busy} onClick={()=>request('camera')}><I.Camera/>{uiText("相机")}</button></div>}
  {error&&<p role="alert">{error}</p>}
  </div>{c?.phase==='preview'&&c.data&&<footer className="capture-confirm-footer"><button disabled={busy||!r.connected||!photoTargetMatches} onClick={()=>use(purpose)}><I.Check/>{purpose==='layout'?'作为布局参考':'作为任务参考'}</button></footer>}</section>;
 }
@@ -61,5 +62,5 @@ export function CaptureAttachments({exclude=[]}:{exclude?:string[]}={}){
  const s=useRuntime().state,t=s.target;if(!t)return null;const [,type,id]=t.id.split(':');
  const draft=type==='draft'?s.workbuddy.drafts[id]:s.workbuddy.entityDrafts[t.id];const files=s.workbuddy.files.filter(f=>draft?.attachments.includes(f.id)&&f.id.startsWith('capture-')&&!exclude.includes(f.id));
  if(!files.length)return null;
- return <div className="capture-attachments">{files.map(file=><details key={file.id}><summary>{file.name}</summary>{file.kind==='video'?<video src={file.asset} controls playsInline/>:<img src={file.asset} alt={file.name}/>}<small>{file.content}</small><button onClick={()=>command('capture-remove',{file:file.id},{targetId:t.id,targetRevision:t.revision})}>移除参考</button></details>)}</div>;
+ return <div className="capture-attachments">{files.map(file=><details key={file.id}><summary>{file.name}</summary>{file.kind==='video'?<video src={file.asset} controls playsInline/>:<img src={file.asset} alt={file.name}/>}<small>{file.content}</small><button onClick={()=>command('capture-remove',{file:file.id},{targetId:t.id,targetRevision:t.revision})}>{uiText("移除参考")}</button></details>)}</div>;
 }

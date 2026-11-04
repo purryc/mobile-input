@@ -4,8 +4,8 @@ import {polishActionsForTarget,polishInstruction,contextualPolishActions} from '
 const labels=(app:string,id:string,kind='text')=>polishActionsForTarget({app,id,kind}).map(a=>a.label);
 test('polish suggestions follow editable scene and keep new tasks format neutral',()=>{
  assert.deepEqual(labels('wechat','composer'),['更自然','更礼貌','更简洁']);
- assert.deepEqual(labels('workbuddy','wb:task:new'),['说清需求','整理要点','精简指令']);
- assert.deepEqual(labels('workbuddy','wb:object:f:slide/0/title'),['说清需求','整理要点','精简指令']);
+ assert.deepEqual(labels('workbuddy','wb:task:new'),['整理结构','精简表达']);
+ assert.deepEqual(labels('workbuddy','wb:object:f:slide/0/title'),['整理结构','精简表达']);
  assert.deepEqual(labels('workbuddy','wb:doc:f:slide/0/title'),['标题清晰','精简标题','修正语病']);
  assert.deepEqual(labels('workbuddy','wb:doc:f:paragraph/0'),['规范表述','精简表达','修正语病']);
  assert.deepEqual(labels('slides','slide:0:notes'),['口语讲述','提炼要点','压缩讲稿']);
@@ -16,8 +16,8 @@ test('polish suggestions follow editable scene and keep new tasks format neutral
 });
 test('every exposed action has an allowlisted rewrite instruction, unknown actions are rejected',()=>{
  for(const app of ['wechat','workbuddy','mail','notes','word','slides','paint','bilibili','doubao']){
-  const actions=polishActionsForTarget({app,id:'text',kind:'text'});assert.equal(actions.length,3);
-  assert.equal(new Set(actions.map(a=>a.id)).size,3);
+  const actions=polishActionsForTarget({app,id:'text',kind:'text'});assert.equal(actions.length,['workbuddy','doubao'].includes(app)?2:3);
+  assert.equal(new Set(actions.map(a=>a.id)).size,actions.length);
   for(const action of actions)assert.ok(polishInstruction(action.id));
  }
  assert.equal(polishInstruction('execute-task'),'');assert.ok(polishInstruction('简洁'));

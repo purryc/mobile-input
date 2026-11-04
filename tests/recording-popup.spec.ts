@@ -3,7 +3,7 @@ for(const height of [844,700])test(`voice key has fixed label, toggle and hold w
  const context=await browser.newContext(),tablet=await context.newPage(),phone=await context.newPage();
  await phone.setViewportSize({width:390,height});
  await phone.addInitScript(()=>{const Original=window.WebSocket;window.WebSocket=class extends Original{constructor(url:string,protocols?:string|string[]){super(url,protocols);(window as any).__voiceSocket=this;}};});
- await tablet.goto('/?bridge=5191');await tablet.getByRole('button',{name:'连接设置',exact:true}).click();await tablet.getByRole('radio',{name:'扫码网络建联',exact:false}).check();const pin=await tablet.locator('.pair-code').innerText();await tablet.getByRole('button',{name:'关闭连接设置'}).click();
+ await tablet.goto('/?bridge=5191');await tablet.getByRole('button',{name:'设置',exact:true}).click();await tablet.getByRole('radio',{name:'扫码网络建联',exact:false}).check();const pin=await tablet.locator('.pair-code').innerText();await tablet.getByRole('button',{name:'关闭连接设置'}).click();
  await phone.goto('/?role=phone&bridge=5191');await phone.getByLabel('平板地址').fill('localhost');await phone.getByLabel('配对码',{exact:true}).fill(pin);await phone.getByRole('button',{name:'连接',exact:true}).click();await expect(phone.getByRole('dialog',{name:'设备连接'})).toHaveCount(0);
  await tablet.locator('.demo-apps').getByRole('button',{name:'WorkBuddy',exact:true}).click();await tablet.getByLabel('WorkBuddy 任务输入').click();await phone.getByRole('button',{name:'开始使用',exact:true}).click();
  const draft=phone.getByLabel('手机 WorkBuddy 草稿'),voice=phone.locator('.input-voice'),popup=phone.getByRole('dialog',{name:'语音录制'});

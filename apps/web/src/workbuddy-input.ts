@@ -4,7 +4,7 @@ import { wbDraftFor } from "../../../packages/core/workbuddy";
 import type { Target } from "../../../packages/core/model";
 
 /** Serialize draft writes, retaining local content after a stale target or failed receipt. */
-export function useWorkBuddyInput(id: string, label: string, initialText = "") {
+export function useWorkBuddyInput(id: string, label: string, initialText = "", taskScoped = false) {
   const r = useRuntime(),
     remote = wbDraftFor(r.state, id),
     key = `mobile-input:workbuddy-draft:${role}:${id}`;
@@ -60,7 +60,7 @@ export function useWorkBuddyInput(id: string, label: string, initialText = "") {
   useEffect(() => {
     const t = r.state.target;
     if (
-      anchor.current &&
+      !taskScoped && anchor.current &&
       (t?.id !== anchor.current.id || t?.revision !== anchor.current.revision)
     ) {
       if (dirty.current || running.current) block();
@@ -82,6 +82,7 @@ export function useWorkBuddyInput(id: string, label: string, initialText = "") {
     if (blockedRef.current) return false;
     const state = currentState();
     if (state.app !== "workbuddy") return false;
+    if(taskScoped){if(state.workbuddy.task!==id.slice(9)||!wbDraftFor(state,id))return false;anchor.current={id,app:'workbuddy',kind:'text',label,value:value.current,revision:0};revision.current=wbDraftFor(state,id)?.revision||0;return true;}
     if (explicit || state.target?.id !== id || state.inputSession?.phase !== 'active') {
       const ack = await command("wb-focus", { id, label, text: initialText });
       if (!ack.ok) return false;
@@ -106,7 +107,8 @@ export function useWorkBuddyInput(id: string, label: string, initialText = "") {
         const text = queued.current;
         queued.current = null;
         const t = anchor.current!;
-        const ack = await command("wb-edit", {
+        const ack = await command(taskScoped?"wb-deck-prompt-edit":"wb-edit", {
+          ...(taskScoped?{task:id.slice(9),owner:wbDraftFor(currentState(),id)?.owner||''}:{}),
           text, revision: revision.current, sequence: ++sequence.current,
           session: session.current,
         }, { app: "workbuddy", targetId: t.id, targetRevision: t.revision });
@@ -135,7 +137,7 @@ export function useWorkBuddyInput(id: string, label: string, initialText = "") {
   async function recover() {
     if (running.current) await running.current;
     if (!mounted.current) return false;
-    if(role==='phone'&&(!r.connected||currentState().target?.id!==id)){
+    if(role==='phone'&&(!r.connected||(taskScoped?currentState().workbuddy.task!==id.slice(9):currentState().target?.id!==id))){
       block(!r.connected?'连接中断，文字已保存在手机；请先连接平板':'目标已变化，请在平板重新选择原输入框');return false;
     }
     blockedRef.current = false;

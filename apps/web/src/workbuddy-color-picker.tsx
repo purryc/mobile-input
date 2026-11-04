@@ -1,3 +1,4 @@
+import {uiText} from './i18n';
 import {useEffect,useRef,useState,type PointerEvent} from 'react';
 type HSV={h:number;s:number;v:number};
 export function fromHex(hex:string):HSV{
@@ -13,10 +14,10 @@ export function WorkBuddyColorPicker({value,onChange,onActive}:{value:string;onC
  const publish=(next:HSV,force=false)=>{current.current=next;setHsv(next);changed.current=true;if(force||performance.now()-last.current>80){const hex=toHex(next);ack.current=hex;callback.current(hex);last.current=performance.now();}};
  const finish=()=>{if(!held.current)return;held.current=false;onActive(false);if(changed.current)publish(current.current,true);changed.current=false;};
  const position=(e:PointerEvent<HTMLDivElement>)=>{const rect=e.currentTarget.getBoundingClientRect();publish({...current.current,s:Math.max(0,Math.min(1,(e.clientX-rect.left)/rect.width)),v:1-Math.max(0,Math.min(1,(e.clientY-rect.top)/rect.height))});};
- return <><div className="wb-color-picker" role="slider" aria-label="连续调色" aria-valuemin={0} aria-valuemax={100} aria-valuenow={Math.round(hsv.s*100)} aria-valuetext={toHex(hsv)} tabIndex={0} style={{backgroundColor:`hsl(${hsv.h} 100% 50%)`}}
+ return <><div className="wb-color-picker" role="slider" aria-label={uiText("连续调色")} aria-valuemin={0} aria-valuemax={100} aria-valuenow={Math.round(hsv.s*100)} aria-valuetext={toHex(hsv)} tabIndex={0} style={{backgroundColor:`hsl(${hsv.h} 100% 50%)`}}
   onPointerDown={e=>{e.preventDefault();held.current=true;onActive(true);e.currentTarget.setPointerCapture(e.pointerId);position(e);}}
   onPointerMove={e=>{if(held.current)position(e);}} onPointerUp={finish} onPointerCancel={finish} onLostPointerCapture={finish}
   onKeyDown={e=>{if(!['ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(e.key))return;e.preventDefault();const step=e.shiftKey?.1:.01;publish({...current.current,s:Math.max(0,Math.min(1,current.current.s+(e.key==='ArrowRight'?step:e.key==='ArrowLeft'?-step:0))),v:Math.max(0,Math.min(1,current.current.v+(e.key==='ArrowUp'?step:e.key==='ArrowDown'?-step:0)))},true);}}>
   <i style={{left:`${hsv.s*100}%`,top:`${(1-hsv.v)*100}%`,background:toHex(hsv)}}/>
- </div><input aria-label="色相" className="wb-hue" type="range" min="0" max="359" value={Math.round(hsv.h)} onPointerDown={()=>{held.current=true;onActive(true);}} onPointerUp={finish} onPointerCancel={finish} onBlur={finish} onChange={e=>publish({...current.current,h:Number(e.target.value)},!held.current)}/></>;
+ </div><input aria-label={uiText("色相")} className="wb-hue" type="range" min="0" max="359" value={Math.round(hsv.h)} onPointerDown={()=>{held.current=true;onActive(true);}} onPointerUp={finish} onPointerCancel={finish} onBlur={finish} onChange={e=>publish({...current.current,h:Number(e.target.value)},!held.current)}/></>;
 }

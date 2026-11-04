@@ -40,5 +40,5 @@ test('in-flight capture retains its panel while image transfer exceeds normal pr
  await page.clock.fastForward(8500);expect((await last(page,'sync')).syncId).toBe(sync.syncId);await expect(page.getByLabel('正在同步大屏',{exact:true})).toHaveCount(0);
  const ready=structuredClone(state);ready.revision++;ready.capture!.phase='preview';ready.capture!.data='data:image/jpeg;base64,AAAA';ready.capture!.width=960;ready.capture!.height=596;
  await emit(page,'native-message',{kind:'snapshot',state:ready});await page.clock.fastForward(1000);expect((await last(page,'sync')).syncId).toBe(sync.syncId);
- await emit(page,'native-status',{type:'disconnected',transport:'distributed'});await page.getByRole('button',{name:'连接设置',exact:true}).click();await expect(page.getByRole('dialog',{name:'设备连接'})).toContainText(/连接已断开/);
+ await emit(page,'native-status',{type:'disconnected',transport:'distributed'});await page.getByRole('button',{name:'设置',exact:true}).click();await expect(page.getByRole('dialog',{name:'设备连接'})).toContainText(/连接已断开/);
 });

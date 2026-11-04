@@ -9,7 +9,7 @@ async function openWb(page: Page) {
   await expect(page.locator(".wb-home h1")).toHaveText("WorkBuddy, 我帮你");
 }
 async function pair(tablet: Page, phone: Page) {
-  await tablet.getByRole("button", { name: "连接设置", exact: true }).click();await tablet.getByRole('radio',{name:'扫码网络建联',exact:false}).check();
+  await tablet.getByRole("button", { name: "设置", exact: true }).click();await tablet.getByRole('radio',{name:'扫码网络建联',exact:false}).check();
   const pin = (await tablet.locator(".pair-code").innerText()).trim();
   await phone.setViewportSize({ width: 412, height: 915 });
   await phone.goto("/?role=phone&bridge=5191");
@@ -39,7 +39,7 @@ test("WorkBuddy phone activates only on focus, syncs text, edits emoji and submi
   await tablet.getByLabel("WorkBuddy 任务输入").click();
   await expect(phone.getByLabel("手机 WorkBuddy 草稿")).toBeVisible();
   await expect(
-    phone.getByRole("button", { name: "连接设置", exact: true }),
+    phone.getByRole("button", { name: "设置", exact: true }),
   ).toHaveCount(1);
   await phone.getByLabel("手机 WorkBuddy 草稿").fill("采购报价👨‍👩‍👧");
   await expect(tablet.getByLabel("WorkBuddy 任务输入")).toHaveValue(
