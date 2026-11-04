@@ -7,13 +7,22 @@ export function workBuddyDeckInteraction(s:State,c:Command):string|null|undefine
  if(!c.type.startsWith('wb-deck-'))return undefined;
  if(c.inputClient&&['wb-deck-stage','wb-deck-complete','wb-deck-failed'].includes(c.type))return '生成结果仅由执行端确认';
  const w=s.workbuddy,v=(c.value||{}) as Record<string,any>;
- if(c.type==='wb-deck-new'){const id=c.id;w.tasks.unshift({id,title:'产品介绍 · 网页演示',messages:[],status:'draft',kind:'slides',mode:'agent',model:'Gemini',expert:'',project:'',favorite:false,step:0,epoch:id,startedAt:0,elapsed:0,files:[],dataVersion:s.reportRevision,deckJob:{engine:'gemini-html',stage:'准备输入'}});w.drafts[id]=draft();w.task=id;w.page='task';w.preview=[];w.previewActive=null;w.filePanel=false;w.fileBrowser!.visible=false;s.target={id:`wb:draft:${id}`,app:'workbuddy',kind:'text',label:'产品介绍需求',value:'',revision:s.revision+1};return null;}
+ if(c.type==='wb-deck-new'){const id=c.id;w.tasks.unshift({id,title:'产品介绍 · 网页演示',messages:[],status:'draft',kind:'slides',mode:'agent',model:'Gemini',expert:'',project:'',favorite:false,step:0,epoch:id,startedAt:0,elapsed:0,files:[],dataVersion:s.reportRevision,deckJob:{engine:'gemini-html',stage:'准备输入'}});w.drafts[id]={...draft(),owner:c.id};w.task=id;w.page='home';w.preview=[];w.previewActive=null;w.filePanel=false;w.fileBrowser!.visible=false;s.target={id:`wb:draft:${id}`,app:'workbuddy',kind:'text',label:'产品介绍需求',value:'',revision:s.revision+1};return null;}
  if(c.type==='wb-deck-prepare'){
-  const d=w.drafts.new??=draft();d.owner??=c.id;d.deckInput??=emptyDeckInput();
-  if(!d.text.trim())d.text='做一份产品介绍PPT';else if(!isPresentationRequest(d.text))d.text+='\n请据此制作PPT。';d.revision++;w.task='new';w.page='home';
-  s.target={id:'wb:draft:new',app:'workbuddy',kind:'text',label:'WorkBuddy · 新建任务',value:projectTargetInput(d.text,d.deckInput.parameters,d.deckInput.assets,workBuddyInputCapabilities).text,revision:s.revision+1};return null;
+  const taskId=w.page==='home'&&w.drafts[w.task]?w.task:'new';const d=w.drafts[taskId]??=draft();d.owner??=c.id;d.deckInput??=emptyDeckInput();
+  if(!d.text.trim())d.text='做一份产品介绍PPT';else if(!isPresentationRequest(d.text))d.text+='\n请据此制作PPT。';d.revision++;w.task=taskId;w.page='home';
+  s.target={id:`wb:draft:${taskId}`,app:'workbuddy',kind:'text',label:'WorkBuddy · 新建任务',value:projectTargetInput(d.text,d.deckInput.parameters,d.deckInput.assets,workBuddyInputCapabilities).text,revision:s.revision+1};return null;
  }
  let task=w.tasks.find(t=>t.id===v.task);const d=w.drafts[String(v.task)];
+ // The phone uploads privately first. Only an accepted Send attaches the frozen
+ // manifest to the task; partial transfers never change its visible draft.
+ if(c.type==='wb-deck-start'&&v.assets!==undefined){
+  if(!d||(!task&&v.task!=='new')||s.target?.id!==`wb:draft:${v.task}`||c.targetId!==s.target.id||c.targetRevision!==s.target.revision||v.revision!==d.revision||v.inputRevision!==(d.deckInput?.revision||0)||v.owner!==(d.owner||''))return '任务或输入已变化，材料保留在手机';
+  if(!Array.isArray(v.assets)||v.assets.length>12||!v.assets.every(validAsset)||new Set(v.assets.map((a:any)=>a.id)).size!==v.assets.length||v.assets.reduce((n:number,a:any)=>n+a.size,0)>24*1024*1024)return '材料清单无效';
+  if(!d.text.trim()||task?.status==='running'||task?.receipts||task?.referenceRequest)return '当前任务不可提交';
+  // All remaining start checks below are satisfied before changing the draft.
+  d.deckInput={...(d.deckInput||emptyDeckInput()),assets:structuredClone(v.assets),sketchDrafts:[]};
+ }
  if(c.type==='wb-deck-input'){
   if((!task&&v.task!=='new')||task?.receipts||task?.referenceRequest||!d||task?.status==='running')return '原任务不可编辑，材料尚未采用';
   if(v.owner!==undefined&&v.owner!==(d.owner||''))return '原输入已结束，材料已保留';
@@ -33,7 +42,7 @@ export function workBuddyDeckInteraction(s:State,c:Command):string|null|undefine
    s.target.id=`wb:draft:${task.id}`;c={...c,targetId:s.target.id};
   }
   if(c.type==='wb-deck-start'&&task&&!task.deckJob&&d){
-   if(task.receipts||task.referenceRequest||!isPresentationRequest(d.text))return '当前任务不支持网页演示';
+   if(task.receipts||task.referenceRequest)return '当前任务不支持网页演示';
    if(task.status==='running'||c.targetId!==s.target?.id||s.target?.id!==`wb:draft:${task.id}`||c.targetRevision!==s.target?.revision||v.revision!==d.revision)return '任务或文字已变化';
    task.deckJob={engine:'gemini-html',stage:'准备输入'};task.kind='slides';
   }
@@ -49,7 +58,7 @@ export function workBuddyDeckInteraction(s:State,c:Command):string|null|undefine
    if(c.type==='wb-deck-failed'){task.status='paused';job.stage='生成未完成';job.error=String(v.error).slice(0,300);return null;}
    if(!validateDeck(v.deck))return '生成结果无效';const fileId='web-deck-'+c.id;const deck=structuredClone(v.deck as WebDeck);w.files.push({id:fileId,name:deck.title+'.html',kind:'slides',content:deck.pages.map(p=>p.title+'\n'+p.body).join('\n\n'),draft:draft(),folder:'网页演示',task:task.id,edited:false,dataVersion:s.reportRevision});browserState(s).docs[fileId]={revision:0,saved:{text:'',webDeck:deck},savedAt:Date.now(),changes:[]};task.files.push(fileId);task.elapsed+=Math.max(0,Date.now()-task.startedAt);task.startedAt=0;task.model=deck.model;task.status='complete';job.stage='已完成';task.messages.push({id:c.id,role:'assistant',text:'网页演示已生成，可打开编辑与播放。'});return null;
   }
-  task.status='running';task.epoch=c.id;task.startedAt=Date.now();job.stage='准备生成';delete job.error;return null;
+  w.page='task';task.status='running';task.epoch=c.id;task.startedAt=Date.now();job.stage='准备生成';delete job.error;return null;
  }
  const view=findFileView(s,String(v.view||'panel')),file=String(v.file||'');
  if(c.type==='wb-deck-playback'){

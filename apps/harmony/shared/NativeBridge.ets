@@ -32,6 +32,8 @@ export class NativeBridge {
  private deck:DeckService;
  private motion:PresentationMotion;
  private active:boolean=true;
+ private pickerTimer:number=-1;
+ private pickerSuspended:boolean=false;
  private photo:CaptureResult=new CaptureResult();
  private layoutVersion:number=0;
  private pin:string='';private authenticated:boolean=false;
@@ -50,7 +52,7 @@ export class NativeBridge {
  deckChunk(id:string,offset:number,part:string):string{return this.allowed()&&this.active&&ROLE==='tablet'?this.deck.chunk(id,offset,part):'unavailable';}
  deckModel(id:string,body:string):string{return this.allowed()&&this.active&&ROLE==='tablet'?this.deck.start(id,body):'unavailable';}
  deckCancel(id:string):string{if(!this.allowed()||ROLE!=='tablet')return 'unavailable';this.deck.cancel(id);return 'cancelled';}
- deckPickFile(id:string,kind:string):string{return this.allowed()?this.macFiles.pick(id,kind==='photo'?'gallery':kind):'unavailable';}
+ deckPickFile(id:string,kind:string):string{return this.allowed()?this.macFiles.pick(id,kind==='photo'?'gallery':kind==='camera'?'photo':kind):'unavailable';}
  deckReadFile(handle:string,offset:number):string{return this.allowed()?this.macFiles.read(handle,offset):'';}
  deckReleaseFile(handle:string):string{return this.allowed()?this.macFiles.release(handle):'unavailable';}
  macConnect(channel:string,address:string,port:number,pin:string):string {if(!this.allowed()||!this.active||ROLE!=='phone')return 'unavailable';this.motion.stop();this.speech.cancelRecognition('');return this.mac.connect(channel,address,port,pin);}
@@ -192,6 +194,17 @@ export class NativeBridge {
  startRecognition(id:string,online:boolean,manual:boolean=false):string{if(!this.allowed())return 'unavailable';return this.speech.startRecognition(id,online,manual);}
  stopRecognition(id:string):string{return this.speech.stopRecognition(id);}
  cancelRecognition(id:string):string{return this.speech.cancelRecognition(id);}
- foreground(value:boolean):void{this.active=value;this.emit('native-foreground',JSON.stringify(value));if(value)this.ai.status();if(!value){this.deck.cancel('');this.mac.close();this.ai.cancel('');this.motion.stop();this.speech.cancelRecognition('');distributedLink.stop();this.disconnect();}}
- close():void{this.deck.cancel('');this.macFiles.close();this.mac.close();distributedLink.stop();this.ai.close();this.photo=new CaptureResult();this.disconnect();this.server?.close();this.server=null;this.discovery?.stopSearchingMDNS();mdns.removeLocalService(this.context,this.service).catch(()=>{});this.speech.cancelRecognition('');}
+ foreground(value:boolean):void{
+  this.active=value;this.emit('native-foreground',JSON.stringify(value));
+  if(value){clearTimeout(this.pickerTimer);this.pickerSuspended=false;console.info('InputAgent lifecycle foreground');this.ai.status();return;}
+  this.deck.cancel('');this.mac.close();this.ai.cancel('');this.motion.stop();this.speech.cancelRecognition('');
+  // Keep the original bounded lease even if the picker promise has completed
+  // before a second background notification. Never extend it on duplicate events.
+  if(ROLE==='phone'&&(this.pickerSuspended||this.macFiles.isPicking()||this.photo.pending)){
+   if(!this.pickerSuspended){this.pickerSuspended=true;console.info('InputAgent lifecycle picker-held');
+    this.pickerTimer=setTimeout(()=>{if(!this.active){this.pickerSuspended=false;console.info('InputAgent lifecycle picker-expired');distributedLink.stop();this.disconnect();}},180000);
+   }
+  }else{console.info('InputAgent lifecycle background-close');distributedLink.stop();this.disconnect();}
+ }
+ close():void{clearTimeout(this.pickerTimer);this.deck.cancel('');this.macFiles.close();this.mac.close();distributedLink.stop();this.ai.close();this.photo=new CaptureResult();this.disconnect();this.server?.close();this.server=null;this.discovery?.stopSearchingMDNS();mdns.removeLocalService(this.context,this.service).catch(()=>{});this.speech.cancelRecognition('');}
 }

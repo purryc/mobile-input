@@ -2,8 +2,15 @@ from pathlib import Path
 import subprocess,os,shutil,json,sys,time
 root=Path(__file__).resolve().parents[1]
 dev=Path('/Applications/DevEco-Studio.app/Contents')
-roles=sys.argv[1:] or ['tablet','phone']
-generation=time.time_ns()//1_000_000
+preserve='--preserve-demo' in sys.argv[1:]
+roles=[a for a in sys.argv[1:] if a!='--preserve-demo'] or ['tablet','phone']
+if any(role not in ['tablet','phone'] for role in roles):raise SystemExit('Unknown role')
+built_at=time.time_ns()//1_000_000
+generation=built_at
+if preserve:
+ previous=[json.loads((Path.home()/'.cache'/f'mobile-input-{role}'/'entry/src/main/resources/rawfile/web/demo-build.json').read_text())['generation'] for role in roles]
+ if len(set(previous))!=1 or not isinstance(previous[0],int) or previous[0]<=0:raise SystemExit('Maintenance build requires matching prior demo generations')
+ generation=previous[0]
 for role in roles:
  src=root/'apps/harmony'/role
  target=Path.home()/'.cache'/f'mobile-input-{role}'
@@ -23,7 +30,7 @@ for role in roles:
  shutil.copytree(root/'dist',resources)
  index=resources/'index.html'
  index.write_text(index.read_text().replace('<head>',f'<head><script>window.__INPUT_AGENT_BUILD__={generation};</script>',1))
- (resources/'demo-build.json').write_text(json.dumps({'generation':generation,'role':role}))
+ (resources/'demo-build.json').write_text(json.dumps({'generation':generation,'role':role,'builtAt':built_at}))
  env=os.environ.copy();env.update(JAVA_HOME=str(dev/'jbr/Contents/Home'),DEVECO_SDK_HOME=str(dev/'sdk'),NODE_HOME=str(dev/'tools/node'))
  env['PATH']=str(dev/'tools/node/bin')+':'+str(dev/'jbr/Contents/Home/bin')+':'+env['PATH']
  r=subprocess.run([str(dev/'tools/hvigor/bin/hvigorw'),'assembleHap','-p','product=default','--no-daemon'],cwd=target,env=env)

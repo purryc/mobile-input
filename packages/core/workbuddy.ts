@@ -813,7 +813,7 @@ export function workBuddyInteraction(
       if (page === "task" && !w.tasks.some((t) => t.id === id))
         return "任务不存在";
       w.page = page as WorkBuddyPage;
-      if (page === "task") w.task = id;
+      if (page === "task") {w.task = id;if(!w.tasks.find(t=>t.id===id)?.messages.length)w.page="home";}
       if (page === "home") w.task = "new";
       w.preview = [];
       w.previewActive = null;
@@ -825,6 +825,9 @@ export function workBuddyInteraction(
       if (s.target?.id === id) s.target = null;
       return null;
     case "wb-focus":
+      // A delayed phone auto-focus must not replace a newer task/explicit target.
+      if(v.automatic&&(id!==`wb:draft:${w.task}`||s.target||w.fileBrowser?.visible||w.previewActive||w.deckPlayback||!['home','task'].includes(w.page)))return null;
+      if(id.startsWith('wb:draft:')){const d=w.drafts[id.slice(9)];if(d)d.owner??=c.id;}
       if(id==='wb:draft:new'){w.drafts.new.owner??=c.id;w.drafts.new.deckInput??=emptyDeckInput();}
       return focus(
         s,

@@ -1,5 +1,7 @@
 # Input Agent 双设备原型
 
+**2026-11-03 当前源码交接：[中文](docs/handoff-2026-11-03-zh.md) / [English](docs/handoff-2026-11-03-en.md)。** 本次为包含未提交改动的工作区快照；最新行为与验收以交接文档及 AGENTS.md 顶部规则为准，下方较早记录保留作历史参考。
+
 当前版本 **v1.4.0** · [版本更新说明](CHANGELOG.md) · [2026-10-14 开发进展](docs/development-progress-2026-10-14.md) · [最新分层验收](docs/runtime-design-sync-2026-10-14.md)
 
 面向销售采购与汇报的平板工作台和手机输入端。两端应用与桌面入口统一为 **Input Agent**；右上角连接图标统一提供配对与实时状态，WPS／Mario 全屏时也可访问。桌面保留邮件、WPS、微信、豆包、笔记、天生会画、Mario、WorkBuddy 和 Bilibili 九个入口。微信支持消息推荐、实时草稿和 Hover 半屏／全屏服务页面。手机根据平板对象提供输入和控制。

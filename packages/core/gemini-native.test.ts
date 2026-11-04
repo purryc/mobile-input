@@ -35,3 +35,5 @@ test('native Gemini discards cancelled/reconfigured requests and redacts service
  assert.match(events.find(e=>e.id==='two').error,/权限/);assert.ok(!JSON.stringify(events).includes('private upstream'));
  const stale=native.polish('three','测试','concise');native.configure('another-test-key-not-real-123456','gemini-3.8-flash');requests[2].resolve({responseCode:200,result:'{}'});await stale;assert.equal(events.filter(e=>e.id==='three').length,0);
 });
+
+test('phone accepts bounded dotted Google keys and preserves the configured model on private key-only import',()=>{const {native:gemini,events}=setup();const key='AQ.'+'x'.repeat(80);assert.equal(gemini.configure(key,'gemini-test-model'),true);assert.equal(gemini.configure(key,''),true);assert.equal(events.at(-1).model,'gemini-test-model');assert.equal(JSON.stringify(events).includes(key),false);assert.equal(gemini.configure('bad\nheader'.repeat(5),''),false);});

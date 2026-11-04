@@ -1,3 +1,4 @@
+import {emptyDeckInput} from './web-deck';
 import {projectTargetInput,workBuddyInputCapabilities} from './live-workbuddy';
 import type {Command,State,Slide} from './model';
 import {workBuddyIntents,colorValue,intentColors} from './workbuddy-intents';
@@ -28,11 +29,11 @@ export function wbAdaptiveInteraction(s:State,c:Command):string|null|undefined {
   if(v.action==='new'){
     const id=c.id;
     task={id,title:String(v.title||'新建任务'),messages:[],status:'draft',kind:null,mode:'agent',model:w.settings.model,expert:'',project:'chengxing',favorite:false,step:0,epoch:id,startedAt:0,elapsed:0,files:[],dataVersion:s.reportRevision};
-    w.tasks.unshift(task);w.drafts[id]={text:'',revision:0,session:'',sequence:0,attachments:[],references:[],input:initialWbInput()};
+    w.tasks.unshift(task);w.drafts[id]={text:'',revision:0,session:'',sequence:0,attachments:[],references:[],input:initialWbInput(),deckInput:emptyDeckInput()};
   }
   if(!task&&v.id!=='new')return '任务不存在';
   const id=task?.id||'new',d=w.drafts[id];if(!d)return '草稿不存在';
-  w.task=id;w.page=task?'task':'home';w.preview=[];w.previewActive=null;w.filePanel=false;
+  d.owner??=c.id;w.task=id;w.page=task&&task.messages.length?'task':'home';w.preview=[];w.previewActive=null;w.filePanel=false;
   s.target={id:`wb:draft:${id}`,app:'workbuddy',kind:'text',label:task?.title||'新建任务',value:d.deckInput?projectTargetInput(d.text,d.deckInput.parameters,d.deckInput.assets,workBuddyInputCapabilities).text:d.text,revision:s.revision+1};return null;
  }
  if(c.type!=='wb-input')return undefined;

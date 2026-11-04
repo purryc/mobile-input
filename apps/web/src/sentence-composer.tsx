@@ -1,3 +1,4 @@
+import './sentence-composer.css';
 import type {WbFile} from '../../../packages/core/workbuddy';
 import {forwardRef,useEffect,useImperativeHandle,useLayoutEffect,useRef} from 'react';
 import type {TextInputHandle} from './text-input-handle';
@@ -65,14 +66,14 @@ export const SentenceComposer=forwardRef<TextInputHandle,SentenceComposerProps>(
     label='布局草图';button.dataset.state='default';const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');svg.setAttribute('viewBox','0 0 100 60');svg.classList.add('sentence-sketch');
     for(const points of state.input.sketch.strokes){const line=document.createElementNS(svg.namespaceURI,'polyline');line.setAttribute('points',points.map(([x,y])=>`${x*100},${y*60}`).join(' '));line.setAttribute('fill','none');line.setAttribute('stroke','#157b74');line.setAttribute('stroke-width','2');svg.append(line);}face.append(svg);
    }else{const icon=document.createElement('img');icon.src=`./assets/figma/sentence-parameters/${iconNames[token.kind]||token.kind}.svg`;icon.alt='';icon.className='sentence-icon '+token.kind;face.append(icon);}
-   const text=document.createElement('span');text.textContent=label;face.append(text);if(token.kind==='color'||value){const chevron=document.createElement('img');chevron.src='./assets/figma/sentence-parameters/chevron.svg';chevron.className='sentence-chevron';chevron.alt='';face.append(chevron);}
+   const text=document.createElement('span');text.textContent=label;face.append(text);
    button.setAttribute('aria-label',token.kind==='color'?`主色 ${label}`:label);button.title=token.phrase||'布局';button.onpointerdown=e=>{e.preventDefault();readSelection();};button.onclick=()=>latest.current.onOpen(token.kind);hit.append(button);fragment.append(hit);
   }
   plain(cursor,state.text.length);if(state.text.endsWith('\n'))fragment.append(document.createElement('br'));if(!fragment.childNodes.length)fragment.append(document.createTextNode(''));
-  el.replaceChildren(fragment);el.dataset.value=state.text;if(focused)setSelectionRange(saved.start,saved.end);
+  el.replaceChildren(fragment);el.dataset.value=state.text;selection.current=saved;if(focused)setSelectionRange(saved.start,saved.end);
  }
  useLayoutEffect(render,[p.text,JSON.stringify(p.parameters),JSON.stringify(p.live?.parameters),p.live?.active,p.input.revision,p.active,p.disabled,p.loading?.start,p.loading?.end,p.files.map(f=>f.id+f.name).join('|')]);
  useEffect(()=>{const listener=()=>{if(document.activeElement===root.current){readSelection();latest.current.onSelect();}};document.addEventListener('selectionchange',listener);return()=>document.removeEventListener('selectionchange',listener);},[]);
  function changed(){if(composing.current)return;readSelection();const text=sourceText(root.current!);latest.current.onSelect();latest.current.onChange(text);}
- return <div ref={root} className="wb-sentence-composer" role="textbox" aria-multiline="true" aria-label="手机 WorkBuddy 草稿" contentEditable suppressContentEditableWarning inputMode="none" data-placeholder={p.placeholder} onFocus={p.onFocus} onInput={changed} onCompositionStart={()=>{composing.current=true;}} onCompositionEnd={()=>{composing.current=false;changed();}} onPaste={e=>{e.preventDefault();const s=readSelection(),value=latest.current.text,insert=e.clipboardData.getData('text/plain');latest.current.onChange(value.slice(0,s.start)+insert+value.slice(s.end));requestAnimationFrame(()=>setSelectionRange(s.start+insert.length,s.start+insert.length));}}/>
+ return <div ref={root} className="wb-sentence-composer" role="textbox" aria-multiline="true" aria-label="手机 WorkBuddy 草稿" contentEditable={!p.disabled} suppressContentEditableWarning inputMode="none" data-placeholder={p.placeholder} onFocus={p.onFocus} onInput={changed} onCompositionStart={()=>{composing.current=true;}} onCompositionEnd={()=>{composing.current=false;changed();}} onPaste={e=>{e.preventDefault();const s=readSelection(),value=latest.current.text,insert=e.clipboardData.getData('text/plain');latest.current.onChange(value.slice(0,s.start)+insert+value.slice(s.end));requestAnimationFrame(()=>setSelectionRange(s.start+insert.length,s.start+insert.length));}}/>
 });

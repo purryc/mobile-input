@@ -11,6 +11,7 @@ export class MacFiles {
  private context:common.UIAbilityContext;
  private emit:(name:string,data:string)=>void;
  constructor(context:common.UIAbilityContext,emit:(name:string,data:string)=>void){this.context=context;this.emit=emit;}
+ isPicking():boolean{return this.busy;}
  pick(id:string,kind:string):string {
   if(this.busy||this.files.size>=12||!['document','photo','gallery'].includes(kind))return 'unavailable';
   this.busy=true;this.choose(id,kind);return 'pending';

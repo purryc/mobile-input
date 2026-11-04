@@ -19,6 +19,9 @@ export class Speech {
  private segmentNumber:number=0;
  private sequence:number=0;
  private ready:boolean=false;
+ private captureStarting:boolean=false;
+ private finishSent:boolean=false;
+ private segmentBytes:number=0;
  private remainder:Uint8Array=new Uint8Array(0);
  private pending:Uint8Array=new Uint8Array(0);
  private speaking:boolean=false;
@@ -46,7 +49,7 @@ export class Speech {
   catch(e){
    // Older on-device engines can reject long mode. Continue the same user session with short segments.
    if(this.sessionId!==id)return;
-   if(!this.manual||(e as BusinessError).code!==1002200001)throw e;
+   if(!this.manual||(e as BusinessError).code!==1002200001)throw e as Error;
    engine=await speechRecognizer.createEngine({language:'zh-CN',online:1,extraParams:{locate:'CN',recognizerMode:'short'}});
   }
   if(this.sessionId!==id){engine.shutdown();return;}this.engine=engine;
@@ -56,6 +59,7 @@ export class Speech {
     this.clearDeadline();this.ready=true;
     if(this.finishing){this.finishEngine();return;}
     if(this.microphoneOpen){this.flushPending();return;}
+    if(this.captureStarting)return;this.captureStarting=true;
     const capturer=this.capturer;
     capturer?.start().then(()=>{
      if(!this.matches(id,segment)||this.finishing||this.capturer!==capturer)return;
@@ -92,7 +96,7 @@ export class Speech {
  private armDeadline():void{this.clearDeadline();const id=this.sessionId;this.deadline=setTimeout(()=>{if(this.sessionId===id)this.fail(this.finishing?'转写未能完成，已保留识别文字，请重试':'语音接续失败，已保留识别文字，请重试');},5000);}
  private beginSegment():void{
   if(!this.sessionId||!this.engine)return;
-  this.ready=false;this.segmentId=this.sessionId+':'+(++this.segmentNumber);this.lastFinal='';this.armDeadline();
+  this.ready=false;this.finishSent=false;this.segmentBytes=0;this.segmentId=this.sessionId.replace(/[^A-Za-z0-9_-]/g,'_').slice(0,40)+'_'+(++this.segmentNumber);this.lastFinal='';this.armDeadline();
   try{this.engine.startListening({sessionId:this.segmentId,audioInfo:{audioType:'pcm',sampleRate:16000,soundChannel:1,sampleBit:16}});}catch{this.fail('语音接续失败，已保留识别文字，请重试');}
  }
  private writeAudio(buffer:ArrayBuffer):void{
@@ -109,7 +113,16 @@ export class Speech {
  private flushPending():void{
   if(!this.ready||!this.engine)return;
   const merged=new Uint8Array(this.remainder.length+this.pending.length);merged.set(this.remainder);merged.set(this.pending,this.remainder.length);this.pending=new Uint8Array(0);
-  let offset=0;while(offset+640<=merged.length){try{this.engine.writeAudio(this.segmentId,merged.slice(offset,offset+640));}catch{this.fail('音频传输中断，请重试');return;}offset+=640;}this.remainder=merged.slice(offset);
+  let offset=0;while(offset+640<=merged.length){
+   try{this.engine.writeAudio(this.segmentId,merged.slice(offset,offset+640));}catch{this.fail('音频传输中断，请重试');return;}
+   offset+=640;this.segmentBytes+=640;
+   // Engines enforce a per-request limit even in long mode. Rotate at 15 s before
+   // the default 20 s limit without stopping AudioCapturer or the user session.
+   if(this.manual&&!this.finishing&&this.segmentBytes>=480000){
+    this.remainder=merged.slice(offset);this.ready=false;this.finishSent=true;this.armDeadline();
+    try{this.engine.finish(this.segmentId);}catch{this.fail('语音接续失败，已保留识别文字，请重试');}return;
+   }
+  }this.remainder=merged.slice(offset);
  }
  stopRecognition(id:string):string{
   if(id!==this.sessionId||this.finishing)return 'idle';this.finishing=true;
@@ -117,7 +130,7 @@ export class Speech {
   this.armDeadline();this.stopAudio().then(()=>{if(this.sessionId===id&&this.ready)this.finishEngine();});return 'stopping';
  }
  private finishEngine():void{
-  if(!this.engine)return;this.armDeadline();this.flushPending();
+  if(!this.engine||this.finishSent)return;this.finishSent=true;this.armDeadline();this.flushPending();
   if(this.remainder.length){const tail=new Uint8Array(640);tail.set(this.remainder);this.remainder=new Uint8Array(0);try{this.engine.writeAudio(this.segmentId,tail);}catch{this.fail('音频传输中断，请重试');return;}}
   try{this.engine.finish(this.segmentId);}catch{this.fail('未能结束转写，请重试');}
  }
@@ -127,7 +140,7 @@ export class Speech {
  private setMicrophoneOpen(value:boolean):void{if(this.microphoneOpen===value)return;this.microphoneOpen=value;try{vibrator.startVibration({type:'time',duration:25},{usage:'touch'}).catch(()=>{});}catch{}}
  private async stopAudio():Promise<void>{const capturer=this.capturer;this.capturer=null;this.setMicrophoneOpen(false);if(!capturer)return;try{capturer.off('readData');await capturer.stop();}catch{}try{await capturer.release();}catch{}}
  private release():void{
-  this.sessionId='';this.segmentId='';this.finishing=false;this.ready=false;this.clearDeadline();
+  this.sessionId='';this.segmentId='';this.finishing=false;this.ready=false;this.captureStarting=false;this.finishSent=false;this.clearDeadline();
   const stopped=this.stopAudio(),engine=this.engine;this.engine=null;
   this.releasing=this.releasing.then(async()=>{await stopped;if(engine){try{await engine.shutdown();}catch{}}});
   this.pending=new Uint8Array(0);this.remainder=new Uint8Array(0);

@@ -27,12 +27,12 @@ export function ConnectionAccess({children}:{children:ReactNode}){
  const [confirmReset,setConfirmReset]=useState(false),[resetting,setResetting]=useState(false);
  async function reset(){setResetting(true);const ack=await command('demo-reset');if(ack.ok)toast('演示已重置');else setResetting(false);}
  const priorConnected=useRef(r.connected),entry=useRef<HTMLButtonElement>(null),panel=useRef<HTMLElement>(null);
- const real=phone&&destination!=='demo',activeConnected=real?(destination==='mac'&&mac.connected&&mac.synced):r.connected;
+ const real=phone&&destination!=='demo',activeConnected=real?(destination==='mac'&&mac.connected&&mac.synced):r.linked;
  const [failure,setFailure]=useState(false),loss=useRef({connected:activeConnected,destination}),intentional=useRef(false),background=useRef(document.hidden);
  useEffect(()=>{const native=(e:Event)=>{background.current=!(e as CustomEvent).detail;};const visibility=()=>{background.current=document.hidden;};window.addEventListener('native-foreground',native);document.addEventListener('visibilitychange',visibility);return()=>{window.removeEventListener('native-foreground',native);document.removeEventListener('visibilitychange',visibility);};},[]);
  useEffect(()=>{const previous=loss.current;loss.current={connected:activeConnected,destination};if(activeConnected||previous.destination!==destination){setFailure(false);intentional.current=false;return;}if(!phone||!previous.connected||intentional.current||background.current){intentional.current=false;return;}const timer=setTimeout(()=>{if(!background.current){window.dispatchEvent(new Event('connection-open'));setOpened(false);setFailure(true);}},1000);return()=>clearTimeout(timer);},[activeConnected,destination]);
  function reconnectFailure(){if(destination==='mac'&&mac.canResume)resumeMac();else{setFailure(false);show();}}
- const inline=real||(!phone&&r.state.app==='workbuddy'&&!!r.state.workbuddy.fileBrowser?.visible&&!!r.state.workbuddy.fileBrowser.windows.length)||phone&&['active','paused'].includes(r.state.inputSession?.phase||'')&&(r.state.app==='desktop'||r.state.app==='paint'||!['desktop','wechat','slides','mario','bilibili'].includes(r.state.app)&&(r.connected||!!r.state.editSession?.key)||r.state.app==='bilibili'||r.state.app==='slides'||r.state.app==='mario'||r.state.app==='workbuddy'&&r.connected&&!!r.state.target?.id.startsWith('wb:')||r.state.app==='wechat'&&r.connected&&r.state.chat.activation?.phase==='ready');
+ const inline=phone||r.state.app==='workbuddy'&&!!r.state.workbuddy.fileBrowser?.visible&&!!r.state.workbuddy.fileBrowser.windows.length;
  function selectMethod(method:ConnectionMethod){selectConnectionMethod(method);if(method==='distributed')discoverDistributed();}
  const host=r.address||location.hostname;
  const status=real?(destination==='mac'?mac.status:'真实鸿蒙应用尚未接通'):r.connected?(phone?'已连接工作台':'手机已连接'):r.status;

@@ -1,0 +1,300 @@
+{
+  "date": "2026-11-03",
+  "purpose": "Exact static controls from Figma 2316:110521; image previews and strokes are user data, not these sample assets.",
+  "assets": [
+    {
+      "file": "primary-0.svg",
+      "node": "1372-25571",
+      "name": "imgColorFfa8A8",
+      "width": "102",
+      "height": "92",
+      "circles": [
+        {
+          "id": "Swatch / #FFB3B3",
+          "cx": "51",
+          "cy": "38",
+          "r": "15",
+          "fill": "#FFB3B3"
+        }
+      ],
+      "sha256": "e0f8ec7f502d568ee82d48a8d61767ba0615f3d305e491a7e0ce431a863aa483",
+      "source": "https://www.figma.com/design/ApFLno64NcMoA17MiPFfZh?node-id=1372-25571"
+    },
+    {
+      "file": "primary-1.svg",
+      "node": "1372-25571",
+      "name": "imgColorFf6B6B",
+      "width": "102",
+      "height": "92",
+      "circles": [
+        {
+          "id": "Swatch / #FF6B6B",
+          "cx": "51",
+          "cy": "38",
+          "r": "15",
+          "fill": "#FF6B6B"
+        }
+      ],
+      "sha256": "b3ee562906e4c1f1942400d92bfd650d615d7dbe54cf5e7d95577b024e228947",
+      "source": "https://www.figma.com/design/ApFLno64NcMoA17MiPFfZh?node-id=1372-25571"
+    },
+    {
+      "file": "primary-2.svg",
+      "node": "1372-25571",
+      "name": "imgColorE03131",
+      "width": "102",
+      "height": "92",
+      "circles": [
+        {
+          "id": "Swatch / #E03131",
+          "cx": "51",
+          "cy": "38",
+          "r": "15",
+          "fill": "#E03131"
+        }
+      ],
+      "sha256": "c89dae641feec05e7f8b3770660996808aa0eb1e0c1357631877a35fcfbdce06",
+      "source": "https://www.figma.com/design/ApFLno64NcMoA17MiPFfZh?node-id=1372-25571"
+    },
+    {
+      "file": "primary-3.svg",
+      "node": "1372-25571",
+      "name": "imgColorC92A2A",
+      "width": "102",
+      "height": "92",
+      "circles": [],
+      "sha256": "4c4b3fca81a8550b990fad77ade93c85bc7f84cc320b680c79a8cb26f41d0b55",
+      "source": "https://www.figma.com/design/ApFLno64NcMoA17MiPFfZh?node-id=1372-25571"
+    },
+    {
+      "file": "primary-4.svg",
+      "node": "1372-25571",
+      "name": "imgColorA51123",
+      "width": "102",
+      "height": "92",
+      "circles": [
+        {
+          "id": "Swatch / #A51124",
+          "cx": "51",
+          "cy": "38",
+          "r": "15",
+          "fill": "#A51124"
+        }
+      ],
+      "sha256": "9c1e84b316de3ccc82d7c0f8972ab0b67bdfce3e28bcc31c958ee1bd315d7681",
+      "source": "https://www.figma.com/design/ApFLno64NcMoA17MiPFfZh?node-id=1372-25571"
+    },
+    {
+      "file": "background-0.svg",
+      "node": "2164-57048",
+      "name": "imgColorFfa8A8",
+      "width": "102",
+      "height": "92",
+      "circles": [
+        {
+          "id": "Swatch / #F4F4F4",
+          "cx": "51",
+          "cy": "38",
+          "r": "15",
+          "fill": "#F4F4F4"
+        }
+      ],
+      "sha256": "d22387f660de3a2fb26cf29cc68cc6ec25957899d3168089de6e18b40cfe1047",
+      "source": "https://www.figma.com/design/ApFLno64NcMoA17MiPFfZh?node-id=2164-57048"
+    },
+    {
+      "file": "background-1.svg",
+      "node": "2164-57048",
+      "name": "imgColorFf6B6B",
+      "width": "102",
+      "height": "92",
+      "circles": [
+        {
+          "id": "Swatch / #E7E7E7",
+          "cx": "51",
+          "cy": "38",
+          "r": "15",
+          "fill": "#E7E7E7"
+        }
+      ],
+      "sha256": "da2ea6f312cf23312db27ae71b00d31c596e53d8821076bda8e560ce5be4591f",
+      "source": "https://www.figma.com/design/ApFLno64NcMoA17MiPFfZh?node-id=2164-57048"
+    },
+    {
+      "file": "background-2.svg",
+      "node": "2164-57048",
+      "name": "imgColorE03131",
+      "width": "102",
+      "height": "92",
+      "circles": [
+        {
+          "id": "Swatch / #D9D9D9",
+          "cx": "51",
+          "cy": "38",
+          "r": "15",
+          "fill": "#D9D9D9"
+        }
+      ],
+      "sha256": "803f9819bc889a7c8c57e178bc51ae55831d9dfb1e73e2e0b1de5ddc0648a779",
+      "source": "https://www.figma.com/design/ApFLno64NcMoA17MiPFfZh?node-id=2164-57048"
+    },
+    {
+      "file": "background-3.svg",
+      "node": "2164-57048",
+      "name": "imgColorC92A2A",
+      "width": "102",
+      "height": "92",
+      "circles": [],
+      "sha256": "42e1175528141e23f58560da40e1bb5b681ca68dc9fc40e0c951420754b62e81",
+      "source": "https://www.figma.com/design/ApFLno64NcMoA17MiPFfZh?node-id=2164-57048"
+    },
+    {
+      "file": "background-4.svg",
+      "node": "2164-57048",
+      "name": "imgColorA51123",
+      "width": "102",
+      "height": "92",
+      "circles": [
+        {
+          "id": "Swatch / #919191",
+          "cx": "51",
+          "cy": "38",
+          "r": "15",
+          "fill": "#919191"
+        }
+      ],
+      "sha256": "84b12115216966a7dcc976b4bc5abbdea812b30dc92972df382c107a97e65c0c",
+      "source": "https://www.figma.com/design/ApFLno64NcMoA17MiPFfZh?node-id=2164-57048"
+    },
+    {
+      "file": "text-0.svg",
+      "node": "2164-57530",
+      "name": "imgColorFfa8A8",
+      "width": "102",
+      "height": "92",
+      "circles": [
+        {
+          "id": "Swatch / #202124",
+          "cx": "51",
+          "cy": "38",
+          "r": "15",
+          "fill": "#202124"
+        }
+      ],
+      "sha256": "c81bfb2003b293b16a445b06fc10e6d172e3d9625f3d89652ada7026787f8861",
+      "source": "https://www.figma.com/design/ApFLno64NcMoA17MiPFfZh?node-id=2164-57530"
+    },
+    {
+      "file": "text-1.svg",
+      "node": "2164-57530",
+      "name": "imgColorFf6B6B",
+      "width": "102",
+      "height": "92",
+      "circles": [
+        {
+          "id": "Swatch / #000000",
+          "cx": "51",
+          "cy": "38",
+          "r": "15",
+          "fill": "black"
+        }
+      ],
+      "sha256": "7b4806cb87f6a77a78adfed95a5dece02e470dd9bd8faaf0ae6e02ea011a4e80",
+      "source": "https://www.figma.com/design/ApFLno64NcMoA17MiPFfZh?node-id=2164-57530"
+    },
+    {
+      "file": "text-2.svg",
+      "node": "2164-57530",
+      "name": "imgColorE03131",
+      "width": "102",
+      "height": "92",
+      "circles": [
+        {
+          "id": "Swatch / #4A4A4A",
+          "cx": "51",
+          "cy": "38",
+          "r": "15",
+          "fill": "#4A4A4A"
+        }
+      ],
+      "sha256": "5e768fbc3fd7b1b429a0aad808b1b62e89f12e4b6255769f11e5bd81c59029b7",
+      "source": "https://www.figma.com/design/ApFLno64NcMoA17MiPFfZh?node-id=2164-57530"
+    },
+    {
+      "file": "text-3.svg",
+      "node": "2164-57530",
+      "name": "imgColorC92A2A",
+      "width": "102",
+      "height": "92",
+      "circles": [],
+      "sha256": "4ca250a7099e680823b331788fc6bb3c01e6b343aa9062dece7cccc37001013a",
+      "source": "https://www.figma.com/design/ApFLno64NcMoA17MiPFfZh?node-id=2164-57530"
+    },
+    {
+      "file": "text-4.svg",
+      "node": "2164-57530",
+      "name": "imgColorA51123",
+      "width": "102",
+      "height": "92",
+      "circles": [
+        {
+          "id": "Swatch / #FFFFFF",
+          "cx": "51",
+          "cy": "38",
+          "r": "15",
+          "fill": "white"
+        }
+      ],
+      "sha256": "4e409eb3326fdfd413187260a29dbcfa54925f06785ee220773f3abdcda271bd",
+      "source": "https://www.figma.com/design/ApFLno64NcMoA17MiPFfZh?node-id=2164-57530"
+    },
+    {
+      "file": "close.svg",
+      "node": "1372:25846",
+      "width": "24",
+      "height": "24",
+      "sha256": "d511ca4d565e1c6f0d4ca0aac01a8fc768286a335d4acab60f3327510aee36b4",
+      "source": "https://www.figma.com/design/ApFLno64NcMoA17MiPFfZh?node-id=1372-25846"
+    },
+    {
+      "file": "pen.svg",
+      "node": "1372:25846",
+      "width": "24",
+      "height": "24",
+      "sha256": "25dc53d913ae7722f15c2b459e436f2f0d4422ab4ec5463002127aef89811eff",
+      "source": "https://www.figma.com/design/ApFLno64NcMoA17MiPFfZh?node-id=1372-25846"
+    },
+    {
+      "file": "eraser.svg",
+      "node": "1372:25846",
+      "width": "24",
+      "height": "24",
+      "sha256": "9d61dd9822bc69238882bd325abc488da6234fc6c2ec890f2bc97ec0cfb82aca",
+      "source": "https://www.figma.com/design/ApFLno64NcMoA17MiPFfZh?node-id=1372-25846"
+    },
+    {
+      "file": "undo.svg",
+      "node": "1372:25846",
+      "width": "24",
+      "height": "24",
+      "sha256": "08967652f232c24192ed9e511b7465b820d91992c82642e10e138b4ab34924f8",
+      "source": "https://www.figma.com/design/ApFLno64NcMoA17MiPFfZh?node-id=1372-25846"
+    },
+    {
+      "file": "clear.svg",
+      "node": "1372:25846",
+      "width": "24",
+      "height": "24",
+      "sha256": "9d015434afc2f955675eab9116f02ed3a4c6b770ec951d9518774727dd6d04d7",
+      "source": "https://www.figma.com/design/ApFLno64NcMoA17MiPFfZh?node-id=1372-25846"
+    },
+    {
+      "file": "check.svg",
+      "node": "1372:25846",
+      "width": "24",
+      "height": "24",
+      "sha256": "0b68c5ca1d7c2c10c11f6627edea8a067e7dd8a80a1a80272dc641585a8741bb",
+      "source": "https://www.figma.com/design/ApFLno64NcMoA17MiPFfZh?node-id=1372-25846"
+    }
+  ]
+}

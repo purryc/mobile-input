@@ -323,7 +323,7 @@ export function WorkBuddy({ s }: { s: State }) {
                   alt=""
                 />
               </div>
-              <WebDeckComposer key="new" taskId="new" openMenu={open}/>
+              <WebDeckComposer key={w.task} taskId={w.task} openMenu={open}/>
               <div className="wb-home-suggestions">{['一页图讲清 AI 如何提升办公效率','用3个可靠来源看懂一个行业问题','一周 AI 大事，3分钟看完','10个主流 AI 模型该怎么选'].map(text=><button key={text} onClick={()=>void run('template',{text})}>{text}<I.ArrowUpRight size={16}/></button>)}</div>
             </div>
           </div>

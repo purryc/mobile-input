@@ -38,10 +38,6 @@
 .wb-elastic-middle .wb-composer-body{gap:8px}
 .wb-sentence-composer{outline:none;flex:1 0 auto;min-height:52px;white-space:pre-wrap;overflow-wrap:anywhere;font-size:16px;line-height:26px;color:#122d39;cursor:text}
 .wb-sentence-composer:empty:before{content:attr(data-placeholder);color:#71858d;pointer-events:none}
-.wb-sentence-composer .sentence-token-hit{display:inline-flex;align-items:center;vertical-align:middle;min-height:48px;max-width:100%;padding:0 2px;white-space:nowrap;user-select:none}
-.wb-sentence-composer .sentence-token{display:inline-flex;align-items:center;justify-content:center;gap:5px;padding:0 7px;height:32px;min-height:32px;max-width:100%;border:1px solid #ffffffd9;border-radius:8px;font:400 14px/20px inherit;background:#fff9;color:#183b47;box-shadow:inset 0 1px 1px #ffffffc7;cursor:pointer}
-.wb-sentence-composer .sentence-token>span{overflow-wrap:anywhere;white-space:normal;text-align:left;font-size:14px;line-height:20px}
-.wb-sentence-composer .sentence-token[aria-pressed=true]{border-color:#418e88;background:#e1efed}
 .wb-sentence-composer .sentence-swatch{height:12px;width:12px;flex:none;border-radius:50%;box-shadow:0 0 0 1px #122d3914}
 .wb-sentence-composer .sentence-icon{object-fit:contain;width:16px;height:16px;flex:none}
 .wb-sentence-composer .sentence-icon:is(.scope,.template,.size,.count,.path){width:18px}
@@ -63,13 +59,8 @@
  .wb-elastic-phone .wb-elastic-middle.tool-expanded>.wb-adaptive-composer{flex:1 0 128px;min-height:128px;padding:8px}
 }
 @media(prefers-reduced-motion:reduce){.wb-sentence-composer mark{animation:none}}
-.wb-sentence-composer .sentence-token{height:48px;min-height:48px;padding:0;border:0;background:transparent;box-shadow:none}
-.wb-sentence-composer .sentence-token>.sentence-token-face{display:inline-flex;align-items:center;justify-content:center;gap:5px;padding:0 7px;height:32px;min-height:32px;max-width:100%;border:1px solid #ffffffd9;border-radius:8px;background:#fff9;box-shadow:inset 0 1px 1px #ffffffc7;white-space:nowrap}
-.wb-sentence-composer .sentence-token[aria-pressed=true]{background:transparent}
-.wb-sentence-composer .sentence-token[aria-pressed=true]>.sentence-token-face{border-color:#418e88;background:#e1efed}
 .wb-sentence-composer{font-weight:400}
 .wb-sentence-composer .sentence-media{width:28px;height:20px;object-fit:cover;flex:none;border-radius:3px}
-.wb-sentence-composer .sentence-token-face>span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:220px}
 .wb-elastic-phone .wb-material-preview{display:flex;flex-direction:column;flex:1;min-height:0;padding:8px;border:1px solid white;border-radius:16px;background:#ffffff4d;overflow:hidden}
 .wb-material-preview .wb-aux-header h2{font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .wb-material-preview .wb-aux-body{display:flex;justify-content:center}

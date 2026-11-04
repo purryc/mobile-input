@@ -29,3 +29,5 @@
 /* The reusable polish row follows the composer; service recommendations remain above it. */
 .wechat-phone .glass-input:has(+ .contextual-polish){margin-bottom:0}
 .wechat-phone>.contextual-polish{margin-left:16px;margin-right:16px}
+
+.wechat-phone .wechat-begin-input{margin:8px 14px;flex:none;min-height:48px;border:1px solid #ffffffc7;border-radius:18px;background:#ffffff9e;color:inherit;font-size:15px}

@@ -21,17 +21,17 @@ test('reset restores business seeds, clears undo, keeps device name and rejects 
  assert.equal(run('input-session-client',{client:'late'},{demoGeneration:0}).ok,false);
  assert.equal(run('open','workbuddy',{demoGeneration:generation}).ok,true);
 });
-test('connected adapted field directly activates without a dock or confirmation, desktop still confirms',()=>{
- const {store,run}=setup();run('input-session-client',{client:'phone'});assert.equal(store.state.inputSession?.phase,'idle');
+test('connected adapted field directly activates without a dock or confirmation, desktop directly enables',()=>{
+ const {store,run}=setup();run('input-session-client',{client:'phone'});assert.equal(store.state.inputSession?.phase,'active');
  run('open','workbuddy');run('wb-focus',{id:'wb:draft:new'});assert.equal(store.state.inputSession?.phase,'active');assert.equal(store.state.inputSession?.client,'phone');
  run('input-session-pause');run('wb-focus',{id:'wb:draft:new'});assert.equal(store.state.inputSession?.phase,'active');
- run('demo-reset');run('input-session-client',{client:'phone'});assert.equal(store.state.inputSession?.phase,'idle');
- run('input-session-request',{source:'taskbar'});assert.equal(store.state.inputSession?.phase,'pending');
+ run('demo-reset');run('input-session-client',{client:'phone'});assert.equal(store.state.inputSession?.phase,'active');
+ run('input-session-request',{source:'taskbar'});assert.equal(store.state.inputSession?.phase,'active');
 });
 test('field clicked before client registration becomes active only after registration; WeChat reading remains required',()=>{
  const {store,run}=setup();run('open','wechat');run('chat-focus',{conversation:'wx-boss'});
  assert.equal(store.state.inputSession?.phase,'pending');assert.notEqual(store.state.chat.activation?.phase,'ready');
  run('input-session-client',{client:'phone'});assert.equal(store.state.inputSession?.phase,'active');assert.notEqual(store.state.chat.activation?.phase,'ready');
- run('input-session-client',{client:'new-process'});assert.equal(store.state.inputSession?.phase,'idle');
+ run('input-session-client',{client:'new-process'});assert.equal(store.state.inputSession?.phase,'active');
  run('chat-focus',{conversation:'wx-boss'});assert.equal(store.state.inputSession?.phase,'active');
 });

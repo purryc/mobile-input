@@ -1988,7 +1988,28 @@
       "region": "adaptive",
       "inputStates": [],
       "figmaPageId": "2:2",
-      "catalogRole": "reusable-control"
+      "catalogRole": "reusable-control",
+      "inlineOutlineDesign": {
+        "token": "glass/inline-outline",
+        "figmaVariableId": "VariableID:2328:111157",
+        "inactive": {
+          "strokeWidth": 1,
+          "strokeAlign": "INSIDE",
+          "lightOpacity": 0.3,
+          "darkOpacity": 0.44
+        },
+        "active": "Preserve existing stronger outline and light theme tint; active widget is independent of Suggested/Default value state.",
+        "colorSource": "Current application theme, never the content color parameter.",
+        "preserves": [
+          "glass surface",
+          "text flow",
+          "line height",
+          "chip dimensions",
+          "no chevron"
+        ],
+        "evidence": "Figma design only; application code unchanged",
+        "updatedAt": "2026-11-03"
+      }
     },
     {
       "componentId": "color-refinement",
@@ -3647,7 +3668,28 @@
         "runtimeApiAdded": false
       },
       "figmaPageId": "2:2",
-      "catalogRole": "reusable-control"
+      "catalogRole": "reusable-control",
+      "inlineOutlineDesign": {
+        "token": "glass/inline-outline",
+        "figmaVariableId": "VariableID:2328:111157",
+        "inactive": {
+          "strokeWidth": 1,
+          "strokeAlign": "INSIDE",
+          "lightOpacity": 0.3,
+          "darkOpacity": 0.44
+        },
+        "active": "Preserve existing stronger outline and light theme tint; active widget is independent of Suggested/Default value state.",
+        "colorSource": "Current application theme, never the content color parameter.",
+        "preserves": [
+          "glass surface",
+          "text flow",
+          "line height",
+          "chip dimensions",
+          "no chevron"
+        ],
+        "evidence": "Figma design only; application code unchanged",
+        "updatedAt": "2026-11-03"
+      }
     },
     {
       "componentId": "sentence-parameter-composer",
@@ -3903,7 +3945,8 @@
         "compactPhotoComponent": "2232:110030",
         "photoEntryVariable": "VariableID:2232:110015",
         "rowVisibleVariable": "VariableID:2232:110016",
-        "runtimeChanged": false
+        "runtimeChanged": false,
+        "reusableRowComponent": "2340:111096"
       },
       "parameterWidgetActions": {
         "closePosition": "top-right",
@@ -3919,7 +3962,16 @@
         "evidence": "design-and-prototype-only"
       },
       "figmaPageId": "2:2",
-      "catalogRole": "reusable-control"
+      "catalogRole": "reusable-control",
+      "captureReturn": {
+        "presentation": "append-captured-photo-to-composer-attachment-row",
+        "detailPreview": false,
+        "additionalConfirmation": false,
+        "preserveExistingContent": true,
+        "autoSubmit": false,
+        "figmaFrame": "2164:58664",
+        "evidence": "design-only"
+      }
     },
     {
       "componentId": "product-ppt-duration",
@@ -4050,7 +4102,8 @@
       "capabilities": [],
       "status": "design-contract-not-runtime",
       "states": [
-        "Default"
+        "Empty",
+        "Drawn"
       ],
       "actions": [
         "draw",
@@ -4116,7 +4169,8 @@
         "compactPhotoComponent": "2232:110030",
         "photoEntryVariable": "VariableID:2232:110015",
         "rowVisibleVariable": "VariableID:2232:110016",
-        "runtimeChanged": false
+        "runtimeChanged": false,
+        "reusableRowComponent": "2340:111096"
       },
       "parameterWidgetActions": {
         "closePosition": "top-right",
@@ -4133,7 +4187,31 @@
       },
       "confirmationButton": true,
       "figmaPageId": "2:2",
-      "catalogRole": "reusable-control"
+      "catalogRole": "reusable-control",
+      "drawingWidgetLayout": {
+        "header": [
+          "semantic-slide-title",
+          "top-right-close"
+        ],
+        "canvasMinHeight": 192,
+        "bottomRow": [
+          "pen",
+          "eraser",
+          "undo",
+          "clear",
+          "flexible-space",
+          "confirm"
+        ],
+        "buttonSize": 48,
+        "size": [
+          354,
+          314
+        ],
+        "emptyStateInstance": "2340:111126",
+        "drawnStateMaster": "2161:99138",
+        "floatingExternalToolbar": false,
+        "evidence": "design-only"
+      }
     },
     {
       "componentId": "product-ppt-composer",
@@ -4220,7 +4298,8 @@
         "compactPhotoComponent": "2232:110030",
         "photoEntryVariable": "VariableID:2232:110015",
         "rowVisibleVariable": "VariableID:2232:110016",
-        "runtimeChanged": false
+        "runtimeChanged": false,
+        "reusableRowComponent": "2340:111096"
       },
       "figmaPageId": "2:2",
       "catalogRole": "reusable-control"
@@ -4361,6 +4440,28 @@
       },
       "figmaPageId": "2:2",
       "catalogRole": "reusable-control"
+    },
+    {
+      "componentId": "attached-media-row",
+      "figmaNodeId": "2340:111096",
+      "figmaPageId": "2:2",
+      "name": "Input / Attached media row",
+      "catalogRole": "reusable-control",
+      "kind": "attachment-row",
+      "renderOwner": "design-only",
+      "status": "design-contract-not-runtime",
+      "runtimeApiAdded": false,
+      "components": {
+        "sketch": "2215:110046",
+        "photo": "2232:110017"
+      },
+      "position": "inside-composer-above-all-prose",
+      "direction": "horizontal",
+      "overflow": "horizontal-scroll",
+      "gap": 8,
+      "delete": "each-thumbnail-top-right",
+      "captureReturn": "append-without-detail-preview-or-extra-confirmation",
+      "autoSubmit": false
     }
   ],
   "skinLabels": {

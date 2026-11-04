@@ -1,4 +1,4 @@
-import {resolveLiveParameters} from '../../../packages/core/live-workbuddy';
+import {protectPolishParameters,validatePolishParameters} from '../../../packages/core/polish-parameters';
 import type {TextInputHandle} from './text-input-handle';
 import {contextualPolishActions,type PolishTarget} from '../../../packages/core/polish-actions';
 import {wbDraftFor} from '../../../packages/core/workbuddy';
@@ -19,6 +19,7 @@ export function usePhoneEditing(text:string, update:(text:string)=>void, area:Re
   const eventSequence=useRef(0),recognition=useRef(''),speechBinding=useRef({identity,commandMode});
   const [history,setHistory]=useState<string[]>([]),[future,setFuture]=useState<string[]>([]),[speech,setSpeech]=useState('idle'),[error,setError]=useState(''),[polish,setPolish]=useState(false);
   useEffect(()=>{if(speech!=='idle')return;const timer=setTimeout(()=>{setStableText(text);setStableIdentity(identity);setStableSelectionRevision(selectionRevision);},400);return()=>clearTimeout(timer);},[text,identity,selectionRevision,speech]);
+  useEffect(()=>{if(speech!=='finishing')return;const pending=session.current;const timer=setTimeout(()=>{if(session.current!==pending)return;window.MobileNative?.cancelRecognition(pending);session.current='';setSpeech('idle');setError('语音收尾未完成，已保留文字，请重试');},6500);return()=>clearTimeout(timer);},[speech]);
   const heard=useRef(false),session=useRef(''),before=useRef(''),speechSelection=useRef({start:0,end:0}),timer=useRef<ReturnType<typeof setTimeout>|null>(null),long=useRef(false),down=useRef(false),suppressClick=useRef(false),active=useRef(true);
   function change(next:string,remember=true) {editGeneration.current++;cancelPolish();setPolishError('');setPolishFailedAction('');if(remember&&next!==value.current){const previous=value.current;setHistory(h=>[...h,previous].slice(-50));setFuture([]);}value.current=next;apply.current(next);}
   function select(){if(area.current){const next={start:area.current.selectionStart,end:area.current.selectionEnd};if(next.start!==selection.current.start||next.end!==selection.current.end){cancelPolish();setSelectionRevision(v=>v+1);}selection.current=next;}}
@@ -57,11 +58,11 @@ export function usePhoneEditing(text:string, update:(text:string)=>void, area:Re
     if(!input.trim())return;if(input.length>4000){setPolishError('请选择 4000 字以内的文字');return;}
     const targetKey=targetStamp();
     const bound=identityRef.current,generation=editGeneration.current,controller=new AbortController();polishRequest.current=controller;setPolishing(true);setPolishAction(kind);setPolishFailedAction('');setPolishError('');
-    try{const result=await requestPolish(input,kind,controller.signal);
+    try{const protectedText=protectPolishParameters(input);const result=protectedText.restore(await requestPolish(protectedText.text,kind,controller.signal));
       const key=targetStamp();
       if(controller.signal.aborted||!active.current||!available.current||identityRef.current!==bound||generation!==editGeneration.current||value.current!==snapshot||selection.current.start!==start||selection.current.end!==end||key!==targetKey){if(active.current&&!controller.signal.aborted)setPolishError('文字或目标已变化，已保留当前内容');return;}
-      const protectedParameters=resolveLiveParameters(input,[]);if(protectedParameters.some(p=>!result.includes(p.phrase)))throw Error('润色改变了输入参数，原文已保留，请重试');
-      polishRequest.current=null;change(selected?snapshot.slice(0,start)+result+snapshot.slice(end):result);
+      const next=selected?snapshot.slice(0,start)+result+snapshot.slice(end):result;validatePolishParameters(snapshot,next);
+      polishRequest.current=null;change(next);
       selection.current={start:selected?start:0,end:(selected?start:0)+result.length};requestAnimationFrame(()=>area.current?.setSelectionRange(selection.current.start,selection.current.end));
     }catch(e){if(active.current&&!controller.signal.aborted){setPolishFailedAction(kind);setPolishError(e instanceof Error?e.message:'润色失败，原文已保留');}}
     finally{if(polishRequest.current===controller){polishRequest.current=null;setPolishing(false);setPolishAction('');}}

@@ -13,7 +13,7 @@ test('real polish bridge replaces text only on success, preserves undo and rejec
  for(const height of [844,700]){await phone.setViewportSize({width:390,height});for(const mode of ['收起','键盘','触控板']){
   const active=phone.locator('.input-mode-key[aria-pressed=true]');if(mode==='收起'){if(await active.count())await active.click();}else await phone.getByRole('button',{name:mode,exact:true}).click();
   await expect(polish).toBeVisible();const box=await polish.boundingBox(),dock=await phone.locator('.input-dock').boundingBox(),voice=await phone.getByRole('button',{name:'智慧语音',exact:true}).boundingBox(),send=await phone.getByRole('button',{name:/^发送(?:任务|生成网页演示)$/,exact:false}).boundingBox();
-  expect(box!.y+box!.height).toBeLessThanOrEqual(dock!.y+1);expect(voice!.y+voice!.height).toBeLessThanOrEqual(height);expect(send!.y+send!.height).toBeLessThanOrEqual(box!.y+1);
+  const composerBottom=await polish.evaluate(el=>el.previousElementSibling!.getBoundingClientRect().bottom);expect(box!.y-composerBottom).toBeCloseTo(8,0);expect(dock!.y-box!.y-box!.height).toBeCloseTo(8,0);expect(box!.y+box!.height).toBeLessThanOrEqual(dock!.y+1);expect(voice!.y+voice!.height).toBeLessThanOrEqual(height);expect(send!.y+send!.height).toBeLessThanOrEqual(box!.y+1);
   const sizes=await polish.locator('button').evaluateAll(a=>a.map(x=>({h:x.getBoundingClientRect().height,w:x.getBoundingClientRect().width})));expect(sizes.every(x=>x.h>=48&&x.w>=80)).toBe(true);
   await phone.screenshot({path:`artifacts/web-deck/polish-${height}-${mode}.png`});
  }}

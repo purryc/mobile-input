@@ -5,15 +5,15 @@ import {runInNewContext} from 'node:vm';
 import {transformSync} from 'esbuild';
 
 // Execute the native adapter itself; only device SDK dependencies are replaced.
-function nativeSpeech(fail=false,hapticFails=false,captureFails=false,delayStart=false){
+function nativeSpeech(fail=false,hapticFails=false,captureFails=false,delayStart=false,rejectLong=false){
  const events:{sessionId:string;type:string;text:string;message:string}[]=[];
  const pulses:{duration:number;usage:string}[]=[];
- let listener:any,read:((buffer:ArrayBuffer)=>void)|undefined,segment='';const starts:string[]=[],audio:number[]=[],finishes:string[]=[];
- const engine={setListener:(value:any)=>{listener=value;},startListening:({sessionId}:{sessionId:string})=>{segment=sessionId;starts.push(sessionId);if(!delayStart)listener.onStart(sessionId,'');},writeAudio:(_id:string,bytes:Uint8Array)=>audio.push(bytes.length),finish:(id:string)=>finishes.push(id),shutdown:()=>{}};
+ let listener:any,read:((buffer:ArrayBuffer)=>void)|undefined,segment='';const starts:string[]=[],audio:number[]=[],finishes:string[]=[],modes:string[]=[];
+ const engine={setListener:(value:any)=>{listener=value;},startListening:({sessionId}:{sessionId:string})=>{assert.match(sessionId,/^[A-Za-z0-9_-]{1,63}$/);segment=sessionId;starts.push(sessionId);if(!delayStart)listener.onStart(sessionId,'');},writeAudio:(_id:string,bytes:Uint8Array)=>audio.push(bytes.length),finish:(id:string)=>finishes.push(id),shutdown:()=>{}};
  const capturer={on:(_name:string,fn:(buffer:ArrayBuffer)=>void)=>{read=fn;},off:()=>{read=undefined;},start:async()=>{if(captureFails)throw new Error('capture failed');},stop:async()=>{},release:async()=>{}};
  const kits:Record<string,unknown>={
   '@kit.AudioKit':{audio:{AudioSamplingRate:{SAMPLE_RATE_16000:16000},AudioChannel:{CHANNEL_1:1},AudioSampleFormat:{SAMPLE_FORMAT_S16LE:1},AudioEncodingType:{ENCODING_TYPE_RAW:1},SourceType:{SOURCE_TYPE_VOICE_RECOGNITION:1},createAudioCapturer:async()=>capturer}},
-  '@kit.CoreSpeechKit':{speechRecognizer:{createEngine:async(params:{language:string;online:number})=>{if(fail||params.language!=='zh-CN'||params.online!==1)throw Object.assign(new Error('Asr CreateEngineParams is wrong!'),{code:1002200001});return engine;}}},
+  '@kit.CoreSpeechKit':{speechRecognizer:{createEngine:async(params:{language:string;online:number;extraParams:{recognizerMode:string}})=>{modes.push(params.extraParams.recognizerMode);if(rejectLong&&params.extraParams.recognizerMode==='long')throw Object.assign(new Error('unsupported mode'),{code:1002200001});if(fail||params.language!=='zh-CN'||params.online!==1)throw Object.assign(new Error('Asr CreateEngineParams is wrong!'),{code:1002200001});return engine;}}},
   '@kit.AbilityKit':{abilityAccessCtrl:{createAtManager:()=>({requestPermissionsFromUser:async()=>({authResults:[0]})})}},
   '@kit.SensorServiceKit':{vibrator:{startVibration:async(effect:{duration:number},attribute:{usage:string})=>{pulses.push({duration:effect.duration,usage:attribute.usage});if(hapticFails)throw new Error('no vibrator');}}},
  };
@@ -21,7 +21,7 @@ function nativeSpeech(fail=false,hapticFails=false,captureFails=false,delayStart
  runInNewContext(code,{module,exports:module.exports,require:(name:string)=>{assert.ok(name in kits,name);return kits[name];},Uint8Array,DataView,Date,JSON,Error,setTimeout:(fn:()=>void,ms:number)=>{const t=setTimeout(fn,ms);t.unref();return t;},clearTimeout});
  const controller={runJavaScript:async(script:string)=>{runInNewContext(script,{window:{dispatchEvent:(event:any)=>events.push(event.detail)},CustomEvent:class{detail:unknown;constructor(_name:string,options:{detail:unknown}){this.detail=options.detail;}}});}};
  const speech=new module.exports.Speech({},controller);
- return {speech,events,pulses,callbacks:()=>listener,segment:()=>segment,starts,audio,finishes,feed:(bytes=640)=>read?.(new ArrayBuffer(bytes))};
+ return {speech,events,pulses,callbacks:()=>listener,segment:()=>segment,starts,audio,finishes,modes,feed:(bytes=640)=>read?.(new ArrayBuffer(bytes))};
 }
 const flush=()=>new Promise(resolve=>setImmediate(resolve));
 test('legacy online retry still starts supported on-device recognition without an invalid engine request',async()=>{
@@ -30,9 +30,9 @@ test('legacy online retry still starts supported on-device recognition without a
 test('capture boundaries pulse once, duplicate callbacks/results and stopping do not repeat haptics',async()=>{
  const {speech,pulses,callbacks}=nativeSpeech();speech.startRecognition('pulse',false,true);await flush();
  assert.deepEqual(pulses,[{duration:25,usage:'touch'}]);
- callbacks().onStart('pulse:1','');callbacks().onResult('pulse:1',{result:'你好',isLast:false,isFinal:false});await flush();assert.equal(pulses.length,1);
+ callbacks().onStart('pulse_1','');callbacks().onResult('pulse_1',{result:'你好',isLast:false,isFinal:false});await flush();assert.equal(pulses.length,1);
  speech.stopRecognition('pulse');speech.stopRecognition('pulse');await flush();assert.equal(pulses.length,2);
- callbacks().onComplete('pulse:1','');speech.cancelRecognition('pulse');await flush();assert.equal(pulses.length,2);
+ callbacks().onComplete('pulse_1','');speech.cancelRecognition('pulse');await flush();assert.equal(pulses.length,2);
 });
 test('failed engine or capturer never signals an open microphone and missing haptics never blocks speech',async()=>{
  for(const [engineFail,captureFail] of [[true,false],[false,true]]){const {speech,pulses}=nativeSpeech(engineFail,false,captureFail);speech.startRecognition('fail',false,true);await flush();assert.equal(pulses.length,0);}
@@ -68,6 +68,25 @@ test('stop during startup cannot later open capture; cancelled sessions reject l
  const count=n.events.length;n.callbacks().onResult(old,{result:'过期文本',isFinal:true,isLast:true});n.callbacks().onComplete(old,'');assert.equal(n.events.length,count);n.speech.cancelRecognition('new');
 });
 test('manual capture remains active during silence and explicit stop finishes only the current engine segment',async()=>{
- const n=nativeSpeech();n.speech.startRecognition('silent',false,true);await flush();for(let i=0;i<4000;i++)n.feed();
+ const n=nativeSpeech();n.speech.startRecognition('silent',false,true);await flush();for(let i=0;i<700;i++)n.feed();
  assert.equal(n.finishes.length,0);assert.equal(n.pulses.length,1);n.speech.stopRecognition('silent');await flush();assert.deepEqual(n.finishes,[n.segment()]);n.callbacks().onComplete(n.segment(),'');
+});
+
+test('unsupported long mode falls back to short segments without changing manual completion semantics',async()=>{
+ const n=nativeSpeech(false,false,false,false,true);n.speech.startRecognition('fallback',false,true);await flush();assert.deepEqual(n.modes,['long','short']);n.callbacks().onComplete(n.segment(),'');assert.equal(n.starts.length,2);assert.equal(n.events.some(e=>e.type==='complete'),false);n.speech.cancelRecognition('fallback');
+});
+test('stop during segment handover finishes once after readiness, keeping buffered audio',async()=>{
+ const n=nativeSpeech(false,false,false,true);n.speech.startRecognition('handover-stop',false,true);await flush();n.callbacks().onStart(n.segment(),'');await flush();n.callbacks().onComplete(n.segment(),'');n.feed(1280);n.speech.stopRecognition('handover-stop');await flush();assert.equal(n.finishes.length,0);n.callbacks().onStart(n.segment(),'');n.callbacks().onStart(n.segment(),'');assert.equal(n.finishes.length,1);assert.equal(n.audio.length,2);n.callbacks().onComplete(n.segment(),'');assert.equal(n.events.filter(e=>e.type==='complete').length,1);assert.equal(n.pulses.length,2);
+});
+
+test('SDK segment identifiers are bounded and use only the native allowed alphabet',async()=>{const n=nativeSpeech();n.speech.startRecognition('owner:field/'+ 'z'.repeat(100),false,true);await flush();assert.match(n.segment(),/^[A-Za-z0-9_-]{1,63}$/);assert.ok(n.events.some(e=>e.type==='start'));n.speech.cancelRecognition('');});
+
+test('two-minute manual audio rotates below the SDK length cap without closing capture or completing dictation',async()=>{
+ const n=nativeSpeech();n.speech.startRecognition('two-minutes',false,true);await flush();let handled=0;
+ for(let i=0;i<6000;i++){
+  n.feed();
+  if(n.finishes.length>handled){const id=n.finishes[handled++];n.callbacks().onResult(id,{result:'一段。',isFinal:true,isLast:true});n.callbacks().onComplete(id,'');}
+ }
+ assert.equal(n.finishes.length,8);assert.equal(n.starts.length,9);assert.equal(n.events.some(e=>e.type==='complete'),false);assert.equal(n.pulses.length,1);assert.equal(n.audio.reduce((a,b)=>a+b,0),6000*640);
+ n.speech.stopRecognition('two-minutes');await flush();n.callbacks().onComplete(n.segment(),'');assert.equal(n.pulses.length,2);assert.equal(n.events.at(-1)?.text,'一段。'.repeat(8));
 });

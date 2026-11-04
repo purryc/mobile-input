@@ -1,7 +1,7 @@
 import test from 'node:test';import assert from 'node:assert/strict';
 import {extractLiveParameters,resolveLiveParameters,livePrompt} from './live-workbuddy';
 test('real prompt retains separately owned colors, time and source spans',()=>{const text='做一份产品介绍PPT，讲10分钟。参考产品资料，放入实拍照片。背景用灰色，主色用红色，字体用黑色。产品展示页的布局我画一下。';const p=resolveLiveParameters(text,[]);assert.equal(p.length,7);assert.equal(p.filter(x=>x.kind==='color').length,3);for(const x of p)assert.equal(text.slice(x.start,x.end),x.phrase);assert.equal(p.at(-1)?.scope,'产品展示页');});
-test('ordinary descriptors, negations and vague duration never invent parameters',()=>{for(const text of ['产品是红色的','不要红色','背景不要红色','讲短一点','布局你来排版','布局你来画一下'])assert.deepEqual(extractLiveParameters(text),[]);assert.equal(extractLiveParameters('背景用高级灰')[0].value,'');});
+test('ordinary descriptors, negations and vague duration never invent parameters',()=>{for(const text of ['产品是红色的','不要红色','背景不要红色','讲短一点'])assert.deepEqual(extractLiveParameters(text),[]);assert.equal(extractLiveParameters('背景用高级灰')[0].value,'');});
 test('manual settings survive unchanged source and explicit corrections replace them',()=>{const text='主色用红色';const p=resolveLiveParameters(text,[]);p[0]={...p[0],manual:true,value:'#123456'};assert.equal(resolveLiveParameters(text,p)[0].value,'#123456');assert.equal(resolveLiveParameters('主色用蓝色',p)[0].value,'#356FE4');assert.deepEqual(resolveLiveParameters('不要红色',p),[]);});
 test('separate page scope and last explicit correction are preserved',()=>{const p=extractLiveParameters('第一页背景用红色。第二页背景用蓝色。主色用红色，主色改为黑色');assert.equal(p.length,3);assert.equal(p[2].value,'#182431');});
 test('submission preserves prose and only serializes actual edits/materials',()=>{const p=extractLiveParameters('讲10分钟');assert.equal(livePrompt('讲10分钟',p,[]),'讲10分钟');p[0].manual=true;p[0].value='11';assert.match(livePrompt('讲10分钟',p,[]),/讲11分钟/);});
@@ -25,3 +25,5 @@ test('readback echoes preserve local widgets and genuine target edits invalidate
  const {reconcileTargetInput,livePrompt}=await import('./live-workbuddy');const text='主色用红色',p=resolveLiveParameters(text);p[0]={...p[0],manual:true,value:'#123456'};const projection=livePrompt(text,p,[]);
  assert.deepEqual(reconcileTargetInput(text,p,projection,projection),{text,parameters:p});const edited=reconcileTargetInput(text,p,'主色用黑色',projection);assert.equal(edited.parameters[0].value,'#182431');assert.equal(edited.parameters[0].manual,false);
 });
+
+test('layout word suggests an optional sketch entry even when prose delegates layout',()=>{for(const text of ['布局你来排版','布局你来画一下'])assert.equal(extractLiveParameters(text).filter(p=>p.kind==='sketch').length,1);});

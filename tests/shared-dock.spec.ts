@@ -65,6 +65,6 @@ test('trackpad taps click, double taps dispatch double-click, motion and cancell
  await phone.waitForTimeout(400);expect(await tablet.evaluate(()=>(window as any).tapEvents.length)).toBe(4);await tablet.evaluate(()=>document.querySelector('#tap-probe')?.remove());
  // Actual app action via a tap at the remote cursor.
  const icon=(await tablet.locator('.demo-apps').getByRole('button',{name:'WorkBuddy',exact:true}).boundingBox())!,size=tablet.viewportSize()!,center={x:box.x+box.width/2,y:box.y+box.height/2};
- await phone.mouse.move(center.x,center.y);await phone.mouse.down();await phone.mouse.move(center.x+((icon.x+icon.width/2)/size.width-.5)*500,center.y+((icon.y+icon.height/2)/size.height-.5)*500,{steps:8});await phone.mouse.up();await pad.tap();await expect(tablet.getByLabel('WorkBuddy 任务输入')).toBeVisible();
+ await phone.mouse.move(center.x,center.y);await phone.mouse.down();await phone.mouse.move(center.x+((icon.x+icon.width/2)/size.width-.5)*500,center.y+((icon.y+icon.height/2)/size.height-.5)*500,{steps:8});await phone.mouse.up();await pad.tap();await expect(tablet.getByLabel('WorkBuddy 任务输入',{exact:true})).toBeVisible();
  await ctx.close();
 });

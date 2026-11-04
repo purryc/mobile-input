@@ -31,3 +31,7 @@ __pycache__/
 
 # Private API provisioning input
 /Google API.md
+
+# Local source handoff archives (never public source)
+/Input-Agent-*.zip
+/Input-Agent-*.sha256

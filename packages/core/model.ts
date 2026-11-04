@@ -117,7 +117,7 @@ function applyInternal(s:State,c:Command):{state:State;ack:Ack}{
  case 'game-keys':if(n.app!=='mario')return fail('游戏未打开');if(!Array.isArray(v)||v.some(k=>!['ArrowLeft','ArrowRight','Space','Shift'].includes(k)))return fail('按键无效');n.gameKeys=v;n.gameHeartbeat=Date.now();break;
  case 'game-pause':n.gamePaused=Boolean(v);n.gameKeys=[];break;
  case 'game-reset':n.gameEpoch++;n.gamePaused=false;n.gameKeys=[];break;
- case 'release':if(n.paint)n.paint.epoch++;n.inputPointer=undefined;n.capture=null;if(n.workbuddy.fileBrowser)delete n.workbuddy.fileBrowser.objectPointer;if(n.app==='workbuddy')pauseWorkBuddy(n);n.presentation.captions={...n.presentation.captions,id:'',enabled:false,status:'off',text:'',error:''};n.chat.activation=null;n.gameKeys=[];n.switcher=null;releasePointer(n);if(n.chat.context?.readAt)n.chat.context.readAt=-Math.abs(n.chat.context.readAt);break;
+ case 'release':if(n.paint)n.paint.epoch++;n.inputPointer=undefined;n.capture=null;if(n.workbuddy.fileBrowser)delete n.workbuddy.fileBrowser.objectPointer;if(n.app==='workbuddy'&&c.inputClient===undefined&&!(v as {controlsOnly?:boolean}|undefined)?.controlsOnly)pauseWorkBuddy(n);n.presentation.captions={...n.presentation.captions,id:'',enabled:false,status:'off',text:'',error:''};n.chat.activation=null;n.gameKeys=[];n.switcher=null;releasePointer(n);if(n.chat.context?.readAt)n.chat.context.readAt=-Math.abs(n.chat.context.readAt);break;
  default:return fail('不支持的操作');
  }
  reconcileCapture(n);reconcileOfficeFiles(n);n.revision=s.revision+1;return {state:n,ack:{id:c.id,ok:true,revision:n.revision}};
@@ -125,6 +125,7 @@ function applyInternal(s:State,c:Command):{state:State;ack:Ack}{
 export class Store {
  state:State;private seen=new Map<string,Ack>();private history:State[]=[];
  constructor(state=initialState()){this.state=state;}
+ receipt(id:string):Ack|undefined{return this.seen.get(id);}
  dispatch(c:Command):Ack {const old=this.seen.get(c.id);if(old)return old;let result:{state:State;ack:Ack};
  if(c.demoGeneration!==undefined&&c.demoGeneration!==(this.state.demoGeneration||0)){return {id:c.id,ok:false,error:'演示已重置，请同步后重试',revision:this.state.revision};}
  if(c.type==='demo-reset'){result=apply(this.state,c);if(result.ack.ok){this.history=[];this.seen.clear();}}
