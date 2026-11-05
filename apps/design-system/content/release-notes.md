@@ -31,3 +31,11 @@ Limits: the website makes no real model calls, devices, product storage or task 
 线上选区验证发现受控 textarea 回填会覆盖提前恢复的光标。现改为在 React 提交后恢复，浏览器实测光标停留在替换片段末尾（24），而不是全文末尾（36）；参数与撤销保持不变。规则版本不变，源码版本由 release.json 分别记录。上一发布提交 `0d9bdf0ee572489824b1db51c446a04462cf2945` 可供回退。
 
 Live selection verification found that the controlled textarea commit overwrote early caret restoration. The preview now restores it after React commits. Browser readback verified offset 24 at the replacement boundary, instead of 36 at the full-text end. Parameters and undo remain intact. Rule version is unchanged; release.json records the separate source version. Previous release commit: `0d9bdf0ee572489824b1db51c446a04462cf2945`.
+
+## Live component documentation · 2026-11-05
+
+- 组件目录与详情取消截图展示，构建不再发布组件截图。优先浏览可交互条目；未接入独立示例的条目保留状态与 Figma／源码链接。
+- 新增直接复用产品源码的弹性编辑区和句内参数编辑器，共 9 项真实示例；A2UI 仍为 7 项，单独标注，不把 React 展示误认为协议已接入。
+- 详情顶部提供 Figma 来源和源码入口；图片输入链接到已登记图片选择节点。
+
+Component screenshots are removed from the gallery, detail pages and build output. Nine entries now have real shared specimens, including the flexible composer and sentence parameter composer. Seven remain A2UI-enabled; React and A2UI availability are tracked independently. Figma and source links are accessible above each example.

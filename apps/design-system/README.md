@@ -14,13 +14,13 @@ The preview uses `/mobile-input/` and hash routes so component deep links surviv
 ## Source ownership
 
 - Notion is the sole authoring source for design rules. `content/rules-snapshot.json` is a reviewed publication excerpt with source edit time, not a second rulebook. Update Notion first, then replace the release excerpt and version.
-- `docs/input-design-contract/definitions.json` owns existing stable IDs. `content/component-bindings.json` connects those IDs to the seven live examples and registers three newly exposed entries. `scripts/prepare.mjs` combines them; the website does not maintain a duplicate catalog list.
+- `docs/input-design-contract/definitions.json` owns existing stable IDs. `content/component-bindings.json` connects those IDs to the live examples and registers three newly exposed entries. `scripts/prepare.mjs` combines them; the website does not maintain a duplicate catalog list.
 - `src/catalog-api.ts` owns the executable A2UI APIs; renderer, schema downloads and examples use it. Official protocol v0.9.1, `@a2ui/react` and `@a2ui/web_core` 0.15.0 are pinned. Zod 3 is isolated from product Zod 4; React and icon dependencies resolve through the site.
-- `public/generated/`, `public/reference-assets/`, `src/generated.json`, `src/prompts.json` and `dist/` are reproducible build output. Do not edit them. Generated assets contain only reviewed design previews, widget SVGs, public metadata and fictional examples.
+- `public/generated/`, `public/reference-assets/`, `src/generated.json`, `src/prompts.json` and `dist/` are reproducible build output. Do not edit them. Generated assets contain only widget SVGs, public metadata and fictional examples.
 
 ## Honest capability boundaries
 
-91 registry entries are covered, including historical entries. Seven components have real interactive specimens and A2UI bindings. The remaining entries show design/source evidence and explicitly state that isolated interactive specimens and A2UI integration are not available. Registry evidence is not real-device acceptance.
+91 registry entries are covered, including historical entries. Nine entries have real interactive specimens; seven have A2UI bindings. The remaining entries link to Figma and source, with explicit specimen and A2UI status. Component screenshots are not shipped or used as substitutes for live controls. Registry evidence is not real-device acceptance.
 
 `ContextualPolishActions` reuses real presentation, `contextualPolishActions` and parameter protection. The independent `DemoEditor` mirrors product text-history semantics without importing `usePhoneEditing`. Results are fixed fixture transformations, never model generation; custom text can evaluate actions but receives no fabricated output. Original internal model instructions remain untranslated and read-only.
 

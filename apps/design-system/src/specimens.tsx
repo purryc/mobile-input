@@ -1,8 +1,10 @@
 import {useEffect,useLayoutEffect,useRef,useState,useSyncExternalStore,type ReactNode} from 'react';
 import {ImagePlus,Check,ArrowUp,Undo2,Redo2} from 'lucide-react';
-import {ActionChip,ImageInput,ColorInput,DurationInput,SketchInput,AuxiliaryPanel,ContextualPolishActions} from './components';
+import {ActionChip,ImageInput,ColorInput,DurationInput,SketchInput,AuxiliaryPanel,ContextualPolishActions,Composer,SentenceComposer} from './components';
 import {DemoEditor,samples,imageTransition,type ImageState,type Outcome,type DemoEvent} from './demo-controller';
-import {t,uiText} from './i18n';
+import {t,uiText,getLanguage} from './i18n';
+import {extractLiveParameters} from '../../../packages/core/live-workbuddy';
+import type {WorkBuddyInput} from '../../../packages/core/workbuddy-input';
 export function PreviewHost({children,theme='workbuddy'}:{children:ReactNode;theme?:string}){return <div className={'preview-host live-workbuddy theme-'+theme}><div className="preview-inner">{children}<div className="input-dock token-anchor" aria-hidden="true"/></div></div>;}
 const statuses:Record<string,[string,string]>={ready:['选择动作，或选中一段文字','Choose an action or select some text'],busy:['处理中 · 模拟结果','Processing · simulated result'],applied:['模拟结果已回填，可撤销','Simulated result applied; undo is available'],failure:['模拟请求失败，点击操作重试','Simulated failure. Retry the action'],unchanged:['未发生修改，原文已保留','No changes; original retained'],stale:['文字或目标已变化，过期结果未回填','Text or target changed; stale result discarded'],protected:['参数保护失败，原文已保留','Parameter protection failed; original retained'],undone:['已撤销，参数与材料身份保持不变','Undone; parameter and material identity preserved'],'no-fixture':['当前文字没有固定结果样例，仅验证动作选择','No result fixture for this text; action selection only']};
 export function PolishDemo({editor:external,onEvent}:{editor?:DemoEditor;onEvent?:(event:DemoEvent)=>void}){
@@ -26,9 +28,22 @@ export function ImageDemo({onEvent}:{onEvent?:(e:DemoEvent)=>void}){
 export function Specimen({name,onEvent}:{name:string;onEvent?:(e:DemoEvent)=>void}){
  const [value,setValue]=useState('#E03131'),[duration,setDuration]=useState('10'),[strokes,setStrokes]=useState<number[][][]>([]),[message,setMessage]=useState(''),[closed,setClosed]=useState(false);
  const event=(eventName:string,status:string)=>{setMessage(status);onEvent?.({name:eventName,contextId:name==='SketchInput'?'demo-sketch':'demo-'+name,status});};
+ if(name==='Composer'||name==='SentenceComposer')return <ComposerDemo inline={name==='SentenceComposer'}/>;
  if(name==='ImageInput')return <ImageDemo onEvent={onEvent}/>;
  if(name==='ContextualPolishActions')return <PolishDemo onEvent={onEvent}/>;
  if(name==='ActionChip')return <div className="chip-specimen"><ActionChip icon={<ImagePlus size={16}/>} onClick={()=>event('action.activate','activated')}>{t('添加材料','Add material')}</ActionChip><ActionChip loading>{t('处理中','Processing')}</ActionChip><ActionChip disabled>{t('不可用','Unavailable')}</ActionChip><p role="status">{message}</p></div>;
  if(closed)return <button onClick={()=>setClosed(false)}>{t('重新打开','Reopen')}</button>;
  return <><AuxiliaryPanel title={name==='ColorInput'?t('主题主色','Primary color'):name==='DurationInput'?t('演讲时长','Duration'):name==='SketchInput'?t('布局草图','Layout sketch'):t('辅助输入','Auxiliary input')} onClose={()=>setClosed(true)}>{name==='ColorInput'?<ColorInput value={value} label="主题色" onChange={v=>{setValue(v);event('value.change',v);}} onActive={()=>{}} onDone={()=>setClosed(true)}/>:name==='DurationInput'?<DurationInput value={duration} onChange={v=>{setDuration(v);event('value.change',v);}}/>:name==='SketchInput'?<SketchInput strokes={strokes} onChange={setStrokes} onActive={()=>{}} onAdopt={()=>event('sketch.confirm',t('已确认；模拟同步到原草稿','Confirmed; simulated sync to original draft'))}/>:<p>{t('一次只展开一个辅助面板；关闭保留未确认内容。','Only one auxiliary panel opens at a time; closing retains pending content.')}</p>}</AuxiliaryPanel><p role="status" className="demo-status">{message}</p></>;
+}
+
+function ComposerDemo({inline}:{inline:boolean}){
+ const initial='请介绍今年的重点产品，背景用灰色，字体用黑色。';
+ const [text,setText]=useState(initial),[active,setActive]=useState<string|null>(null),[disabled,setDisabled]=useState(false);
+ const parameters=extractLiveParameters(text),parameter=parameters.find(p=>p.id===active);
+ const input:WorkBuddyInput={revision:0,color:null,excludedColors:[],layout:false,sketch:{strokes:[],confirmed:false,interpretation:null},mode:null};
+ return <div className="composer-demo"><div className="demo-options"><label><input type="checkbox" checked={disabled} onChange={e=>{setDisabled(e.target.checked);setActive(null);}}/>{t('禁用编辑','Disable editing')}</label><button onClick={()=>{setText(initial);setActive(null);}}>{t('重置示例','Reset example')}</button></div>
+ <Composer label={t('共享编辑区','Shared composer')}><SentenceComposer key={getLanguage()} ariaLabel={t('示例草稿','Example draft')} text={text} files={[]} parameters={[]} input={input} active={null} disabled={disabled} placeholder={t('输入文字…','Enter text…')} onChange={value=>{setText(value);setActive(null);}} onSelect={()=>{}} onFocus={()=>{}} onOpen={()=>{}} live={inline?{parameters,active,open:setActive}:undefined}/></Composer>
+ {parameter?.kind==='color'&&<AuxiliaryPanel title={parameter.role} onClose={()=>setActive(null)}><ColorInput value={parameter.value} label={parameter.role} onActive={()=>{}} onChange={value=>{setText(text.slice(0,parameter.start)+value+text.slice(parameter.end));setActive(null);}} onDone={()=>setActive(null)}/></AuxiliaryPanel>}
+ <p role="status" className="demo-status">{parameter&&parameter.kind!=='color'?t('已选择参数入口；此示例仅接通颜色编辑。','Parameter entry selected; this specimen connects color editing only.'):t('可直接输入；修改仅保留在当前示例。','Type directly; changes stay in this specimen.')}</p>
+ </div>;
 }
