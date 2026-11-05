@@ -1,0 +1,28 @@
+import {readFileSync,writeFileSync,mkdirSync,copyFileSync,readdirSync} from 'node:fs';
+import {createHash} from 'node:crypto';
+import {execFileSync} from 'node:child_process';
+import {fileURLToPath} from 'node:url';
+import path from 'node:path';
+const site=fileURLToPath(new URL('..',import.meta.url)),repo=path.resolve(site,'../..');
+const read=p=>JSON.parse(readFileSync(path.join(repo,p),'utf8'));
+const definitions=read('docs/input-design-contract/definitions.json'), bindings=read('apps/design-system/content/component-bindings.json'),rules=read('apps/design-system/content/rules-snapshot.json');
+const manifest=read('docs/input-design-contract/component-previews/manifest.json');
+const rows=read('docs/input-design-contract/component-functions.json').rows;
+const publicDir=path.join(site,'public/generated');mkdirSync(publicDir,{recursive:true});mkdirSync(path.join(publicDir,'previews'),{recursive:true});
+const category=c=>/媒体|播放|绘画|旋钮|推杆|键盘|触控|设备|画笔|控制/.test(c.名称)?'device':/状态|反馈|任务提醒|动效/.test(c.名称)?'feedback':/材料|附件|采集|相机|草图/.test(c.名称)?'materials':/颜色|参数|滑杆|步进|日期|选项/.test(c.名称)?'parameters':/文本|编辑|输入|语音|选区/.test(c.名称)?'text':'actions';
+const components=definitions.components.map(c=>{const b=bindings[c.id],preview=manifest.find(p=>p.id===c.id);return {id:c.id,zh:b?.zh||c.名称.split(' · ')[0],en:b?.en||(c.名称.split(' · ')[1]||c.id).replace(/-/g,' '),category:b?.category||category(c),level:c.层级,export:b?.export||null,aliases:b?.aliases||[],source:b?.source||c.代码证据.split('；')[0].split(':')[0],design:c.设计证据,states:c.状态,params:c.参数,events:c.事件,implementation:b?'shared-display':c.实现状态,adoption:b?'shared-agent':(/apps\/web/.test(c.代码证据)?'source-referenced':'not-verified'),lifecycle:/被.*替代/.test(c.实现状态)?'replaced':/历史/.test(c.名称)?'historical':/需.*迁移/.test(c.实现状态)?'migration-needed':'current',gap:c.缺口,preview:preview?.file||null,functions:rows.find(r=>r.component.id===c.id)?.functions||[]};});
+for(const [id,b] of Object.entries(bindings))if(!components.some(c=>c.id===id))components.push({id,...b,level:'输入组合',design:null,states:'Empty / Ready / Busy / Error',params:'See executable Catalog',events:'See executable Catalog',implementation:'shared-display',adoption:'shared-agent',lifecycle:'current',gap:'',preview:null,functions:[]});
+for(const p of manifest)copyFileSync(path.join(repo,'docs/input-design-contract/component-previews',p.file),path.join(publicDir,'previews',p.file));
+const widgetDir=path.join(site,'public/reference-assets/workbuddy-widgets');mkdirSync(widgetDir,{recursive:true});
+for(const f of readdirSync(path.join(repo,'apps/web/public/reference-assets/workbuddy-widgets')))if(f.endsWith('.svg'))copyFileSync(path.join(repo,'apps/web/public/reference-assets/workbuddy-widgets',f),path.join(widgetDir,f));
+let commit='unknown';try{commit=execFileSync('git',['rev-parse','HEAD'],{cwd:repo,encoding:'utf8',stdio:['ignore','pipe','ignore']}).trim();}catch{}
+const hash=p=>createHash('sha256').update(readFileSync(path.join(repo,p))).digest('hex');
+const provenance={release:rules.release,sourceCommit:commit,registryVersion:definitions.version,registryHash:hash('docs/input-design-contract/definitions.json'),ruleHash:hash('apps/design-system/content/rules-snapshot.json'),polishHash:hash('packages/core/polish-actions.ts'),notion:rules.source,protocol:'v0.9.1',reactRenderer:'0.15.0',generatedBy:'scripts/prepare.mjs'};
+const data={components,icons:definitions.icons,provenance,rules:rules.rules};
+writeFileSync(path.join(site,'src/generated.json'),JSON.stringify(data));
+for(const [name,value] of Object.entries({'registry.json':data,'rules.json':rules,'release.json':provenance,'tokens.json':read('docs/liquid-glass-tokens.json')}))writeFileSync(path.join(publicDir,name),JSON.stringify(value,null,2));
+const source=readFileSync(path.join(repo,'packages/core/polish-actions.ts'),'utf8');
+const prompts=[...source.matchAll(/\{id:'([^']+)',label:'([^']+)',instruction:'([^']+)'\}/g)].map(m=>({id:m[1],label:m[2],instruction:m[3],exposed:m[1]!=='task-clear'}));
+writeFileSync(path.join(publicDir,'prompts.json'),JSON.stringify({source:'packages/core/polish-actions.ts',hash:provenance.polishHash,prompts},null,2));
+writeFileSync(path.join(site,'src/prompts.json'),JSON.stringify(prompts,null,2));
+console.log(`Prepared ${components.length} components, ${manifest.length} design previews and ${prompts.length} read-only instructions.`);

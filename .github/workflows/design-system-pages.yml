@@ -1,0 +1,52 @@
+name: Publish Design System
+on:
+  workflow_dispatch:
+    inputs:
+      source_ref:
+        description: 'Commit or ref to publish (use a previous release SHA to roll back)'
+        required: false
+        default: main
+permissions:
+  contents: read
+concurrency:
+  group: design-system-pages
+  cancel-in-progress: false
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.source_ref }}
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Verify release belongs to main history
+        run: |
+          git merge-base --is-ancestor HEAD origin/main
+          echo "Source commit: $(git rev-parse HEAD)" >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: apps/design-system/package-lock.json
+      - run: npm ci --prefix apps/design-system --ignore-scripts
+      - run: npm run prepare:content --prefix apps/design-system
+      - run: npm test --prefix apps/design-system
+      - run: npm run build --prefix apps/design-system
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: apps/design-system/dist
+          retention-days: 30
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    steps:
+      - name: Deploy Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

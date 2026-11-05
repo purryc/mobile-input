@@ -1,5 +1,13 @@
 # Mobile Input project rules
 
+## Design System website and A2UI sandbox · 2026-11-05
+- Implement the approved bilingual documentation site in `apps/design-system/`; Notion remains the canonical design rule source. Published snapshots are derived, versioned evidence, never a second editable rulebook.
+- Reuse product components; isolate preview state, storage, themes and fixture services from device/runtime imports. ImageInput is the public name; preserve legacy photo protocol and persisted identities. Confirmed attachments synchronize to the owning unsent draft; task Send remains separate.
+- Ship the reviewed A2UI v0.9.1 catalog and local sandbox with allowlisted components/actions and fictional fixtures. Never execute model output as code, invoke real models/devices, or present fixtures as real generated results.
+- The user explicitly authorizes scoped source commit/push and GitHub Pages publication to purryc/mobile-input for this website. Preserve unrelated worktree edits. Release through the manually dispatched Pages workflow; no device installation or Figma change.
+- `.github/workflows/` contains the manually dispatched website build/deploy workflow; it uploads only `apps/design-system/dist/`. Do not add automatic publication triggers.
+- New site directories: `src/` application/catalog/fixtures, `content/` reviewed release metadata, `scripts/` generators and checks, `tests/` meaningful contracts, `public/generated/` generated reviewed resources, `dist/` ignored build output. Use lowercase-kebab-case file names; generated files must name their source and be reproducible. QA evidence stays in ignored `artifacts/design-system/`.
+
 ## Explicit GitHub source backup · 2026-11-04
 - User requests publishing the accumulated source updates to `purryc/mobile-input` on the existing `main` branch. This overrides earlier no-publication limits only for this source backup. Include bilingual change notes and truthful validation limits; exclude credentials, signing inputs, private AX/screenshots, device state, recordings and built packages. No device operation or real task execution is part of publication.
 

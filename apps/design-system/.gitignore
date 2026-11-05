@@ -1,0 +1,7 @@
+node_modules/
+dist/
+public/generated/
+src/generated.json
+
+src/prompts.json
+public/reference-assets/

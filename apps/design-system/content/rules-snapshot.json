@@ -1,0 +1,35 @@
+{
+  "source": "https://app.notion.com/p/3f9194db24c38165996cf89b22e7d69e?pvs=204",
+  "sourcePageId": "3f9194db24c38165996cf89b22e7d69e",
+  "sourceEditedAt": "2026-11-05T20:34:59.283Z",
+  "release": "2026-11-05.1",
+  "publicationAmendment": "## Design System 发布规则 · 2026-11-05\n\n- 本页继续作为设计规则唯一维护源；网站仅发布可追溯快照与中英文说明。指南、组件、场景、A2UI、资源为五个一级栏目。组件保留稳定 ID，设计登记、代码实现、应用接入分别标识。\n- 公开名称统一为 ImageInput，控件标题为“图片选择”；代码展示层为 AgentImageInput，历史 photo 参数、协议和存储身份保持兼容。\n- 当前附件规则覆盖此前“确认后不传输／仅 Send 传输”的描述：未确认的图片和草图保留本地；确认进入 Composer 后立即向原目标未发送草稿同步实际字节和采用状态。移除只作用于该草稿中的对应附件，失败保留原归属和重试状态。Send 独立且等待同步验证；重连不得重放任务提交。\n- 文本辅助分为 ContextualPolishActions 组件、文本润色／Agent 指令场景、动作与内部指令规则。Prompt 优化是文档名称；产品仍使用内容条件允许的“整理结构／精简表达”。短指令、纯参数、空内容可无动作。动作由 contextualPolishActions 计算，未暴露动作不作为可用能力宣传。\n- 润色只处理当前选区或全文，保留选区、参数、材料归属和共享撤销历史；执行前重新核验目标、版本和动作，过期结果不回填。内部指令原文只读并关联源码版本。\n- A2UI v0.9.1 使用登记的 Catalog 与宿主编辑上下文；polish.request 只提出动作 ID，宿主核验后执行。描述不得自带任意内部指令、服务地址或权限。网页沙盒使用隔离的固定样例，不连接真实模型、设备或产品存储。\n",
+  "scope": "Reviewed design-only publication excerpt. Maintain rules in Notion, regenerate this snapshot for a release.",
+  "rules": [
+    {
+      "id": "ownership",
+      "zh": "先确定应用、目标、能力与版本，再选择控件。未知能力保持不可用；切换目标使旧动作失效。",
+      "en": "Resolve the application, target, capabilities and version before selecting components. Unknown capabilities stay unavailable; a target change invalidates old actions."
+    },
+    {
+      "id": "attachments",
+      "zh": "未确认材料留在本地。确认后立即同步至原目标未发送草稿；移除只影响匹配附件。Send 等待同步验证，重连不重放提交。",
+      "en": "Unconfirmed materials stay local. Confirmation immediately synchronizes them to the original unsent draft. Removal affects only the matching attachment. Send waits for verification; reconnect never replays a submission."
+    },
+    {
+      "id": "polish",
+      "zh": "仅润色选区或当前全文。保护参数与材料身份；重新检查动作、目标与文字版本。失败保留原文，过期结果不回填，可撤销。",
+      "en": "Polish the selection or current text only. Protect parameter and material identity, then recheck action, target and text version. Failures retain the original; stale results never overwrite edits. Changes are undoable."
+    },
+    {
+      "id": "layout",
+      "zh": "Composer、润色操作栏与 InputDock 共享布局。润色行至少 48px，上下各 8px；无动作不占空间。",
+      "en": "Composer, polish actions and InputDock share layout. The polish row is at least 48px with 8px above and below. No actions means no reserved space."
+    },
+    {
+      "id": "theme",
+      "zh": "主题只改变视觉 Token，不改变输入几何和行为。应用能力必须来自实际适配器证据。",
+      "en": "Themes change visual tokens, not input geometry or behavior. Application capabilities require actual adapter evidence."
+    }
+  ]
+}

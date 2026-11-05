@@ -1,0 +1,9 @@
+{
+ "app-action":{"export":"ActionChip","category":"actions","source":"apps/web/src/application-action-chip.tsx","zh":"动作标签","en":"Action chip"},
+ "color-refinement":{"export":"ColorInput","category":"parameters","source":"apps/web/src/agent-widget-color.tsx","zh":"颜色输入","en":"Color input"},
+ "sketch":{"export":"SketchInput","category":"materials","source":"apps/web/src/agent-input-view.tsx","zh":"草图输入","en":"Sketch input"},
+ "dynamic-auxiliary-workspace":{"export":"AuxiliaryPanel","category":"text","source":"apps/web/src/agent-input-view.tsx","zh":"辅助输入面板","en":"Auxiliary panel"},
+ "image-input":{"export":"ImageInput","category":"materials","source":"apps/web/src/agent-input-view.tsx","zh":"图片输入","en":"Image input","aliases":["照片","图片","插图","photo","image","photoinput","图片选择"]},
+ "duration-input":{"export":"DurationInput","category":"parameters","source":"apps/web/src/agent-input-view.tsx","zh":"时长输入","en":"Duration input"},
+ "contextual-polish-actions":{"export":"ContextualPolishActions","category":"text","source":"apps/web/src/contextual-polish-actions.tsx","zh":"AI 润色操作栏","en":"AI polish actions","aliases":["润色","改写","Polish","Prompt","提示词","整理结构","精简表达"]}
+}

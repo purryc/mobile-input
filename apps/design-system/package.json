@@ -1,0 +1,30 @@
+{
+  "name": "mobile-input-design-system",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "npm run prepare:content && vite --host 127.0.0.1 --port 5197 --strictPort",
+    "build": "npm run prepare:content && tsc --noEmit && vite build && node scripts/verify-build.mjs",
+    "check": "tsc --noEmit",
+    "test": "tsx --test tests/*.test.ts",
+    "preview": "vite preview --host 127.0.0.1 --port 5197 --strictPort",
+    "prepare:content": "node scripts/prepare.mjs && tsx scripts/export-catalog.ts"
+  },
+  "dependencies": {
+    "@a2ui/react": "0.15.0",
+    "@a2ui/web_core": "0.15.0",
+    "zod": "3.25.76",
+    "react": "19.1.0",
+    "react-dom": "19.1.0",
+    "lucide-react": "0.468.0"
+  },
+  "devDependencies": {
+    "@types/node": "22.19.0",
+    "@types/react": "19.1.0",
+    "@types/react-dom": "19.1.0",
+    "typescript": "5.8.3",
+    "vite": "6.3.6",
+    "tsx": "4.19.4"
+  }
+}
