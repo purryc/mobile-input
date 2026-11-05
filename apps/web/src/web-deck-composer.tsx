@@ -1,3 +1,4 @@
+import {useAttachmentSync} from './use-attachment-sync';
 import {AgentInputScene} from './agent-input-scene';
 import {uiText} from './i18n';
 import {promptArtifactContext} from '../../../packages/core/workbuddy-prompt';
@@ -67,9 +68,26 @@ export function WebDeckComposer({taskId,phone=false,openMenu}:{taskId:string;pho
    else timer=setTimeout(()=>void check(),3000);
   };void check();return()=>{alive=false;clearTimeout(timer);};
  },[phone,stage?.submission,stageKey,sending,r.connected]);
+ async function synchronizeMaterials(){
+  if(!phone)return;const session=currentState().startedAt;
+  const valid=()=>{const n=currentState();return mounted.current&&!document.hidden&&n.startedAt===session&&n.app==='workbuddy'&&n.workbuddy.task===taskId&&(n.workbuddy.drafts[taskId]?.owner||'')===owner;};
+  const local=await flushDeckStage(stageKey);if(local.submission)return;
+  for(const id of local.removed){if(!valid())throw Error('目标已变化，附件删除待同步');if(currentState().workbuddy.drafts[taskId]?.deckInput?.assets.some(a=>a.id===id)&&!await action({action:'remove',assetId:id}))throw Error('附件删除未同步，请重试');}
+  for(const asset of local.assets){
+   if(!valid())throw Error('目标已变化，材料保留在原任务');
+   if(currentState().workbuddy.drafts[taskId]?.deckInput?.assets.some(a=>a.id===asset.id))continue;
+   const remote=await sendStagedAsset(asset,taskId,valid),fresh=await flushDeckStage(stageKey);
+   if(!valid())throw Error('目标已变化，材料保留在原任务');
+   if(!fresh.assets.some(a=>a.id===asset.id)||fresh.removed.includes(asset.id))continue;
+   if(!await action({action:'asset',asset:remote}))throw Error('材料采用未同步，请重试');
+   await updateDeckStage(stageKey,v=>({...v,assets:v.assets.filter(a=>a.id!==asset.id),removed:v.removed.includes(asset.id)?[...new Set([...v.removed,remote.id])]:v.removed}));
+  }
+ }
+ const materialSync=useAttachmentSync(stageKey,JSON.stringify([stage?.assets.map(a=>a.id),stage?.removed,r.state.startedAt]),phone&&!!stage&&!stage.submission&&r.connected&&r.state.app==='workbuddy'&&r.state.workbuddy.task===taskId,synchronizeMaterials);
  async function send(){
   if(sendLock.current||!editable||editing.speech!=='idle')return;sendLock.current=true;setSending(true);setError('');
   try{
+   if(phone&&!await materialSync.run())throw Error('附件尚未同步，输入已保留');
    await queue.current;await editor.flush();if(!await editor.focus())throw Error('输入目标未确认，请在平板重新点击输入框');
    const s=currentState(),d=s.workbuddy.drafts[taskId],t=s.target,context=promptArtifactContext(s);if(editor.blocked||!d||(!phone&&!t))throw Error('输入目标尚未同步');
    const local=phone?await flushDeckStage(stageKey):undefined;if(local?.submission)throw Error('正在核对上次发送结果，请勿重复发送');
@@ -96,12 +114,13 @@ export function WebDeckComposer({taskId,phone=false,openMenu}:{taskId:string;pho
  const [pressed,setPressed]=useState(false);const seenSubmission=useRef('');
  useEffect(()=>{const event=r.state.workbuddy.lastSubmission;if(phone||!event||event.task!==taskId||seenSubmission.current===event.id)return;seenSubmission.current=event.id;const age=Date.now()-event.at;if(age<0||age>600)return;const key='input-agent:send-feedback:'+event.id;if(sessionStorage.getItem(key))return;sessionStorage.setItem(key,'1');setPressed(true);const timer=setTimeout(()=>setPressed(false),180);return()=>clearTimeout(timer);},[taskId,r.state.workbuddy.lastSubmission?.id]);
  const auxiliary=<>
+ {phone&&materialSync.error&&<p role="status" className="mac-error">{materialSync.error}<button onClick={()=>void materialSync.run()}>{uiText('重试')}</button></p>}
  {phone&&context&&<section className="task-artifact-context"><b>{context.name}</b>{context.path&&<small>{context.path}</small>}{context.selection&&<p>{context.selection}</p>}</section>}
  {phone&&<TaskSelectionControls/>}
  <AgentParameterWidget parameter={parameter} active={active} busy={busy} onClose={()=>{if(parameter?.kind==='sketch'||active==='sketch')saveSketch();setActive(null);}} onValue={v=>void setParameter(v)} onActive={setDrawing} strokes={strokes} onStrokes={setStrokes} onStrokeEnd={saveSketch} onAdoptSketch={()=>void adopt()} onChoosePhoto={()=>void pick('photo',parameter?.scope||'全文')} onCapture={()=>void pick('photo',parameter?.scope||'全文',true)} onConfirmPhotos={()=>void confirmPhotos()} photos={[...assets.filter(a=>a.kind==='photo'),...pendingPhotos].map(a=><div className="live-wb-material" key={a.id}><button aria-label={uiText('图片')+' '+a.name}><DeckImage id={a.id} alt={a.name}/></button><button aria-label={uiText('移除图片')+' '+a.name} onClick={()=>void removePhoto(a)}><WidgetIcon name="close"/></button></div>)}/>
 
 </>;
- const composer=<AgentComposer className="deck-composer" label="WorkBuddy 任务输入区" footer={<> {!phone&&<><button aria-label={uiText("添加内容")} disabled={!editable} onClick={()=>setAddMenu(!addMenu)}><Plus size={20}/></button>{addMenu&&<div className="deck-add-menu"><button onClick={()=>{setAddMenu(false);void pick('document');}}>{uiText("添加文件")}</button><button onClick={()=>{setAddMenu(false);setActive('photos');void pick('photo');}}>{uiText("添加图片")}</button></div>}</>}<span>{busy?'正在采用材料':''}</span>{!phone&&<><span className="deck-model" aria-label={uiText("生成模型")}>{model}</span><button aria-label={uiText("手机语音输入")} onClick={()=>void editor.activate()}><Mic size={20}/></button></>}<button data-accepted={pressed} aria-label={task?.status==='running'&&!phone?uiText("停止生成"):uiText("发送生成网页演示")} disabled={!(task?.status==='running'&&!phone)&&(sending||!editable||!editor.text.trim()||editing.speech!=='idle'||drawing||!!sketchDrafts?.some(a=>a.strokes.length))} onClick={()=>task?.status==='running'&&!phone?void command('wb-deck-stop',{task:taskId}):void send()}>{phone?<><Send size={20}/>{uiText("发送")}</>:task?.status==='running'?<span aria-hidden>■</span>:<ArrowUp size={20}/>}</button> </>}>
+ const composer=<AgentComposer className="deck-composer" label="WorkBuddy 任务输入区" footer={<> {!phone&&<><button aria-label={uiText("添加内容")} disabled={!editable} onClick={()=>setAddMenu(!addMenu)}><Plus size={20}/></button>{addMenu&&<div className="deck-add-menu"><button onClick={()=>{setAddMenu(false);void pick('document');}}>{uiText("添加文件")}</button><button onClick={()=>{setAddMenu(false);setActive('photos');void pick('photo');}}>{uiText("添加图片")}</button></div>}</>}<span>{materialSync.busy?'正在同步附件':busy?'正在采用材料':''}</span>{!phone&&<><span className="deck-model" aria-label={uiText("生成模型")}>{model}</span><button aria-label={uiText("手机语音输入")} onClick={()=>void editor.activate()}><Mic size={20}/></button></>}<button data-accepted={pressed} aria-label={task?.status==='running'&&!phone?uiText("停止生成"):uiText("发送生成网页演示")} disabled={!(task?.status==='running'&&!phone)&&(sending||!editable||!editor.text.trim()||editing.speech!=='idle'||drawing||!!sketchDrafts?.some(a=>a.strokes.length))} onClick={()=>task?.status==='running'&&!phone?void command('wb-deck-stop',{task:taskId}):void send()}>{phone?<><Send size={20}/>{uiText("发送")}</>:task?.status==='running'?<span aria-hidden>■</span>:<ArrowUp size={20}/>}</button> </>}>
  {phone&&assets.length>0&&<div className="live-wb-materials">{assets.map(a=><div className="live-wb-material" key={a.id}><button aria-label={'编辑 '+a.name} onClick={()=>{if(a.kind==='sketch'){setStrokes(sketchDrafts?.find(x=>x.scope===a.scope)?.strokes||a.strokes||[]);setStrokeScope(a.scope);setReplace(a.id);setActive('sketch');}else setActive(a.kind==='photo'?'photos':parameters.find(p=>p.kind==='document')?.id||null);}}>{a.kind==='document'?<span>{a.name}</span>:<DeckImage id={a.id} alt={a.name}/>}</button><button aria-label={'删除 '+a.name} disabled={!editable} onClick={()=>void removeAsset(a)}><WidgetIcon name="close"/></button></div>)}</div>}
 
  {phone?<SentenceComposer ref={area} text={editor.text} parameters={[]} files={[]} input={noInput} active={null} disabled={!editable} placeholder={uiText("描述你要完成的任务…")} onChange={editing.change} onSelect={editing.select} onFocus={()=>void editor.activate()} onOpen={()=>{}} live={{parameters:visible,active,open}}/>:<><div className="deck-target-materials">{input.assets.map(a=><div className="deck-target-material" key={a.id}>{a.kind==='document'?<Paperclip size={18}/>:<DeckImage id={a.id} alt={a.name}/>}<span>{a.name}</span><button aria-label={'删除 '+a.name} disabled={!editable} onClick={()=>void removeAsset(a)}><X size={16}/></button></div>)}</div><textarea ref={area as React.RefObject<HTMLTextAreaElement>} aria-label={uiText("WorkBuddy 任务输入")} value={projected.text} disabled={!editable} placeholder={uiText("今天帮你做些什么？@ 添加上下文，/调用技能与指令")} onFocus={()=>void editor.activate()} onChange={e=>editor.update(e.target.value)} onKeyDown={e=>{if(e.key==='Enter'&&(e.metaKey||e.ctrlKey)){e.preventDefault();void send();}}}/></>}

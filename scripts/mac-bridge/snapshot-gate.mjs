@@ -4,3 +4,12 @@ export class SnapshotGate {
  pointer(){this.pointerUntil=this.now()+this.quietMs;}
  canPoll(){return this.now()>=this.pointerUntil;}
 }
+
+/** Native relative movement reads the real cursor. Its position alone must not
+ * retransmit an entire AX snapshot over a bandwidth-limited Bluetooth link.
+ * The full snapshot (including pointer) is still delivered on any other change. */
+export function snapshotFingerprint(state, pointerIndependent = false) {
+ if (!pointerIndependent) return JSON.stringify(state);
+ const {pointer, ...authoritative} = state;
+ return JSON.stringify(authoritative);
+}

@@ -23,6 +23,10 @@
     {
       "name": "distributed_reason",
       "value": "用于发现同账号设备并同步 Input Agent 输入"
+    },
+    {
+      "name": "bluetooth_reason",
+      "value": "通过蓝牙连接 Mac 并同步输入与任务状态"
     }
   ]
 }

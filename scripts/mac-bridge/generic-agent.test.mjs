@@ -99,3 +99,24 @@ test('direct document edits replace only the changed UTF16 span and preserve sur
  const source=readFileSync(new URL('./agent.swift',import.meta.url),'utf8'),start=source.indexOf('func documentTextPatch('),end=source.indexOf('\nfunc fail(',start),dir=mkdtempSync(tmpdir()+'/agent-document-patch-');
  try{writeFileSync(dir+'/main.swift','import Foundation\n'+source.slice(start,end)+`\nfor pair in [("甲乙丙","甲新增乙丙"),("甲😀乙","甲😄乙"),("前\\n正文\\n后","前\\n新正文\\n后"),("测试",""),("","输入"),("相同","相同")] {let (range,value)=documentTextPatch(pair.0,pair.1);let restored=(pair.0 as NSString).replacingCharacters(in:NSRange(location:range.location,length:range.length),with:value);precondition(restored==pair.1)}\nlet (range,value)=documentTextPatch("甲乙丙","甲新增乙丙");precondition(range.location==1 && range.length==0 && value=="新增")\n`);execFileSync('/usr/bin/swift',[dir+'/main.swift'],{timeout:10000});}finally{rmSync(dir,{recursive:true,force:true});}
 });
+
+test('observed WorkBuddy canvas fields and pending menus cannot match transcript edit buttons or canvas clipboard proxies',async()=>{
+ if(process.platform!=='darwin')return;
+ const {readFileSync,mkdtempSync,writeFileSync,rmSync}=await import('node:fs');const {tmpdir}=await import('node:os');const {execFileSync}=await import('node:child_process');
+ const source=readFileSync(new URL('./agent.swift',import.meta.url),'utf8'),start=source.indexOf('func workbuddyFieldRole('),end=source.indexOf('func workbuddyInstructionButton(',start),dir=mkdtempSync(tmpdir()+'/workbuddy-context-policy-');
+ try{writeFileSync(dir+'/main.swift','import Foundation\n'+source.slice(start,end)+`
+precondition(workbuddyFieldRole("AXTextArea",["index-aiInput-aRwru"],"说说你想怎么修改",true)=="instruction")
+precondition(workbuddyFieldRole("AXTextArea",["_editable_1cxd2_1"],"",false)=="prompt")
+precondition(workbuddyFieldRole("AXTextArea",["CopyPasteAssist"],"",true)==nil)
+precondition(workbuddyFieldRole("AXTextField",["style_hidden-editor-input__d1UFL"],"",true)==nil)
+precondition(workbuddyFieldRole("AXTextArea",["index-aiInput-aRwru"],"说说你想怎么修改",false)==nil)
+precondition(workbuddyPendingActions(["pending-edit-confirm-toast"],["取消","发送"]))
+precondition(workbuddyPendingActions(["pending-edit-confirm-toast"],["取消"]))
+precondition(!workbuddyPendingActions(["pending-edit-confirm-toast"],[]))
+precondition(!workbuddyPendingActions(["transcript"],["取消","发送"]))
+precondition(!workbuddyPendingActions(["pending-edit-confirm-toast"],["取消","发送","删除"]))
+precondition(!workbuddyPendingActions(["pending-edit-confirm-toast"],["发送","发送"]))
+`);execFileSync('/usr/bin/swift',[dir+'/main.swift'],{timeout:10000});}finally{rmSync(dir,{recursive:true,force:true});}
+});
+
+test('attachment deletion is scoped to exactly one owned file and never accepts a path or task deletion',()=>{const good={...m,op:'agent-detach',files:['11111111-1111-4111-8111-111111111111'],base:'fictional'};assert.equal(validateCommand(good,'s'),'');for(const patch of [{files:[]},{files:['../private']},{files:[...good.files,...good.files]},{session:'other'},{target:''}])assert.notEqual(validateCommand({...good,...patch},'s'),'');});

@@ -9,6 +9,7 @@ var lastElement: AXUIElement? = nil
 var lastWindow: AXUIElement? = nil
 var lastApp = ""
 var lastTitle = ""
+var lastAuxiliaryIdentity=""
 var accessibilityPIDs=Set<pid_t>()
 var focusID = UUID().uuidString
 var windowID = UUID().uuidString
@@ -31,16 +32,19 @@ func front(includeFocus:Bool=true)->(NSRunningApplication?,AXUIElement?,AXUIElem
  let windows=attr(ax,"AXWindows") as? [AXUIElement] ?? []
  return(app,element(ax,"AXFocusedWindow") ?? element(ax,"AXMainWindow") ?? windows.first,includeFocus ? (element(ax,"AXFocusedUIElement") ?? element(system,"AXFocusedUIElement")) : nil) }
 func frame(_ el:AXUIElement)->CGRect? {guard let p=attr(el,"AXPosition"),let z=attr(el,"AXSize"),CFGetTypeID(p)==AXValueGetTypeID(),CFGetTypeID(z)==AXValueGetTypeID() else{return nil};var point=CGPoint.zero;var size=CGSize.zero;guard AXValueGetValue(p as! AXValue,.cgPoint,&point),AXValueGetValue(z as! AXValue,.cgSize,&size),size.width>1,size.height>1 else{return nil};return CGRect(origin:point,size:size)}
-// AX/CG coordinates share a top-left origin. Use full display bounds, not visibleFrame (which excludes Dock).
-func pointerDisplay(_ win:AXUIElement)->CGRect {
- let window=frame(win) ?? CGDisplayBounds(CGMainDisplayID())
+// Quartz uses global desktop points, including negative display origins and Dock.
+func pointerDisplays()->[CGRect] {
  var displays=[CGDirectDisplayID](repeating:0,count:32);var count:UInt32=0
- guard CGGetActiveDisplayList(32,&displays,&count) == .success else{return CGDisplayBounds(CGMainDisplayID())}
- return displays.prefix(Int(count)).map{CGDisplayBounds($0)}.max{a,b in
-  let x=a.intersection(window),y=b.intersection(window)
-  return (x.isNull ? 0:x.width*x.height)<(y.isNull ? 0:y.width*y.height)
- } ?? CGDisplayBounds(CGMainDisplayID())
+ guard CGGetActiveDisplayList(32,&displays,&count) == .success,count>0 else{return [CGDisplayBounds(CGMainDisplayID())]}
+ return displays.prefix(Int(count)).map{CGDisplayBounds($0)}.filter{!$0.isEmpty}
 }
+func pointerDesktop()->CGRect {pointerDisplays().reduce(CGRect.null){$0.union($1)}}
+// Keep the cursor on a real display rather than the empty corners of its bounding box.
+func confinedPointer(_ p:CGPoint,_ displays:[CGRect])->CGPoint {
+ if displays.contains(where:{$0.contains(p)}){return p}
+ return displays.map{r in CGPoint(x:max(r.minX,min(r.maxX-0.001,p.x)),y:max(r.minY,min(r.maxY-0.001,p.y)))}.min{a,b in hypot(a.x-p.x,a.y-p.y)<hypot(b.x-p.x,b.y-p.y)} ?? p
+}
+func relativePointerDestination(_ current:CGPoint,_ dx:Double,_ dy:Double)->CGPoint {CGPoint(x:current.x+dx*1.5,y:current.y+dy*1.5)}
 func subapp(_ title:String)->String { let t=title.lowercased(); if t.range(of:"\\.(docx?|odt)(?:$|[ —-])",options:.regularExpression) != nil{return "writer"};if t.range(of:"\\.(xlsx?|csv)(?:$|[ —-])",options:.regularExpression) != nil{return "sheet"};if t.range(of:"\\.(pptx?|odp)(?:$|[ —-])",options:.regularExpression) != nil{return "presentation"};return "unknown" }
 func composerSubmissionKind(_ value:String)->String? {
  switch value.trimmingCharacters(in:.whitespacesAndNewlines).lowercased() {
@@ -50,6 +54,7 @@ func composerSubmissionKind(_ value:String)->String? {
  }
 }
 func submitButton(_ field:AXUIElement)->AXUIElement? {
+ if lastApp=="com.tencent.workbuddy.mac",let button=workbuddyInstructionButton(field){return attr(button,"AXEnabled") as? Bool==true ? button:nil}
  var node:AXUIElement?=field
  let boundary=lastApp=="com.openai.codex" ? scopedComposerRegion(field):agentRoot
  for _ in 0..<7 {guard let n=node,!equal(n,agentRoot) else{break};let matches=descendants(n).filter{str($0,"AXRole")=="AXButton" && attr($0,"AXEnabled") as? Bool==true && labels($0).contains{composerSubmissionKind($0) != nil}};if matches.count==1{return matches[0]};if matches.count>1{return nil};if equal(n,boundary){break};node=element(n,"AXParent")};return nil
@@ -72,6 +77,67 @@ func composerAction(_ node:AXUIElement,_ kind:String,_ field:AXUIElement)->[Stri
  if composerActionHandles.count>64{composerActionHandles.removeFirst(composerActionHandles.count-64)}
  return ["id":id,"kind":kind,"label":label,"enabled":attr(node,"AXEnabled") as? Bool==true]
 }
+// Observed WorkBuddy canvas controls. DOM metadata comes only from native AX.
+func axClasses(_ n:AXUIElement)->[String] {attr(n,"AXDOMClassList") as? [String] ?? []}
+func ancestorID(_ n:AXUIElement,_ id:String)->AXUIElement? {
+ var current:AXUIElement?=n
+ for _ in 0..<32 {guard let node=current else{break};if str(node,"AXDOMIdentifier")==id{return node};current=element(node,"AXParent")};return nil
+}
+func workbuddyFieldRole(_ role:String,_ classes:[String],_ placeholder:String,_ inCanvas:Bool)->String? {
+ guard role=="AXTextArea" else{return nil}
+ if inCanvas && placeholder=="说说你想怎么修改" && classes.contains(where:{$0.hasPrefix("index-aiInput-")}) {return "instruction"}
+ if !inCanvas && classes.contains(where:{$0.hasPrefix("_editable_")}) {return "prompt"}
+ return nil
+}
+func workbuddyPendingActions(_ classes:[String],_ buttonLabels:[String])->Bool {
+ classes.contains("pending-edit-confirm-toast") && !buttonLabels.isEmpty && buttonLabels.count==Set(buttonLabels).count && Set(buttonLabels).isSubset(of:Set(["发送","取消"]))
+}
+func workbuddyInstructionButton(_ field:AXUIElement)->AXUIElement? {
+ guard workbuddyFieldRole(str(field,"AXRole"),axClasses(field),str(field,"AXPlaceholderValue"),ancestorID(field,"canvas") != nil)=="instruction",let parent=element(field,"AXParent") else{return nil}
+ let children=attr(parent,"AXChildren") as? [AXUIElement] ?? []
+ guard children.count==2,children.contains(where:{equal($0,field)}),let button=children.first(where:{str($0,"AXRole")=="AXButton"}),axClasses(button).contains(where:{$0.hasPrefix("index-aiSendBtn-")}) else{return nil}
+ return button
+}
+func workbuddyMainPrompt(_ nodes:[AXUIElement])->AXUIElement? {
+ let fields=nodes.filter{workbuddyFieldRole(str($0,"AXRole"),axClasses($0),str($0,"AXPlaceholderValue"),ancestorID($0,"canvas") != nil)=="prompt"}
+ return fields.count==1 ? fields[0]:nil
+}
+func workbuddyCanvasKey(_ canvas:AXUIElement)->String? {
+ guard let wrapper=ancestorID(canvas,"workbench-content-container") else{return nil}
+ let slides=descendants(wrapper).filter{axClasses($0).contains("selected-slide")}
+ guard slides.count==1,!str(slides[0],"AXDOMIdentifier").isEmpty else{return nil}
+ return str(slides[0],"AXDOMIdentifier")
+}
+func workbuddySelectionSignature(_ node:AXUIElement)->String? {
+ guard str(node,"AXRole")=="AXStaticText",str(node,"AXValue")=="AI编辑",let canvas=ancestorID(node,"canvas"),let slide=workbuddyCanvasKey(canvas),let parent=element(node,"AXParent"),let r=frame(parent) else{return nil}
+ let c=attr(parent,"AXChildren") as? [AXUIElement] ?? []
+ guard c.count==2,c.contains(where:{str($0,"AXRole")=="AXImage"}),c.contains(where:{equal($0,node)}) else{return nil}
+ return slide+"/"+NSStringFromRect(r)
+}
+struct WorkBuddyActionPanel {
+ let id:String;let owner:String;let container:AXUIElement;let source:AXUIElement;let signature:String;let actions:[String:AXUIElement]
+}
+var workbuddyPanels:[WorkBuddyActionPanel]=[]
+func workbuddyPanelSignature(_ panel:AXUIElement,_ field:AXUIElement)->String? {
+ guard axClasses(panel).contains("pending-edit-confirm-toast"),let root=agentRoot,descendants(root).contains(where:{equal($0,panel)}) else{return nil}
+ let children=attr(panel,"AXChildren") as? [AXUIElement] ?? []
+ let buttons=children.filter{str($0,"AXRole")=="AXButton"}
+ guard workbuddyPendingActions(axClasses(panel),buttons.map{str($0,"AXTitle")}) else{return nil}
+ let words=children.map{str($0,"AXValue")+str($0,"AXTitle")}.joined(separator:"/")
+ return SHA256.hash(data:Data((words+"\u{0}"+str(field,"AXValue")).utf8)).map{String(format:"%02x",$0)}.joined()
+}
+func workbuddyContextPanels(_ nodes:[AXUIElement])->[[String:Any]] {
+ guard let field=workbuddyMainPrompt(nodes) else{return []}
+ let panels=nodes.filter{axClasses($0).contains("pending-edit-confirm-toast")}
+ guard panels.count==1,let panel=panels.first,let signature=workbuddyPanelSignature(panel,field) else{return []}
+ let children=attr(panel,"AXChildren") as? [AXUIElement] ?? [],buttons=children.filter{str($0,"AXRole")=="AXButton"}
+ let previous=workbuddyPanels.first{h in h.owner==focusID && equal(h.container,panel) && equal(h.source,field) && h.signature==signature && buttons.allSatisfy{b in h.actions.values.contains(where:{equal($0,b)})}}
+ let ids=previous?.actions ?? Dictionary(uniqueKeysWithValues:buttons.map{(UUID().uuidString,$0)})
+ let id=previous?.id ?? UUID().uuidString
+ if previous==nil{workbuddyPanels.append(WorkBuddyActionPanel(id:id,owner:focusID,container:panel,source:field,signature:signature,actions:ids))}
+ if workbuddyPanels.count>32{workbuddyPanels.removeFirst(workbuddyPanels.count-32)}
+ return [["id":id,"stage":"pending","summary":children.filter{str($0,"AXRole")=="AXStaticText"}.map{str($0,"AXValue")}.joined(separator:"\n"),"blocksEditing":true,"actions":buttons.map{b -> [String:Any] in ["id":ids.first(where:{equal($0.value,b)})!.key,"kind":named(b,["发送"]) ? "send":"cancel","label":str(b,"AXTitle"),"enabled":attr(b,"AXEnabled") as? Bool==true]}]]
+}
 // Only the observed Codex selection toolbar is registered. Never harvest transcript Edit buttons.
 struct SelectionActionHandle {let id:String;let owner:String;let kind:String;let node:AXUIElement;let source:AXUIElement;let signature:String}
 var selectionActionHandles:[SelectionActionHandle]=[]
@@ -80,6 +146,15 @@ func selectedSignature(_ field:AXUIElement)->String? {
  return SHA256.hash(data:Data((String(range[0])+"/"+String(range[1])+"/"+text+"/"+str(field,"AXValue")).utf8)).map{String(format:"%02x",$0)}.joined()
 }
 func selectionActions(_ app:String,_ nodes:[AXUIElement],_ main:AXUIElement?)->[[String:Any]] {
+ if app=="workbuddy" {
+  let matches=nodes.filter{workbuddySelectionSignature($0) != nil}
+  guard matches.count==1,let node=matches.first,let signature=workbuddySelectionSignature(node) else{return []}
+  let previous=selectionActionHandles.first{$0.owner==focusID && equal($0.node,node) && $0.signature==signature}
+  let id=previous?.id ?? UUID().uuidString
+  if previous==nil{selectionActionHandles.append(SelectionActionHandle(id:id,owner:focusID,kind:"edit",node:node,source:node,signature:signature))}
+  if selectionActionHandles.count>32{selectionActionHandles.removeFirst(selectionActionHandles.count-32)}
+  return [["id":id,"kind":"edit","label":"AI编辑","enabled":attr(node,"AXEnabled") as? Bool==true]]
+ }
  guard app=="codex" else{return []}
  let sources=nodes.filter{str($0,"AXRole")=="AXTextArea" && !equal($0,main) && selectedSignature($0) != nil}
  guard sources.count==1,let source=sources.first,let signature=selectedSignature(source) else{return []}
@@ -172,7 +247,11 @@ func primaryPrompt(_ app:String,_ nodes:[AXUIElement],_ focused:AXUIElement?)->A
   }
   if edits.count==1{return edits[0]}
  }
- if app=="workbuddy" {if let focused=focused,str(focused,"AXRole")=="AXTextArea",nodes.contains(where:{equal($0,focused)}){return focused};let fields=nodes.filter{str($0,"AXRole")=="AXTextArea"};return fields.count==1 ? fields[0]:nil}
+ if app=="workbuddy" {
+  let edits=nodes.filter{workbuddyInstructionButton($0) != nil}
+  if edits.count==1{return edits[0]}
+  return workbuddyMainPrompt(nodes)
+ }
  let names=app=="codex" ? ["work with codex","do anything"]:app=="chatgpt" ? ["使用 chatgpt work","ask anything","message chatgpt","向 chatgpt 发送消息"]:["enter a prompt for gemini"]
  let fields=nodes.filter{str($0,"AXRole")=="AXTextArea" && named($0,names)}
  return fields.count==1 ? fields[0]:nil
@@ -272,7 +351,7 @@ func state()->[String:Any] {
  var tasks:[[String:String]]=[];var current="";var taskTitle=""
  if isAgent,let win=win {
   tasks=agentTasks(known,win,nodes)
-  let selected=tasks.filter{t in guard let n=taskElements[t["id"] ?? ""] else{return false};return attr(n,"AXSelected") as? Bool==true || (!pageID.isEmpty && axURL(n)==pageID)}
+  let selected=tasks.filter{t in guard let n=taskElements[t["id"] ?? ""] else{return false};return attr(n,"AXSelected") as? Bool==true || (known=="workbuddy" && axClasses(n).contains("conversation-agent-card") && axClasses(n).contains(where:{$0.hasPrefix("_selected_")})) || (!pageID.isEmpty && axURL(n)==pageID)}
   if selected.count==1 {current=selected[0]["id"]!;taskTitle=selected[0]["title"]!}
   if current.isEmpty && ["workbuddy","codex"].contains(known){let observed=known=="workbuddy" ? workbuddyTaskTitle(win,nodes):nodes.first{str($0,"AXRole")=="AXWebArea"}.map{str($0,"AXTitle")} ?? "";let matches=tasks.filter{$0["title"]==observed};if matches.count==1 && !ambiguousTaskTitles.contains(observed){current=matches[0]["id"]!;taskTitle=observed}}
   if current.isEmpty,let field=el,known=="workbuddy" {let words=nodes.filter{str($0,"AXRole")=="AXStaticText"}.map{str($0,"AXValue")}.joined().replacingOccurrences(of:" ",with:"");if words.contains("我帮你") && words.contains("办公") && words.contains("开发"){current=taskHandle(known,win,field);taskTitle="新建任务"}}
@@ -283,34 +362,37 @@ func state()->[String:Any] {
  }
  let conversationKey=known+"/"+pageID+"/"+current
  if let proof=reviewDocumentTarget,windowChanged || proof.conversation != conversationKey || proof.document != reviewDocumentLabel(proof.field) || !nodes.contains(where:{equal($0,proof.field)}) || (focused != nil && !equal(focused,proof.field) && !descendants(proof.field).contains(where:{equal($0,focused)})) {reviewDocumentTarget=nil;el=isAgent ? primaryPrompt(known,nodes,focused):focused}
- if windowChanged || titleKey != lastTitle || conversationKey != lastConversation || !equal(el,lastElement) {focusID=UUID().uuidString}
- lastConversation=conversationKey;lastElement=el;lastWindow=win;lastApp=bundle;lastTitle=titleKey;agentPageIdentity=pageID
+ let auxiliaryIdentity=known=="workbuddy" ? el.flatMap{field in workbuddyInstructionButton(field)==nil ? nil:ancestorID(field,"canvas").flatMap{workbuddyCanvasKey($0)}} ?? "":""
+ if windowChanged || auxiliaryIdentity != lastAuxiliaryIdentity || titleKey != lastTitle || conversationKey != lastConversation || !equal(el,lastElement) {focusID=UUID().uuidString}
+ lastAuxiliaryIdentity=auxiliaryIdentity;lastConversation=conversationKey;lastElement=el;lastWindow=win;lastApp=bundle;lastTitle=titleKey;agentPageIdentity=pageID
  let locked=(CGSessionCopyCurrentDictionary() as? [String:Any])?["CGSSessionScreenIsLocked"] as? Bool ?? false
  let trusted=AXIsProcessTrusted();let names=["codex":"Codex","workbuddy":"WorkBuddy","chatgpt":"ChatGPT","gemini":"Gemini","wps":"WPS"]
  var result:[String:Any]=["locked":locked,"permission":trusted,"device":Host.current().localizedName ?? "Mac","app":known,"appName":names[known] ?? "Mac 应用","window":windowID,"target":focusID,"windowTitle":"","text":"","editable":false,"textKnown":false,"selection":[0,0],"capabilities":[]]
  guard trusted,!locked,known != "unknown",let win=win else{return result}
  result["windowTitle"]=str(win,"AXTitle");result["pageIdentity"]=pageID
- var caps=["pointer","escape"]
+ var caps=["pointer","pointer-relative","escape"]
  if isAgent {result["tasks"]=tasks.map{task -> [String:Any] in var out:[String:Any]=task;let node=taskElements[task["id"] ?? ""];out["selectable"]=node.map{!axURL($0).isEmpty || !str($0,"AXIdentifier").isEmpty}==true || !ambiguousTaskTitles.contains(task["title"] ?? "");return out};result["taskTitle"]=taskTitle;if !current.isEmpty{result["taskId"]=current};caps += ["task-list"];if !tasks.isEmpty{caps += ["switch-task"]};if agentNew != nil {caps += ["new-task"]};if agentStop != nil{caps += ["agent-stop"]};if tasks.first(where:{$0["id"]==current})?["status"]=="needs-input"{result["execution"]=["status":"needs-input"]}else if agentStop != nil || tasks.first(where:{$0["id"]==current})?["status"]=="running"{result["execution"]=["status":"running"]}}
- if let pos=CGEvent(source:nil)?.location {let rect=pointerDisplay(win);result["pointer"]=["x":max(0,min(1,(pos.x-rect.minX)/rect.width)),"y":max(0,min(1,(pos.y-rect.minY)/rect.height))]}
- let reviews=editReviews(known,nodes)
+ if let pos=CGEvent(source:nil)?.location {let rect=pointerDesktop();result["pointer"]=["x":max(0,min(1,(pos.x-rect.minX)/rect.width)),"y":max(0,min(1,(pos.y-rect.minY)/rect.height))]}
+ let reviews=known=="workbuddy" ? (current.isEmpty ? []:workbuddyContextPanels(nodes)):editReviews(known,nodes)
  if !reviews.isEmpty{result["editReviews"]=reviews;caps += ["agent-review"]}
- let selectionMenu=selectionActions(known,nodes,el)
+ let selectionMenu=current.isEmpty ? []:selectionActions(known,nodes,el)
  if !selectionMenu.isEmpty{result["selectionActions"]=selectionMenu;caps += ["agent-selection"]}
  result["capabilities"]=caps;guard let el=el else{return result}
  let role=str(el,"AXRole");guard str(el,"AXSubrole") != "AXSecureTextField",role != "AXSecureTextField" else{return result}
  let text=known=="workbuddy" ? workbuddyText(el):isAgent ? agentText(known,el):attr(el,"AXValue") as? String;let textRole=["AXTextArea","AXTextField","AXComboBox"].contains(role)
- let editable=textRole && text != nil && settable(el,"AXValue") && (!isAgent || !current.isEmpty)
+ let editable=textRole && text != nil && settable(el,"AXValue") && (!isAgent || !current.isEmpty) && !reviews.contains(where:{$0["blocksEditing"] as? Bool==true})
  if known=="codex",!current.isEmpty,result["execution"]==nil {
   let status=tasks.first(where:{$0["id"]==current})?["status"] ?? "unknown"
   if status != "unknown"{result["execution"]=["status":status]}
  }
  if let proof=reviewDocumentTarget,equal(proof.field,el){result["editorContext"]="review-document/"+proof.id;result["editorLabel"]="修改原文"}
+ if known=="workbuddy",workbuddyInstructionButton(el) != nil {result["editorContext"]="selection-edit/"+focusID;result["editorLabel"]="AI编辑 · 修改要求"}
  if known=="codex",named(el,["edit instruction"]){result["editorContext"]="selection-edit/"+focusID;result["editorLabel"]="Edit · 选区修改指令"}
  result["editable"]=editable;result["textKnown"]=textRole && text != nil;result["text"]=textRole ? String((text ?? "").prefix(60000)):"";result["selection"]=selection(el) ?? [0,0];result["subapp"]=known=="wps" ? subapp(str(win,"AXTitle")):""
  if editable {caps += ["replace-text","insert-text","select-all","copy","cut","paste","delete","undo","redo"]}
- if isAgent && editable && reviewDocumentTarget==nil,let button=submitButton(el) {
+ if isAgent && editable && reviewDocumentTarget==nil && !(known=="workbuddy" && !reviews.isEmpty),let button=submitButton(el) {
   caps += ["agent-submit"]
+  if known=="workbuddy",workbuddyInstructionButton(el) != nil {result["submitAction"]=["id":focusID,"kind":"send","label":"确认修改","enabled":true]}
   if known=="codex",let kind=labels(button).compactMap({composerSubmissionKind($0)}).first {result["submitAction"]=composerAction(button,kind,el)}
  }
  if known=="codex",editable,reviewDocumentTarget==nil {
@@ -320,7 +402,8 @@ func state()->[String:Any] {
  }
  if ["codex","chatgpt","gemini"].contains(known) && editable && reviewDocumentTarget==nil && uploadButton(known,el) != nil {caps += ["agent-attach"];result["attachments"]=attachmentReadyNames(known,el)}
  // WorkBuddy retains its existing native attachment integration.
- if known=="workbuddy" && editable {caps += ["agent-attach","workbuddy-attach"];result["attachments"]=attachmentNames(el);if caps.contains("agent-submit"){caps += ["workbuddy-submit"]}}
+ if known=="workbuddy" && editable && workbuddyInstructionButton(el)==nil && reviews.isEmpty {caps += ["agent-attach","workbuddy-attach"];result["attachments"]=attachmentNames(el);if caps.contains("agent-submit"){caps += ["workbuddy-submit"]}}
+ if isAgent && editable,let proof=attachmentProof[focusID],proof.keys.contains(where:{attachmentRemovalButton(known,el,$0) != nil || known=="workbuddy" && workbuddyAttachmentMarker(el,$0) != nil}) {caps += ["agent-detach"]}
  if known=="wps" && subapp(str(win,"AXTitle"))=="writer" && ["AXTextArea","AXSplitGroup"].contains(role){caps += ["insert-text","select-all","copy","cut","paste","delete","undo","redo","save","bold","italic","underline","align-left","align-center","align-right"]}
  result["capabilities"]=Array(Set(caps)).sorted();return result
 }
@@ -378,6 +461,25 @@ func uploadOwnerIssue(_ job:AgentUpload)->String {
  return ""
 }
 func uploadOwnerValid(_ job:AgentUpload)->Bool {uploadOwnerIssue(job).isEmpty}
+func removalCardName(_ label:String)->String? {
+ if label.hasPrefix("移除“"),label.hasSuffix("”"){return String(label.dropFirst(3).dropLast())}
+ for prefix in ["close ","remove attachment ","remove file ","remove ","删除附件 ","移除文件 ","移除 "] where label.lowercased().hasPrefix(prefix){return String(label.dropFirst(prefix.count))};return nil
+}
+// WorkBuddy exposes the inline file card's exact native text-marker range, but no AX close button.
+func workbuddyAttachmentMarker(_ field:AXUIElement,_ name:String)->CFTypeRef? {
+ guard workbuddyFieldRole(str(field,"AXRole"),axClasses(field),str(field,"AXPlaceholderValue"),ancestorID(field,"canvas") != nil)=="prompt" else{return nil}
+ let matches=descendants(field).filter{str($0,"AXRole")=="AXButton" && str($0,"AXTitle")==name && axClasses($0).contains("phrase-content-wrapper")}
+ guard matches.count==1,let card=matches.first,descendants(card).contains(where:{axClasses($0).contains(where:{$0.hasPrefix("_hasCloseIcon_")})}) else{return nil}
+ var range:CFTypeRef?,text:CFTypeRef?
+ guard AXUIElementCopyParameterizedAttributeValue(field,"AXTextMarkerRangeForUIElement" as CFString,card,&range) == .success,let range=range,AXUIElementCopyParameterizedAttributeValue(field,"AXStringForTextMarkerRange" as CFString,range,&text) == .success,text as? String==name else{return nil}
+ return range
+}
+func attachmentRemovalButton(_ app:String,_ field:AXUIElement,_ name:String)->AXUIElement? {
+ guard ["codex","chatgpt","gemini"].contains(app),let composer=attachmentComposer(app,field),let alias=attachmentAliases[focusID]?[name],!alias.hasPrefix("image:") else{return nil}
+ let nodes=descendants(composer).filter{!parentContains($0,field)}
+ let matches=nodes.filter{str($0,"AXRole")=="AXButton" && removalCardName(str($0,"AXTitle"))==alias && attr($0,"AXEnabled") as? Bool==true}
+ return matches.count==1 ? matches[0]:nil
+}
 func attachmentCards(_ app:String,_ field:AXUIElement)->[String] {
  if app=="workbuddy" {return attachmentNames(field)}
  guard let composer=attachmentComposer(app,field) else{return []}
@@ -537,7 +639,11 @@ func key(_ code:CGKeyCode,_ flags:CGEventFlags=[]) { for down in [true,false] {l
 func release() {appSwitcher.cancel();releaseMouse()}
 func releaseMouse() {if held {let p=CGEvent(source:nil)?.location ?? .zero;CGEvent(mouseEventSource:nil,mouseType:.leftMouseUp,mouseCursorPosition:p,mouseButton:.left)?.post(tap:.cghidEventTap)};held=false}
 func pointer(_ m:[String:Any])->[String:Any] {
-  guard let x=m["x"] as? Double,let y=m["y"] as? Double,x.isFinite,y.isFinite,x>=0,x<=1,y>=0,y<=1 else{return fail("无效指针位置")};guard let win=lastWindow else{return fail("窗口位置不可读")};let bounds=pointerDisplay(win);let p=CGPoint(x:bounds.minX+x*(bounds.width-1),y:bounds.minY+y*(bounds.height-1));let action=m["action"] as? String ?? ""
+  guard let x=m["x"] as? Double,let y=m["y"] as? Double,x.isFinite,y.isFinite,x>=0,x<=1,y>=0,y<=1 else{return fail("无效指针位置")};let displays=pointerDisplays(),bounds=displays.reduce(CGRect.null){$0.union($1)};let action=m["action"] as? String ?? "";let p:CGPoint
+  if m["relative"] as? Bool==true {
+   guard let dx=m["deltaX"] as? Double,let dy=m["deltaY"] as? Double,dx.isFinite,dy.isFinite,abs(dx)<=4096,abs(dy)<=4096,let current=CGEvent(source:nil)?.location else{return fail("无效相对位移")}
+   p=confinedPointer(action=="move" ? relativePointerDestination(current,dx,dy):current,displays)
+  }else{p=confinedPointer(CGPoint(x:bounds.minX+x*(bounds.width-1),y:bounds.minY+y*(bounds.height-1)),displays)}
   func mouse(_ type:CGEventType,_ button:CGMouseButton = .left,_ clicks:Int64=1){let e=CGEvent(mouseEventSource:nil,mouseType:type,mouseCursorPosition:p,mouseButton:button);e?.setIntegerValueField(.mouseEventClickState,value:clicks);e?.post(tap:.cghidEventTap)}
   switch action {case "move":mouse(held ? .leftMouseDragged:.mouseMoved);case "down":held=true;mouse(.leftMouseDown);case "up":mouse(.leftMouseUp);held=false;case "cancel":release();case "left","double":mouse(.leftMouseDown,.left,action=="double" ? 2:1);mouse(.leftMouseUp,.left,action=="double" ? 2:1);case "right":mouse(.rightMouseDown,.right);mouse(.rightMouseUp,.right);case "scroll":let dy=m["dy"] as? Double ?? 0;guard dy.isFinite else{return fail("无效滚动")};CGEvent(scrollWheelEvent2Source:nil,units:.pixel,wheelCount:1,wheel1:Int32(max(-600,min(600,-dy))),wheel2:0,wheel3:0)?.post(tap:.cghidEventTap);default:return fail("未知指针操作")};return ["ok":true,"outcome":"executed"]
 }
@@ -592,9 +698,47 @@ func handle(_ m:[String:Any])->[String:Any] {
  let s=state();guard s["permission"] as? Bool == true else{return fail("请在 Mac 系统设置中允许 Input Agent Bridge 使用辅助功能")}
  guard s["app"] as? String != "unknown",m["window"] as? String == s["window"] as? String else{release();return fail("前台应用或窗口已变化，请重新选择目标")}
  if op != "pointer" {guard m["target"] as? String == s["target"] as? String else{return fail("输入目标已变化，内容已保留")}}
+ if op=="agent-detach" {
+  guard s["locked"] as? Bool != true,s["editable"] as? Bool==true,let app=s["app"] as? String,let field=lastElement,let paths=m["paths"] as? [String],paths.count==1,let path=paths.first,let base=m["base"] as? String,base==s["text"] as? String else{return fail("附件或草稿目标已变化")}
+  let name=URL(fileURLWithPath:path).lastPathComponent
+  guard attachmentProof[focusID]?[name]==path else{return fail("无法确认附件归属，未删除任何内容")}
+  if !attachmentReadyNames(app,field).contains(name){return ["ok":true,"outcome":"verified","state":s]}
+  let others=attachmentReadyNames(app,field).filter{$0 != name}.sorted()
+  if app=="workbuddy" {
+   guard focusVerifiedTarget(),let marker=workbuddyAttachmentMarker(field,name),AXUIElementSetAttributeValue(field,"AXSelectedTextMarkerRange" as CFString,marker) == .success else{return fail("无法精确选中该附件，未删除")}
+   // Electron applies the accessible selection asynchronously. Wait for exact
+   // readback before deleting; setter success alone is not selection evidence.
+   for _ in 0..<10 {if str(field,"AXSelectedText")==name{break};RunLoop.current.run(until:Date(timeIntervalSinceNow:0.025))}
+   guard keyboardTargetIsCurrent(),str(field,"AXSelectedText")==name,workbuddyText(field)==base,workbuddyAttachmentMarker(field,name) != nil else{return fail("附件选区或正文已变化，未删除")}
+   key(51)
+  }else{
+   guard let button=attachmentRemovalButton(app,field,name) else{return fail("当前应用未提供可核对的附件移除入口，请在电脑移除后重试")}
+   guard clickReviewControl(button) else{return fail("附件移除入口不可用，未删除")}
+  }
+  for _ in 0..<10 {
+   RunLoop.current.run(until:Date(timeIntervalSinceNow:0.08));let next=state()
+   guard next["target"] as? String==s["target"] as? String,next["window"] as? String==s["window"] as? String,next["app"] as? String==app,next["text"] as? String==base else{return ["ok":false,"outcome":"unknown","error":"目标或正文变化，删除结果待核对","state":next]}
+   if attachmentReadyNames(app,field).sorted()==others{return ["ok":true,"outcome":"verified","state":next]}
+  }
+  return ["ok":false,"outcome":"unknown","error":"附件移除未读回，未重复操作","state":state()]
+ }
  let caps=s["capabilities"] as? [String] ?? []
  guard caps.contains(op) || op=="shortcut" else{return fail("当前目标不支持此操作")}
  if op=="agent-stop" {guard let button=agentStop else{return fail("当前没有可确认的停止操作")};let activated=s["app"] as? String=="codex" ? pressAX(button):AXUIElementPerformAction(button,"AXPress" as CFString) == .success;return ["ok":activated,"outcome":activated ? "executed":"unknown"]}
+ if op=="agent-review",s["app"] as? String=="workbuddy" {
+  guard let id=m["reviewId"] as? String,let action=m["actionId"] as? String,
+   let current=(s["editReviews"] as? [[String:Any]])?.first(where:{$0["id"] as? String==id}),
+   (current["actions"] as? [[String:Any]])?.contains(where:{$0["id"] as? String==action && $0["enabled"] as? Bool==true})==true,
+   let h=workbuddyPanels.first(where:{$0.id==id && $0.owner==focusID}),workbuddyPanelSignature(h.container,h.source)==h.signature,
+   let button=h.actions[action],attr(button,"AXEnabled") as? Bool==true else{return fail("当前修改菜单已变化，未执行")}
+  guard clickReviewControl(button) else{return fail("当前操作被遮挡或不可用，未执行")}
+  for _ in 0..<10 {
+   RunLoop.current.run(until:Date(timeIntervalSinceNow:0.08));let next=state()
+   guard next["app"] as? String=="workbuddy",next["window"] as? String==s["window"] as? String,next["taskId"] as? String==s["taskId"] as? String else{return ["ok":false,"outcome":"unknown","error":"目标已变化，操作不会重放","state":next]}
+   if let root=agentRoot,!descendants(root).contains(where:{equal($0,h.container)}) {return ["ok":true,"outcome":"verified","state":next]}
+  }
+  return ["ok":false,"outcome":"unknown","error":"尚未读到菜单处理结果，不会重复执行","state":state()]
+ }
  if op=="agent-review" {
   guard let id=m["reviewId"] as? String,let actionId=m["actionId"] as? String,
    let review=(s["editReviews"] as? [[String:Any]])?.first(where:{$0["id"] as? String==id}),
@@ -618,8 +762,8 @@ func handle(_ m:[String:Any])->[String:Any] {
   return ["ok":false,"outcome":"unknown","error":"正在核对修改结果；不会重复执行","state":state()]
  }
  if op=="agent-selection" {
-  guard let id=m["actionId"] as? String,let action=(s["selectionActions"] as? [[String:Any]])?.first(where:{$0["id"] as? String==id}),action["enabled"] as? Bool==true,let h=selectionActionHandles.first(where:{$0.id==id && $0.owner==focusID}),selectedSignature(h.source)==h.signature else{return fail("选区或菜单已变化，未执行")}
-  guard pressAX(h.node) else{return fail("未能打开当前选区操作")}
+  guard let id=m["actionId"] as? String,let action=(s["selectionActions"] as? [[String:Any]])?.first(where:{$0["id"] as? String==id}),action["enabled"] as? Bool==true,let h=selectionActionHandles.first(where:{$0.id==id && $0.owner==focusID}),(s["app"] as? String=="workbuddy" ? workbuddySelectionSignature(h.source):selectedSignature(h.source))==h.signature else{return fail("选区或菜单已变化，未执行")}
+  guard (s["app"] as? String=="workbuddy" ? clickReviewControl(h.node):pressAX(h.node)) else{return fail("未能打开当前选区操作")}
   for _ in 0..<12 {
    RunLoop.current.run(until:Date(timeIntervalSinceNow:0.08));let next=state()
    guard next["app"] as? String==s["app"] as? String,next["window"] as? String==s["window"] as? String,next["taskId"] as? String==s["taskId"] as? String else{return ["ok":false,"outcome":"unknown","error":"目标已变化，选区操作不会重放","state":next]}
@@ -647,8 +791,12 @@ func handle(_ m:[String:Any])->[String:Any] {
   } else if s["app"] as? String=="workbuddy" {
    // WorkBuddy's Electron editor needs real input events, not an AXValue-only DOM change.
    guard text.utf16.count<=2800 else{return fail("当前版本超过 2800 字会折叠为附件，请缩短输入后重试")}
+   // Attachment adoption/removal may dirty phone state without changing prose.
+   // Preserve the native cards instead of selecting/replacing an identical body.
+   if text != base {
    guard focusVerifiedTarget() else{return fail("实际输入焦点未确认，内容已保留")}
-   if !attachmentNames(el).isEmpty {guard str(el,"AXValue").hasPrefix(base) else{return fail("附件与文字混排，请先在 WorkBuddy 核对编辑位置")};var range=CFRange(location:0,length:base.utf16.count);guard let value=AXValueCreate(.cfRange,&range),AXUIElementSetAttributeValue(el,"AXSelectedTextRange" as CFString,value) == .success else{return fail("此版本不能安全保留附件进行同步编辑")}}else{guard keyboardTargetIsCurrent() else{return fail("输入焦点已变化")};key(0,.maskCommand)};guard pasteText(text) else{return fail("输入焦点已变化，未粘贴")}
+   if !attachmentNames(el).isEmpty {guard str(el,"AXValue").hasPrefix(base) else{return fail("附件与文字混排，请先在 WorkBuddy 核对编辑位置")};var range=CFRange(location:0,length:base.utf16.count);guard let value=AXValueCreate(.cfRange,&range),AXUIElementSetAttributeValue(el,"AXSelectedTextRange" as CFString,value) == .success else{return fail("此版本不能安全保留附件进行同步编辑")};for _ in 0..<10 {if selection(el)==[0,base.utf16.count] && str(el,"AXSelectedText")==base{break};RunLoop.current.run(until:Date(timeIntervalSinceNow:0.025))};guard keyboardTargetIsCurrent(),selection(el)==[0,base.utf16.count],str(el,"AXSelectedText")==base else{return fail("正文选区未确认，附件与输入已保留")}}else{guard keyboardTargetIsCurrent() else{return fail("输入焦点已变化")};key(0,.maskCommand)};guard pasteText(text) else{return fail("输入焦点已变化，未粘贴")}
+   }
   }else if s["app"] as? String=="codex" {
    // Observed WebKit AXValue updates reset selection even when the setter reports
    // success. A verified native input event commits editor state before caret restore.
@@ -671,15 +819,30 @@ func handle(_ m:[String:Any])->[String:Any] {
   guard focusVerifiedTarget() else{return fail("实际输入焦点未确认，内容已保留")}
   let presentBefore=attachmentNames(field);let requested=urls.map{$0.lastPathComponent}
   guard presentBefore.allSatisfy({name in requested.contains(name) && urls.contains{url in url.lastPathComponent==name && attachmentProof[focusID]?[name]==url.path}}) else{return fail("WorkBuddy 还有手机未登记的附件，请先核对")}
-  let missing=urls.filter{!presentBefore.contains($0.lastPathComponent)};if !missing.isEmpty {guard pasteURLs(missing) else{return fail("输入焦点已变化，未粘贴附件")}}
-  let names=urls.map{$0.lastPathComponent};let present=attachmentNames(field)
-  let verified=names.allSatisfy{present.contains($0)}
+  let missing=urls.filter{!presentBefore.contains($0.lastPathComponent)};if !missing.isEmpty {
+   // Pasting files into a selected range replaces prose in Electron. Collapse it
+   // and verify native readback before transferring any attachment to the editor.
+   guard let currentRange=selection(field),currentRange.count==2 else{return fail("附件插入位置未确认，正文已保留")}
+   if currentRange[1] != 0 {
+    var caret=CFRange(location:currentRange[0],length:0)
+    guard let value=AXValueCreate(.cfRange,&caret),AXUIElementSetAttributeValue(field,"AXSelectedTextRange" as CFString,value) == .success else{return fail("无法安全收起正文选区，附件已保留")}
+    for _ in 0..<10 {if selection(field)==[currentRange[0],0] && str(field,"AXSelectedText").isEmpty{break};RunLoop.current.run(until:Date(timeIntervalSinceNow:0.025))}
+   }
+   guard keyboardTargetIsCurrent(),selection(field)==[currentRange[0],0],str(field,"AXSelectedText").isEmpty,workbuddyText(field)==base else{return fail("附件插入位置或正文已变化，未粘贴")}
+   guard pasteURLs(missing) else{return fail("输入焦点已变化，未粘贴附件")}
+  }
+  let names=urls.map{$0.lastPathComponent};var next=state();var verified=false
+  for _ in 0..<12 {
+   guard next["app"] as? String=="workbuddy",next["window"] as? String==s["window"] as? String,next["target"] as? String==s["target"] as? String,next["text"] as? String==base else{return ["ok":false,"outcome":"unknown","error":"附件采用时目标或正文变化，未自动重试","state":next]}
+   if attachmentNames(field).sorted()==names.sorted(){verified=true;break}
+   RunLoop.current.run(until:Date(timeIntervalSinceNow:0.05));next=state()
+  }
   if verified {attachmentProof[focusID]=Dictionary(uniqueKeysWithValues:urls.map{($0.lastPathComponent,$0.path)});if attachmentProof.count>32{attachmentProof=attachmentProof.filter{$0.key==focusID}}}
-  return ["ok":verified,"outcome":verified ? "verified":"unknown","error":verified ? "":"WorkBuddy 未回读全部附件，请在电脑添加或检查附件；不会自动提交","state":state()]
+  return ["ok":verified,"outcome":verified ? "verified":"unknown","error":verified ? "":"WorkBuddy 未回读全部附件，请在电脑核对；不会自动提交","state":next]
  }
  if op=="workbuddy-submit" || op=="agent-submit" {
   guard ["workbuddy","codex","chatgpt","gemini"].contains(s["app"] as? String ?? ""),(op != "workbuddy-submit" || s["app"] as? String=="workbuddy"),let field=lastElement,let win=agentRoot,let base=m["base"] as? String,!base.isEmpty,base==s["text"] as? String,let names=m["names"] as? [String],let button=submitButton(field) else{return fail("任务尚未就绪，请核对电脑输入和发送按钮")}
-  if s["app"] as? String=="codex" {guard let current=s["submitAction"] as? [String:Any],m["actionId"] as? String==current["id"] as? String else{return fail("发送操作已变化，请核对当前按钮后重试")}}
+  if s["app"] as? String=="codex" || s["editorContext"] != nil {guard let current=s["submitAction"] as? [String:Any],m["actionId"] as? String==current["id"] as? String else{return fail("发送操作已变化，请核对当前按钮后重试")}}
   let present=attachmentReadyNames(s["app"] as? String ?? "",field);guard names.sorted()==present.sorted()else{return fail("附件未核对通过，输入已保留")}
   if !names.isEmpty {guard let paths=m["paths"] as? [String],paths.allSatisfy({attachmentProof[focusID]?[URL(fileURLWithPath:$0).lastPathComponent]==$0}) else{return fail("附件来源尚未核对，未发送")}}
   let before=visibleTexts(win,excluding:field).filter{$0==base}.count

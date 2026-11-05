@@ -45,7 +45,7 @@ export class NativeBridge {
  private service:mdns.LocalServiceInfo={serviceType:'_mobileinput._tcp',serviceName:'Input Agent',port:39871};
  private context:common.UIAbilityContext;
  private controller:webview.WebviewController;
- constructor(context:common.UIAbilityContext,controller:webview.WebviewController){this.deck=new DeckService((name:string,data:string)=>this.emit(name,data));this.macFiles=new MacFiles(context,(name:string,data:string)=>this.emit(name,data));this.mac=new MacLink((name:string,data:string)=>this.emit(name,data));AppStorage.setOrCreate<string>('pasteRequest','');this.context=context;this.controller=controller;this.speech=new Speech(context,controller);this.ai=new Gemini(context,(name:string,data:string)=>this.emit(name,data));this.motion=new PresentationMotion(controller);distributedLink.configure(context);distributedLink.attach((name:string,data:string)=>this.emit(name,data));}
+ constructor(context:common.UIAbilityContext,controller:webview.WebviewController){this.deck=new DeckService((name:string,data:string)=>this.emit(name,data));this.macFiles=new MacFiles(context,(name:string,data:string)=>this.emit(name,data));this.mac=new MacLink(context,(name:string,data:string)=>this.emit(name,data));AppStorage.setOrCreate<string>('pasteRequest','');this.context=context;this.controller=controller;this.speech=new Speech(context,controller);this.ai=new Gemini(context,(name:string,data:string)=>this.emit(name,data));this.motion=new PresentationMotion(controller);distributedLink.configure(context);distributedLink.attach((name:string,data:string)=>this.emit(name,data));}
  deckConfigure(key:string,model:string):string{return this.allowed()&&this.active&&ROLE==='tablet'?this.deck.configure(key,model):'unavailable';}
  deckControl(operation:string):string{if(!this.allowed()||ROLE!=='tablet')return 'unavailable';if(operation==='status')this.deck.status();else if(operation==='remove')this.deck.remove();return 'requested';}
  deckBegin(id:string,length:number):string{return this.allowed()&&this.active&&ROLE==='tablet'?this.deck.begin(id,length):'unavailable';}
@@ -55,12 +55,14 @@ export class NativeBridge {
  deckPickFile(id:string,kind:string):string{return this.allowed()?this.macFiles.pick(id,kind==='photo'?'gallery':kind==='camera'?'photo':kind):'unavailable';}
  deckReadFile(handle:string,offset:number):string{return this.allowed()?this.macFiles.read(handle,offset):'';}
  deckReleaseFile(handle:string):string{return this.allowed()?this.macFiles.release(handle):'unavailable';}
- macConnect(channel:string,address:string,port:number,pin:string):string {if(!this.allowed()||!this.active||ROLE!=='phone')return 'unavailable';this.motion.stop();this.speech.cancelRecognition('');return this.mac.connect(channel,address,port,pin);}
+ macTrustState():string{return this.allowed()&&ROLE==='phone'&&this.mac.hasTrust()?'trusted':'unpaired';}
+ macBluetoothDiscover():string {if(!this.allowed()||!this.active||ROLE!=='phone')return 'unavailable';this.mac.discoverBluetooth();return 'searching';}
+ macConnect(channel:string,address:string,port:number,pin:string,method:string='usb'):string {if(!this.allowed()||!this.active||ROLE!=='phone')return 'unavailable';this.motion.stop();this.speech.cancelRecognition('');return this.mac.connect(channel,address,port,pin,method);}
  macSend(channel:string,data:string):string {return this.allowed()&&this.active&&ROLE==='phone'?this.mac.send(channel,data):'unavailable';}
  macPickFile(id:string,kind:string):string{return this.allowed()&&ROLE==='phone'?this.macFiles.pick(id,kind):'unavailable';}
  macReadFile(handle:string,offset:number):string{return this.allowed()&&ROLE==='phone'?this.macFiles.read(handle,offset):'';}
  macReleaseFile(handle:string):string{return this.allowed()?this.macFiles.release(handle):'unavailable';}
- macResume(channel:string):string {if(!this.allowed()||!this.active||ROLE!=='phone')return 'unavailable';return this.mac.resume(channel);}
+ macResume(channel:string,method:string=''):string {if(!this.allowed()||!this.active||ROLE!=='phone')return 'unavailable';return this.mac.resume(channel,method);}
  macClose():string {return this.allowed()?this.mac.close():'unavailable';}
  clipboard(id:string,operation:string,text:string):string {
   if(!this.allowed())return 'unavailable';

@@ -1,5 +1,41 @@
 # Mobile Input project rules
 
+## User-requested source push · 2026-11-05
+- User explicitly requests pushing the accumulated reviewed source update to `purryc/mobile-input` on `main`, including manual Mac transports, Bluetooth pointer follow-up, confirmed attachment synchronization and contextual actions. This overrides earlier no-publication wording for this source backup only. Include bilingual release notes and evidence boundaries; exclude credentials, private device captures/logs, signing inputs, recordings and HAP/build packages. Preserve unrelated work, do not force-push, deploy or operate devices.
+
+## Continuous relative-pointer dispatch · 2026-11-05
+- Reuse the standard relative-motion principle observed in the Geek Peripheral HID report, not proprietary code or an unverified claim of HID integration. Existing authenticated BLE remains the selected transport; the prior standalone public HID keyboard probe is separate evidence.
+- Shared Mac relative movement may use a bounded, paced window of outstanding moves, retaining application receipts and exact deltas. Button/scroll edges are ordered barriers; failure, target change and background invalidate unsent movement and release held buttons. Demo absolute pointers retain their sequential contract.
+- BLE single-MTU compact move packets may negotiate encrypted GATT Write Without Response; retain the application execution acknowledgement, bounded outstanding window and failure shutdown. Buttons, authentication and materials keep acknowledged GATT writes. No optimistic execution receipt or cross-transport fallback.
+- Bound server pointer concurrency independently from expensive task operations. Never turn local enqueue into a successful execution receipt. Measure movement-only before/after on the same gesture and record proxy timing limits. Preserve manual transport selection, all data and unrelated changes; no real task submission or Git publication.
+
+## Bluetooth pointer latency follow-up · 2026-11-05
+- User confirms actual USB-unplugged BLE cursor control but reports slow movement. Distinguish delayed tracking from movement gain; do not claim fluid latency from connectivity alone. Keep manual transport selection and preserve all data.
+- Mac relative-pointer travel uses a uniform 1.5x native gain over the previous mapping (all transports), addressing the separately reported short travel; gain is linear so coalescing does not change total displacement. Retain fine movement, screen bounds, current native position and exact button ordering.
+- BLE may negotiate compact relative-pointer wire encoding; every packet must retain the full command ID, sequence, session, window and target. Expand before existing validation and deduplication. Legacy peers retain JSON; no implicit target or discarded relative deltas.
+- Suppress pointer-only full state broadcasts over BLE and allow a BLE-specific quiet interval before background AX scans. Continue sending authoritative application/target/text/status changes and ordered pointer button receipts; do not bypass authentication, current-window validation, release safety or unknown-command protection. Verify locally and use movement-only live checks; no real text writes or task submission.
+
+## Bluetooth material and unplug validation · 2026-11-05
+- Native WorkBuddy attachment paste must first collapse and read back the exact existing text selection; never replace selected prose with file cards. Unverified caret collapse rejects before paste.
+- WorkBuddy attachment-only reconciliation must not rewrite unchanged prose: verify the existing target/base and preserve native attachment chips and caret. A no-op text projection may not block material adoption or removal.
+- User authorizes real Bluetooth image/file/sketch synchronization into a dedicated unsent draft, scoped removal of only these fictional test attachments, and physical USB-unplug stability testing. Preserve existing data and transport choice. No real task submission, model execution, unrelated document modification or publication. Save evidence under ignored `artifacts/bluetooth/`; distinguish upload, native adoption/removal, and USB-disconnected observations.
+
+## Manual Mac transport selection · 2026-11-05
+- Latest user override: remove USB automatic priority and cross-transport fallback. USB, Bluetooth and Wi-Fi are explicitly selected. Plugging/unplugging a cable never changes the chosen transport; reconnect retries only that transport. Preserve credentials/endpoints for all paired methods and keep actual connection state distinct from selection. This supersedes older USB-priority requirements.
+
+## Bluetooth Mac connection and settings · 2026-11-05
+- User additionally authorizes rebuilding only this phone–Mac OS Bluetooth pairing to diagnose reconnect failure. Preserve application trust, drafts/materials and secrets; never reset other Bluetooth devices or the global radio.
+- User authorizes the selected settings design, real Bluetooth Mac transport, phone maintenance installation and scoped connection testing. Preserve generation, drafts, materials, permissions, pairing and secrets; no real Agent submission or Git publication.
+- Settings order: interface language first, actual connection status, control destination, transport selection, then transport-specific next step. Omit connection-scheme preview. Keep bilingual UI and existing demo/distributed settings reachable.
+- Bluetooth carries the existing authenticated control protocol over a secure native channel; no simulated Bluetooth success or HID-only claim of full state/material support. Transport changes require the explicit method selection; reconnection stays on that method. Unknown command outcomes never replay.
+- Bluetooth follow-up replaces the one-way-observed macOS serial endpoint with public CoreBluetooth / Harmony BLE GATT adapters. Require encrypted characteristics plus existing application trust; verify notification backpressure, framing and actual bidirectional state/commands. No silent USB or Wi-Fi substitution. Preserve data and record transport-specific acceptance honestly.
+- Native Bluetooth permission, discovery, pairing, transport security and actual state/command receipts must be verified separately. Unsupported hardware/API states remain honestly unavailable.
+
+## Native relative pointer across displays · 2026-11-05
+- Mac trackpad movement follows relative deltas from the current native cursor across all active display bounds, including negative origins and Dock. Do not constrain movement to the foreground window or one display. Read display geometry dynamically; retain legacy absolute packets for compatible clients.
+- Merge unsent relative deltas without losing movement; preserve down/up ordering and release on disconnect/background/target change. Clicks use the actual cursor position in relative mode. Pointer capability does not grant text writes to unverified applications or editors.
+- Reuse the existing USB/LAN companion and shared InputDock; no claim of Bluetooth HID emulation or identical macOS trackpad acceleration. Verify geometry, protocol and gestures with isolated tests; do not submit tasks or alter real documents. Preserve unrelated work and data; no Git publication.
+
 ## Design System website and A2UI sandbox · 2026-11-05
 - Implement the approved bilingual documentation site in `apps/design-system/`; Notion remains the canonical design rule source. Published snapshots are derived, versioned evidence, never a second editable rulebook.
 - Reuse product components; isolate preview state, storage, themes and fixture services from device/runtime imports. ImageInput is the public name; preserve legacy photo protocol and persisted identities. Confirmed attachments synchronize to the owning unsent draft; task Send remains separate.
@@ -7,6 +43,17 @@
 - The user explicitly authorizes scoped source commit/push and GitHub Pages publication to purryc/mobile-input for this website. Preserve unrelated worktree edits. Release through the manually dispatched Pages workflow; no device installation or Figma change.
 - `.github/workflows/` contains the manually dispatched website build/deploy workflow; it uploads only `apps/design-system/dist/`. Do not add automatic publication triggers.
 - New site directories: `src/` application/catalog/fixtures, `content/` reviewed release metadata, `scripts/` generators and checks, `tests/` meaningful contracts, `public/generated/` generated reviewed resources, `dist/` ignored build output. Use lowercase-kebab-case file names; generated files must name their source and be reproducible. QA evidence stays in ignored `artifacts/design-system/`.
+
+## Confirmed attachment synchronization · 2026-11-05
+- User override: after a file, photo or sketch is confirmed into the phone Composer, synchronize actual bytes and adoption to the verified destination draft immediately. This supersedes all older local-until-Send/adoption-does-not-upload rules below. Picker previews and unconfirmed sketches/photos stay local. Send remains a separate explicit task submission and must wait for verified attachment synchronization.
+- Removing a confirmed phone attachment removes only its matching attachment from the destination's current unsent draft, never the original file, unrelated attachments or sent history. Keep owner-bound pending removal and an honest retry state on failure. Confirmed additions/removals may reconcile after reconnect; never replay a task submission or apply to a different owner.
+- Use one attachment lifecycle across Mac, tablet demo and future real Harmony adapters. Actual unavailable capabilities remain unavailable; real Harmony cross-app support is not implied. Preserve real documents, current tasks, data, credentials and unrelated changes. Local simulated validation first; no real task submission, publication or unrequested deletion of user attachments.
+
+## WorkBuddy native selection and review follow-up · 2026-11-05
+- Follow the current observed contextual menu at every stage, rather than assuming Edit always leads to Accept/Reject. WorkBuddy's observed instruction confirmation and pending Send/Cancel are distinct stages. The shared phone UI renders actual labels/enabled states, optional evidence-backed diff, and invalidates disappeared/changed controls. Never invent result actions or treat confirmation of an idea as model execution.
+- Extend the existing shared Agent selection/edit-review UI to real Mac WorkBuddy only through observed native accessibility structure. Keep source selection, instruction editor, proposal and result identity distinct; unknown controls stay unavailable. No guessed transcript buttons or fabricated modification results.
+- Preserve drafts, attachments, pairing, credentials and demo generation. Inspect existing native states and reversible navigation; do not submit real Agent instructions, accept/reject existing changes, or modify real documents during validation. Local fixtures exercise consequential actions. Record missing live evidence honestly; no Git publication for this revision.
+- USB follow-up: an unexpected native helper exit must terminate the unhealthy companion so its existing launch agent can restart a fresh command session. Preserve trust and drafts, never replay unknown commands; normal shutdown must not trigger recovery. Distinguish a healthy USB tunnel from a functioning native state reader.
 
 ## Explicit GitHub source backup · 2026-11-04
 - User requests publishing the accumulated source updates to `purryc/mobile-input` on the existing `main` branch. This overrides earlier no-publication limits only for this source backup. Include bilingual change notes and truthful validation limits; exclude credentials, signing inputs, private AX/screenshots, device state, recordings and built packages. No device operation or real task execution is part of publication.

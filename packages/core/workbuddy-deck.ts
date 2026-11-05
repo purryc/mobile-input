@@ -29,8 +29,8 @@ export function workBuddyDeckInteraction(s:State,c:Command):string|null|undefine
  if(c.type==='wb-deck-start'&&v.prompt&&!promptContextMatches(s,v.context))return '成果上下文已变化，请重新发送';
  const context=c.type==='wb-deck-start'?promptArtifactContext(s):undefined;
 
- // The phone uploads privately first. Only an accepted Send attaches the frozen
- // manifest to the task; partial transfers never change its visible draft.
+ // Confirmed attachments synchronize into the unsent draft. Explicit Send freezes
+ // the verified manifest; neither adoption nor removal starts a task.
  if(c.type==='wb-deck-start'&&v.assets!==undefined){
   if(!d||(!task&&v.task!=='new')||!targetValid()||v.revision!==d.revision||v.inputRevision!==(d.deckInput?.revision||0)||v.owner!==(d.owner||''))return '任务或输入已变化，材料保留在手机';
   if(!Array.isArray(v.assets)||v.assets.length>12||!v.assets.every(validAsset)||new Set(v.assets.map((a:any)=>a.id)).size!==v.assets.length||v.assets.reduce((n:number,a:any)=>n+a.size,0)>24*1024*1024)return '材料清单无效';
@@ -42,7 +42,7 @@ export function workBuddyDeckInteraction(s:State,c:Command):string|null|undefine
   if((!task&&v.task!=='new')||task?.receipts||task?.referenceRequest||!d||task?.status==='running')return '原任务不可编辑，材料尚未采用';
   if(v.owner!==undefined&&v.owner!==(d.owner||''))return '原输入已结束，材料已保留';
   const input=d.deckInput??=emptyDeckInput();if(v.revision!==input.revision)return '输入参数已更新，请重试';
-  if(v.action==='asset'){if(!validAsset(v.asset))return '材料格式无效';if(input.assets.length>=12&&!input.assets.some(a=>a.id===v.replace))return '最多采用 12 份材料';input.assets=v.replace?input.assets.filter(a=>a.id!==v.replace):input.assets;input.assets.push(structuredClone(v.asset));if(v.asset.kind==='sketch')input.sketchDrafts=input.sketchDrafts?.filter(a=>a.scope!==v.asset.scope);}
+  if(v.action==='asset'){if(!validAsset(v.asset))return '材料格式无效';const retained=input.assets.filter(a=>a.id!==v.replace&&a.id!==v.asset.id);if(retained.length>=12)return '最多采用 12 份材料';if(retained.reduce((sum,a)=>sum+a.size,0)+v.asset.size>24*1024*1024)return '总材料超过 24 MB';input.assets=[...retained,structuredClone(v.asset)];if(v.asset.kind==='sketch')input.sketchDrafts=input.sketchDrafts?.filter(a=>a.scope!==v.asset.scope);}
   else if(v.action==='sketch-draft'){if(typeof v.scope!=='string'||v.scope.length>80||typeof v.replace!=='string'||v.replace.length>100||!validStrokes(v.strokes))return '草图格式无效';input.sketchDrafts=(input.sketchDrafts||[]).filter(a=>a.scope!==v.scope);if(v.strokes.length){if(input.sketchDrafts.length>=12)return '草图过多';input.sketchDrafts.push({scope:v.scope,replace:v.replace,strokes:v.strokes});}}
   else if(v.action==='remove')input.assets=input.assets.filter(a=>a.id!==v.assetId);
   else if(v.action==='parameter'){if(v.sourceText!==undefined&&v.sourceText!==d.text)return '文字已更新，请重新选择参数';input.parameters=resolveLiveParameters(d.text,input.parameters);const p=input.parameters.find(p=>p.id===v.id);if(!p||typeof v.value!=='string'||p.kind==='color'&&!/^#[0-9a-f]{6}$/i.test(v.value)||p.kind==='duration'&&(!/^\d+$/.test(v.value)||+v.value<1||+v.value>60))return '参数已变化或格式无效';p.value=v.value;p.label=p.kind==='duration'?v.value:p.kind==='color'?'自选色':p.label;p.manual=true;}

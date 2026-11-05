@@ -1,3 +1,4 @@
+import {MacConnectionSettings} from './mac-connection-settings';
 import {uiText} from './i18n';
 import {setUILanguage,useUILanguage,type UILanguage} from './i18n';
 import {WebDeckSettings} from './web-deck-settings';
@@ -6,7 +7,7 @@ import {useControlDestination,selectControlDestination} from './control-destinat
 import {connectMac,disconnectMac,resumeMac,useMacLink} from './mac-link';
 import {GeminiAccount} from './ai-polish';
 import {createContext,useContext,useEffect,useRef,useState,type ReactNode,type RefObject} from 'react';
-import {Settings,ScanLine,RefreshCw,X,TabletSmartphone,ChevronRight,Check} from 'lucide-react';
+import {Settings,ScanLine,RefreshCw,X,TabletSmartphone,ChevronRight,Check,ChevronLeft,Laptop} from 'lucide-react';
 import QRCode from 'qrcode';
 import {command,connect,pin,role,useRuntime,toast,selectConnectionMethod,discoverDistributed,connectDistributed,type ConnectionMethod} from './runtime';
 import {useBack} from './back';
@@ -28,6 +29,7 @@ export function ConnectionAccess({children}:{children:ReactNode}){
  useEffect(()=>{if(!phone||destination==='demo'&&r.connected)setUILanguage(r.state.uiLanguage||'zh-CN');},[phone,destination,r.connected,r.state.uiLanguage]);
  async function languageChange(value:UILanguage){if(phone&&destination!=='demo'){setUILanguage(value);return;}if(phone&&!r.connected){toast('请先连接平板');return;}const ack=await command('ui-language',value);if(ack.ok)setUILanguage(value);else toast(ack.error||'语言未更新');}
  const [opened,setOpened]=useState(phone&&!r.connected),[address,setAddress]=useState(r.address||''),[code,setCode]=useState(''),[qr,setQr]=useState('');
+ const [targetsOpen,setTargetsOpen]=useState(false);
  const [confirmReset,setConfirmReset]=useState(false),[resetting,setResetting]=useState(false);
  async function reset(){setResetting(true);const ack=await command('demo-reset');if(ack.ok)toast('演示已重置');else setResetting(false);}
  const priorConnected=useRef(r.connected),entry=useRef<HTMLButtonElement>(null),panel=useRef<HTMLElement>(null);
@@ -58,17 +60,18 @@ export function ConnectionAccess({children}:{children:ReactNode}){
  return <ConnectionContext.Provider value={{opened,show,entry,status,connected:activeConnected}}><div className={'agent-shell agent-'+role+(inline?' inline-connection':'')} style={insets}>
   <div className="agent-workspace" inert={opened||failure}>{children}</div>
   {!inline&&<header className="agent-status-area">
-   {phone&&<div className="agent-identity"><b>Input Agent</b><span>{uiText(status)}</span></div>}
+   {phone&&<div className="agent-identity"><b>Input Agent</b><span>{uiText(status)}</span>{real&&mac.connected&&mac.state?.device&&<small className="settings-peer-name">{mac.state.device}</small>}</div>}
    <ConnectionButton/>
   </header>}
   {opened&&<div className="scrim agent-connection-scrim" onPointerDown={e=>{if(e.target===e.currentTarget)close();}}>
    <section ref={panel} className="agent-connection-panel" role="dialog" aria-modal="true" aria-labelledby="connection-title" tabIndex={-1} onClick={e=>e.stopPropagation()}>
-    <header><h2 id="connection-title">{uiText("设置")}</h2><button aria-label={uiText("关闭连接设置")} onClick={close}><X size={22}/></button></header>
+    <header><button className="settings-header-back" aria-label={uiText("返回")} onClick={close}><ChevronLeft size={24}/></button><h2 id="connection-title">{uiText("设置")}</h2><button aria-label={uiText("关闭连接设置")} onClick={close}><X size={22}/></button></header>
     <fieldset className="settings-language"><legend>{uiText("界面语言")}</legend><label><input type="radio" name="ui-language" checked={language==='zh-CN'} disabled={phone&&destination==='demo'&&!r.connected} onChange={()=>void languageChange('zh-CN')}/>中文</label><label><input type="radio" name="ui-language" checked={language==='en'} disabled={phone&&destination==='demo'&&!r.connected} onChange={()=>void languageChange('en')}/>English</label></fieldset>
-    <h3>{uiText("连接")}</h3><div className="agent-link-state" role="status"><i data-connected={activeConnected}/><span>{uiText(status)}</span></div>
-    {phone&&<fieldset className="connection-methods connection-destinations"><legend>{uiText("控制目标")}</legend>{([['demo','平板演示','现有九个演示应用'],['mac','Mac 应用','WorkBuddy · Codex · WPS'],['harmony','鸿蒙应用','通过 Mac 桥接 · 尚未接通']] as const).map(([id,label,detail])=><label className="connection-method" data-selected={destination===id} key={id}><input type="radio" name="control-destination" value={id} checked={destination===id} onChange={()=>{if(r.connected&&destination==='demo'){void command('release');void command('input-session-pause');}selectControlDestination(id);setConfirmReset(false);}}/><span className="method-copy"><b>{uiText(label)}</b><small>{uiText(detail)}</small></span><span className="method-radio" aria-hidden>{destination===id&&<i/>}</span></label>)}</fieldset>}
+    <div className="agent-link-state" role="status"><i data-connected={activeConnected}/><span>{uiText(status)}</span>{real&&mac.connected&&mac.state?.device&&<small className="settings-peer-name">{mac.state.device}</small>}</div>
+    {phone&&<div className="settings-target"><h3>{uiText("控制目标")}</h3><button className="connection-target-row" aria-expanded={targetsOpen} onClick={()=>setTargetsOpen(v=>!v)}>{destination==='mac'?<Laptop size={24}/>:<TabletSmartphone size={24}/>}<b>{uiText(destination==='mac'?'Mac 应用':destination==='demo'?'平板演示':'鸿蒙应用')}</b><ChevronRight size={18}/></button></div>}
+    {phone&&targetsOpen&&<fieldset className="connection-methods connection-destinations"><legend>{uiText("控制目标")}</legend>{([['demo','平板演示','现有九个演示应用'],['mac','Mac 应用','WorkBuddy · Codex · WPS'],['harmony','鸿蒙应用','通过 Mac 桥接 · 尚未接通']] as const).map(([id,label,detail])=><label className="connection-method" data-selected={destination===id} key={id}><input type="radio" name="control-destination" value={id} checked={destination===id} onChange={()=>{if(r.connected&&destination==='demo'){void command('release');void command('input-session-pause');}selectControlDestination(id);setTargetsOpen(false);setConfirmReset(false);}}/><span className="method-copy"><b>{uiText(label)}</b><small>{uiText(detail)}</small></span><span className="method-radio" aria-hidden>{destination===id&&<i/>}</span></label>)}</fieldset>}
     {real?<section className="connection-detail">
-     {destination==='mac'?<><h3>{uiText("连接 Mac")}</h3>{mac.canResume&&!mac.connected&&<button className="connection-retry" onClick={resumeMac}>{uiText("重新连接这台 Mac")}</button>}<p className="connection-mac-note">{uiText("在 Mac 打开“Input Agent 连接”扫码配对。配对后自动重连，USB 优先。")}</p>{window.MobileNative&&<button className="connection-scan primary" onClick={()=>window.MobileNative?.scan()}><ScanLine size={22}/>{uiText("扫描 Mac 二维码")}</button>}<form className="connect-panel" onSubmit={e=>{e.preventDefault();connectMac(address.trim(),code);}}><label>{uiText("Mac 地址")}<input aria-label={uiText("Mac 地址")} value={address} placeholder={mac.address||uiText("同一网络的 Mac 地址")} onChange={e=>setAddress(e.target.value)}/></label><label>{uiText("配对码")}<input aria-label={uiText("Mac 配对码")} inputMode="numeric" maxLength={6} value={code} onChange={e=>setCode(e.target.value.replace(/\D/g,''))}/></label><button className="primary" disabled={code.length!==6||!address.trim()}>{uiText("连接 Mac")}</button></form>{mac.connected&&<button className="connection-retry" onClick={()=>{intentional.current=true;disconnectMac();}}>{uiText("断开 Mac")}</button>}</>:<><h3>{uiText("通过 Mac 控制真实平板")}</h3><p className="connection-mac-note">{uiText("入口已准备。真实应用读写适配完成并验证后开放；不会切入演示应用代替真实控制。")}</p></>}
+     {destination==='mac'?<MacConnectionSettings onDisconnect={()=>{intentional.current=true;}}/>:<><h3>{uiText("通过 Mac 控制真实平板")}</h3><p className="connection-mac-note">{uiText("入口已准备。真实应用读写适配完成并验证后开放；不会切入演示应用代替真实控制。")}</p></>}
     </section>:<><fieldset className="connection-methods"><legend>{uiText("连接方式")}</legend>
      <label className="connection-method" data-selected={r.method==='distributed'}>
       <input type="radio" name="connection-method" value="distributed" checked={r.method==='distributed'} onChange={()=>selectMethod('distributed')}/>

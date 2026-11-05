@@ -14,7 +14,8 @@ export async function uploadMacMaterial(file:File,kind:LiveMaterial['kind'],bind
  const valid=()=>{const s=macSnapshot();return s.connected&&s.session===session&&s.state?.window===binding.window&&s.state?.target===binding.target;};
  const bytes=new Uint8Array(await file.arrayBuffer()),sha256=Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',bytes)),n=>n.toString(16).padStart(2,'0')).join('');
  if(!valid())throw Error('目标已变化，材料保留在手机');const begin=await macCommand('file-begin',{name:file.name,size:file.size,sha256,fileKind:kind},binding);if(!begin.ok||!begin.fileId)throw Error(begin.error||'文件传输失败');
- for(let offset=0;offset<bytes.length;offset+=48*1024){if(!valid())throw Error('连接或目标已变化，材料已保留');const data=btoa(String.fromCharCode(...bytes.subarray(offset,offset+48*1024)));const r=await macCommand('file-chunk',{fileId:begin.fileId,offset,data},binding);if(!r.ok)throw Error(r.error||'文件传输未完成');}
+ const chunkSize=macSnapshot().transport==='bluetooth'?2048:48*1024;
+ for(let offset=0;offset<bytes.length;offset+=chunkSize){if(!valid())throw Error('连接或目标已变化，材料已保留');const data=btoa(String.fromCharCode(...bytes.subarray(offset,offset+chunkSize)));const r=await macCommand('file-chunk',{fileId:begin.fileId,offset,data},binding);if(!r.ok)throw Error(r.error||'文件传输未完成');}
  const result=await macCommand('file-finish',{fileId:begin.fileId},binding);if(!valid()||!result.ok||!result.file)throw Error(result.error||'文件未校验通过');return result.file;
 }
 // Native-picked files survive navigation/reconnect without being copied into demo state or logs.

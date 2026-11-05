@@ -58,3 +58,40 @@
 .connection-reset{margin-top:20px;padding-top:12px;border-top:1px solid #e4eaf0}.connection-reset>button{width:100%;gap:8px;justify-content:center}.connection-reset button{min-height:48px;border-radius:12px;padding:0 18px;background:#edf2f7;color:#344c61}.connection-reset p{font-size:13px;line-height:1.7;color:#526879}.connection-reset>div{display:flex;justify-content:flex-end;gap:12px}.connection-reset .reset-confirm{background:#a63a42;color:white}.connection-reset small{display:block;margin-top:8px;color:#6d7c8d}
 
 .settings-language{display:flex;align-items:center;gap:16px;border:0;padding:8px 0;margin:0}.settings-language legend{font-weight:600;padding:0}.settings-language label{display:flex;align-items:center;gap:6px;min-height:48px}.settings-language input{width:20px;height:20px;accent-color:#087c70}
+/* Selected settings composition: language, actual route, target, then next step. */
+.agent-connection-panel .settings-language{display:flex;flex-wrap:wrap;gap:4px;padding:10px 0 18px;margin:0;border-bottom:1px solid #dce3e9}
+.agent-connection-panel .settings-language legend{float:left;width:auto;margin-right:auto;line-height:48px;font-size:14px}
+.agent-connection-panel .settings-language label{position:relative;justify-content:center;min-width:72px;min-height:48px;padding:0 10px;border-radius:12px;color:#526270;background:#edf1f5}
+.agent-connection-panel .settings-language label:has(input:checked){background:#fff;color:#1e69d2;box-shadow:0 1px 5px #152c4020}
+.agent-connection-panel .settings-language input{position:absolute;inset:0;opacity:0;width:100%;height:100%;margin:0;cursor:pointer}
+.agent-connection-panel .settings-language label:has(input:focus-visible){outline:2px solid #246fe5}
+.agent-connection-panel .agent-link-state{min-height:58px;font-size:14px;color:#354757;border-bottom:1px solid #dce3e9}
+.connection-target-row{display:flex;width:100%;align-items:center;gap:10px;min-height:58px;padding:8px 0;background:transparent!important;border:0!important;color:#304253!important;border-bottom:1px solid #dce3e9!important;border-radius:0!important;font-size:14px}
+.connection-target-row>b{margin-left:auto;font-size:14px;font-weight:500}
+.mac-connection-settings .connection-methods{margin-top:14px;gap:10px}
+.mac-connection-settings .connection-methods legend{font-size:14px;color:#344654}
+.mac-connection-settings .connection-method{min-height:78px;background:#f1f4f7;border-color:#dce5ec}
+.mac-connection-settings .connection-method[data-selected=true]{background:#eaf2ff;border-color:#4788ee}
+.mac-usb-priority{font-size:12px;line-height:1.6;color:#657684;margin:14px 0}
+.mac-connect-next{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;min-height:50px;border-radius:14px!important;background:#216de3!important;color:white!important}
+.connection-step-back{display:flex;align-items:center;gap:8px;min-height:48px;background:transparent!important;color:#366897!important}
+.mac-connection-settings>p{font-size:13px;line-height:1.6;color:#607581}
+.mac-connection-settings .distributed-device[data-selected=true]{outline:2px solid #4788ee;background:#eaf2ff}
+.agent-connection-panel .settings-language label:has(input:checked){background:#0969ff;color:#fff;box-shadow:none}
+.agent-connection-panel>header h2{margin-right:auto;font-size:20px}
+.agent-connection-panel>header .settings-header-back{background:transparent;width:32px;margin-right:6px}
+.settings-peer-name{border-left:1px solid #c8d3df;margin-left:5px;padding-left:12px;max-width:45%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#657588}
+.settings-target{padding:14px 0 18px;border-bottom:1px solid #dce3e9}
+.settings-target h3{font-size:14px;margin:0 0 10px}
+.settings-target .connection-target-row{border:0!important;background:#edf2f7!important;border-radius:16px!important;padding:12px 14px;min-height:58px;gap:14px}
+.settings-target .connection-target-row>b{margin-left:0;margin-right:auto}
+.agent-connection-panel:has(.mac-connection-settings)>.connection-detail{border:0;padding-top:0;margin-top:10px}
+.mac-connection-settings .connection-methods{gap:0;border-radius:18px;overflow:hidden}
+.mac-connection-settings .connection-method{border-color:transparent;border-radius:0;background:#edf2f7}
+.mac-connection-settings .connection-method[data-selected=true]{border-color:#4788ee;border-radius:16px}
+.bluetooth-device-list{max-height:220px;overflow:auto;overscroll-behavior:contain}
+.mac-connection-settings .mac-connect-next{background:#0969ff!important}
+.agent-connection-panel:has(.gemini-account){max-height:calc(100dvh - max(16px,var(--native-top,0px)) - max(16px,var(--native-bottom,0px)))}
+.mac-connection-settings .connection-method:has(input:focus-visible){outline:0;box-shadow:inset 0 0 0 2px #246fe5}
+.agent-connection-panel .connection-account{margin-top:12px;padding-top:10px}
+@media (min-height:780px){.agent-connection-panel{padding-top:14px;padding-bottom:14px}.agent-connection-panel .settings-language{padding-top:4px;padding-bottom:10px}.agent-connection-panel .agent-link-state{min-height:48px}}

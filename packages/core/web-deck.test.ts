@@ -46,3 +46,12 @@ test('explicit sketch target still binds only its intended page',async()=>{
   if(scope==='不存在页')await assert.rejects(pending,/目标页名/);else{const deck=await pending;assert.equal(deck.pages[0].layout,'cover');assert.equal(deck.pages[1].layout,'stack');}
  }
 });
+
+test('confirmed draft attachment adoption and removal are idempotent and never start generation',()=>{
+ const f=setup(),id=f.store.state.workbuddy.task,owner=f.store.state.workbuddy.drafts[id].owner,asset={id:'12345678-1234-1234-1234-123456789abc',name:'fictional.txt',kind:'document',mime:'text/plain',size:3,scope:'全文'};
+ const act=(value:any)=>f.send('wb-deck-input',{task:id,owner,revision:f.store.state.workbuddy.drafts[id].deckInput?.revision||0,...value});
+ assert.equal(act({action:'asset',asset}).ok,true);assert.equal(act({action:'asset',asset}).ok,true);
+ assert.equal(f.store.state.workbuddy.drafts[id].deckInput!.assets.length,1);assert.notEqual(f.store.state.workbuddy.tasks.find(t=>t.id===id)?.status,'running');
+ assert.equal(act({action:'remove',assetId:asset.id}).ok,true);assert.equal(act({action:'remove',assetId:asset.id}).ok,true);assert.equal(f.store.state.workbuddy.drafts[id].deckInput!.assets.length,0);
+ assert.equal(act({action:'asset',asset,owner:'another-owner'}).ok,false);
+});
