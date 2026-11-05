@@ -41,3 +41,16 @@ For rollback, dispatch the same workflow with `source_ref=<previous-release-comm
 Run site tests/build and affected root checks for shared-source changes. Manually verify photo search, confirmation/sync failures, Prompt search, selection/undo/stale polish, A2UI run/step/reset/errors, CN/EN, keyboard access and 390px mobile layout. Save private QA logs/screenshots under ignored `artifacts/design-system/`.
 
 The fixture host accepts static child ID lists, one-level data bindings and complete reachable component trees. Send data before components that bind it. These are deliberate sandbox restrictions, not claims about the full A2UI protocol. Editing a message invalidates its prior preview; stepping rebuilds the selected prefix with a fresh host.
+
+## Generative UI method and task composition
+
+The canonical Notion section “生成式 UI：规则与接入流程 · 2026-11-05” is published in `content/rules-snapshot.json` with bilingual explanations and page references to the user-provided 25-page PDF. The PDF is a method reference, not the A2UI protocol or evidence of product performance; the original PDF is not redistributed.
+
+Routes:
+- `#/guides/generative-ui`: method, project adaptations, state/authority and publication rules.
+- `#/a2ui/task-composition`: deterministic task → candidates → explicit entry → fixed template → validated A2UI → shared component demo.
+- `#/a2ui/task-integration`: source connections, the proposed host contract and remaining production work.
+
+`task-composition.ts` reuses the product's bounded Chinese parameter parser and contextual polish selector. Fictional target profiles demonstrate capability filtering, missing values and missing Catalog bindings. Selecting an entry initializes a fresh isolated sandbox; parameter changes stay in its copy and do not rewrite the original task. English chrome does not imply English semantic parsing. The generated `task-composition.json` contains source metadata, a local plan and validated messages for each available candidate. Plans are illustrative internal contracts, not official A2UI messages.
+
+Production still needs a unified context/capability provider, constrained plan compiler with stable interaction lifecycle, and events bound to the existing editing session and verified adapters. The website neither imports a device controller nor establishes model planning or phone A2UI integration. Start product integration with the existing Agent draft's color, duration and image entries; retain explicit attachment confirmation/sync and Send.

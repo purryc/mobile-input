@@ -1,8 +1,8 @@
 {
   "source": "https://app.notion.com/p/3f9194db24c38165996cf89b22e7d69e?pvs=204",
   "sourcePageId": "3f9194db24c38165996cf89b22e7d69e",
-  "sourceEditedAt": "2026-11-05T20:34:59.283Z",
-  "release": "2026-11-05.1",
+  "sourceEditedAt": "2026-11-05T22:35:37.248Z",
+  "release": "2026-11-05.2",
   "publicationAmendment": "## Design System 发布规则 · 2026-11-05\n\n- 本页继续作为设计规则唯一维护源；网站仅发布可追溯快照与中英文说明。指南、组件、场景、A2UI、资源为五个一级栏目。组件保留稳定 ID，设计登记、代码实现、应用接入分别标识。\n- 公开名称统一为 ImageInput，控件标题为“图片选择”；代码展示层为 AgentImageInput，历史 photo 参数、协议和存储身份保持兼容。\n- 当前附件规则覆盖此前“确认后不传输／仅 Send 传输”的描述：未确认的图片和草图保留本地；确认进入 Composer 后立即向原目标未发送草稿同步实际字节和采用状态。移除只作用于该草稿中的对应附件，失败保留原归属和重试状态。Send 独立且等待同步验证；重连不得重放任务提交。\n- 文本辅助分为 ContextualPolishActions 组件、文本润色／Agent 指令场景、动作与内部指令规则。Prompt 优化是文档名称；产品仍使用内容条件允许的“整理结构／精简表达”。短指令、纯参数、空内容可无动作。动作由 contextualPolishActions 计算，未暴露动作不作为可用能力宣传。\n- 润色只处理当前选区或全文，保留选区、参数、材料归属和共享撤销历史；执行前重新核验目标、版本和动作，过期结果不回填。内部指令原文只读并关联源码版本。\n- A2UI v0.9.1 使用登记的 Catalog 与宿主编辑上下文；polish.request 只提出动作 ID，宿主核验后执行。描述不得自带任意内部指令、服务地址或权限。网页沙盒使用隔离的固定样例，不连接真实模型、设备或产品存储。\n",
   "scope": "Reviewed design-only publication excerpt. Maintain rules in Notion, regenerate this snapshot for a release.",
   "rules": [
@@ -31,5 +31,194 @@
       "zh": "主题只改变视觉 Token，不改变输入几何和行为。应用能力必须来自实际适配器证据。",
       "en": "Themes change visual tokens, not input geometry or behavior. Application capabilities require actual adapter evidence."
     }
-  ]
+  ],
+  "generativeUi": {
+    "version": "2026-11-05.1",
+    "sourceSection": "生成式 UI：规则与接入流程 · 2026-11-05",
+    "amendment": "## 生成式 UI：规则与接入流程 · 2026-11-05\n\n本节补充既有 GEN 规则、§7 生成规则与 Design System 发布规则；既有稳定输入区、明确发送、目标与版本保护继续适用。维护源仍为本页，网站只发布本节的有版本摘录和双语说明。\n\n参考为用户提供的《2026 生成式 UI：当界面不再固定，前端要重新发明一次》（菜鸟编程学习笔记，2026-10-26，25 页 PDF；[原文](https://mp.weixin.qq.com/s/j5SfMYuz3IyrHlql3vtlzQ)）。它是设计与工程方法参考，不是协议规范或我们的实测证据。PDF 示例 JSON 不直接作为 A2UI 消息；文章中的延迟、组件数量与收益数字不设为本产品验收值。\n\n### 规则\n\n- GUI-01 四层分工（参考 PDF p4–6）：Layout 是宿主登记的稳定模板，Component 是可用真实组件，Binding 引用宿主有权读取的数据，Action 是具名且经授权的操作。设计规则回答何时选，Catalog 回答如何描述，A2UI 传递界面描述，宿主决定是否执行。A2UI 本身不负责理解任务或授予能力；AG-UI 是可选事件连接层，不是必选 UI 设计方法。\n- GUI-02 先能力后语义（p7–10）：宿主建立当前应用／任务／编辑目标、版本和可用能力；先裁剪候选，再由确定性规则或模型判断相关性。支持代码不等于目标支持。模型只能返回登记候选 ID 和绑定引用；不能自带权限、服务地址、内部指令、HTML、JS 或任意样式。\n- GUI-03 模板优先（p18–23）：匹配已验证场景就复用；没有场景但有明确能力时才在受限模板内组合；目标不明或能力不足时保留既有输入，说明缺口。固定 Composer 与 InputDock，辅助区最多一个；识别只建议入口，用户点击才打开。主题使用现有 Tokens，不随内容重排控件。\n- GUI-04 数据与状态分工（p11–14）：控件树、内容数据、操作状态分别更新。宿主持有 owner、revision、capabilityVersion 和稳定参数／材料 ID；客户端持有展开、焦点、选择与手势状态；真实目标的权威状态以适配器回读为准。拖动、听写、编辑过程中不重建正在操作的布局。晚到计划不覆盖更新的文字、手调值或目标。编译时从宿主重新读取当前正文与手调参数，不能信任计划副本；未支持的颜色角色不能映射为主题色。\n- GUI-05 明确动作与结果（p7–10、p14–17）：点击只是拟议事件。执行前重检目标、内容版本、参数范围和权限；区分 requested、accepted、verified、failed、unknown。确认材料、同步草稿和 Send 是独立环节；未知提交结果不重放。润色重用 contextualPolishActions，保护选区、参数和材料，并保留撤销。\n- GUI-06 可恢复降级（p15–17）：未知组件、危险字段、缺失绑定及非法动作拒绝并说明；不把未知动作偷偷映射到其他可执行动作。保留原有可用输入及草稿；无可用候选时不凑数。缺少参数值先让用户补齐，不能把默认值当已识别值。\n- GUI-07 焦点与渐进呈现（p11–14 的项目适配）：可分步呈现经校验结构和数据；本网站受限沙盒要求绑定数据先于组件。不得照搬文章“渲染后自动聚焦第一项”，应保留当前光标和选区，只在用户发起的转换中管理焦点。状态变化可被辅助技术感知；键盘可操作，窄屏不溢出。\n- GUI-08 证据与发布（p18–23 的项目适配）：分别记录候选选择、Schema 校验、渲染交互和真实目标回读。跟踪无候选、未知 ID、绑定失败、过期拒绝、状态保留与实际等待时间；阈值以测量基线决定。修改规则在 Notion，组件实现和 Catalog 在同一仓库，以同一稳定 ID 关联；合并前核对规则、组件、场景、示例、测试和迁移影响，网站单独构建、手动发布，不被产品运行包依赖。\n\n### 根据任务选择与组合的流程\n\n1. 宿主获取可信 ContextSnapshot 和 CapabilityManifest：应用／目标／owner、文字及选区、任务与材料、revision、能力版本和已验证读写动作。名字是设计合同术语，不表示这些统一类型已在产品中实现。\n2. 候选选择：先用 extractLiveParameters / resolveLiveParameters 识别参数，contextualPolishActions 选择润色；保留否定、作用范围、手调值和材料归属。中文固定语法未匹配时保留原文，不假称通用语义理解。\n3. 决策与编译：预设优先；未来语义模型只提议候选 ID，不输出可执行代码。本地把合法候选与模板编成 PanelSpec（内部中间计划，不是官方 A2UI 消息），再产生 createSurface、updateDataModel、updateComponents 等 v0.9.1 消息，经过同一 Catalog 和宿主校验。\n4. 交互闭环：真实组件 → 拟议事件 → 宿主重检 → 适配器 → 权威回读 → 更新数据／操作状态。只在需要改变结构时提交有效增量，操作中的布局保持稳定。传输可沿用现有通道；无需先引入 AG-UI。\n\n### 当前代码连接点与实施边界\n\n| 环节 | 可复用来源 | 状态与下一步 |\n| --- | --- | --- |\n| 参数候选 | packages/core/live-workbuddy.ts | 已有中文固定语法与参数身份；复用，不另写一套关键词表 |\n| 文本辅助 | packages/core/polish-actions.ts、polish-parameters.ts | 已有动作选择与保护；目标权限仍由宿主判断 |\n| 展示组件 | apps/web/src/agent-input-view.tsx、sentence-composer.tsx | 共享真实 React；不复制截图或另造控件 |\n| A2UI | apps/design-system/src/catalog-api.ts、catalog.tsx、sandbox.tsx | 网站有受限 Catalog 和渲染；不等同手机已接入 |\n| 任务组合演示 | apps/design-system/src/task-composition.ts | 仅本地模拟的确定性切片；展示候选、原因、缺口，显式选一个入口后交给沙盒。切换入口会重置隔离样例，调节值不回写任务原文或真实草稿 |\n| 产品统一编排 | ContextSnapshot → DecisionResults → PanelSpec → 事件宿主 | 待产品实现：从真实适配器构建能力、统一受限计划合同与生命周期、把事件绑定当前编辑会话、真实回读验收；网站方案及模拟验证不能记作已接通 |\n\n第一条产品切片应选择现有 Agent 草稿中的颜色／时长／图片入口：先复用当前输入和附件生命周期，接入可验证的任务到控件计划；验证否定、缺值、手改、切目标、失败和晚到，再扩大到其他场景。此处是接入方案，不授权网站调用真实模型、设备、文件或发送任务。\n\n协议依据：[A2UI v0.9.1](https://a2ui.org/specification/v0.9.1-a2ui/)；[AG-UI 定位](https://docs.ag-ui.com/introduction)。公开组件名为 ImageInput，底层 photo 身份继续兼容。\n",
+    "reference": {
+      "title": "2026 生成式 UI：当界面不再固定，前端要重新发明一次",
+      "author": "菜鸟编程学习笔记",
+      "date": "2026-10-26",
+      "url": "https://mp.weixin.qq.com/s/j5SfMYuz3IyrHlql3vtlzQ",
+      "pdfPages": 25,
+      "status": "Method reference, not a protocol standard or product measurement"
+    },
+    "guide": {
+      "id": "generative-ui",
+      "zh": "生成式 UI 规则与流程",
+      "en": "Generative UI rules & workflow",
+      "intro": [
+        "根据任务和真实能力，在稳定模板中选择已有控件。界面可以适应任务，用户正在进行的操作必须稳定。",
+        "Select existing controls inside stable templates using the task and verified capabilities. Adapt the interface while preserving ongoing interactions."
+      ],
+      "sections": [
+        {
+          "title": [
+            "GUI-01 · 方法、协议与组件",
+            "GUI-01 · Method, protocol and components"
+          ],
+          "body": [
+            "PDF p4–6 提出布局、组件、绑定、动作四部分。我们用设计规则决定何时选，Catalog 定义如何描述，A2UI 传递结构和数据，宿主决定能否执行。PDF 的示例 JSON 不是 A2UI。AG-UI 可用于事件连接，当前不必引入。",
+            "PDF pp4–6 separates layout, components, bindings and actions. Our rules guide selection; the Catalog defines descriptions; A2UI carries structure and data; the host authorizes execution. The article’s example JSON is not A2UI. AG-UI is an optional event connection, not a prerequisite."
+          ]
+        },
+        {
+          "title": [
+            "GUI-02 · 先能力，后语义",
+            "GUI-02 · Capabilities before semantics"
+          ],
+          "body": [
+            "宿主先确认应用、编辑目标、owner、内容版本和真实可用动作，再裁剪候选。模型只能选提供的 ID 和数据引用，不能生成权限、服务地址、任意代码或样式。控件代码已实现，不意味着所有目标都能执行。参考 PDF p7–10。",
+            "The host resolves the application, editor, owner, revision and verified actions before narrowing candidates. A model may select supplied IDs and data references, never invent authority, endpoints, executable code or styles. Implemented controls do not establish support at every destination. Reference: PDF pp7–10."
+          ]
+        },
+        {
+          "title": [
+            "GUI-03 · 模板优先，入口按需展开",
+            "GUI-03 · Templates first, explicit opening"
+          ],
+          "body": [
+            "已有验证场景就复用；无预设但有能力才受限组合；能力或目标未知就保留现有输入并说明缺口。Composer 和 InputDock 保持稳定，一次一个辅助区。识别参数只建议入口，用户点击才展开。主题来自 Tokens。参考 PDF p18–23，并沿用现有项目布局规则。",
+            "Reuse a verified scenario when available. Compose within constraints only when capabilities are known; otherwise retain existing input and explain the gap. Keep Composer and InputDock stable, with one auxiliary region. Recognition suggests entries; a click opens one. Themes come from tokens. Based on PDF pp18–23 and existing project layout rules."
+          ]
+        },
+        {
+          "title": [
+            "GUI-04–05 · 状态、动作与回读",
+            "GUI-04–05 · State, actions and readback"
+          ],
+          "body": [
+            "控件树、编辑数据、操作状态分开。宿主持有目标、版本、参数和材料身份；客户端保留焦点、选择与手势；适配器回读提供权威结果。拖动、听写和编辑中不重排。点击提出请求，执行前再次检查，区分请求、接受、已验证、失败、未知。确认材料后同步原草稿；Send 单独明确触发。参考 PDF p11–17；附件和润色规则以项目最新约定为准。 编译时以宿主当前正文和手调参数为准，拒绝篡改计划。",
+            "Keep the component tree, editor data and operation state separate. The host owns targets, revisions, parameters and material identity; the client retains focus, selection and gestures; adapters provide authoritative readback. Do not rearrange controls mid-interaction. Clicks propose requests; revalidate before execution and distinguish requested, accepted, verified, failed and unknown. Confirmation synchronizes materials; Send stays explicit. Reference: PDF pp11–17, adapted to current attachment and polish rules. Compile against current host text and manual parameter state; reject altered proposal text."
+          ]
+        },
+        {
+          "title": [
+            "GUI-06–07 · 降级与焦点保护",
+            "GUI-06–07 · Recovery and focus protection"
+          ],
+          "body": [
+            "未知组件、非法动作、缺失绑定和危险字段要拒绝并说明，保留原有输入。缺值先补齐，不把默认值当识别结果。不同于 PDF p14 的自动聚焦建议，我们保留用户光标和选区。支持键盘、状态播报和窄屏；渐进呈现不得重置当前操作。本沙盒要求绑定数据先于控件，这是网站限制，不是 A2UI 通用限制。",
+            "Reject unknown components, invalid actions, missing bindings and unsafe fields with an explanation; retain existing input. Resolve missing values instead of passing defaults off as recognized values. Unlike the PDF’s p14 suggestion, we do not autofocus the first rendered item. Preserve caret and selection; move focus only in user-initiated transitions. Support keyboard use, status announcements and narrow screens. Incremental rendering must preserve interactions. This sandbox requires bound data before controls; that is a host restriction, not an A2UI-wide rule."
+          ]
+        },
+        {
+          "title": [
+            "GUI-08 · 验证与发布",
+            "GUI-08 · Evidence and publication"
+          ],
+          "body": [
+            "分别验证选用、描述校验、实际渲染和真实目标回读。记录无候选、未知 ID、绑定错误、过期拒绝、状态保留和等待时间，用实测建立阈值。PDF 的组件数量和效率数字仅为文章经验。Notion 维护规则；代码、Catalog 与示例关联同一稳定 ID。同一仓库独立构建和手动发布，主程序不依赖文档网站。",
+            "Validate selection, message validation, rendering and real target readback separately. Measure no-match results, unknown IDs, binding errors, stale rejections, state retention and latency before setting thresholds. Component counts and efficiency figures in the article are not our benchmarks. Maintain rules in Notion and link code, Catalog and examples through stable IDs. Build and manually publish the site independently; the product does not depend on it."
+          ]
+        },
+        {
+          "title": [
+            "从哪里开始",
+            "Try the connection"
+          ],
+          "body": [
+            "进入 A2UI → 任务选控件，修改任务并切换模拟目标，观察候选及未提供原因；点击入口后查看真实组件和 A2UI 描述。然后阅读“任务到界面的接入”了解真实产品还需实现什么。",
+            "Open A2UI → Task to controls. Edit a task and change the simulated target to inspect candidates and reasons. Choose an entry to see real controls and A2UI messages, then read Task-to-interface integration for the remaining product work."
+          ]
+        }
+      ],
+      "sources": [
+        {
+          "title": "PDF · 2026 生成式 UI（25 pages）",
+          "url": "https://mp.weixin.qq.com/s/j5SfMYuz3IyrHlql3vtlzQ"
+        },
+        {
+          "title": "A2UI v0.9.1",
+          "url": "https://a2ui.org/specification/v0.9.1-a2ui/"
+        },
+        {
+          "title": "AG-UI overview",
+          "url": "https://docs.ag-ui.com/introduction"
+        }
+      ]
+    },
+    "integration": {
+      "id": "task-integration",
+      "zh": "任务到界面的接入",
+      "en": "Task-to-interface integration",
+      "intro": [
+        "复用已有识别与展示代码，在它们之间补受约束的计划编译和宿主闭环。以下区分已实现、本地演示与待接入。",
+        "Reuse existing recognition and presentation code; connect them through constrained plan compilation and a verified host loop. Implemented code, local demos and remaining work are distinguished below."
+      ],
+      "sections": [
+        {
+          "title": [
+            "1 · 获取可信上下文与能力",
+            "1 · Obtain trusted context and capabilities"
+          ],
+          "body": [
+            "ContextSnapshot 包含应用、任务、编辑器、选区、owner、revision、交互锁；CapabilityManifest 来自真实适配器，包含可用动作、范围、数值约束与回执。它们是现有研究合同中的术语，产品尚未形成统一类型。模拟目标选择器不能替代真实能力发现。",
+            "ContextSnapshot carries the application, task, editor, selection, owner, revision and interaction lock. CapabilityManifest comes from verified adapters and includes actions, scopes, ranges and receipts. These are research contract terms; the product has no unified implementation of those types yet. A simulated profile is not real capability discovery."
+          ]
+        },
+        {
+          "title": [
+            "2 · 复用已有规则，必要时才请求语义判断",
+            "2 · Reuse rules; add semantic decisions only when needed"
+          ],
+          "body": [
+            "packages/core/live-workbuddy.ts 的 resolveLiveParameters 识别句内参数并保留手调值；polish-actions.ts 根据当前文字选择动作，polish-parameters.ts 保护参数。当前参数识别是中文固定语法，不是通用模型理解。未来 DecisionResults 只能从宿主给出的候选中选择，不能扩充能力。",
+            "resolveLiveParameters in packages/core/live-workbuddy.ts identifies inline parameters and preserves manual values; polish-actions.ts selects actions and polish-parameters.ts protects parameters. Recognition currently uses bounded Chinese grammar, not general model understanding. Future DecisionResults must select from host-provided candidates without extending authority."
+          ]
+        },
+        {
+          "title": [
+            "3 · 本地计划编译成 A2UI",
+            "3 · Compile a local plan into A2UI"
+          ],
+          "body": [
+            "task-composition.ts 是本次网站确定性切片：任务＋模拟能力 → 候选及原因 → 用户选择入口 → 单列标题与一个辅助控件 → Catalog 校验 → 官方 React 渲染。PanelSpec 是未来产品内部计划，不是 A2UI 协议。网站计划导出仅用于理解连接方式，不是可安装的手机规则引擎。",
+            "task-composition.ts is this website’s deterministic slice: task + fictional capabilities → candidates and reasons → explicit entry selection → a column with a heading and one auxiliary control → Catalog validation → official React rendering. PanelSpec is a future internal product plan, not the A2UI protocol. Demo plans illustrate the connection; they are not an installable phone rule engine."
+          ]
+        },
+        {
+          "title": [
+            "4 · 事件接回原编辑会话",
+            "4 · Bind events to the original editor session"
+          ],
+          "body": [
+            "产品接入还需实现：用户事件携带宿主上下文引用与动作 ID；事件宿主读取当前能力和版本，更新正确参数或调用实际适配器；回读后再更新操作状态。使用现有草稿、附件、选区和撤销机制，不能创建第二套编辑会话。参数变化走数据更新；操作中冻结结构；晚到计划拒绝。",
+            "Production still needs an event host: user events refer to a registered context and action ID; the host rechecks current capabilities and revisions, changes the correct parameter or invokes its adapter, then updates status after readback. Reuse drafts, attachments, selection and undo instead of creating a second editing session. Update parameter data, freeze structure during interaction and reject stale plans."
+          ]
+        },
+        {
+          "title": [
+            "当前演示能证明什么",
+            "What the demo establishes"
+          ],
+          "body": [
+            "能够验证真实规则选用、能力裁剪、缺值与未接入提示、合法 A2UI 描述和共享控件交互。选择或重置会清空隔离样例；参数调节不回写任务原文，润色使用任务的副本。没有真实模型、设备、文件访问或存储写入；不证明全局自动布局、语义模型、手机 A2UI 接入或目标执行已经完成。",
+            "The demo validates real rule selection, capability filtering, missing-value and unsupported-control explanations, valid A2UI messages and shared control interaction. Selection/reset clears isolated fixtures; parameter changes do not write back to the task and polish uses a task copy. No real model, device, file access or product storage is involved. It does not establish global automatic layout, a semantic planner, phone A2UI adoption or destination execution."
+          ]
+        },
+        {
+          "title": [
+            "下一条产品切片与验收",
+            "Next production slice and acceptance"
+          ],
+          "body": [
+            "先连接现有 Agent 草稿的颜色、时长和图片入口；沿用同一 Composer 和附件同步。验收否定、改口、缺值、手动覆盖、切任务、能力撤销、连续拖动、失败重试和晚到结果；分别记录本地测试与真实目标读写证据。通过后再扩大场景。传输可沿用现有通道，不要求先改成 AG-UI。",
+            "First connect color, duration and image entries in an existing Agent draft, reusing its Composer and attachment synchronization. Verify negation, corrections, missing values, manual overrides, target changes, revoked capabilities, continuous gestures, retry and late results. Record local tests separately from real destination read/write evidence. Expand only after that slice passes; existing transport can remain without adopting AG-UI first."
+          ]
+        }
+      ],
+      "sources": [
+        {
+          "title": "A2UI v0.9.1",
+          "url": "https://a2ui.org/specification/v0.9.1-a2ui/"
+        },
+        {
+          "title": "AG-UI overview",
+          "url": "https://docs.ag-ui.com/introduction"
+        }
+      ]
+    }
+  }
 }

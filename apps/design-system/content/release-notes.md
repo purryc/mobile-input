@@ -39,3 +39,9 @@ Live selection verification found that the controlled textarea commit overwrote 
 - 详情顶部提供 Figma 来源和源码入口；图片输入链接到已登记图片选择节点。
 
 Component screenshots are removed from the gallery, detail pages and build output. Nine entries now have real shared specimens, including the flexible composer and sentence parameter composer. Seven remain A2UI-enabled; React and A2UI availability are tracked independently. Figma and source links are accessible above each example.
+
+## 2026-11-05.2 · Generative UI rules and task-to-control demo
+
+中文：结合用户提供 PDF，向原 Notion 设计规范增加 GUI-01–08 与任务到界面的流程；网站发布双语快照，注明参考页码、项目适配及真实接入缺口。新增任务选控件演示，复用真实参数／润色规则，经模拟能力过滤后，显式选择入口生成固定模板和合法 A2UI。真实控件渲染，所有结果与状态只留本地；没有模型、设备或真实草稿写入。新增候选、能力、缺值、过期、手调保护与非法消息测试。退回上一发布可使用 5709d321586d231abedf1475a6098fa8b538e3d2 手动运行 Pages 工作流。
+
+English: Added PDF-informed GUI-01–08 rules and the task-to-interface workflow to the canonical Notion page, then published bilingual excerpts with source pages, project adaptations and integration boundaries. The task demo reuses actual parameter/polish rules, filters against fictional capabilities and compiles an explicitly selected entry into a fixed template and validated A2UI. Shared controls run locally; no model, device or real draft is accessed. New tests cover candidates, capabilities, missing values, stale plans, manual parameters and invalid messages. Roll back by manually dispatching Pages against 5709d321586d231abedf1475a6098fa8b538e3d2.

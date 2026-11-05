@@ -4,7 +4,7 @@ import path from 'node:path';
 const root=fileURLToPath(new URL('../dist/',import.meta.url));
 const html=readFileSync(path.join(root,'index.html'),'utf8');
 if(!html.includes('/mobile-input/assets/'))throw Error('Incorrect Pages base.');
-for(const f of ['registry.json','rules.json','release.json','catalog.json','catalog-schema.json','common_types.json','catalog-v1.json','ImageInput.json','ContextualPolishActions.json'])if(!existsSync(path.join(root,'generated',f)))throw Error('Missing public artifact '+f);
+for(const f of ['registry.json','rules.json','release.json','catalog.json','catalog-schema.json','common_types.json','catalog-v1.json','ImageInput.json','ContextualPolishActions.json','task-composition.json'])if(!existsSync(path.join(root,'generated',f)))throw Error('Missing public artifact '+f);
 const assets=readdirSync(path.join(root,'assets')).filter(f=>f.endsWith('.js')).map(f=>readFileSync(path.join(root,'assets',f),'utf8')).join('\n');
 for(const forbidden of ['input-agent:ui-language','WebSocket(','api.openai.com','generativelanguage.googleapis.com'])if(assets.includes(forbidden))throw Error('Runtime isolation failed: '+forbidden);
 if(!existsSync(path.join(root,'reference-assets/workbuddy-widgets/check.svg')))throw Error('Missing shared widget asset.');

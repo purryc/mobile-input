@@ -16,6 +16,13 @@ export const apis={
 };
 export const apiCatalog=new Catalog(catalogId,'v0.9.1',Object.values(apis),[]);
 export type CatalogName=keyof typeof apis;
+export function catalogValueIssue(component:string,value:unknown):'missing-value'|'invalid-value'|null{
+ if(!['ColorInput','DurationInput'].includes(component))return null;
+ if(value===''||value===null||value===undefined)return 'missing-value';
+ if(typeof value!=='string')return 'invalid-value';
+ if(component==='ColorInput')return /^#[0-9a-f]{6}$/i.test(value)?null:'invalid-value';
+ return /^\d+$/.test(value)&&Number(value)>=1&&Number(value)<=60?null:'invalid-value';
+}
 export function example(name:CatalogName='ImageInput'){
  const component:Record<string,unknown>={id:'demo',component:name};
  if(name==='ActionChip')Object.assign(component,{label:'添加材料 / Add material',actionId:'activate'});
@@ -47,8 +54,7 @@ export function validateMessages(input:unknown):unknown[]{
  for(const c of activeComponents.values()){if(typeof c.id!=='string'||!c.id)throw Error('Each component needs a stable id.');if(!Object.hasOwn(apis,String(c.component)))throw Error('Unknown component: '+c.component);const {id,component,...props}=c;apis[component as CatalogName].schema.parse(props);
  const check=(v:unknown)=>{if(v&&typeof v==='object'){if('path' in v){const path=(v as {path:unknown}).path;if(typeof path!=='string'||!/^\/[a-zA-Z][\w-]*$/.test(path)||!Object.hasOwn(model,path.slice(1)))throw Error('Unresolved data binding: '+path+'. This fixture host requires data before components.');const value=model[path.slice(1)];if(typeof value!=='string')throw Error('Expected a string binding at '+path);}else Object.values(v).forEach(check);}};Object.values(props).forEach(check);
  const rawValue=props.value;const value=typeof rawValue==='object'&&rawValue!==null?model[String((rawValue as {path:string}).path).slice(1)]:rawValue;
- if(component==='ColorInput'&&!/^#[0-9a-f]{6}$/i.test(String(value)))throw Error('ColorInput requires a six-digit HEX color.');
- if(component==='DurationInput'&&(!/^\d+$/.test(String(value))||Number(value)<1||Number(value)>60))throw Error('DurationInput requires 1–60 minutes.');
+ if(catalogValueIssue(String(component),value))throw Error(component==='ColorInput'?'ColorInput requires a six-digit HEX color.':'DurationInput requires 1–60 minutes.');
  }
  if(m.updateComponents){
   if(activeComponents.size>40)throw Error('At most 40 active components are supported.');
