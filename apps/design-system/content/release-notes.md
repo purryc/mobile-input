@@ -25,3 +25,9 @@
 Validation: 19 website contract tests, 10 affected product regressions, website/product builds; desktop/mobile browser checks of bilingual navigation, seven Catalog components, search, binding, events, retry, empty actions and parameter protection. An independent source build checks that root dependencies are not required. Confirmed findings from a read-only Claude CLI review were fixed.
 
 Limits: the website makes no real model calls, devices, product storage or task submissions. Fixtures do not establish native adapter or real-device acceptance. This is the first website release; subsequent releases can roll back by dispatching a previous release commit from main history.
+
+## Post-publication correction · 2026-11-05
+
+线上选区验证发现受控 textarea 回填会覆盖提前恢复的光标。现改为在 React 提交后恢复，浏览器实测光标停留在替换片段末尾（24），而不是全文末尾（36）；参数与撤销保持不变。规则版本不变，源码版本由 release.json 分别记录。上一发布提交 `0d9bdf0ee572489824b1db51c446a04462cf2945` 可供回退。
+
+Live selection verification found that the controlled textarea commit overwrote early caret restoration. The preview now restores it after React commits. Browser readback verified offset 24 at the replacement boundary, instead of 36 at the full-text end. Parameters and undo remain intact. Rule version is unchanged; release.json records the separate source version. Previous release commit: `0d9bdf0ee572489824b1db51c446a04462cf2945`.
