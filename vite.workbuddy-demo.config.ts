@@ -44,8 +44,7 @@ export default defineConfig({
           resolve(output, "index.html"),
         );
         for (const path of [
-          "assets/apps/workbuddy.svg",
-          "assets/apps/workbuddy-mascot.png",
+          "assets/xiaoyi-work",
           "assets/figma/sentence-parameters",
           "reference-assets/workbuddy-widgets",
         ]) {

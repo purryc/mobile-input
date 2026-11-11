@@ -1,3 +1,10 @@
+# Xiaoyi Work standalone visual refresh · 2026-11-11
+
+- User approves replacing this standalone demo's WorkBuddy appearance with the official Xiaoyi Work client reference at https://xiaoyi.huawei.com/work. This supersedes the old WorkBuddy visual-preservation requirements only for this branch. Use a pale-gray sidebar, white workspace, official centered mascot, three supported generation shortcuts and blue/violet interface accents. Preserve the icon microphone, five parameter widgets, chip anchoring, explicit confirmation and generation/editor behavior.
+- Chinese brand is 小艺Work; English brand is Xiaoyi Work. Keep database names, preference keys, API routes, commands, user-authored content, selected colors and existing strokes/results unchanged. Scope CSS to the standalone root; do not change other app themes.
+- Store official static assets and their source/checksum record under apps/web/public/assets/xiaoyi-work/; lowercase descriptive filenames, no private media. Package only used assets. Keep preview/test/release evidence under ignored artifacts/workbuddy-demo/. Update the English README and preserve secret exclusions.
+- Validate Chinese/English at 1440×960, 1280×800 and 1024×768, core/service/browser tests, production build and extracted-ZIP startup. User authorizes commit/push to codex/workbuddy-web-demo, updating the existing Drive ZIP and existing public Vercel URL. Do not modify main/native apps/Figma or call paid models for automated checks.
+
 # English standalone handoff and input · 2026-11-04
 
 - Add a complete English startup, Gemini credential configuration and local/Vercel deployment guide to the standalone ZIP. English README is the handoff entry; retain the Chinese engineering record separately. Package only the standalone dependency closure and preserve all secret exclusions.

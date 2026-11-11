@@ -1,5 +1,11 @@
 import {registerUILabels} from './i18n';
 registerUILabels({
+'小艺Work':'Xiaoyi Work','多模态输入':'Multimodal input','小艺形象':'Xiaoyi mascot',
+'轻松工作，就用小艺Work':'Work made easy with Xiaoyi Work',
+'快捷创作':'Quick create','文档生成':'Documents','演示文稿':'Presentations','图片生成':'Images',
+'帮我生成一份文档':'Create a document for me','帮我制作一份演示文稿':'Create a presentation for me','帮我生成一张图片':'Generate an image for me',
+'今天帮你做些什么？':'What can I help you with today?',
+
 '摄像头预览无法播放，请重试或选择本地图片。':'Camera preview failed. Retry or choose a local image.',
 '无法打开摄像头，请允许摄像头权限，或选择本地图片。':'Allow camera access or choose a local image.',
 '当前浏览器无法打开摄像头，请选择本地图片。':'Camera is unavailable. Choose a local image.',
@@ -10,10 +16,10 @@ registerUILabels({
 '请选择图片文件。':'Please choose an image file.','无法保存草图，请重试。':'Could not save the sketch. Please retry.',
 '生成已停止，输入和已有成果已保留。':'Generation stopped. Your input and existing results are preserved.',
 '生成失败，请重试':'Generation failed. Please retry.','准备材料':'Preparing materials','读取资料':'Reading materials','理解布局草图':'Understanding the layout sketch','生成幻灯片':'Generating slides','规划成果':'Planning outputs','生成文档':'Generating document','生成图片':'Generating image',
-'正在打开 WorkBuddy…':'Opening WorkBuddy…','重新加载':'Reload','查看 ':'View ','移除 ':'Remove ',
+'正在打开小艺Work…':'Opening Xiaoyi Work…','重新加载':'Reload','查看 ':'View ','移除 ':'Remove ',
 '颜色选择':'Color picker','主题色':'Theme color','演讲时长':'Presentation duration','布局草图':'Layout sketch','字体':'Text color','颜色':'Color','参考资料':'Reference files',
 'PDF、TXT、Markdown · 单份最多 8 MB':'PDF, TXT, Markdown · Up to 8 MB per file',
-'WorkBuddy 任务输入区':'WorkBuddy task composer','WorkBuddy 任务输入':'WorkBuddy task input','参考文件':'Reference file','开始语音输入':'Start voice input','停止语音输入':'Stop voice input','发送请求':'Send request','已确认的材料':'Confirmed attachments',
+'小艺Work 任务输入区':'Xiaoyi Work task composer','小艺Work 任务输入':'Xiaoyi Work task input','参考文件':'Reference file','开始语音输入':'Start voice input','停止语音输入':'Stop voice input','发送请求':'Send request','已确认的材料':'Confirmed attachments',
 '发送后使用 Gemini 生成成果，材料仅用于当前任务。':'Send to generate with Gemini. Materials are used for this request.',
 '张图片待确认':'image(s) awaiting confirmation','布局草图待确认':'Layout sketch awaiting confirmation','展开侧栏':'Expand sidebar',
 '本演示仅展示任务输入。':'This shortcut is not available in this demo. Use the task composer.',

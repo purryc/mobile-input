@@ -1,5 +1,4 @@
-/* The WorkBuddy shell and composer geometry come from workbuddy.css and
-   web-deck.css. This file owns only standalone behavior and chip popovers. */
+/* Standalone Xiaoyi Work skin. Shared product themes and authored content stay unchanged. */
 :root {
   font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
   font-synthesis: none;
@@ -26,9 +25,9 @@ button:disabled {
   height: 100dvh;
   min-height: 0;
   --dock-fg: #182431;
-  --dock-accent: #146c64;
-  --input-accent: #146c64;
-  --input-soft: #146c6415;
+  --dock-accent: #6266df;
+  --input-accent: #6266df;
+  --input-soft: #6266df15;
   --input-control: #ffffff8c;
   --input-edge: #fffffffa;
   --input-pad: #ffffff80;
@@ -93,9 +92,9 @@ button:disabled {
   outline: none;
 }
 .demo-app .demo-composer footer .demo-voice[aria-pressed="true"] {
-  background: #e6efeb;
-  color: #146c64;
-  box-shadow: inset 0 0 0 1px #146c6466;
+  background: #eeedfc;
+  color: #6266df;
+  box-shadow: inset 0 0 0 1px #6266df66;
 }
 .demo-send[data-accepted="true"] {
   transform: scale(0.91);
@@ -142,8 +141,8 @@ button:disabled {
   z-index: 20;
   max-width: calc(100vw - 32px);
   border-radius: 16px;
-  background: #f2f7f5;
-  box-shadow: 0 10px 35px #203b3526;
+  background: #f7f7fb;
+  box-shadow: 0 10px 35px #24214b26;
   isolation: isolate;
 }
 .demo-widget-wrap:before {
@@ -154,7 +153,7 @@ button:disabled {
   width: 10px;
   height: 10px;
   transform: rotate(45deg);
-  background: #f2f7f5;
+  background: #f7f7fb;
   border-left: 1px solid white;
   border-top: 1px solid white;
   z-index: -1;
@@ -365,10 +364,10 @@ button:disabled {
   bottom: 30px;
   left: 50%;
   transform: translateX(-50%);
-  background: #26332eee;
+  background: #272634ee;
   color: #fff;
   border-radius: 12px;
-  box-shadow: 0 5px 24px #13261920;
+  box-shadow: 0 5px 24px #24214b20;
   padding: 12px 14px;
   max-width: calc(100% - 32px);
   display: flex;
@@ -400,7 +399,7 @@ button:disabled {
 .demo-modal {
   position: fixed;
   inset: 0;
-  background: #182c244d;
+  background: #2323334d;
   backdrop-filter: blur(5px);
   display: flex;
   align-items: center;
@@ -415,7 +414,7 @@ button:disabled {
   width: min(580px, 100%);
   max-height: 90vh;
   overflow: auto;
-  box-shadow: 0 25px 100px #182c2433;
+  box-shadow: 0 25px 100px #23233333;
 }
 .demo-modal header {
   display: flex;
@@ -438,7 +437,7 @@ button:disabled {
   width: 100%;
   max-height: 55vh;
   object-fit: contain;
-  background: #edf3ee;
+  background: #f4f4f7;
   border-radius: 12px;
   margin-bottom: 15px;
 }
@@ -480,12 +479,69 @@ button:disabled {
 }
 
 .demo-settings { position: absolute; top: 16px; right: 20px; z-index: 40; }
-.demo-settings > button { width: 36px; height: 36px; display: grid; place-items: center; border: 1px solid #dce4e2; border-radius: 10px; background: #ffffffeb; color: #425d54; cursor: pointer; }
-.demo-settings section { position: absolute; top: 44px; right: 0; width: 280px; padding: 18px; border: 1px solid #dce4e2; border-radius: 16px; background: #fafffef5; box-shadow: 0 12px 40px #23483b20; }
+.demo-settings > button { width: 36px; height: 36px; display: grid; place-items: center; border: 1px solid #e5e5eb; border-radius: 10px; background: #ffffffeb; color: #50505f; cursor: pointer; }
+.demo-settings section { position: absolute; top: 44px; right: 0; width: 280px; padding: 18px; border: 1px solid #e5e5eb; border-radius: 16px; background: #fffffff5; box-shadow: 0 12px 40px #24214b20; }
 .demo-settings header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
 .demo-settings header button { border: 0; background: transparent; cursor: pointer; }
 .demo-settings label { display: grid; gap: 10px; font-size: 14px; }
-.demo-settings select { padding: 10px; border: 1px solid #c6d7d0; border-radius: 8px; background: white; color: #182431; }
-.demo-settings small { display: block; margin-top: 12px; color: #66786f; line-height: 1.5; }
+.demo-settings select { padding: 10px; border: 1px solid #d8d8e5; border-radius: 8px; background: white; color: #182431; }
+.demo-settings small { display: block; margin-top: 12px; color: #737380; line-height: 1.5; }
 .demo-app .wb-main { position: relative; }
 .demo-app .demo-task-heading { padding-right: 64px; }
+
+/* Client-reference layout; all overrides are scoped to this isolated demo. */
+.demo-app.workbuddy { background: #f5f5f7; padding: 8px 8px 8px 0; font-size: 14px; }
+.demo-app .wb-sidebar { width: 232px; min-width: 232px; max-width: 232px; padding: 18px 14px 10px; background: #f5f5f7; border: 0; }
+.demo-app .wb-main { border-radius: 16px; background: #fff; }
+.demo-app .wb-brand-row { gap: 3px; margin: 0 0 28px; min-height: 36px; }
+.demo-app .xiaoyi-brand { display: flex; align-items: center; gap: 8px; flex: 1; min-width: 0; white-space: nowrap; }
+.demo-app .xiaoyi-brand img { width: 27px; height: 27px; object-fit: contain; }
+.demo-app .xiaoyi-brand b { font-size: 17px; letter-spacing: -.5px; }
+.demo-app .wb-brand-row > button { width: 26px; min-height: 30px; }
+.demo-app .wb-sidebar nav > button { border-radius: 10px; min-height: 42px; padding: 10px 12px; }
+.demo-app .wb-sidebar nav > button.active { background: #eaeaf0; color: #262631; }
+.demo-app .wb-history { margin-top: 20px; }
+.demo-app .wb-history-item { border-radius: 8px; }
+.demo-app .wb-history-item.active { background: #ebebf4; }
+.demo-app .wb-history-item > button:first-child { min-width: 0; }
+.demo-app .wb-history-item > button span { white-space: nowrap; text-overflow: ellipsis; overflow: hidden; }
+.demo-app .wb-account { font-size: 12px; white-space: nowrap; }
+.demo-app .wb-account img { width: 24px; height: 24px; object-fit: contain; }
+.demo-app .wb-home { padding: clamp(62px, 10vh, 112px) 32px 40px; width: 100%; min-height: 100%; flex: 1; overflow: auto; }
+.demo-app .xiaoyi-mascot { position: relative; flex: none; width: 220px; height: 170px; overflow: hidden; margin-bottom: 15px; }
+.demo-app .xiaoyi-mascot img { position: absolute; width: 1440px; max-width: none; height: 875px; left: -740px; top: -117.5px; }
+.demo-app .wb-home h1 { font-size: clamp(24px, 2.2vw, 32px); font-weight: 600; letter-spacing: -.6px; text-align: center; }
+.demo-app .wb-home-entry { width: 100%; max-width: 830px; margin-top: 34px; }
+.demo-app .wb-scenes { justify-content: center; gap: 12px; padding: 0; margin-bottom: 18px; flex-wrap: wrap; }
+.demo-app .wb-scenes button { min-height: 38px; padding: 8px 16px; border: 1px solid #e8e8ee; border-radius: 20px; background: #fff; font-size: 13px; }
+.demo-app .wb-scenes button svg { color: #7472cf; }
+.demo-app .wb-scenes button:hover { background: #f4f3ff; border-color: #d7d5f4; }
+.demo-app .wb-home .deck-compose-desktop { max-width: none; width: 100%; margin: 0; }
+.demo-app .demo-composer { box-shadow: 0 4px 22px #21213b06; }
+.demo-app .deck-compose-desktop .live-wb-composer { border-color: #e7e7ec; border-radius: 20px; }
+.demo-app .wb-composer-options { background: #f7f7f9; color: #777782; border-color: #e7e7ec; }
+.demo-app button:focus-visible { outline-color: #7370e5; }
+.demo-app input:focus, .demo-app select:focus { border-color: #8580df; }
+.demo-app .live-wb-aux { border-color: #e6e5ee; }
+.demo-app .agent-sketch-surface { --dock-accent: #146c64; } /* Existing authored ink/export color. */
+.demo-app .deck-job, .demo-app .deck-file { color: #6460be; }
+.demo-app .deck-job button, .demo-app .deck-editor-toolbar button, .demo-app .deck-page-actions button { background: #f2f1f9; }
+.demo-app .deck-editor-body > aside button.active { border-color: #7771df; color: #5853ac; }
+.demo-app .deck-editor-tabs b { border-color: #7771df; }
+.demo-app .wb-message.assistant > header img, .demo-app .wb-message > header img { object-fit: contain; }
+.demo-app.wb-collapsed .wb-sidebar { width: 64px; min-width: 64px; padding: 18px 9px; }
+.demo-app.wb-collapsed .xiaoyi-brand { display: none; }
+.demo-app.wb-collapsed .wb-brand-row { flex-direction: column; }
+@media (max-width: 1100px) {
+  .demo-app .wb-sidebar { width: 210px; min-width: 210px; }
+  .demo-app .xiaoyi-brand b { font-size: 15px; }
+  .demo-app .wb-home { padding: 58px 24px 32px; }
+  .demo-app .wb-home-entry { margin-top: 26px; }
+}
+@media (max-height: 820px) {
+  .demo-app .wb-home { padding-top: 48px; }
+  .demo-app .xiaoyi-mascot { margin-bottom: 4px; }
+}
+.demo-app .agent-widget-icon[src$="/check.svg"] { filter: brightness(0) saturate(100%) invert(42%) sepia(61%) saturate(980%) hue-rotate(210deg); }
+.demo-app .demo-request-materials a { color: #6a6593; }
+.demo-app .wb-preview-tabs [aria-selected="true"] { box-shadow: inset 0 -2px #7771df; }

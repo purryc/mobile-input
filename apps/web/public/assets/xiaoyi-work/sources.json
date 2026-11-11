@@ -1,0 +1,18 @@
+{
+  "reference": "https://xiaoyi.huawei.com/work",
+  "retrieved": "2026-11-11",
+  "owner": "Huawei / Xiaoyi Work",
+  "usage": "Official brand logo and client poster for the user-requested visual demo. Poster imagery is framed through CSS; original bytes are preserved. No official-service integration is implied.",
+  "assets": [
+    {
+      "file": "logo.png",
+      "source": "https://search-static-drcn.dbankcdn.com/celia/v2/static/img/xy-work-logo.beb6632b.png",
+      "sha256": "ca73d0da1bad248730f1cdbad5557a6b69a5a8e244584ae0f879cbd4f2fc5930"
+    },
+    {
+      "file": "client-poster.webp",
+      "source": "https://search-static-drcn.dbankcdn.com/celia/v2/static/img/xy-work-poster.8c041ebf.webp",
+      "sha256": "511a14461d566f56494c6f3f07bc49caefded095f13c479a54f88ad547199c49"
+    }
+  ]
+}

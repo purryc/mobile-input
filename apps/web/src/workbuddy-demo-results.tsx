@@ -692,8 +692,8 @@ export function DemoTaskView({
                 </details>
                 <div className="wb-message assistant">
                   <strong>
-                    <img src="./assets/apps/workbuddy.svg" alt="" />
-                    WorkBuddy
+                    <img src="./assets/xiaoyi-work/logo.png" alt="" />
+                    {uiText("小艺Work")}
                   </strong>
                   <div className="deck-job" role="status">
                     {request.status === "running" ? (

@@ -9,20 +9,9 @@ import { createRoot } from "react-dom/client";
 import {
   Settings,
   ArrowUp,
-  ArrowUpRight,
-  BriefcaseBusiness,
-  CodeXml,
-  Palette,
   PanelLeft,
   Search,
   CirclePlus,
-  Bot,
-  GraduationCap,
-  AlarmClock,
-  BookOpen,
-  Folder,
-  LayoutGrid,
-  Compass,
   ChevronDown,
   ShieldCheck,
   Bell,
@@ -30,6 +19,7 @@ import {
   Check,
   ChevronLeft,
   FileText,
+  Folder,
   ImagePlus,
   LayoutTemplate,
   Mic,
@@ -204,12 +194,15 @@ function CameraCapture({
 }
 function App() {
   const language = useUILanguage();
+  useEffect(() => {
+    document.title = uiText("小艺Work") + " · " + uiText("多模态输入");
+    document.documentElement.lang = language;
+  }, [language]);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const jobs = useRef(new Map<string, AbortController>());
   const [state, setState] = useState<DemoState | null>(null),
     latest = useRef<DemoState | null>(null);
   const [collapsed, setCollapsed] = useState(false),
-    [mode, setMode] = useState(0),
     [searchOpen, setSearchOpen] = useState(false),
     [search, setSearch] = useState("");
   const pendingWrites = useRef(0),
@@ -687,7 +680,7 @@ function App() {
   if (!draft || !state)
     return (
       <div className="demo-loading">
-        {uiText(loadError || "正在打开 WorkBuddy…")}
+        {uiText(loadError || "正在打开小艺Work…")}
         {loadError && (
           <button onClick={() => location.reload()}>{uiText("重新加载")}</button>
         )}
@@ -834,7 +827,7 @@ function App() {
       )}
       <AgentComposer
         className="deck-composer demo-composer"
-        label={uiText("WorkBuddy 任务输入区")}
+        label={uiText("小艺Work 任务输入区")}
         footer={
           <>
             <div className="demo-add">
@@ -917,7 +910,7 @@ function App() {
         >
           <SentenceComposer
             ref={area}
-            label={uiText("WorkBuddy 任务输入")}
+            label={uiText("小艺Work 任务输入")}
             inputMode="text"
             text={draft.text}
             parameters={[]}
@@ -925,7 +918,7 @@ function App() {
             files={[]}
             active={null}
             disabled={busy}
-            placeholder={uiText("今天帮你做些什么？@ 添加上下文，/调用技能与指令")}
+            placeholder={uiText("今天帮你做些什么？")}
             onSelect={() => {}}
             onFocus={stopForTyping}
             onChange={(text) => {
@@ -992,16 +985,7 @@ function App() {
     >
       <aside className="wb-sidebar">
         <div className="wb-brand-row">
-          <button
-            className="wb-back"
-            aria-label={uiText("返回")}
-            onClick={() => {
-              setPanel(null);
-              setPreview(null);
-            }}
-          >
-            <ChevronLeft />
-          </button>
+          <div className="xiaoyi-brand"><img src="./assets/xiaoyi-work/logo.png" alt="" /><b>{uiText("小艺Work")}</b></div>
           <button
             aria-label={uiText(collapsed ? "展开侧栏" : "收起侧栏")}
             onClick={() => setCollapsed(!collapsed)}
@@ -1015,18 +999,6 @@ function App() {
             <Search size={17} />
           </button>
         </div>
-        <div className="wb-brand">
-          <div>
-            <b>WorkBuddy</b>
-            <small>5.9.3</small>
-          </div>
-          <button
-            aria-disabled="true"
-            onClick={() => report("本演示仅展示任务输入。")}
-          >
-            <Compass size={14} />{uiText("发现应用")}<ChevronDown size={12} />
-          </button>
-        </div>
         <nav>
           <button
             className="active"
@@ -1035,32 +1007,6 @@ function App() {
             disabled={busy}
           >
             <CirclePlus size={17} />{uiText("新建任务")}</button>
-          {[
-            [Bot, "助理"],
-            [GraduationCap, "专家·技能·连接器"],
-            [AlarmClock, "定时任务"],
-            [BookOpen, "资料库"],
-            [Folder, "项目"],
-          ].map(([Icon, label]) => {
-            const Glyph = Icon as typeof Bot;
-            return (
-              <button
-                key={uiText(String(label))}
-                aria-disabled="true"
-                onClick={() => report("本演示仅展示任务输入。")}
-              >
-                <Glyph size={17} />
-                {uiText(String(label))}
-                {label === "助理" && <small>BETA</small>}
-              </button>
-            );
-          })}
-          <button
-            aria-disabled="true"
-            onClick={() => report("本演示仅展示任务输入。")}
-          >
-            <LayoutGrid size={17} />{uiText("更多")}<span>{uiText("管理")}</span>
-          </button>
         </nav>
         <div className="wb-history">
           {searchOpen && (
@@ -1102,11 +1048,10 @@ function App() {
                 </div>
               ))}
           </div>
-          <small>{uiText("空间 (0)")}</small>
         </div>
         <footer>
           <span className="wb-account">
-            <img src="./assets/apps/workbuddy.svg" alt="" />{uiText("陈朗")}</span>
+            <img src="./assets/xiaoyi-work/logo.png" alt="" />{uiText("小艺Work")}</span>
           <button
             aria-label={uiText("消息中心")}
             onClick={() => report("当前没有新消息。")}
@@ -1161,81 +1106,21 @@ function App() {
           />
         ) : (
           <div className={"wb-home" + (panel ? " has-open-widget" : "")}>
-            <h1>{uiText("WorkBuddy, 我帮你")}</h1>
-            <div className="wb-modes">
-              {["办公", "开发", "设计"].map((label, index) => (
-                <button
-                  key={uiText(label)}
-                  className={mode === index ? "active" : ""}
-                  onClick={() => setMode(index)}
-                >
-                  {
-                    [
-                      <BriefcaseBusiness size={14} />,
-                      <CodeXml size={14} />,
-                      <Palette size={14} />,
-                    ][index]
-                  }
-                  {uiText(label)}
-                </button>
-              ))}
-            </div>
+            <div className="xiaoyi-mascot" role="img" aria-label={uiText("小艺形象")}><img src="./assets/xiaoyi-work/client-poster.webp" alt="" /></div>
+            <h1>{uiText("轻松工作，就用小艺Work")}</h1>
             <div className="wb-home-entry">
-              <div className="wb-scenes">
+              <div className="wb-scenes" aria-label={uiText("快捷创作")}>
                 {[
-                  "创作文档",
-                  "金融服务",
-                  "分析数据",
-                  "制作PPT",
-                  "深度研究",
-                  "策划方案",
-                  "定时任务",
-                ].map((label) => (
-                  <button
-                    key={uiText(label)}
-                    onClick={() =>
-                      void afterSpeech(() =>
-                        update(draft.id, (d) =>
-                          editDemoText(
-                            d,
-                            d.text ? d.text + (language === "en" ? ", " : "，") + uiText(label) : uiText(label),
-                          ),
-                        ),
-                      )
-                    }
-                  >
-                    {uiText(label)}
-                  </button>
+                  { label: "文档生成", prompt: "帮我生成一份文档", Icon: FileText },
+                  { label: "演示文稿", prompt: "帮我制作一份演示文稿", Icon: LayoutTemplate },
+                  { label: "图片生成", prompt: "帮我生成一张图片", Icon: ImagePlus },
+                ].map(({ label, prompt, Icon }) => (
+                  <button key={label} onClick={() => void afterSpeech(() => update(draft.id, d =>
+                    editDemoText(d, d.text ? d.text + (language === "en" ? ", " : "，") + uiText(prompt) : uiText(prompt))
+                  ))}><Icon size={16}/>{uiText(label)}</button>
                 ))}
-                <img
-                  className="wb-mascot"
-                  src="./assets/apps/workbuddy-mascot.png"
-                  alt=""
-                />
               </div>
               {composer}
-              {!latestRequest && (
-                <div className="wb-home-suggestions">
-                  {[
-                    "一页图讲清 AI 如何提升办公效率",
-                    "用3个可靠来源看懂一个行业问题",
-                    "一周 AI 大事，3分钟看完",
-                    "10个主流 AI 模型该怎么选",
-                  ].map((text) => (
-                    <button
-                      key={text}
-                      onClick={() =>
-                        void afterSpeech(() =>
-                          update(draft.id, (d) => editDemoText(d, uiText(text))),
-                        )
-                      }
-                    >
-                      {uiText(text)}
-                      <ArrowUpRight size={16} />
-                    </button>
-                  ))}
-                </div>
-              )}
             </div>
           </div>
         )}

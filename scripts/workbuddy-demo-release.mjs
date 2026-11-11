@@ -28,6 +28,8 @@ const roots = [
   "packages/core/live-workbuddy.test.ts",
   "docs/workbuddy-standalone-demo-2026-11-04.md",
   "docs/workbuddy-demo-README.en.md",
+  "docs/xiaoyi-work-release-2026-11-11.md",
+  "docs/xiaoyi-work-preview.png",
   "vercel.workbuddy-demo.json",
   "package-lock.json",
 ];
@@ -67,8 +69,7 @@ for (const path of files) {
   await cp(path, dest);
 }
 for (const asset of [
-  "assets/apps/workbuddy.svg",
-  "assets/apps/workbuddy-mascot.png",
+  "assets/xiaoyi-work",
   "assets/figma/sentence-parameters",
   "reference-assets/workbuddy-widgets",
 ]) {
@@ -119,7 +120,7 @@ await cp(
 );
 await writeFile(
   resolve(target, "AGENTS.md"),
-  "# WorkBuddy standalone source handoff\n\nOnly this standalone Web app is included. Source is under apps/web/src, shared contracts under packages/core, local generation under scripts, hosted adapters under api. Do not add native/bridge services. Use npm ci, npm run check, npm test, npm run test:workbuddy-demo:service, npm run test:workbuddy-demo and npm run build:workbuddy-demo. Keep all credentials in environment or ignored artifacts/workbuddy-demo/google-api-key; never commit or publish them. Generated releases and evidence belong under artifacts/workbuddy-demo/.\n",
+  "# Xiaoyi Work standalone source handoff\n\nOnly this standalone Web app is included. Source is under apps/web/src, shared contracts under packages/core, local generation under scripts, hosted adapters under api. Do not add native/bridge services. Use npm ci, npm run check, npm test, npm run test:workbuddy-demo:service, npm run test:workbuddy-demo and npm run build:workbuddy-demo. Keep all credentials in environment or ignored artifacts/workbuddy-demo/google-api-key; never commit or publish them. Generated releases and evidence belong under artifacts/workbuddy-demo/.\n",
 );
 await writeFile(
   resolve(target, ".gitignore"),

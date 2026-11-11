@@ -13,11 +13,11 @@ const prompt =
 async function open(page: Page) {
   await page.goto("/");
   await expect(
-    page.getByRole("textbox", { name: "WorkBuddy 任务输入", exact: true }),
+    page.getByRole("textbox", { name: "小艺Work 任务输入", exact: true }),
   ).toBeVisible();
 }
 const editor = (page: Page) =>
-  page.getByRole("textbox", { name: "WorkBuddy 任务输入", exact: true });
+  page.getByRole("textbox", { name: "小艺Work 任务输入", exact: true });
 async function mockSpeech(page: Page) {
   await page.addInitScript(() => {
     const engines: any[] = [];
@@ -428,10 +428,11 @@ test("tablet shell and icon-only microphone; each chip toggles its own anchored 
 }) => {
   await open(page);
   await expect(
-    page.getByRole("heading", { name: "WorkBuddy, 我帮你" }),
+    page.getByRole("heading", { name: "轻松工作，就用小艺Work" }),
   ).toBeVisible();
   await expect(page.locator(".wb-sidebar")).toBeVisible();
-  await expect(page.locator(".wb-modes")).toHaveText("办公开发设计");
+  await expect(page.locator(".wb-modes, .wb-home-suggestions")).toHaveCount(0);
+  await expect(page.locator(".wb-scenes button")).toHaveCount(3);
   const mic = page.getByRole("button", { name: "开始语音输入", exact: true });
   await expect(mic).toHaveText("");
   const voiceBox = (await mic.boundingBox())!;
@@ -600,9 +601,9 @@ test('top-right language settings preserve content, isolate preferences and use 
   await editor(page).fill('保留这段文字。');
   await page.getByRole('button',{name:'设置',exact:true}).click();
   await page.getByRole('combobox',{name:'界面与语音语言'}).selectOption('en');
-  await expect(page.getByRole('heading',{name:"WorkBuddy, here to help"})).toBeVisible();
+  await expect(page.getByRole('heading',{name:"Work made easy with Xiaoyi Work"})).toBeVisible();
   await page.getByRole('button',{name:'Close settings'}).click();
-  const input=page.getByRole('textbox',{name:'WorkBuddy task input',exact:true});
+  const input=page.getByRole('textbox',{name:'Xiaoyi Work task input',exact:true});
   await expect(input).toContainText('保留这段文字。');
   expect(await page.evaluate(()=>localStorage.getItem('input-agent:ui-language'))).toBe('zh-CN');
   await input.fill('Create a five-minute presentation. Use a red theme, a gray background and black text. Attach my product document, add product photos, and sketch the layout.');

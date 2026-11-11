@@ -2,7 +2,7 @@ import { test, expect, type Page, type Route } from "@playwright/test";
 const png =
   "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jRZkAAAAASUVORK5CYII=";
 const editor = (page: Page) =>
-  page.getByRole("textbox", { name: "WorkBuddy 任务输入", exact: true });
+  page.getByRole("textbox", { name: "小艺Work 任务输入", exact: true });
 const send = (page: Page) =>
   page.getByRole("button", { name: "发送请求", exact: true }).click();
 function artifacts(body: any) {
@@ -305,7 +305,7 @@ test('English result workspace translates controls without rewriting authored co
     return route.fulfill({contentType:'application/x-ndjson',body:[...outputs.map(artifact=>({artifact})),{done:true}].map(e=>JSON.stringify(e)).join('\n')+'\n'});
   });
   await page.goto('/');
-  await page.getByRole('textbox',{name:'WorkBuddy task input',exact:true}).fill('Create an English product presentation with a blue theme.');
+  await page.getByRole('textbox',{name:'Xiaoyi Work task input',exact:true}).fill('Create an English product presentation with a blue theme.');
   await page.getByRole('button',{name:'Send request',exact:true}).click();
   await expect(page.getByRole('button',{name:'Download result'})).toBeVisible();
   await expect(page.getByRole('textbox',{name:'Slide title',exact:true})).toHaveText('新品亮相');
@@ -316,3 +316,72 @@ test('English result workspace translates controls without rewriting authored co
   await expect(page.getByRole('textbox',{name:'网页幻灯片标题',exact:true})).toHaveText('新品亮相');
   await expect(page.getByRole('button',{name:'下载成果'})).toBeVisible();
 });
+
+for (const size of [{width:1440,height:960},{width:1280,height:800},{width:1024,height:768}]) {
+  for (const language of ['zh-CN','en']) {
+    test(`Xiaoyi visual contract ${size.width}x${size.height} ${language}`, async ({page}) => {
+      await page.setViewportSize(size);
+      await page.addInitScript(lang => localStorage.setItem('workbuddy-standalone-demo:language',lang),language);
+      const external: string[] = [];
+      page.on('request',request => {if(/huawei|dbankcdn/.test(request.url()))external.push(request.url());});
+      await page.route('**/api/workbuddy-demo/generate',route => result(route));
+      await page.goto('/');
+      await expect(page.locator('.wb-home h1')).toBeInViewport();
+      await expect(page).toHaveTitle(language==='en'?'Xiaoyi Work · Multimodal input':'小艺Work · 多模态输入');
+      await expect(page.locator('.wb-scenes button')).toHaveCount(3);
+      await expect(page.locator('.wb-modes, .wb-home-suggestions')).toHaveCount(0);
+      for (const image of await page.locator('.xiaoyi-brand img, .xiaoyi-mascot img').all()) {
+        await expect(image).toBeVisible();
+        expect(await image.evaluate(el => (el as HTMLImageElement).naturalWidth)).toBeGreaterThan(0);
+      }
+      await page.screenshot({path:`artifacts/workbuddy-demo/evidence/xiaoyi-home-${size.width}-${language}.png`});
+      const input=page.locator('.wb-sentence-composer');
+      // Authored WorkBuddy wording must survive brand and language changes.
+      const authored='WorkBuddy archive: 主题色用红色，字体用黑色。';
+      await input.fill(authored);
+      await page.locator('.demo-settings > button').click();
+      await expect(page.locator('.demo-settings section')).toBeInViewport();
+      const settings=(await page.locator('.demo-settings section').boundingBox())!;
+      expect(settings.x+settings.width).toBeLessThanOrEqual(size.width);
+      await page.screenshot({path:`artifacts/workbuddy-demo/evidence/xiaoyi-settings-${size.width}-${language}.png`});
+      await page.locator('.demo-settings header button').click();
+      await page.locator('.sentence-token[data-kind=color]').first().click();
+      const hex=page.locator('.agent-color-bottom input');
+      await hex.fill('#A51124');
+      await page.locator('.agent-color-bottom > button').click();
+      await expect(input).toContainText('#A51124');
+      await page.locator('.demo-add > button').click();
+      const chooser=page.waitForEvent('filechooser');
+      await page.locator('.demo-add-menu button').first().click();
+      await (await chooser).setFiles({name:'reference.txt',mimeType:'text/plain',buffer:Buffer.from('Fictional material')});
+      await expect(page.locator('.demo-attachments')).toContainText('reference.txt');
+      await page.locator('.sentence-token[data-kind=color]').first().click();
+      await expect(page.locator('.agent-color-bottom > button')).toBeInViewport();
+      const chip=(await page.locator('.sentence-token-face').first().boundingBox())!;
+      const panel=(await page.locator('#demo-input-widget').boundingBox())!;
+      expect(Math.abs(panel.x-chip.x)).toBeLessThan(1);
+      expect(Math.abs(panel.y-chip.y-chip.height-8)).toBeLessThan(1);
+      await page.screenshot({path:`artifacts/workbuddy-demo/evidence/xiaoyi-widget-${size.width}-${language}.png`});
+      await page.locator('.agent-color-bottom > button').click();
+      await page.locator('.demo-send').click();
+      await expect(page.locator('.wb-task-layout')).toBeVisible();
+      await expect(page.getByRole('tab')).toHaveCount(3);
+      await expect(page.locator('.wb-task-chat .wb-message.assistant')).toContainText(language==='en'?'Xiaoyi Work':'小艺Work');
+      await expect(page.locator('.demo-voice')).toBeInViewport();
+      await page.locator('.demo-settings > button').click();
+      await expect(page.locator('.demo-settings section')).toBeInViewport();
+      await page.locator('.demo-settings header button').click();
+      expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+      await page.screenshot({path:`artifacts/workbuddy-demo/evidence/xiaoyi-results-${size.width}-${language}.png`});
+      await expect(page.locator('.demo-save-state')).not.toContainText(/Saving|正在保存/);
+      await page.reload();
+      await expect(page.locator('.wb-task-layout')).toBeVisible();
+      await expect(page.locator('.wb-sentence-composer')).toContainText('WorkBuddy archive');
+      await expect(page.locator('.wb-sentence-composer')).toContainText('#A51124');
+      await expect(page.locator('.demo-attachments')).toContainText('reference.txt');
+      // The fixture artifact's authored green stays green after the interface becomes violet.
+      await expect(page.locator('.web-deck-page').first()).toHaveCSS('--deck-primary','#146C64');
+      expect(external).toEqual([]);
+    });
+  }
+}

@@ -1,6 +1,6 @@
-# WorkBuddy standalone Web demo
+# Xiaoyi Work standalone Web demo
 
-A self-contained Web project for one computer or a Vercel deployment. It includes the WorkBuddy interface, bilingual multimodal composer, local draft storage, Gemini generation service, result editor, assets, tests and deployment configuration. No phone/tablet app, Mac bridge or original Mobile Input checkout is required.
+A self-contained Web project for one computer or a Vercel deployment. It includes the Xiaoyi Work interface, bilingual multimodal composer, local draft storage, Gemini generation service, result editor, assets, tests and deployment configuration. No phone/tablet app, Mac bridge or original Mobile Input checkout is required.
 
 ## 1. Requirements
 
@@ -170,3 +170,15 @@ Browser regression tests use an installed Google Chrome. They mock speech, camer
 - `SOURCE-MANIFEST.json`, `PACKAGE-MANIFEST.json`: source provenance and per-file checksums.
 
 The ZIP contains the complete standalone source dependency closure. Node.js, downloaded `node_modules`, private keys, user drafts/photos, Git history, build caches, device binaries and other apps are intentionally excluded. `npm ci` installs pinned dependencies; the original repository is not needed.
+
+## Visual reference and compatibility
+
+![Xiaoyi Work desktop demo](docs/xiaoyi-work-preview.png)
+
+The screenshot shows the Chinese home screen at 1440 × 960. Use the top-right settings gear to switch the interface and speech language to English.
+
+The interface follows the client shown on [Huawei Xiaoyi Work](https://xiaoyi.huawei.com/work): a pale-gray sidebar, white workspace, centered official mascot and three supported creation shortcuts. The result screen retains conversation and editable artifact panes. Screenshots from older WorkBuddy releases no longer represent this appearance. Chinese uses 小艺Work; English uses Xiaoyi Work.
+
+The official logo and client poster are bundled locally under `apps/web/public/assets/xiaoyi-work/`; `sources.json` records the source URLs and SHA-256 hashes. The mascot is framed from the unmodified official poster using CSS. These brand assets belong to Huawei; this demo does not connect to or represent the official Xiaoyi service. No runtime request to Huawei's image servers is required.
+
+Existing command names, API paths, database name and language-preference key intentionally retain `workbuddy` for compatibility. Existing drafts, attachments, authored colors and generated outputs are preserved.
