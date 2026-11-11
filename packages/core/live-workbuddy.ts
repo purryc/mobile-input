@@ -1,4 +1,4 @@
-import {extractEnglishParameters} from './live-workbuddy-english';
+import {extractEnglishParameters} from './live-workbuddy-english.js';
 /** Real-app input data is intentionally independent of the demo WorkBuddy state. */
 export type LiveInputKind='color'|'duration'|'document'|'photo'|'sketch';
 export interface LiveParameter {id:string;kind:LiveInputKind;start:number;end:number;phrase:string;label:string;role:string;scope:string;value:string;manual:boolean;}

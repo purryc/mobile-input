@@ -178,3 +178,39 @@ test('standalone polish uses server credentials, registered actions and protecte
   server.closeAllConnections();await new Promise<void>(resolve=>server.close(()=>resolve()));
  }
 });
+
+// Exercise emitted ESM with plain Node, without tsx's extension resolution.
+test("hosted API dependency graph loads in plain Node ESM", async () => {
+  const ts = await import("typescript");
+  const fs = await import("node:fs/promises");
+  const path = await import("node:path");
+  const { tmpdir } = await import("node:os");
+  const { pathToFileURL } = await import("node:url");
+  const { execFileSync } = await import("node:child_process");
+  const root = process.cwd(), output = await fs.mkdtemp(path.join(tmpdir(), "xiaoyi-esm-"));
+  const visited = new Set<string>();
+  async function emit(source: string) {
+    if (visited.has(source)) return;
+    visited.add(source);
+    const code = ts.transpileModule(await fs.readFile(source, "utf8"), {
+      compilerOptions: { target: ts.ScriptTarget.ES2022, module: ts.ModuleKind.ESNext },
+    }).outputText;
+    const dest = path.join(output, path.relative(root, source)).replace(/\.ts$/, ".js");
+    await fs.mkdir(path.dirname(dest), { recursive: true });
+    await fs.writeFile(dest, code);
+    for (const item of ts.preProcessFile(code, true, true).importedFiles) {
+      if (!item.fileName.startsWith(".")) continue;
+      const resolved = ts.resolveModuleName(item.fileName, source, { moduleResolution: ts.ModuleResolutionKind.Bundler }, ts.sys).resolvedModule;
+      assert.ok(resolved, item.fileName);
+      await emit(resolved.resolvedFileName);
+    }
+  }
+  try {
+    await fs.writeFile(path.join(output, "package.json"), '{"type":"module"}');
+    await emit(path.join(root, "api/workbuddy-demo/[action].ts"));
+    const env = { ...process.env };
+    delete env.NODE_OPTIONS;
+    const url = pathToFileURL(path.join(output, "api/workbuddy-demo/[action].js")).href;
+    execFileSync(process.execPath, ["--input-type=module", "-e", `await import(${JSON.stringify(url)})`], { env, stdio: "pipe" });
+  } finally { await fs.rm(output, { recursive: true, force: true }); }
+});

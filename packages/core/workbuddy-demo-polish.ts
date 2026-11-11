@@ -1,6 +1,6 @@
-import { contextualPolishActions, polishActionsForTarget, polishInstruction } from './polish-actions';
-import { extractLiveParameters } from './live-workbuddy';
-import { protectPolishParameters, validatePolishParameters } from './polish-parameters';
+import { contextualPolishActions, polishActionsForTarget, polishInstruction } from './polish-actions.js';
+import { extractLiveParameters } from './live-workbuddy.js';
+import { protectPolishParameters, validatePolishParameters } from './polish-parameters.js';
 
 const target = { app: 'workbuddy', id: 'demo:prompt', kind: 'text' };
 export interface DemoPolishInput {

@@ -1,4 +1,4 @@
-import {extractLiveParameters} from './live-workbuddy';
+import {extractLiveParameters} from './live-workbuddy.js';
 export function validatePolishParameters(before:string,after:string){
  const original=extractLiveParameters(before),next=extractLiveParameters(after);
  if(original.length!==next.length||original.some(p=>!next.some(n=>n.id===p.id&&n.phrase===p.phrase&&n.value===p.value)))throw Error('润色改变了输入参数，原文已保留，请重试');
