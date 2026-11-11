@@ -1,12 +1,12 @@
 # Xiaoyi Work standalone Web demo
 
-A self-contained Web project for one computer or a Vercel deployment. It includes the Xiaoyi Work interface, bilingual multimodal composer, local draft storage, Gemini generation service, result editor, assets, tests and deployment configuration. No phone/tablet app, Mac bridge or original Mobile Input checkout is required.
+A self-contained Web project for one computer or a Vercel deployment. It includes the Xiaoyi Work interface, bilingual multimodal composer, local draft storage, contextual prompt polishing, Gemini generation service, result editor, assets, tests and deployment configuration. No phone/tablet app, Mac bridge or original Mobile Input checkout is required.
 
 ## 1. Requirements
 
 - Node.js 22 or newer and npm. Check with `node --version` and `npm --version`.
 - Current desktop Google Chrome, an internet connection, and a microphone for voice input. Camera is optional.
-- Your own Gemini API key for actual generation. The UI, typed input, widgets and local drafts work without a key. Browser speech uses Chrome's online recognition service, not the Gemini key.
+- Your own Gemini API key for actual generation and prompt polishing. The UI, typed input, widgets and local drafts work without a key. Browser speech uses Chrome's online recognition service, not the Gemini key.
 - Unzip the archive, then open a terminal **inside the `workbuddy-web-demo` folder containing `package.json`**. All commands below run there.
 
 ## 2. Install and open
@@ -87,6 +87,9 @@ Typing and pasting accept both languages regardless of the interface setting. En
 > Generate an image of a minimalist green product poster with English text.
 
 - Click the microphone to start; click again to stop. Allow microphone access. Stopping does not send.
+- After you stop recording and the text settles for about 400 ms, relevant **AI polish** chips appear inside the input box above its bottom buttons. Stable typing, pasting and selection also qualify. **Organize** and **Make concise** depend on the content; short or parameter-only requests may show neither.
+- Click a polish chip to rewrite only the selected text (or the full prompt if nothing is selected). It uses the same server-side Gemini key and text model as generation; no separate setup is needed. Parameters, manual values, negative constraints and attachments are preserved. Polishing never sends the task or generates an artifact.
+- **Undo polish** restores the latest rewrite until you edit the text or parameters again. Editing, moving the selection, restarting voice, changing drafts or hiding the page cancels a pending polish. Failures preserve your text and offer retry; unchanged output is reported honestly. Select at most 4,000 characters per polish request.
 - Color, duration, file, reference-image and layout phrases become inline chips. Click a chip to toggle its panel below it. Recognition does not open panels automatically.
 - Colors bind independently to theme, background and text, and may be scoped to a page, e.g. `On slide 2, use a blue background`. Durations accept explicit 1–60 minute values; ambiguous ranges remain prose.
 - `add product photos` opens image input. `generate an image`, `draw a chart` and `create a graph` do not imply selecting reference photos.
@@ -182,3 +185,9 @@ The interface follows the client shown on [Huawei Xiaoyi Work](https://xiaoyi.hu
 The official logo and client poster are bundled locally under `apps/web/public/assets/xiaoyi-work/`; `sources.json` records the source URLs and SHA-256 hashes. The mascot is framed from the unmodified official poster using CSS. These brand assets belong to Huawei; this demo does not connect to or represent the official Xiaoyi service. No runtime request to Huawei's image servers is required.
 
 Existing command names, API paths, database name and language-preference key intentionally retain `workbuddy` for compatibility. Existing drafts, attachments, authored colors and generated outputs are preserved.
+
+### Inline polish preview
+
+![Inline contextual polish in Xiaoyi Work](docs/xiaoyi-work-polish.png)
+
+The same row is available in the home and result composers. The UI language changes labels, not authored text; polishing preserves the language of the supplied text. The new `/api/workbuddy-demo/polish` route is included in both the local server and Vercel adapter. Refresh retains the rewritten draft, but not an in-flight request or the transient undo action.

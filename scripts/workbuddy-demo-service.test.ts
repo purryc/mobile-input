@@ -143,3 +143,38 @@ test("loopback service calls real-shaped Google contracts, streams outputs, reje
     await new Promise<void>((resolve) => server.close(() => resolve()));
   }
 });
+
+test('standalone polish uses server credentials, registered actions and protected text without generation',async()=>{
+ const original=globalThis.fetch, oldKey=process.env.GOOGLE_API_KEY;
+ process.env.GOOGLE_API_KEY='test-only-polish-credential';
+ let calls=0,fail=false;
+ globalThis.fetch=(async(url:any,init:any)=>{
+  if(!String(url).startsWith('https://generativelanguage.googleapis.com/'))return original(url,init);
+  calls++;assert.equal(init.headers['x-goog-api-key'],'test-only-polish-credential');
+  const body=JSON.parse(init.body),prompt=body.contents[0].parts[0].text;
+  assert.ok(!prompt.includes('主题色用红色'));
+  assert.ok(!body.generationConfig.responseModalities);
+  if(fail)return new Response('',{status:429});
+  const text=JSON.parse(prompt.split('Text (JSON encoded): ')[1]).replace('重点说明','着重说明');
+  return new Response(JSON.stringify({candidates:[{finishReason:'STOP',content:{parts:[{text}]}}]}));
+ }) as typeof fetch;
+ const server=createServer((req,res)=>workbuddyDemoMiddleware(req,res,()=>res.end()));
+ await new Promise<void>(resolve=>server.listen(0,'127.0.0.1',resolve));
+ const url=`http://127.0.0.1:${(server.address() as {port:number}).port}/api/workbuddy-demo/polish`;
+ const body={id:crypto.randomUUID(),owner:'draft-a',text:'请帮我整理一个完整的产品发布方案，重点说明目标用户的价值，主题色用红色。',selection:{start:0,end:0},action:'task-points'};
+ const post=(data:any,headers={})=>original(url,{method:'POST',headers:{'content-type':'application/json',...headers},body:JSON.stringify(data)});
+ try{
+  const response=await post(body),data=await response.json() as any;
+  assert.equal(response.status,200);assert.match(data.text,/着重说明/);assert.match(data.text,/主题色用红色/);assert.equal(data.id,body.id);
+  assert.ok(!JSON.stringify(data).includes('credential'));
+  assert.equal((await post(body)).status,400);
+  assert.equal((await post({...body,id:'unknown-action',action:'execute'})).status,400);
+  assert.equal((await post({...body,id:'cross-origin'},{origin:'https://untrusted.example'})).status,400);
+  assert.equal(calls,1);
+  fail=true;assert.equal((await post({...body,id:'failed'})).status,400);
+ }finally{
+  globalThis.fetch=original;
+  if(oldKey===undefined)delete process.env.GOOGLE_API_KEY;else process.env.GOOGLE_API_KEY=oldKey;
+  server.closeAllConnections();await new Promise<void>(resolve=>server.close(()=>resolve()));
+ }
+});

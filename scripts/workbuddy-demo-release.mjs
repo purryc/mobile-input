@@ -23,6 +23,8 @@ const roots = [
   "api/AGENTS.md",
   "tests/workbuddy-standalone.spec.ts",
   "tests/workbuddy-demo-results.spec.ts",
+  "tests/workbuddy-demo-polish.spec.ts",
+  "packages/core/workbuddy-demo-polish.test.ts",
   "packages/core/workbuddy-demo.test.ts",
   "packages/core/workbuddy-demo-generation.test.ts",
   "packages/core/live-workbuddy.test.ts",
@@ -30,6 +32,9 @@ const roots = [
   "docs/workbuddy-demo-README.en.md",
   "docs/xiaoyi-work-release-2026-11-11.md",
   "docs/xiaoyi-work-preview.png",
+  "docs/xiaoyi-work-polish.png",
+  "docs/xiaoyi-work-polish-2026-11-11.md",
+  "docs/xiaoyi-work-polish-design-qa.md",
   "vercel.workbuddy-demo.json",
   "package-lock.json",
 ];
@@ -118,6 +123,7 @@ await cp(
   resolve(root, "docs/workbuddy-demo-README.en.md"),
   resolve(target, "README.md"),
 );
+await cp(resolve(root, "docs/xiaoyi-work-polish-design-qa.md"), resolve(target, "design-qa.md"));
 await writeFile(
   resolve(target, "AGENTS.md"),
   "# Xiaoyi Work standalone source handoff\n\nOnly this standalone Web app is included. Source is under apps/web/src, shared contracts under packages/core, local generation under scripts, hosted adapters under api. Do not add native/bridge services. Use npm ci, npm run check, npm test, npm run test:workbuddy-demo:service, npm run test:workbuddy-demo and npm run build:workbuddy-demo. Keep all credentials in environment or ignored artifacts/workbuddy-demo/google-api-key; never commit or publish them. Generated releases and evidence belong under artifacts/workbuddy-demo/.\n",

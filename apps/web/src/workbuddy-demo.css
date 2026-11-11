@@ -545,3 +545,16 @@ button:disabled {
 .demo-app .agent-widget-icon[src$="/check.svg"] { filter: brightness(0) saturate(100%) invert(42%) sepia(61%) saturate(980%) hue-rotate(210deg); }
 .demo-app .demo-request-materials a { color: #6a6593; }
 .demo-app .wb-preview-tabs [aria-selected="true"] { box-shadow: inset 0 -2px #7771df; }
+/* Stable, non-editable polish row inside the composer, above its action footer. */
+.demo-app .demo-polish-slot { flex: none; position: relative; min-width: 0; padding: 8px 18px; --input-control: #f7f7fc; --input-edge: #f0eff8; }
+.demo-app .demo-polish-slot .contextual-polish { padding: 0; }
+.demo-app .demo-polish-slot.polish-stack { row-gap: 8px; }
+.demo-app .demo-polish-slot.polish-stack:has(>.contextual-polish:last-child) { padding-bottom: 8px !important; }
+.demo-app .demo-polish-slot .contextual-polish-title { width: auto; flex: 0 0 auto; font-size: 14px; margin-right: 4px; }
+.demo-app .demo-polish-slot .polish-smart-pencil { color: var(--input-accent); }
+.demo-app .demo-polish-slot .application-action-chip { font-size: 14px; padding: 8px 12px; min-height: 48px; }
+.demo-app .demo-polish-slot .application-action-chip:hover:not(:disabled) { background: #eeedfb; }
+.demo-app .demo-polish-cancel { font-size: 12px; color: #6266df; min-height: 32px; margin-left: 82px; }
+.demo-app .demo-polish-notice { display: block; font-size: 12px; color: #777; margin: 4px 0 0 82px; }
+.demo-app .demo-task-compose:has(.demo-polish-slot) { max-height: 60%; }
+.demo-app .demo-task-compose .demo-polish-slot { padding-left: 12px; padding-right: 12px; }

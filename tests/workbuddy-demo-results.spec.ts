@@ -385,3 +385,23 @@ for (const size of [{width:1440,height:960},{width:1280,height:800},{width:1024,
     });
   }
 }
+
+test('result composer keeps inline polish and microphone reachable in both languages and all sizes',async({page})=>{
+ await page.route('**/api/workbuddy-demo/generate',r=>result(r));
+ await page.goto('/');
+ await editor(page).fill('请帮我整理一个完整的产品发布方案，重点说明目标用户的价值。然后然后说明下一步安排。');
+ await send(page);await expect(page.getByRole('tab')).toHaveCount(3);
+ for(const lang of ['zh-CN','en']){
+  await page.locator('.demo-settings > button').click();await page.locator('.demo-settings select').selectOption(lang);await page.locator('.demo-settings header button').click();
+  for(const size of [{width:1440,height:960},{width:1280,height:800},{width:1024,height:768}]){
+   await page.setViewportSize(size);
+   await expect(page.locator('.contextual-polish-options button').first()).toBeEnabled();
+   await expect(page.locator('.demo-task-compose .demo-polish-slot')).toBeInViewport();
+   await expect(page.locator('.demo-voice')).toBeInViewport();
+   await expect(page.locator('.demo-send')).toBeInViewport();
+   await expect(page.locator('.contextual-polish-options button').last()).toBeInViewport();
+   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+   await page.screenshot({path:`artifacts/workbuddy-demo/evidence/polish-results-${size.width}-${lang}.png`});
+  }
+ }
+});

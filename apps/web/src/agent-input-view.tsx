@@ -2,7 +2,7 @@ import {uiText} from './i18n';
 import {Children,useEffect,useRef,useState,type ReactNode} from 'react';
 import {AgentWidgetColor,WidgetIcon} from './agent-widget-color';
 import {SKETCH_WIDTH,SKETCH_HEIGHT,eraseSketchAt} from '../../../packages/core/agent-sketch';
-export function AgentComposer({children,footer,busy=false,className='',label}:{children:ReactNode;footer?:ReactNode;busy?:boolean;className?:string;label?:string}){return <section aria-label={label} className={'live-wb-composer '+className} inert={busy}><div className="live-wb-scroll">{children}</div>{footer&&<footer>{footer}</footer>}</section>;}
+export function AgentComposer({children,footer,afterContent,busy=false,className='',label}:{children:ReactNode;footer?:ReactNode;afterContent?:ReactNode;busy?:boolean;className?:string;label?:string}){return <section aria-label={label} className={'live-wb-composer '+className} inert={busy}><div className="live-wb-scroll">{children}</div>{afterContent}{footer&&<footer>{footer}</footer>}</section>;}
 export function AgentAuxiliary({title,onClose,children,busy=false}:{title:string;onClose:()=>void;children:ReactNode;busy?:boolean}){return <section className="live-wb-aux" inert={busy}><header><b>{title}</b><button aria-label={uiText("关闭辅助输入")} onClick={onClose}><WidgetIcon name="close"/></button></header>{children}</section>;}
 export function AgentPhotoInput({children,onChoose,onCapture,onDone,busy=false}:{children?:ReactNode;onChoose:()=>void;onCapture:()=>void;onDone:()=>void;busy?:boolean}){
  const hasPhotos=Children.toArray(children).length>0;

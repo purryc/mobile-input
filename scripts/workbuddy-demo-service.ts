@@ -1,3 +1,4 @@
+import { polishDemo, validateDemoPolish, type DemoPolishInput } from "../packages/core/workbuddy-demo-polish.js";
 import type { IncomingMessage, ServerResponse } from "node:http";
 import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
@@ -137,13 +138,15 @@ export function workbuddyDemoMiddleware(
       );
       return;
     }
-    if (req.method !== "POST" || path !== "/api/workbuddy-demo/generate") {
+    if (req.method !== "POST" || !["/api/workbuddy-demo/generate", "/api/workbuddy-demo/polish"].includes(path)) {
       res.statusCode = 404;
       res.end();
       return;
     }
     if (active >= 2) throw Error("已有两个任务正在生成，请稍后重试");
     // Vercel may supply an already parsed body; local Vite supplies the raw stream.
+    const polishing = path.endsWith("/polish");
+    const limit = polishing ? 100000 : hosted ? 4300000 : 35 * 1024 * 1024;
     const parsedBody = (req as IncomingMessage & { body?: unknown }).body;
     const chunks: Buffer[] = [];
     let size = 0;
@@ -160,10 +163,11 @@ export function workbuddyDemoMiddleware(
     } else
       for await (const chunk of req) {
         size += chunk.length;
-        if (size > (hosted ? 4300000 : 35 * 1024 * 1024))
+        if (size > limit)
           throw Error("材料过大，请减少后重试");
         chunks.push(chunk);
       }
+    if (size > limit && polishing) throw Error("润色请求过大，请选择较短文字");
     if (hosted && size > 4300000)
       throw Error("线上版材料总量请控制在 3 MB 内；较大材料请使用本机版");
     let body: DemoGenerationInput;
@@ -171,6 +175,34 @@ export function workbuddyDemoMiddleware(
       body = JSON.parse(Buffer.concat(chunks).toString());
     } catch {
       throw Error("请求格式无效");
+    }
+    if (polishing) {
+      if (active >= 2) throw Error("已有两个任务正在生成，请稍后重试");
+      const input = body as unknown as DemoPolishInput;
+      validateDemoPolish(input);
+      if (requests.has('polish:' + input.id)) throw Error("该请求已提交；需要重新生成时请点击重试");
+      active++;
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), 90000);
+      res.on("close", () => controller.abort());
+      try {
+        const result = await polishDemo(input, async (prompt, signal) => {
+          requests.add('polish:' + input.id);
+          if(requests.size>1000) requests.delete(requests.values().next().value!);
+          const parts = await google([{text:prompt}], {maxOutputTokens:8192}, textModel, signal);
+          return parts.map((p: {text?:string}) => p.text || '').join('');
+        }, controller.signal);
+        res.setHeader("Content-Type", "application/json");
+        res.end(JSON.stringify(result));
+      } catch (error) {
+        if(controller.signal.aborted) throw Error("润色已取消或超时，原文已保留");
+        const message=error instanceof Error?error.message:'';
+        if(/（(?:401|403)）/.test(message)) throw Error("润色服务密钥或权限不可用，请检查服务器配置");
+        if(message.includes('（429）')) throw Error("润色服务额度暂不可用，请稍后重试");
+        if(/（\d+）/.test(message)||error instanceof TypeError) throw Error("润色连接失败，请检查网络后重试");
+        throw error;
+      } finally { clearTimeout(timer); active--; }
+      return;
     }
     validateDemoGeneration(body);
     for (const source of body.sources)

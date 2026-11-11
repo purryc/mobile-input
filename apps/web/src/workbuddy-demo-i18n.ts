@@ -81,3 +81,25 @@ registerUILabels({
 '文档内容不完整，请重试':'The document is incomplete. Please retry.'
 });
 registerUILabels({'校验页面':'Validating slides','用户提供的图片':'User-provided image','讲稿':'Speaker notes','页面已重新打开，上次生成已中断。可以重试。':'This page was reopened. The previous generation was interrupted; you can retry.'});
+registerUILabels({
+'AI润色':'AI polish','整理结构':'Organize','精简表达':'Make concise','撤销润色':'Undo polish','取消润色':'Cancel polish','处理中':'Working…','未产生文字修改':'No changes were needed.',
+'润色请求无效':'Invalid polish request. Your text is preserved.','润色选区无效':'Select the text again and retry.',
+'当前文字不适用此润色操作':'This action does not apply to the current text.',
+'请选择 4000 字以内的文字':'Select up to 4,000 characters to polish.',
+'润色结果无效，原文已保留':'The polish result was invalid. Your original text is preserved.',
+'润色改变了受保护内容，原文已保留':'Polish changed protected content. Your original text is preserved.',
+'润色未完整保留输入参数，原文已保留，请重试':'Polish did not preserve all parameters. Your original text is preserved; retry.',
+'润色改变了输入参数顺序，原文已保留，请重试':'Polish changed parameter order. Your original text is preserved; retry.',
+'润色改变了输入参数，原文已保留，请重试':'Polish changed parameters. Your original text is preserved; retry.',
+'润色结果已过期，原文已保留':'This result is outdated. Your text is preserved.',
+'润色失败，原文已保留':'Polish failed. Your original text is preserved.',
+'润色超时，原文已保留，请重试':'Polish timed out. Your text is preserved; retry.',
+'润色连接失败，请检查网络后重试':'Polish could not connect. Check your network and retry.',
+'润色已取消或超时，原文已保留':'Polish was cancelled or timed out. Your text is preserved.',
+'润色请求过大，请选择较短文字':'Select a shorter passage to polish.',
+});
+
+registerUILabels({
+'润色服务密钥或权限不可用，请检查服务器配置':'Polish credentials or permissions are unavailable. Check the server configuration.',
+'润色服务额度暂不可用，请稍后重试':'Polish quota is temporarily unavailable. Try again later.',
+});

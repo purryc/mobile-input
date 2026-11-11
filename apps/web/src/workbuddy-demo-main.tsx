@@ -1,3 +1,4 @@
+import { useDemoPolish } from "./workbuddy-demo-polish";
 import {configureUILanguageStorage, setUILanguage} from "./i18n";
 import "./workbuddy-demo-i18n";
 import {uiText, useUILanguage} from "./i18n";
@@ -350,6 +351,8 @@ function App() {
     return () => clearTimeout(timer);
   }, [sent]);
   const draft = state?.drafts.find((d) => d.id === state.active);
+  const polish = useDemoPolish({draft,phase,language,disabled:busy||drawing,area,
+    current:()=>latest.current?.drafts.find(d=>d.id===latest.current?.active),update});
   async function afterSpeech(action: () => void) {
     const owner = latest.current?.active;
     const binding = speechBinding.current;
@@ -368,6 +371,7 @@ function App() {
     }
   }
   function toggleVoice() {
+    polish.cancel();
     if (phaseRef.current !== "idle") {
       void afterSpeech(() => {});
       return;
@@ -389,6 +393,7 @@ function App() {
     speech.current?.start(language === "en" ? "en-US" : "zh-CN");
   }
   function switchDraft(id: string) {
+    polish.cancel();
     speech.current?.cancel();
     speechBinding.current = null;
     setPanel(null);
@@ -642,6 +647,7 @@ function App() {
     generate(owner, request);
   }
   function send() {
+    if(polish.pending)return;
     void afterSpeech(() => {
       const current = latest.current?.drafts.find(
         (d) => d.id === latest.current?.active,
@@ -828,6 +834,7 @@ function App() {
       <AgentComposer
         className="deck-composer demo-composer"
         label={uiText("小艺Work 任务输入区")}
+        afterContent={polish.row}
         footer={
           <>
             <div className="demo-add">
@@ -876,6 +883,7 @@ function App() {
               data-accepted={sent}
               disabled={
                 busy ||
+                polish.pending ||
                 draft.requests.some((r) => r.status === "running") ||
                 drawing ||
                 !draft.text.trim() ||
@@ -919,7 +927,7 @@ function App() {
             active={null}
             disabled={busy}
             placeholder={uiText("今天帮你做些什么？")}
-            onSelect={() => {}}
+            onSelect={polish.select}
             onFocus={stopForTyping}
             onChange={(text) => {
               stopForTyping();
