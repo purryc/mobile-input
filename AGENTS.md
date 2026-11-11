@@ -1,3 +1,8 @@
+# Polish chip stop and completed state · 2026-11-11
+
+- User requests Stop inside the actively processing chip and no separate cancel row. Make only the active chip stoppable; other suggestions stay disabled until completion/cancel. The shared presentation component may expose an optional onCancel callback; existing native callers retain their current behavior.
+- After a successful changed rewrite, hide the polish title and all suggestions; show only the existing restore icon. Keep that state while the matching undo snapshot exists. Restore or actual text/parameter editing makes contextual recommendations eligible again; selection alone must not redisplay completed actions. Cancellation preserves the draft and suppresses late responses. No new model calls or data schema changes; verify zh/en pending/completed/restored states, update the existing standalone branch, ZIP and URL.
+
 # Compact polish restore control · 2026-11-11
 
 - User clarifies that redo means restore the pre-polish original, not another model request. Remove the text Undo polish action chip. After a successful changed result only, show one trailing Undo2 icon with bilingual Restore original label/tooltip, 48 px hit target, keyboard focus and existing guarded undo behavior. Hide it after restoration or invalidating edits; keep parameters/materials/ownership unchanged. Reuse the existing result-editor icon family. Validate the existing undo regression plus bilingual responsive icon visibility; update the same standalone handoff and deployment.

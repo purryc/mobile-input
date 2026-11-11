@@ -89,7 +89,7 @@ Typing and pasting accept both languages regardless of the interface setting. En
 - Click the microphone to start; click again to stop. Allow microphone access. Stopping does not send.
 - After you stop recording and the text settles for about 400 ms, relevant **AI polish** chips appear inside the input box above its bottom buttons. Stable typing, pasting and selection also qualify. **Organize** and **Make concise** depend on the content; short or parameter-only requests may show neither.
 - Click a polish chip to rewrite only the selected text (or the full prompt if nothing is selected). It uses the same server-side Gemini key and text model as generation; no separate setup is needed. Parameters, manual values, negative constraints and attachments are preserved. Polishing never sends the task or generates an artifact.
-- The small **Restore original** arrow appears at the right of the polish row only after a successful rewrite. It restores the latest rewrite until you edit the text or parameters again. Editing, moving the selection, restarting voice, changing drafts or hiding the page cancels a pending polish. Failures preserve your text and offer retry; unchanged output is reported honestly. Select at most 4,000 characters per polish request.
+- While a rewrite is running, click **Stop** inside its active chip to cancel it and keep the original. There is no separate cancel row. After a successful changed rewrite, the polish title and suggestion chips disappear; only the small **Restore original** arrow remains at the right. It restores the latest rewrite until you edit the text or parameters again. Restoring or editing makes relevant suggestions eligible again; moving the caret alone keeps the completed state. Editing, moving the selection, restarting voice, changing drafts or hiding the page cancels a pending polish. Failures preserve your text and offer retry; unchanged output is reported honestly. Select at most 4,000 characters per polish request.
 - Color, duration, file, reference-image and layout phrases become inline chips. Click a chip to toggle its panel below it. Recognition does not open panels automatically.
 - Colors bind independently to theme, background and text, and may be scoped to a page, e.g. `On slide 2, use a blue background`. Durations accept explicit 1–60 minute values; ambiguous ranges remain prose.
 - `add product photos` opens image input. `generate an image`, `draw a chart` and `create a graph` do not imply selecting reference photos.
@@ -188,6 +188,8 @@ Existing command names, API paths, database name and language-preference key int
 
 ### Inline polish preview
 
-![Inline contextual polish in Xiaoyi Work](docs/xiaoyi-work-polish.png)
+![Stop inside the active polish chip](docs/xiaoyi-work-polish.png)
+
+![Completed polish shows only Restore original](docs/xiaoyi-work-polish-complete.png)
 
 The same row is available in the home and result composers. The UI language changes labels, not authored text; polishing preserves the language of the supplied text. The new `/api/workbuddy-demo/polish` route is included in both the local server and Vercel adapter. Refresh retains the rewritten draft, but not an in-flight request or the transient undo action.

@@ -1,3 +1,15 @@
+# In-chip stop and completed state · 2026-11-11
+
+final result: passed
+
+- Source truth: user-provided crops codex-clipboard-bdead5d3-26aa-4018-bf54-f42e74a5216c.png (615×250) and codex-clipboard-5dbb5e15-4962-46aa-b44b-e2c61756c9a1.png (748×154), with explicit requested changes: move Stop inside the active chip; after success retain only the restore arrow. These are enlarged row crops, not full-page viewport targets. Compare row anatomy and intentional changes, not literal full-page pixel alignment.
+- Rendered evidence: docs/xiaoyi-work-polish.png (pending), docs/xiaoyi-work-polish-complete.png (completed), both 1280×800 at density 1. Full sets under artifacts/workbuddy-demo/evidence/polish-{pending,complete}-{1440,1280,1024}-{zh-CN,en}.png. Viewports 1440×960, 1280×800 and 1024×768. Source crops and rendered states were opened in the same comparison input, followed by the enabled completed arrow and English narrow state.
+- Findings: no P0/P1/P2 visual mismatch. The processing chip retains spinner + progress text and contains a clear square Stop affordance. It is enabled while the other chip is disabled. The completed state has no polish title or suggestions and preserves the 48×48 trailing restore target. Typography, 14 px action text, palette, official imagery, footer and baseline spacing remain unchanged. Full-page layout stays stable; row content is legible in the focused comparison. No new image assets or hand-drawn icons.
+- Behavior: Chinese/English Stop works by keyboard and click, cancellation preserves original text and rejects a delayed fixture response. Both post-polish restore and subsequent actual editing make recommendations available; moving the caret does not. No extra model calls are made by these transitions. Manual color/selection/material protections remain covered by existing regressions.
+- Validation: 240 core checks, 3 service contracts, TypeScript and production build passed. All 32 browser scenarios passed across the full regression plus corrected state test. The initial new keyboard test pressed a temporarily disabled restore button during its selection debounce; the test now waits for enabled, then verifies exact restoration. No product change was needed for that test timing. In-app local preview console contained no errors/warnings. Paid inference was not repeated for this UI-only change.
+
+---
+
 # Compact restore icon follow-up · 2026-11-11
 
 final result: passed

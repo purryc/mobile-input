@@ -105,3 +105,5 @@ registerUILabels({
 });
 
 registerUILabels({'恢复原文':'Restore original'});
+
+registerUILabels({'停止润色':'Stop polishing','停止':'Stop'});

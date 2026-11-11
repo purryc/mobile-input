@@ -33,6 +33,7 @@ const roots = [
   "docs/xiaoyi-work-release-2026-11-11.md",
   "docs/xiaoyi-work-preview.png",
   "docs/xiaoyi-work-polish.png",
+  "docs/xiaoyi-work-polish-complete.png",
   "docs/xiaoyi-work-polish-2026-11-11.md",
   "docs/xiaoyi-work-polish-design-qa.md",
   "vercel.workbuddy-demo.json",

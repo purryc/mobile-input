@@ -1,3 +1,7 @@
+## In-chip stop and completed state / chip 内停止与完成状态
+
+The active processing chip now includes Stop and remains clickable; the separate cancel row is removed. After a changed rewrite, the title and recommendations disappear, leaving only the restore arrow. Restoring or editing re-enables contextual suggestions; caret movement alone does not. Cancellation still aborts and ignores late results. Shared presentation support is optional and does not change other callers.
+
 ## Compact restore icon / 轻量回退图标
 
 The user clarified that redo means restoring the original. A trailing icon with the label Restore original now replaces the Undo polish chip. It appears only after a changed result and disappears after restoration. Existing protected values and material ownership are unchanged.

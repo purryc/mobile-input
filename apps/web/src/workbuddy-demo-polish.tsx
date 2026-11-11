@@ -115,10 +115,9 @@ export function useDemoPolish(options: Options) {
     pending:!!active,cancel,select,
     row:visible ? <div className="demo-polish-slot">
       <div className="demo-polish-row">
-      <ContextualPolishActions actions={actions} binding={options.draft?.id||''} activeAction={active} failedAction={failed} disabled={options.disabled||binding!==stable} error={error} onAction={id=>void run(id)}/>
+      {undo?.after!==key && <ContextualPolishActions actions={actions} binding={options.draft?.id||''} activeAction={active} failedAction={failed} disabled={options.disabled||binding!==stable} error={error} onAction={id=>void run(id)} onCancel={cancel}/>}
       {undo?.after===key && <button type="button" className="demo-polish-restore" aria-label={uiText('恢复原文')} title={uiText('恢复原文')} disabled={options.disabled||binding!==stable||!!active} onPointerDown={e=>e.preventDefault()} onClick={()=>void run('undo-polish')}><Undo2 size={18} aria-hidden="true"/></button>}
       </div>
-      {active && <button className="demo-polish-cancel" onPointerDown={e=>e.preventDefault()} onClick={cancel}>{uiText('取消润色')}</button>}
       {notice && <span className="demo-polish-notice" role="status">{uiText(notice)}</span>}
     </div> : null,
   };
