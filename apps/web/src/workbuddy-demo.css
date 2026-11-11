@@ -552,7 +552,15 @@ button:disabled {
 .demo-app .demo-polish-slot .polish-smart-pencil { color: var(--input-accent); }
 .demo-app .demo-polish-slot .application-action-chip { font-size: 14px; padding: 8px 12px; min-height: 48px; }
 .demo-app .demo-polish-slot .application-action-chip:hover:not(:disabled) { background: #eeedfb; }
-.demo-app .polish-chip-stop { display: inline-flex; align-items: center; gap: 4px; margin-left: 4px; color: var(--input-accent); }
+.demo-app .polish-chip-stop {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-inline-start: 2px;
+  padding-inline-start: 8px;
+  border-inline-start: 1px solid #d6d2eb;
+  color: var(--input-accent);
+}
 .demo-app .demo-polish-notice { display: block; font-size: 12px; color: #777; margin: 4px 0 0 82px; }
 .demo-app .demo-task-compose:has(.demo-polish-slot) { max-height: 60%; }
 .demo-app .demo-task-compose .demo-polish-slot { padding-left: 12px; padding-right: 12px; }
