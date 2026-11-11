@@ -103,3 +103,5 @@ registerUILabels({
 '润色服务密钥或权限不可用，请检查服务器配置':'Polish credentials or permissions are unavailable. Check the server configuration.',
 '润色服务额度暂不可用，请稍后重试':'Polish quota is temporarily unavailable. Try again later.',
 });
+
+registerUILabels({'恢复原文':'Restore original'});

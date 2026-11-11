@@ -548,8 +548,6 @@ button:disabled {
 /* Stable, non-editable polish row inside the composer, above its action footer. */
 .demo-app .demo-polish-slot { flex: none; position: relative; min-width: 0; padding: 8px 18px; --input-control: #f7f7fc; --input-edge: #f0eff8; }
 .demo-app .demo-polish-slot .contextual-polish { padding: 0; }
-.demo-app .demo-polish-slot.polish-stack { row-gap: 8px; }
-.demo-app .demo-polish-slot.polish-stack:has(>.contextual-polish:last-child) { padding-bottom: 8px !important; }
 .demo-app .demo-polish-slot .contextual-polish-title { width: auto; flex: 0 0 auto; font-size: 14px; margin-right: 4px; }
 .demo-app .demo-polish-slot .polish-smart-pencil { color: var(--input-accent); }
 .demo-app .demo-polish-slot .application-action-chip { font-size: 14px; padding: 8px 12px; min-height: 48px; }
@@ -558,3 +556,12 @@ button:disabled {
 .demo-app .demo-polish-notice { display: block; font-size: 12px; color: #777; margin: 4px 0 0 82px; }
 .demo-app .demo-task-compose:has(.demo-polish-slot) { max-height: 60%; }
 .demo-app .demo-task-compose .demo-polish-slot { padding-left: 12px; padding-right: 12px; }
+
+.demo-app .demo-polish-row { display: flex; align-items: flex-start; gap: 8px; min-width: 0; }
+.demo-app .demo-polish-row > .contextual-polish { flex: 1; min-width: 0; }
+.demo-app .demo-polish-restore { flex: 0 0 48px; width: 48px; height: 48px; margin-left: auto; display: grid; place-items: center; color: var(--input-accent); border: 0; border-radius: 50%; background: transparent; }
+.demo-app .demo-polish-restore:hover:not(:disabled) { background: #eeedfb; }
+.demo-app .demo-polish-restore:focus-visible { outline: 2px solid var(--input-accent); outline-offset: 2px; }
+.demo-app .demo-polish-restore:disabled { opacity: .4; }
+
+.demo-app .demo-polish-row.polish-stack:has(>.contextual-polish:last-child) { padding-bottom: 0 !important; }

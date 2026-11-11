@@ -1,3 +1,15 @@
+# Compact restore icon follow-up · 2026-11-11
+
+final result: passed
+
+- Target: the existing Xiaoyi Work polish row, with the user's explicit replacement of the Undo polish chip by a trailing restore icon. Reuse the result editor's Undo2 library icon. Only a successful changed result exposes it; restore removes it. Tooltip/accessible name: 恢复原文 / Restore original.
+- Source: artifacts/workbuddy-demo/evidence/polish-1024-en.png; implementation: artifacts/workbuddy-demo/evidence/polish-restore-1024-en.png and polish-restore-1280-zh-CN.png. Source and implementation compared in the same image input at 1024×768, density 1; the deliberate state difference is successful prose rewrite plus its new icon. The source is a pre-rewrite screen. Full composition and focused row remain aligned; no false claim of identical prose/state.
+- Type, 14 px polish labels, brand colors, official imagery, composer padding and action geometry are unchanged. The icon has a 48×48 hit target, 18 px glyph and visible keyboard focus. No visible text label competes with the suggested actions. English and Chinese layouts were checked at 1440×960, 1280×800 and 1024×768.
+- Iteration: found an inherited 8 px bottom padding in the no-icon state; scoped override fixes it. In-app browser readback verifies 48 px row height and 0 px wrapper bottom padding; the updated responsive regression also asserts this. Existing preview retained and console reports no errors/warnings.
+- Verification: all 32 browser regressions passed; after the spacing correction the bilingual six-viewport case passed again. Tests cover exact restore, selection/manual color retention, icon removal after restore and no visible Undo polish chip. TypeScript, production build and three service contracts passed. This visual revision did not repeat paid Gemini calls; the preceding four live bilingual cases remain recorded separately.
+
+---
+
 # Xiaoyi Work inline polish — design QA
 
 final result: passed

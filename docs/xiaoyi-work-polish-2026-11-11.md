@@ -1,3 +1,7 @@
+## Compact restore icon / 轻量回退图标
+
+The user clarified that redo means restoring the original. A trailing icon with the label Restore original now replaces the Undo polish chip. It appears only after a changed result and disappears after restoration. Existing protected values and material ownership are unchanged.
+
 # Inline contextual polish / 输入框内动态润色
 
 小艺Work 精简版复用现有润色组件：正文下方、底部按钮上方显示“AI润色”与适用的“整理结构／精简表达”。停止录音、转写稳定约 400 ms 后推荐；键入、粘贴和选区稳定后同样适用。明确点击才调用 Gemini，直接回填，可撤销，不发送任务。

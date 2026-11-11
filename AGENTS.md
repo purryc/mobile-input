@@ -1,3 +1,11 @@
+# Compact polish restore control · 2026-11-11
+
+- User clarifies that redo means restore the pre-polish original, not another model request. Remove the text Undo polish action chip. After a successful changed result only, show one trailing Undo2 icon with bilingual Restore original label/tooltip, 48 px hit target, keyboard focus and existing guarded undo behavior. Hide it after restoration or invalidating edits; keep parameters/materials/ownership unchanged. Reuse the existing result-editor icon family. Validate the existing undo regression plus bilingual responsive icon visibility; update the same standalone handoff and deployment.
+
+# Live bilingual Gemini polish acceptance · 2026-11-11
+
+- User explicitly authorizes real Gemini polish calls for Chinese and English fictional standalone drafts, overriding the mock-only rule for this scoped acceptance. Check color/duration/manual values, confirmed attachments and exact undo. Do not press task Send or run artifact generation; preserve existing drafts and native/main workspaces. Keep fixtures, request evidence and screenshots under ignored artifacts/workbuddy-demo/evidence/live-polish/. Record real-model outcomes separately from mocks; never expose credentials.
+
 # Xiaoyi Work inline contextual polish · 2026-11-11
 
 - User approves real, explicit Gemini polish in the standalone Web demo. Reuse ContextualPolishActions and the registered Agent actions (structure/concise); put its row inside the composer, below prose and above add/microphone/send. This overrides old no-polish and outside-composer rules only for this branch. Stable text/selection after 400 ms and idle speech gates recommendations; natural recognition ends do not count as stopping.
