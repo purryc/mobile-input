@@ -1,3 +1,15 @@
+# Inline recommendation reveal and desktop control restoration · 2026-11-11
+
+final result: passed with documented visual/content gaps
+
+Implemented the approved 1000 ms stability + 400 ms transient loading sequence, directly appended recommendations, contained independently focusable removal, source-based editing, and send isolation. Restored desktop geometry and live Figma 72%/30% material tokens across 14 controls. No deployment, push, native/mobile edits, real task/model or physical-device operations.
+
+All 14 source/development images and five 1:1 comparison sheets were opened and inspected. Exact equality is not asserted: actual capability/file inventories, chosen values, camera/capture states and browser glass compositing differ from design examples. Photo empty state remains 2 px taller; screen capture retains its supported browser workflow and is 4 px taller. Full per-control status, source links and evidence are in [the current audit](artifacts/workbuddy-demo/visual-consistency-2026-11-11/qa/recommendation-report.md); [side-by-side gallery](artifacts/workbuddy-demo/visual-consistency-2026-11-11/qa/recommendation-comparison.html) and [short recording](artifacts/workbuddy-demo/visual-consistency-2026-11-11/after/recommendation-motion.mp4).
+
+Validation: TypeScript and standalone production build passed; 264 core, 3 service and 65 browser cases passed, followed by 19 affected cases after final review fixes. Two Claude CLI read-only reviews; no blocking issue in closure review. Concrete low-priority fixes were completed and retested. Existing historical QA below remains unchanged and does not override the current evidence boundaries.
+
+---
+
 # In-chip stop and completed state · 2026-11-11
 
 final result: passed

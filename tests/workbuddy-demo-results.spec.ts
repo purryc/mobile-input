@@ -152,7 +152,7 @@ test("Send opens tablet task/results layout; slides, document and image edit, un
   await expect(
     page.getByRole("button", { name: "完成颜色选择" }),
   ).toBeInViewport();
-  const chip = (await page.locator(".sentence-token-face").boundingBox())!,
+  const chip = (await page.locator('.sentence-token[data-kind="color"] .sentence-token-face').boundingBox())!,
     widget = (await page.locator(".demo-widget-wrap").boundingBox())!;
   expect(Math.abs(widget.y - chip.y - chip.height - 8)).toBeLessThan(2);
   await page.getByRole("button", { name: "关闭辅助输入" }).click();

@@ -25,7 +25,7 @@ registerUILabels({
 '本演示仅展示任务输入。':'This shortcut is not available in this demo. Use the task composer.',
 '新建演示':'New demo','搜索演示草稿':'Search drafts','演示草稿':'Demo drafts','空间 (0)':'Spaces (0)','陈朗':'Demo user','当前没有新消息。':'No new notifications.',
 '清理演示':'Clear demo','保存状态':'Save status','正在保存…':'Saving…','尚未保存':'Not saved yet','保存在这台电脑':'Saved on this computer',
-'关闭设置':'Close settings','界面与语音语言':'Interface and speech language','切换语言不会改写你的内容。':'Changing language does not rewrite your content.',
+'显示调试控件':'Show debug controls','关闭设置':'Close settings','界面与语音语言':'Interface and speech language','切换语言不会改写你的内容。':'Changing language does not rewrite your content.',
 '一页图讲清 AI 如何提升办公效率':'Explain how AI improves productivity in one visual',
 '用3个可靠来源看懂一个行业问题':'Explore an industry question using 3 reliable sources',
 '一周 AI 大事，3分钟看完':'This week in AI: a 3-minute briefing',

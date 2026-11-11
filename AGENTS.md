@@ -1,3 +1,60 @@
+# Explicit standalone GitHub backup · 2026-11-11
+
+- The user explicitly authorizes committing and pushing the current standalone Web source to the existing codex/workbuddy-web-demo branch on purryc/mobile-input. This overrides prior no-push instructions for this backup only; preserve main and unrelated worktrees.
+- Include the current controls, recommendation timing, desktop visuals, local assets, tests and handoff documentation. Keep secrets, local drafts, ignored recordings, generated build output and ChatCut projects local. No deployment or real task execution.
+- Before pushing, verify the staged scope, credential exclusions, typecheck, relevant tests and standalone build; use a normal fast-forward push and read back the remote commit.
+
+# Two bilingual walkthroughs · 2026-11-11
+
+- Produce two approximately 60-second standalone Web walkthroughs: training PPT and feedback HTML dashboard. Use real controls, isolated fictional drafts, Kokoro simulated dictation and clearly identified static generated result illustrations. No live model/task calls, deployment, push or native changes.
+- Work under ignored artifacts/workbuddy-demo/walkthrough-2026-11-11/: scripts/ for reproducible capture/assembly, media/ for source art/audio/reference material, capture/ for raw recordings, captions/ for bilingual narration and action explanations, review/ for verification, delivery/ for exports. Preserve source and editable ChatCut projects.
+- Keep bilingual action explanations and bilingual spoken subtitles as separate editable tracks. Explanations must not cover the active control; spoken captions stay in a reserved lower band. Simulated speech, camera/reference sources and prebuilt result limitations must be visible and documented.
+- Validate all 14 controls with timestamps across both videos; retain actual recommendation timing and material confirmation. Production parser/API behavior stays unchanged; browser-only fixtures never enter the default runtime.
+
+# Inline recommendation timing and visual restoration · 2026-11-11
+
+- Implement only the approved standalone Web revision. Explicit chips remain immediate; new recommendations wait for 1000 ms stable text then 400 ms preparation. Transient candidates never enter storage or Send until revealed; existing valid recommendations and manual choices survive edits/restoration. Adopt real built-in file bytes at reveal only. Cancel pending suggestions on send, owner change and unmount.
+- Append recommendations directly after their source description, without display parentheses/prefixes. Put the 14 px remove icon in a 24 px hit area inside a shared capsule, as a focusable sibling of its open button. Preserve source-based copy/caret and all material confirmation lifecycles.
+- Match current Figma desktop instances in section 2609:121577: 15/32 prose, 32 px chips, per-control compact geometry and layered 72%/30% glass. Keep original assets, main shell and inside-composer polish. Shared changes are optional presentation only; no mobile/native changes.
+- Keep evidence under existing artifacts/workbuddy-demo/visual-consistency-2026-11-11/ using recommendation-prefixed names, including baseline source hashes, source contexts, all 14 controls, comparisons, motion and review. Run core/service/browser/types/build and Claude CLI read-only review. Preserve all starting edits. No deployment, push, device operation or live model/task calls.
+
+# Whole-input correction and three scenarios · 2026-11-11
+
+- Implement the newly approved standalone input plan: this overrides the earlier parser/recommendation freeze only inside this Web demo. Preserve shared native defaults, API/storage identities, owner-bound materials and explicit Send. No deployment, push, device or live model/task calls.
+- Ordinary chips replace values/nouns; recommendation chips append a meaningful supplement at their source anchor without rewriting original prose. Support all 13 inline types and bottom polish, explicit/manual priority, negation, dismissal and old drafts. Ambiguous spoken presentation length can suggest 10 minutes; written brevity cannot.
+- Context connectors choose reference sources (ima in the official scenarios), never infer collaboration execution. Missing materials are supplement entries; only existing real bytes or explicitly confirmed capture become attachments. Preserve the recording-generation limitation.
+- Debug remains off by default. Each of the three exact user-approved continuous scenarios opens a new draft. Restore home/result polish horizontal padding to 18/12 px.
+- Reuse artifacts/workbuddy-demo/visual-consistency-2026-11-11/ with input-correction-prefixed evidence; capture baseline, per-kind provenance/value/scope/anchor expectations, browser regression and final screenshots. Codex implements; Claude CLI reviews read-only. Preserve all pre-existing edits.
+
+# WorkBuddy capability artwork follow-up · 2026-11-11
+
+- Replace the remaining generic expert avatars and skill card artwork in the standalone demo with original WorkBuddy artwork already present in the reviewed design-source media. Reuse artwork as decoration for the existing fictional demo roles; preserve candidate IDs, names, parsing, storage, selection and execution boundaries. Record original source identity separately from demo-role mapping, without claiming these are connected WorkBuddy experts.
+- Selected single expert/skill inline chips use the corresponding original artwork; empty and multi-selection chips retain their category icon. Keep original colors and existing 24px card / 18px chip geometry. Do not change shared defaults or other applications.
+- Store follow-up source mapping, screenshots and read-only Claude review under the existing ignored visual-consistency evidence directory, with capability-artwork-prefixed filenames. Verify all six experts and four skills in Chinese/English, selection/persistence, image loading, typecheck and production build. No deployment or Git push.
+
+# Full standalone desktop visual consistency · 2026-11-11
+
+- This approved revision supersedes earlier narrow visual scopes: audit and correct every interface, control, overlay and actual state used by Xiaoyi Work standalone Web. Codex implements; Claude CLI reviews read-only. Preserve existing uncommitted work. No main/native/mobile/other-demo/Figma/Notion changes, deployment, device operation, live task/model submission or Git push.
+- Read current desktop Figma masters and instances plus the latest registry read-only; never copy the stale branch registry over the current design registry. Match desktop geometry/material/assets without whole-widget scaling. Use standalone-root styles or opt-in desktop presentation only, preserving other consumers.
+- Preserve current API/storage/parser/ownership/material/capture/polish/Send semantics, including default-adopted recommendations and the video-generation limitation. Record design behavior differences rather than changing business logic.
+- Evidence lives in ignored artifacts/workbuddy-demo/visual-consistency-2026-11-11/: baseline/ for start-of-task files and screenshots, sources/ for dated design data and original exports, scripts/ for reproducible inspection, after/ for final screenshots, review/ for Claude output, and qa/ for checklist and comparisons. Use lowercase-kebab-case names; keep final evidence and clean only disposable task caches. This is an audit, not another design rulebook.
+- Verify every actual control/state, Chinese/English at 1440x960, 1280x800, 1024x768 and 800px width, long/empty content, candidates, edge anchoring and scroll. Run typecheck, core/service/relevant browser tests and standalone build; compare final changes against the captured starting worktree, not only Git HEAD. Missing design sources must be itemized honestly.
+
+# Screen materials as prompt references · 2026-11-11
+
+- Screenshots provide visual references and recordings provide interaction/process references for the user's prompt. They are user-supplied context, never instructions for the Agent to operate another application or produce a recording. Keep explicit capture, review, adoption and Send separate.
+- Put the three full-control Chinese test scenarios in docs/workbuddy-demo-scenarios.zh.md; each must cover all 13 inline kinds plus bottom contextual polish. Document the five currently supported recommendation kinds and the current video-generation limitation honestly. Preserve drafts and native/main sources.
+
+# Dynamic input controls and mixed intent · 2026-11-11
+
+- Codex owns implementation and integration; Claude CLI performs read-only architecture/code review. Do not use Gemini CLI. Continue only in this standalone worktree; do not modify main, native applications, or the active design chat's files. No automatic publication.
+- Explicitly expressed user intent always creates a normal light-gray chip, even if its value still needs input. Only ambiguous intent with relevant available candidates may create a blue/violet/pink recommended chip. Recommendation is deterministic, never claim model execution. Concrete recommendations are adopted by default, replaceable and dismissible; remember dismissals and preserve manual values. Recommendation provenance and open/selection state are independent.
+- New recommended candidates get one 1.4 s perimeter-light sweep, then a static border. Ordinary rerenders/reopening/restoration do not replay it; respect reduced motion. Mixed fixtures include explicit colors/time and recommended accessible file, expert, skill, connector and palette.
+- Reusable UI belongs in apps/web/src/workbuddy-demo-controls*.tsx/css, capture in workbuddy-demo-capture.tsx; pure registry/rules/state in packages/core/workbuddy-demo-controls*.ts. The all-controls launcher is scripts/demo-input-controls.ts; tests use existing tests/ and packages/core/. Extend shared views through optional props only; do not expand the native LiveInputKind protocol.
+- Support 14 controls: duration, color, font, palette, document, photo, scanner, sketch, expert, skills, connectors, formats, polish, capture. Capability lists are labeled demonstrations and never install/auth/execute. Preserve existing generation and polish; unsupported outputs/capture-video cannot be silently dropped or reported as generated.
+- Camera scanning and screenshot/recording use actual browser permission flows, manual capture/crop/confirm, owner-bound pending materials, and complete stream cleanup. Recording is silent, bounded to 60 seconds/64 MiB, and requires explicit start/stop. No OCR/annotation. Keep database identity and old drafts compatible.
+- Verify bilingual intent/provenance, dismissals, manual priority, progressive input, all-control invocation, persistence/snapshot/polish protection, capture lifecycle and responsive layouts. Run typecheck, core/service/browser tests and standalone build. Record real hardware checks separately from mocked capture. English handoff includes the API and launcher; evidence is ignored under artifacts/workbuddy-demo/.
+
 # Polish chip stop and completed state · 2026-11-11
 
 - User requests Stop inside the actively processing chip and no separate cancel row. Make only the active chip stoppable; other suggestions stay disabled until completion/cancel. The shared presentation component may expose an optional onCancel callback; existing native callers retain their current behavior.

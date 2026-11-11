@@ -13,6 +13,9 @@ const target = resolve(
 if (!target.startsWith(resolve(root, "artifacts/workbuddy-demo/release") + "/"))
   throw Error("Release output must stay in the ignored release directory");
 const roots = [
+  "scripts/demo-input-controls.ts",
+  "packages/core/workbuddy-demo-controls.test.ts",
+  "tests/workbuddy-demo-controls.spec.ts",
   "apps/web/src/workbuddy-demo-main.tsx",
   "apps/web/workbuddy-demo.html",
   "vite.workbuddy-demo.config.ts",
@@ -30,6 +33,7 @@ const roots = [
   "packages/core/live-workbuddy.test.ts",
   "docs/workbuddy-standalone-demo-2026-11-04.md",
   "docs/workbuddy-demo-README.en.md",
+  "docs/workbuddy-demo-scenarios.zh.md",
   "docs/xiaoyi-work-release-2026-11-11.md",
   "docs/xiaoyi-work-preview.png",
   "docs/xiaoyi-work-polish.png",
@@ -85,6 +89,7 @@ for (const asset of [
 }
 const pkg = JSON.parse(await readFile(resolve(root, "package.json"), "utf8"));
 pkg.scripts = {
+  "demo:controls": "tsx scripts/demo-input-controls.ts",
   dev: "vite --config vite.workbuddy-demo.config.ts",
   "dev:workbuddy-demo": "vite --config vite.workbuddy-demo.config.ts",
   build: "npm run build:workbuddy-demo",

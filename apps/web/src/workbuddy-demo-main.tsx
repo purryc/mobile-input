@@ -1,3 +1,10 @@
+import {useDemoRecommendations} from './workbuddy-demo-recommendations';
+import {demoNativeParameters, demoControlAnchor} from "../../../packages/core/workbuddy-demo-state";
+import {demoPolishActions} from "../../../packages/core/workbuddy-demo-polish";
+import {controlDefinitions, controlLabel, valueLabel, dismissalKey, openControl, type DemoControlKind, type ControlEvent, type DemoControlBinding} from '../../../packages/core/workbuddy-demo-controls';
+import {demoScenarios} from '../../../packages/core/workbuddy-demo-scenarios';
+import {ControlsIndex, DemoControlChoices, ControlIcon, controlOptionArtwork} from './workbuddy-demo-controls';
+import {DemoCapturePanel,CaptureTile} from './workbuddy-demo-capture';
 import { useDemoPolish } from "./workbuddy-demo-polish";
 import {configureUILanguageStorage, setUILanguage} from "./i18n";
 import "./workbuddy-demo-i18n";
@@ -47,7 +54,7 @@ import {
 import {
   newDemoDraft,
   newDemoState,
-  editDemoText,
+  editDemoText as parseDemoText,
   demoSendError,
   snapshotDemoRequest,
   type DemoDraft,
@@ -62,11 +69,19 @@ import "./workbuddy.css";
 import "./phone-live-workbuddy.css";
 import "./web-deck.css";
 import "./workbuddy-demo.css";
+import "./workbuddy-demo-controls.css";
+import "./workbuddy-demo-visual.css";
 import { WorkBuddyDemoPopover } from "./workbuddy-demo-popover";
 
+const definitionOptions=(kind:DemoControlKind)=>controlDefinitions.find(c=>c.kind===kind)!.options.length>0;
 configureUILanguageStorage("workbuddy-standalone-demo:language");
+if(new URLSearchParams(location.search).get('language')==='en')setUILanguage('en');
+else if(new URLSearchParams(location.search).get('language')==='zh')setUILanguage('zh-CN');
 const noInput = initialWbInput();
-type Panel = { kind: LiveInputKind; scope: string; id?: string; role?: string };
+const debugControlsStorageKey = "workbuddy-standalone-demo:debug-controls";
+type Panel = { kind: DemoControlKind; scope: string; id?: string; role?: string };
+// This entry alone defers new inferred controls; shared/native parser defaults are unchanged.
+const editDemoText = (draft: DemoDraft, text: string) => parseDemoText(draft, text, true);
 type SpeechWindow = Window & {
   SpeechRecognition?: new () => RecognitionEngine;
   webkitSpeechRecognition?: new () => RecognitionEngine;
@@ -195,11 +210,31 @@ function CameraCapture({
 }
 function App() {
   const language = useUILanguage();
+  const gallery=new URLSearchParams(location.search).get("controls");
   useEffect(() => {
     document.title = uiText("小艺Work") + " · " + uiText("多模态输入");
     document.documentElement.lang = language;
   }, [language]);
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const [showDebugControls, setShowDebugControls] = useState(() => {
+    const requested = new URLSearchParams(location.search).get("debug") === "1";
+    try {
+      const saved = localStorage.getItem(debugControlsStorageKey);
+      return saved === null ? requested : saved === "true";
+    } catch {
+      return requested;
+    }
+  });
+
+  function toggleDebugControls() {
+    const next = !showDebugControls;
+    setShowDebugControls(next);
+    try {
+      localStorage.setItem(debugControlsStorageKey, String(next));
+    } catch {
+      // The switch still works for this session if storage is unavailable.
+    }
+  }
   const jobs = useRef(new Map<string, AbortController>());
   const [state, setState] = useState<DemoState | null>(null),
     latest = useRef<DemoState | null>(null);
@@ -325,6 +360,7 @@ function App() {
         speech.current?.cancel();
         speechBinding.current = null;
         setCamera(null);
+        setPanel(current=>current?.kind==="scanner"||current?.kind==="capture"?null:current);
       }
     };
     document.addEventListener("visibilitychange", hide);
@@ -351,8 +387,31 @@ function App() {
     return () => clearTimeout(timer);
   }, [sent]);
   const draft = state?.drafts.find((d) => d.id === state.active);
+  const recommendations = useDemoRecommendations(draft, update);
   const polish = useDemoPolish({draft,phase,language,disabled:busy||drawing,area,
     current:()=>latest.current?.drafts.find(d=>d.id===latest.current?.active),update});
+  const openedShowcase=useRef(false);
+  useEffect(()=>{if(draft&&gallery&&gallery!=='all'&&!openedShowcase.current){openedShowcase.current=true;if(controlDefinitions.some(c=>c.kind===gallery))invokeControl(gallery as DemoControlKind);}},[!!draft]);
+  const controlRevision=JSON.stringify(draft?.controls?.map(c=>[c.id,c.revision,c.seen]));
+  useEffect(()=>{if(!draft?.controls?.some(c=>c.origin==='recommended'&&!c.seen))return;const owner=draft.id;const versions=new Map(draft.controls.map(c=>[c.id,c.revision]));const timer=setTimeout(()=>update(owner,d=>({...d,controls:d.controls?.map(c=>versions.get(c.id)===c.revision?{...c,seen:true}:c)})),1450);return()=>clearTimeout(timer);},[draft?.id,controlRevision]);
+  useEffect(()=>{setPanel(null);setCamera(null);},[language]);
+  function removeControl(id:string){const owner=latest.current?.active;if(!owner)return;update(owner,d=>{const c=d.controls?.find(c=>c.id===id);if(!c)return d;return editDemoText({...d,controls:d.controls?.filter(x=>x.id!==id),dismissedControls:[...(d.dismissedControls||[]),dismissalKey(c)]},d.text);});if(panel?.id===id)setPanel(null);}
+  function controlEvent(e:ControlEvent){if(e.type==='remove'){removeControl(e.id);return;}if(e.type==='close'){setPanel(null);return;}polish.cancel();update(e.owner,d=>editDemoText({...d,controls:d.controls?.map(c=>c.id===e.id?{...c,value:e.value||c.value,origin:'manual',seen:true}:c)},d.text));}
+  function invokeControl(kind:DemoControlKind){void afterSpeech(()=>{
+    if(kind==='polish'){
+      const current=latest.current?.drafts.find(d=>d.id===latest.current?.active);
+      if(current&&!demoPolishActions(current.text).length){
+        if(showDebugControls || gallery === 'polish'){const fresh=editDemoText(newDemoDraft(),language==='en'?'Plan the product launch. Explain the audience and benefits, then then outline the next steps.':'帮我整理产品发布计划。介绍受众和优势，然后然后说明下一步安排。');commit({...latest.current!,drafts:[fresh,...latest.current!.drafts]});switchDraft(fresh.id);}
+        else report(language==='en'?'Write a request first; relevant polishing options appear below it.':'先描述任务，适用的润色选项会出现在文字下方。');
+      }
+      setPanel(null);setAddMenu(false);return;
+    }
+    if(['color','duration','document','photo','sketch'].includes(kind)){const current=latest.current?.drafts.find(d=>d.id===latest.current?.active);const existing=current?.parameters.find(p=>p.kind===kind);if(existing){setPanel({kind,scope:existing.scope,id:existing.id,role:existing.role});setAddMenu(false);return;}if(kind==='color'||kind==='duration'){update(latest.current!.active,d=>editDemoText(d,d.text+(d.text?'，':'')+(kind==='color'?(language==='en'?'theme color blue':'主题色蓝色'):(language==='en'?'10 minutes':'10分钟'))));const p=latest.current!.drafts.find(d=>d.id===latest.current!.active)!.parameters.find(p=>p.kind===kind);setPanel({kind,scope:p?.scope||'全文',id:p?.id,role:p?.role});setAddMenu(false);return;}
+      setPanel({kind,scope:'全文'});setAddMenu(false);return;}
+    const current=latest.current?.drafts.find(d=>d.id===latest.current?.active);if(!current)return;
+    const existing=current.controls?.find(c=>c.kind===kind);if(existing)setPanel({kind,scope:'全文',id:existing.id});
+    else openControl(kind,{owner:current.id,text:current.text,open:binding=>{update(current.id,d=>({...d,controls:[...(d.controls||[]),binding]}));setPanel({kind,scope:'全文',id:binding.id});}});setAddMenu(false);
+  });}
   async function afterSpeech(action: () => void) {
     const owner = latest.current?.active;
     const binding = speechBinding.current;
@@ -405,6 +464,16 @@ function App() {
     const current = latest.current;
     if (current) commit({ ...current, active: id });
   }
+  function createExample(id: string) {
+    void afterSpeech(() => {
+      const current = latest.current;
+      const example = demoScenarios.find(item => item.id === id);
+      if (!current || !example) return;
+      const fresh = editDemoText(newDemoDraft(), example.text);
+      commit({...current, drafts: [fresh, ...current.drafts]});
+      switchDraft(fresh.id);
+    });
+  }
   function createDraft() {
     const current = latest.current;
     if (!current) return;
@@ -425,6 +494,8 @@ function App() {
   }
   function openParameter(id: string) {
     void afterSpeech(() => {
+      const extended=latest.current?.drafts.find(d=>d.id===latest.current?.active)?.controls?.find(c=>c.id===id);
+      if(extended){setAddMenu(false);setPanel(current=>current?.id===id?null:{kind:extended.kind,scope:extended.scope||'全文',role:extended.role,id});return;}
       // A final recognition result can remove the provisional parameter that was clicked.
       const p = latest.current?.drafts
         .find((d) => d.id === latest.current?.active)
@@ -477,16 +548,23 @@ function App() {
     }));
     update(binding.owner, (d) => ({
       ...d,
+      controls: binding.kind==='document'?d.controls?.map(c=>c.kind==='document'&&(c.scope||'全文')===binding.scope?{...c,origin:'manual',value:files.map(f=>f.name),seen:true}:c):d.controls,
       [binding.kind === "photo" ? "pendingPhotos" : "materials"]: [
-        ...d[binding.kind === "photo" ? "pendingPhotos" : "materials"],
+        ...d[binding.kind === "photo" ? "pendingPhotos" : "materials"].filter(m=>binding.kind!=='document'||m.id!=='reference-example-'+d.id||(m.scope||'全文')!==binding.scope),
         ...materials,
       ],
     }));
   }
   function removeMaterial(id: string) {
+    if(draft&&id==='reference-example-'+draft.id&&draft.controls?.find(c=>c.kind==='document')?.reason==='related-intent'){removeControl('control-document');return;}
     if (draft)
       update(draft.id, (d) => ({
         ...d,
+        controls: d.controls?.map(c => {
+          const removed=d.materials.find(m=>m.id===id);
+          if(c.kind!=='document'||!removed||(c.scope||'全文')!==(removed.scope||'全文'))return c;
+          return {...c,origin:'manual',value:c.value.filter(v=>v!==removed.name&&(v!=='product-brief'||id!=='reference-example-'+d.id))};
+        }),
         materials: d.materials.filter((m) => m.id !== id),
         pendingPhotos: d.pendingPhotos.filter((m) => m.id !== id),
       }));
@@ -495,6 +573,7 @@ function App() {
     if (!draft || !panel?.id) return;
     update(draft.id, (d) => ({
       ...d,
+      controls: d.controls?.map(c => c.id === panel.id ? {...c, value:[value], origin:'manual', seen:true} : c),
       parameters: d.parameters.map((p) =>
         p.id === panel.id ? { ...p, value, label: value, manual: true } : p,
       ),
@@ -648,16 +727,19 @@ function App() {
   }
   function send() {
     if(polish.pending)return;
+    recommendations.pause();
     void afterSpeech(() => {
       const current = latest.current?.drafts.find(
         (d) => d.id === latest.current?.active,
       );
-      if (!current || current.requests.some((r) => r.status === "running"))
-        return;
+      if (!current || busy || drawing || current.requests.some((r) => r.status === "running"))
+        {recommendations.resume(); return;}
       const problem = demoSendError(current);
       if (problem) {
+        recommendations.resume();
         report(problem);
-        if (current.pendingPhotos.length)
+        if(current.captures?.some(c=>!c.confirmed)){invokeControl(current.captures.find(c=>!c.confirmed)!.kind==='scanner'?'scanner':'capture');}
+        else if (current.pendingPhotos.length)
           setPanel({
             kind: "photo",
             scope: current.pendingPhotos[0].scope || "全文",
@@ -670,6 +752,7 @@ function App() {
         }
         return;
       }
+      recommendations.cancel(current);
       const request: DemoRequest = {
         ...snapshotDemoRequest(current),
         status: "running",
@@ -692,6 +775,7 @@ function App() {
         )}
       </div>
     );
+  const extended=draft.controls?.find(c=>c.id===panel?.id);
   const parameter = draft.parameters.find((p) => p.id === panel?.id);
   const sketches =
     draft.sketches[panel?.scope || "全文"] ??
@@ -743,10 +827,12 @@ function App() {
   }
   const composer = (
     <div className="demo-input-stack deck-compose-desktop">
+      {showDebugControls&&<ControlsIndex language={language} onOpen={invokeControl} onExample={createExample}/>}
       {panel && (
         <WorkBuddyDemoPopover
           key={panel.id || panel.kind + panel.scope}
           anchorId={panel.id}
+          preferredWidth={panel.kind==='duration'?288:['expert','skills','connectors'].includes(panel.kind)?432:320}
           onClose={() => {
             setPanel(null);
             setDrawing(false);
@@ -754,7 +840,7 @@ function App() {
         >
           <AgentAuxiliary
             title={uiText(
-              panel.kind === "photo"
+              extended?.kind === "color" ? colorTitle(extended.role || "主题色") : extended ? controlLabel(extended.kind,language) : panel.kind === "scanner" || panel.kind === "capture" ? controlLabel(panel.kind,language) : panel.kind === "photo"
                 ? "图片选择"
                 : panel.kind === "color"
                   ? panel.role === "颜色"
@@ -768,27 +854,32 @@ function App() {
                         ? "布局草图"
                         : `${panel.scope} · ${uiText("布局草图")}`
             )}
-            busy={busy}
+            busy={busy && panel.kind!=="scanner" && panel.kind!=="capture"}
             onClose={() => {
               setPanel(null);
               setDrawing(false);
             }}
           >
+            {extended&&definitionOptions(extended.kind)&&<DemoControlChoices binding={extended} owner={draft.id} language={language} onEvent={controlEvent} onChooseFile={()=>pick('document',panel.scope)} materials={draft.materials.filter(m=>m.kind==='document')}/>}
+            {(panel.kind==='scanner'||panel.kind==='capture')&&<DemoCapturePanel key={draft.id+panel.kind+language} mode={panel.kind} items={draft.captures||[]} language={language} onBusy={setBusy} onAdd={item=>update(draft.id,d=>({...d,captures:[...(d.captures||[]),item]}))} onRemove={id=>update(draft.id,d=>({...d,captures:d.captures?.filter(c=>c.id!==id)}))} onConfirm={()=>{const kind=panel.kind;update(draft.id,d=>({...d,captures:d.captures?.map(c=>(kind==='scanner'?c.kind==='scanner':c.kind!=='scanner')?{...c,confirmed:true}:c)}));setPanel(null);}}/>}
             {panel.kind === "color" && (
-              <AgentColorInput
+              <AgentColorInput desktop
                 key={panel.id}
                 label={panel.role || "主题色"}
-                value={parameter?.value || "#146C64"}
+                value={parameter?.value || extended?.value[0] || "#5267B2"}
                 onChange={changeParameter}
                 onActive={setDrawing}
                 onDone={() => setPanel(null)}
               />
             )}
             {panel.kind === "duration" && (
-              <AgentDurationInput
-                value={parameter?.value || ""}
-                onChange={changeParameter}
-              />
+              <div className="demo-duration-row">
+                <AgentDurationInput
+                  value={parameter?.value || extended?.value[0] || ""}
+                  onChange={changeParameter}
+                />
+                <button type="button" className="demo-duration-done" aria-label={language === "en" ? "Done" : "完成选择"} onClick={() => setPanel(null)}><Check size={24} /></button>
+              </div>
             )}
             {panel.kind === "photo" && (
               <AgentPhotoInput
@@ -818,7 +909,7 @@ function App() {
                 busy={busy}
               />
             )}
-            {panel.kind === "document" && (
+            {panel.kind === "document" && !extended && (
               <div className="demo-documents">
                 {draft.materials
                   .filter((m) => m.kind === "document")
@@ -863,6 +954,7 @@ function App() {
                     onClick={() => openPanel({ kind: "sketch", scope: "全文" })}
                   >
                     <LayoutTemplate size={17} />{uiText("布局草图")}</button>
+                  {controlDefinitions.filter(c=>!['document','photo','sketch'].includes(c.kind)).map(c=><button key={c.kind} onClick={()=>invokeControl(c.kind)}><ControlIcon kind={c.kind}/>{controlLabel(c.kind,language)}</button>)}
                 </div>
               )}
             </div>
@@ -901,6 +993,7 @@ function App() {
             {draft.materials.map((m) => materialTile(m))}
           </div>
         )}
+        {!!draft.captures?.filter(c=>c.confirmed).length&&<div className="demo-capture-attachments">{draft.captures.filter(c=>c.confirmed).map(c=><CaptureTile key={c.id} item={c} onRemove={()=>update(draft.id,d=>({...d,captures:d.captures?.filter(x=>x.id!==c.id)}))}/>)}</div>}
         <div
           onPointerDownCapture={(event) => {
             if (
@@ -919,6 +1012,7 @@ function App() {
           <SentenceComposer
             ref={area}
             label={uiText("小艺Work 任务输入")}
+            preserveSourceClipboard
             inputMode="text"
             text={draft.text}
             parameters={[]}
@@ -935,8 +1029,8 @@ function App() {
             }}
             onOpen={() => {}}
             live={{
-              controlsId: "demo-input-widget",
-              parameters: draft.parameters.map((parameter) => {
+              controlsId: "demo-input-widget", containedRemove: true,
+              parameters: [...demoNativeParameters(draft).map((parameter) => {
                 const file =
                   parameter.kind === "document"
                     ? draft.materials.find(
@@ -945,8 +1039,9 @@ function App() {
                           material.scope === parameter.scope,
                       )
                     : undefined;
-                return file ? { ...parameter, label: file.name } : parameter;
-              }),
+                return { ...(file ? { ...parameter, label: file.name } : parameter),origin:'explicit' as const, iconSrc:parameter.kind==='color'?undefined:'./assets/xiaoyi-work/design-inline-'+parameter.kind+'.svg' };
+              }),...[...(draft.controls||[]),...recommendations.loading].map(c=>({preparing:recommendations.loading.includes(c),id:c.id,kind:c.kind,role:c.role||controlLabel(c.kind,language),scope:c.scope||'全文',start:c.detached?draft.text.length:c.presentation==='append'?demoControlAnchor(c,draft):c.start,end:c.detached?draft.text.length:c.presentation==='append'?demoControlAnchor(c,draft):c.end,phrase:c.detached||c.presentation==='append'?'':c.phrase,label:c.value.length?valueLabel(c,language)+(c.kind==='duration'&&c.presentation==='append'?(language==='en'?' minutes':'分钟'):''):c.origin==='explicit'?c.phrase:controlLabel(c.kind,language),value:c.value[0]||'',manual:c.origin==='manual',origin:c.origin,removable:c.reason==='related-intent',animate:c.origin==='recommended'&&!c.seen,sweepKey:draft.id+':'+c.id+':'+c.revision,iconSrc:c.kind==='color'||c.kind==='polish'?undefined:((c.kind==='expert'||c.kind==='skills')&&c.value.length===1?controlOptionArtwork(c.kind,c.value[0]):undefined)||'./assets/xiaoyi-work/design-inline-'+c.kind+'.svg',recommendationIconSrc:'./assets/xiaoyi-work/design-inline-sparkles.svg'}))].sort((a,b)=>a.start-b.start),
+              remove:removeControl,
               active: panel?.id || null,
               open: openParameter,
             }}
@@ -968,6 +1063,7 @@ function App() {
       </div>
       {
         <div className="demo-pending">
+          {draft.captures?.some(c=>!c.confirmed)&&<button onClick={()=>invokeControl(draft.captures!.find(c=>!c.confirmed)!.kind==='scanner'?'scanner':'capture')}>{language==='en'?'Capture awaiting confirmation':'扫描或屏幕材料待确认'}</button>}
           {draft.pendingPhotos.length > 0 && (
             <button onClick={() => openPanel({ kind: "photo", scope: "全文" })}>
               {draft.pendingPhotos.length} {uiText("张图片待确认")}<ChevronLeft size={13} style={{ transform: "rotate(180deg)" }} />
@@ -1012,7 +1108,7 @@ function App() {
             className="active"
             aria-label={uiText("新建演示")}
             onClick={createDraft}
-            disabled={busy}
+            disabled={busy && panel?.kind!=="scanner" && panel?.kind!=="capture"}
           >
             <CirclePlus size={17} />{uiText("新建任务")}</button>
         </nav>
@@ -1040,7 +1136,7 @@ function App() {
                   <button
                     aria-current={d.id === draft.id ? "page" : undefined}
                     onClick={() => switchDraft(d.id)}
-                    disabled={busy}
+                    disabled={busy && panel?.kind!=="scanner" && panel?.kind!=="capture"}
                   >
                     <span>{d.text.trim().slice(0, 24) || uiText("新建任务")}</span>
                   </button>
@@ -1087,6 +1183,16 @@ function App() {
             <header><b>{uiText("设置")}</b><button aria-label={uiText("关闭设置")} onClick={() => setSettingsOpen(false)}><X size={16}/></button></header>
             <label>{uiText("界面与语音语言")}<select aria-label={uiText("界面与语音语言")} value={language} onChange={e => {speech.current?.cancel();speechBinding.current=null;setUILanguage(e.target.value === "en" ? "en" : "zh-CN");}}><option value="zh-CN">中文 · 普通话</option><option value="en">English</option></select></label>
             <small>{uiText("切换语言不会改写你的内容。")}</small>
+            <button
+              className="demo-debug-switch"
+              type="button"
+              role="switch"
+              aria-checked={showDebugControls}
+              onClick={toggleDebugControls}
+            >
+              {uiText("显示调试控件")}
+              <span aria-hidden="true" />
+            </button>
           </section>}
         </div>
         {latestRequest ? (

@@ -1,3 +1,5 @@
+import {controlLabel,valueLabel} from "../../../packages/core/workbuddy-demo-controls";
+import {CaptureTile} from "./workbuddy-demo-capture";
 import {uiText, uiLanguage} from "./i18n";
 import {
   createElement,
@@ -672,6 +674,7 @@ export function DemoTaskView({
                   <div className="wb-message-text">{request.text}</div>
                 </div>
                 <div className="demo-request-materials">
+                  {request.captures?.filter(c=>c.kind==='recording').map(c=><div key={c.id} className="demo-snapshot-capture"><CaptureTile item={c}/></div>)}
                   {request.materials.map((m) => (
                     <AttachmentDownload key={m.id} material={m} />
                   ))}
@@ -680,6 +683,7 @@ export function DemoTaskView({
                   <summary>{uiText("查看参数与发送记录（")}{draft.requests.length}）
                   </summary>
                   <dl>
+                    {request.controls?.map(c=><div key={c.id}><dt>{controlLabel(c.kind,uiLanguage())} · {c.origin==='recommended'?'推荐 / Suggested':'用户指定 / User specified'}</dt><dd>{valueLabel(c,uiLanguage())}{['expert','skills','connectors'].includes(c.kind)?' · 演示选项 / Demo only':''}</dd></div>)}
                     {request.parameters.map((p) => (
                       <div key={p.id}>
                         <dt>

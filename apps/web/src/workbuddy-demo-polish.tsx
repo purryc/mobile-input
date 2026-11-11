@@ -8,8 +8,8 @@ import { editDemoText } from '../../../packages/core/workbuddy-demo-state';
 import { applyDemoPolish, demoPolishActions, type DemoPolishInput } from '../../../packages/core/workbuddy-demo-polish';
 import './ai-polish.css';
 
-const stamp = (draft: DemoDraft | undefined) => draft ? JSON.stringify([draft.id,draft.text,draft.parameters]) : '';
-interface Undo {before: Pick<DemoDraft,'text'|'parameters'>; after: string; selection: {start:number;end:number};}
+const stamp = (draft: DemoDraft | undefined) => draft ? JSON.stringify([draft.id,draft.text,draft.parameters,draft.controls?.map(({seen,...c})=>c),draft.dismissedControls]) : '';
+interface Undo {before: Pick<DemoDraft,'text'|'parameters'|'controls'|'dismissedControls'>; after: string; selection: {start:number;end:number};}
 interface Options {
   draft: DemoDraft | undefined;
   phase: string;
@@ -96,8 +96,8 @@ export function useDemoPolish(options: Options) {
       const result=applyDemoPolish(input,data.text);
       if(result.text===d.text){setNotice('未产生文字修改');return;}
       const next=editDemoText(current!,result.text);
-      history.current.set(d.id,{before:{text:d.text,parameters:structuredClone(d.parameters)},after:stamp(next),selection:range});
-      latest.current.update(d.id,existing=>({...existing,text:next.text,parameters:next.parameters}));
+      history.current.set(d.id,{before:{text:d.text,parameters:structuredClone(d.parameters),controls:structuredClone(d.controls),dismissedControls:structuredClone(d.dismissedControls)},after:stamp(next),selection:range});
+      latest.current.update(d.id,existing=>({...existing,text:next.text,parameters:next.parameters,controls:next.controls}));
       // Clear the request before focusing the editor, whose selection events cancel stale work.
       request.current=null;setActive('');restoreSelection(result.selection,d.id);
     } catch(e) {

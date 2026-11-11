@@ -1,3 +1,4 @@
+import {recommendControls} from "./workbuddy-demo-controls.js";
 import { contextualPolishActions, polishActionsForTarget, polishInstruction } from './polish-actions.js';
 import { extractLiveParameters } from './live-workbuddy.js';
 import { protectPolishParameters, validatePolishParameters } from './polish-parameters.js';
@@ -14,13 +15,15 @@ export interface DemoPolishInput {
  * The existing helper protects minimal Chinese anchors inside the remaining prose. */
 export function protectDemoPolish(text: string) {
   const parameters = extractLiveParameters(text);
+  const controls = recommendControls(text);
   const parts: {token: string; text: string}[] = [];
   let prefix = 'XY_KEEP_';
   while(text.includes(prefix)) prefix += 'X';
   const masked = text.replace(/[^,，.;。；!?！？\n]+/g, (clause, offset: number) => {
     const englishParameter = /[a-z]{2}/i.test(clause) && parameters.some(p => p.start >= offset && p.end <= offset + clause.length);
     const negative = /(?:不要|不用|无需|不需要|别|取消)|\b(?:no|not|never|without|don['’]t|avoid|remove|skip|cancel)\b/i.test(clause);
-    if (!englishParameter && !negative) return clause;
+    const controlClause=controls.some(c=>c.start>=offset&&c.end<=offset+clause.length);
+    if (!englishParameter && !negative && !controlClause) return clause;
     const token = `⟦${prefix}${parts.length}⟧`;
     parts.push({token,text:clause});
     return token;
@@ -77,6 +80,8 @@ export function applyDemoPolish(input: DemoPolishInput, result: string) {
   }
   const text=input.text.slice(0,range.start)+result+input.text.slice(range.end);
   validatePolishParameters(input.text,text);
+  const intents=(value:string)=>JSON.stringify(recommendControls(value).map(c=>[c.kind,c.origin,c.value]).sort((a,b)=>String(a[0]).localeCompare(String(b[0]))));
+  if(intents(input.text)!==intents(text))throw Error('润色改变了输入意图，原文已保留');
   return {text,selection:{start:range.start,end:range.start+result.length}};
 }
 export async function polishDemo(input: DemoPolishInput, model:(prompt:string,signal:AbortSignal)=>Promise<string>, signal:AbortSignal) {

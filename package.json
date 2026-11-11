@@ -21,7 +21,8 @@
     "build:workbuddy-demo": "tsc --noEmit && vite build --config vite.workbuddy-demo.config.ts",
     "preview:workbuddy-demo": "vite preview --config vite.workbuddy-demo.config.ts",
     "test:workbuddy-demo": "playwright test --config playwright.workbuddy-demo.config.ts",
-    "test:workbuddy-demo:service": "tsx --test scripts/workbuddy-demo-service.test.ts"
+    "test:workbuddy-demo:service": "tsx --test scripts/workbuddy-demo-service.test.ts",
+    "demo:controls": "tsx scripts/demo-input-controls.ts"
   },
   "dependencies": {
     "@openuidev/react-lang": "1.0.2",

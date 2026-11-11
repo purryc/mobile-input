@@ -193,3 +193,128 @@ Existing command names, API paths, database name and language-preference key int
 ![Completed polish shows only Restore original](docs/xiaoyi-work-polish-complete.png)
 
 The same row is available in the home and result composers. The UI language changes labels, not authored text; polishing preserves the language of the supplied text. The new `/api/workbuddy-demo/polish` route is included in both the local server and Vercel adapter. Refresh retains the rewritten draft, but not an in-flight request or the transient undo action.
+
+## Dynamic input controls and mixed recommendations
+
+The standalone demo now registers 14 input controls: duration, color, font,
+palette, reference file, image, document scanner, sketch, expert, skills,
+connectors, output formats, contextual polish, and screenshot/screen recording.
+
+**Explicit intent produces an ordinary light-gray chip**, even when the user has
+not supplied its value. A vague but relevant intent can produce a concrete
+recommendation. These chips have a blue/violet/pink border and a single 1.4-second
+perimeter highlight when a new candidate appears. They do not continuously pulse.
+Reduced-motion preferences disable the sweep. Opening a chip does not change its
+provenance; choosing a replacement makes it a manual chip. Removing a recommendation
+suppresses it for the same intent in that draft, including after a refresh.
+
+Recommendations use deterministic Chinese/English rules, not model calls. All 13
+inline types support relevant suggestions. Image, scan, sketch and screen-reference
+suggestions open material-entry tools; they do not invent attachments. Concrete
+values and available built-in file bytes are adopted by default, replaceable and
+removable. Context sources select reference knowledge; delivery/collaboration
+instructions do not select a source automatically.
+
+Explicit chips replace the value or material noun; suggested chips appear immediately
+after the supporting phrase. The original text remains editable and is copied as
+source text, without UI recommendation labels. The frozen Send snapshot includes
+selected values and confirmed materials, while the editable draft stays intact.
+
+Examples:
+
+- `Use a gray background and black text` → ordinary color chips.
+- `Choose an expert` → ordinary expert selector with no invented selection.
+- `Make it feel warm and natural` → recommended palette.
+- `Use relevant references` → a bundled, fictional product-brief file with actual bytes.
+- `Get professional help to make it polished and use connected reference sources`
+  → recommended expert, skill and ima context source, labeled as demonstration choices.
+- `A brief oral report` → a suggested 10-minute duration. A short written report does not imply timing.
+
+Capability lists reuse common WorkBuddy entries. They do not connect accounts,
+install tools or execute an Agent. Output formats are preferences only; the existing
+slide, document and image generator remains unchanged and does not implement all
+seven downloadable formats. Explicit colors always take priority over palette mood.
+
+### Run and call every control
+
+```bash
+npm ci
+npm run demo:controls -- --list
+npm run demo:controls -- --all --language en
+npm run demo:controls -- --control scanner --language en --port 5199
+```
+
+The launcher opens the Web host with a separate IndexedDB database from normal drafts. It does not start capture,
+polishing or generation automatically. The three example buttons—Explicit intent,
+Suggested intent and Mixed intent—each create a new independent draft. The approved
+Chinese sample text stays unchanged when the interface language changes. Valid identifiers are printed by `--list`. Use `--language zh` for Chinese.
+Open Settings and turn on **Show debug controls** to display the index in the
+current view. It is off by default, and the browser remembers your choice. The
+launcher uses `debug=1` to opt in on a fresh browser profile.
+
+The typed entry point is `packages/core/workbuddy-demo-controls.ts`:
+
+```ts
+import {
+  listControls, openControl, recommendControls,
+  type DemoControlBinding, type ControlEvent,
+} from './packages/core/workbuddy-demo-controls';
+
+// Use inside your browser UI host. Opening returns a binding and invokes your host.
+const controls = listControls();
+const openPanel = (binding: DemoControlBinding) => {
+  // Render the registered component in your owner-bound UI.
+  console.log(binding.kind, binding.value);
+};
+for (const { kind } of controls) {
+  openControl(kind, { owner: 'example-draft', text: '', open: openPanel });
+}
+const suggestions = recommendControls('Make it feel warm and natural', {
+  previous: [], dismissed: [],
+});
+// Components emit change / confirm / remove / close events. Validate event.owner
+// against the owning draft before applying changes; task Send stays separate.
+const receive = (event: ControlEvent) => console.log(event.type, event.owner);
+```
+
+`DemoControlChoices`, `ControlsIndex` and `DemoCapturePanel` are reusable React views.
+The Web integration provides the actual host adapters for original color/time/image/
+sketch controls and contextual polish. No native phone protocol extension is required.
+
+### Camera scanning and screen capture
+
+Screenshots and recordings are user-supplied **prompt reference materials**:
+screenshots convey visual style; recordings convey interaction flows and transitions.
+They do not ask an Agent to operate the referenced application or create a recording.
+See [three complete Chinese test scenarios](workbuddy-demo-scenarios.zh.md) for
+explicit, recommendation-focused and mixed inputs covering all 14 control types.
+
+Use desktop Chrome on localhost or HTTPS. Click the relevant button to request
+camera or screen permission. Screen source selection remains in Chrome's own chooser.
+Drag a rectangle in the preview to crop. Document scanning supports multiple pages,
+manual capture, crop, retake and explicit confirmation. It does not perform OCR.
+
+Screen recording requires separate Start and Stop clicks, records no audio, and
+stops at 60 seconds or approximately 64 MiB. Stopping, closing, hiding the page or
+switching away releases streams. Captured bytes stay with their original draft;
+closing never confirms them. Unconfirmed captures must be confirmed or removed
+before Send. Confirmed screenshots/scans enter the existing image-material pipeline.
+Videos can be saved and played in their original draft. Send asks you to remove
+the recording before generation because the existing generator does not process
+video; the clip is never silently discarded or uploaded. Browser permissions and OS restrictions still apply.
+
+### Development and verification
+
+Codex implements and integrates this revision; Claude CLI reviews architecture and
+code read-only. Gemini CLI is not used for this development. The existing Gemini API
+is still used for explicit polishing/generation, with the server-only key setup
+above. Automated control tests use local fixtures and simulated media streams;
+these are separate evidence from physical camera and screen-sharing acceptance.
+
+```bash
+npm run check
+npm test
+npm run test:workbuddy-demo:service
+npm run test:workbuddy-demo
+npm run build:workbuddy-demo
+```

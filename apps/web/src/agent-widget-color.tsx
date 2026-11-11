@@ -50,12 +50,14 @@ export function AgentWidgetColor({
   onChange,
   onActive,
   onDone,
+  desktop = false,
 }: {
   value: string;
   label: string;
   onChange: (v: string) => void;
   onActive: (v: boolean) => void;
   onDone?: () => void;
+  desktop?: boolean;
 }) {
   const [hex, setHex] = useState(value),
     [hue, setHue] = useState(() => fromHex(value).h),
@@ -125,13 +127,13 @@ export function AgentWidgetColor({
               change(v);
             }}
           >
-            <img
+            {desktop ? <i className="agent-color-swatch" style={{background:v}} /> : <img
               src={
                 "/reference-assets/workbuddy-widgets/" + kind + "-" + i + ".svg"
               }
               alt=""
               draggable={false}
-            />
+            />}
           </button>
         ))}
       </div>

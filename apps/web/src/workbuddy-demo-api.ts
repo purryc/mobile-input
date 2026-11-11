@@ -18,6 +18,7 @@ export async function runDemoGeneration(
   signal: AbortSignal,
   onEvent: (event: DemoGenerationEvent) => void,
 ) {
+  if(request.captures?.some(c=>c.kind==='recording'))throw Error("录像已保存在请求快照中；当前生成服务不处理视频，请移除录像后发送新的请求。 / Video saved in request; generation does not process videos.");
   if (request.materials.length > 12)
     throw Error("最多使用 12 份材料，请减少后重试");
   if (request.materials.some((m) => m.blob.size > 8 * 1024 * 1024))
@@ -30,7 +31,9 @@ export async function runDemoGeneration(
   const sources = await Promise.all(
     request.materials.map(async (m) => ({
       asset: {
-        id: m.id,
+        // Legacy built-in references keep their owner-bound storage ID. The
+        // existing generation API requires UUID asset IDs; normalize only here.
+        id: /^reference-example-([a-f0-9-]{36})$/.exec(m.id)?.[1] || m.id,
         name: m.name,
         mime:
           m.blob.type ||

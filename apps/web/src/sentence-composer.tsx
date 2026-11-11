@@ -1,3 +1,4 @@
+import {flushSync} from 'react-dom';
 import {uiText,useUILanguage} from './i18n';
 import './sentence-composer.css';
 import type {WbFile} from '../../../packages/core/workbuddy';
@@ -14,10 +15,13 @@ const sourceText=(node:Node):string=>{
  return Array.from(node.childNodes).map((child,i)=>((child.nodeName==='DIV'||child.nodeName==='P')&&i>0?'\n':'')+sourceText(child)).join('');
 };
 const iconNames:Partial<Record<SentenceKind,string>>={camera:'photo',sketch:'canvas',document:'file'};
-export interface SentenceComposerProps {label?:string;inputMode?:'text'|'none';text:string;files:WbFile[];parameters:SentenceParameter[];input:WorkBuddyInput;active:SentenceKind|null;disabled:boolean;placeholder:string;loading?:{start:number;end:number};onChange:(text:string)=>void;onSelect:()=>void;onFocus:()=>void;onOpen:(kind:SentenceKind)=>void;live?:{controlsId?:string;parameters:import('../../../packages/core/live-workbuddy').LiveParameter[];active:string|null;open:(id:string)=>void};}
+export interface ComposerLiveToken extends Omit<importLiveParameter,'kind'> {kind:string;origin?:'explicit'|'recommended'|'manual';sweepKey?:string;animate?:boolean;iconPath?:string;iconSrc?:string;recommendationIconSrc?:string;removable?:boolean;preparing?:boolean;prefix?:string;suffix?:string;}
+type importLiveParameter=import('../../../packages/core/live-workbuddy').LiveParameter;
+export interface SentenceComposerProps {label?:string;inputMode?:'text'|'none';preserveSourceClipboard?:boolean;text:string;files:WbFile[];parameters:SentenceParameter[];input:WorkBuddyInput;active:SentenceKind|null;disabled:boolean;placeholder:string;loading?:{start:number;end:number};onChange:(text:string)=>void;onSelect:()=>void;onFocus:()=>void;onOpen:(kind:SentenceKind)=>void;live?:{containedRemove?:boolean;controlsId?:string;parameters:ComposerLiveToken[];active:string|null;open:(id:string)=>void;remove?:(id:string)=>void};}
 /** The DOM is editable, but the authority remains plain text + task-owned parameter bindings. */
 export const SentenceComposer=forwardRef<TextInputHandle,SentenceComposerProps>(function SentenceComposer(p,ref){
  const language=useUILanguage();
+ const sweepStarts=useRef(new Map<string,number>());
  const root=useRef<HTMLDivElement>(null),composing=useRef(false),selection=useRef({start:0,end:0}),latest=useRef(p);latest.current=p;
  function offset(container:Node,at:number):number{
   const el=root.current!;let total=0,found=false;
@@ -50,9 +54,31 @@ export const SentenceComposer=forwardRef<TextInputHandle,SentenceComposerProps>(
   if(state.live)for(const token of state.live.parameters){
    if(token.start<cursor||state.text.slice(token.start,token.end)!==token.phrase)continue;plain(cursor,token.start);cursor=token.end;
    const hit=document.createElement('span');hit.className='sentence-token-hit';hit.dataset.source=token.phrase;hit.contentEditable='false';
-   const button=document.createElement('button');button.type='button';button.className='sentence-token';button.disabled=state.disabled;button.dataset.kind=token.kind;button.dataset.parameterId=token.id;button.setAttribute('aria-expanded',String(state.live.active===token.id));if(state.live.active===token.id&&state.live.controlsId)button.setAttribute('aria-controls',state.live.controlsId);button.dataset.state=token.manual?'default':'suggested';button.setAttribute('aria-label',`${uiText(token.kind==='photo'?'图片':token.role)} ${token.label}`);button.setAttribute('aria-pressed',String(state.live.active===token.id));
-   const face=document.createElement('span');face.className='sentence-token-face';if(token.kind==='color'&&/^#[0-9A-Fa-f]{6}$/.test(token.value)){const swatch=document.createElement('i');swatch.className='sentence-swatch';swatch.style.background=token.value;face.append(swatch);}else if(['document','photo','sketch'].includes(token.kind)){const icon=document.createElement('img');icon.src=`./assets/figma/sentence-parameters/${token.kind==='document'?'file':token.kind==='photo'?'photo':'canvas'}.svg`;icon.alt='';icon.className='sentence-icon';face.append(icon);}
-   face.append(document.createTextNode(token.label));button.append(face);button.onpointerdown=e=>{e.preventDefault();readSelection();};button.onclick=()=>latest.current.live?.open(token.id);hit.append(button);fragment.append(hit);
+   const button=document.createElement('button');button.type='button';button.className='sentence-token';button.disabled=state.disabled;button.dataset.kind=token.kind;button.dataset.parameterId=token.id;button.setAttribute('aria-expanded',String(state.live.active===token.id));if(state.live.active===token.id&&state.live.controlsId)button.setAttribute('aria-controls',state.live.controlsId);button.dataset.state=token.manual?'default':'suggested';if(token.origin)button.dataset.origin=token.origin;button.setAttribute('aria-label',`${uiText(token.kind==='photo'?'图片':token.role)} ${token.label}`);button.setAttribute('aria-pressed',String(state.live.active===token.id));
+   const face=document.createElement('span');face.className='sentence-token-face';if(token.kind==='color'&&/^#[0-9A-Fa-f]{6}$/.test(token.value)){const swatch=document.createElement('i');swatch.className='sentence-swatch';swatch.style.background=token.value;face.append(swatch);}else if(!token.iconSrc&&['document','photo','sketch'].includes(token.kind)){const icon=document.createElement('img');icon.src=`./assets/figma/sentence-parameters/${token.kind==='document'?'file':token.kind==='photo'?'photo':'canvas'}.svg`;icon.alt='';icon.className='sentence-icon';face.append(icon);}
+   if(token.iconSrc){const icon=document.createElement('img');icon.src=token.iconSrc;icon.alt='';icon.className='sentence-icon';face.prepend(icon);}else if(token.iconPath){const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');svg.setAttribute('viewBox','0 0 24 24');svg.setAttribute('fill','none');svg.setAttribute('stroke','currentColor');svg.setAttribute('stroke-width','1.7');svg.classList.add('demo-chip-icon');const path=document.createElementNS(svg.namespaceURI,'path');path.setAttribute('d',token.iconPath);svg.append(path);face.prepend(svg);}
+   const label=document.createElement('span');label.className='demo-chip-label';label.textContent=token.label;face.append(label);
+   if(token.origin==='recommended'){const star=document.createElement('span');star.className='demo-chip-smart';if(token.recommendationIconSrc){const icon=document.createElement('img');icon.src=token.recommendationIconSrc;icon.alt='';star.append(icon);}else star.textContent='✧';star.setAttribute('aria-hidden','true');face.append(star);}
+   button.append(face);button.title=state.live.containedRemove?`${uiText(token.role)} ${token.label}`:token.label;
+   if(!token.preparing&&token.animate&&token.sweepKey){const key=token.sweepKey;let started=sweepStarts.current.get(key);if(started===undefined){started=performance.now();sweepStarts.current.set(key,started);}const elapsed=performance.now()-started;if(elapsed<1400){button.dataset.sweep='true';button.style.setProperty('--sweep-delay',`-${elapsed}ms`);}}
+   button.onpointerdown=e=>{e.preventDefault();readSelection();};
+   button.onclick=()=>latest.current.live?.open(token.id);
+   if(token.prefix)hit.append(document.createTextNode(token.prefix));
+   const contained = state.live.containedRemove && (token.removable || token.preparing);
+   const capsule = contained ? document.createElement('span') : hit;
+   if(contained){capsule.className='sentence-token-capsule';if(token.origin)capsule.dataset.origin=token.origin;capsule.dataset.expanded=String(state.live.active===token.id);if(button.dataset.sweep){capsule.dataset.sweep='true';capsule.style.setProperty('--sweep-delay',button.style.getPropertyValue('--sweep-delay'));}hit.append(capsule);}
+   capsule.append(button);
+   if(token.removable&&state.live.remove){
+     const remove=document.createElement('button');remove.type='button';remove.className='demo-chip-remove';
+     if(contained){const icon=document.createElement('img');icon.src='./reference-assets/workbuddy-widgets/close.svg';icon.alt='';remove.append(icon);}else remove.textContent='×';
+     remove.setAttribute('aria-label',(language==='en'?'Remove recommendation ':'移除推荐 ')+token.label);
+     if(contained)remove.disabled=state.disabled;remove.onpointerdown=e=>e.preventDefault();remove.onclick=()=>latest.current.live?.remove?.(token.id);capsule.append(remove);
+   }
+   if(token.preparing){
+     capsule.dataset.preparing='true';capsule.setAttribute('role','img');capsule.setAttribute('aria-label',language==='en'?'Preparing suggestion':'正在整理建议');capsule.setAttribute('aria-busy','true');
+     capsule.querySelectorAll('button').forEach(b=>{b.disabled=true;b.tabIndex=-1;b.setAttribute('aria-hidden','true');});
+   }
+   if(token.suffix)hit.append(document.createTextNode(token.suffix));fragment.append(hit);
   }
   for(const token of state.parameters){if(token.start<cursor)continue;plain(cursor,token.start);cursor=token.end;
    const hit=document.createElement('span');hit.className='sentence-token-hit';hit.dataset.source=state.text.slice(token.start,token.end);hit.dataset.kind=token.kind;hit.contentEditable='false';
@@ -74,8 +100,8 @@ export const SentenceComposer=forwardRef<TextInputHandle,SentenceComposerProps>(
   plain(cursor,state.text.length);if(state.text.endsWith('\n'))fragment.append(document.createElement('br'));if(!fragment.childNodes.length)fragment.append(document.createTextNode(''));
   el.replaceChildren(fragment);el.dataset.value=state.text;selection.current=saved;if(focused)setSelectionRange(saved.start,saved.end);
  }
- useLayoutEffect(render,[language,p.text,JSON.stringify(p.parameters),JSON.stringify(p.live?.parameters),p.live?.active,p.input.revision,p.active,p.disabled,p.loading?.start,p.loading?.end,p.files.map(f=>f.id+f.name).join('|')]);
+ useLayoutEffect(render,[language,p.text,JSON.stringify(p.parameters),JSON.stringify(p.live?.parameters),p.live?.active,p.live?.containedRemove,Boolean(p.live?.remove),p.input.revision,p.active,p.disabled,p.loading?.start,p.loading?.end,p.files.map(f=>f.id+f.name).join('|')]);
  useEffect(()=>{const listener=()=>{if(document.activeElement===root.current){readSelection();latest.current.onSelect();}};document.addEventListener('selectionchange',listener);return()=>document.removeEventListener('selectionchange',listener);},[]);
  function changed(){if(composing.current)return;readSelection();const text=sourceText(root.current!);latest.current.onSelect();latest.current.onChange(text);}
- return <div ref={root} className="wb-sentence-composer" role="textbox" aria-multiline="true" aria-label={p.label||uiText("手机 WorkBuddy 草稿")} contentEditable={!p.disabled} suppressContentEditableWarning inputMode={p.inputMode||"none"} data-placeholder={p.placeholder} onFocus={p.onFocus} onInput={changed} onCompositionStart={()=>{composing.current=true;}} onCompositionEnd={()=>{composing.current=false;changed();}} onPaste={e=>{e.preventDefault();const s=readSelection(),value=latest.current.text,insert=e.clipboardData.getData('text/plain');latest.current.onChange(value.slice(0,s.start)+insert+value.slice(s.end));requestAnimationFrame(()=>setSelectionRange(s.start+insert.length,s.start+insert.length));}}/>
+ return <div ref={root} className="wb-sentence-composer" role="textbox" aria-multiline="true" aria-label={p.label||uiText("手机 WorkBuddy 草稿")} contentEditable={!p.disabled} suppressContentEditableWarning inputMode={p.inputMode||"none"} data-placeholder={p.placeholder} onFocus={p.onFocus} onInput={changed} onCompositionStart={()=>{composing.current=true;}} onCompositionEnd={()=>{composing.current=false;changed();}} onCopy={e=>{if(!latest.current.preserveSourceClipboard)return;const s=readSelection();e.preventDefault();e.clipboardData.setData('text/plain',latest.current.text.slice(s.start,s.end));}} onCut={e=>{if(!latest.current.preserveSourceClipboard)return;const s=readSelection(),text=latest.current.text;e.preventDefault();e.clipboardData.setData('text/plain',text.slice(s.start,s.end));flushSync(()=>latest.current.onChange(text.slice(0,s.start)+text.slice(s.end)));setSelectionRange(s.start,s.start);}} onPaste={e=>{e.preventDefault();const s=readSelection(),value=latest.current.text,insert=e.clipboardData.getData('text/plain');if(latest.current.preserveSourceClipboard){flushSync(()=>latest.current.onChange(value.slice(0,s.start)+insert+value.slice(s.end)));setSelectionRange(s.start+insert.length,s.start+insert.length);}else{latest.current.onChange(value.slice(0,s.start)+insert+value.slice(s.end));requestAnimationFrame(()=>setSelectionRange(s.start+insert.length,s.start+insert.length));}}}/>
 });

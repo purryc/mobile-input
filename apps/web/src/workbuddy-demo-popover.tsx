@@ -3,10 +3,12 @@ import { useLayoutEffect, useRef, useState, type ReactNode } from "react";
 /** Follow the rendered chip, not its source offset or a guessed line height. */
 export function WorkBuddyDemoPopover({
   anchorId,
+  preferredWidth = 360,
   children,
   onClose,
 }: {
   anchorId?: string;
+  preferredWidth?: number;
   children: ReactNode;
   onClose: () => void;
 }) {
@@ -22,7 +24,7 @@ export function WorkBuddyDemoPopover({
   useLayoutEffect(() => {
     let frame = 0,
       alive = true,
-      reveal = true;
+      reveal = true, missing = 0;
     const findAnchor = () =>
       anchorId
         ? Array.from(document.querySelectorAll<HTMLElement>(".sentence-token"))
@@ -33,15 +35,16 @@ export function WorkBuddyDemoPopover({
       if (!alive || !root.current) return;
       const anchor = findAnchor();
       if (!anchor) {
-        if (anchorId) close.current();
+        if (anchorId && ++missing > 1) close.current();
         return;
       }
+      missing=0;
       const rect = anchor.getBoundingClientRect(),
-        width = Math.min(360, innerWidth - 32);
+        width = Math.min(preferredWidth, innerWidth - 32);
       const left = Math.max(16, Math.min(rect.left, innerWidth - width - 16));
       const next = {
         left,
-        top: rect.bottom + 8,
+        top: Math.max(16,Math.min(rect.bottom + 8,innerHeight-root.current.getBoundingClientRect().height-16)),
         width,
         arrow: Math.max(
           12,
@@ -64,7 +67,7 @@ export function WorkBuddyDemoPopover({
         const height = root.current.getBoundingClientRect().height;
         if (height > 0) {
           reveal = false;
-          const overflow = next.top + height - (innerHeight - 16);
+          const overflow = rect.bottom + 8 + height - (innerHeight - 16);
           if (overflow > 0) {
             const scroller =
               document.querySelector<HTMLElement>(".demo-app .wb-home, .demo-task-compose");
@@ -111,7 +114,7 @@ export function WorkBuddyDemoPopover({
       window.removeEventListener("scroll", schedule, true);
       window.removeEventListener("keydown", key);
     };
-  }, [anchorId]);
+  }, [anchorId,preferredWidth]);
   return (
     <div
       ref={root}

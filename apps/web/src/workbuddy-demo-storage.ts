@@ -1,9 +1,15 @@
 import {
+  recommendControls,
+  dismissalKey,
+} from "../../../packages/core/workbuddy-demo-controls";
+import {
   newDemoState,
   editDemoText,
   type DemoState,
 } from "../../../packages/core/workbuddy-demo-state";
-const database = "workbuddy-standalone-demo-v1";
+const database = new URLSearchParams(location.search).has("controls")
+  ? "workbuddy-standalone-controls-v1"
+  : "workbuddy-standalone-demo-v1";
 let opened: Promise<IDBDatabase> | undefined;
 let ready: IDBDatabase | undefined;
 function open() {
@@ -42,8 +48,21 @@ export async function loadDemo(): Promise<DemoState> {
           ? {
               ...value,
               drafts: value.drafts.map(
-                (draft: DemoState["drafts"][number]) => ({
-                  ...editDemoText(draft, draft.text),
+                (draft: DemoState["drafts"][number]) => {
+                  const restored = editDemoText(
+                    draft.controls === undefined
+                      ? {
+                          ...draft,
+                          controls: [],
+                          dismissedControls: recommendControls(draft.text)
+                            .filter((c) => c.origin === "recommended")
+                            .map(dismissalKey),
+                        }
+                      : draft,
+                    draft.text,
+                    true,
+                  );
+                  return {...restored, controls: restored.controls?.map(c => ({...c, seen:true})),
                   requests: draft.requests.map((request) =>
                     request.status === "running"
                       ? {
@@ -53,7 +72,7 @@ export async function loadDemo(): Promise<DemoState> {
                         }
                       : request,
                   ),
-                }),
+                };},
               ),
             }
           : newDemoState(),
