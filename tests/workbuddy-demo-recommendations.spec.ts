@@ -70,18 +70,20 @@ test('blocked send resumes suggestions while pending materials stay owned',async
  await page.clock.runFor(1400);await expect(recommended(page)).toHaveCount(1);await expect(page.getByRole('button',{name:'确认图片选择',exact:true})).toBeVisible();
 });
 
-test('one continuous utterance keeps explicit chips live and releases recommendations sequentially only after stop',async({page})=>{
+test('one continuous utterance keeps explicit chips live and releases recommendations progressively per sentence',async({page})=>{
  await page.addInitScript(()=>{(window as any).__voice=[];(window as any).SpeechRecognition=class{onstart:any;onend:any;onresult:any;constructor(){(window as any).__voice.push(this)}start(){this.onstart?.()}stop(){this.onend?.()}abort(){}}});
  await open(page);await page.locator('.demo-voice').click();
- const text='准备简短培训，主题色用蓝色，整体沉静专业，希望直观看到产品的样子。';
- await page.evaluate(t=>(window as any).__voice.at(-1).onresult({results:[{0:{transcript:t},isFinal:false}]}),text);
+ const firstSentence='准备简短培训，主题色用蓝色';
+ await page.evaluate(t=>(window as any).__voice.at(-1).onresult({results:[{0:{transcript:t},isFinal:false}]}),firstSentence);
  await expect(page.locator('.sentence-token[data-kind=color]')).toBeVisible();
- await page.clock.runFor(4000);await expect(recommended(page)).toHaveCount(0);await expect(page.locator('[data-preparing=true]')).toHaveCount(0);
- await page.locator('.demo-voice').click();await page.clock.runFor(1000);await expect(page.locator('[data-preparing=true]')).toHaveCount(1);
+ await page.clock.runFor(1000);await expect(page.locator('[data-preparing=true]')).toHaveCount(1);
+ const fullText='准备简短培训，主题色用蓝色，整体沉静专业，希望直观看到产品的样子。';
+ await page.evaluate(t=>(window as any).__voice.at(-1).onresult({results:[{0:{transcript:t},isFinal:false}]}),fullText);
  await page.clock.runFor(400);await expect(recommended(page)).toHaveCount(1);
- await page.clock.runFor(220);await expect(recommended(page)).toHaveCount(2);
+ await page.clock.runFor(1000);await expect(recommended(page)).toHaveCount(2);
  await page.clock.runFor(220);await expect(recommended(page)).toHaveCount(3);
- await page.clock.runFor(1800);await page.locator('.demo-voice').click();await page.clock.runFor(3000);await expect(recommended(page)).toHaveCount(3);
+ await page.locator('.demo-voice').click();await page.clock.runFor(1800);
+ await page.locator('.demo-voice').click();await page.clock.runFor(3000);await expect(recommended(page)).toHaveCount(3);
  await page.locator('.demo-voice').click();await page.clock.runFor(3000);await expect(page.locator('[data-sweep=true]')).toHaveCount(0);
 });
 test('desktop color opens the actual blue, including background and text bindings, without changing the draft',async({page})=>{

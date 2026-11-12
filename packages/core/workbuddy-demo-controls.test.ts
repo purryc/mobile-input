@@ -310,4 +310,9 @@ test('user product launch presentation sample prompt exposes all expected explic
  assert.equal(native.find(p=>p.kind==='document')?.phrase,'本地文档');
  assert.equal(native.find(p=>p.kind==='photo')?.phrase,'产品照片');
  assert.equal(native.find(p=>p.kind==='sketch')?.phrase,'我画一下');
+
+ const spoken='我想做一个简短的演示文稿介绍今年要发布的产品佩景吗用灰色然后字体用黑色主题色是用红色的然后我有一些本地文档作为大纲参考';
+ const spokenDraft=editDemoText(newDemoDraft(),spoken);
+ assert.equal(spokenDraft.parameters.filter(p=>p.kind==='color').length,3);
+ assert.equal(spokenDraft.parameters.find(p=>p.kind==='document')?.phrase,'本地文档');
 });

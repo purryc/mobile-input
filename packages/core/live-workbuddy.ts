@@ -13,7 +13,7 @@ export function extractLiveParameters(text:string):LiveParameter[]{
   if(page){scope=page[0];scopeStart=origin;}else if(origin>scopeStart&&/[。；;\n]/.test(text[origin-1]||''))scope='全文';
   const add=(kind:LiveInputKind,m:RegExpMatchArray,phrase:string,role:string,value=phrase,label=phrase)=>{const start=origin+m.index!+m[0].lastIndexOf(phrase);items.push({id:`${kind}:${scope}:${role}:${items.filter(i=>i.kind===kind&&i.scope===scope&&i.role===role).length}`,kind,start,end:start+phrase.length,phrase,label,role,scope,value,manual:false});};
   for(const pattern of [/(?:讲|演讲|汇报|时长|控制在|大约|约)\s*(\d{1,3}|[零一二两三四五六七八九十百]{1,5})\s*分钟/g,/(\d{1,3}|[零一二两三四五六七八九十百]{1,5})\s*分钟(?:的)?(?:产品)?(?:演讲|演示|汇报|发言|讲话)/g])for(const m of sentence.matchAll(pattern)){if(/(?:不要|取消|别)[^，,]*$/.test(sentence.slice(0,m.index)))continue;const n=minutes(m[1]);if(n>0&&n<=60)add('duration',m,m[1],'演讲时长',String(n),String(n));}
-  for(const m of sentence.matchAll(/(?:参考|依据|用|附上|添加|上传|选择)(?:(?:这份|我的|一下|一份|一个|这|的)\s*)*\s*((?:(?!(?:参考|依据|附上|添加|上传|选择|需要|背景|主题|字体|文字|讲))[^，,。；;\n]){0,20}?(?:资料|文档|文件|\.pdf|\.docx))/g)){if(/(?:不要|不用|别|不)[^，,]*$/.test(sentence.slice(0,m.index)))continue;add('document',m,m[1],'参考资料','');}
+  for(const m of sentence.matchAll(/(?:参考|依据|用|附上|添加|上传|选择)(?:(?:这份|我的|一下|一份|一个|这|的)\s*)*\s*((?:(?!(?:参考|依据|附上|添加|上传|选择|需要|背景|佩景|背影|主题|字体|文字|讲|红色|蓝色|黑色|白色|灰色|绿色|黄色|橙色|紫色|深红|高级灰|我有|还有|然后))[^，,。；;\n]){0,20}?(?:资料|文档|文件|\.pdf|\.docx))/g)){if(/(?:不要|不用|别|不)[^，,]*$/.test(sentence.slice(0,m.index)))continue;add('document',m,m[1],'参考资料','');}
   for(const m of sentence.matchAll(/(?:有(?:一些|一份|几个)?)\s*(本地(?:文档|文件|资料))/g)){if(!items.some(p=>p.kind==='document'&&p.scope===scope))add('document',m,m[1],'参考资料','');}
   // Image invitations share one stable legacy binding; user wording stays unchanged.
   for(const m of sentence.matchAll(/((?:本地|实拍|产品|参考)?(?:的)?(?:照片|图片)|配图|产品图|拍照)/g)){
@@ -33,9 +33,9 @@ export function extractLiveParameters(text:string):LiveParameter[]{
  }
  // A role and its adjacent value may be separated by ASR punctuation. Match on
  // the original string so display/source offsets never refer to normalized prose.
- const roles:Record<string,string>={主色:'主题色',主题:'主题色',主题测试:'主题色',文字:'字体'};
+ const roles:Record<string,string>={主色:'主题色',主题:'主题色',主题测试:'主题色',文字:'字体',佩景:'背景',背影:'背景',北景:'背景'};
  const aliases:Record<string,string>={红:'红色',蓝:'蓝色',黑:'黑色',白:'白色',灰:'灰色',绿:'绿色',黄:'黄色',橙:'橙色',紫:'紫色'};
- for(const m of text.matchAll(/(背景|主题测试|主题色|主色|主题|字体|文字|标题|强调色)(?:的)?(?:颜色|色)?(?:呢|啊|嗯)?[\s。．，,：:]{0,6}(?:我想|我希望|希望)?(?:设置成|设置为|换成|改成|改为|设为|采用|使用|适用|选择|要用|是用|用|要|是|为)?[\s。．，,：:]{0,6}(#[0-9a-fA-F]{6}|高级灰|深红|红色?|蓝色?|黑色?|白色?|灰色?|绿色?|黄色?|橙色?|紫色?)(?=$|[\s，,。；;！!？?、的]|背景|字体|文字|主题|主色|然后|还有|以及|需要|参考|再|并|我|加|讲)/g)){
+ for(const m of text.matchAll(/(背景|佩景|背影|北景|主题测试|主题色|主色|主题|字体|文字|标题|强调色)(?:的)?(?:颜色|色)?(?:吗|呢|啊|嗯|的话)?[\s。．，,：:]{0,6}(?:我想|我希望|希望)?(?:设置成|设置为|换成|改成|改为|设为|采用|使用|适用|选择|要用|是用|用|要|是|为)?[\s。．，,：:]{0,6}(#[0-9a-fA-F]{6}|高级灰|深红|红色?|蓝色?|黑色?|白色?|灰色?|绿色?|黄色?|橙色?|紫色?)(?=$|[\s，,。；;！!？?、的]|背景|佩景|背影|北景|字体|文字|主题|主色|然后|还有|以及|需要|参考|再|并|我|加|讲)/g)){
   const before=text.slice(Math.max(0,m.index!-30),m.index!).split(/[，,。；;\n]/).at(-1)||'';
   if(/(?:不要|不用|别|取消|不需要|无需)[^，,]*$/.test(before))continue;
   const prefix=text.slice(0,m.index!).split(/[。；;\n]/).at(-1)||'';
