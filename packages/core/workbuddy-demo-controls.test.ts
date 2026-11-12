@@ -315,4 +315,22 @@ test('user product launch presentation sample prompt exposes all expected explic
  const spokenDraft=editDemoText(newDemoDraft(),spoken);
  assert.equal(spokenDraft.parameters.filter(p=>p.kind==='color').length,3);
  assert.equal(spokenDraft.parameters.find(p=>p.kind==='document')?.phrase,'本地文档');
+
+ for(const firstClause of [
+   '我想做一个简短的演示文稿，介绍今年的产品',
+   '想做一个简短的演讲报告然后介绍今年的发布的产品',
+   '我想做一个简短的演示文稿介绍今年发布的产品',
+ ]){
+   const c=recommendControls(firstClause);
+   assert.equal(c.find(x=>x.kind==='duration')?.value[0],'10',firstClause);
+   assert.deepEqual(c.find(x=>x.kind==='skills')?.value,['ppt-implement'],firstClause);
+   assert.deepEqual(c.find(x=>x.kind==='expert')?.value,['ppt'],firstClause);
+ }
+
+ const asrVariant='想做一个简短的演讲报告然后介绍今年的发布的产品背景是用灰色然后这题有黑色主题色是红色然后我有些本地的文档作为大纲参考然后还有老板写了一些重点我要扫描给你另外还想参添加一些产品照片不只呢我我给你画一下然后左边是今年的产品总软右边是产品的介绍然后整体的视觉风格参考我的这个截屏';
+ const asrDraft=editDemoText(newDemoDraft(),asrVariant);
+ assert.deepEqual(asrDraft.controls?.find(c=>c.kind==='skills')?.value,['ppt-implement']);
+ assert.deepEqual(asrDraft.controls?.find(c=>c.kind==='expert')?.value,['ppt']);
+ assert.equal(asrDraft.parameters.filter(p=>p.kind==='color').length,3);
+ assert.equal(asrDraft.parameters.find(p=>p.kind==='document')?.phrase,'本地的文档');
 });
