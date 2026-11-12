@@ -491,7 +491,7 @@ export function recommendControls(text:string,context:{previous?:DemoControlBind
     const prior=context.previous?.find(c=>c.id===next.id&&(c.phrase===next.phrase||(c.origin==='manual'&&(c.detached||next.origin==='recommended'))));
     result.push(prior?{...next,seen:prior.revision===next.revision?prior.seen:false,...(prior.origin==='manual'?{origin:'manual',value:prior.value,revision:prior.revision,suggestionKey:next.suggestionKey||prior.suggestionKey,detached:next.origin==='explicit'?false:prior.detached}: {})}:next);
   }
-  for(const prior of context.previous||[])if(prior.detached&&!context.dismissed?.includes(dismissalKey(prior))&&!result.some(c=>c.id===prior.id))result.push({...prior,start:text.length,end:text.length});
+  for(const prior of context.previous||[])if(prior.detached&&!['capture','scanner'].includes(prior.kind)&&!context.dismissed?.includes(dismissalKey(prior))&&!result.some(c=>c.id===prior.id))result.push({...prior,start:text.length,end:text.length});
   return result.sort((a,b)=>a.start-b.start);
 }
 /** Supplement labels are display-only; they never become part of editable source text. */

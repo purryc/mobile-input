@@ -300,7 +300,16 @@ export function WorkbuddyDemoComposer({
                           ".svg",
                   };
                 }),
-                ...[...(draft.controls || []), ...recommendations.loading].map(
+                ...[
+                  ...(draft.controls || []).filter(
+                    (c) =>
+                      !(
+                        c.detached &&
+                        (c.kind === "capture" || c.kind === "scanner")
+                      ),
+                  ),
+                  ...recommendations.loading,
+                ].map(
                   (c) => ({
                     preparing: recommendations.loading.includes(c),
                     id: c.id,

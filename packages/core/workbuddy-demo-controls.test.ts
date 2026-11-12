@@ -333,4 +333,19 @@ test('user product launch presentation sample prompt exposes all expected explic
  assert.deepEqual(asrDraft.controls?.find(c=>c.kind==='expert')?.value,['ppt']);
  assert.equal(asrDraft.parameters.filter(p=>p.kind==='color').length,3);
  assert.equal(asrDraft.parameters.find(p=>p.kind==='document')?.phrase,'本地的文档');
+
+ const speechReportPrompt='我想做一个简短的演讲报告，介绍今年要发布的产品。背景用灰色，字体用黑色，主题色用红色。我有一些本地文档作为大纲参考，还有老板的写的一些重点我扫描给你，另外要添加一些产品照片。布局我画一下，左边是今年产品总览，右边是分产品的介绍。然后整体视觉风格参考我这个截屏的。';
+ const speechReportDraft=editDemoText(newDemoDraft(),speechReportPrompt);
+ assert.equal(speechReportDraft.controls?.find(c=>c.kind==='duration')?.value[0],'10');
+ assert.deepEqual(speechReportDraft.controls?.find(c=>c.kind==='skills')?.value,['ppt-implement']);
+ assert.deepEqual(speechReportDraft.controls?.find(c=>c.kind==='expert')?.value,['ppt']);
+ assert.equal(speechReportDraft.controls?.find(c=>c.kind==='scanner')?.origin,'explicit');
+ assert.equal(speechReportDraft.controls?.find(c=>c.kind==='capture')?.origin,'explicit');
+ assert.equal(speechReportDraft.parameters.filter(p=>p.kind==='color').length,3);
+ assert.equal(speechReportDraft.parameters.find(p=>p.kind==='document')?.phrase,'本地文档');
+ assert.equal(speechReportDraft.parameters.find(p=>p.kind==='photo')?.phrase,'产品照片');
+ assert.equal(speechReportDraft.parameters.find(p=>p.kind==='sketch')?.phrase,'我画一下');
+
+ const detachedCapture=openControl('capture',{owner:'o',text:'',open:()=>{}});
+ assert.ok(!recommendControls('我想做一个简短的演讲报告，介绍今年要发布的产品',{previous:[detachedCapture]}).some(c=>c.kind==='capture'));
 });

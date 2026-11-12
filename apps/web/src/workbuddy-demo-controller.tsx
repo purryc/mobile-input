@@ -410,8 +410,12 @@ export function useWorkbuddyDemoController() {
       (d) => d.id === latest.current?.active,
     );
     if (!current) return;
-    const existing = current.controls?.find((c) => c.kind === kind);
+    const existing = current.controls?.find(
+      (c) => c.kind === kind && !(c.detached && (kind === "capture" || kind === "scanner")),
+    );
     if (existing) setPanel({ kind, scope: "全文", id: existing.id });
+    else if (kind === "capture" || kind === "scanner")
+      setPanel({ kind, scope: "全文" });
     else
       openControl(kind, {
         owner: current.id,
