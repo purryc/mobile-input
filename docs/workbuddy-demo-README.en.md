@@ -297,7 +297,7 @@ See [three complete Chinese test scenarios](workbuddy-demo-scenarios.zh.md) for
 explicit, recommendation-focused and mixed inputs covering all 14 control types.
 
 Use desktop Chrome on localhost or HTTPS. For document scanning, click the button to request
-camera permission; it supports multiple pages, manual capture, crop, retake and explicit confirmation, and does not perform OCR. For screenshot and screen recording, start region selection directly on the workspace (with dedicated screenshot/recording cursors) and drag a rectangle: releasing the pointer in Screenshot mode immediately captures that region without a separate browser screen-share chooser or preview step, while releasing in Recording mode immediately starts recording that region.
+camera permission; it supports multiple pages, manual capture, crop, retake and explicit confirmation, and does not perform OCR. For screenshot and screen recording, clicking **Screenshot** or **Recording** collapses the popover into a Windows Snipping Tool-style **Top Floating Capture Bar** docked at the top center of the screen so you can arrange your windows first; clicking **Capture** from the top bar invokes native macOS system cross-window capture (`/usr/sbin/screencapture -i`) or direct region capture, while **Start recording** supports cross-window screen recording.
 
 Screen recording requires separate Start and Stop clicks, records no audio, and
 stops at 60 seconds or approximately 64 MiB. Stopping, closing, hiding the page or

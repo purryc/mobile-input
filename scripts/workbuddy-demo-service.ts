@@ -1,6 +1,8 @@
 import { polishDemo, validateDemoPolish, type DemoPolishInput } from "../packages/core/workbuddy-demo-polish.js";
 import type { IncomingMessage, ServerResponse } from "node:http";
-import { readFile } from "node:fs/promises";
+import { readFile, unlink } from "node:fs/promises";
+import { execFile } from "node:child_process";
+import { tmpdir } from "node:os";
 import { resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import {
@@ -136,6 +138,30 @@ export function workbuddyDemoMiddleware(
           imageModel,
         }),
       );
+      return;
+    }
+    if (req.method === "POST" && path === "/api/workbuddy-demo/system-capture" && !hosted && process.platform === "darwin") {
+      const tmpPath = resolve(tmpdir(), `xiaoyi-snip-${crypto.randomUUID()}.png`);
+      res.setHeader("Content-Type", "application/json");
+      try {
+        await new Promise<void>((resolveExec, rejectExec) => {
+          const child = execFile("/usr/sbin/screencapture", ["-i", "-x", tmpPath], (err) => {
+            if (err) rejectExec(err);
+            else resolveExec();
+          });
+          res.on("close", () => child.kill());
+        });
+        const buf = await readFile(tmpPath).catch(() => null);
+        await unlink(tmpPath).catch(() => {});
+        if (!buf || buf.length === 0) {
+          res.end(JSON.stringify({ ok: false, cancelled: true }));
+          return;
+        }
+        res.end(JSON.stringify({ ok: true, mime: "image/png", data: buf.toString("base64") }));
+      } catch {
+        await unlink(tmpPath).catch(() => {});
+        res.end(JSON.stringify({ ok: false, cancelled: true }));
+      }
       return;
     }
     if (req.method !== "POST" || !["/api/workbuddy-demo/generate", "/api/workbuddy-demo/polish"].includes(path)) {

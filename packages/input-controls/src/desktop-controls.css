@@ -267,11 +267,89 @@
   z-index: 18;
   user-select: none;
   touch-action: none;
-  background: rgb(15 20 35 / 6%);
+  background: transparent;
+  pointer-events: none;
+}
+.demo-screen-selector-overlay[data-interactive="true"] {
+  pointer-events: auto;
 }
 .demo-screen-selector-overlay[data-phase="recording"] {
   pointer-events: none;
   background: transparent;
+}
+/* Windows Snipping Tool-style Top Floating Bar when Screenshot/Recording is selected */
+.input-controls-theme .demo-widget-wrap:has(.demo-capture-panel[data-top-dock="true"]) {
+  position: fixed !important;
+  top: 16px !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  width: auto !important;
+  min-width: 340px !important;
+  max-width: 92vw !important;
+  z-index: 9999 !important;
+}
+.input-controls-theme .demo-widget-wrap:has(.demo-capture-panel[data-top-dock="true"]) .live-wb-aux {
+  flex-direction: row !important;
+  align-items: center !important;
+  gap: 10px !important;
+  padding: 8px 14px !important;
+  border-radius: 999px !important;
+  background: rgb(22 27 42 / 90%) !important;
+  backdrop-filter: blur(22px) saturate(180%) !important;
+  box-shadow:
+    0 18px 42px -8px rgb(12 16 28 / 34%),
+    0 0 0 1px rgb(255 255 255 / 16%),
+    inset 0 1px 0 rgb(255 255 255 / 22%) !important;
+  color: #f8fafc !important;
+  overflow: visible !important;
+}
+.input-controls-theme .demo-widget-wrap:has(.demo-capture-panel[data-top-dock="true"]) .live-wb-aux > header {
+  order: 3;
+  height: 32px !important;
+  min-height: 32px !important;
+  margin: 0 !important;
+}
+.input-controls-theme .demo-widget-wrap:has(.demo-capture-panel[data-top-dock="true"]) .live-wb-aux > header > b {
+  display: none !important;
+}
+.input-controls-theme .demo-widget-wrap:has(.demo-capture-panel[data-top-dock="true"]) .live-wb-aux > header > button {
+  width: 30px !important;
+  height: 30px !important;
+  min-height: 30px !important;
+  border-radius: 999px !important;
+  color: #cbd5e1 !important;
+}
+.input-controls-theme .demo-capture-panel[data-top-dock="true"] {
+  flex-direction: row !important;
+  align-items: center !important;
+  gap: 10px !important;
+}
+.input-controls-theme .demo-capture-panel[data-top-dock="true"] .demo-capture-modes {
+  gap: 6px !important;
+  padding-right: 10px;
+  border-right: 1px solid rgb(255 255 255 / 16%);
+}
+.input-controls-theme .demo-capture-panel[data-top-dock="true"] .demo-capture-modes button,
+.input-controls-theme .demo-capture-panel[data-top-dock="true"] .demo-capture-actions button {
+  height: 32px !important;
+  min-height: 32px !important;
+  padding: 0 12px !important;
+  border-radius: 999px !important;
+  background: rgb(255 255 255 / 10%) !important;
+  border: 1px solid rgb(255 255 255 / 14%) !important;
+  color: #f1f5f9 !important;
+  font-size: 13px !important;
+  white-space: nowrap !important;
+}
+.input-controls-theme .demo-capture-panel[data-top-dock="true"] .demo-capture-modes button[aria-pressed="true"],
+.input-controls-theme .demo-capture-panel[data-top-dock="true"] .demo-capture-actions button:first-child {
+  background: linear-gradient(135deg, #6366f1, #7c3aed) !important;
+  border-color: rgb(165 180 252 / 55%) !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 12px rgb(99 102 241 / 35%) !important;
+}
+.input-controls-theme .demo-capture-panel[data-top-dock="true"] .demo-capture-items {
+  display: none !important;
 }
 .demo-selector-box {
   position: absolute;

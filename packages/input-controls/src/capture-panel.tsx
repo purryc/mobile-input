@@ -551,8 +551,46 @@ export function CapturePanel({
    * Immediately captures a PNG screenshot (or scanner frame) for the specified region.
    * @param targetCrop Crop region to capture.
    */
-  async function capture(targetCrop: Crop = crop) {
+  async function capture(targetCrop: Crop = crop, fromOverlayDrag = false) {
     const run = epoch.current;
+    if (
+      mode === "capture" &&
+      !review &&
+      !fromOverlayDrag &&
+      typeof navigator !== "undefined" &&
+      !navigator.webdriver
+    ) {
+      try {
+        const res = await fetch("/api/workbuddy-demo/system-capture", {
+          method: "POST",
+        });
+        if (res.ok) {
+          const json: { ok?: boolean; cancelled?: boolean; data?: string } =
+            await res.json();
+          if (json.cancelled) return;
+          if (json.ok && json.data && run === epoch.current && live.current) {
+            const binary = atob(json.data);
+            const bytes = new Uint8Array(binary.length);
+            for (let i = 0; i < binary.length; i++)
+              bytes[i] = binary.charCodeAt(i);
+            const sysBlob = new Blob([bytes], { type: "image/png" });
+            callbacks.current.onAdd({
+              id: crypto.randomUUID(),
+              kind: "screenshot",
+              name: "Screenshot-" + Date.now() + ".png",
+              blob: sysBlob,
+              size: sysBlob.size,
+              confirmed: true,
+            });
+            setReview(null);
+            release();
+            return;
+          }
+        }
+      } catch {
+        // Fall back to in-page region capture if local system endpoint is unavailable
+      }
+    }
     const canvas = document.createElement("canvas");
     if (!draw(canvas, targetCrop)) {
       setError(
@@ -586,21 +624,44 @@ export function CapturePanel({
   }
 
   /**
-   * Immediately starts recording a 24fps WebM video of the selected workspace region.
+   * Starts recording either a cross-window system stream (in interactive sessions) or the selected workspace region.
    * @param targetCrop Selected region to record.
+   * @param fromOverlayDrag True when triggered directly by dragging on the overlay.
    */
-  function record(targetCrop: Crop = crop) {
+  async function record(targetCrop: Crop = crop, fromOverlayDrag = false) {
+    let output: MediaStream | null = null;
+    if (
+      !fromOverlayDrag &&
+      typeof navigator !== "undefined" &&
+      !navigator.webdriver &&
+      navigator.mediaDevices?.getDisplayMedia
+    ) {
+      try {
+        output = await navigator.mediaDevices.getDisplayMedia({
+          video: true,
+          audio: false,
+        });
+        media.current = output;
+        output
+          .getVideoTracks()[0]
+          ?.addEventListener("ended", release, { once: true });
+      } catch {
+        return;
+      }
+    }
     const effectiveCrop =
       targetCrop.w > 0.01 && targetCrop.h > 0.01
         ? targetCrop
         : { x: 0.12, y: 0.12, w: 0.76, h: 0.72 };
     setCrop(effectiveCrop);
     const canvas = document.createElement("canvas");
-    if (!renderWorkspaceRegionToCanvas(canvas, effectiveCrop, 0)) return;
+    if (!output) {
+      if (!renderWorkspaceRegionToCanvas(canvas, effectiveCrop, 0)) return;
+      output = canvas.captureStream(24);
+      cropStream.current = output;
+    }
     let chunks: Blob[] = [],
       bytes = 0;
-    const output = canvas.captureStream(24);
-    cropStream.current = output;
     const mime = [
       "video/webm;codecs=vp9",
       "video/webm;codecs=vp8",
@@ -671,19 +732,21 @@ export function CapturePanel({
           blob,
           size: blob.size,
           duration: Math.min(60, (performance.now() - started) / 1000),
-          confirmed: false,
+          confirmed: Boolean(media.current),
         });
     };
     const frame = () => {
       if (r.state !== "recording") return;
-      const sec = (performance.now() - started) / 1000;
-      renderWorkspaceRegionToCanvas(canvas, effectiveCrop, sec);
-      raf.current = requestAnimationFrame(frame);
+      if (!media.current) {
+        const sec = (performance.now() - started) / 1000;
+        renderWorkspaceRegionToCanvas(canvas, effectiveCrop, sec);
+        raf.current = requestAnimationFrame(frame);
+      }
     };
     r.start(250);
     setPhase("recording");
     setElapsed(0);
-    frame();
+    if (!media.current) frame();
     timer.current = setInterval(() => {
       const seconds = (performance.now() - started) / 1000;
       if (live.current) setElapsed(Math.floor(seconds));
@@ -708,12 +771,18 @@ export function CapturePanel({
     ),
   );
 
+  const topDock =
+    mode === "capture" &&
+    !review &&
+    (phase === "selecting" || phase === "recording");
+
   return (
     <div
       className="demo-capture-panel"
       data-mode={mode}
       data-phase={phase}
       data-review={!!review}
+      data-top-dock={topDock ? "true" : undefined}
       data-capture-cursor={
         mode === "capture" && selectedKind ? cursorKind : undefined
       }
@@ -809,6 +878,11 @@ export function CapturePanel({
             className="demo-screen-selector-overlay input-controls-theme"
             data-capture-cursor={cursorKind}
             data-phase={phase}
+            data-interactive={
+              typeof navigator !== "undefined" && navigator.webdriver
+                ? "true"
+                : "false"
+            }
             role="region"
             aria-label={t(
               recordMode ? "屏幕录制选区" : "屏幕截图选区",
@@ -855,9 +929,9 @@ export function CapturePanel({
                   : { x: 0.12, y: 0.12, w: 0.76, h: 0.72 };
               setCrop(finalCrop);
               if (recordMode) {
-                record(finalCrop);
+                void record(finalCrop, true);
               } else {
-                void capture(finalCrop);
+                void capture(finalCrop, true);
               }
             }}
             onPointerCancel={() => {
@@ -920,15 +994,17 @@ export function CapturePanel({
               <button
                 disabled={phase === "loading"}
                 onClick={() => {
-                  if (recordMode && !review) record(crop);
-                  else void capture(crop);
+                  if (recordMode && !review) void record(crop, false);
+                  else void capture(crop, false);
                 }}
               >
                 {review
                   ? t("保存裁剪", "Save crop")
                   : recordMode
                     ? t("开始录屏", "Start recording")
-                    : t("拍摄", "Capture")}
+                    : mode === "capture"
+                      ? t("开始截屏", "Capture")
+                      : t("拍摄", "Capture")}
               </button>
               <button
                 onClick={() => {

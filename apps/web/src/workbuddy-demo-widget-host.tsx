@@ -124,7 +124,10 @@ export function WorkbuddyWidgetHost({
             items={draft.captures || []}
             language={language}
             onBusy={setBusy}
-            onAdd={(item) => addCapture(draft.id, item)}
+            onAdd={(item) => {
+              addCapture(draft.id, item);
+              if (item.confirmed) setPanel(null);
+            }}
             onRemove={(id) => removeCapture(draft.id, id)}
             onConfirm={() =>
               confirmCapture(
