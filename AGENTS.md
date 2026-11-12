@@ -1,3 +1,20 @@
+# Standalone source backup and handoff · 2026-11-11
+
+- User explicitly authorizes committing and pushing the latest standalone Web changes only to codex/workbuddy-web-demo, rebuilding a dependency-complete source ZIP with English setup/deployment instructions, uploading it to Google Drive, and saving implementation specification and handoff pages in Notion. This supersedes earlier no-push wording for this backup. Do not change main, other worktrees, deployment or native apps.
+- Release packages remain under ignored artifacts/workbuddy-demo/release/. Validate the extracted ZIP with fresh npm ci, typecheck, core/service/browser tests and production build; exclude credentials, .vercel links, installed dependencies, local drafts, videos and generated builds. Save specification and handoff sources under docs/.
+
+# Public walkthrough final cut and release · 2026-11-11
+
+- User authorizes removing the final polish request from speech/subtitles and the closing polish interaction from the PPT video. Preserve prior versions; use v3- artifacts in the existing walkthrough directories. The HTML scene stays unchanged. This supersedes the earlier 14-control video coverage requirement only for this final edit; app polishing remains available.
+- User explicitly authorizes uploading the two final videos to the existing Google Drive Demo folder and publishing the current standalone Web app to its existing Vercel production project, renamed to xiaoyi-work with xiaoyi-work.vercel.app as the public address, without viewer login. Preserve main/native sources, credentials, prior videos and Git state; no Git push.
+
+# Public walkthrough revision · 2026-11-11
+
+- Implement the approved standalone-only attachment, color and recommendation fixes. Unify confirmed materials in the existing compact WorkBuddy card strip, preserving storage/ownership; desktop color presets follow the actual color, with unchanged mobile defaults.
+- Explicit chips remain live; defer new recommendations throughout dictation. After stop and 1000ms stable text, stagger 400ms loading by 220ms in source order, adopting only individually revealed candidates. Preserve cancellation, manual values, confirmed materials and old drafts.
+- Produce two new ChatCut videos, each at most 60 seconds, with a single continuous Kokoro utterance followed by control interaction, bilingual action explanations and spoken captions, a white editorial background and a 2–3 second static-result ending. Preserve the prior videos/projects. This overrides prior on-screen production/debug disclosures: put fixture/TTS/static-result limits in delivery documentation, not public subtitles; do not show fabricated model progress or success.
+- Reuse artifacts/workbuddy-demo/walkthrough-2026-11-11/{scripts,media,capture,captions,review,delivery}; prefix this revision's artifacts with v2-. No main/native/Figma changes, deployment, push or live model/task execution. Codex implements and Claude CLI reviews read-only.
+
 # Explicit standalone GitHub backup · 2026-11-11
 
 - The user explicitly authorizes committing and pushing the current standalone Web source to the existing codex/workbuddy-web-demo branch on purryc/mobile-input. This overrides prior no-push instructions for this backup only; preserve main and unrelated worktrees.

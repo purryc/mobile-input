@@ -83,17 +83,17 @@ export function pendingDemoRecommendations(draft: DemoDraft): DemoControlBinding
   return recommendControls(draft.text, {previous: draft.controls, dismissed: draft.dismissedControls})
     .filter(c => c.origin === "recommended" && !visible.has(recommendationIdentity(c)));
 }
-export function revealDemoRecommendations(draft: DemoDraft): DemoDraft {
-  return editDemoText(draft, draft.text);
+export function revealDemoRecommendations(draft: DemoDraft, ids?: readonly string[]): DemoDraft {
+  return editDemoText(draft, draft.text, ids === undefined ? false : new Set(ids));
 }
-export function editDemoText(draft: DemoDraft, text: string, deferRecommendations = false): DemoDraft {
+export function editDemoText(draft: DemoDraft, text: string, deferRecommendations: boolean | ReadonlySet<string> = false): DemoDraft {
   const visible = new Map((draft.controls || []).map(c => [recommendationIdentity(c), c]));
   const candidates = recommendControls(text, {
     previous: draft.controls,
     dismissed: draft.dismissedControls,
   });
   const controls = deferRecommendations
-    ? candidates.filter(c => c.origin !== "recommended" || visible.has(recommendationIdentity(c))).map(c => {const prior = visible.get(recommendationIdentity(c));return prior && c.origin === "recommended" ? {...c, seen: prior.seen} : c;})
+    ? candidates.filter(c => c.origin !== "recommended" || visible.has(recommendationIdentity(c)) || (typeof deferRecommendations !== "boolean" && deferRecommendations.has(c.id))).map(c => {const prior = visible.get(recommendationIdentity(c));return prior && c.origin === "recommended" ? {...c, seen: prior.seen} : c;})
     : candidates;
   const sampleControl = controls.find(c => c.kind === "document" && c.value.includes("product-brief"));
   const wantsSample = Boolean(sampleControl);
@@ -226,8 +226,10 @@ function projectControlValues(draft:DemoDraft, projected:ReturnType<typeof proje
 /** One scoped ownership rule for the editor and the sent parameters. Dismissed
  * inferred entries must not reappear as broad native keyword matches. */
 export function demoNativeParameters(draft:DemoDraft):LiveParameter[] {
- const shadows=[...(draft.controls||[]),...recommendControls(draft.text).filter(c=>draft.dismissedControls?.includes(dismissalKey(c)))];
- return resolveLiveParameters(draft.text,draft.parameters).filter(p=>!shadows.some(c=>
+ const candidates=recommendControls(draft.text);
+ const shadows=[...(draft.controls||[]),...candidates.filter(c=>draft.dismissedControls?.includes(dismissalKey(c)))];
+ const nativeText=candidates.filter(c=>c.kind==='connectors').reduce((text,c)=>text.slice(0,c.start)+' '.repeat(c.end-c.start)+text.slice(c.end),draft.text);
+ return resolveLiveParameters(nativeText,draft.parameters).filter(p=>!shadows.some(c=>
    !c.detached && (c.scope||'全文')===p.scope &&
    ((c.kind===p.kind&&(c.kind!=='color'||c.role===p.role)) ||
     (c.presentation!=='append'&&c.start<p.end&&c.end>p.start))));

@@ -572,7 +572,7 @@ test("black font and generic black chips open neutral palettes and keep independ
     page.getByRole("slider", { name: "连续调色", exact: true }),
   ).toHaveCSS(
     "background-image",
-    "linear-gradient(90deg, rgb(250, 250, 250), rgb(20, 20, 20))",
+    "linear-gradient(90deg, rgb(255, 255, 255), rgb(0, 0, 0))",
   );
   await page.getByRole("button", { name: "字体 #000000", exact: true }).click();
   await expect(page.getByRole("textbox", { name: "字体 HEX" })).toHaveValue(

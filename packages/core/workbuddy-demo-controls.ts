@@ -199,20 +199,22 @@ const explicitRules: Rule[] = [
   ...([['font',/字体|\bfont\b|\btypeface\b/gi],['palette',/配色方案|调色板|color palette|colour palette|\bpalette\b/gi],['expert',/专家|\bexpert\b/gi],['skills',/技能|\bskills?\b/gi],['connectors',/上下文来源|连接器|\bconnector\b/gi],['formats',/输出格式|导出格式|\boutput formats?\b/gi]] as [DemoControlKind,RegExp][]).map(([kind,pattern])=>({kind,pattern,origin:'explicit' as const})),
 ];
 const recommendedRules: Rule[] = [
-  {kind:"duration",pattern:/(?:简短|精炼|简洁)(?:的)?(?:演讲(?:报告)?(?!稿)|口头汇报|培训介绍)|(?:brief|short|concise) (?:oral report|speech(?!\s+(?:script|draft|text))|oral presentation|training talk)/gi,value:["10"],role:"演讲时长",origin:"recommended"},
+  {kind:"duration",pattern:/(?:简短|精炼|简洁)(?:的)?(?:演讲(?:报告)?(?!稿)|口头汇报|培训(?:介绍)?(?!手册|文档|资料|材料|讲义|稿|说明))|(?:brief|short|concise) (?:oral report|speech(?!\s+(?:script|draft|text))|oral presentation|training talk)/gi,value:["10"],role:"演讲时长",origin:"recommended"},
   {kind:"color",pattern:/标题有重点|突出标题|emphasi[sz]e the headings/gi,value:["#5267B2"],role:"主题色",origin:"recommended"},
   {kind:"color",pattern:/页面明亮|明亮的页面|bright pages/gi,value:["#F4F6FC"],role:"背景",origin:"recommended"},
   {kind:"color",pattern:/正文清楚易读|正文易读|readable body text/gi,value:["#202637"],role:"字体",origin:"recommended"},
-  {kind:"font",pattern:/字形适合培训投影|适合投影的字形|font suitable for projection/gi,value:["sans-serif"],origin:"recommended"},
+  {kind:"font",pattern:/字形适合培训投影|适合投影的字形|字形清楚易读|font suitable for projection|clear readable type/gi,value:["sans-serif"],origin:"recommended"},
   {kind:"palette",pattern:/温暖自然|温暖|自然一点|沉静专业|清新简洁|\bwarm\b(?:\s+and\s+natural\b)?|calm and professional|fresh and simple|(?:推荐|建议)[^，。；]{0,8}配色方案|recommend[^,.]{0,20}palette/gi,value:["warm"],origin:"recommended"},
   {kind:"document",pattern:/相关产品资料|可靠的产品资料|相关资料|参考一些资料|(?:推荐|建议)[^，。；]{0,8}(?:参考文件|参考材料)|relevant references|supporting materials/gi,value:["product-brief"],origin:"recommended"},
-  {kind:"photo",pattern:/直观看到产品实际的样子|see what the product looks like/gi,origin:"recommended"},
+  {kind:"photo",pattern:/直观看到产品(?:实际)?的样子|see what the product looks like/gi,origin:"recommended"},
   {kind:"scanner",pattern:/纸质培训提纲|纸质(?:资料|笔记)|paper (?:training outline|notes)/gi,origin:"recommended"},
   {kind:"sketch",pattern:/(?:排版|布局)想法用文字不容易说清|方便表达布局的方式|layout is hard to describe/gi,origin:"recommended"},
   {kind:"capture",pattern:/现有[^，。；]{0,18}页面的视觉样式|连续的操作步骤和过渡效果|existing page.{0,15}visual style|interaction steps and transitions/gi,origin:"recommended"},
   {kind:"expert",pattern:/专业人士|专业帮助|professional help/gi,value:["ppt"],origin:"recommended"},
   {kind:"skills",pattern:/把效果做好|合适的制作能力|完善呈现|make it polished|polish the presentation/gi,value:["ppt-implement"],origin:"recommended"},
   {kind:"connectors",pattern:/已连接资料来源|(?:推荐|建议)[^，。；]{0,12}上下文来源|已有连接器|connected (?:knowledge|reference) sources|recommend[^,.]{0,20}context source/gi,value:["ima"],origin:"recommended"},
+  {kind:"skills",pattern:/分析反馈|analy[sz]e (?:customer )?feedback/gi,value:["data"],origin:"recommended"},
+  {kind:"formats",pattern:/打开就能按状态筛选问题、查看负责人和进度|(?:打开就能|可以|能够)[^。；!?]{0,35}(?:筛选问题|筛选反馈)|(?:filter (?:issues|feedback)|view owners and progress)/gi,value:["html"],origin:"recommended"},
   {kind:"formats",pattern:/一份可以继续编辑|方便直接分发和阅读|editable copy|easy to distribute and read/gi,value:["pptx","pdf"],origin:"recommended"},
 ];
 const isNegative = (text: string, start: number) =>
@@ -224,6 +226,7 @@ export function recommendControls(text:string,context:{previous?:DemoControlBind
   for(const rule of [...explicitRules,...recommendedRules]) {
     const match=[...text.matchAll(rule.pattern)].find(m=>{
       if(isNegative(text,m.index!))return false;
+      if(rule.value?.includes('html') && (/(?:don['’]t|do not|no need to|avoid)[^.!?]{0,30}(?:build|create|make)[^.!?]{0,30}(?:workspace|dashboard)|(?:写|编写|整理|制作|做)(?:一份|一篇)?[^。；]{0,30}(?:说明文档|手册|说明书)/i.test(text) || !/(?:做|创建|搭建|制作|create|build|make)[^。；.!?]{0,45}(?:工作台|dashboard|workspace)/i.test(text) || /(?:不要|不用|无需|不需要)[^。；]{0,20}工作台|(?:write|prepare).{0,20}(?:document|report).{0,20}(?:workspace|dashboard)/i.test(text)))return false;
       const before=text.slice(0,m.index!).split(/[，。；,.;!?！？\n]/).at(-1)||'';
       const tail=text.slice(m.index!+m[0].length).split(/[，。；,.;!?！？\n]/)[0];
       if(rule.origin==='explicit'&&/^(?:上下文来源|连接器|connector|配色方案|调色板|palette|color palette|colour palette|字体|font|typeface|专家|expert|技能|skills?|输出格式|导出格式|output formats?)$/i.test(m[0])&&/(?:推荐|建议|recommend|suggest)/i.test(before+tail))return false;
@@ -250,6 +253,7 @@ export function recommendControls(text:string,context:{previous?:DemoControlBind
     if(kind==='font'&&!value.length&&!/^(字体|font|typeface)$/i.test(phrase))value=[phrase];
     if(kind==='palette'&&rule.origin==='recommended')value=[/沉静|calm/i.test(phrase)?'calm':/清新|fresh/i.test(phrase)?'fresh':'warm'];
     if(kind==='connectors'&&/ima/i.test(phrase))value=['ima'];
+    if(kind==='formats'&&rule.origin==='recommended'&&value.includes('pptx')&&/可以继续编辑的演示稿|editable (?:presentation|slide deck)/i.test(text)&&!/方便直接分发和阅读|easy to distribute and read/i.test(text))value=['pptx'];
     if(kind==='formats'&&rule.origin==='explicit')value=definition(kind).options.filter(o=>new RegExp(o.id==='pptx'?'PPTX?':o.id==='md'?'Markdown|\\bmd\\b':o.id,'i').test(phrase)).map(o=>o.id);
     const next:DemoControlBinding={id:'control-'+kind+(role&&kind==='color'?'-'+role:''),kind,origin:rule.origin,value,phrase,start,end:start+phrase.length,scope,role,reason:rule.origin==='explicit'?'explicit-intent':'related-intent',revision:kind+':'+role+':'+rule.origin+':'+value.join(','),presentation:rule.origin==='recommended'?'append':'replace',purpose:['photo','scanner','sketch','capture'].includes(kind)?'material-entry':'value',suggestionKey:rule.origin==='recommended'?kind+(role?':'+role:'')+':related-intent:'+value.join(','):undefined};
     if(context.dismissed?.includes(dismissalKey(next)))continue;

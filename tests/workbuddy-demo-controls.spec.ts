@@ -243,7 +243,7 @@ test("mock real media adapters produce owner-bound bytes and confirmed snapshots
     ),
   ).toBe(true);
   await page.getByRole("button", { name: "Confirm materials" }).click();
-  await expect(page.locator(".demo-capture-attachments img")).toHaveCount(1);
+  await expect(page.locator(".demo-attachments [data-capture-kind=scanner] img")).toHaveCount(1);
   await chip(page, "capture").click();
   await page.getByRole("button", { name: "Recording", exact: true }).click();
   await page.getByRole("button", { name: "Choose shared screen" }).click();
@@ -258,8 +258,14 @@ test("mock real media adapters produce owner-bound bytes and confirmed snapshots
   await page.screenshot({path:'artifacts/workbuddy-demo/visual-consistency-2026-11-11/after/capture-review.png'});
   await page.getByRole("button", { name: "Confirm materials" }).click();
   await page.reload();
-  await expect(page.locator(".demo-capture-attachments video")).toHaveCount(1);
-  await expect(page.locator(".demo-capture-attachments img")).toHaveCount(1);
+  await expect(page.locator(".demo-attachments [data-capture-kind] video")).toHaveCount(1);
+  const cards=page.locator('.demo-attachments .demo-material');await expect(cards).toHaveCount(2);
+  const heights=await cards.locator('> button:first-child').evaluateAll(ns=>ns.map(n=>n.getBoundingClientRect().height));expect(new Set(heights).size).toBe(1);
+  expect(await cards.locator('video').getAttribute('controls')).toBeNull();
+  await cards.last().locator('> button:first-child').click();await expect(page.getByRole('dialog').locator('video[controls]')).toBeVisible();
+  await page.getByRole('button',{name:'Close preview',exact:true}).click();
+  await page.reload();await expect(cards).toHaveCount(2);
+  await page.getByRole('button',{name:'New demo',exact:true}).click();await expect(cards).toHaveCount(0);
 });
 test("recommendation popovers fit bilingual large screens and reduced motion", async ({
   page,
@@ -472,6 +478,7 @@ test('three debug examples create distinct drafts; paste, copy and edits retain 
 
 test('suggested values remain editable and reach a frozen mocked Send with actual reference bytes only',async({page})=>{
  await open(page);await page.getByRole('button',{name:'模糊推荐',exact:true}).click();
+ await expect(page.locator('.sentence-token-capsule[data-origin=recommended]:not([data-preparing])')).toHaveCount(15);
  await chip(page,'duration').click();
  const number=page.locator('.demo-duration-row input');await number.fill('14');await number.blur();
  await page.getByRole('button',{name:'关闭辅助输入',exact:true}).click();
@@ -508,10 +515,12 @@ test('all official scenarios survive progressive and revised browser speech call
      await page.evaluate(text=>(window as any).__scenarioSpeech.onresult({resultIndex:0,results:[{isFinal:false,0:{transcript:text}}]}),scenario.text.slice(0,i));
    }
    await expect(editor(page)).toHaveAttribute('data-value',scenario.text);
-   for(const kind of listControls().filter(c=>c.kind!=='polish'))await expect(chip(page,kind.kind)).toBeVisible();
+   await expect(page.locator('.sentence-token[data-origin=recommended]')).toHaveCount(0);
    const revised=scenario.text.replace('客户成功团队','销售培训团队');
    for(let i=0;i<2;i++)await page.evaluate(text=>(window as any).__scenarioSpeech.onresult({resultIndex:0,results:[{isFinal:false,0:{transcript:text}}]}),revised);
    await expect(editor(page)).toHaveAttribute('data-value',revised);
+   await page.getByRole('button',{name:'停止语音输入',exact:true}).click();
+   for(const kind of listControls().filter(c=>c.kind!=='polish'))await expect(chip(page,kind.kind)).toBeVisible();
    await chip(page,'font').click();await expect(page.locator('.demo-widget-wrap')).toBeVisible();
    await page.getByRole('button',{name:'关闭辅助输入',exact:true}).click();
  }

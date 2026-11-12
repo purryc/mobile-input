@@ -1,5 +1,7 @@
 # Xiaoyi Work standalone Web demo
 
+Production demo (no viewer login): https://xiaoyi-work.vercel.app
+
 A self-contained Web project for one computer or a Vercel deployment. It includes the Xiaoyi Work interface, bilingual multimodal composer, local draft storage, contextual prompt polishing, Gemini generation service, result editor, assets, tests and deployment configuration. No phone/tablet app, Mac bridge or original Mobile Input checkout is required.
 
 ## 1. Requirements
@@ -215,8 +217,13 @@ values and available built-in file bytes are adopted by default, replaceable and
 removable. Context sources select reference knowledge; delivery/collaboration
 instructions do not select a source automatically.
 
-Explicit chips replace the value or material noun; suggested chips appear immediately
-after the supporting phrase. The original text remains editable and is copied as
+Explicit chips replace the value or material noun immediately. New recommendations
+wait while the microphone is active. After recording stops and text remains stable
+for 1,000 ms, each candidate loads for 400 ms; starts are staggered by 220 ms in
+source-text order. Each suggestion is adopted only when it becomes visible.
+Typing, restarting voice, switching drafts or sending cancels the unfinished queue.
+Previously visible valid recommendations remain. Suggested chips sit directly
+after their supporting phrase. The original text remains editable and is copied as
 source text, without UI recommendation labels. The frozen Send snapshot includes
 selected values and confirmed materials, while the editable draft stays intact.
 
@@ -233,7 +240,7 @@ Examples:
 Capability lists reuse common WorkBuddy entries. They do not connect accounts,
 install tools or execute an Agent. Output formats are preferences only; the existing
 slide, document and image generator remains unchanged and does not implement all
-seven downloadable formats. Explicit colors always take priority over palette mood.
+seven selectable output-format constraints (not seven implemented native exporters). Explicit colors always take priority over palette mood.
 
 ### Run and call every control
 
@@ -318,3 +325,20 @@ npm run test:workbuddy-demo:service
 npm run test:workbuddy-demo
 npm run build:workbuddy-demo
 ```
+
+### Compact material cards and desktop color controls
+
+Confirmed files, images, scans, sketches, screenshots and recordings share one
+compact attachment strip in both editable composers. Recordings show a thumbnail
+and play mark; clicking opens a separate preview. Capture tools retain their large
+review views and explicit confirmation. Original material types and ownership stay
+unchanged. Desktop color presets follow the actual selected color; black, white and
+gray use neutral presets. Opening a color panel never changes its value.
+
+A workspace is suggested as HTML only when the request asks to create an interactive
+workspace with filtering or viewing behavior. A written document that merely mentions
+a workspace does not select HTML. Requests to analyze feedback suggest Data Analysis.
+
+## Release references
+
+See [Implementation specification](docs/xiaoyi-work-specification.md) and [Engineering handoff](docs/xiaoyi-work-handoff.en.md) in the extracted archive. These record actual behavior and known limits. After renaming a Vercel project or its default production domain, redeploy so the server receives the new VERCEL_PROJECT_PRODUCTION_URL. A static alias change alone can leave the API rejecting the new host. Keep the same-origin check enabled.

@@ -3,8 +3,8 @@ import {pendingDemoRecommendations, revealDemoRecommendations, type DemoDraft} f
 import type {DemoControlBinding} from '../../../packages/core/workbuddy-demo-controls';
 
 /** Transient presentation only: no timer or unrevealed candidate is persisted. */
-export function useDemoRecommendations(draft: DemoDraft | undefined, update: (owner: string, change: (draft: DemoDraft) => DemoDraft) => void) {
-  const latest = useRef({draft, update}); latest.current = {draft, update};
+export function useDemoRecommendations(draft: DemoDraft | undefined, update: (owner: string, change: (draft: DemoDraft) => DemoDraft) => void, recording = false) {
+  const latest = useRef({draft, update, recording}); latest.current = {draft, update, recording};
   const timers = useRef<ReturnType<typeof setTimeout>[]>([]);
   const generation = useRef(0);
   const pausedOwner = useRef<string | undefined>(undefined);
@@ -13,7 +13,7 @@ export function useDemoRecommendations(draft: DemoDraft | undefined, update: (ow
   const [pending, setPending] = useState<{key: string; controls: DemoControlBinding[]} | null>(null);
   const key = draft ? JSON.stringify([draft.id, draft.text]) : '';
   // Ignore seen flags and unrelated attachments/results. They must not restart a pause.
-  const signature = JSON.stringify(draft && [draft.controls?.map(c => [c.id, c.origin, c.phrase, c.revision, c.value]), draft.dismissedControls]);
+  const signature = JSON.stringify(draft && [draft.controls?.filter(c => c.origin !== 'recommended').map(c => [c.id, c.origin, c.phrase, c.revision, c.value]), draft.dismissedControls]);
   function clear() { generation.current++; timers.current.forEach(clearTimeout); timers.current = []; }
   function pause() {pausedOwner.current = latest.current.draft?.id; clear(); setPending(null);}
   function resume() {pausedOwner.current = undefined; suppressed.current = undefined; setVisibility(n => n + 1);}
@@ -24,22 +24,24 @@ export function useDemoRecommendations(draft: DemoDraft | undefined, update: (ow
     clear(); setPending(null);
     if (suppressed.current !== key) suppressed.current = undefined;
     if (pausedOwner.current !== draft?.id) pausedOwner.current = undefined;
-    if (!draft || pausedOwner.current === draft.id || suppressed.current === key || document.hidden) return;
+    if (!draft || recording || pausedOwner.current === draft.id || suppressed.current === key || document.hidden) return;
     const candidates = pendingDemoRecommendations(draft);
     if (!candidates.length) return;
     const version = generation.current;
-    const valid = () => version === generation.current && !document.hidden && latest.current.draft?.id === draft.id && latest.current.draft.text === draft.text;
-    timers.current.push(setTimeout(() => {
-      if (!valid()) return;
-      setPending({key, controls: candidates});
+    const valid = () => version === generation.current && !document.hidden && !latest.current.recording && latest.current.draft?.id === draft.id && latest.current.draft.text === draft.text;
+    candidates.forEach((candidate, index) => {
       timers.current.push(setTimeout(() => {
         if (!valid()) return;
-        latest.current.update(draft.id, current => current.text === draft.text ? revealDemoRecommendations(current) : current);
-        setPending(null);
-      }, 400));
-    }, 1000));
+        setPending(previous => ({key, controls: [...(previous?.key === key ? previous.controls : []), candidate]}));
+      }, 1000 + index * 220));
+      timers.current.push(setTimeout(() => {
+        if (!valid()) return;
+        latest.current.update(draft.id, current => current.text === draft.text ? revealDemoRecommendations(current, [candidate.id]) : current);
+        setPending(previous => previous?.key === key ? {...previous, controls: previous.controls.filter(c => c.id !== candidate.id)} : previous);
+      }, 1400 + index * 220));
+    });
     return clear;
-  }, [key, signature, visibility]);
+  }, [key, signature, visibility, recording]);
   useEffect(() => {
     const hide = () => {if (document.hidden) {clear(); setPending(null);} else setVisibility(n => n + 1);};
     document.addEventListener('visibilitychange', hide);

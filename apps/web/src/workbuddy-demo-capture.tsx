@@ -4,10 +4,14 @@ import {
   Monitor,
   Square,
   Trash2,
+  X,
+  Play,
   Check,
   RotateCcw,
 } from "lucide-react";
 import type { DemoCapture } from "../../../packages/core/workbuddy-demo-state";
+import {createPortal} from "react-dom";
+import {uiText} from "./i18n";
 export type Crop = { x: number; y: number; w: number; h: number };
 export function normalizedCrop(
   a: { x: number; y: number },
@@ -33,13 +37,38 @@ function Preview({ item }: { item: DemoCapture }) {
     <img src={url} alt={item.name} />
   );
 }
+function CaptureThumbnail({item}:{item:DemoCapture}) {
+  const [url,setUrl]=useState("");
+  const [poster,setPoster]=useState("");
+  useEffect(()=>{const u=URL.createObjectURL(item.blob);setUrl(u);setPoster("");return()=>URL.revokeObjectURL(u)},[item.blob]);
+  return <div className="demo-material-thumb">{item.kind==='recording'
+    ? <><video style={{display:poster?"none":undefined}} src={url||undefined} muted playsInline preload="auto" onLoadedMetadata={e=>{e.currentTarget.currentTime=Math.min(.05,e.currentTarget.duration||0)}} onSeeked={e=>{const v=e.currentTarget;if(!v.videoWidth)return;const canvas=document.createElement("canvas");canvas.width=216;canvas.height=114;canvas.getContext("2d")!.drawImage(v,0,0,216,114);setPoster(canvas.toDataURL())}}/>{poster&&<img src={poster} alt=""/>}<Play aria-hidden="true" size={22}/></>
+    : <img src={url||undefined} alt=""/>}</div>;
+}
 export function CaptureTile({
   item,
   onRemove,
+  compact = false,
 }: {
   item: DemoCapture;
   onRemove?: () => void;
+  compact?: boolean;
 }) {
+  const [preview, setPreview] = useState(false);
+  const trigger=useRef<HTMLButtonElement>(null);
+  const closePreview=()=>{setPreview(false);requestAnimationFrame(()=>trigger.current?.focus())};
+  if (compact) return <>
+    <div className="demo-material" data-capture-kind={item.kind}>
+      <button ref={trigger} title={item.name} aria-label={uiText("查看 ")+item.name} onClick={()=>setPreview(true)}>
+        <CaptureThumbnail item={item}/>
+        <span>{item.name}</span>
+      </button>
+      {onRemove && <button className="demo-remove" aria-label={uiText("移除 ")+item.name} onClick={onRemove}><X size={14}/></button>}
+    </div>
+    {preview && createPortal(<div className="demo-modal" role="dialog" aria-modal="true" aria-label={uiText("材料预览")} onKeyDown={e=>{if(e.key==="Escape")closePreview()}}>
+      <section><header><b>{item.name}</b><button autoFocus aria-label={uiText("关闭预览")} onClick={closePreview}><X/></button></header><Preview item={item}/></section>
+    </div>,document.querySelector(".demo-app")||document.body)}
+  </>;
   return (
     <div className="demo-capture-tile">
       <Preview item={item} />

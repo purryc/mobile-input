@@ -613,3 +613,9 @@ button:disabled {
 .demo-app .demo-polish-restore:disabled { opacity: .4; }
 
 .demo-app .demo-polish-row.polish-stack:has(>.contextual-polish:last-child) { padding-bottom: 0 !important; }
+
+/* Confirmed capture references share the existing compact material card. */
+.demo-app .demo-material-thumb {position:relative;width:100%;height:57px;flex:0 0 57px;overflow:hidden;}
+.demo-app .demo-material-thumb img,.demo-app .demo-material-thumb video {width:100%;height:57px;object-fit:cover;display:block;}
+.demo-app .demo-material-thumb > svg {position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);color:white;fill:#2228;filter:drop-shadow(0 1px 3px #0008);}
+.demo-app .demo-modal section > video {max-width:100%;max-height:70vh;}

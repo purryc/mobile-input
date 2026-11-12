@@ -387,7 +387,7 @@ function App() {
     return () => clearTimeout(timer);
   }, [sent]);
   const draft = state?.drafts.find((d) => d.id === state.active);
-  const recommendations = useDemoRecommendations(draft, update);
+  const recommendations = useDemoRecommendations(draft, update, phase !== "idle");
   const polish = useDemoPolish({draft,phase,language,disabled:busy||drawing,area,
     current:()=>latest.current?.drafts.find(d=>d.id===latest.current?.active),update});
   const openedShowcase=useRef(false);
@@ -988,12 +988,12 @@ function App() {
           </>
         }
       >
-        {draft.materials.length > 0 && (
+        {(draft.materials.length > 0 || draft.captures?.some(c => c.confirmed)) && (
           <div className="demo-attachments" aria-label={uiText("已确认的材料")}>
             {draft.materials.map((m) => materialTile(m))}
+            {draft.captures?.filter(c => c.confirmed).map(c => <CaptureTile key={draft.id+c.id} compact item={c} onRemove={() => update(draft.id, d => ({...d, captures:d.captures?.filter(x => x.id !== c.id)}))} />)}
           </div>
         )}
-        {!!draft.captures?.filter(c=>c.confirmed).length&&<div className="demo-capture-attachments">{draft.captures.filter(c=>c.confirmed).map(c=><CaptureTile key={c.id} item={c} onRemove={()=>update(draft.id,d=>({...d,captures:d.captures?.filter(x=>x.id!==c.id)}))}/>)}</div>}
         <div
           onPointerDownCapture={(event) => {
             if (
