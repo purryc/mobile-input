@@ -73,6 +73,7 @@
 
 - 首句语音口语泛化匹配：支持「介绍今年的产品」「介绍今年的发布的产品」「介绍今年要发布的产品」等口语表达在首句说完后立即触发「演示文稿制作」与「演示设计专家」推荐芯片；同时支持「这题有黑色」（字体用黑色同音）与「有些本地的文档」等语音识别变体。
 - 避免残留分离式截图/扫描芯片：从「+」菜单打开「截图／录屏」或「扫描文档」仅打开对应辅助面板，不在输入框末尾插入持久化分离芯片（`detached`），避免清空文本重新语音输入时一开始就出现「截图／录屏」芯片。
+- 文本框内容驱动识别（兼容 macOS 苹果系统语音输入与复制粘贴）：`SentenceComposer` 对 `compositionstart` 期间无未提交拼音字母的中文输入（如 macOS 系统级苹果语音输入保持组合态时）在 180ms 停顿后自动同步 DOM 文本并渲染内联芯片；`onPaste`/`onCut`/`onBlur` 立即解除组合态锁定并以实时 DOM 源文本为准；新插入的触发短语自动解除历史 `dismissedControls` 屏蔽。
 
 [新品培训视频](https://drive.google.com/file/d/14mm66l1TRkjKeussSlXeK5Y_53nLoyeW/view)
 [工作台视频](https://drive.google.com/file/d/1_XV7oZA6998LsKyEeQfYAk7cVCpHnmJ4/view)

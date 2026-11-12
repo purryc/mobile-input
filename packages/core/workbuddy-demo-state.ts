@@ -87,10 +87,18 @@ export function revealDemoRecommendations(draft: DemoDraft, ids?: readonly strin
   return editDemoText(draft, draft.text, ids === undefined ? false : new Set(ids));
 }
 export function editDemoText(draft: DemoDraft, text: string, deferRecommendations: boolean | ReadonlySet<string> = false): DemoDraft {
+  const unblocked = recommendControls(text, {previous: draft.controls});
+  const dismissedControls = text.trim()
+    ? (draft.dismissedControls || []).filter(key => {
+        const match = unblocked.find(c => dismissalKey(c) === key);
+        if (!match) return false;
+        return draft.text === text || !match.phrase || draft.text.includes(match.phrase);
+      })
+    : [];
   const visible = new Map((draft.controls || []).map(c => [recommendationIdentity(c), c]));
   const candidates = recommendControls(text, {
     previous: draft.controls,
-    dismissed: draft.dismissedControls,
+    dismissed: dismissedControls,
   });
   const controls = deferRecommendations
     ? candidates.filter(c => c.origin !== "recommended" || visible.has(recommendationIdentity(c)) || (typeof deferRecommendations !== "boolean" && deferRecommendations.has(c.id))).map(c => {const prior = visible.get(recommendationIdentity(c));return prior && c.origin === "recommended" ? {...c, seen: prior.seen} : c;})
@@ -118,8 +126,8 @@ export function editDemoText(draft: DemoDraft, text: string, deferRecommendation
     materials,
     controls,
     captures: draft.captures || [],
-    dismissedControls: draft.dismissedControls || [],
-    parameters: demoNativeParameters({...draft, text, controls}),
+    dismissedControls,
+    parameters: demoNativeParameters({...draft, text, controls, dismissedControls}),
   };
 }
 export function demoSendError(draft: DemoDraft): string {
