@@ -101,7 +101,11 @@ export function XiaoyiSidebar({
         </small>
         <div role="navigation" aria-label={uiText("演示草稿")}>
           {state.drafts
-            .filter((d) => !search || d.text.includes(search))
+            .filter(
+              (d) =>
+                !search ||
+                (d.text.trim() || d.requests[0]?.text || "").includes(search),
+            )
             .map((d) => (
               <div
                 className={
@@ -119,7 +123,10 @@ export function XiaoyiSidebar({
                   }
                 >
                   <span>
-                    {d.text.trim().slice(0, 24) || uiText("新建任务")}
+                    {(d.text.trim() || d.requests[0]?.text?.trim() || "").slice(
+                      0,
+                      24,
+                    ) || uiText("新建任务")}
                   </span>
                 </button>
                 <small>

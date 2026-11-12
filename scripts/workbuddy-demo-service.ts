@@ -102,6 +102,181 @@ const models: DemoModels = {
 };
 const requests = new Set<string>();
 let active = 0;
+let activeCaptureChild: ReturnType<typeof execFile> | null = null;
+
+/**
+ * Builds the JXA (JavaScript for Automation) Cocoa script that renders an
+ * always-on-top macOS floating capture bar at the top center of the screen.
+ * Because `hidesOnDeactivate` is false and `level` is `NSStatusWindowLevel`,
+ * the bar remains visible when switching between any Chrome tabs or desktop apps.
+ * @param initialMode Initial capture mode ("screenshot" | "recording").
+ * @param isEn Whether to render English labels.
+ */
+function buildMacFloatingCaptureBarJxa(
+  initialMode: "screenshot" | "recording",
+  isEn: boolean,
+): string {
+  return `
+ObjC.import("Cocoa");
+ObjC.import("stdlib");
+
+let mode = ${JSON.stringify(initialMode)};
+const isEn = ${JSON.stringify(isEn)};
+
+function finish(msg) {
+  $.NSFileHandle.fileHandleWithStandardOutput.writeData(
+    $(msg + "\\n").dataUsingEncoding($.NSUTF8StringEncoding)
+  );
+  $.exit(0);
+}
+
+const app = $.NSApplication.sharedApplication;
+app.setActivationPolicy($.NSApplicationActivationPolicyAccessory);
+
+const screen = $.NSScreen.mainScreen.visibleFrame;
+const w = 368, h = 50;
+const x = screen.origin.x + (screen.size.width - w) / 2;
+const y = screen.origin.y + screen.size.height - h - 12;
+
+const panel = $.NSPanel.alloc.initWithContentRectStyleMaskBackingDefer(
+  $.NSMakeRect(x, y, w, h),
+  1 << 7,
+  $.NSBackingStoreBuffered,
+  false
+);
+panel.setFloatingPanel(true);
+panel.setHidesOnDeactivate(false);
+panel.setBecomesKeyOnlyIfNeeded(false);
+panel.setLevel($.NSStatusWindowLevel);
+panel.setCollectionBehavior((1 << 0) | (1 << 8) | (1 << 4));
+panel.setOpaque(false);
+panel.setBackgroundColor($.NSColor.clearColor);
+panel.setHasShadow(true);
+panel.setMovableByWindowBackground(true);
+
+const root = panel.contentView;
+const bgBox = $.NSBox.alloc.initWithFrame($.NSMakeRect(0, 0, w, h));
+bgBox.setBoxType(4);
+bgBox.setBorderType(1);
+bgBox.setCornerRadius(25);
+bgBox.setBorderWidth(1);
+bgBox.setContentViewMargins($.NSMakeSize(0, 0));
+bgBox.setFillColor($.NSColor.colorWithSRGBRedGreenBlueAlpha(0.98, 0.98, 1.0, 0.96));
+bgBox.setBorderColor($.NSColor.colorWithSRGBRedGreenBlueAlpha(0.38, 0.40, 0.87, 0.28));
+root.addSubview(bgBox);
+
+function makePill(rx, ry, rw, rh, radius) {
+  const b = $.NSBox.alloc.initWithFrame($.NSMakeRect(rx, ry, rw, rh));
+  b.setBoxType(4);
+  b.setBorderType(1);
+  b.setCornerRadius(radius);
+  b.setBorderWidth(1);
+  b.setContentViewMargins($.NSMakeSize(0, 0));
+  root.addSubview(b);
+  return b;
+}
+
+function makeButton(rx, ry, rw, rh, title, actionName, handler) {
+  const btn = $.NSButton.alloc.initWithFrame($.NSMakeRect(rx, ry, rw, rh));
+  btn.setTitle(title);
+  btn.setBordered(false);
+  btn.setFont($.NSFont.systemFontOfSizeWeight(13, 0.23));
+  btn.target = handler;
+  btn.action = actionName;
+  root.addSubview(btn);
+  return btn;
+}
+
+const segBg = makePill(8, 7, 140, 36, 18);
+segBg.setFillColor($.NSColor.colorWithSRGBRedGreenBlueAlpha(0.94, 0.95, 0.98, 1.0));
+segBg.setBorderColor($.NSColor.colorWithSRGBRedGreenBlueAlpha(0.38, 0.40, 0.87, 0.12));
+
+const snapPill = makePill(11, 10, 65, 30, 15);
+const recPill = makePill(79, 10, 65, 30, 15);
+const startPill = makePill(158, 8, 122, 34, 17);
+startPill.setFillColor($.NSColor.colorWithSRGBRedGreenBlueAlpha(0.38, 0.40, 0.87, 1.0));
+startPill.setBorderColor($.NSColor.colorWithSRGBRedGreenBlueAlpha(0.38, 0.40, 0.87, 1.0));
+
+const cancelPill = makePill(288, 8, 72, 34, 17);
+cancelPill.setFillColor($.NSColor.colorWithSRGBRedGreenBlueAlpha(0.95, 0.96, 0.98, 1.0));
+cancelPill.setBorderColor($.NSColor.colorWithSRGBRedGreenBlueAlpha(0.09, 0.14, 0.19, 0.12));
+
+let snapBtn, recBtn, startBtn;
+
+function syncStyles() {
+  const activeFill = $.NSColor.colorWithSRGBRedGreenBlueAlpha(0.38, 0.40, 0.87, 0.16);
+  const activeBorder = $.NSColor.colorWithSRGBRedGreenBlueAlpha(0.38, 0.40, 0.87, 0.45);
+  const clear = $.NSColor.clearColor;
+  const activeText = $.NSColor.colorWithSRGBRedGreenBlueAlpha(0.29, 0.31, 0.78, 1.0);
+  const idleText = $.NSColor.colorWithSRGBRedGreenBlueAlpha(0.25, 0.30, 0.38, 1.0);
+
+  if (mode === "screenshot") {
+    snapPill.setFillColor(activeFill);
+    snapPill.setBorderColor(activeBorder);
+    recPill.setFillColor(clear);
+    recPill.setBorderColor(clear);
+    if (snapBtn) snapBtn.setContentTintColor(activeText);
+    if (recBtn) recBtn.setContentTintColor(idleText);
+    if (startBtn) startBtn.setTitle(isEn ? "Capture" : "开始截屏");
+  } else {
+    recPill.setFillColor(activeFill);
+    recPill.setBorderColor(activeBorder);
+    snapPill.setFillColor(clear);
+    snapPill.setBorderColor(clear);
+    if (recBtn) recBtn.setContentTintColor(activeText);
+    if (snapBtn) snapBtn.setContentTintColor(idleText);
+    if (startBtn) startBtn.setTitle(isEn ? "Record" : "开始录屏");
+  }
+}
+
+ObjC.registerSubclass({
+  name: "XiaoyiCaptureHudController",
+  methods: {
+    "onSelectSnap:": {
+      types: ["void", ["id"]],
+      implementation: function() {
+        mode = "screenshot";
+        syncStyles();
+      }
+    },
+    "onSelectRec:": {
+      types: ["void", ["id"]],
+      implementation: function() {
+        mode = "recording";
+        syncStyles();
+      }
+    },
+    "onStart:": {
+      types: ["void", ["id"]],
+      implementation: function() {
+        panel.orderOut(null);
+        finish("START:" + mode);
+      }
+    },
+    "onCancel:": {
+      types: ["void", ["id"]],
+      implementation: function() {
+        panel.orderOut(null);
+        finish("CANCEL");
+      }
+    }
+  }
+});
+
+const handler = $.XiaoyiCaptureHudController.alloc.init;
+snapBtn = makeButton(11, 10, 65, 30, isEn ? "Screenshot" : "截图", "onSelectSnap:", handler);
+recBtn = makeButton(79, 10, 65, 30, isEn ? "Record" : "录屏", "onSelectRec:", handler);
+startBtn = makeButton(158, 8, 122, 34, isEn ? "Capture" : "开始截屏", "onStart:", handler);
+startBtn.setContentTintColor($.NSColor.whiteColor);
+const cancelBtn = makeButton(288, 8, 72, 34, isEn ? "Cancel" : "取消", "onCancel:", handler);
+cancelBtn.setContentTintColor($.NSColor.colorWithSRGBRedGreenBlueAlpha(0.22, 0.26, 0.33, 1.0));
+
+syncStyles();
+panel.makeKeyAndOrderFront(null);
+panel.orderFrontRegardless;
+app.run;
+`;
+}
 export function workbuddyDemoMiddleware(
   req: IncomingMessage,
   res: ServerResponse,
@@ -141,15 +316,92 @@ export function workbuddyDemoMiddleware(
       return;
     }
     if (req.method === "POST" && path === "/api/workbuddy-demo/system-capture" && !hosted && process.platform === "darwin") {
-      const tmpPath = resolve(tmpdir(), `xiaoyi-snip-${crypto.randomUUID()}.png`);
       res.setHeader("Content-Type", "application/json");
+      const reqChunks: Buffer[] = [];
+      for await (const chunk of req) {
+        reqChunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk));
+      }
+      let payload: {
+        mode?: "screenshot" | "recording";
+        lang?: string;
+        showTopBar?: boolean;
+      } = {};
       try {
+        const raw = Buffer.concat(reqChunks).toString("utf8").trim();
+        if (raw) payload = JSON.parse(raw);
+      } catch {
+        // Ignore malformed optional body
+      }
+
+      if (activeCaptureChild) {
+        try {
+          activeCaptureChild.kill();
+        } catch {
+          // Ignore kill errors
+        }
+        activeCaptureChild = null;
+      }
+
+      const tmpPath = resolve(tmpdir(), `xiaoyi-snip-${crypto.randomUUID()}.png`);
+      try {
+        if (payload.showTopBar) {
+          const jxa = buildMacFloatingCaptureBarJxa(
+            payload.mode === "recording" ? "recording" : "screenshot",
+            payload.lang === "en",
+          );
+          const barDecision = await new Promise<string>((resolveHud) => {
+            const hudChild = execFile(
+              "/usr/bin/osascript",
+              ["-l", "JavaScript", "-e", jxa],
+              (err, stdout) => {
+                if (activeCaptureChild === hudChild) activeCaptureChild = null;
+                if (err) {
+                  resolveHud("CANCEL");
+                  return;
+                }
+                resolveHud(String(stdout || "").trim() || "CANCEL");
+              },
+            );
+            activeCaptureChild = hudChild;
+            res.on("close", () => {
+              if (!res.writableEnded) {
+                try {
+                  hudChild.kill();
+                } catch {
+                  // Ignore
+                }
+              }
+            });
+          });
+
+          if (!barDecision.startsWith("START:")) {
+            res.end(JSON.stringify({ ok: false, cancelled: true }));
+            return;
+          }
+          const chosenMode = barDecision.split(":")[1];
+          if (chosenMode === "recording") {
+            res.end(JSON.stringify({ ok: true, action: "record" }));
+            return;
+          }
+          await new Promise((r) => setTimeout(r, 120));
+        }
+
         await new Promise<void>((resolveExec, rejectExec) => {
           const child = execFile("/usr/sbin/screencapture", ["-i", "-x", tmpPath], (err) => {
+            if (activeCaptureChild === child) activeCaptureChild = null;
             if (err) rejectExec(err);
             else resolveExec();
           });
-          res.on("close", () => child.kill());
+          activeCaptureChild = child;
+          res.on("close", () => {
+            if (!res.writableEnded) {
+              try {
+                child.kill();
+              } catch {
+                // Ignore
+              }
+            }
+          });
         });
         const buf = await readFile(tmpPath).catch(() => null);
         await unlink(tmpPath).catch(() => {});
@@ -157,7 +409,14 @@ export function workbuddyDemoMiddleware(
           res.end(JSON.stringify({ ok: false, cancelled: true }));
           return;
         }
-        res.end(JSON.stringify({ ok: true, mime: "image/png", data: buf.toString("base64") }));
+        res.end(
+          JSON.stringify({
+            ok: true,
+            kind: "screenshot",
+            mime: "image/png",
+            data: buf.toString("base64"),
+          }),
+        );
       } catch {
         await unlink(tmpPath).catch(() => {});
         res.end(JSON.stringify({ ok: false, cancelled: true }));

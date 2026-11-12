@@ -199,7 +199,7 @@ export function useWorkbuddyDemoController() {
         speechBinding.current = null;
         setCamera(null);
         setPanel((current) =>
-          current?.kind === "scanner" || current?.kind === "capture"
+          current?.kind === "scanner"
             ? null
             : current,
         );
@@ -835,7 +835,17 @@ export function useWorkbuddyDemoController() {
         stage: "准备材料",
         artifacts: [],
       };
-      update(current.id, (d) => ({ ...d, requests: [request, ...d.requests] }));
+      update(current.id, (d) => ({
+        ...d,
+        text: "",
+        parameters: [],
+        controls: [],
+        materials: [],
+        captures: [],
+        pendingPhotos: [],
+        sketches: {},
+        requests: [request, ...d.requests],
+      }));
       generate(current.id, request);
       setSent(true);
       setPanel(null);

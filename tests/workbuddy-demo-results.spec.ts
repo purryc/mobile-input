@@ -90,7 +90,7 @@ test("Send opens tablet task/results layout; slides, document and image edit, un
   await expect(
     page.getByRole("complementary", { name: "成果预览", exact: true }),
   ).toBeVisible();
-  await expect(editor(page)).toHaveAttribute("data-value", /制作两页/);
+  await expect(editor(page)).toHaveAttribute("data-value", "");
   const title = page.getByRole("textbox", {
     name: "网页幻灯片标题",
     exact: true,
@@ -148,6 +148,7 @@ test("Send opens tablet task/results layout; slides, document and image edit, un
     path: "artifacts/workbuddy-demo/evidence/generated-tablet.png",
   });
   // The accepted chip still toggles below itself in the task composer.
+  await editor(page).fill("追问补充，主题色用绿色。");
   await page.locator(".sentence-token[data-kind=color]").click();
   await expect(
     page.getByRole("button", { name: "完成颜色选择" }),
@@ -216,7 +217,7 @@ test("running results remain with original draft, Stop suppresses late result, r
   await expect(
     page.getByRole("button", { name: "打开 发布海报" }),
   ).toBeVisible();
-  await expect(editor(page)).toHaveAttribute("data-value", "生成一张图片");
+  await expect(editor(page)).toHaveAttribute("data-value", "");
 });
 test("failure, partial success and interrupted refresh retain materials, outputs and original request without replay", async ({
   page,
@@ -265,7 +266,10 @@ test("failure, partial success and interrupted refresh retain materials, outputs
     page.getByRole("alert").filter({ hasText: "上次生成已中断" }),
   ).toBeVisible();
   expect(calls).toBe(2);
-  await expect(editor(page)).toHaveAttribute("data-value", "还没发送的修改");
+  await expect(editor(page)).toHaveAttribute("data-value", "");
+  await expect(page.getByRole("region", { name: "发送的请求" })).toContainText(
+    "还没发送的修改",
+  );
 });
 test("unsupported attachments fail before network submission and can be removed from retained draft", async ({
   page,
@@ -292,7 +296,7 @@ test("unsupported attachments fail before network submission and can be removed 
   await send(page);
   await expect(page.getByRole("alert")).toContainText("支持 PDF");
   expect(calls).toBe(0);
-  await expect(page.getByLabel("已确认的材料")).toContainText(
+  await expect(page.locator(".demo-request-materials")).toContainText(
     "unsupported.docx",
   );
 });
@@ -376,9 +380,9 @@ for (const size of [{width:1440,height:960},{width:1280,height:800},{width:1024,
       await expect(page.locator('.demo-save-state')).not.toContainText(/Saving|正在保存/);
       await page.reload();
       await expect(page.locator('.wb-task-layout')).toBeVisible();
-      await expect(page.locator('.wb-sentence-composer')).toContainText('WorkBuddy archive');
-      await expect(page.locator('.wb-sentence-composer')).toContainText('#A51124');
-      await expect(page.locator('.demo-attachments')).toContainText('reference.txt');
+      await expect(page.locator('.wb-sentence-composer')).toHaveAttribute('data-value', '');
+      await expect(page.locator('.wb-task-chat .wb-message.user')).toContainText('WorkBuddy archive');
+      await expect(page.locator('.demo-request-materials')).toContainText('reference.txt');
       // The fixture artifact's authored green stays green after the interface becomes violet.
       await expect(page.locator('.web-deck-page').first()).toHaveCSS('--deck-primary','#146C64');
       expect(external).toEqual([]);
@@ -391,6 +395,7 @@ test('result composer keeps inline polish and microphone reachable in both langu
  await page.goto('/');
  await editor(page).fill('请帮我整理一个完整的产品发布方案，重点说明目标用户的价值。然后然后说明下一步安排。');
  await send(page);await expect(page.getByRole('tab')).toHaveCount(3);
+ await editor(page).fill('请帮我整理一个完整的产品发布方案，重点说明目标用户的价值。然后然后说明下一步安排。');
  for(const lang of ['zh-CN','en']){
   await page.locator('.demo-settings > button').click();await page.locator('.demo-settings select').selectOption(lang);await page.locator('.demo-settings header button').click();
   for(const size of [{width:1440,height:960},{width:1280,height:800},{width:1024,height:768}]){

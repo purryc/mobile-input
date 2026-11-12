@@ -381,6 +381,7 @@ export function CapturePanel({
     [elapsed, setElapsed] = useState(0);
   const [crop, setCrop] = useState<Crop>({ x: 0, y: 0, w: 1, h: 1 });
   const [draggingSelection, setDraggingSelection] = useState(false);
+  const [systemBarOpen, setSystemBarOpen] = useState(false);
   const [review, setReview] = useState<DemoCapture | null>(null);
   const video = useRef<HTMLVideoElement>(null),
     image = useRef<HTMLImageElement>(null),
@@ -422,6 +423,7 @@ export function CapturePanel({
     cropStream.current = null;
     pointer.current = null;
     setDraggingSelection(false);
+    setSystemBarOpen(false);
     callbacks.current.onBusy(false);
     if (live.current) {
       setPhase("idle");
@@ -432,7 +434,7 @@ export function CapturePanel({
   useEffect(() => {
     live.current = true;
     const hide = () => {
-      if (document.hidden) release();
+      if (document.hidden && mode === "scanner") release();
     };
     document.addEventListener("visibilitychange", hide);
     return () => {
@@ -464,10 +466,69 @@ export function CapturePanel({
     setReview(null);
 
     if (mode === "capture") {
+      const targetKind = nextKind || "screenshot";
+      setSelectedKind(targetKind);
       setCrop({ x: 0, y: 0, w: 0, h: 0 });
       setDraggingSelection(false);
       onBusy(true);
       setPhase("selecting");
+      if (typeof navigator !== "undefined" && !navigator.webdriver) {
+        const run = ++epoch.current;
+        setSystemBarOpen(true);
+        void (async () => {
+          try {
+            const res = await fetch("/api/workbuddy-demo/system-capture", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                mode: targetKind,
+                lang: en ? "en" : "zh",
+                showTopBar: true,
+              }),
+            });
+            if (!res.ok) {
+              if (live.current && run === epoch.current) setSystemBarOpen(false);
+              return;
+            }
+            const json: {
+              ok?: boolean;
+              cancelled?: boolean;
+              action?: string;
+              data?: string;
+            } = await res.json();
+            if (!live.current || run !== epoch.current) return;
+            setSystemBarOpen(false);
+            if (json.cancelled) {
+              release();
+              return;
+            }
+            if (json.action === "record") {
+              setSelectedKind("recording");
+              void record(crop, false);
+              return;
+            }
+            if (json.ok && json.data) {
+              const binary = atob(json.data);
+              const bytes = new Uint8Array(binary.length);
+              for (let i = 0; i < binary.length; i++)
+                bytes[i] = binary.charCodeAt(i);
+              const sysBlob = new Blob([bytes], { type: "image/png" });
+              callbacks.current.onAdd({
+                id: crypto.randomUUID(),
+                kind: "screenshot",
+                name: "Screenshot-" + Date.now() + ".png",
+                blob: sysBlob,
+                size: sysBlob.size,
+                confirmed: true,
+              });
+              setReview(null);
+              release();
+            }
+          } catch {
+            if (live.current && run === epoch.current) setSystemBarOpen(false);
+          }
+        })();
+      }
       return;
     }
 
@@ -783,6 +844,7 @@ export function CapturePanel({
       data-phase={phase}
       data-review={!!review}
       data-top-dock={topDock ? "true" : undefined}
+      data-system-bar={systemBarOpen ? "true" : undefined}
       data-capture-cursor={
         mode === "capture" && selectedKind ? cursorKind : undefined
       }

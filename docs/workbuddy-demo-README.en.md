@@ -96,7 +96,7 @@ Typing and pasting accept both languages regardless of the interface setting. En
 - Colors bind independently to theme, background and text, and may be scoped to a page, e.g. `On slide 2, use a blue background`. Durations accept explicit 1–60 minute values; ambiguous ranges remain prose.
 - `add product photos` opens image input. `generate an image`, `draw a chart` and `create a graph` do not imply selecting reference photos.
 - Select local files, choose images or capture a camera photo. Images and sketches enter attachments only after explicit confirmation. Unconfirmed material blocks Send until confirmed or removed.
-- Send freezes the request and confirmed attachments, then opens the task/results view. Requests can produce editable Web slides, Markdown documents and/or actual generated images. Output language follows the request; ask explicitly for English if your input mixes languages.
+- Send freezes the request and confirmed attachments into the task history, clears the bottom prompt input box for clean follow-up prompts, and opens the task/results view. Requests can produce editable Web slides, Markdown documents and/or actual generated images. Output language follows the request; ask explicitly for English if your input mixes languages.
 - Stop cancels generation. Retry is explicit. Refresh preserves saved drafts/results and marks interrupted generation; it never resubmits automatically.
 - Slides export as **HTML**, documents as **Markdown**, and images in their returned image format. This demo does not export native `.pptx` or `.docx` files.
 

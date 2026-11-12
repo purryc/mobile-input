@@ -351,6 +351,10 @@
 .input-controls-theme .demo-capture-panel[data-top-dock="true"] .demo-capture-items {
   display: none !important;
 }
+.input-controls-theme .demo-widget-wrap:has(.demo-capture-panel[data-system-bar="true"]) {
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
 .demo-selector-box {
   position: absolute;
   border: 1.5px solid #6266df;

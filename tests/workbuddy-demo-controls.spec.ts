@@ -49,6 +49,8 @@ for (const language of ["zh", "en"]) for (const [width, height] of [[1440, 960],
     await page.route('**/api/workbuddy-demo/generate', route=>route.fulfill({contentType:'application/x-ndjson',body:JSON.stringify({artifact:{id:'fixture',kind:'document',title:'Fixture',model:'mock',markdown:'# Fixture\n\nTest only'}})+'\n'+JSON.stringify({done:true})+'\n'}));
     await page.locator('.demo-settings > button').click();await page.getByRole('switch').click();await page.locator('.demo-settings header button').click();
     await page.locator('.demo-send').click();
+    await expect(editor(page)).toHaveAttribute('data-value', '');
+    await editor(page).fill(baseline!);
     await expect(page.locator('.demo-task-compose .demo-polish-slot')).toBeVisible();
     expect(await page.locator('.demo-task-compose .demo-polish-slot').evaluate(node=>getComputedStyle(node).paddingLeft)).toBe('12px');
     await expect(editor(page)).toHaveAttribute('data-value',baseline!);
@@ -492,9 +494,9 @@ test('suggested values remain editable and reach a frozen mocked Send with actua
  expect(payloads[0].parameters.filter((p:any)=>p.kind==='color').map((p:any)=>p.value)).toEqual(['#5267B2','#F4F6FC','#202637']);
  expect(payloads[0].parameters.find((p:any)=>p.kind==='duration').value).toBe('14');
  expect(payloads[0].sources).toHaveLength(1);
- await expect(editor(page)).toHaveAttribute('data-value',demoScenarios[1].text);
- await expect(chip(page,'duration')).toContainText('14分钟');
- await page.reload();await expect(chip(page,'duration')).toContainText('14分钟');
+ await expect(editor(page)).toHaveAttribute('data-value','');
+ await editor(page).fill(demoScenarios[1].text);
+ await expect(page.locator('.sentence-token-capsule[data-origin=recommended]:not([data-preparing])')).toHaveCount(15);
  await page.getByRole('button',{name:'移除推荐 手绘画板',exact:true}).click();
  await expect(chip(page,'sketch')).toHaveCount(0);
  await editor(page).press('End');await page.keyboard.type('补充说明。');
