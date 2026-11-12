@@ -42,6 +42,7 @@ export interface ControlOption {
   zh: string;
   en: string;
   detail?: string;
+  detailEn?: string;
   color?: string;
   swatches?: string[];
 }
@@ -53,10 +54,18 @@ export interface ControlDefinition {
   demo?: boolean;
   options: ControlOption[];
 }
-const option = (id: string, zh: string, en: string): ControlOption => ({
+const option = (
+  id: string,
+  zh: string,
+  en: string,
+  detail?: string,
+  detailEn?: string,
+): ControlOption => ({
   id,
   zh,
   en,
+  ...(detail ? { detail } : {}),
+  ...(detailEn ? { detailEn } : {}),
 });
 export const controlDefinitions: ControlDefinition[] = [
   { kind: "duration", zh: "时间", en: "Duration", options: [] },
@@ -78,15 +87,35 @@ export const controlDefinitions: ControlDefinition[] = [
     options: [
       {
         ...option("warm", "温暖自然", "Warm & natural"),
-        swatches: ["#B65C38", "#FAF4E8", "#332C28"],
+        swatches: ["#C86D51", "#E6B89C", "#FAF3EB", "#2C221E"],
       },
       {
         ...option("calm", "沉静专业", "Calm & professional"),
-        swatches: ["#5267B2", "#F4F6FC", "#202637"],
+        swatches: ["#4F63D2", "#8E9CEF", "#F4F6FD", "#182038"],
       },
       {
         ...option("fresh", "清新简洁", "Fresh & simple"),
-        swatches: ["#288373", "#F1F8F4", "#203831"],
+        swatches: ["#2A9D8F", "#8AB17D", "#F2F9F6", "#1B322C"],
+      },
+      {
+        ...option("aurora", "极光流体", "Aurora glass"),
+        swatches: ["#6366F1", "#A855F7", "#EC4899", "#F5F3FF"],
+      },
+      {
+        ...option("minimal", "极简曜石", "Minimal obsidian"),
+        swatches: ["#18181B", "#52525B", "#E4E4E7", "#FAFAFA"],
+      },
+      {
+        ...option("sunset", "暮光琥珀", "Sunset amber"),
+        swatches: ["#EA580C", "#F59E0B", "#FEF3C7", "#291811"],
+      },
+      {
+        ...option("nordic", "北欧冰川", "Nordic glacier"),
+        swatches: ["#0284C7", "#38BDF8", "#F0F9FF", "#0F172A"],
+      },
+      {
+        ...option("morandi", "雅致莫兰迪", "Morandi rose"),
+        swatches: ["#9D6B7B", "#C9ADA7", "#F7F3F2", "#2B252C"],
       },
     ],
   },
@@ -105,12 +134,48 @@ export const controlDefinitions: ControlDefinition[] = [
     en: "Expert",
     demo: true,
     options: [
-      option("ppt", "演示设计专家", "Presentation designer"),
-      option("writer", "内容创作专家", "Content writer"),
-      option("sales", "销售方案专家", "Sales specialist"),
-      option("finance", "财务分析专家", "Finance specialist"),
-      option("procurement", "采购分析专家", "Procurement analyst"),
-      option("delivery", "交付项目经理", "Delivery manager"),
+      option(
+        "ppt",
+        "演示设计专家",
+        "Presentation designer",
+        "发布会与培训演示视觉叙事与版式设计",
+        "Visual storytelling & slide layout for keynotes",
+      ),
+      option(
+        "writer",
+        "内容创作专家",
+        "Content writer",
+        "深度长文、品牌故事与结构化方案撰稿",
+        "In-depth articles, brand stories & proposals",
+      ),
+      option(
+        "sales",
+        "销售方案专家",
+        "Sales specialist",
+        "客户痛点洞察、价值主张提炼与赢单方案",
+        "Customer insights, value propositions & pitch decks",
+      ),
+      option(
+        "finance",
+        "财务分析专家",
+        "Finance specialist",
+        "经营指标核算、预算建模与财务回报分析",
+        "Financial modeling, budget planning & ROI analysis",
+      ),
+      option(
+        "procurement",
+        "采购分析专家",
+        "Procurement analyst",
+        "供应商评估、成本拆解与招标比价策略",
+        "Supplier evaluation, cost breakdown & bidding",
+      ),
+      option(
+        "delivery",
+        "交付项目经理",
+        "Delivery manager",
+        "里程碑排期、风险管控与跨团队交付协同",
+        "Milestone scheduling, risk control & delivery",
+      ),
     ],
   },
   {
@@ -120,10 +185,146 @@ export const controlDefinitions: ControlDefinition[] = [
     multiple: true,
     demo: true,
     options: [
-      option("ppt-implement", "演示文稿制作", "Presentation creation"),
-      option("document-skills", "办公文档", "Office documents"),
-      option("data", "数据分析", "Data analysis"),
-      option("deep-research", "深度研究", "Deep research"),
+      option(
+        "ppt-implement",
+        "演示文稿制作",
+        "Presentation creation",
+        "结构化幻灯片排版、视觉母版与演讲备注",
+        "Structured slides, visual masters & speaker notes",
+      ),
+      option(
+        "document-skills",
+        "办公文档",
+        "Office documents",
+        "专业报告、方案文档撰写与多级结构化排版",
+        "Professional reports, proposals & formatting",
+      ),
+      option(
+        "data",
+        "数据分析",
+        "Data analysis",
+        "多维指标拆解、趋势洞察与可视化图表构建",
+        "Multi-dimensional metrics, trends & charts",
+      ),
+      option(
+        "deep-research",
+        "深度研究",
+        "Deep research",
+        "结构化深度调研工作流，支持多源交叉验证",
+        "Structured deep research & cross-source verification",
+      ),
+      option(
+        "product-management",
+        "product-management",
+        "product-management",
+        "产品管理插件，支持功能规格、需求与路线图",
+        "Product management plugin for specs & roadmaps",
+      ),
+      option(
+        "demand-mining",
+        "国内需求挖掘",
+        "CN Demand Mining",
+        "中国公域新媒体平台需求挖掘与痛点分析",
+        "Public social platform demand & pain-point mining",
+      ),
+      option(
+        "seo-ops",
+        "seo-ops",
+        "seo-ops",
+        "SEO 运营自动化，内容攻击简报与关键词矩阵",
+        "SEO operations automation & keyword matrix",
+      ),
+      option(
+        "wechat-miniapp",
+        "微信小程序开发框架",
+        "WeChat Mini-Program",
+        "微信小程序开发框架（模板、组件与云开发）",
+        "WeChat Mini-Program templates & components",
+      ),
+      option(
+        "ecom-copywriter",
+        "电商爆款文案生成器",
+        "E-com Copywriter",
+        "电商卖家的爆款文案生成：标题、卖点与详情",
+        "High-converting e-commerce titles & detail copy",
+      ),
+      option(
+        "ecomseer-tiktok",
+        "EcomSeer TikTok",
+        "EcomSeer TikTok",
+        "TikTok Shop 电商数据：商品选品与趋势分析",
+        "TikTok Shop product selection & trend analytics",
+      ),
+      option(
+        "cn-ecom-search",
+        "中国电商搜索",
+        "CN E-com Search",
+        "8 大中国电商平台商品搜索与全网比价分析",
+        "Product search & comparison across 8 CN platforms",
+      ),
+      option(
+        "x-longform-post",
+        "x-longform-post",
+        "x-longform-post",
+        "撰写 X(Twitter) 长文，创始人故事与观点",
+        "Compose X(Twitter) longform posts & stories",
+      ),
+      option(
+        "content-factory",
+        "内容工厂",
+        "Content Factory",
+        "多智能体内容生产系统，一份素材多平台改写",
+        "Multi-agent content production & adaptation",
+      ),
+      option(
+        "content-dist",
+        "内容分发",
+        "Content Distribution",
+        "将长文内容转化为多平台优化的分发稿件",
+        "Transform longform articles into multi-platform posts",
+      ),
+      option(
+        "startup-val",
+        "创业验证",
+        "Startup Validation",
+        "创业想法验证，评估问题-方案匹配度与商业模式",
+        "Validate startup ideas & problem-solution fit",
+      ),
+      option(
+        "market-research",
+        "市场调研",
+        "Market Research",
+        "市场调研专家，提供市场分析、竞品格局与画像",
+        "Market analysis, competitive landscape & personas",
+      ),
+      option(
+        "startup-learn",
+        "创业可以学",
+        "Startup Advisory",
+        "服务创业者和管理者，解答股权与增长实战问题",
+        "Startup & management advisory on equity and growth",
+      ),
+      option(
+        "wechat-publisher",
+        "Wechat Publisher",
+        "Wechat Publisher",
+        "一键发布 Markdown 到微信公众号草稿箱",
+        "One-click publish Markdown to WeChat Official Account",
+      ),
+      option(
+        "wechat-article",
+        "微信公众号文章发布",
+        "WeChat Article Studio",
+        "公众号长文写作+AI封面+自动排版与发布",
+        "WeChat Official Account writing, AI cover & layout",
+      ),
+      option(
+        "find-skills",
+        "find-skills",
+        "find-skills",
+        "帮助用户发现和安装 AI Agent 扩展技能套件",
+        "Discover and install AI Agent extension skills",
+      ),
     ],
   },
   {
@@ -133,11 +334,41 @@ export const controlDefinitions: ControlDefinition[] = [
     multiple: true,
     demo: true,
     options: [
-      option("tencent-docs", "腾讯文档", "Tencent Docs"),
-      option("feishu", "飞书", "Feishu"),
-      option("wecom", "企业微信", "WeCom"),
-      option("mail", "邮箱", "Mail"),
-      option("ima", "ima 知识库", "ima Knowledge"),
+      option(
+        "tencent-docs",
+        "腾讯文档",
+        "Tencent Docs",
+        "同步在线文档、表格与团队协作知识库",
+        "Sync online docs, sheets & team files",
+      ),
+      option(
+        "feishu",
+        "飞书",
+        "Feishu",
+        "接入飞书云文档、多维表格与群组纪要",
+        "Connect Feishu docs, Base tables & notes",
+      ),
+      option(
+        "wecom",
+        "企业微信",
+        "WeCom",
+        "读取企业微信汇报记录、客户与项目资料",
+        "Access WeCom reports, client & project records",
+      ),
+      option(
+        "mail",
+        "邮箱",
+        "Mail",
+        "检索往来邮件正文、附件材料与决策记录",
+        "Retrieve email threads, attachments & logs",
+      ),
+      option(
+        "ima",
+        "ima 知识库",
+        "ima Knowledge",
+        "调用个人与团队沉淀的结构化知识库与资料",
+        "Query curated personal & team knowledge base",
+      ),
     ],
   },
   {
@@ -199,7 +430,7 @@ const explicitRules: Rule[] = [
   ...([['font',/字体|\bfont\b|\btypeface\b/gi],['palette',/配色方案|调色板|color palette|colour palette|\bpalette\b/gi],['expert',/专家|\bexpert\b/gi],['skills',/技能|\bskills?\b/gi],['connectors',/上下文来源|连接器|\bconnector\b/gi],['formats',/输出格式|导出格式|\boutput formats?\b/gi]] as [DemoControlKind,RegExp][]).map(([kind,pattern])=>({kind,pattern,origin:'explicit' as const})),
 ];
 const recommendedRules: Rule[] = [
-  {kind:"duration",pattern:/(?:简短|精炼|简洁)(?:的)?(?:演讲(?:报告)?(?!稿)|口头汇报|培训(?:介绍)?(?!手册|文档|资料|材料|讲义|稿|说明))|(?:brief|short|concise) (?:oral report|speech(?!\s+(?:script|draft|text))|oral presentation|training talk)/gi,value:["10"],role:"演讲时长",origin:"recommended"},
+  {kind:"duration",pattern:/(?:简短|精炼|简洁)(?:的)?(?:演讲(?:报告)?(?!稿)|口头汇报|培训(?:介绍)?(?!手册|文档|资料|材料|讲义|稿|说明))|简短(?:的)?演示文稿|(?:brief|short|concise) (?:oral report|speech(?!\s+(?:script|draft|text))|oral presentation|training talk)/gi,value:["10"],role:"演讲时长",origin:"recommended"},
   {kind:"color",pattern:/标题有重点|突出标题|emphasi[sz]e the headings/gi,value:["#5267B2"],role:"主题色",origin:"recommended"},
   {kind:"color",pattern:/页面明亮|明亮的页面|bright pages/gi,value:["#F4F6FC"],role:"背景",origin:"recommended"},
   {kind:"color",pattern:/正文清楚易读|正文易读|readable body text/gi,value:["#202637"],role:"字体",origin:"recommended"},
@@ -210,8 +441,8 @@ const recommendedRules: Rule[] = [
   {kind:"scanner",pattern:/纸质培训提纲|纸质(?:资料|笔记)|paper (?:training outline|notes)/gi,origin:"recommended"},
   {kind:"sketch",pattern:/(?:排版|布局)想法用文字不容易说清|方便表达布局的方式|layout is hard to describe/gi,origin:"recommended"},
   {kind:"capture",pattern:/现有[^，。；]{0,18}页面的视觉样式|连续的操作步骤和过渡效果|existing page.{0,15}visual style|interaction steps and transitions/gi,origin:"recommended"},
-  {kind:"expert",pattern:/专业人士|专业帮助|professional help/gi,value:["ppt"],origin:"recommended"},
-  {kind:"skills",pattern:/把效果做好|合适的制作能力|完善呈现|make it polished|polish the presentation/gi,value:["ppt-implement"],origin:"recommended"},
+  {kind:"skills",pattern:/把效果做好|合适的制作能力|完善呈现|介绍今年(?:的)?要发布的产品|make it polished|polish the presentation/gi,value:["ppt-implement"],origin:"recommended"},
+  {kind:"expert",pattern:/专业人士|专业帮助|介绍今年(?:的)?要发布的产品|professional help/gi,value:["ppt"],origin:"recommended"},
   {kind:"connectors",pattern:/已连接资料来源|(?:推荐|建议)[^，。；]{0,12}上下文来源|已有连接器|connected (?:knowledge|reference) sources|recommend[^,.]{0,20}context source/gi,value:["ima"],origin:"recommended"},
   {kind:"skills",pattern:/分析反馈|analy[sz]e (?:customer )?feedback/gi,value:["data"],origin:"recommended"},
   {kind:"formats",pattern:/打开就能按状态筛选问题、查看负责人和进度|(?:打开就能|可以|能够)[^。；!?]{0,35}(?:筛选问题|筛选反馈)|(?:filter (?:issues|feedback)|view owners and progress)/gi,value:["html"],origin:"recommended"},

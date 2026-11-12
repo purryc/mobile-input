@@ -261,7 +261,8 @@ export function XiaoyiHome({
             { label: "文档生成", prompt: "帮我生成一份文档", Icon: FileText },
             {
               label: "演示文稿",
-              prompt: "帮我制作一份演示文稿",
+              prompt:
+                "我想做一个简短的演示文稿，介绍今年的要发布的产品。背景用灰色，字体用黑色，主题色用红色。我有一些本地文档作为大纲参考，还有老板的写的一些重点我扫描给你，另外要添加一些产品照片。布局我画一下，左边是今年产品总览，右边是分产品的介绍。然后整体视觉风格参考我这个截屏的。",
               Icon: LayoutTemplate,
             },
             { label: "图片生成", prompt: "帮我生成一张图片", Icon: ImagePlus },

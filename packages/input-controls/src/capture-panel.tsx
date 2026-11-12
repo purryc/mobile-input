@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import {
   Camera,
-  Monitor,
   Square,
   Trash2,
   X,
@@ -12,7 +11,18 @@ import {
 import type { CaptureMaterial as DemoCapture } from "./types";
 import { createPortal } from "react-dom";
 import { useWidgetText, useWidgetEnvironment } from "./environment";
+
+/**
+ * Normalized rectangular crop coordinates in [0, 1] space.
+ */
 export type Crop = { x: number; y: number; w: number; h: number };
+
+/**
+ * Computes a normalized bounding box from two pointer coordinates in [0, 1] space.
+ * @param a Starting pointer coordinate.
+ * @param b Current/ending pointer coordinate.
+ * @returns Normalized Crop rectangle.
+ */
 export function normalizedCrop(
   a: { x: number; y: number },
   b: { x: number; y: number },
@@ -24,6 +34,11 @@ export function normalizedCrop(
     h: Math.abs(a.y - b.y),
   };
 }
+
+/**
+ * Renders the full-size media preview inside a modal or capture tile.
+ * @param props.item Captured screenshot, scan, or recording material.
+ */
 function Preview({ item }: { item: DemoCapture }) {
   const [url, setUrl] = useState("");
   useEffect(() => {
@@ -37,6 +52,11 @@ function Preview({ item }: { item: DemoCapture }) {
     <img src={url} alt={item.name} />
   );
 }
+
+/**
+ * Renders a compact thumbnail for a confirmed capture material in the composer strip.
+ * @param props.item Captured screenshot, scan, or recording material.
+ */
 function CaptureThumbnail({ item }: { item: DemoCapture }) {
   const [url, setUrl] = useState("");
   const [poster, setPoster] = useState("");
@@ -81,6 +101,13 @@ function CaptureThumbnail({ item }: { item: DemoCapture }) {
     </div>
   );
 }
+
+/**
+ * Renders a capture material card in either the compact composer attachment bar or the panel list.
+ * @param props.item Captured material metadata and Blob.
+ * @param props.onRemove Optional callback to remove this material.
+ * @param props.compact Whether to render the compact composer card variant.
+ */
 export function CaptureTile({
   item,
   onRemove,
@@ -167,7 +194,164 @@ export function CaptureTile({
     </div>
   );
 }
-/** Browser capture belongs to its mounted owner. Closing stops streams, never adopts bytes. */
+
+/**
+ * Synthesizes a faithful visual snapshot of the selected viewport region onto a target canvas.
+ * Captures visible DOM containers, backgrounds, borders, images, and text within the crop rectangle.
+ * @param canvas Target HTMLCanvasElement to draw into.
+ * @param region Normalized viewport crop region `{ x, y, w, h }`.
+ * @param elapsedSec Optional elapsed recording time for subtle frame animation.
+ */
+function renderWorkspaceRegionToCanvas(
+  canvas: HTMLCanvasElement,
+  region: Crop,
+  elapsedSec = 0,
+): boolean {
+  const vw = Math.max(320, window.innerWidth || 1280);
+  const vh = Math.max(240, window.innerHeight || 800);
+  const sx = Math.round(region.x * vw);
+  const sy = Math.round(region.y * vh);
+  const sw = Math.max(24, Math.round(region.w * vw));
+  const sh = Math.max(24, Math.round(region.h * vh));
+
+  canvas.width = sw;
+  canvas.height = sh;
+  const ctx = canvas.getContext("2d");
+  if (!ctx) return false;
+
+  const bgGrad = ctx.createLinearGradient(0, 0, sw, sh);
+  bgGrad.addColorStop(0, "#f8f9fe");
+  bgGrad.addColorStop(0.5, "#ffffff");
+  bgGrad.addColorStop(1, "#f3f4fc");
+  ctx.fillStyle = bgGrad;
+  ctx.fillRect(0, 0, sw, sh);
+
+  const elements = Array.from(
+    document.querySelectorAll<HTMLElement>(
+      ".wb-sidebar, .wb-main, .demo-composer, .live-wb-composer, .sentence-token-capsule, .sentence-token, .wb-scenes button, .widget-example, .live-wb-aux, .demo-control-option, h1, h2, b, p, span, img",
+    ),
+  );
+
+  for (const el of elements) {
+    if (el.closest(".demo-screen-selector-overlay")) continue;
+    const rect = el.getBoundingClientRect();
+    if (
+      rect.width < 2 ||
+      rect.height < 2 ||
+      rect.right < sx ||
+      rect.left > sx + sw ||
+      rect.bottom < sy ||
+      rect.top > sy + sh
+    ) {
+      continue;
+    }
+    const style = window.getComputedStyle(el);
+    if (
+      style.display === "none" ||
+      style.visibility === "hidden" ||
+      Number(style.opacity) === 0
+    ) {
+      continue;
+    }
+
+    const dx = rect.left - sx;
+    const dy = rect.top - sy;
+    const dw = rect.width;
+    const dh = rect.height;
+    const radius = Math.min(
+      dw / 2,
+      dh / 2,
+      parseFloat(style.borderTopLeftRadius) || 0,
+    );
+
+    const bg = style.backgroundColor;
+    if (bg && bg !== "rgba(0, 0, 0, 0)" && bg !== "transparent") {
+      ctx.save();
+      ctx.beginPath();
+      if (radius > 0 && "roundRect" in ctx) {
+        ctx.roundRect(dx, dy, dw, dh, radius);
+      } else {
+        ctx.rect(dx, dy, dw, dh);
+      }
+      ctx.fillStyle = bg;
+      ctx.fill();
+      ctx.restore();
+    }
+
+    const borderW = parseFloat(style.borderTopWidth) || 0;
+    const borderColor = style.borderTopColor;
+    if (
+      borderW > 0 &&
+      borderColor &&
+      borderColor !== "rgba(0, 0, 0, 0)" &&
+      borderColor !== "transparent"
+    ) {
+      ctx.save();
+      ctx.beginPath();
+      if (radius > 0 && "roundRect" in ctx) {
+        ctx.roundRect(dx, dy, dw, dh, radius);
+      } else {
+        ctx.rect(dx, dy, dw, dh);
+      }
+      ctx.strokeStyle = borderColor;
+      ctx.lineWidth = Math.min(2, borderW);
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    if (el instanceof HTMLImageElement && el.complete && el.naturalWidth > 0) {
+      try {
+        ctx.drawImage(el, dx, dy, dw, dh);
+      } catch {
+        // Ignore cross-origin image draw errors
+      }
+    }
+
+    if (
+      el.childNodes.length === 1 &&
+      el.firstChild?.nodeType === Node.TEXT_NODE &&
+      el.textContent?.trim()
+    ) {
+      const text = el.textContent.trim();
+      const fontSize = parseFloat(style.fontSize) || 14;
+      ctx.save();
+      ctx.font = `${style.fontWeight || 400} ${fontSize}px ${style.fontFamily || "sans-serif"}`;
+      ctx.fillStyle = style.color || "#182431";
+      ctx.textBaseline = "middle";
+      const paddingLeft = parseFloat(style.paddingLeft) || 0;
+      ctx.fillText(
+        text.slice(0, 48),
+        dx + paddingLeft,
+        dy + dh / 2,
+        Math.max(16, dw - paddingLeft * 2),
+      );
+      ctx.restore();
+    }
+  }
+
+  ctx.save();
+  ctx.strokeStyle =
+    elapsedSec > 0 ? "rgba(98, 102, 223, 0.45)" : "rgba(98, 102, 223, 0.22)";
+  ctx.lineWidth = 2;
+  ctx.strokeRect(1, 1, sw - 2, sh - 2);
+  if (elapsedSec > 0) {
+    const pulseX = 16 + ((elapsedSec * 48) % Math.max(24, sw - 32));
+    ctx.fillStyle = "rgba(98, 102, 223, 0.18)";
+    ctx.beginPath();
+    ctx.arc(pulseX, sh - 10, 4, 0, Math.PI * 2);
+    ctx.fill();
+  }
+  ctx.restore();
+  return true;
+}
+
+/**
+ * Browser capture panel supporting camera document scanning (`mode === "scanner"`)
+ * and direct workspace region screenshot/recording (`mode === "capture"`).
+ * In `capture` mode, neither Screenshot nor Recording is pre-selected initially;
+ * clicking either button immediately switches the cursor to the corresponding capture icon
+ * and allows dragging anywhere on the screen to capture or record.
+ */
 export function CapturePanel({
   mode,
   items,
@@ -187,13 +371,16 @@ export function CapturePanel({
 }) {
   const en = language === "en",
     t = (zh: string, e: string) => (en ? e : zh);
-  const [recordMode, setRecordMode] = useState(false),
-    [phase, setPhase] = useState<"idle" | "loading" | "preview" | "recording">(
-      "idle",
-    ),
+  const [selectedKind, setSelectedKind] = useState<
+      "screenshot" | "recording" | null
+    >(null),
+    [phase, setPhase] = useState<
+      "idle" | "loading" | "preview" | "selecting" | "recording"
+    >("idle"),
     [error, setError] = useState(""),
     [elapsed, setElapsed] = useState(0);
   const [crop, setCrop] = useState<Crop>({ x: 0, y: 0, w: 1, h: 1 });
+  const [draggingSelection, setDraggingSelection] = useState(false);
   const [review, setReview] = useState<DemoCapture | null>(null);
   const video = useRef<HTMLVideoElement>(null),
     image = useRef<HTMLImageElement>(null),
@@ -209,6 +396,8 @@ export function CapturePanel({
   const callbacks = useRef({ onAdd, onBusy });
   callbacks.current = { onAdd, onBusy };
   const [reviewUrl, setReviewUrl] = useState("");
+  const recordMode = selectedKind === "recording";
+
   useEffect(() => {
     if (!review) {
       setReviewUrl("");
@@ -218,6 +407,10 @@ export function CapturePanel({
     setReviewUrl(u);
     return () => URL.revokeObjectURL(u);
   }, [review]);
+
+  /**
+   * Releases any active camera stream, MediaRecorder, animation frame, and selection state.
+   */
   function release() {
     epoch.current++;
     cancelAnimationFrame(raf.current);
@@ -227,9 +420,15 @@ export function CapturePanel({
     cropStream.current?.getTracks().forEach((x) => x.stop());
     media.current = null;
     cropStream.current = null;
+    pointer.current = null;
+    setDraggingSelection(false);
     callbacks.current.onBusy(false);
-    if (live.current) setPhase("idle");
+    if (live.current) {
+      setPhase("idle");
+      setSelectedKind(null);
+    }
   }
+
   useEffect(() => {
     live.current = true;
     const hide = () => {
@@ -242,37 +441,46 @@ export function CapturePanel({
       document.removeEventListener("visibilitychange", hide);
     };
   }, []);
-  async function begin() {
+
+  useEffect(() => {
+    if (phase !== "selecting" && phase !== "recording") return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        e.stopPropagation();
+        release();
+      }
+    };
+    window.addEventListener("keydown", onKeyDown, true);
+    return () => window.removeEventListener("keydown", onKeyDown, true);
+  }, [phase]);
+
+  /**
+   * Starts either the camera preview (`mode === "scanner"`) or direct workspace region selection (`mode === "capture"`).
+   * @param nextKind Optional capture kind ("screenshot" | "recording").
+   */
+  async function begin(nextKind?: "screenshot" | "recording") {
+    if (nextKind) setSelectedKind(nextKind);
     setError("");
     setReview(null);
+
+    if (mode === "capture") {
+      setCrop({ x: 0, y: 0, w: 0, h: 0 });
+      setDraggingSelection(false);
+      onBusy(true);
+      setPhase("selecting");
+      return;
+    }
+
     setCrop({ x: 0, y: 0, w: 1, h: 1 });
     setPhase("loading");
     onBusy(true);
     const run = ++epoch.current;
     try {
-      if (!navigator.mediaDevices) throw Error();
-      const Controller = (
-        window as unknown as {
-          CaptureController?: new () => {
-            setFocusBehavior: (behavior: string) => void;
-          };
-        }
-      ).CaptureController;
-      const controller =
-        mode === "capture" && Controller ? new Controller() : undefined;
-      controller?.setFocusBehavior("no-focus-change");
-      const displayOptions = {
+      if (!navigator.mediaDevices?.getUserMedia) throw Error();
+      const stream = await navigator.mediaDevices.getUserMedia({
         video: true,
         audio: false,
-        ...(controller ? { controller } : {}),
-      };
-      const stream =
-        mode === "scanner"
-          ? await navigator.mediaDevices.getUserMedia({
-              video: true,
-              audio: false,
-            })
-          : await navigator.mediaDevices.getDisplayMedia(displayOptions);
+      });
       if (!live.current || run !== epoch.current) {
         stream.getTracks().forEach((x) => x.stop());
         return;
@@ -298,7 +506,18 @@ export function CapturePanel({
       }
     }
   }
-  function draw(canvas: HTMLCanvasElement) {
+
+  /**
+   * Draws the active camera video or review image onto a canvas using the current crop.
+   */
+  function draw(canvas: HTMLCanvasElement, targetCrop: Crop = crop) {
+    const effectiveCrop =
+      targetCrop.w > 0.01 && targetCrop.h > 0.01
+        ? targetCrop
+        : { x: 0.12, y: 0.12, w: 0.76, h: 0.72 };
+    if (mode === "capture" && !review) {
+      return renderWorkspaceRegionToCanvas(canvas, effectiveCrop);
+    }
     const source = review ? image.current : video.current;
     if (!source) return false;
     const w =
@@ -310,16 +529,16 @@ export function CapturePanel({
           ? source.videoHeight
           : source.naturalHeight;
     if (!w || !h) return false;
-    canvas.width = Math.max(1, Math.round(w * crop.w));
-    canvas.height = Math.max(1, Math.round(h * crop.h));
+    canvas.width = Math.max(1, Math.round(w * effectiveCrop.w));
+    canvas.height = Math.max(1, Math.round(h * effectiveCrop.h));
     canvas
       .getContext("2d")!
       .drawImage(
         source,
-        w * crop.x,
-        h * crop.y,
-        w * crop.w,
-        h * crop.h,
+        w * effectiveCrop.x,
+        h * effectiveCrop.y,
+        w * effectiveCrop.w,
+        h * effectiveCrop.h,
         0,
         0,
         canvas.width,
@@ -327,10 +546,15 @@ export function CapturePanel({
       );
     return true;
   }
-  async function capture() {
+
+  /**
+   * Immediately captures a PNG screenshot (or scanner frame) for the specified region.
+   * @param targetCrop Crop region to capture.
+   */
+  async function capture(targetCrop: Crop = crop) {
     const run = epoch.current;
     const canvas = document.createElement("canvas");
-    if (!draw(canvas)) {
+    if (!draw(canvas, targetCrop)) {
       setError(
         t(
           "画面尚未就绪，请稍后重试。",
@@ -360,10 +584,19 @@ export function CapturePanel({
       release();
     }
   }
-  function record() {
-    if (!media.current || phase !== "preview") return;
+
+  /**
+   * Immediately starts recording a 24fps WebM video of the selected workspace region.
+   * @param targetCrop Selected region to record.
+   */
+  function record(targetCrop: Crop = crop) {
+    const effectiveCrop =
+      targetCrop.w > 0.01 && targetCrop.h > 0.01
+        ? targetCrop
+        : { x: 0.12, y: 0.12, w: 0.76, h: 0.72 };
+    setCrop(effectiveCrop);
     const canvas = document.createElement("canvas");
-    if (!draw(canvas)) return;
+    if (!renderWorkspaceRegionToCanvas(canvas, effectiveCrop, 0)) return;
     let chunks: Blob[] = [],
       bytes = 0;
     const output = canvas.captureStream(24);
@@ -372,7 +605,11 @@ export function CapturePanel({
       "video/webm;codecs=vp9",
       "video/webm;codecs=vp8",
       "video/webm",
-    ].find((x) => MediaRecorder.isTypeSupported(x));
+    ].find(
+      (x) =>
+        typeof MediaRecorder !== "undefined" &&
+        MediaRecorder.isTypeSupported(x),
+    );
     if (!mime) {
       setError(
         t(
@@ -439,7 +676,8 @@ export function CapturePanel({
     };
     const frame = () => {
       if (r.state !== "recording") return;
-      draw(canvas);
+      const sec = (performance.now() - started) / 1000;
+      renderWorkspaceRegionToCanvas(canvas, effectiveCrop, sec);
       raf.current = requestAnimationFrame(frame);
     };
     r.start(250);
@@ -452,43 +690,55 @@ export function CapturePanel({
       if (seconds >= 60) release();
     }, 250);
   }
+
   const visible = items.filter((i) =>
     mode === "scanner" ? i.kind === "scanner" : i.kind !== "scanner",
   );
+  const cursorKind = recordMode ? "recording" : "screenshot";
+  const pixelWidth = Math.max(
+    1,
+    Math.round(
+      crop.w * (typeof window !== "undefined" ? window.innerWidth : 1280),
+    ),
+  );
+  const pixelHeight = Math.max(
+    1,
+    Math.round(
+      crop.h * (typeof window !== "undefined" ? window.innerHeight : 800),
+    ),
+  );
+
   return (
     <div
       className="demo-capture-panel"
       data-mode={mode}
       data-phase={phase}
       data-review={!!review}
+      data-capture-cursor={
+        mode === "capture" && selectedKind ? cursorKind : undefined
+      }
     >
-      {mode === "capture" && (
-        <p>
-          {t(
-            "添加参考素材：截图用于参考视觉效果，录屏用于参考操作流程与交互动画。确认后加入当前草稿。",
-            "Add prompt references: screenshots for visual style, recordings for interaction flows and transitions. Confirm to attach them to this draft.",
-          )}
-        </p>
-      )}
       {mode === "capture" && (
         <div className="demo-capture-modes">
           <button
-            disabled={phase !== "idle" || !!review}
-            aria-pressed={!recordMode}
-            onClick={() => setRecordMode(false)}
+            type="button"
+            disabled={phase === "recording" || !!review}
+            aria-pressed={selectedKind === "screenshot" && phase !== "idle"}
+            onClick={() => void begin("screenshot")}
           >
             {t("截图", "Screenshot")}
           </button>
           <button
-            disabled={phase !== "idle" || !!review}
-            aria-pressed={recordMode}
-            onClick={() => setRecordMode(true)}
+            type="button"
+            disabled={phase === "recording" || !!review}
+            aria-pressed={selectedKind === "recording" && phase !== "idle"}
+            onClick={() => void begin("recording")}
           >
             {t("录屏", "Recording")}
           </button>
         </div>
       )}
-      {(phase !== "idle" || review) && (
+      {((mode === "scanner" && phase !== "idle") || review) && (
         <>
           <p className="sr-only">
             {t(
@@ -498,6 +748,7 @@ export function CapturePanel({
           </p>
           <div
             className="demo-capture-viewport"
+            data-capture-cursor={mode === "capture" ? cursorKind : undefined}
             onPointerDown={(e) => {
               if (phase === "recording") return;
               const r = e.currentTarget.getBoundingClientRect();
@@ -550,55 +801,147 @@ export function CapturePanel({
           </div>
         </>
       )}
-      <div className="demo-capture-actions">
-        {(phase !== "idle" || review) && (
-          <button
-            onClick={() => setCrop({ x: 0, y: 0, w: 1, h: 1 })}
-            disabled={phase === "recording"}
-          >
-            <RotateCcw size={14} />
-            {t("完整画面", "Full frame")}
-          </button>
-        )}
-        {phase === "idle" && !review ? (
-          <button onClick={() => void begin()}>
-            {mode === "scanner" ? <Camera size={18} /> : <Monitor size={18} />}{" "}
-            {t(
-              mode === "scanner" ? "打开摄像头" : "选择共享屏幕",
-              mode === "scanner" ? "Open camera" : "Choose shared screen",
+      {mode === "capture" &&
+        (phase === "selecting" || phase === "recording") &&
+        typeof document !== "undefined" &&
+        createPortal(
+          <div
+            className="demo-screen-selector-overlay input-controls-theme"
+            data-capture-cursor={cursorKind}
+            data-phase={phase}
+            role="region"
+            aria-label={t(
+              recordMode ? "屏幕录制选区" : "屏幕截图选区",
+              recordMode
+                ? "Screen recording region selector"
+                : "Screenshot region selector",
             )}
-          </button>
-        ) : phase === "recording" ? (
-          <button onClick={release}>
-            <Square size={16} />
-            {t("停止", "Stop")} · {elapsed}s / 60s
-          </button>
-        ) : (
-          <>
-            <button
-              disabled={phase === "loading"}
-              onClick={() => {
-                if (recordMode && !review) record();
-                else void capture();
-              }}
-            >
-              {review
-                ? t("保存裁剪", "Save crop")
-                : recordMode
-                  ? t("开始录屏", "Start recording")
-                  : t("拍摄", "Capture")}
-            </button>
-            <button
-              onClick={() => {
-                release();
-                setReview(null);
-              }}
-            >
-              {t("取消", "Cancel")}
-            </button>
-          </>
+            onPointerDown={(e) => {
+              if (phase !== "selecting") return;
+              const vw = Math.max(1, window.innerWidth);
+              const vh = Math.max(1, window.innerHeight);
+              const startPt = {
+                x: Math.max(0, Math.min(1, e.clientX / vw)),
+                y: Math.max(0, Math.min(1, e.clientY / vh)),
+              };
+              pointer.current = startPt;
+              setDraggingSelection(true);
+              setCrop({ x: startPt.x, y: startPt.y, w: 0.01, h: 0.01 });
+              e.currentTarget.setPointerCapture(e.pointerId);
+            }}
+            onPointerMove={(e) => {
+              if (phase !== "selecting" || !pointer.current) return;
+              const vw = Math.max(1, window.innerWidth);
+              const vh = Math.max(1, window.innerHeight);
+              const next = normalizedCrop(pointer.current, {
+                x: Math.max(0, Math.min(1, e.clientX / vw)),
+                y: Math.max(0, Math.min(1, e.clientY / vh)),
+              });
+              setCrop(next);
+            }}
+            onPointerUp={(e) => {
+              if (phase !== "selecting" || !pointer.current) return;
+              const vw = Math.max(1, window.innerWidth);
+              const vh = Math.max(1, window.innerHeight);
+              const next = normalizedCrop(pointer.current, {
+                x: Math.max(0, Math.min(1, e.clientX / vw)),
+                y: Math.max(0, Math.min(1, e.clientY / vh)),
+              });
+              pointer.current = null;
+              setDraggingSelection(false);
+              const finalCrop =
+                next.w > 0.02 && next.h > 0.02
+                  ? next
+                  : { x: 0.12, y: 0.12, w: 0.76, h: 0.72 };
+              setCrop(finalCrop);
+              if (recordMode) {
+                record(finalCrop);
+              } else {
+                void capture(finalCrop);
+              }
+            }}
+            onPointerCancel={() => {
+              pointer.current = null;
+              setDraggingSelection(false);
+            }}
+          >
+            {(draggingSelection || phase === "recording") && (
+              <div
+                className="demo-selector-box"
+                data-recording={phase === "recording"}
+                style={{
+                  left: crop.x * 100 + "%",
+                  top: crop.y * 100 + "%",
+                  width: crop.w * 100 + "%",
+                  height: crop.h * 100 + "%",
+                }}
+              >
+                <span className="demo-selector-badge">
+                  {phase === "recording" ? (
+                    <>
+                      <i className="demo-recording-dot" />
+                      {elapsed}s / 60s
+                    </>
+                  ) : (
+                    <>
+                      {pixelWidth} × {pixelHeight}
+                    </>
+                  )}
+                </span>
+              </div>
+            )}
+          </div>,
+          document.body,
         )}
-      </div>
+      {(mode === "scanner" || phase !== "idle" || !!review) && (
+        <div className="demo-capture-actions">
+          {((mode === "scanner" && phase !== "idle") || review) && (
+            <button
+              onClick={() => setCrop({ x: 0, y: 0, w: 1, h: 1 })}
+              disabled={phase === "recording"}
+            >
+              <RotateCcw size={14} />
+              {t("完整画面", "Full frame")}
+            </button>
+          )}
+          {phase === "idle" && !review ? (
+            mode === "scanner" ? (
+              <button onClick={() => void begin()}>
+                <Camera size={18} /> {t("打开摄像头", "Open camera")}
+              </button>
+            ) : null
+          ) : phase === "recording" ? (
+            <button onClick={release}>
+              <Square size={16} />
+              {t("停止", "Stop")} · {elapsed}s / 60s
+            </button>
+          ) : (
+            <>
+              <button
+                disabled={phase === "loading"}
+                onClick={() => {
+                  if (recordMode && !review) record(crop);
+                  else void capture(crop);
+                }}
+              >
+                {review
+                  ? t("保存裁剪", "Save crop")
+                  : recordMode
+                    ? t("开始录屏", "Start recording")
+                    : t("拍摄", "Capture")}
+              </button>
+              <button
+                onClick={() => {
+                  release();
+                  setReview(null);
+                }}
+              >
+                {t("取消", "Cancel")}
+              </button>
+            </>
+          )}
+        </div>
+      )}
       {error && <p role="alert">{error}</p>}
       {visible.length > 0 && (
         <div className="demo-capture-items">
@@ -619,7 +962,9 @@ export function CapturePanel({
                   <button
                     onClick={() => {
                       onRemove(item.id);
-                      void begin();
+                      void begin(
+                        item.kind === "screenshot" ? "screenshot" : undefined,
+                      );
                     }}
                   >
                     {t("重拍", "Retake")}

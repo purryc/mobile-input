@@ -27,6 +27,7 @@ export interface ControlOption {
   zh: string;
   en: string;
   detail?: string;
+  detailEn?: string;
   color?: string;
   swatches?: string[];
 }

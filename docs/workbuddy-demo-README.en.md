@@ -182,7 +182,7 @@ The ZIP contains the complete standalone source dependency closure. Node.js, dow
 
 The screenshot shows the Chinese home screen at 1440 × 960. Use the top-right settings gear to switch the interface and speech language to English.
 
-The interface follows the client shown on [Huawei Xiaoyi Work](https://xiaoyi.huawei.com/work): a pale-gray sidebar, white workspace, centered official mascot and three supported creation shortcuts. The result screen retains conversation and editable artifact panes. Screenshots from older WorkBuddy releases no longer represent this appearance. Chinese uses 小艺Work; English uses Xiaoyi Work.
+The interface follows the client shown on [Huawei Xiaoyi Work](https://xiaoyi.huawei.com/work): a pale-gray sidebar, pure-white (`#ffffff`) workspace that blends seamlessly with the centered official mascot, and three supported creation shortcuts (with the presentation shortcut pre-populated with a rich multi-control product launch sample prompt). The result screen retains conversation and editable artifact panes. Screenshots from older WorkBuddy releases no longer represent this appearance. Chinese uses 小艺Work; English uses Xiaoyi Work.
 
 The official logo and client poster are bundled locally under `apps/web/public/assets/xiaoyi-work/`; `sources.json` records the source URLs and SHA-256 hashes. The mascot is framed from the unmodified official poster using CSS. These brand assets belong to Huawei; this demo does not connect to or represent the official Xiaoyi service. No runtime request to Huawei's image servers is required.
 
@@ -204,9 +204,9 @@ connectors, output formats, contextual polish, and screenshot/screen recording.
 
 **Explicit intent produces an ordinary light-gray chip**, even when the user has
 not supplied its value. A vague but relevant intent can produce a concrete
-recommendation. These chips have a blue/violet/pink border and a single 1.4-second
-perimeter highlight when a new candidate appears. They do not continuously pulse.
-Reduced-motion preferences disable the sweep. Opening a chip does not change its
+recommendation. While preparing, soft luminous particles materialize and converge;
+on reveal, they coalesce into the recommended chip with a soft blue/violet/pink border.
+They do not continuously pulse. Reduced-motion preferences disable the animation. Opening a chip does not change its
 provenance; choosing a replacement makes it a manual chip. Removing a recommendation
 suppresses it for the same intent in that draft, including after a refresh.
 
@@ -296,10 +296,8 @@ They do not ask an Agent to operate the referenced application or create a recor
 See [three complete Chinese test scenarios](workbuddy-demo-scenarios.zh.md) for
 explicit, recommendation-focused and mixed inputs covering all 14 control types.
 
-Use desktop Chrome on localhost or HTTPS. Click the relevant button to request
-camera or screen permission. Screen source selection remains in Chrome's own chooser.
-Drag a rectangle in the preview to crop. Document scanning supports multiple pages,
-manual capture, crop, retake and explicit confirmation. It does not perform OCR.
+Use desktop Chrome on localhost or HTTPS. For document scanning, click the button to request
+camera permission; it supports multiple pages, manual capture, crop, retake and explicit confirmation, and does not perform OCR. For screenshot and screen recording, start region selection directly on the workspace (with dedicated screenshot/recording cursors) and drag a rectangle: releasing the pointer in Screenshot mode immediately captures that region without a separate browser screen-share chooser or preview step, while releasing in Recording mode immediately starts recording that region.
 
 Screen recording requires separate Start and Stop clicks, records no audio, and
 stops at 60 seconds or approximately 64 MiB. Stopping, closing, hiding the page or

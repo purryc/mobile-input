@@ -18,14 +18,15 @@
 .widget-library-body { display: grid; grid-template-columns: 176px minmax(0, 1fr); gap: 24px; padding-top: 20px; }
 .widget-library nav { display: grid; align-content: start; gap: 4px; }
 .widget-library nav button, .widget-library-tools button, .widget-library-tools select,
-.widget-example-anchor > button, .widget-sample { border: 1px solid #d5dae1; border-radius: 9px; padding: 6px 10px; background: white; color: inherit; }
+.widget-example-anchor > button, .widget-sample { border: 1px solid rgb(212 217 232 / 86%); border-radius: 10px; padding: 6px 10px; background: rgb(255 255 255 / 88%); backdrop-filter: blur(10px); box-shadow: inset 0 1px 0 #fff; color: inherit; transition: all 0.16s ease; }
 .widget-library nav button { text-align: left; }
-.widget-library nav button[aria-current], .widget-library-tools button[aria-pressed="true"] { border-color: #6266df; background: #efeffa; }
+.widget-library nav button:hover, .widget-library-tools button:hover { background: #f4f5fd; border-color: #b8bde8; }
+.widget-library nav button[aria-current], .widget-library-tools button[aria-pressed="true"] { border-color: #6266df; background: linear-gradient(135deg, #eff0ff, #f6f2ff); box-shadow: 0 2px 8px rgb(98 102 223 / 12%), inset 0 1px 0 #fff; }
 .widget-library-tools h2 { margin-block: 0; font-size: 19px; }
 .widget-library-examples { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 335px), 1fr)); gap: 16px; margin-top: 16px; }
-.widget-example { position: relative; min-width: 0; padding: 20px; border-radius: 16px; border: 1px solid #e4e5ed; background: #f8f8fb; --dock-accent: #6266df; --input-accent: #6266df; --input-ink: #182431; --input-control: #f5f6f9b8; --input-edge: #d5dae1; }
+.widget-example { position: relative; min-width: 0; padding: 20px; border-radius: 18px; border: 1px solid rgb(222 226 240 / 88%); background: radial-gradient(120% 80% at 50% 0%, rgb(116 126 255 / 6%) 0%, transparent 70%), linear-gradient(180deg, #fafbff 0%, #f4f5fb 100%); box-shadow: 0 10px 28px -10px rgb(24 32 68 / 7%), inset 0 1px 0 #fff; --dock-accent: #6266df; --input-accent: #6266df; --input-ink: #182431; --input-control: #f5f6f9b8; --input-edge: #d5dae1; }
 .widget-example .widget-example-anchor { padding: 0; min-height: 32px; font-size: 15px; line-height: 32px; }
-.widget-example .widget-example-panel { position: relative; inset: auto; z-index: auto; margin: 8px 0 0; max-width: 100%; }
+.widget-example .widget-example-panel { position: relative; inset: auto; z-index: 25; margin: 8px 0 0; max-width: 100%; }
 .widget-example .widget-example-panel .live-wb-aux { overflow: auto; max-height: min(640px, 74vh); }
 .widget-example .widget-example-panel::after { display: none; }
 .widget-example .widget-example-status, .widget-example-files { margin: 12px 0 0; overflow-wrap: anywhere; }

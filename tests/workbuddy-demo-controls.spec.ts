@@ -81,7 +81,8 @@ test("documented scenarios expose all controls with captures as prompt reference
     const kinds = await page.locator('.sentence-token[data-origin="recommended"]').evaluateAll(nodes => [...new Set(nodes.map(node => (node as HTMLElement).dataset.kind))].sort());
     expect(kinds).toEqual([...recommended[index]].sort());
     await chip(page, "capture").click();
-    await expect(page.getByText("添加参考素材：截图用于参考视觉效果，录屏用于参考操作流程与交互动画。确认后加入当前草稿。", { exact: true })).toBeVisible();
+    await expect(page.getByRole("button", { name: "截图", exact: true })).toBeVisible();
+    await expect(page.getByRole("button", { name: "录屏", exact: true })).toBeVisible();
     await page.getByRole("button", { name: "关闭辅助输入", exact: true }).click();
   }
 });
@@ -179,24 +180,23 @@ test("capture permissions fail safely and repeated cancel keeps input", async ({
     navigator.mediaDevices.getUserMedia = async () => {
       throw new DOMException("Denied", "NotAllowedError");
     };
-    navigator.mediaDevices.getDisplayMedia = async () => {
-      throw new DOMException("Denied", "NotAllowedError");
-    };
   });
-  for (const kind of ["scanner", "capture"]) {
-    await chip(page, kind).click();
-    await page
-      .getByRole("button", {
-        name: kind === "scanner" ? "打开摄像头" : "选择共享屏幕",
-        exact: true,
-      })
-      .click();
-    await expect(
-      page.locator(".demo-capture-panel [role=alert]"),
-    ).toBeVisible();
-    await expect(page.locator(".demo-send")).toBeEnabled();
-    await page.getByRole("button", { name: "关闭辅助输入" }).click();
-  }
+  await chip(page, "scanner").click();
+  await page.getByRole("button", { name: "打开摄像头", exact: true }).click();
+  await expect(page.locator(".demo-capture-panel [role=alert]")).toBeVisible();
+  await expect(page.locator(".demo-send")).toBeEnabled();
+  await page.getByRole("button", { name: "关闭辅助输入" }).click();
+
+  await chip(page, "capture").click();
+  await page.getByRole("button", { name: "截图", exact: true }).click();
+  const selector = page.locator(".demo-screen-selector-overlay");
+  await expect(selector).toBeVisible();
+  await expect(selector).toHaveAttribute("data-capture-cursor", "screenshot");
+  await page.getByRole("button", { name: "取消", exact: true }).click();
+  await expect(selector).toHaveCount(0);
+  await expect(page.locator(".demo-send")).toBeEnabled();
+  await page.getByRole("button", { name: "关闭辅助输入" }).click();
+
   await expect(editor(page)).toHaveAttribute(
     "data-value",
     "扫描文档，添加截图。",
@@ -220,7 +220,6 @@ test("mock real media adapters produce owner-bound bytes and confirmed snapshots
       return Promise.resolve(s);
     };
     navigator.mediaDevices.getUserMedia = stream;
-    navigator.mediaDevices.getDisplayMedia = stream;
   });
   await editor(page).fill("Scan a document and record the screen.");
   await chip(page, "scanner").click();
@@ -246,7 +245,10 @@ test("mock real media adapters produce owner-bound bytes and confirmed snapshots
   await expect(page.locator(".demo-attachments [data-capture-kind=scanner] img")).toHaveCount(1);
   await chip(page, "capture").click();
   await page.getByRole("button", { name: "Recording", exact: true }).click();
-  await page.getByRole("button", { name: "Choose shared screen" }).click();
+  await expect(page.locator(".demo-screen-selector-overlay")).toHaveAttribute(
+    "data-capture-cursor",
+    "recording",
+  );
   await page
     .getByRole("button", { name: "Start recording", exact: true })
     .click();
@@ -397,7 +399,7 @@ for (const language of ["zh", "en"]) {
     await open(page, language);
     for (const [kind, label, count] of [
       ["expert", language === "en" ? "Expert" : "专家", 6],
-      ["skills", language === "en" ? "Skills" : "技能", 4],
+      ["skills", language === "en" ? "Skills" : "技能", 20],
     ] as const) {
       await page.locator(".demo-controls-index").getByRole("button", {name:label,exact:true}).click();
       const cards = page.locator(".demo-control-grid .demo-control-option");

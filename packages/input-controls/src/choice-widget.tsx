@@ -54,6 +54,22 @@ const optionArtwork: Record<string, string> = {
   "skills:deep-research": "skill-web",
   "skills:ppt-implement": "skill-ppt",
   "skills:document-skills": "skill-word",
+  "skills:product-management": "skill-word",
+  "skills:demand-mining": "skill-web",
+  "skills:seo-ops": "skill-excel",
+  "skills:wechat-miniapp": "skill-ppt",
+  "skills:ecom-copywriter": "skill-word",
+  "skills:ecomseer-tiktok": "skill-excel",
+  "skills:cn-ecom-search": "skill-web",
+  "skills:x-longform-post": "skill-word",
+  "skills:content-factory": "skill-ppt",
+  "skills:content-dist": "skill-web",
+  "skills:startup-val": "skill-excel",
+  "skills:market-research": "skill-web",
+  "skills:startup-learn": "skill-word",
+  "skills:wechat-publisher": "skill-ppt",
+  "skills:wechat-article": "skill-word",
+  "skills:find-skills": "skill-web",
   "connectors:tencent-docs": "connector-tencent",
   "connectors:feishu": "connector-feishu",
   "connectors:wecom": "connector-wecom",
@@ -203,7 +219,12 @@ export function ChoiceWidget({
             className="demo-choice-label"
             style={binding.kind === "font" ? { fontFamily: o.id } : undefined}
           >
-            {en ? o.en : o.zh}
+            <span className="demo-choice-title">{en ? o.en : o.zh}</span>
+            {capability && (o.detail || o.detailEn) && (
+              <small className="demo-choice-desc">
+                {en ? o.detailEn || o.detail : o.detail}
+              </small>
+            )}
             {binding.kind === "font" && (
               <span className="demo-font-example">
                 {t("让想法清晰可见", "Make your ideas clear")}
@@ -314,26 +335,6 @@ export function ChoiceWidget({
         </p>
       )}
       <div className="demo-choice-footer">
-        {capability && (
-          <button
-            type="button"
-            className="demo-choice-all"
-            onClick={() => setQuery("")}
-          >
-            {t("全部", "All")}
-          </button>
-        )}
-        {capability && (
-          <span
-            className="demo-choice-note"
-            title={t(
-              "演示选项，不会执行或连接服务",
-              "Demo choices; no service is executed or connected",
-            )}
-          >
-            {t("演示", "Demo")}
-          </span>
-        )}
         {binding.kind === "formats" && (
           <span
             title={t(

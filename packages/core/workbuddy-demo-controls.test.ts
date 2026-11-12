@@ -295,3 +295,19 @@ test('explicit native materials and spoken lengths outrank ambiguous context, in
  let draft=editDemoText(newDemoDraft(),'参考内置产品介绍。');
  draft=editDemoText(draft,'第二页参考内置产品介绍。');assert.equal(draft.materials[0].scope,'第二页');
 });
+
+test('user product launch presentation sample prompt exposes all expected explicit and recommended chips',()=>{
+ const text='我想做一个简短的演示文稿，介绍今年的要发布的产品。背景用灰色，字体用黑色，主题色用红色。我有一些本地文档作为大纲参考，还有老板的写的一些重点我扫描给你，另外要添加一些产品照片。布局我画一下，左边是今年产品总览，右边是分产品的介绍。然后整体视觉风格参考我这个截屏的。';
+ const draft=editDemoText(newDemoDraft(),text);
+ const controls=draft.controls||[];
+ const native=draft.parameters;
+ assert.equal(controls.find(c=>c.kind==='duration')?.value[0],'10');
+ assert.deepEqual(controls.find(c=>c.kind==='skills')?.value,['ppt-implement']);
+ assert.deepEqual(controls.find(c=>c.kind==='expert')?.value,['ppt']);
+ assert.equal(controls.find(c=>c.kind==='scanner')?.origin,'explicit');
+ assert.equal(controls.find(c=>c.kind==='capture')?.origin,'explicit');
+ assert.equal(native.filter(p=>p.kind==='color').length,3);
+ assert.equal(native.find(p=>p.kind==='document')?.phrase,'本地文档');
+ assert.equal(native.find(p=>p.kind==='photo')?.phrase,'产品照片');
+ assert.equal(native.find(p=>p.kind==='sketch')?.phrase,'我画一下');
+});

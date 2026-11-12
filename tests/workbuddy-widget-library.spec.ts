@@ -162,7 +162,24 @@ test("file and image selection, sketch adoption, and capture confirmation update
   await expect(page.locator(".widget-sketch-result polyline")).toHaveCount(1);
   for (const kind of ["scanner", "capture"]) {
     await page.goto(path(kind));
-    await page.getByRole("button", { name: "Use a sample image" }).click();
+    if (kind === "capture") {
+      await page
+        .getByRole("button", { name: "Screenshot", exact: true })
+        .click();
+      const selector = page.locator(".demo-screen-selector-overlay");
+      await expect(selector).toBeVisible();
+      await expect(selector).toHaveAttribute(
+        "data-capture-cursor",
+        "screenshot",
+      );
+      await page.mouse.move(120, 140);
+      await page.mouse.down();
+      await page.mouse.move(380, 320, { steps: 4 });
+      await page.mouse.up();
+      await expect(selector).toHaveCount(0);
+    } else {
+      await page.getByRole("button", { name: "Use a sample image" }).click();
+    }
     await expect(page.getByText("Awaiting confirmation")).toBeVisible();
     await page.getByRole("button", { name: "Confirm materials" }).click();
     await expect(page.locator(".demo-attachments .demo-material")).toHaveCount(
