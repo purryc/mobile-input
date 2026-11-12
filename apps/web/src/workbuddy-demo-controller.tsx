@@ -182,6 +182,7 @@ export function useWorkbuddyDemoController() {
           speechWords.current = words;
           const binding = speechBinding.current;
           if (!binding) return;
+          const caret = binding.start + words.length;
           update(binding.owner, (d) =>
             editDemoText(
               d,
@@ -190,6 +191,14 @@ export function useWorkbuddyDemoController() {
                 binding.base.slice(binding.end),
             ),
           );
+          requestAnimationFrame(() => {
+            if (
+              speechBinding.current === binding &&
+              latest.current?.active === binding.owner
+            ) {
+              area.current?.setSelectionRange(caret, caret);
+            }
+          });
         },
       },
     );
@@ -323,101 +332,99 @@ export function useWorkbuddyDemoController() {
     );
   }
   function invokeControl(kind: DemoControlKind) {
-    void afterSpeech(() => {
-      if (kind === "polish") {
-        const current = latest.current?.drafts.find(
-          (d) => d.id === latest.current?.active,
-        );
-        if (current && !demoPolishActions(current.text).length) {
-          if (showDebugControls || gallery === "polish") {
-            const fresh = editDemoText(
-              newDemoDraft(),
-              language === "en"
-                ? "Plan the product launch. Explain the audience and benefits, then then outline the next steps."
-                : "帮我整理产品发布计划。介绍受众和优势，然后然后说明下一步安排。",
-            );
-            commit({
-              ...latest.current!,
-              drafts: [fresh, ...latest.current!.drafts],
-            });
-            switchDraft(fresh.id);
-          } else
-            report(
-              language === "en"
-                ? "Write a request first; relevant polishing options appear below it."
-                : "先描述任务，适用的润色选项会出现在文字下方。",
-            );
-        }
-        setPanel(null);
-        setAddMenu(false);
-        return;
-      }
-      if (["color", "duration", "document", "photo", "sketch"].includes(kind)) {
-        const current = latest.current?.drafts.find(
-          (d) => d.id === latest.current?.active,
-        );
-        const existing = current?.parameters.find((p) => p.kind === kind);
-        if (existing) {
-          setPanel({
-            kind,
-            scope: existing.scope,
-            id: existing.id,
-            role: existing.role,
-          });
-          setAddMenu(false);
-          return;
-        }
-        if (kind === "color" || kind === "duration") {
-          update(latest.current!.active, (d) =>
-            editDemoText(
-              d,
-              d.text +
-                (d.text ? "，" : "") +
-                (kind === "color"
-                  ? language === "en"
-                    ? "theme color blue"
-                    : "主题色蓝色"
-                  : language === "en"
-                    ? "10 minutes"
-                    : "10分钟"),
-            ),
-          );
-          const p = latest
-            .current!.drafts.find((d) => d.id === latest.current!.active)!
-            .parameters.find((p) => p.kind === kind);
-          setPanel({
-            kind,
-            scope: p?.scope || "全文",
-            id: p?.id,
-            role: p?.role,
-          });
-          setAddMenu(false);
-          return;
-        }
-        setPanel({ kind, scope: "全文" });
-        setAddMenu(false);
-        return;
-      }
+    if (kind === "polish") {
       const current = latest.current?.drafts.find(
         (d) => d.id === latest.current?.active,
       );
-      if (!current) return;
-      const existing = current.controls?.find((c) => c.kind === kind);
-      if (existing) setPanel({ kind, scope: "全文", id: existing.id });
-      else
-        openControl(kind, {
-          owner: current.id,
-          text: current.text,
-          open: (binding) => {
-            update(current.id, (d) => ({
-              ...d,
-              controls: [...(d.controls || []), binding],
-            }));
-            setPanel({ kind, scope: "全文", id: binding.id });
-          },
-        });
+      if (current && !demoPolishActions(current.text).length) {
+        if (showDebugControls || gallery === "polish") {
+          const fresh = editDemoText(
+            newDemoDraft(),
+            language === "en"
+              ? "Plan the product launch. Explain the audience and benefits, then then outline the next steps."
+              : "帮我整理产品发布计划。介绍受众和优势，然后然后说明下一步安排。",
+          );
+          commit({
+            ...latest.current!,
+            drafts: [fresh, ...latest.current!.drafts],
+          });
+          switchDraft(fresh.id);
+        } else
+          report(
+            language === "en"
+              ? "Write a request first; relevant polishing options appear below it."
+              : "先描述任务，适用的润色选项会出现在文字下方。",
+          );
+      }
+      setPanel(null);
       setAddMenu(false);
-    });
+      return;
+    }
+    if (["color", "duration", "document", "photo", "sketch"].includes(kind)) {
+      const current = latest.current?.drafts.find(
+        (d) => d.id === latest.current?.active,
+      );
+      const existing = current?.parameters.find((p) => p.kind === kind);
+      if (existing) {
+        setPanel({
+          kind,
+          scope: existing.scope,
+          id: existing.id,
+          role: existing.role,
+        });
+        setAddMenu(false);
+        return;
+      }
+      if (kind === "color" || kind === "duration") {
+        update(latest.current!.active, (d) =>
+          editDemoText(
+            d,
+            d.text +
+              (d.text ? "，" : "") +
+              (kind === "color"
+                ? language === "en"
+                  ? "theme color blue"
+                  : "主题色蓝色"
+                : language === "en"
+                  ? "10 minutes"
+                  : "10分钟"),
+          ),
+        );
+        const p = latest
+          .current!.drafts.find((d) => d.id === latest.current!.active)!
+          .parameters.find((p) => p.kind === kind);
+        setPanel({
+          kind,
+          scope: p?.scope || "全文",
+          id: p?.id,
+          role: p?.role,
+        });
+        setAddMenu(false);
+        return;
+      }
+      setPanel({ kind, scope: "全文" });
+      setAddMenu(false);
+      return;
+    }
+    const current = latest.current?.drafts.find(
+      (d) => d.id === latest.current?.active,
+    );
+    if (!current) return;
+    const existing = current.controls?.find((c) => c.kind === kind);
+    if (existing) setPanel({ kind, scope: "全文", id: existing.id });
+    else
+      openControl(kind, {
+        owner: current.id,
+        text: current.text,
+        open: (binding) => {
+          update(current.id, (d) => ({
+            ...d,
+            controls: [...(d.controls || []), binding],
+          }));
+          setPanel({ kind, scope: "全文", id: binding.id });
+        },
+      });
+    setAddMenu(false);
   }
   async function afterSpeech(action: () => void) {
     const owner = latest.current?.active;
@@ -431,10 +438,8 @@ export function useWorkbuddyDemoController() {
     if (latest.current?.active === owner) action();
   }
   function stopForTyping() {
-    if (phaseRef.current !== "idle") {
-      speech.current?.cancel();
-      speechBinding.current = null;
-    }
+    // Keep voice dictation active when focusing or clicking inside the editor;
+    // manual keyboard edits re-anchor speech in editText().
   }
   function toggleVoice() {
     polish.cancel();
@@ -489,59 +494,53 @@ export function useWorkbuddyDemoController() {
     switchDraft(fresh.id);
   }
   function openPanel(next: Panel) {
-    void afterSpeech(() => {
-      setAddMenu(false);
-      const parameter = latest.current?.drafts
-        .find((d) => d.id === latest.current?.active)
-        ?.parameters.find(
-          (p) => p.kind === next.kind && p.scope === next.scope,
-        );
-      setPanel({ ...next, id: next.id || parameter?.id });
-    });
+    setAddMenu(false);
+    const parameter = latest.current?.drafts
+      .find((d) => d.id === latest.current?.active)
+      ?.parameters.find(
+        (p) => p.kind === next.kind && p.scope === next.scope,
+      );
+    setPanel({ ...next, id: next.id || parameter?.id });
   }
   function openParameter(id: string) {
-    void afterSpeech(() => {
-      const extended = latest.current?.drafts
-        .find((d) => d.id === latest.current?.active)
-        ?.controls?.find((c) => c.id === id);
-      if (extended) {
-        setAddMenu(false);
-        setPanel((current) =>
-          current?.id === id
-            ? null
-            : {
-                kind: extended.kind,
-                scope: extended.scope || "全文",
-                role: extended.role,
-                id,
-              },
-        );
-        return;
-      }
-      // A final recognition result can remove the provisional parameter that was clicked.
-      const p = latest.current?.drafts
-        .find((d) => d.id === latest.current?.active)
-        ?.parameters.find((p) => p.id === id);
-      if (p) {
-        setAddMenu(false);
-        setPanel((current) =>
-          current?.id === p.id
-            ? null
-            : { kind: p.kind, scope: p.scope, id: p.id, role: p.role },
-        );
-      }
-    });
+    const extended = latest.current?.drafts
+      .find((d) => d.id === latest.current?.active)
+      ?.controls?.find((c) => c.id === id);
+    if (extended) {
+      setAddMenu(false);
+      setPanel((current) =>
+        current?.id === id
+          ? null
+          : {
+              kind: extended.kind,
+              scope: extended.scope || "全文",
+              role: extended.role,
+              id,
+            },
+      );
+      return;
+    }
+    // A final recognition result can remove the provisional parameter that was clicked.
+    const p = latest.current?.drafts
+      .find((d) => d.id === latest.current?.active)
+      ?.parameters.find((p) => p.id === id);
+    if (p) {
+      setAddMenu(false);
+      setPanel((current) =>
+        current?.id === p.id
+          ? null
+          : { kind: p.kind, scope: p.scope, id: p.id, role: p.role },
+      );
+    }
   }
   function pick(kind: "document" | "photo", scope = "全文") {
-    void afterSpeech(() => {
-      const owner = latest.current?.active;
-      if (!owner || !picker.current) return;
-      pickBinding.current = { owner, kind, scope };
-      picker.current.accept =
-        kind === "photo" ? "image/png,image/jpeg,image/webp" : ".pdf,.txt,.md";
-      picker.current.value = "";
-      picker.current.click();
-    });
+    const owner = latest.current?.active;
+    if (!owner || !picker.current) return;
+    pickBinding.current = { owner, kind, scope };
+    picker.current.accept =
+      kind === "photo" ? "image/png,image/jpeg,image/webp" : ".pdf,.txt,.md";
+    picker.current.value = "";
+    picker.current.click();
   }
   async function receiveFiles(
     files: File[],
@@ -883,6 +882,16 @@ export function useWorkbuddyDemoController() {
   }
   function editText(owner: string, text: string) {
     update(owner, (d) => editDemoText(d, text));
+    if (phaseRef.current !== "idle" && speechBinding.current?.owner === owner) {
+      speechWords.current = "";
+      speechBinding.current = {
+        owner,
+        base: text,
+        start: area.current?.selectionStart ?? text.length,
+        end: area.current?.selectionEnd ?? text.length,
+      };
+      speech.current?.rebase();
+    }
   }
   return {
     addCapture,

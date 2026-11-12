@@ -326,7 +326,11 @@ test("two voice toggles append correctly; typing cancels late speech and hidden 
     }),
   );
   await expect(editor(page)).toHaveAttribute("data-value", "人工编辑");
-  await page.getByRole("button", { name: "开始语音输入", exact: true }).click();
+  await expect(
+    page.getByRole("button", { name: "停止语音输入", exact: true }),
+  ).toBeVisible();
+  await emit(page, "继续口述");
+  await expect(editor(page)).toHaveAttribute("data-value", "人工编辑继续口述");
   await page.evaluate(() => {
     Object.defineProperty(document, "hidden", {
       configurable: true,

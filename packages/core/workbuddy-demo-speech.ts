@@ -150,6 +150,30 @@ export class BrowserDictation {
     }
     return promise;
   }
+  /**
+   * Re-anchors an active speech recognition session after manual keyboard edits
+   * or caret relocation without stopping the microphone.
+   * Invalidates stale callbacks from before the edit while keeping `wanted = true`.
+   */
+  rebase() {
+    if (!this.wanted) return;
+    clearTimeout(this.timer);
+    ++this.token;
+    const engine = this.engine;
+    this.engine = null;
+    if (engine) {
+      engine.onstart = null;
+      engine.onresult = null;
+      engine.onerror = null;
+      engine.onend = null;
+      try {
+        engine.abort();
+      } catch {}
+    }
+    this.prefix = "";
+    this.segment = "";
+    this.begin();
+  }
   /** Keep the latest visible words, invalidate every callback and release capture. */
   cancel() {
     this.wanted = false;

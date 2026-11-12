@@ -147,7 +147,7 @@ export function WorkbuddyDemoComposer({
               <button
                 aria-label={uiText("添加内容")}
                 aria-expanded={addMenu}
-                onClick={() => void afterSpeech(() => setAddMenu(!addMenu))}
+                onClick={() => setAddMenu(!addMenu)}
                 disabled={busy || drawing}
               >
                 <Plus size={20} />
@@ -240,13 +240,6 @@ export function WorkbuddyDemoComposer({
           </div>
         )}
         <div
-          onPointerDownCapture={(event) => {
-            if (
-              (event.target as HTMLElement).closest(".wb-sentence-composer") &&
-              !(event.target as HTMLElement).closest(".sentence-token")
-            )
-              stopForTyping();
-          }}
           onKeyDown={(event) => {
             if ((event.ctrlKey || event.metaKey) && event.key === "Enter") {
               event.preventDefault();
@@ -266,10 +259,9 @@ export function WorkbuddyDemoComposer({
             active={null}
             disabled={busy}
             placeholder={uiText("今天帮你做些什么？")}
-            onSelect={polish.select}
             onFocus={stopForTyping}
+            onSelect={polish.select}
             onChange={(text) => {
-              stopForTyping();
               editText(draft.id, text);
             }}
             onOpen={() => {}}
