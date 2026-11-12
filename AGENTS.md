@@ -1,3 +1,12 @@
+# Reusable controls library refactor · 2026-11-12
+
+- Implement only on codex/workbuddy-web-demo. Preserve the current desktop UI, interactions, parser/API/storage contracts and source-owned materials. No main/native changes, push, deployment or live model calls. Claude CLI reviews read-only.
+- Reusable controlled React views live in packages/input-controls/src/: one public entry per widget, shared view primitives, explicit environment/asset configuration and no application draft/storage/API imports. Keep existing mobile components unchanged; future mobile/main adoption is a documented integration, not claimed completed work.
+- Standalone application adapters and controller hooks retain workbuddy-demo- prefixes in apps/web/src/. Entry initialization is separate from exported application/shell/composer views. Public widget views never submit tasks or own global draft state.
+- This branch predates apps/design-system. Add an additive Xiaoyi-controls export/catalog adapter there for later integration with the existing main library; do not copy or overwrite the main site's source. Preview entry lives at apps/web/widget-library.html, with isolated in-memory fixture state and no generation/model calls. Real browser capture requires explicit user interaction.
+- Library previews cover all 14 widgets with actual controls, state feedback, reset, bilingual labels and multi-instance isolation. Gemini UI handoff belongs in docs/ and names safe UI files, locked behavior boundaries, commands and acceptance checks.
+- Reuse artifacts/workbuddy-demo/visual-consistency-2026-11-11/{baseline,after,scripts,review,qa} with library- prefixes for evidence. Validate baseline visual parity, application regressions, library interactions/isolation, typecheck, core/service tests and independent production build. Never replace browser/device acceptance with fixture results.
+
 # Standalone source backup and handoff · 2026-11-11
 
 - User explicitly authorizes committing and pushing the latest standalone Web changes only to codex/workbuddy-web-demo, rebuilding a dependency-complete source ZIP with English setup/deployment instructions, uploading it to Google Drive, and saving implementation specification and handoff pages in Notion. This supersedes earlier no-push wording for this backup. Do not change main, other worktrees, deployment or native apps.

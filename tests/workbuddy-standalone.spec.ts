@@ -451,8 +451,9 @@ test("tablet shell and icon-only microphone; each chip toggles its own anchored 
   const first = chips.first();
   await first.click();
   await expect(first).toHaveAttribute("aria-expanded", "true");
-  await expect(first).toHaveAttribute("aria-controls", "demo-input-widget");
-  const popup = page.locator("#demo-input-widget");
+  const popup = page.locator(".demo-widget-wrap");
+  await expect(popup).toHaveAttribute("id", /.+/);
+  await expect(first).toHaveAttribute("aria-controls", (await popup.getAttribute("id"))!);
   await expect(popup).toBeVisible();
   async function aligned() {
     const chip = (await first.locator(".sentence-token-face").boundingBox())!,

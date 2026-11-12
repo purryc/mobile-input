@@ -13,7 +13,7 @@ export default defineConfig({
     outDir: output,
     emptyOutDir: true,
     copyPublicDir: false,
-    rollupOptions: { input: resolve("apps/web/workbuddy-demo.html") },
+    rollupOptions: { input: [resolve("apps/web/workbuddy-demo.html"),resolve("apps/web/widget-library.html")] },
   },
   plugins: [
     {

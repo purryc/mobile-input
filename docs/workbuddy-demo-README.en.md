@@ -342,3 +342,7 @@ a workspace does not select HTML. Requests to analyze feedback suggest Data Anal
 ## Release references
 
 See [Implementation specification](docs/xiaoyi-work-specification.md) and [Engineering handoff](docs/xiaoyi-work-handoff.en.md) in the extracted archive. These record actual behavior and known limits. After renaming a Vercel project or its default production domain, redeploy so the server receives the new VERCEL_PROJECT_PRODUCTION_URL. A static alias change alone can leave the API rejecting the new host. Keep the same-origin check enabled.
+
+## Interactive widget library
+
+Open [the widget library](http://127.0.0.1:5198/widget-library.html) after starting the demo. The fourteen examples use the desktop widget components with isolated preview state. See the [English Gemini UI handoff](docs/gemini-ui-handoff.en.md) for the component map, direct links and review commands.

@@ -146,7 +146,7 @@ test("all fourteen controls are reachable from the shared registry without start
       await expect(page.locator(".demo-polish-slot")).toBeVisible();
       continue;
     }
-    await expect(page.locator("#demo-input-widget")).toBeVisible();
+    await expect(page.locator(".demo-widget-wrap")).toBeVisible();
     await page
       .getByRole("button", { name: "Close input tool", exact: true })
       .click();
@@ -284,8 +284,8 @@ test("recommendation popovers fit bilingual large screens and reduced motion", a
         height: width === 1440 ? 960 : width === 1280 ? 800 : 768,
       });
       await chip(page, "expert").click();
-      await expect(page.locator("#demo-input-widget")).toBeInViewport();
-      const box = (await page.locator("#demo-input-widget").boundingBox())!;
+      await expect(page.locator(".demo-widget-wrap")).toBeInViewport();
+      const box = (await page.locator(".demo-widget-wrap").boundingBox())!;
       expect(box.x).toBeGreaterThanOrEqual(0);
       expect(box.x + box.width).toBeLessThanOrEqual(width);
       await page.screenshot({

@@ -1,7 +1,7 @@
 import { defineConfig } from "@playwright/test";
 export default defineConfig({
   testDir: "tests",
-  testMatch: ["workbuddy-standalone.spec.ts", "workbuddy-demo-results.spec.ts", "workbuddy-demo-polish.spec.ts", "workbuddy-demo-controls.spec.ts", "workbuddy-demo-recommendations.spec.ts"],
+  testMatch: ["workbuddy-standalone.spec.ts", "workbuddy-demo-results.spec.ts", "workbuddy-demo-polish.spec.ts", "workbuddy-demo-controls.spec.ts", "workbuddy-demo-recommendations.spec.ts", "workbuddy-widget-library.spec.ts"],
   workers: 1,
   webServer: {
     command: "npm run dev:workbuddy-demo -- --port 5298",

@@ -358,7 +358,7 @@ for (const size of [{width:1440,height:960},{width:1280,height:800},{width:1024,
       await page.locator('.sentence-token[data-kind=color]').first().click();
       await expect(page.locator('.agent-color-bottom > button')).toBeInViewport();
       const chip=(await page.locator('.sentence-token-face').first().boundingBox())!;
-      const panel=(await page.locator('#demo-input-widget').boundingBox())!;
+      const panel=(await page.locator('.demo-widget-wrap').boundingBox())!;
       expect(Math.abs(panel.x-chip.x)).toBeLessThan(1);
       expect(Math.abs(panel.y-chip.y-chip.height-8)).toBeLessThan(1);
       await page.screenshot({path:`artifacts/workbuddy-demo/evidence/xiaoyi-widget-${size.width}-${language}.png`});

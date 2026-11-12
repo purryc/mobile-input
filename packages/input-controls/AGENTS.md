@@ -1,0 +1,3 @@
+# Input controls source library
+
+src/ contains controlled React views, types, environment, visual primitives and desktop styling. One public widget module per kind; share choice and capture engines, never duplicate their lifecycle. No imports from apps/, app draft models, storage, parser, generation or network clients. Browser permission requests occur only after explicit interaction. Keep owner binding/confirmation outside views. Mobile integration is future work; do not change native/mobile defaults. Preview fixtures and catalog wiring live outside this package. Gemini may change presentation only; see docs/gemini-ui-handoff.en.md. Preserve public contracts, keyboard/accessibility, controlled values and stream cleanup.
