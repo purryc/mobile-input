@@ -251,6 +251,7 @@ export function WorkbuddyDemoComposer({
             ref={area}
             label={uiText("小艺Work 任务输入")}
             preserveSourceClipboard
+            preserveCaretAfterInlineChips
             inputMode="text"
             text={draft.text}
             parameters={[]}

@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import {
   Camera,
+  Upload,
   Square,
   Trash2,
   X,
@@ -345,6 +346,13 @@ function renderWorkspaceRegionToCanvas(
   return true;
 }
 
+const SCANNER_PREVIEW_TIMEOUT_MS = 5000;
+
+function cameraHasFrame(video: HTMLVideoElement) {
+  return video.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA &&
+    video.videoWidth > 0 && video.videoHeight > 0;
+}
+
 /**
  * Browser capture panel supporting camera document scanning (`mode === "scanner"`)
  * and direct workspace region screenshot/recording (`mode === "capture"`).
@@ -394,6 +402,10 @@ export function CapturePanel({
     timer = useRef<ReturnType<typeof setInterval> | undefined>(undefined),
     startTime = useRef(0),
     pointer = useRef<{ x: number; y: number } | null>(null);
+  const scannerFile = useRef<HTMLInputElement>(null);
+  const retaking = useRef<DemoCapture | null>(null);
+  const previewWait = useRef<AbortController | null>(null);
+  const savingScan = useRef(false);
   const callbacks = useRef({ onAdd, onBusy });
   callbacks.current = { onAdd, onBusy };
   const [reviewUrl, setReviewUrl] = useState("");
@@ -414,6 +426,11 @@ export function CapturePanel({
    */
   function release() {
     epoch.current++;
+    previewWait.current?.abort();
+    previewWait.current = null;
+    retaking.current = null;
+    savingScan.current = false;
+    if (mode === "scanner" && video.current) video.current.srcObject = null;
     cancelAnimationFrame(raf.current);
     clearInterval(timer.current);
     if (recorder.current?.state === "recording") recorder.current.stop();
@@ -460,7 +477,8 @@ export function CapturePanel({
    * Starts either the camera preview (`mode === "scanner"`) or direct workspace region selection (`mode === "capture"`).
    * @param nextKind Optional capture kind ("screenshot" | "recording").
    */
-  async function begin(nextKind?: "screenshot" | "recording") {
+  async function begin(nextKind?: "screenshot" | "recording", replacement?: DemoCapture) {
+    retaking.current = replacement ?? null;
     if (nextKind) setSelectedKind(nextKind);
     setError("");
     setReview(null);
@@ -536,36 +554,91 @@ export function CapturePanel({
     setPhase("loading");
     onBusy(true);
     const run = ++epoch.current;
+    const current = () => live.current && run === epoch.current;
     try {
-      if (!navigator.mediaDevices?.getUserMedia) throw Error();
+      if (!navigator.mediaDevices?.getUserMedia) {
+        throw new DOMException("", "NotSupportedError");
+      }
       const stream = await navigator.mediaDevices.getUserMedia({
-        video: true,
+        video: { facingMode: { ideal: "environment" } },
         audio: false,
       });
-      if (!live.current || run !== epoch.current) {
-        stream.getTracks().forEach((x) => x.stop());
+      if (!current()) {
+        stream.getTracks().forEach((track) => track.stop());
         return;
       }
       media.current = stream;
-      stream
-        .getVideoTracks()[0]
-        .addEventListener("ended", release, { once: true });
-      if (video.current) {
-        video.current.srcObject = stream;
-        await video.current.play();
-      }
-      if (live.current && run === epoch.current) setPhase("preview");
-    } catch {
-      if (live.current && run === epoch.current) {
+      const track = stream.getVideoTracks()[0];
+      if (!track || track.readyState !== "live") throw new DOMException("", "NotReadableError");
+      track.addEventListener("ended", () => {
+        if (!current()) return;
         release();
-        setError(
-          t(
-            "未能开始采集。请允许权限后重试，取消不会改变材料。",
-            "Capture could not start. Allow permission and retry; cancellation keeps your materials.",
-          ),
-        );
+        setError(t("摄像头已断开，请重试或导入扫描图片。", "Camera disconnected. Retry or import a scanned image."));
+      }, { once: true });
+
+      if (!video.current) throw new DOMException("", "NotReadableError");
+      const element = video.current;
+      const wait = new AbortController();
+      previewWait.current = wait;
+      await new Promise<void>((resolve, reject) => {
+        let settled = false;
+        function finish(error?: unknown) {
+          if (settled) return;
+          settled = true;
+          clearTimeout(timeout);
+          element.removeEventListener("loadeddata", check);
+          element.removeEventListener("playing", check);
+          element.removeEventListener("resize", check);
+          element.removeEventListener("error", mediaError);
+          wait.signal.removeEventListener("abort", cancel);
+          if (error) reject(error);
+          else resolve();
+        }
+        function check() {
+          if (cameraHasFrame(element)) finish();
+        }
+        function cancel() { finish(new DOMException("", "AbortError")); }
+        function mediaError() { finish(new DOMException("", "NotReadableError")); }
+        const timeout = setTimeout(() => finish(new DOMException("", "TimeoutError")), SCANNER_PREVIEW_TIMEOUT_MS);
+        element.addEventListener("loadeddata", check);
+        element.addEventListener("playing", check);
+        element.addEventListener("resize", check);
+        element.addEventListener("error", mediaError);
+        wait.signal.addEventListener("abort", cancel, { once: true });
+        element.srcObject = stream;
+        void element.play().then(check, finish);
+      });
+      if (current()) {
+        previewWait.current = null;
+        setPhase("preview");
+      }
+    } catch (failure) {
+      if (!current()) return;
+      release();
+      const name = failure instanceof DOMException ? failure.name : "";
+      if (name === "NotAllowedError" || name === "SecurityError") {
+        setError(t("请在浏览器地址栏允许摄像头权限后重试，或导入扫描图片。", "Allow camera access in the browser’s site settings and retry, or import a scanned image."));
+      } else if (name === "NotSupportedError" || name === "NotFoundError") {
+        setError(t("当前浏览器未找到可用摄像头。请使用 Chrome 或导入扫描图片。", "No camera is available here. Try Chrome or import a scanned image."));
+      } else if (name === "TimeoutError") {
+        setError(t("摄像头已连接，但未收到画面。请关闭其他使用摄像头的应用后重试，或导入扫描图片。", "The camera connected but sent no frames. Close other apps using it and retry, or import a scanned image."));
+      } else {
+        setError(t("无法启动摄像头。请检查设备连接和系统权限后重试，或导入扫描图片。", "Could not start the camera. Check the device and system permissions, or import a scanned image."));
       }
     }
+  }
+
+  function importScan(file: File) {
+    if (!["image/png", "image/jpeg", "image/webp"].includes(file.type) ||
+        !file.size || file.size > 8 * 1024 * 1024) {
+      setError(t("请选择不超过 8 MB 的 PNG、JPEG 或 WebP 图片。", "Choose a PNG, JPEG or WebP image up to 8 MB."));
+      return;
+    }
+    setError("");
+    onAdd({
+      id: crypto.randomUUID(), kind: "scanner", name: file.name,
+      blob: file, size: file.size, confirmed: false,
+    });
   }
 
   /**
@@ -614,6 +687,7 @@ export function CapturePanel({
    */
   async function capture(targetCrop: Crop = crop, fromOverlayDrag = false) {
     const run = epoch.current;
+    if (mode === "scanner" && (savingScan.current || (!review && phase !== "preview"))) return;
     if (
       mode === "capture" &&
       !review &&
@@ -662,11 +736,17 @@ export function CapturePanel({
       );
       return;
     }
-    const replacing = review;
+    const replacing = review ?? retaking.current;
+    if (mode === "scanner") savingScan.current = true;
     const blob = await new Promise<Blob | null>((r) =>
       canvas.toBlob(r, "image/png"),
     );
-    if (!blob || run !== epoch.current || !live.current) return;
+    if (run !== epoch.current || !live.current) return;
+    savingScan.current = false;
+    if (!blob) {
+      if (mode === "scanner") setError(t("未能保存扫描图片，请重试。", "Could not save the scanned image. Try again."));
+      return;
+    }
     const item: DemoCapture = {
       id: crypto.randomUUID(),
       kind: mode === "scanner" ? "scanner" : "screenshot",
@@ -908,12 +988,13 @@ export function CapturePanel({
             {review ? (
               <img
                 ref={image}
-                src={reviewUrl}
+                src={reviewUrl || undefined}
                 alt={t("裁剪预览", "Crop preview")}
               />
             ) : null}
             <video
               ref={video}
+              autoPlay={mode === "scanner"}
               muted
               playsInline
               style={{ display: review ? "none" : "block" }}
@@ -1042,9 +1123,25 @@ export function CapturePanel({
           )}
           {phase === "idle" && !review ? (
             mode === "scanner" ? (
-              <button onClick={() => void begin()}>
-                <Camera size={18} /> {t("打开摄像头", "Open camera")}
-              </button>
+              <>
+                <button onClick={() => void begin()}>
+                  <Camera size={18} /> {t("打开摄像头", "Open camera")}
+                </button>
+                <button onClick={() => scannerFile.current?.click()}>
+                  <Upload size={16} /> {t("导入扫描图片", "Import scanned image")}
+                </button>
+                <input
+                  ref={scannerFile}
+                  type="file"
+                  hidden
+                  accept="image/png,image/jpeg,image/webp"
+                  onChange={(event) => {
+                    const file = event.currentTarget.files?.[0];
+                    event.currentTarget.value = "";
+                    if (file) importScan(file);
+                  }}
+                />
+              </>
             ) : null
           ) : phase === "recording" ? (
             <button onClick={release}>
@@ -1080,6 +1177,9 @@ export function CapturePanel({
           )}
         </div>
       )}
+      {mode === "scanner" && phase === "loading" && (
+        <p role="status">{t("正在等待摄像头画面…", "Waiting for the camera preview…")}</p>
+      )}
       {error && <p role="alert">{error}</p>}
       {visible.length > 0 && (
         <div className="demo-capture-items">
@@ -1089,6 +1189,7 @@ export function CapturePanel({
               {!item.confirmed && item.kind !== "recording" && (
                 <div>
                   <button
+                    disabled={mode === "scanner" && (phase !== "idle" || !!review)}
                     onClick={() => {
                       release();
                       setReview(item);
@@ -1098,11 +1199,14 @@ export function CapturePanel({
                     {t("裁剪", "Crop")}
                   </button>
                   <button
+                    disabled={mode === "scanner" && (phase !== "idle" || !!review)}
                     onClick={() => {
-                      onRemove(item.id);
-                      void begin(
-                        item.kind === "screenshot" ? "screenshot" : undefined,
-                      );
+                      if (item.kind === "scanner") {
+                        void begin(undefined, item);
+                      } else {
+                        onRemove(item.id);
+                        void begin("screenshot");
+                      }
                     }}
                   >
                     {t("重拍", "Retake")}

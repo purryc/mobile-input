@@ -53,6 +53,8 @@ const roots = [
   "docs/xiaoyi-work-polish-design-qa.md",
   "vercel.workbuddy-demo.json",
   "package-lock.json",
+  "apps/web/public/assets/figma/presentation/noto-sans-sc-400.woff2",
+  "apps/web/public/assets/figma/presentation/noto-sans-sc-500.woff2",
 ];
 const files = new Set();
 const options = {

@@ -546,3 +546,52 @@ test('removing an explicit built-in material keeps its input entry and no stale 
  await page.getByRole('button',{name:'移除 training-reference.md',exact:true}).click();
  await expect(chip(page,'document')).not.toContainText('training-reference.md');
 });
+
+test("scanner recovers when the camera grants a stream but delivers no frame", async ({ page }) => {
+  await open(page, "en");
+  await editor(page).fill("Scan a document.");
+  await page.evaluate(() => {
+    const canvas = document.createElement("canvas");
+    canvas.width = 32;
+    canvas.height = 24;
+    const stream = canvas.captureStream(0);
+    (window as Window & { stalledScan?: MediaStream }).stalledScan = stream;
+    navigator.mediaDevices.getUserMedia = async () => stream;
+  });
+  await chip(page, "scanner").click();
+  const panel = page.locator(".demo-capture-panel");
+  await panel.getByRole("button", { name: "Open camera" }).click();
+  await expect(panel.getByRole("status")).toContainText("Waiting for the camera preview");
+  await expect(panel.getByRole("button", { name: "Capture", exact: true })).toBeDisabled();
+  await expect(panel.getByRole("alert")).toContainText("sent no frames", { timeout: 8000 });
+  await expect(panel.getByRole("button", { name: "Open camera" })).toBeEnabled();
+  expect(await page.evaluate(() => (window as Window & { stalledScan?: MediaStream })
+    .stalledScan?.getVideoTracks()[0]?.readyState)).toBe("ended");
+
+  await panel.locator('input[type="file"]').setInputFiles({
+    name: "scan.png",
+    mimeType: "image/png",
+    buffer: Buffer.from("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aX1sAAAAASUVORK5CYII=", "base64"),
+  });
+  await expect(panel.getByText("Awaiting confirmation")).toBeVisible();
+  await expect(page.locator(".demo-attachments [data-capture-kind=scanner]")).toHaveCount(0);
+  let sent = 0;
+  await page.route("**/api/workbuddy-demo/generate", route => {
+    sent++;
+    return route.abort();
+  });
+  await page.locator(".demo-send").click();
+  await expect(page.locator(".demo-toast")).toBeVisible();
+  expect(sent).toBe(0);
+
+  await page.evaluate(() => {
+    navigator.mediaDevices.getUserMedia = async () => {
+      throw new DOMException("Camera busy", "NotReadableError");
+    };
+  });
+  await panel.getByRole("button", { name: "Retake" }).click();
+  await expect(panel.getByRole("alert")).toContainText("Could not start the camera");
+  await expect(panel.getByText("scan.png", { exact: true })).toBeVisible();
+  await panel.getByRole("button", { name: "Confirm materials" }).click();
+  await expect(page.locator(".demo-attachments [data-capture-kind=scanner]")).toContainText("scan.png");
+});

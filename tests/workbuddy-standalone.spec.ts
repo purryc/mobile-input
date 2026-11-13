@@ -113,6 +113,11 @@ test("browser speech adapter receives progressive/revised transcripts and stops 
     "主题色用蓝色，讲六分钟",
   );
   await page.locator(".sentence-token[data-kind=color]").click();
+  // Opening a chip panel keeps dictation live; only the microphone stops it.
+  await expect(
+    page.getByRole("button", { name: "停止语音输入", exact: true }),
+  ).toBeVisible();
+  await page.getByRole("button", { name: "停止语音输入", exact: true }).click();
   await expect(
     page.getByRole("button", { name: "开始语音输入", exact: true }),
   ).toBeVisible();
@@ -168,17 +173,9 @@ test("photos remain pending through close, switching and refresh; confirmed chip
   await expect(
     page.getByRole("region", { name: "发送的请求" }).getByRole("link"),
   ).toContainText("product.png");
-  await page.locator(".sentence-token[data-kind=photo]").click();
-  await page
-    .locator(".live-wb-aux")
-    .getByRole("button", { name: "移除 product.png", exact: true })
-    .click();
-  await expect(page.getByRole("button", { name: "确认图片选择" })).toHaveCount(
-    0,
-  );
-  await expect(
-    page.getByRole("region", { name: "发送的请求" }).getByRole("link"),
-  ).toContainText("product.png");
+  // Send clears the composer; the sent snapshot keeps its confirmed material.
+  await expect(editor(page)).toHaveAttribute("data-value", "");
+  await expect(page.locator(".sentence-token[data-kind=photo]")).toHaveCount(0);
   await expect(page.getByLabel("保存状态")).toHaveText("保存在这台电脑");
   await page.reload();
   await expect(
@@ -230,7 +227,14 @@ test("sketch coordinates, undo, confirmation, documents and stored snapshots", a
     mimeType: "text/plain",
     buffer: Buffer.from("Fictional product brief"),
   });
-  await page.getByRole("button", { name: "关闭辅助输入" }).click();
+  const documents = page.getByRole("region", { name: "参数控件" });
+  await expect(documents).toContainText("brief.txt");
+  await documents.getByRole("button", { name: "完成选择", exact: true }).click();
+  await expect(documents).toHaveCount(0);
+  await expect(page.getByLabel("已确认的材料")).toContainText("brief.txt");
+  await page.locator(".sentence-token[data-kind=document]").click();
+  await expect(documents).toContainText("brief.txt");
+  await documents.getByRole("button", { name: "关闭辅助输入" }).click();
   await page.getByRole("button", { name: "发送请求", exact: true }).click();
   const result = page.getByRole("region", { name: "发送的请求" });
   await expect(result).toContainText("brief.txt");
@@ -419,7 +423,7 @@ test("final speech correction cannot open an obsolete provisional widget", async
       engine.onend?.();
     };
   });
-  await page.locator(".sentence-token[data-kind=color]").click();
+  await page.getByRole("button", { name: "停止语音输入", exact: true }).click();
   await expect(editor(page)).toHaveAttribute("data-value", "不要主题色用红色");
   await expect(page.locator(".live-wb-aux")).toHaveCount(0);
   await expect(

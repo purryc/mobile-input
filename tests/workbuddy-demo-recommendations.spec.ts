@@ -86,6 +86,26 @@ test('one continuous utterance keeps explicit chips live and releases recommenda
  await page.locator('.demo-voice').click();await page.clock.runFor(3000);await expect(recommended(page)).toHaveCount(3);
  await page.locator('.demo-voice').click();await page.clock.runFor(3000);await expect(page.locator('[data-sweep=true]')).toHaveCount(0);
 });
+test('pasted and IME-composed text recognizes product intro recommendations without ASR',async({page})=>{
+ await open(page);
+ const box=editor(page);await box.click();
+ await box.evaluate((el:any)=>{const data=new DataTransfer();data.setData('text/plain','我想做一个简短的演讲报告，介绍今年要发布的产品。');el.dispatchEvent(new ClipboardEvent('paste',{clipboardData:data,bubbles:true,cancelable:true}));});
+ await page.clock.runFor(3000);
+ await expect(page.locator('.sentence-token[data-kind=skills][data-origin=recommended]')).toBeVisible();
+ await expect(page.locator('.sentence-token[data-kind=expert][data-origin=recommended]')).toBeVisible();
+ await expect(page.locator('.sentence-token[data-kind=duration][data-origin=recommended]')).toBeVisible();
+ await page.getByRole('button',{name:'新建演示',exact:true}).click();
+ await box.click();
+ await box.evaluate((el:any)=>{el.dispatchEvent(new CompositionEvent('compositionstart',{bubbles:true}));el.textContent='介绍今年的产品';el.dispatchEvent(new InputEvent('input',{bubbles:true,isComposing:true}));});
+ await page.clock.runFor(300);
+ // The IME owns the DOM during composition: text is mirrored but never duplicated.
+ await expect(box).toHaveText('介绍今年的产品');
+ await box.evaluate((el:any)=>el.dispatchEvent(new CompositionEvent('compositionend',{bubbles:true,data:'介绍今年的产品'})));
+ await page.clock.runFor(3000);
+ await expect(box).toHaveAttribute('data-value','介绍今年的产品');
+ await expect(page.locator('.sentence-token[data-kind=skills][data-origin=recommended]')).toBeVisible();
+ await expect(page.locator('.sentence-token[data-kind=expert][data-origin=recommended]')).toBeVisible();
+});
 test('desktop color opens the actual blue, including background and text bindings, without changing the draft',async({page})=>{
  await open(page);
  for(const [color,hex]of [['蓝色','#356FE4'],['红色','#C92A2A'],['黑色','#182431'],['白色','#FFFFFF'],['灰色','#D9DEDF']]){
@@ -98,4 +118,45 @@ test('desktop color opens the actual blue, including background and text binding
    await page.getByRole('button',{name:'关闭辅助输入',exact:true}).click();await expect(editor(page)).toHaveAttribute('data-value',text);
   }
  }
+});
+
+test('successive IME rounds continue after a newly rendered chip and preserve manual edits', async ({ page }) => {
+  await open(page);
+  const box = editor(page);
+  await box.click();
+  const ime = await page.context().newCDPSession(page);
+  const dictate = async (text: string) => {
+    await ime.send('Input.imeSetComposition', { text, selectionStart: text.length, selectionEnd: text.length });
+    await ime.send('Input.insertText', { text });
+  };
+  const first = '我想做一个简短的演讲报告';
+  await dictate(first);
+  await expect(box).toHaveAttribute('data-value', first);
+  await page.clock.runFor(2000);
+  const chip = box.locator('.sentence-token[data-kind="duration"]');
+  await expect(chip).toHaveText('10分钟');
+  const afterChip = () => chip.evaluate((button: HTMLElement) => {
+    const range = getSelection()?.getRangeAt(0);
+    const chipRange = document.createRange();
+    chipRange.setStartAfter(button.closest('.sentence-token-hit')!);
+    chipRange.collapse(true);
+    return Boolean(range?.collapsed && range.compareBoundaryPoints(Range.START_TO_START, chipRange) >= 0);
+  });
+  expect(await afterChip()).toBe(true);
+
+  const second = '，介绍今年要发布的产品';
+  await dictate(second);
+  await expect(box).toHaveAttribute('data-value', first + second);
+  await page.clock.runFor(2100);
+  await expect(box.locator('.sentence-token[data-kind="skills"]')).toBeVisible();
+  await expect(box.locator('.sentence-token[data-kind="expert"]')).toBeVisible();
+  const third = '。先讲产品价值。';
+  await dictate(third);
+  await expect(box).toHaveAttribute('data-value', first + second + third);
+  await box.evaluate((el: HTMLElement) => {
+    // Pick the start of the document, regardless of line wrapping.
+    getSelection()!.collapse(el.firstChild!, 0);
+  });
+  await dictate('请帮忙。');
+  await expect(box).toHaveAttribute('data-value', '请帮忙。' + first + second + third);
 });

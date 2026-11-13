@@ -1,3 +1,18 @@
+# Reference document confirmation and source delivery
+
+- Restore the desktop reference document panel’s Done action. Choosing a local file continues to add it to the owning draft. Done closes the panel without resubmitting or altering attachments.
+- Publish the current standalone source on `codex/workbuddy-web-demo`, update the existing `xiaoyi-work` Vercel project, and attach the verified standalone ZIP to a GitHub release for that branch. Keep `main` and other worktrees outside the release. Include the English setup/deployment guide and specification in the archive.
+
+# Standalone dictation caret · 2026-11-12
+
+- Preserve the insertion point after newly rendered inline recommendation chips between external IME dictation rounds. Respect deliberate text selections and manual cursor moves. Keep the DOM stable during active composition, and preserve native/shared defaults through a Web-only option.
+- Keep existing worktree edits and verify with consecutive Chromium IME commits and ordinary text editing. Scope this change to the standalone branch.
+
+# Scanner recovery after Antigravity handoff · 2026-11-12
+
+- Continue from the current Antigravity Web branch and preserve pending dictation/spec/test edits. Scope changes to the standalone scanner and its browser tests. Retain screen capture behavior, draft ownership and explicit confirmation. No main changes, deployment or Git push for this fix.
+- Distinguish camera permission, first usable frame and confirmed materials. Release late/failed streams and provide a local document-image fallback when the browser camera is unavailable. Keep pending originals until a retake succeeds.
+
 # Reusable controls library refactor · 2026-11-12
 
 - Implement only on codex/workbuddy-web-demo. Preserve the current desktop UI, interactions, parser/API/storage contracts and source-owned materials. No main/native changes, push, deployment or live model calls. Claude CLI reviews read-only.

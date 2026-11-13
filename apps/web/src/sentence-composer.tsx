@@ -17,7 +17,7 @@ const sourceText=(node:Node):string=>{
 const iconNames:Partial<Record<SentenceKind,string>>={camera:'photo',sketch:'canvas',document:'file'};
 export interface ComposerLiveToken extends Omit<importLiveParameter,'kind'> {kind:string;origin?:'explicit'|'recommended'|'manual';sweepKey?:string;animate?:boolean;iconPath?:string;iconSrc?:string;recommendationIconSrc?:string;removable?:boolean;preparing?:boolean;prefix?:string;suffix?:string;}
 type importLiveParameter=import('../../../packages/core/live-workbuddy').LiveParameter;
-export interface SentenceComposerProps {label?:string;inputMode?:'text'|'none';preserveSourceClipboard?:boolean;text:string;files:WbFile[];parameters:SentenceParameter[];input:WorkBuddyInput;active:SentenceKind|null;disabled:boolean;placeholder:string;loading?:{start:number;end:number};onChange:(text:string)=>void;onSelect:()=>void;onFocus:()=>void;onOpen:(kind:SentenceKind)=>void;live?:{renderChip?:(token:ComposerLiveToken,options:{preserveSelection:()=>void;onOpen:()=>void;onRemove?:()=>void;sweepStarts:Map<string,number>})=>HTMLElement;containedRemove?:boolean;controlsId?:string;parameters:ComposerLiveToken[];active:string|null;open:(id:string)=>void;remove?:(id:string)=>void};}
+export interface SentenceComposerProps {label?:string;inputMode?:'text'|'none';preserveSourceClipboard?:boolean;preserveCaretAfterInlineChips?:boolean;text:string;files:WbFile[];parameters:SentenceParameter[];input:WorkBuddyInput;active:SentenceKind|null;disabled:boolean;placeholder:string;loading?:{start:number;end:number};onChange:(text:string)=>void;onSelect:()=>void;onFocus:()=>void;onOpen:(kind:SentenceKind)=>void;live?:{renderChip?:(token:ComposerLiveToken,options:{preserveSelection:()=>void;onOpen:()=>void;onRemove?:()=>void;sweepStarts:Map<string,number>})=>HTMLElement;containedRemove?:boolean;controlsId?:string;parameters:ComposerLiveToken[];active:string|null;open:(id:string)=>void;remove?:(id:string)=>void};}
 /** The DOM is editable, but the authority remains plain text + task-owned parameter bindings. */
 export const SentenceComposer=forwardRef<TextInputHandle,SentenceComposerProps>(function SentenceComposer(p,ref){
  const language=useUILanguage();
@@ -32,8 +32,46 @@ export const SentenceComposer=forwardRef<TextInputHandle,SentenceComposerProps>(
   }walk(el);return total;
  }
  function readSelection(){const s=window.getSelection(),el=root.current;if(s?.anchorNode&&s.focusNode&&el?.contains(s.anchorNode)&&el.contains(s.focusNode)){const a=offset(s.anchorNode,s.anchorOffset),b=offset(s.focusNode,s.focusOffset);selection.current={start:Math.min(a,b),end:Math.max(a,b)};}return selection.current;}
- function position(at:number):[Node,number]{
-  const el=root.current!;let remaining=Math.max(0,Math.min(at,sourceText(el).length));
+ type ChipAffinity = 'before' | 'after';
+ function emptyChipAt(at: number) {
+  let offset = 0;
+  for (const [index, node] of Array.from(root.current!.childNodes).entries()) {
+   if (offset > at) break;
+   if (offset === at && node instanceof HTMLElement && node.dataset.source === '') {
+    return index;
+   }
+   offset += sourceText(node).length;
+  }
+  return undefined;
+ }
+ function caretAffinity(at: number): ChipAffinity | undefined {
+  if (!latest.current.preserveCaretAfterInlineChips) return;
+  const current = window.getSelection();
+  const chipIndex = emptyChipAt(at);
+  if (current?.isCollapsed && current.rangeCount && chipIndex !== undefined) {
+   const before = document.createRange();
+   before.setStart(root.current!, chipIndex);
+   before.collapse(true);
+   if (current.getRangeAt(0).compareBoundaryPoints(Range.START_TO_START, before) <= 0) {
+    return 'before';
+   }
+  }
+  return 'after';
+ }
+ function position(at:number, affinity?:ChipAffinity):[Node,number]{
+  const el=root.current!;
+  if (affinity) {
+   const first = emptyChipAt(at);
+   if (first !== undefined) {
+    let boundary = first;
+    if (affinity === 'after') {
+     while (el.childNodes[boundary] instanceof HTMLElement &&
+            (el.childNodes[boundary] as HTMLElement).dataset.source === '') boundary++;
+    }
+    return [el, boundary];
+   }
+  }
+  let remaining=Math.max(0,Math.min(at,sourceText(el).length));
   for(let i=0;i<el.childNodes.length;i++){const n=el.childNodes[i],length=sourceText(n).length;
    if(n.nodeType===Node.TEXT_NODE&&remaining<=length)return [n,remaining];
    if(n instanceof HTMLElement&&n.dataset.source!==undefined&&remaining<=length)return [el,remaining===0?i:i+1];
@@ -41,7 +79,16 @@ export const SentenceComposer=forwardRef<TextInputHandle,SentenceComposerProps>(
    remaining-=length;
   }return [el,el.childNodes.length];
  }
- function setSelectionRange(start:number,end:number){selection.current={start,end};if(!root.current)return;const a=position(start),b=position(end),range=document.createRange();range.setStart(...a);range.setEnd(...b);const s=window.getSelection();s?.removeAllRanges();s?.addRange(range);}
+ function setSelectionRange(start:number,end:number,affinity?:ChipAffinity){
+  selection.current={start,end};
+  if(!root.current)return;
+  const caretSide = start === end && latest.current.preserveCaretAfterInlineChips
+   ? affinity ?? 'after'
+   : undefined;
+  const a=position(start,caretSide),b=position(end,caretSide),range=document.createRange();
+  range.setStart(...a);range.setEnd(...b);
+  const s=window.getSelection();s?.removeAllRanges();s?.addRange(range);
+ }
  useImperativeHandle(ref,()=>({
   get selectionStart(){return readSelection().start;},get selectionEnd(){return readSelection().end;},
   focus(){root.current?.focus();},blur(){root.current?.blur();},select(){setSelectionRange(0,sourceText(root.current!).length);},setSelectionRange,
@@ -49,6 +96,7 @@ export const SentenceComposer=forwardRef<TextInputHandle,SentenceComposerProps>(
  }));
  function render(){
   const el=root.current;if(!el||composing.current)return;const state=latest.current,focused=document.activeElement===el,saved={...readSelection()},fragment=document.createDocumentFragment();
+  const affinity = focused && saved.start === saved.end ? caretAffinity(saved.start) : undefined;
   function plain(start:number,end:number){if(end<=start)return;const l=state.loading;if(l&&l.start>=start&&l.end<=end){fragment.append(document.createTextNode(state.text.slice(start,l.start)));const mark=document.createElement('mark');mark.dataset.recognizing='color';mark.textContent=state.text.slice(l.start,l.end);fragment.append(mark,document.createTextNode(state.text.slice(l.end,end)));}else fragment.append(document.createTextNode(state.text.slice(start,end)));}
   let cursor=0;
   if(state.live)for(const token of state.live.parameters){
@@ -102,11 +150,33 @@ export const SentenceComposer=forwardRef<TextInputHandle,SentenceComposerProps>(
    button.setAttribute('aria-label',token.kind==='color'?`主色 ${label}`:label);button.title=token.phrase||'布局';button.onpointerdown=e=>{e.preventDefault();readSelection();};button.onclick=()=>latest.current.onOpen(token.kind);hit.append(button);fragment.append(hit);
   }
   plain(cursor,state.text.length);if(state.text.endsWith('\n'))fragment.append(document.createElement('br'));if(!fragment.childNodes.length)fragment.append(document.createTextNode(''));
-  el.replaceChildren(fragment);el.dataset.value=state.text;selection.current=saved;if(focused)setSelectionRange(saved.start,saved.end);
+  el.replaceChildren(fragment);el.dataset.value=state.text;selection.current=saved;if(focused)setSelectionRange(saved.start,saved.end,affinity);
  }
  useLayoutEffect(render,[language,p.text,JSON.stringify(p.parameters),JSON.stringify(p.live?.parameters),p.live?.active,p.live?.containedRemove,Boolean(p.live?.remove),p.input.revision,p.active,p.disabled,p.loading?.start,p.loading?.end,p.files.map(f=>f.id+f.name).join('|')]);
  useEffect(()=>{const listener=()=>{if(document.activeElement===root.current){readSelection();latest.current.onSelect();}};document.addEventListener('selectionchange',listener);return()=>{clearTimeout(compTimer.current);document.removeEventListener('selectionchange',listener);};},[]);
  function changed(){if(composing.current||!root.current)return;readSelection();const text=sourceText(root.current);latest.current.onSelect();latest.current.onChange(text);}
- function handleInput(){clearTimeout(compTimer.current);if(!composing.current){changed();return;}const delay=/[a-zA-Z']/.test(compData.current)?600:180;compTimer.current=setTimeout(()=>{composing.current=false;compData.current='';changed();render();},delay);}
- return <div ref={root} className="wb-sentence-composer" role="textbox" aria-multiline="true" aria-label={p.label||uiText("手机 WorkBuddy 草稿")} contentEditable={!p.disabled} suppressContentEditableWarning inputMode={p.inputMode||"none"} data-placeholder={p.placeholder} onFocus={p.onFocus} onBlur={()=>{clearTimeout(compTimer.current);if(composing.current){composing.current=false;compData.current='';changed();render();}}} onInput={handleInput} onCompositionStart={()=>{composing.current=true;compData.current='';clearTimeout(compTimer.current);}} onCompositionUpdate={e=>{compData.current=e.data||'';}} onCompositionEnd={()=>{clearTimeout(compTimer.current);composing.current=false;compData.current='';changed();render();}} onCopy={e=>{if(!latest.current.preserveSourceClipboard)return;const s=readSelection();e.preventDefault();e.clipboardData.setData('text/plain',latest.current.text.slice(s.start,s.end));}} onCut={e=>{if(!latest.current.preserveSourceClipboard)return;clearTimeout(compTimer.current);composing.current=false;compData.current='';const s=readSelection(),text=sourceText(root.current!);e.preventDefault();e.clipboardData.setData('text/plain',text.slice(s.start,s.end));flushSync(()=>latest.current.onChange(text.slice(0,s.start)+text.slice(s.end)));setSelectionRange(s.start,s.start);}} onPaste={e=>{e.preventDefault();clearTimeout(compTimer.current);composing.current=false;compData.current='';const s=readSelection(),value=sourceText(root.current!),insert=e.clipboardData.getData('text/plain');if(latest.current.preserveSourceClipboard){flushSync(()=>latest.current.onChange(value.slice(0,s.start)+insert+value.slice(s.end)));setSelectionRange(s.start+insert.length,s.start+insert.length);}else{latest.current.onChange(value.slice(0,s.start)+insert+value.slice(s.end));requestAnimationFrame(()=>setSelectionRange(s.start+insert.length,s.start+insert.length));}}}/>
+ /** IME/dictation composition: never rewrite the DOM (the IME owns it), only mirror committed Han text into state for recognition. */
+ function syncComposition(){if(!root.current||/[a-zA-Z']/.test(compData.current))return;const text=sourceText(root.current);if(text!==latest.current.text)latest.current.onChange(text);}
+ function handleInput(){clearTimeout(compTimer.current);if(!composing.current){changed();return;}compTimer.current=setTimeout(syncComposition,250);}
+ function finishComposition(){
+  clearTimeout(compTimer.current);
+  if(!composing.current)return;
+  const editor = root.current;
+  if (latest.current.preserveCaretAfterInlineChips && editor) {
+   // Keep layout effects from touching the IME DOM until the final text has
+   // made it through the controlled input. Render once from the updated props.
+   readSelection();
+   const text = sourceText(editor);
+   flushSync(() => {
+    latest.current.onSelect();
+    latest.current.onChange(text);
+   });
+   composing.current=false;
+   compData.current='';
+   render();
+   return;
+  }
+  composing.current=false;compData.current='';changed();render();
+ }
+ return <div ref={root} className="wb-sentence-composer" role="textbox" aria-multiline="true" aria-label={p.label||uiText("手机 WorkBuddy 草稿")} contentEditable={!p.disabled} suppressContentEditableWarning inputMode={p.inputMode||"none"} data-placeholder={p.placeholder} onFocus={p.onFocus} onBlur={finishComposition} onInput={handleInput} onCompositionStart={()=>{composing.current=true;compData.current='';clearTimeout(compTimer.current);}} onCompositionUpdate={e=>{compData.current=e.data||'';}} onCompositionEnd={finishComposition} onCopy={e=>{if(!latest.current.preserveSourceClipboard)return;const s=readSelection();e.preventDefault();e.clipboardData.setData('text/plain',latest.current.text.slice(s.start,s.end));}} onCut={e=>{if(!latest.current.preserveSourceClipboard||composing.current)return;const s=readSelection(),text=sourceText(root.current!);e.preventDefault();e.clipboardData.setData('text/plain',text.slice(s.start,s.end));flushSync(()=>latest.current.onChange(text.slice(0,s.start)+text.slice(s.end)));setSelectionRange(s.start,s.start);}} onPaste={e=>{if(composing.current)return;e.preventDefault();const s=readSelection(),value=sourceText(root.current!),insert=e.clipboardData.getData('text/plain');if(latest.current.preserveSourceClipboard){flushSync(()=>latest.current.onChange(value.slice(0,s.start)+insert+value.slice(s.end)));setSelectionRange(s.start+insert.length,s.start+insert.length);}else{latest.current.onChange(value.slice(0,s.start)+insert+value.slice(s.end));requestAnimationFrame(()=>setSelectionRange(s.start+insert.length,s.start+insert.length));}}}/>
 });

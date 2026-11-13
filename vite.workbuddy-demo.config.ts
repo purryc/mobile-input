@@ -46,6 +46,8 @@ export default defineConfig({
         for (const path of [
           "assets/xiaoyi-work",
           "assets/figma/sentence-parameters",
+          "assets/figma/presentation/noto-sans-sc-400.woff2",
+          "assets/figma/presentation/noto-sans-sc-500.woff2",
           "reference-assets/workbuddy-widgets",
         ]) {
           const target = resolve(output, path);

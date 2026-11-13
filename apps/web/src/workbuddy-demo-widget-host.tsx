@@ -174,7 +174,10 @@ export function WorkbuddyWidgetHost({
           />
         )}
         {panel.kind === "document" && !extended && (
-          <DocumentWidget onChoose={() => pick("document", panel.scope)}>
+          <DocumentWidget
+            onChoose={() => pick("document", panel.scope)}
+            onDone={() => setPanel(null)}
+          >
             {draft.materials
               .filter((m) => m.kind === "document")
               .map((m) => materialTile(m))}
