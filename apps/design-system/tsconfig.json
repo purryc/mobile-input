@@ -31,6 +31,9 @@
       ],
       "lucide-react": [
         "node_modules/lucide-react"
+      ],
+      "react-dom": [
+        "node_modules/@types/react-dom"
       ]
     }
   },
