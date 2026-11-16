@@ -45,3 +45,17 @@ Component screenshots are removed from the gallery, detail pages and build outpu
 中文：结合用户提供 PDF，向原 Notion 设计规范增加 GUI-01–08 与任务到界面的流程；网站发布双语快照，注明参考页码、项目适配及真实接入缺口。新增任务选控件演示，复用真实参数／润色规则，经模拟能力过滤后，显式选择入口生成固定模板和合法 A2UI。真实控件渲染，所有结果与状态只留本地；没有模型、设备或真实草稿写入。新增候选、能力、缺值、过期、手调保护与非法消息测试。退回上一发布可使用 5709d321586d231abedf1475a6098fa8b538e3d2 手动运行 Pages 工作流。
 
 English: Added PDF-informed GUI-01–08 rules and the task-to-interface workflow to the canonical Notion page, then published bilingual excerpts with source pages, project adaptations and integration boundaries. The task demo reuses actual parameter/polish rules, filters against fictional capabilities and compiles an explicitly selected entry into a fixed template and validated A2UI. Shared controls run locally; no model, device or real draft is accessed. New tests cover candidates, capabilities, missing values, stale plans, manual parameters and invalid messages. Roll back by manually dispatching Pages against 5709d321586d231abedf1475a6098fa8b538e3d2.
+
+## Unreleased · shared component extraction
+
+- 从已提交原型提取 `packages/ui` 展示层；原产品路径保留兼容入口。设备、语音、存储、目标校验与同步仍由产品宿主管理。
+- 96 个登记条目逐项核对：28 个独立共享示例、40 个共享控件内部状态/变体、7 个宿主场景组合、13 个未映射设计和 8 个历史/动效设计记录。未实现的设计不伪装成控件。
+- 沙盒打开即显示，切换示例立即更新；JSON 校验成功后自动渲染，错误时停止预览。移除运行/逐步按钮，代码、数据与事件按需展开。
+- 增加依赖方向检查、登记覆盖检查、桌面/手机真实组件交互测试；未新增 A2UI 执行权限。
+- Ordinary verification: 37 site contracts, 231 core tests, product/site typecheck and builds, five site browser tests (including 28 specimens at desktop/mobile widths), five product extraction regressions. Product build retains its existing large-bundle advisory.
+- One older offline-draft test fails identically at baseline `9772a5f` and after extraction: the controller unmounts on disconnection, while that test expects the draft to stay visible. This cleanup does not change offline behavior. Two stale test selectors were updated to the current baseline UI.
+- Claude CLI read-only review reconciled against source. No merge, push, Pages deployment or device operation. Main contains unrelated uncommitted runtime changes: resolve those through a three-way merge, never replace main's controllers with this checkout.
+
+## Independent input controls — 2026-11-16
+
+Added 13 desktop React widgets with controlled props, semantic chip states, local assets, browser capture adapters and directly interactive examples. Text polishing is excluded from this new extraction; previous catalog and A2UI functionality remain available. No application caller or Xiaoyi Work deployment was changed. Source handoff and English setup guide live in `packages/input-controls/`.

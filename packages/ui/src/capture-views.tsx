@@ -1,0 +1,5 @@
+import {useUI} from './ui-context';
+import * as I from 'lucide-react';
+import './capture.css';
+export function CaptureChoices({busy,onScreenshot,onRecording,onCamera}:{busy:boolean;onScreenshot:()=>void;onRecording:()=>void;onCamera:()=>void}){const uiText=useUI();return <div className="capture-choices"><button disabled={busy} onClick={onScreenshot}><I.ScanLine/>{uiText("截图")}</button><button disabled={busy} onClick={onRecording}><I.Video/>{uiText("录屏")}</button><button disabled={busy} onClick={onCamera}><I.Camera/>{uiText("相机")}</button></div>;}
+export function AttachmentList({files,onRemove}:{files:{id:string;name:string;kind:string;asset?:string;content?:string}[];onRemove:(id:string)=>void}){const uiText=useUI(); return <div className="capture-attachments">{files.map(file=><details key={file.id}><summary>{file.name}</summary>{file.kind==='video'?<video src={file.asset} controls playsInline/>:<img src={file.asset} alt={file.name}/>}<small>{file.content}</small><button onClick={()=>onRemove(file.id)}>{uiText("移除参考")}</button></details>)}</div>;}

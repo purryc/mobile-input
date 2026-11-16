@@ -1,0 +1,40 @@
+import {useUI} from './ui-context';
+import {Children,useEffect,useRef,useState,type ReactNode} from 'react';
+import {AgentWidgetColor,WidgetIcon,colorTitle} from './agent-widget-color';
+import {SKETCH_WIDTH,SKETCH_HEIGHT,eraseSketchAt} from '../../core/agent-sketch';
+export function AgentComposer({children,footer,busy=false,className='',label}:{children:ReactNode;footer?:ReactNode;busy?:boolean;className?:string;label?:string}){
+ const uiText=useUI();return <section aria-label={label} className={'live-wb-composer '+className} inert={busy}><div className="live-wb-scroll">{children}</div>{footer&&<footer>{footer}</footer>}</section>;}
+export function AgentAuxiliary({title,onClose,children,busy=false}:{title:string;onClose:()=>void;children:ReactNode;busy?:boolean}){
+ const uiText=useUI();return <section className="live-wb-aux" inert={busy}><header><b>{title}</b><button aria-label={uiText("关闭辅助输入")} onClick={onClose}><WidgetIcon name="close"/></button></header>{children}</section>;}
+export function AgentImageInput({children,onChoose,onCapture,onDone,busy=false}:{children?:ReactNode;onChoose:()=>void;onCapture:()=>void;onDone:()=>void;busy?:boolean}){
+ const uiText=useUI();
+ const hasPhotos=Children.toArray(children).length>0;
+ return <>{hasPhotos&&<div className="live-wb-photo-body">{children}</div>}<footer className="agent-photo-actions" data-has-photos={hasPhotos}><button className="agent-photo-source" disabled={busy} onClick={onChoose}>{uiText("选择图片")}</button><button className="agent-photo-source" disabled={busy} onClick={onCapture}>{uiText("拍摄")}</button>{hasPhotos&&<button aria-label={uiText("确认图片选择")} disabled={busy} onClick={onDone}><WidgetIcon name="check"/></button>}</footer></>;
+}
+export const AgentColorInput=AgentWidgetColor;
+/** Product image thumbnail; the host owns image bytes and scoped removal. */
+export function MaterialThumbnail({children,label,removeLabel,onRemove}:{children:ReactNode;label:string;removeLabel:string;onRemove:()=>void}){
+ return <div className="live-wb-material"><button aria-label={label}>{children}</button><button aria-label={removeLabel} onClick={onRemove}><WidgetIcon name="close"/></button></div>;
+}
+export function AgentDurationInput({value,onChange}:{value:string;onChange:(value:string)=>void}){
+ const uiText=useUI();const [text,setText]=useState(value);useEffect(()=>setText(value),[value]);return <div className="live-wb-duration"><button aria-label={uiText("减少一分钟")} disabled={!value||+value<=1} onClick={()=>onChange(String(+value-1))}>−</button><label><input aria-label={uiText("演讲时长（分钟）")} type="number" inputMode="numeric" min="1" max="60" step="1" value={text} onChange={e=>{setText(e.target.value);if(/^\d+$/.test(e.target.value)&&+e.target.value>=1&&+e.target.value<=60)onChange(e.target.value);}} onBlur={()=>setText(value)}/><span>{uiText("分钟")}</span></label><button aria-label={uiText("增加一分钟")} disabled={+value>=60} onClick={()=>onChange(String((+value||0)+1))}>＋</button></div>;}
+export function AgentSketchInput({strokes,onChange,onEnd,onActive,onAdopt,busy=false}:{strokes:number[][][];onChange:(strokes:number[][][])=>void;onEnd?:(strokes:number[][][])=>void;onActive:(active:boolean)=>void;onAdopt:()=>void;busy?:boolean}){
+ const uiText=useUI();
+ const lines=useRef(strokes),drawing=useRef(false),pointer=useRef<number|null>(null),history=useRef<number[][][][]>([]),before=useRef<number[][][]>([]);lines.current=strokes;const [tool,setTool]=useState<'pen'|'eraser'>('pen'),[revision,setRevision]=useState(0);
+ const point=(e:React.PointerEvent<SVGSVGElement>)=>{const matrix=e.currentTarget.getScreenCTM();if(!matrix)return null;const p=new DOMPoint(e.clientX,e.clientY).matrixTransform(matrix.inverse());return [Math.max(0,Math.min(1,p.x/SKETCH_WIDTH)),Math.max(0,Math.min(1,p.y/SKETCH_HEIGHT))];};
+ const update=(v:number[][][])=>{lines.current=v;onChange(v);};const remember=(v:number[][][])=>{history.current=[...history.current.slice(-49),v];setRevision(n=>n+1);};
+ const end=(e:React.PointerEvent<SVGSVGElement>)=>{if(!drawing.current||e.pointerId!==pointer.current)return;drawing.current=false;pointer.current=null;onActive(false);if(lines.current!==before.current)remember(before.current);onEnd?.(lines.current);};
+ return <><svg className="agent-sketch-surface" viewBox={`0 0 ${SKETCH_WIDTH} ${SKETCH_HEIGHT}`} preserveAspectRatio="none" aria-label={uiText("布局画板")} data-tool={tool} onPointerDown={e=>{if(busy||drawing.current||!e.isPrimary)return;const p=point(e);if(!p)return;e.preventDefault();e.currentTarget.setPointerCapture(e.pointerId);pointer.current=e.pointerId;drawing.current=true;before.current=lines.current;onActive(true);update(tool==='eraser'?eraseSketchAt(lines.current,p):[...lines.current,[p]].slice(-100));}} onPointerMove={e=>{if(!drawing.current||e.pointerId!==pointer.current)return;const p=point(e);if(!p)return;update(tool==='eraser'?eraseSketchAt(lines.current,p):lines.current.map((s,i)=>i===lines.current.length-1?[...s,p].slice(-2000):s));}} onPointerUp={end} onPointerCancel={end} onLostPointerCapture={end}>{strokes.map((s,i)=><polyline key={i} points={s.map(([x,y])=>`${x*SKETCH_WIDTH},${y*SKETCH_HEIGHT}`).join(' ')} fill="none" stroke="var(--dock-accent)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>)}</svg><footer className="live-wb-sketch-tools" data-history={revision}>
+ <button aria-label={uiText("画笔")} aria-pressed={tool==='pen'} onClick={()=>setTool('pen')}><WidgetIcon name="pen"/></button><button aria-label={uiText("橡皮")} aria-pressed={tool==='eraser'} onClick={()=>setTool('eraser')}><WidgetIcon name="eraser"/></button>
+ <button aria-label={uiText("撤销笔迹")} disabled={busy||(!strokes.length&&!history.current.length)} onClick={()=>{const next=history.current.pop()??lines.current.slice(0,-1);update(next);setRevision(n=>n+1);onEnd?.(next);}}><WidgetIcon name="undo"/></button><button aria-label={uiText("清空笔迹")} disabled={!strokes.length||busy} onClick={()=>{remember(lines.current);update([]);onEnd?.([]);}}><WidgetIcon name="clear"/></button><span/>
+ <button aria-label={uiText("采用布局草图")} disabled={busy||!strokes.some(s=>s.length>1)} onClick={onAdopt}><WidgetIcon name="check"/></button></footer></>;
+}
+
+/** All supported destinations render the same parameter widget; only callbacks differ. */
+export function AgentParameterWidget({parameter,active,busy=false,onClose,onValue,onActive,strokes,onStrokes,onStrokeEnd,onAdoptSketch,photos,onChoosePhoto,onCapture,onConfirmPhotos}:{parameter?:import('../../core/live-workbuddy').LiveParameter;active:string|null;busy?:boolean;onClose:()=>void;onValue:(value:string)=>void;onActive:(active:boolean)=>void;strokes:number[][][];onStrokes:(strokes:number[][][])=>void;onStrokeEnd?:(strokes:number[][][])=>void;onAdoptSketch:()=>void;photos?:ReactNode;onChoosePhoto:()=>void;onCapture:()=>void;onConfirmPhotos:()=>void}){
+ const uiText=useUI();
+ const kind=parameter?.kind||(active==='photos'?'photo':active==='sketch'?'sketch':undefined);
+ if(!kind||kind==='document')return null;
+ const title=kind==='photo'?uiText('图片选择'):kind==='color'?colorTitle(parameter!.role):kind==='sketch'?(parameter?.scope&&parameter.scope!=='全文'?parameter.scope:uiText('布局草图')):parameter?.role||uiText('演讲时长');
+ return <AgentAuxiliary title={title} busy={busy} onClose={onClose}>{kind==='photo'?<AgentImageInput busy={busy} onChoose={onChoosePhoto} onCapture={onCapture} onDone={onConfirmPhotos}>{photos}</AgentImageInput>:kind==='color'?<AgentColorInput key={parameter!.id} value={parameter!.value} label={parameter!.role} onChange={onValue} onActive={onActive} onDone={onClose}/>:kind==='duration'?<AgentDurationInput value={parameter!.value} onChange={onValue}/>:<AgentSketchInput strokes={strokes} onChange={onStrokes} onEnd={onStrokeEnd} onActive={onActive} onAdopt={onAdoptSketch} busy={busy}/>}</AgentAuxiliary>;
+}

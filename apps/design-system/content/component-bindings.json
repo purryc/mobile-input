@@ -2,35 +2,35 @@
   "app-action": {
     "export": "ActionChip",
     "category": "actions",
-    "source": "apps/web/src/application-action-chip.tsx",
+    "source": "packages/ui/src/application-action-chip.tsx",
     "zh": "动作标签",
     "en": "Action chip"
   },
   "color-refinement": {
     "export": "ColorInput",
     "category": "parameters",
-    "source": "apps/web/src/agent-widget-color.tsx",
+    "source": "packages/ui/src/agent-widget-color.tsx",
     "zh": "颜色输入",
     "en": "Color input"
   },
   "sketch": {
     "export": "SketchInput",
     "category": "materials",
-    "source": "apps/web/src/agent-input-view.tsx",
+    "source": "packages/ui/src/agent-input-view.tsx",
     "zh": "草图输入",
     "en": "Sketch input"
   },
   "dynamic-auxiliary-workspace": {
     "export": "AuxiliaryPanel",
     "category": "text",
-    "source": "apps/web/src/agent-input-view.tsx",
+    "source": "packages/ui/src/agent-input-view.tsx",
     "zh": "辅助输入面板",
     "en": "Auxiliary panel"
   },
   "image-input": {
     "export": "ImageInput",
     "category": "materials",
-    "source": "apps/web/src/agent-input-view.tsx",
+    "source": "packages/ui/src/agent-input-view.tsx",
     "zh": "图片输入",
     "en": "Image input",
     "aliases": [
@@ -47,14 +47,14 @@
   "duration-input": {
     "export": "DurationInput",
     "category": "parameters",
-    "source": "apps/web/src/agent-input-view.tsx",
+    "source": "packages/ui/src/agent-input-view.tsx",
     "zh": "时长输入",
     "en": "Duration input"
   },
   "contextual-polish-actions": {
     "export": "ContextualPolishActions",
     "category": "text",
-    "source": "apps/web/src/contextual-polish-actions.tsx",
+    "source": "packages/ui/src/contextual-polish-actions.tsx",
     "zh": "AI 润色操作栏",
     "en": "AI polish actions",
     "aliases": [
@@ -70,15 +70,291 @@
   "flexible-composer-region": {
     "export": "Composer",
     "category": "text",
-    "source": "apps/web/src/agent-input-view.tsx",
+    "source": "packages/ui/src/agent-input-view.tsx",
     "zh": "弹性编辑区",
     "en": "Flexible composer region"
   },
   "sentence-parameter-composer": {
     "export": "SentenceComposer",
     "category": "text",
-    "source": "apps/web/src/sentence-composer.tsx",
+    "source": "packages/ui/src/sentence-composer.tsx",
     "zh": "句内参数编辑器",
     "en": "Sentence parameter composer"
+  },
+  "input-dock": {
+    "export": "InputDockView",
+    "category": "device",
+    "source": "packages/ui/src/input-dock-view.tsx",
+    "zh": "共享输入底栏",
+    "en": "Input dock"
+  },
+  "media-controls": {
+    "export": "MediaControls",
+    "category": "device",
+    "source": "packages/ui/src/media-controls.tsx",
+    "zh": "媒体控制",
+    "en": "Media controls"
+  },
+  "painting-visual-brush-console": {
+    "export": "BrushConsole",
+    "category": "device",
+    "source": "packages/ui/src/paint-controls.tsx",
+    "zh": "绘画控制台",
+    "en": "Brush console"
+  },
+  "color-wheel-presets": {
+    "export": "PaintColor",
+    "category": "parameters",
+    "source": "packages/ui/src/paint-controls.tsx",
+    "zh": "色轮与预设",
+    "en": "Color wheel and presets"
+  },
+  "visible-task-navigation": {
+    "export": "TaskNavigation",
+    "category": "actions",
+    "source": "packages/ui/src/task-navigation.tsx",
+    "zh": "任务导航",
+    "en": "Task navigation"
+  },
+  "text-selection-toolbar": {
+    "export": "SelectionFormat",
+    "category": "text",
+    "source": "packages/ui/src/selection-format.tsx",
+    "zh": "选区格式工具栏",
+    "en": "Selection formatting"
+  },
+  "reply": {
+    "export": "ReplyOptions",
+    "category": "text",
+    "source": "packages/ui/src/reply-options.tsx",
+    "zh": "建议回复",
+    "en": "Suggested replies"
+  },
+  "material-source": {
+    "export": "CaptureChoices",
+    "category": "materials",
+    "source": "packages/ui/src/capture-views.tsx",
+    "zh": "材料采集入口",
+    "en": "Capture choices"
+  },
+  "material-attachment": {
+    "export": "AttachmentList",
+    "category": "materials",
+    "source": "packages/ui/src/capture-views.tsx",
+    "zh": "材料附件列表",
+    "en": "Attachment list"
+  },
+  "presentation-tools": {
+    "export": "PresentationTools",
+    "category": "device",
+    "source": "packages/ui/src/presentation-tools.tsx",
+    "zh": "演示工具",
+    "en": "Presentation tools"
+  },
+  "notes": {
+    "export": "SpeakerNotes",
+    "category": "feedback",
+    "source": "packages/ui/src/presentation-tools.tsx",
+    "zh": "演讲者备注",
+    "en": "Speaker notes"
+  },
+  "hold": {
+    "export": "HoldToDraw",
+    "category": "device",
+    "source": "packages/ui/src/presentation-tools.tsx",
+    "zh": "按住绘制",
+    "en": "Hold to draw"
+  },
+  "game": {
+    "export": "GameControls",
+    "category": "device",
+    "source": "packages/ui/src/game-controls.tsx",
+    "zh": "游戏按键",
+    "en": "Game controls"
+  },
+  "agent-decision-request": {
+    "export": "ReceiptTools",
+    "category": "actions",
+    "source": "packages/ui/src/receipt-tools.tsx",
+    "zh": "材料与批准操作",
+    "en": "Material and approval actions"
+  },
+  "connection-error": {
+    "export": "ConnectionError",
+    "category": "feedback",
+    "source": "packages/ui/src/connection-error.tsx",
+    "zh": "连接中断提示",
+    "en": "Connection feedback"
+  },
+  "edit-reviews": {
+    "export": "EditReviews",
+    "category": "text",
+    "source": "packages/ui/src/agent-edit-review.tsx",
+    "zh": "修改建议",
+    "en": "Edit reviews"
+  },
+  "rich-object-text": {
+    "export": "RichObjectText",
+    "category": "text",
+    "source": "packages/ui/src/rich-object-text.tsx",
+    "zh": "富文本片段",
+    "en": "Rich text"
+  },
+  "color-picker": {
+    "export": "ColorPicker",
+    "category": "parameters",
+    "source": "packages/ui/src/workbuddy-color-picker.tsx",
+    "zh": "连续颜色选择",
+    "en": "Continuous color picker"
+  },
+  "paint-color-picker": {
+    "export": "PaintColorPicker",
+    "category": "parameters",
+    "source": "packages/ui/src/tablet-paint-color.tsx",
+    "zh": "绘画调色面板",
+    "en": "Painting color panel"
+  },
+  "input-duration": {
+    "export": "DurationWidget",
+    "category": "parameters",
+    "source": "packages/input-controls/src/duration-widget.tsx",
+    "zh": "桌面·时间",
+    "en": "Desktop · Duration",
+    "design": "https://www.figma.com/design/ApFLno64NcMoA17MiPFfZh?node-id=2609-121577",
+    "states": "Needs input / Default selected / Ambiguous recommendation; open, focus, pressed, disabled, loading",
+    "params": "Controlled props; see source and English handoff",
+    "events": "Host callbacks; see typed props"
+  },
+  "input-color": {
+    "export": "ColorWidget",
+    "category": "parameters",
+    "source": "packages/input-controls/src/color-widget.tsx",
+    "zh": "桌面·颜色",
+    "en": "Desktop · Color",
+    "design": "https://www.figma.com/design/ApFLno64NcMoA17MiPFfZh?node-id=2609-121577",
+    "states": "Needs input / Default selected / Ambiguous recommendation; open, focus, pressed, disabled, loading",
+    "params": "Controlled props; see source and English handoff",
+    "events": "Host callbacks; see typed props"
+  },
+  "input-font": {
+    "export": "FontWidget",
+    "category": "parameters",
+    "source": "packages/input-controls/src/font-widget.tsx",
+    "zh": "桌面·字体",
+    "en": "Desktop · Font",
+    "design": "https://www.figma.com/design/ApFLno64NcMoA17MiPFfZh?node-id=2609-121577",
+    "states": "Needs input / Default selected / Ambiguous recommendation; open, focus, pressed, disabled, loading",
+    "params": "Controlled props; see source and English handoff",
+    "events": "Host callbacks; see typed props"
+  },
+  "input-palette": {
+    "export": "PaletteWidget",
+    "category": "parameters",
+    "source": "packages/input-controls/src/palette-widget.tsx",
+    "zh": "桌面·配色方案",
+    "en": "Desktop · Palette",
+    "design": "https://www.figma.com/design/ApFLno64NcMoA17MiPFfZh?node-id=2609-121577",
+    "states": "Needs input / Default selected / Ambiguous recommendation; open, focus, pressed, disabled, loading",
+    "params": "Controlled props; see source and English handoff",
+    "events": "Host callbacks; see typed props"
+  },
+  "input-document": {
+    "export": "DocumentWidget",
+    "category": "materials",
+    "source": "packages/input-controls/src/document-widget.tsx",
+    "zh": "桌面·参考文件",
+    "en": "Desktop · Reference files",
+    "design": "https://www.figma.com/design/ApFLno64NcMoA17MiPFfZh?node-id=2609-121577",
+    "states": "Needs input / Default selected / Ambiguous recommendation; open, focus, pressed, disabled, loading",
+    "params": "Controlled props; see source and English handoff",
+    "events": "Host callbacks; see typed props"
+  },
+  "input-photo": {
+    "export": "ImageWidget",
+    "category": "materials",
+    "source": "packages/input-controls/src/image-widget.tsx",
+    "zh": "桌面·图片",
+    "en": "Desktop · Image",
+    "design": "https://www.figma.com/design/ApFLno64NcMoA17MiPFfZh?node-id=2609-121577",
+    "states": "Needs input / Default selected / Ambiguous recommendation; open, focus, pressed, disabled, loading",
+    "params": "Controlled props; see source and English handoff",
+    "events": "Host callbacks; see typed props"
+  },
+  "input-scanner": {
+    "export": "ScannerWidget",
+    "category": "materials",
+    "source": "packages/input-controls/src/scanner-widget.tsx",
+    "zh": "桌面·文档扫描",
+    "en": "Desktop · Document scanning",
+    "design": "https://www.figma.com/design/ApFLno64NcMoA17MiPFfZh?node-id=2609-121577",
+    "states": "Needs input / Default selected / Ambiguous recommendation; open, focus, pressed, disabled, loading",
+    "params": "Controlled props; see source and English handoff",
+    "events": "Host callbacks; see typed props"
+  },
+  "input-sketch": {
+    "export": "SketchWidget",
+    "category": "materials",
+    "source": "packages/input-controls/src/sketch-widget.tsx",
+    "zh": "桌面·手绘画板",
+    "en": "Desktop · Sketch",
+    "design": "https://www.figma.com/design/ApFLno64NcMoA17MiPFfZh?node-id=2609-121577",
+    "states": "Needs input / Default selected / Ambiguous recommendation; open, focus, pressed, disabled, loading",
+    "params": "Controlled props; see source and English handoff",
+    "events": "Host callbacks; see typed props"
+  },
+  "input-expert": {
+    "export": "ExpertWidget",
+    "category": "actions",
+    "source": "packages/input-controls/src/expert-widget.tsx",
+    "zh": "桌面·专家",
+    "en": "Desktop · Expert",
+    "design": "https://www.figma.com/design/ApFLno64NcMoA17MiPFfZh?node-id=2609-121577",
+    "states": "Needs input / Default selected / Ambiguous recommendation; open, focus, pressed, disabled, loading",
+    "params": "Controlled props; see source and English handoff",
+    "events": "Host callbacks; see typed props"
+  },
+  "input-skills": {
+    "export": "SkillsWidget",
+    "category": "actions",
+    "source": "packages/input-controls/src/skills-widget.tsx",
+    "zh": "桌面·技能",
+    "en": "Desktop · Skills",
+    "design": "https://www.figma.com/design/ApFLno64NcMoA17MiPFfZh?node-id=2609-121577",
+    "states": "Needs input / Default selected / Ambiguous recommendation; open, focus, pressed, disabled, loading",
+    "params": "Controlled props; see source and English handoff",
+    "events": "Host callbacks; see typed props"
+  },
+  "input-connectors": {
+    "export": "ConnectorsWidget",
+    "category": "actions",
+    "source": "packages/input-controls/src/connectors-widget.tsx",
+    "zh": "桌面·连接器",
+    "en": "Desktop · Connectors",
+    "design": "https://www.figma.com/design/ApFLno64NcMoA17MiPFfZh?node-id=2609-121577",
+    "states": "Needs input / Default selected / Ambiguous recommendation; open, focus, pressed, disabled, loading",
+    "params": "Controlled props; see source and English handoff",
+    "events": "Host callbacks; see typed props"
+  },
+  "input-formats": {
+    "export": "FormatsWidget",
+    "category": "parameters",
+    "source": "packages/input-controls/src/formats-widget.tsx",
+    "zh": "桌面·输出格式",
+    "en": "Desktop · Output formats",
+    "design": "https://www.figma.com/design/ApFLno64NcMoA17MiPFfZh?node-id=2609-121577",
+    "states": "Needs input / Default selected / Ambiguous recommendation; open, focus, pressed, disabled, loading",
+    "params": "Controlled props; see source and English handoff",
+    "events": "Host callbacks; see typed props"
+  },
+  "input-capture": {
+    "export": "ScreenCaptureWidget",
+    "category": "materials",
+    "source": "packages/input-controls/src/capture-widget.tsx",
+    "zh": "桌面·截图／录屏",
+    "en": "Desktop · Screen capture",
+    "design": "https://www.figma.com/design/ApFLno64NcMoA17MiPFfZh?node-id=2609-121577",
+    "states": "Needs input / Default selected / Ambiguous recommendation; open, focus, pressed, disabled, loading",
+    "params": "Controlled props; see source and English handoff",
+    "events": "Host callbacks; see typed props"
   }
 }

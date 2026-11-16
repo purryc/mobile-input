@@ -1,0 +1,659 @@
+{
+  "baseline": "9772a5f6064532593d0bcca327fc397d6133f909",
+  "records": {
+    "button": {
+      "kind": "shared-part",
+      "sharedOwner": "input-dock",
+      "reason": "Embedded variant/state of the linked shared view, not a separate independent export. Native execution stays host-owned.",
+      "source": "apps/web/src/input-dock.tsx:1"
+    },
+    "icon-button": {
+      "kind": "shared-part",
+      "sharedOwner": "input-dock",
+      "reason": "Embedded variant/state of the linked shared view, not a separate independent export. Native execution stays host-owned.",
+      "source": "apps/web/src/input-dock.tsx:1"
+    },
+    "hold": {
+      "kind": "shared",
+      "sharedOwner": "hold",
+      "reason": "Extracted display used by the product compatibility boundary and an isolated specimen.",
+      "source": "apps/web/src/phone-presentation.tsx:1；packages/core/presentation.ts:1"
+    },
+    "chip": {
+      "kind": "shared-part",
+      "sharedOwner": "input-dock",
+      "reason": "Embedded variant/state of the linked shared view, not a separate independent export. Native execution stays host-owned.",
+      "source": "apps/web/src/input-dock.tsx:1"
+    },
+    "switch": {
+      "kind": "shared-part",
+      "sharedOwner": "input-dock",
+      "reason": "Embedded variant/state of the linked shared view, not a separate independent export. Native execution stays host-owned.",
+      "source": "apps/web/src/input-dock.tsx:1"
+    },
+    "segmented": {
+      "kind": "shared-part",
+      "sharedOwner": "input-dock",
+      "reason": "Embedded variant/state of the linked shared view, not a separate independent export. Native execution stays host-owned.",
+      "source": "apps/web/src/input-dock.tsx:1"
+    },
+    "voice": {
+      "kind": "shared-part",
+      "sharedOwner": "input-dock",
+      "reason": "Embedded variant/state of the linked shared view, not a separate independent export. Native execution stays host-owned.",
+      "source": "apps/web/src/input-dock.tsx:1；apps/web/src/use-phone-editing.ts:1"
+    },
+    "key": {
+      "kind": "shared-part",
+      "sharedOwner": "input-dock",
+      "reason": "Embedded variant/state of the linked shared view, not a separate independent export. Native execution stays host-owned.",
+      "source": "apps/web/src/input-dock.tsx:1"
+    },
+    "attachment": {
+      "kind": "shared-part",
+      "sharedOwner": "material-attachment",
+      "reason": "Embedded variant/state of the linked shared view, not a separate independent export. Native execution stays host-owned.",
+      "source": "apps/web/src/capture-panel.tsx:1；packages/core/capture.ts:1"
+    },
+    "slider": {
+      "kind": "shared-part",
+      "sharedOwner": "text-selection-toolbar",
+      "reason": "Embedded variant/state of the linked shared view, not a separate independent export. Native execution stays host-owned.",
+      "source": "apps/web/src/phone-workbuddy-object.tsx:1；packages/core/workbuddy-object.ts:1"
+    },
+    "stepper": {
+      "kind": "shared-part",
+      "sharedOwner": "text-selection-toolbar",
+      "reason": "Embedded variant/state of the linked shared view, not a separate independent export. Native execution stays host-owned.",
+      "source": "apps/web/src/phone-workbuddy-object.tsx:1；packages/core/workbuddy-object.ts:1"
+    },
+    "color": {
+      "kind": "shared-part",
+      "sharedOwner": "text-selection-toolbar",
+      "reason": "Embedded variant/state of the linked shared view, not a separate independent export. Native execution stays host-owned.",
+      "source": "apps/web/src/phone-workbuddy-object.tsx:1；packages/core/workbuddy-object.ts:1"
+    },
+    "date": {
+      "kind": "unmapped-design",
+      "sharedOwner": null,
+      "reason": "The registered general contract is not proven by a similar scene implementation. No invented runtime export.",
+      "source": "apps/web/src/phone-generic.tsx:1"
+    },
+    "choice": {
+      "kind": "unmapped-design",
+      "sharedOwner": null,
+      "reason": "The registered general contract is not proven by a similar scene implementation. No invented runtime export.",
+      "source": "apps/web/src/phone-generic.tsx:1"
+    },
+    "topic": {
+      "kind": "unmapped-design",
+      "sharedOwner": null,
+      "reason": "The registered general contract is not proven by a similar scene implementation. No invented runtime export.",
+      "source": "samples/adaptive-component-registry.json:1"
+    },
+    "feedback": {
+      "kind": "shared-part",
+      "sharedOwner": "connection-error",
+      "reason": "Embedded variant/state of the linked shared view, not a separate independent export. Native execution stays host-owned.",
+      "source": "apps/web/src/connection-access.tsx:1；apps/web/src/runtime.ts:1"
+    },
+    "edit-tools": {
+      "kind": "shared-part",
+      "sharedOwner": "input-dock",
+      "reason": "Embedded variant/state of the linked shared view, not a separate independent export. Native execution stays host-owned.",
+      "source": "apps/web/src/input-dock.tsx:1"
+    },
+    "composer": {
+      "kind": "shared-part",
+      "sharedOwner": "sentence-parameter-composer",
+      "reason": "Embedded variant/state of the linked shared view, not a separate independent export. Native execution stays host-owned.",
+      "source": "apps/web/src/phone-wechat.tsx:1；packages/core/interactions.ts:1"
+    },
+    "compact-composer": {
+      "kind": "shared-part",
+      "sharedOwner": "sentence-parameter-composer",
+      "reason": "Embedded variant/state of the linked shared view, not a separate independent export. Native execution stays host-owned.",
+      "source": "apps/web/src/phone-wechat.tsx:1；packages/core/interactions.ts:1"
+    },
+    "quote": {
+      "kind": "host-composition",
+      "sharedOwner": null,
+      "reason": "Application context/layout with identity or native state; keep host composition, reuse child views. Not a standalone control.",
+      "source": "apps/web/src/phone-wechat.tsx:1；packages/core/interactions.ts:1"
+    },
+    "reply": {
+      "kind": "shared",
+      "sharedOwner": "reply",
+      "reason": "Extracted display used by the product compatibility boundary and an isolated specimen.",
+      "source": "apps/web/src/phone-wechat.tsx:1；packages/core/interactions.ts:1"
+    },
+    "app-action": {
+      "kind": "shared",
+      "sharedOwner": "app-action",
+      "reason": "Extracted display used by the product compatibility boundary and an isolated specimen.",
+      "source": "apps/web/src/phone-wechat.tsx:1；packages/core/interactions.ts:1"
+    },
+    "task": {
+      "kind": "shared-part",
+      "sharedOwner": "agent-decision-request",
+      "reason": "Embedded variant/state of the linked shared view, not a separate independent export. Native execution stays host-owned.",
+      "source": "apps/web/src/workbuddy-receipt-tools.tsx:1；packages/core/workbuddy-materials.ts:1"
+    },
+    "form": {
+      "kind": "unmapped-design",
+      "sharedOwner": null,
+      "reason": "The registered general contract is not proven by a similar scene implementation. No invented runtime export.",
+      "source": "apps/web/src/phone-generic.tsx:1"
+    },
+    "formula": {
+      "kind": "unmapped-design",
+      "sharedOwner": null,
+      "reason": "The registered general contract is not proven by a similar scene implementation. No invented runtime export.",
+      "source": "apps/web/src/phone-generic.tsx:1"
+    },
+    "status-row": {
+      "kind": "host-composition",
+      "sharedOwner": null,
+      "reason": "Application context/layout with identity or native state; keep host composition, reuse child views. Not a standalone control.",
+      "source": "apps/web/src/connection-access.tsx:1；apps/web/src/runtime.ts:1"
+    },
+    "keyboard": {
+      "kind": "shared-part",
+      "sharedOwner": "input-dock",
+      "reason": "Embedded variant/state of the linked shared view, not a separate independent export. Native execution stays host-owned.",
+      "source": "apps/web/src/input-dock.tsx:1"
+    },
+    "numpad": {
+      "kind": "unmapped-design",
+      "sharedOwner": null,
+      "reason": "The registered general contract is not proven by a similar scene implementation. No invented runtime export.",
+      "source": "apps/web/src/phone-generic.tsx:1"
+    },
+    "trackpad": {
+      "kind": "shared-part",
+      "sharedOwner": "input-dock",
+      "reason": "Embedded variant/state of the linked shared view, not a separate independent export. Native execution stays host-owned.",
+      "source": "apps/web/src/input-dock.tsx:1"
+    },
+    "sketch": {
+      "kind": "shared",
+      "sharedOwner": "sketch",
+      "reason": "Extracted display used by the product compatibility boundary and an isolated specimen.",
+      "source": "apps/web/src/phone-workbuddy-adaptive.tsx:1；apps/web/src/sentence-composer.tsx:1；packages/core/workbuddy-input.ts:1"
+    },
+    "camera": {
+      "kind": "shared-part",
+      "sharedOwner": "material-source",
+      "reason": "Embedded variant/state of the linked shared view, not a separate independent export. Native execution stays host-owned.",
+      "source": "apps/web/src/capture-panel.tsx:1；packages/core/capture.ts:1"
+    },
+    "pen-settings": {
+      "kind": "shared-part",
+      "sharedOwner": "presentation-tools",
+      "reason": "Embedded variant/state of the linked shared view, not a separate independent export. Native execution stays host-owned.",
+      "source": "apps/web/src/phone-presentation.tsx:1；packages/core/presentation.ts:1"
+    },
+    "presentation-tools": {
+      "kind": "shared",
+      "sharedOwner": "presentation-tools",
+      "reason": "Extracted display used by the product compatibility boundary and an isolated specimen.",
+      "source": "apps/web/src/phone-presentation.tsx:1；packages/core/presentation.ts:1"
+    },
+    "notes": {
+      "kind": "shared",
+      "sharedOwner": "notes",
+      "reason": "Extracted display used by the product compatibility boundary and an isolated specimen.",
+      "source": "apps/web/src/phone-presentation.tsx:1；packages/core/presentation.ts:1"
+    },
+    "game": {
+      "kind": "shared",
+      "sharedOwner": "game",
+      "reason": "Extracted display used by the product compatibility boundary and an isolated specimen.",
+      "source": "apps/web/src/phone.tsx:1；packages/core/model.ts:1"
+    },
+    "recipe-wechat-phone": {
+      "kind": "host-composition",
+      "sharedOwner": null,
+      "reason": "Application context/layout with identity or native state; keep host composition, reuse child views. Not a standalone control.",
+      "source": "apps/web/src/phone-wechat.tsx:1；packages/core/interactions.ts:1"
+    },
+    "recipe-doubao-phone": {
+      "kind": "host-composition",
+      "sharedOwner": null,
+      "reason": "Application context/layout with identity or native state; keep host composition, reuse child views. Not a standalone control.",
+      "source": "apps/web/src/phone-generic.tsx:1"
+    },
+    "recipe-sheet-phone": {
+      "kind": "host-composition",
+      "sharedOwner": null,
+      "reason": "Application context/layout with identity or native state; keep host composition, reuse child views. Not a standalone control.",
+      "source": "apps/web/src/phone-generic.tsx:1"
+    },
+    "recipe-presentation-phone": {
+      "kind": "host-composition",
+      "sharedOwner": null,
+      "reason": "Application context/layout with identity or native state; keep host composition, reuse child views. Not a standalone control.",
+      "source": "apps/web/src/phone-presentation.tsx:1；packages/core/presentation.ts:1"
+    },
+    "recipe-wechat-pc": {
+      "kind": "historical-or-design",
+      "sharedOwner": null,
+      "reason": "Historical/design-only reference; not an executable control.",
+      "source": "samples/adaptive-component-registry.json:1"
+    },
+    "recipe-doubao-pc": {
+      "kind": "historical-or-design",
+      "sharedOwner": null,
+      "reason": "Historical/design-only reference; not an executable control.",
+      "source": "samples/adaptive-component-registry.json:1"
+    },
+    "recipe-sheet-pc": {
+      "kind": "historical-or-design",
+      "sharedOwner": null,
+      "reason": "Historical/design-only reference; not an executable control.",
+      "source": "samples/adaptive-component-registry.json:1"
+    },
+    "recipe-presentation-pc": {
+      "kind": "historical-or-design",
+      "sharedOwner": null,
+      "reason": "Historical/design-only reference; not an executable control.",
+      "source": "samples/adaptive-component-registry.json:1"
+    },
+    "motion-app": {
+      "kind": "historical-or-design",
+      "sharedOwner": null,
+      "reason": "Historical/design-only reference; not an executable control.",
+      "source": "samples/adaptive-component-registry.json:1"
+    },
+    "motion-context": {
+      "kind": "historical-or-design",
+      "sharedOwner": null,
+      "reason": "Historical/design-only reference; not an executable control.",
+      "source": "samples/adaptive-component-registry.json:1"
+    },
+    "motion-panel": {
+      "kind": "historical-or-design",
+      "sharedOwner": null,
+      "reason": "Historical/design-only reference; not an executable control.",
+      "source": "samples/adaptive-component-registry.json:1"
+    },
+    "palette": {
+      "kind": "shared-part",
+      "sharedOwner": "presentation-tools",
+      "reason": "Embedded variant/state of the linked shared view, not a separate independent export. Native execution stays host-owned.",
+      "source": "apps/web/src/phone-presentation.tsx:1；packages/core/presentation.ts:1"
+    },
+    "input-dock": {
+      "kind": "shared",
+      "sharedOwner": "input-dock",
+      "reason": "Extracted display used by the product compatibility boundary and an isolated specimen.",
+      "source": "apps/web/src/input-dock.tsx:1"
+    },
+    "adaptive-workspace": {
+      "kind": "host-composition",
+      "sharedOwner": null,
+      "reason": "Application context/layout with identity or native state; keep host composition, reuse child views. Not a standalone control.",
+      "source": "apps/web/src/phone-workbuddy-adaptive.tsx:1；apps/web/src/sentence-composer.tsx:1；packages/core/workbuddy-input.ts:1"
+    },
+    "agent-task-status": {
+      "kind": "shared-part",
+      "sharedOwner": "visible-task-navigation",
+      "reason": "Embedded variant/state of the linked shared view, not a separate independent export. Native execution stays host-owned.",
+      "source": "apps/web/src/phone-workbuddy-adaptive.tsx:1；apps/web/src/sentence-composer.tsx:1；packages/core/workbuddy-input.ts:1"
+    },
+    "inline-color": {
+      "kind": "shared-part",
+      "sharedOwner": "sentence-parameter-composer",
+      "reason": "Embedded variant/state of the linked shared view, not a separate independent export. Native execution stays host-owned.",
+      "source": "apps/web/src/phone-workbuddy-adaptive.tsx:1；apps/web/src/sentence-composer.tsx:1；packages/core/workbuddy-input.ts:1"
+    },
+    "color-refinement": {
+      "kind": "shared",
+      "sharedOwner": "color-refinement",
+      "reason": "Extracted display used by the product compatibility boundary and an isolated specimen.",
+      "source": "apps/web/src/phone-workbuddy-adaptive.tsx:1；apps/web/src/sentence-composer.tsx:1；packages/core/workbuddy-input.ts:1"
+    },
+    "layout-intent": {
+      "kind": "shared-part",
+      "sharedOwner": "sentence-parameter-composer",
+      "reason": "Embedded variant/state of the linked shared view, not a separate independent export. Native execution stays host-owned.",
+      "source": "apps/web/src/phone-workbuddy-adaptive.tsx:1；apps/web/src/sentence-composer.tsx:1；packages/core/workbuddy-input.ts:1"
+    },
+    "parameter-composer": {
+      "kind": "shared-part",
+      "sharedOwner": "sentence-parameter-composer",
+      "reason": "Embedded variant/state of the linked shared view, not a separate independent export. Native execution stays host-owned.",
+      "source": "apps/web/src/phone-workbuddy-adaptive.tsx:1；apps/web/src/sentence-composer.tsx:1；packages/core/workbuddy-input.ts:1"
+    },
+    "intent-recognition-sweep": {
+      "kind": "shared-part",
+      "sharedOwner": "sentence-parameter-composer",
+      "reason": "Embedded variant/state of the linked shared view, not a separate independent export. Native execution stays host-owned.",
+      "source": "apps/web/src/phone-workbuddy-adaptive.tsx:1；apps/web/src/sentence-composer.tsx:1；packages/core/workbuddy-input.ts:1"
+    },
+    "sketch-attachment": {
+      "kind": "shared-part",
+      "sharedOwner": "sentence-parameter-composer",
+      "reason": "Embedded variant/state of the linked shared view, not a separate independent export. Native execution stays host-owned.",
+      "source": "apps/web/src/phone-workbuddy-adaptive.tsx:1；apps/web/src/sentence-composer.tsx:1；packages/core/workbuddy-input.ts:1"
+    },
+    "media-controls": {
+      "kind": "shared",
+      "sharedOwner": "media-controls",
+      "reason": "Extracted display used by the product compatibility boundary and an isolated specimen.",
+      "source": "apps/web/src/phone-bilibili.tsx:1；packages/core/bilibili.ts:1"
+    },
+    "visible-task-navigation": {
+      "kind": "shared",
+      "sharedOwner": "visible-task-navigation",
+      "reason": "Extracted display used by the product compatibility boundary and an isolated specimen.",
+      "source": "apps/web/src/phone-workbuddy-adaptive.tsx:1；apps/web/src/sentence-composer.tsx:1；packages/core/workbuddy-input.ts:1"
+    },
+    "flexible-composer-region": {
+      "kind": "shared",
+      "sharedOwner": "flexible-composer-region",
+      "reason": "Extracted display used by the product compatibility boundary and an isolated specimen.",
+      "source": "apps/web/src/phone-workbuddy-adaptive.tsx:1；apps/web/src/sentence-composer.tsx:1；packages/core/workbuddy-input.ts:1"
+    },
+    "media-playback": {
+      "kind": "shared-part",
+      "sharedOwner": "media-controls",
+      "reason": "Embedded variant/state of the linked shared view, not a separate independent export. Native execution stays host-owned.",
+      "source": "apps/web/src/phone-bilibili.tsx:1；packages/core/bilibili.ts:1"
+    },
+    "media-playback-speed": {
+      "kind": "shared-part",
+      "sharedOwner": "media-controls",
+      "reason": "Embedded variant/state of the linked shared view, not a separate independent export. Native execution stays host-owned.",
+      "source": "apps/web/src/phone-bilibili.tsx:1；packages/core/bilibili.ts:1"
+    },
+    "media-playback-volume": {
+      "kind": "shared-part",
+      "sharedOwner": "media-controls",
+      "reason": "Embedded variant/state of the linked shared view, not a separate independent export. Native execution stays host-owned.",
+      "source": "apps/web/src/phone-bilibili.tsx:1；packages/core/bilibili.ts:1"
+    },
+    "painting-visual-brush-console": {
+      "kind": "shared",
+      "sharedOwner": "painting-visual-brush-console",
+      "reason": "Extracted display used by the product compatibility boundary and an isolated specimen.",
+      "source": "apps/web/src/phone-paint.tsx:1；packages/core/paint.ts:1"
+    },
+    "painting-size-slider": {
+      "kind": "shared-part",
+      "sharedOwner": "painting-visual-brush-console",
+      "reason": "Embedded variant/state of the linked shared view, not a separate independent export. Native execution stays host-owned.",
+      "source": "apps/web/src/phone-paint.tsx:1；packages/core/paint.ts:1"
+    },
+    "color-wheel-presets": {
+      "kind": "shared",
+      "sharedOwner": "color-wheel-presets",
+      "reason": "Extracted display used by the product compatibility boundary and an isolated specimen.",
+      "source": "apps/web/src/phone-paint.tsx:1；packages/core/paint.ts:1"
+    },
+    "painting-voice-command-dock": {
+      "kind": "shared-part",
+      "sharedOwner": "input-dock",
+      "reason": "Embedded variant/state of the linked shared view, not a separate independent export. Native execution stays host-owned.",
+      "source": "apps/web/src/phone-paint.tsx:1；packages/core/paint.ts:1"
+    },
+    "intent-chip": {
+      "kind": "shared-part",
+      "sharedOwner": "sentence-parameter-composer",
+      "reason": "Embedded variant/state of the linked shared view, not a separate independent export. Native execution stays host-owned.",
+      "source": "apps/web/src/phone-workbuddy-adaptive.tsx:1；apps/web/src/sentence-composer.tsx:1；packages/core/workbuddy-input.ts:1"
+    },
+    "intent-chip-composer": {
+      "kind": "shared-part",
+      "sharedOwner": "sentence-parameter-composer",
+      "reason": "Embedded variant/state of the linked shared view, not a separate independent export. Native execution stays host-owned.",
+      "source": "apps/web/src/phone-workbuddy-adaptive.tsx:1；apps/web/src/sentence-composer.tsx:1；packages/core/workbuddy-input.ts:1"
+    },
+    "professional-fader": {
+      "kind": "unmapped-design",
+      "sharedOwner": null,
+      "reason": "The registered general contract is not proven by a similar scene implementation. No invented runtime export.",
+      "source": "samples/adaptive-component-registry.json:1"
+    },
+    "professional-action-key": {
+      "kind": "unmapped-design",
+      "sharedOwner": null,
+      "reason": "The registered general contract is not proven by a similar scene implementation. No invented runtime export.",
+      "source": "samples/adaptive-component-registry.json:1"
+    },
+    "professional-action-deck": {
+      "kind": "unmapped-design",
+      "sharedOwner": null,
+      "reason": "The registered general contract is not proven by a similar scene implementation. No invented runtime export.",
+      "source": "samples/adaptive-component-registry.json:1"
+    },
+    "professional-intent-composer": {
+      "kind": "unmapped-design",
+      "sharedOwner": null,
+      "reason": "The registered general contract is not proven by a similar scene implementation. No invented runtime export.",
+      "source": "samples/adaptive-component-registry.json:1"
+    },
+    "relative-encoder": {
+      "kind": "unmapped-design",
+      "sharedOwner": null,
+      "reason": "The registered general contract is not proven by a similar scene implementation. No invented runtime export.",
+      "source": "samples/adaptive-component-registry.json:1"
+    },
+    "rotary-modifier": {
+      "kind": "unmapped-design",
+      "sharedOwner": null,
+      "reason": "The registered general contract is not proven by a similar scene implementation. No invented runtime export.",
+      "source": "samples/adaptive-component-registry.json:1"
+    },
+    "jog-shuttle": {
+      "kind": "unmapped-design",
+      "sharedOwner": null,
+      "reason": "The registered general contract is not proven by a similar scene implementation. No invented runtime export.",
+      "source": "samples/adaptive-component-registry.json:1"
+    },
+    "task-attention-pulse": {
+      "kind": "shared-part",
+      "sharedOwner": "visible-task-navigation",
+      "reason": "Embedded variant/state of the linked shared view, not a separate independent export. Native execution stays host-owned.",
+      "source": "apps/web/src/phone-workbuddy-adaptive.tsx:1；apps/web/src/sentence-composer.tsx:1；packages/core/workbuddy-input.ts:1"
+    },
+    "material-source": {
+      "kind": "shared",
+      "sharedOwner": "material-source",
+      "reason": "Extracted display used by the product compatibility boundary and an isolated specimen.",
+      "source": "apps/web/src/capture-panel.tsx:1；packages/core/capture.ts:1"
+    },
+    "material-preview": {
+      "kind": "shared-part",
+      "sharedOwner": "material-attachment",
+      "reason": "Embedded variant/state of the linked shared view, not a separate independent export. Native execution stays host-owned.",
+      "source": "apps/web/src/capture-panel.tsx:1；packages/core/capture.ts:1"
+    },
+    "material-attachment": {
+      "kind": "shared",
+      "sharedOwner": "material-attachment",
+      "reason": "Extracted display used by the product compatibility boundary and an isolated specimen.",
+      "source": "apps/web/src/capture-panel.tsx:1；packages/core/capture.ts:1"
+    },
+    "dynamic-auxiliary-workspace": {
+      "kind": "shared",
+      "sharedOwner": "dynamic-auxiliary-workspace",
+      "reason": "Extracted display used by the product compatibility boundary and an isolated specimen.",
+      "source": "apps/web/src/phone-workbuddy-adaptive.tsx:1；apps/web/src/sentence-composer.tsx:1；packages/core/workbuddy-input.ts:1"
+    },
+    "tool-summary": {
+      "kind": "historical-or-design",
+      "sharedOwner": null,
+      "reason": "Historical/design-only reference; not an executable control.",
+      "source": "samples/adaptive-component-registry.json:1"
+    },
+    "compact-task-composer": {
+      "kind": "shared-part",
+      "sharedOwner": "sentence-parameter-composer",
+      "reason": "Embedded variant/state of the linked shared view, not a separate independent export. Native execution stays host-owned.",
+      "source": "apps/web/src/phone-workbuddy-adaptive.tsx:1；apps/web/src/sentence-composer.tsx:1；packages/core/workbuddy-input.ts:1"
+    },
+    "agent-decision-request": {
+      "kind": "shared",
+      "sharedOwner": "agent-decision-request",
+      "reason": "Extracted display used by the product compatibility boundary and an isolated specimen.",
+      "source": "apps/web/src/workbuddy-receipt-tools.tsx:1；packages/core/workbuddy-materials.ts:1"
+    },
+    "capture-direct-preview": {
+      "kind": "shared-part",
+      "sharedOwner": "material-source",
+      "reason": "Embedded variant/state of the linked shared view, not a separate independent export. Native execution stays host-owned.",
+      "source": "apps/web/src/capture-panel.tsx:1；packages/core/capture.ts:1"
+    },
+    "sentence-parameter": {
+      "kind": "shared-part",
+      "sharedOwner": "sentence-parameter-composer",
+      "reason": "Embedded variant/state of the linked shared view, not a separate independent export. Native execution stays host-owned.",
+      "source": "apps/web/src/sentence-composer.tsx:1；packages/core/workbuddy-sentence.ts:1；packages/core/workbuddy-input.ts:1"
+    },
+    "sentence-parameter-composer": {
+      "kind": "shared",
+      "sharedOwner": "sentence-parameter-composer",
+      "reason": "Extracted display used by the product compatibility boundary and an isolated specimen.",
+      "source": "apps/web/src/sentence-composer.tsx:1；packages/core/workbuddy-sentence.ts:1；packages/core/workbuddy-input.ts:1"
+    },
+    "text-selection-toolbar": {
+      "kind": "shared",
+      "sharedOwner": "text-selection-toolbar",
+      "reason": "Extracted display used by the product compatibility boundary and an isolated specimen.",
+      "source": "apps/web/src/phone-workbuddy-object.tsx:1；packages/core/workbuddy-object.ts:1"
+    },
+    "selection-link-editor": {
+      "kind": "shared-part",
+      "sharedOwner": "text-selection-toolbar",
+      "reason": "Embedded variant/state of the linked shared view, not a separate independent export. Native execution stays host-owned.",
+      "source": "apps/web/src/phone-workbuddy-object.tsx:1；packages/core/workbuddy-object.ts:1"
+    },
+    "image-input": {
+      "kind": "shared",
+      "sharedOwner": "image-input",
+      "reason": "Extracted display with isolated fixture.",
+      "source": "packages/ui/src/agent-input-view.tsx"
+    },
+    "duration-input": {
+      "kind": "shared",
+      "sharedOwner": "duration-input",
+      "reason": "Extracted display with isolated fixture.",
+      "source": "packages/ui/src/agent-input-view.tsx"
+    },
+    "contextual-polish-actions": {
+      "kind": "shared",
+      "sharedOwner": "contextual-polish-actions",
+      "reason": "Extracted display with isolated fixture.",
+      "source": "packages/ui/src/contextual-polish-actions.tsx"
+    },
+    "connection-error": {
+      "kind": "shared",
+      "sharedOwner": "connection-error",
+      "reason": "Extracted display with isolated fixture.",
+      "source": "packages/ui/src/connection-error.tsx"
+    },
+    "edit-reviews": {
+      "kind": "shared",
+      "sharedOwner": "edit-reviews",
+      "reason": "Extracted display with isolated fixture.",
+      "source": "packages/ui/src/agent-edit-review.tsx"
+    },
+    "rich-object-text": {
+      "kind": "shared",
+      "sharedOwner": "rich-object-text",
+      "reason": "Extracted display with isolated fixture.",
+      "source": "packages/ui/src/rich-object-text.tsx"
+    },
+    "color-picker": {
+      "kind": "shared",
+      "sharedOwner": "color-picker",
+      "reason": "Extracted display with isolated fixture.",
+      "source": "packages/ui/src/workbuddy-color-picker.tsx"
+    },
+    "paint-color-picker": {
+      "kind": "shared",
+      "sharedOwner": "paint-color-picker",
+      "reason": "Extracted display with isolated fixture.",
+      "source": "packages/ui/src/tablet-paint-color.tsx"
+    },
+    "input-duration": {
+      "kind": "shared",
+      "sharedOwner": "input-duration",
+      "reason": "Independent controlled React source extracted from Xiaoyi Work. No runtime or A2UI dependency.",
+      "source": "packages/input-controls/src/duration-widget.tsx"
+    },
+    "input-color": {
+      "kind": "shared",
+      "sharedOwner": "input-color",
+      "reason": "Independent controlled React source extracted from Xiaoyi Work. No runtime or A2UI dependency.",
+      "source": "packages/input-controls/src/color-widget.tsx"
+    },
+    "input-font": {
+      "kind": "shared",
+      "sharedOwner": "input-font",
+      "reason": "Independent controlled React source extracted from Xiaoyi Work. No runtime or A2UI dependency.",
+      "source": "packages/input-controls/src/font-widget.tsx"
+    },
+    "input-palette": {
+      "kind": "shared",
+      "sharedOwner": "input-palette",
+      "reason": "Independent controlled React source extracted from Xiaoyi Work. No runtime or A2UI dependency.",
+      "source": "packages/input-controls/src/palette-widget.tsx"
+    },
+    "input-document": {
+      "kind": "shared",
+      "sharedOwner": "input-document",
+      "reason": "Independent controlled React source extracted from Xiaoyi Work. No runtime or A2UI dependency.",
+      "source": "packages/input-controls/src/document-widget.tsx"
+    },
+    "input-photo": {
+      "kind": "shared",
+      "sharedOwner": "input-photo",
+      "reason": "Independent controlled React source extracted from Xiaoyi Work. No runtime or A2UI dependency.",
+      "source": "packages/input-controls/src/image-widget.tsx"
+    },
+    "input-scanner": {
+      "kind": "shared",
+      "sharedOwner": "input-scanner",
+      "reason": "Independent controlled React source extracted from Xiaoyi Work. No runtime or A2UI dependency.",
+      "source": "packages/input-controls/src/scanner-widget.tsx"
+    },
+    "input-sketch": {
+      "kind": "shared",
+      "sharedOwner": "input-sketch",
+      "reason": "Independent controlled React source extracted from Xiaoyi Work. No runtime or A2UI dependency.",
+      "source": "packages/input-controls/src/sketch-widget.tsx"
+    },
+    "input-expert": {
+      "kind": "shared",
+      "sharedOwner": "input-expert",
+      "reason": "Independent controlled React source extracted from Xiaoyi Work. No runtime or A2UI dependency.",
+      "source": "packages/input-controls/src/expert-widget.tsx"
+    },
+    "input-skills": {
+      "kind": "shared",
+      "sharedOwner": "input-skills",
+      "reason": "Independent controlled React source extracted from Xiaoyi Work. No runtime or A2UI dependency.",
+      "source": "packages/input-controls/src/skills-widget.tsx"
+    },
+    "input-connectors": {
+      "kind": "shared",
+      "sharedOwner": "input-connectors",
+      "reason": "Independent controlled React source extracted from Xiaoyi Work. No runtime or A2UI dependency.",
+      "source": "packages/input-controls/src/connectors-widget.tsx"
+    },
+    "input-formats": {
+      "kind": "shared",
+      "sharedOwner": "input-formats",
+      "reason": "Independent controlled React source extracted from Xiaoyi Work. No runtime or A2UI dependency.",
+      "source": "packages/input-controls/src/formats-widget.tsx"
+    },
+    "input-capture": {
+      "kind": "shared",
+      "sharedOwner": "input-capture",
+      "reason": "Independent controlled React source extracted from Xiaoyi Work. No runtime or A2UI dependency.",
+      "source": "packages/input-controls/src/capture-widget.tsx"
+    }
+  }
+}

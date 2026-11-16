@@ -36,7 +36,7 @@ export function TaskCompositionDemo(){
       <p className="quiet">{t('识别不会打开面板。点击一个可用入口，在下方查看组合；每次切换会重置样例。预览调节只改变副本，不回写任务文字或真实草稿。','Recognition opens no panel. Choose an available entry to see the composition below; switching resets the fixture. Preview edits affect a copy, never the task text or a real draft.')}</p>
       <details><summary>{t('查看本地计划（不是 A2UI 协议）','Inspect local plan (not the A2UI protocol)')}</summary><pre>{JSON.stringify(plan,null,2)}</pre></details>
     </section>}
-    {messages&&<section className="task-preview"><h2>{t('模板组合与 A2UI 预览','Template composition & A2UI preview')}</h2><p>{t('宿主选择固定单列模板，绑定任务中的有效参数，再用同一 Catalog 校验。当前切片为标题＋一个辅助控件，尚未编排完整手机输入区。','The host selects a fixed column template, binds valid task parameters and validates against the same Catalog. This slice composes a heading and one auxiliary control; it does not orchestrate the complete phone input region.')}</p><Sandbox key={previewRevision} initialMessages={messages} editorText={plan!.text} autoRun/></section>}
+    {messages&&<section className="task-preview"><h2>{t('模板组合与 A2UI 预览','Template composition & A2UI preview')}</h2><p>{t('宿主选择固定单列模板，绑定任务中的有效参数，再用同一 Catalog 校验。当前切片为标题＋一个辅助控件，尚未编排完整手机输入区。','The host selects a fixed column template, binds valid task parameters and validates against the same Catalog. This slice composes a heading and one auxiliary control; it does not orchestrate the complete phone input region.')}</p><Sandbox key={previewRevision} initialMessages={messages} editorText={plan!.text}/></section>}
     <div className="related-links"><a href="#/guides/generative-ui">{t('生成式 UI 规则','Generative UI rules')} ↗</a><a href="#/a2ui/task-integration">{t('产品接入流程与缺口','Production integration & gaps')} ↗</a></div>
   </div>;
 }

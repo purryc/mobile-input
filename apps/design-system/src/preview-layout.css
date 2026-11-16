@@ -1,0 +1,25 @@
+/* Only the surrounding viewport and fixture controls. Product selectors are not restyled. */
+.preview-viewport{overflow:auto;background:#f1f3f6;padding:24px 0;max-width:100%;isolation:isolate}
+.preview-window{position:relative;margin:0 auto;overflow:hidden;flex:none}
+.preview-host{width:100%;margin:0;position:absolute;left:0;contain:layout paint;flex:none}
+.preview-host:has(.game-specimen){width:844px}
+/* Preserve the original spatial panel's coordinates. Crop only the surrounding canvas. */
+.preview-host .presentation-specimen,.preview-host .notes-specimen,.preview-host .hold-specimen{position:relative;left:auto;top:auto;transform:none;height:844px}
+.preview-host .game-specimen{position:relative;left:auto;top:auto;transform:none}
+.fixture-status{font:12px/1.5 system-ui,sans-serif;margin:12px 0 0;padding:0 18px;color:#536c7b}
+.fixture-status:empty{display:none}
+.fixture-draft{display:block;width:100%;min-height:90px;padding:12px}
+.preview-host .demo-options{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;font:12px/1.5 system-ui,sans-serif}
+.preview-host .demo-options label{display:flex;flex-direction:column;gap:4px}
+.preview-host .demo-options select{font:inherit;min-height:32px}
+.preview-host .polish-editor-stack>textarea{width:100%;min-height:140px;background:#fff;padding:12px;border-radius:16px;border:1px solid #fff}
+.preview-host .editor-footer{display:flex;gap:8px;align-items:center;font-size:12px}
+.preview-host .editor-footer span{flex:1}
+.preview-host .demo-status{font-size:12px;margin:12px 0}
+.preview-host .chip-specimen{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:12px 0}
+.preview-host .chip-specimen p{width:100%}
+.preview-host .image-demo .switch-label{display:flex;align-items:center;font-size:12px;gap:8px;margin-bottom:12px}
+.preview-host .draft-mirror{border-top:1px solid #d9e2de;padding-top:12px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-size:12px}
+.preview-host .draft-mirror>span{width:100%}
+.preview-host details{font:12px/1.5 system-ui,sans-serif;margin-top:12px}
+.preview-host pre{white-space:pre-wrap;overflow-wrap:anywhere}

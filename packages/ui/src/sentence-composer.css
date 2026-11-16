@@ -1,0 +1,10 @@
+/* glass/inline-outline: content colors are swatches, never control outlines. */
+.wb-sentence-composer{--inline-accent:var(--input-accent,var(--dock-accent,#0a59f7));--glass-inline-outline:color-mix(in srgb,var(--inline-accent) 30%,transparent);line-height:32px}
+.paint-phone .wb-sentence-composer,[data-theme=dark] .wb-sentence-composer{--glass-inline-outline:color-mix(in srgb,var(--inline-accent) 44%,transparent)}
+.wb-sentence-composer .sentence-token-hit{display:inline-flex;align-items:center;vertical-align:middle;height:32px;min-height:32px;max-width:100%;padding:0 2px;white-space:nowrap;user-select:none}
+.wb-sentence-composer .sentence-token{display:inline-flex;align-items:center;justify-content:center;height:32px;min-height:32px;min-width:0;max-width:100%;padding:0;border:0;background:transparent;box-shadow:none;color:inherit;cursor:pointer;font:inherit}
+.wb-sentence-composer .sentence-token>.sentence-token-face{box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center;gap:5px;height:28px;min-height:28px;max-width:250px;padding:0 7px;border:1px solid transparent;border-radius:7px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:14px;line-height:20px;background:var(--glass-control,#ffffff99);box-shadow:inset 0 0 0 1px var(--glass-inline-outline),inset 0 1px 1px #ffffff60,0 1px 1px #14303b0a}
+.wb-sentence-composer .sentence-token[aria-pressed=true]>.sentence-token-face{background:color-mix(in srgb,var(--inline-accent) 12%,var(--glass-control,#ffffff99));box-shadow:inset 0 0 0 1px var(--inline-accent),inset 0 1px 1px #ffffff60}
+.wb-sentence-composer .sentence-token-face>span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.wb-sentence-composer .sentence-swatch{width:12px;height:12px;border-radius:50%;flex:none;box-shadow:0 0 0 1px #122d3914}
+.wb-sentence-composer .sentence-icon{width:16px;height:16px;flex:none;object-fit:contain}

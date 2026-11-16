@@ -1,0 +1,10 @@
+.agent-edit-reviews{display:flex;flex-direction:column;gap:8px;flex:0 1 auto;min-height:112px;max-height:48%;overflow:auto}
+.agent-edit-review{border:1px solid var(--glass-inline-outline,rgba(127,127,127,.25));border-radius:16px;background:rgba(255,255,255,.65);flex-shrink:0;overflow:hidden}
+.agent-edit-diff{max-height:176px;overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere;font-size:14px;line-height:1.55}
+.agent-edit-diff del,.agent-edit-diff ins{display:block;padding:10px 12px;text-decoration:none}
+.agent-edit-diff del{background:rgba(220,60,60,.13)}.agent-edit-diff ins{background:rgba(40,160,80,.13)}
+.agent-edit-review-actions{display:flex;gap:6px;justify-content:flex-end;padding:6px;overflow-x:auto}
+.agent-edit-review-actions .application-action-chip{min-height:48px;flex-shrink:0;padding:0 10px}
+.agent-edit-review-actions .review-reject{color:#bf3030}.agent-edit-review-actions .review-accept{color:#167638}
+.agent-edit-review>p{font-size:12px;margin:8px}
+.agent-edit-document{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;opacity:.7}

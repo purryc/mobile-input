@@ -1,3 +1,12 @@
+# Independent input controls integration · 2026-11-16
+
+- Approved implementation extracts 13 widgets, inline chip semantic and interaction states, and interactive examples from Xiaoyi Work into packages/input-controls. Text polish is excluded from this new library and handoff.
+- Work in this integration worktree. Reuse packages/ui and Design System previews from codex/design-system-components without changing product callers. Do not modify the standalone Xiaoyi demo worktree or deployment.
+- Package views receive controlled values and host callbacks. Capture uses injected adapters, with separately exported browser implementations. No demo API, storage, bridge or model dependency.
+- Evidence belongs in ignored artifacts/design-system/input-controls-2026-11-16/{sources,qa,review,release}. Keep source, styles, types and assets together. Handoff includes a minimal React example and English README.
+- User authorizes scoped integration into GitHub main, manual Design System Pages publication, and source ZIP release. Preserve the main worktree's unrelated edits. Verify all 13 controls, chip semantics, isolation, extracted build, and read-only Claude CLI review before publication.
+- Existing library rules below apply to the retained catalog. New controls are React-only unless explicitly registered and tested with A2UI.
+
 # Mobile Input project rules
 
 ## User-requested source push · 2026-11-05

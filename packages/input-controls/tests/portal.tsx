@@ -1,0 +1,3 @@
+import {createRoot} from 'react-dom/client';import {WidgetProvider,WidgetSurface,CaptureTile} from '../src';import '../src/desktop.css';
+const blob=new Blob(['<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><rect width="100" height="100" fill="blue"/></svg>'],{type:'image/svg+xml'});
+createRoot(document.getElementById('root')!).render(<WidgetProvider language="en" translate={s=>s} assetBase="/" portalRoot={document.getElementById('overlay')} theme={{accent:'#aa3300'}}><WidgetSurface><CaptureTile item={{id:'material',name:'reference.svg',kind:'screenshot',blob,size:blob.size,confirmed:true}} compact/></WidgetSurface></WidgetProvider>);

@@ -8,7 +8,13 @@ for(const f of ['registry.json','rules.json','release.json','catalog.json','cata
 const assets=readdirSync(path.join(root,'assets')).filter(f=>f.endsWith('.js')).map(f=>readFileSync(path.join(root,'assets',f),'utf8')).join('\n');
 for(const forbidden of ['input-agent:ui-language','WebSocket(','api.openai.com','generativelanguage.googleapis.com'])if(assets.includes(forbidden))throw Error('Runtime isolation failed: '+forbidden);
 if(!existsSync(path.join(root,'reference-assets/workbuddy-widgets/check.svg')))throw Error('Missing shared widget asset.');
+for(const file of ['harmonyos-sans-sc-regular.ttf','harmonyos-sans-sc-medium.ttf','harmonyos-sans-sc-bold.ttf','LICENSE.txt'])if(!existsSync(path.join(root,'reference-assets/fonts',file)))throw Error('Missing original font '+file);
 if(existsSync(path.join(root,'generated/previews')))throw Error('Component screenshots must not be shipped.');
 console.log('Verified base path, release artifacts and runtime isolation.');
 
 for(const name of ['catalog.json','catalog-schema.json','common_types.json']){const doc=JSON.parse(readFileSync(path.join(root,'generated',name),'utf8'));const refs=(v)=>{if(!v||typeof v!=='object')return;if(v.$ref){const [file,fragment]=v.$ref.split('#');const target=file?JSON.parse(readFileSync(path.join(root,'generated',file),'utf8')):doc;let value=target;for(const part of (fragment||'').split('/').filter(Boolean))value=value?.[part.replaceAll('~1','/').replaceAll('~0','~')];if(value===undefined)throw Error('Unresolved schema reference: '+v.$ref);}Object.values(v).forEach(refs);};refs(doc);}
+
+const inputKinds=['duration','color','font','palette','document','photo','scanner','sketch','expert','skills','connectors','formats','capture'];
+const registry=JSON.parse(readFileSync(path.join(root,'generated/registry.json'),'utf8'));
+for(const kind of inputKinds)if(!registry.components.some(c=>c.id==='input-'+kind))throw Error('Missing independent widget '+kind);
+for(const name of ['design-expert-design.png','design-skill-ppt.png','design-format-pptx.png'])if(!existsSync(path.join(root,'input-controls/assets/xiaoyi-work',name)))throw Error('Missing input library asset '+name);

@@ -1,0 +1,53 @@
+/* Semantic state, provenance and interaction are independent. */
+.input-controls-theme {--input-accent:var(--controls-accent,#6266df);--dock-accent:var(--input-accent);font-family:system-ui,sans-serif;color:var(--ic-demo-ink,#182431);}
+.input-controls-theme *, .input-controls-theme *::before, .input-controls-theme *::after {box-sizing:border-box;}
+.input-controls-theme button {cursor:pointer;font-family:inherit;color:inherit;}
+.input-controls-theme button:disabled {cursor:default;}
+.input-controls-theme .ic-sentence-token-hit {display:inline-flex;vertical-align:middle;height:32px;padding:0 2px;}
+.input-controls-theme .ic-sentence-token, .input-controls-theme .ic-sentence-token-capsule {height:32px;min-height:32px;border-radius:9px;position:relative;display:inline-flex;align-items:center;vertical-align:middle;padding:0;}
+.input-controls-theme .ic-sentence-token {border:0;background:transparent;}
+.input-controls-theme .ic-sentence-token > .ic-sentence-token-face {display:inline-flex;align-items:center;justify-content:center;height:32px;min-height:32px;padding:0 8px;gap:6px;border:1px solid #D5DAE1;border-radius:9px;font:400 15px/22px system-ui,sans-serif;background:rgba(255,255,255,.48);white-space:nowrap;}
+.input-controls-theme .ic-sentence-token[data-semantic-state]::after {display:none;}
+.input-controls-theme .ic-sentence-token[data-semantic-state="needs-input"]>.ic-sentence-token-face {border:1px dashed #D5DAE1;background:#ffffff7a;}
+.input-controls-theme .ic-sentence-token[data-semantic-state="default-selected"]>.ic-sentence-token-face {border:1px solid #D5DAE1;background:#ffffff7a;}
+.input-controls-theme .ic-sentence-token-capsule[data-semantic-state] {border:1px solid #D5DAE1;background:#ffffff7a;box-shadow:none;}
+.input-controls-theme .ic-sentence-token-capsule[data-semantic-state]::before,.input-controls-theme .ic-sentence-token-capsule[data-semantic-state]::after {display:none;}
+.input-controls-theme .ic-sentence-token-capsule[data-semantic-state="needs-input"] {border-style:dashed;}
+.input-controls-theme .ic-sentence-token-capsule[data-semantic-state] .ic-sentence-token>.ic-sentence-token-face {border:0;background:transparent;height:30px;min-height:30px;}
+.input-controls-theme .ic-sentence-token[data-semantic-state="ambiguous-recommendation"]>.ic-sentence-token-face,
+.input-controls-theme .ic-sentence-token-capsule[data-semantic-state="ambiguous-recommendation"] {border:1.5px solid transparent;background:linear-gradient(#fafaff,#fafaff) padding-box,linear-gradient(110deg,#6288F5,#8C68E8,#D878B6) border-box;box-shadow:0 0 4px #8c68e826;}
+.input-controls-theme .ic-sentence-token-capsule[data-semantic-state="ambiguous-recommendation"] .ic-sentence-token>.ic-sentence-token-face {border:0;background:transparent;box-shadow:none;}
+.input-controls-theme .ic-sentence-token[aria-expanded="true"]>.ic-sentence-token-face,.input-controls-theme .ic-sentence-token-capsule[data-expanded="true"] {background-color:var(--ic-demo-tint,#6266df12);}
+.input-controls-theme .ic-sentence-token:hover:not(:disabled)>.ic-sentence-token-face {box-shadow:inset 0 0 0 1px #7e87a533;}
+.input-controls-theme .ic-sentence-token:active:not(:disabled) {transform:translateY(1px);}
+.input-controls-theme button:focus-visible {outline:2px solid var(--input-accent);outline-offset:2px;}
+.input-controls-theme .ic-sentence-token:disabled {opacity:.5;}
+.input-controls-theme .ic-demo-chip-icon,.input-controls-theme .ic-sentence-icon,.input-controls-theme .ic-sentence-swatch {width:18px;height:18px;flex:none;object-fit:contain;}
+.input-controls-theme .ic-sentence-swatch {display:inline-block;border-radius:50%;border:1px solid #18243112;}
+.input-controls-theme .ic-demo-chip-smart {font-size:18px;width:14px;line-height:14px;color:#7560e5;}
+.input-controls-theme .ic-demo-chip-smart img {width:14px;height:14px;}
+.input-controls-theme .ic-demo-chip-remove {width:24px;height:30px;display:grid;place-items:center;padding:0;border:0;background:transparent;border-radius:0 8px 8px 0;}
+.input-controls-theme .ic-demo-chip-remove img {width:14px;height:14px;}
+.input-controls-theme .ic-chip-needs-plus {font-size:18px;line-height:18px;}
+.input-controls-popover {z-index:1000;overflow:auto;overscroll-behavior:contain;isolation:isolate;}
+.input-controls-popover .ic-live-wb-aux {width:100%;min-height:0;}
+.input-controls-theme .ic-demo-capture-viewport video,.input-controls-theme .ic-demo-capture-viewport img {width:100%;height:auto;display:block;}
+.input-controls-theme .ic-demo-capture-viewport {height:auto;aspect-ratio:auto;touch-action:none;}
+.input-controls-theme .ic-demo-capture-items {max-height:240px;overflow:auto;}
+.input-controls-theme .ic-demo-material>button:disabled {opacity:1;}
+@media(prefers-reduced-motion:reduce){.input-controls-theme *,.input-controls-theme *::before,.input-controls-theme *::after {animation:none!important;transition:none!important;}}
+.input-controls-theme .controls-panel-shell {position:relative;width:100%;max-width:none;--anchor-offset:24px;}
+.input-controls-theme .controls-panel-shell::before {display:none;}
+.input-controls-theme .controls-panel-shell .ic-live-wb-aux {max-height:inherit;}
+.input-controls-popover {display:flex;border-radius:20px;}
+.input-controls-popover .controls-panel-shell {max-height:inherit;min-height:0;}
+.input-controls-popover .controls-panel-shell .ic-live-wb-aux {max-height:inherit;}
+.input-controls-theme .ic-sentence-token[data-semantic-state="needs-input"][aria-expanded="true"]>.ic-sentence-token-face,
+.input-controls-theme .ic-sentence-token[data-semantic-state="default-selected"][aria-expanded="true"]>.ic-sentence-token-face {border-color:#a6b0bd;background:var(--ic-demo-tint);}
+.input-controls-theme .ic-sentence-token-capsule[data-semantic-state="needs-input"][data-expanded="true"],
+.input-controls-theme .ic-sentence-token-capsule[data-semantic-state="default-selected"][data-expanded="true"] {border-color:#a6b0bd;}
+
+.input-controls-popover {box-shadow:var(--ic-demo-glass-shadow);}
+/* Host typography must not change controls between standalone and documentation use. */
+.input-controls-theme {font:400 15px/1.55 system-ui,sans-serif;letter-spacing:normal;text-align:start;}
+.input-controls-theme input,.input-controls-theme select,.input-controls-theme textarea {font:inherit;letter-spacing:normal;}

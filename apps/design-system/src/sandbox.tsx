@@ -1,34 +1,55 @@
-import {useEffect,useRef,useState,useId} from 'react';
+import {useLayoutEffect,useRef,useState,useId} from 'react';
 import {A2uiSurface} from '@a2ui/react/v0_9';
 import {MessageProcessor,type ProcessableMessagePayload} from '@a2ui/web_core/v0_9';
-import {Play,SkipForward,RotateCcw,Copy} from 'lucide-react';
+import {RotateCcw,Copy} from 'lucide-react';
 import {catalog,SandboxHost} from './catalog';
 import {apis,example,validateMessages,type CatalogName} from './catalog-api';
 import {DemoEditor} from './demo-controller';
 import {PreviewHost} from './specimens';
 import {t} from './i18n';
-function Tabs({id,label,items,value,onChange,className}:{id:string;label:string;items:{id:string;label:string}[];value:string;onChange:(value:string)=>void;className?:string}){
- return <div className={className} role="tablist" aria-label={label}>{items.map((item,index)=><button key={item.id} id={id+'-tab-'+item.id} role="tab" aria-controls={id+'-panel-'+item.id} aria-selected={value===item.id} tabIndex={value===item.id?0:-1} onClick={()=>onChange(item.id)} onKeyDown={e=>{
-  const next=e.key==='ArrowRight'?(index+1)%items.length:e.key==='ArrowLeft'?(index+items.length-1)%items.length:e.key==='Home'?0:e.key==='End'?items.length-1:-1;
-  if(next<0)return;e.preventDefault();onChange(items[next].id);e.currentTarget.parentElement?.querySelectorAll<HTMLButtonElement>('[role="tab"]')[next]?.focus();
- }}>{item.label}</button>)}</div>;
-}
-export function Sandbox({initial='ImageInput',initialMessages,editorText,autoRun=false}:{initial?:CatalogName;initialMessages?:unknown[];editorText?:string;autoRun?:boolean}){
- const uid=useId(),viewId=uid+'-view',inspectId=uid+'-inspect';
- const [name,setName]=useState<CatalogName>(initial),[code,setCode]=useState(()=>JSON.stringify(initialMessages||example(initial),null,2)),[session,setSession]=useState<{processor:MessageProcessor<any>;editor:DemoEditor;epoch:number}|null>(null),[events,setEvents]=useState<unknown[]>([]),[error,setError]=useState(''),[cursor,setCursor]=useState(0),[data,setData]=useState<unknown>({}),[tab,setTab]=useState('data'),[copy,setCopy]=useState(false),[mobileView,setMobileView]=useState('messages');const epoch=useRef(0);const current=useRef(session);current.current=session;
- useEffect(()=>()=>{epoch.current++;current.current?.processor.dispose();current.current?.editor.dispose();},[]);
- const reset=(next:CatalogName=name)=>{epoch.current++;session?.processor.dispose();session?.editor.dispose();setSession(null);setCursor(0);setEvents([]);setData({});setError('');setCode(JSON.stringify(initialMessages||example(next),null,2));setMobileView('messages');};
- const run=(step:boolean)=>{try{const messages=validateMessages(JSON.parse(code));const n=step?Math.min(cursor+1,messages.length):messages.length;
- const generation=epoch.current+1;const editor=new DemoEditor('demo-editor');if(editorText!==undefined)editor.change(editorText,false);
- const processor=new MessageProcessor([catalog],e=>{if(epoch.current===generation){setEvents(v=>[...v,e].slice(-40));setData(structuredClone(processor.model.surfacesMap.get('preview')?.dataModel.get('/')||{}));}},{version:'v0.9.1'});
- try{processor.processMessages(messages.slice(0,n) as ProcessableMessagePayload);}catch(e){processor.dispose();editor.dispose();throw e;}
- epoch.current=generation;session?.processor.dispose();session?.editor.dispose();setSession({processor,editor,epoch:generation});setMobileView('preview');setCursor(n);setError('');setEvents([]);setData(structuredClone(processor.model.surfacesMap.get('preview')?.dataModel.get('/')||{}));
- }catch(e){setError(e instanceof Error?e.message:String(e));setTab('errors');}};
- useEffect(()=>{if(autoRun)run(false);},[]);
- return <div className="sandbox"><div className="sandbox-tools">{!initialMessages&&<label>{t('示例','Example')}<select aria-label={t('A2UI 示例','A2UI example')} value={name} onChange={e=>{const n=e.target.value as CatalogName;setName(n);reset(n);}}>{Object.keys(apis).filter(x=>!['Column','Text'].includes(x)).map(n=><option key={n}>{n}</option>)}</select></label>}<button className="primary" onClick={()=>run(false)}><Play size={15}/>{t('运行','Run')}</button><button onClick={()=>run(true)}><SkipForward size={15}/>{t('逐步','Step')} {cursor}</button><button onClick={()=>reset()}><RotateCcw size={15}/>{initialMessages?t('恢复任务计划','Restore task plan'):t('重置','Reset')}</button><button onClick={()=>{navigator.clipboard.writeText(code).then(()=>{setCopy(true);setTimeout(()=>setCopy(false),1600);});}}><Copy size={15}/>{copy?t('已复制','Copied'):t('复制','Copy')}</button></div><p className="quiet">{t('本地模拟 · 无模型请求、设备连接或产品存储写入。修改文字可验证动作；无匹配样例时不会生成结果。','Local simulation · no model requests, device connections or product storage writes. Custom text validates actions; unmatched text never generates a result.')}</p>
- {initialMessages&&code!==JSON.stringify(initialMessages,null,2)&&<p className="sandbox-edited" role="status">{t('已手动编辑：当前描述不再受任务计划约束，仅受 Catalog 与沙盒规则校验。可恢复任务计划。','Manually edited: the description is no longer constrained by the task plan. Catalog and sandbox validation still apply. Restore the task plan to start over.')}</p>}
- <p className="quiet" role="status">{error?t('描述未通过校验；请查看“校验问题”，修正后重新运行。','Description rejected. Check Validation, correct it and run again.'):session?t(`已处理 ${cursor} 条消息；在检查区查看数据和事件。`,`Processed ${cursor} messages; inspect data and events below.`):t('预览待运行。','Preview ready to run.')}</p>
- <Tabs className="sandbox-mobile-tabs" id={viewId} label={t('沙盒视图','Sandbox view')} items={[{id:'messages',label:t('消息','Messages')},{id:'preview',label:t('预览','Preview')}]} value={mobileView} onChange={setMobileView}/>
- <div className="sandbox-split" data-mobile-view={mobileView}><section role="tabpanel" id={viewId+'-panel-messages'} aria-labelledby={viewId+'-tab-messages'}><h3>{t('消息','Messages')} <span>JSON · v0.9.1</span></h3><textarea className="code-editor" aria-label={t('A2UI 消息','A2UI messages')} value={code} spellCheck={false} onChange={e=>{setCode(e.target.value);setCursor(0);epoch.current++;session?.processor.dispose();session?.editor.dispose();setSession(null);setData({});setEvents([]);setError('');}}/></section><section role="tabpanel" id={viewId+'-panel-preview'} aria-labelledby={viewId+'-tab-preview'}><h3>{t('预览','Preview')} <span>{t('真实组件','Shared components')}</span></h3><PreviewHost>{session?<SandboxHost.Provider key={session.epoch} value={{editor:session.editor,emit:e=>{if(epoch.current===session.epoch)setEvents(v=>[...v,e].slice(-40));}}}>{[...session.processor.model.surfacesMap.values()].map(s=><A2uiSurface key={s.id} surface={s}/>)}</SandboxHost.Provider>:<div className="sandbox-empty"><Play size={24}/><p>{t('点击运行，渲染这份描述','Run this description to render the UI')}</p></div>}</PreviewHost></section></div>
- <div className="inspector"><Tabs id={inspectId} label={t('运行检查','Runtime inspection')} items={[{id:'data',label:t('数据','Data')},{id:'events',label:t('事件','Events')},{id:'errors',label:t('校验问题','Validation')+(error?' · 1':'')}]} value={tab} onChange={setTab}/>{['data','events','errors'].map(k=><pre key={k} hidden={tab!==k} role="tabpanel" id={inspectId+'-panel-'+k} aria-labelledby={inspectId+'-tab-'+k} tabIndex={0}>{k==='data'?JSON.stringify(data,null,2):k==='events'?JSON.stringify(events,null,2):error||t('暂无校验问题','No validation issues')}</pre>)}</div></div>;
+
+type Session={processor:MessageProcessor<any>;editor:DemoEditor;epoch:number};
+/** A session belongs to one validated description; changing it retires every old callback. */
+export function Sandbox({initial='ImageInput',initialMessages,editorText}:{initial?:CatalogName;initialMessages?:unknown[];editorText?:string}){
+ const id=useId();
+ const [name,setName]=useState<CatalogName>(initial);
+ const [code,setCode]=useState(()=>JSON.stringify(initialMessages||example(initial),null,2));
+ const [session,setSession]=useState<Session|null>(null),[events,setEvents]=useState<unknown[]>([]),[error,setError]=useState(''),[data,setData]=useState<unknown>({}),[copy,setCopy]=useState(false),[resetVersion,setResetVersion]=useState(0);
+ const epoch=useRef(0);
+ useLayoutEffect(()=>{
+  const generation=++epoch.current;let processor:MessageProcessor<any>|undefined;let editor:DemoEditor|undefined;
+  setSession(null);setEvents([]);setData({});setError('');
+  try{
+   const messages=validateMessages(JSON.parse(code));
+   editor=new DemoEditor('demo-editor');if(editorText!==undefined)editor.change(editorText,false);
+   processor=new MessageProcessor([catalog],event=>{
+    if(epoch.current!==generation)return;
+    setEvents(v=>[...v,event].slice(-40));
+    setData(structuredClone(processor?.model.surfacesMap.get('preview')?.dataModel.get('/')||{}));
+   },{version:'v0.9.1'});
+   processor.processMessages(messages as ProcessableMessagePayload);
+   setSession({processor,editor,epoch:generation});
+   setData(structuredClone(processor.model.surfacesMap.get('preview')?.dataModel.get('/')||{}));
+  }catch(e){processor?.dispose();editor?.dispose();setError(e instanceof Error?e.message:String(e));}
+  return()=>{epoch.current++;processor?.dispose();editor?.dispose();};
+ },[code,editorText,resetVersion]);
+ const reset=(next:CatalogName=name)=>{setName(next);setCode(JSON.stringify(initialMessages||example(next),null,2));setResetVersion(v=>v+1);};
+ return <div className="sandbox sandbox-live">
+  <div className="sandbox-tools">{!initialMessages&&<label>{t('示例','Example')}<select aria-label={t('A2UI 示例','A2UI example')} value={name} onChange={e=>reset(e.target.value as CatalogName)}>{Object.keys(apis).filter(x=>!['Column','Text'].includes(x)).map(n=><option key={n}>{n}</option>)}</select></label>}
+   <button onClick={()=>reset()}><RotateCcw size={15}/>{initialMessages?t('恢复任务计划','Restore task plan'):t('重置','Reset')}</button>
+  </div>
+  <p className="quiet">{t('直接操作下方控件。所有变化仅保留在本示例中；图片、润色和设备操作使用本地样例。','Try the controls below. Changes stay in this example; images, polish and device actions use local fixtures.')}</p>
+  {initialMessages&&code!==JSON.stringify(initialMessages,null,2)&&<p role="status">{t('已手动编辑：当前描述仅受 Catalog 与沙盒规则校验，可恢复任务计划。','Manually edited: Catalog and sandbox validation apply. Restore the task plan to start over.')}</p>}
+  <section className="sandbox-live-preview" aria-label={t('预览','Preview')}>
+   <PreviewHost name={name}>{session?<SandboxHost.Provider key={session.epoch} value={{editor:session.editor,emit:e=>{if(epoch.current===session.epoch)setEvents(v=>[...v,e].slice(-40));}}}>{[...session.processor.model.surfacesMap.values()].map(surface=><A2uiSurface key={surface.id} surface={surface}/>)}</SandboxHost.Provider>:<p role="status">{t('描述需要修正；有效后预览会自动恢复。','Correct the description below; the preview resumes automatically when valid.')}</p>}</PreviewHost>
+  </section>
+  <details className="sandbox-code"><summary>{t('查看或修改 A2UI 描述','View or edit the A2UI description')}</summary>
+   <p className="quiet">{t('修改后自动校验并更新预览。无效描述不会执行。','Edits are validated and previewed automatically. Invalid descriptions are never executed.')}</p>
+   <button onClick={()=>{navigator.clipboard.writeText(code).then(()=>setCopy(true)).catch(()=>setCopy(false));}}><Copy size={15}/>{copy?t('已复制','Copied'):t('复制','Copy')}</button>
+   <label htmlFor={id}>{t('A2UI 消息','A2UI messages')} · JSON v0.9.1</label>
+   <textarea id={id} className="code-editor" spellCheck={false} value={code} onChange={e=>{setCopy(false);setCode(e.target.value);}}/>
+  </details>
+  {error&&<p className="sandbox-validation" role="alert">{t('请修正描述：','Correct the description: ')}{error}</p>}
+  <details className="inspector"><summary>{t('检查数据与事件','Inspect data and events')}</summary><h3>{t('数据','Data')}</h3><pre tabIndex={0}>{JSON.stringify(data,null,2)}</pre><h3>{t('事件','Events')}</h3><pre tabIndex={0}>{JSON.stringify(events,null,2)}</pre></details>
+ </div>;
 }

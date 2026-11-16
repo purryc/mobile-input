@@ -1,0 +1,39 @@
+/* Figma 5:10639: scale its spatial controller canvas uniformly. */
+@font-face{font-family:'FC Noto Sans SC';src:url('/assets/figma/fc/noto-sans-sc-500.woff2') format('woff2');font-weight:500;font-display:swap}
+@font-face{font-family:'FC Noto Sans SC';src:url('/assets/figma/fc/noto-sans-sc-700.woff2') format('woff2');font-weight:700;font-display:swap}
+.fc-phone{position:fixed;inset:0;height:100dvh;box-sizing:border-box;overflow:hidden;touch-action:none;user-select:none;background:#cdc8b7;color:#423c33;padding:var(--native-top,env(safe-area-inset-top)) var(--native-right,env(safe-area-inset-right)) var(--native-bottom,env(safe-area-inset-bottom)) var(--native-left,env(safe-area-inset-left))}
+.fc-viewport{position:relative;width:100%;height:100%}
+.fc-stage{position:absolute;left:50%;top:50%;width:844px;height:390px;border-radius:36px;overflow:hidden;transform-origin:center;font-family:'FC Noto Sans SC','Noto Sans SC','HarmonyOS Sans SC',sans-serif;background:linear-gradient(154.2578deg,#fffcf0 14.184%,#dcd8c7 49.645%,#f4e6cf 85.106%)}
+.fc-stage .fc-glass{position:absolute;inset:0;border:1.8px solid #ffffff80;border-radius:36px;box-shadow:0 8px 14px #33291f2b,inset 0 2px 3px #fffae599;background:linear-gradient(154.2578deg,rgba(147,139,119,.332) 14.184%,rgba(57,67,68,.368) 49.645%,rgba(113,98,83,.34) 85.106%);pointer-events:none}
+.fc-stage button{margin:0;padding:0;touch-action:none;transition:filter .1s,box-shadow .1s}
+.fc-stage button:hover{background-color:transparent}
+.fc-stage button:active{transform:none}
+.fc-stage button:disabled{opacity:1;cursor:default}
+.fc-status{position:absolute;left:24px;top:18px;width:796px;height:48px;display:flex;align-items:center;justify-content:flex-start;gap:16px;font-size:13px;line-height:20px;font-weight:500;pointer-events:none}
+.fc-connection{width:85px;height:40px;display:flex;align-items:center;gap:10px;white-space:nowrap;color:#536c7b}
+.fc-connection img{display:block;width:7px;height:7px}
+.fc-connection.offline{color:#b33a42}
+.fc-app-title{font-size:14px;color:#a52d35}
+.fc-stage .fc-app-switch{position:absolute;left:772px;top:18px;width:48px;height:48px;border-radius:24px;border:1px solid #ffffffcc;background:#fffaed61;display:grid;place-items:center}
+.fc-app-switch img{display:block;width:24px;height:24px}
+.fc-state{position:absolute;left:328px;top:113px;font-size:13px;line-height:20px;font-weight:500}
+.fc-dpad{position:absolute;left:62px;top:150px;width:180px;height:180px}
+.fc-dpad-base{position:absolute;inset:0;width:180px;height:180px;pointer-events:none}
+.fc-dpad button,.fc-dpad-center{position:absolute;width:60px;height:60px;border:.8px solid #fff5d759;background:linear-gradient(133.7811deg,#6b6d64f2 14.184%,#262f30fa 49.645%,#484941 85.106%);border-radius:8px;display:grid;place-items:center}
+.fc-dpad button img{width:24px;height:24px;display:block;pointer-events:none}
+.fc-dpad .up{left:60px;top:0}.fc-dpad .left{left:0;top:60px}.fc-dpad .right{left:120px;top:60px}.fc-dpad .down{left:60px;top:120px}
+.fc-dpad-center{left:60px;top:60px;border-radius:0;pointer-events:none}
+.fc-slats{position:absolute;left:302px;top:179px;width:230px;display:flex;flex-direction:column;gap:14px}
+.fc-slats i{height:8px;border:.6px solid #fff9e440;border-radius:3px;background:linear-gradient(177.9214deg,#fbf4ddcc 14.184%,#c8c4b466 49.645%,#e8d5afbf 85.106%)}
+.fc-system-keys{position:absolute;left:302px;top:281px;width:230px;height:54px;display:flex;gap:14px}
+.fc-system-keys button{width:108px;height:54px;border:.8px solid #fff9e8cc;border-radius:10px;font-size:13px;font-weight:500;line-height:20px;background:linear-gradient(152.4472deg,#f1e9d6e6 14.184%,#b7b5a8bf 49.645%,#d8cdb6e6 85.106%);box-shadow:inset 0 2px 3px #fffff5bf}
+.fc-stage .fc-action{position:absolute;width:90px;height:90px;border:1.8px solid #fff6dcf2;border-radius:99px;display:grid;place-items:center;background:linear-gradient(133.7811deg,#f38977f5 14.184%,#b52b41f2 49.645%,#de5c51 85.106%);box-shadow:0 5px 4.5px #400a1466,inset 0 2px 3px #ffebc9a6;color:#f4ebd6;font-size:28px;font-weight:700;line-height:38px}
+.fc-stage .fc-b{left:585px;top:221px}.fc-stage .fc-a{left:690px;top:176px}
+.fc-action>img{position:absolute;left:11.2px;top:3.2px;width:64px;height:24px;pointer-events:none}
+.fc-action>span{position:relative}
+.fc-stage button.held{filter:brightness(.7);box-shadow:inset 0 3px 5px #0006}
+.fc-reconnect{position:absolute;left:291px;top:177px;font-size:13px;line-height:20px}
+.fc-reconnect p{margin:0;color:#333833}
+.fc-reconnect button{position:absolute;left:37px;top:36px;width:246px;height:48px;border-radius:8px;background:#b8b2a5;display:flex;gap:9px;align-items:center;justify-content:center;font-size:13px;font-weight:500;color:#122d39}
+.fc-reconnect img{display:block;width:24px;height:24px}
+.fc-phone .toast{font-size:12px}

@@ -1,0 +1,7 @@
+.connection-error-backdrop{position:fixed;inset:0;z-index:1200;display:flex;align-items:center;justify-content:center;padding:24px;background:#1624315c;backdrop-filter:blur(8px)}
+.connection-error-dialog{box-sizing:border-box;width:342px;max-width:100%;padding:24px;border-radius:28px;border:1px solid #ffffffd9;background:#f6fafcf5;box-shadow:0 20px 64px #10253830;display:flex;flex-direction:column;gap:12px;color:#172b38;outline:none;font-family:inherit}
+.connection-error-symbol{width:56px;height:56px;border-radius:18px;background:#e6edf2;color:#42677e;display:grid;place-items:center}
+.connection-error-dialog h2{margin:4px 0 0;font-size:20px;line-height:28px;font-weight:600}
+.connection-error-dialog p{margin:0;font-size:14px;line-height:22px;color:#536b7b;overflow-wrap:anywhere}
+.connection-error-actions{display:flex;gap:10px;margin-top:12px}.connection-error-actions button{flex:1;min-width:0;min-height:48px;border:1px solid #d7e2e9;border-radius:16px;background:#fff8;color:#294b62;font-size:14px;font-weight:600;padding:10px}
+.connection-error-actions .primary{background:#0a59f7;border-color:transparent;color:#fff}.connection-error-actions button:disabled{opacity:.65}

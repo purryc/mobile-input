@@ -7,3 +7,8 @@ src/prompts.json
 public/reference-assets/
 
 public/assets/
+
+/public/input-controls/
+
+src/product-base.generated.css
+src/product-context.generated.css

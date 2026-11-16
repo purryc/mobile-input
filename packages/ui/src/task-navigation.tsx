@@ -1,0 +1,10 @@
+import {useUI} from './ui-context';
+import {useEffect,useRef,useState} from 'react';
+import {taskStatusLabels,type ControllerSnapshot,type ControllerActions} from '../../core/phone-controller';
+import './phone-controller-frame.css';
+export function TaskNavigation({snapshot:s,actions,beforeChange,disabled=false,onError}:{snapshot:ControllerSnapshot;actions:ControllerActions;beforeChange?:()=>void|Promise<unknown>;disabled?:boolean;onError:(error:string)=>void}){const uiText=useUI();
+ const lock=useRef(false),list=useRef<HTMLDivElement>(null),[busy,setBusy]=useState(false);
+ useEffect(()=>{const active=list.current?.querySelector<HTMLElement>('[aria-current="page"]');if(active)active.scrollIntoView({block:'nearest',inline:'nearest',behavior:'instant'});},[s.currentTask,s.app,s.destination]);
+ async function change(id?:string){if(lock.current||disabled||!s.connected)return;lock.current=true;setBusy(true);try{await beforeChange?.();const r=await(id===undefined?actions.newTask():actions.switchTask(id));if(!r.ok)onError(r.error||'任务切换未确认');}finally{lock.current=false;setBusy(false);}}
+ return <nav className="controller-tasks" aria-label={s.appName+' '+uiText('任务')}><div className="controller-task-list" ref={list}>{s.tasks.map(t=><button key={t.id} aria-current={s.currentTask===t.id?'page':undefined} disabled={disabled||busy||!s.connected||!s.synced||t.selectable===false||!s.capabilities.includes('switch-task')} onClick={()=>void change(t.id)}><b>{t.title}</b>{t.status&&t.status!=='unknown'&&<small><i data-status={t.status}/>{uiText(taskStatusLabels[t.status]||t.status)}</small>}</button>)}</div><button aria-label={uiText('新建')+' '+s.appName+' '+uiText('任务')} disabled={disabled||busy||!s.connected||!s.synced||!s.capabilities.includes('new-task')} onClick={()=>void change()}><span>＋</span><small>{uiText("新建")}</small></button></nav>;
+}
