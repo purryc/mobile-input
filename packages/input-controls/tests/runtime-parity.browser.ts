@@ -22,7 +22,7 @@ const detailSelectors: Record<WidgetKind, string[]> = {
   color: ['.agent-color-presets button:not([aria-pressed=true])', '.agent-color-bottom label'],
   font: ['.demo-control-option[aria-pressed=false]', '.demo-control-option[aria-pressed=true]'],
   palette: ['.demo-control-option[aria-pressed=false]', '.demo-control-option[aria-pressed=true]'],
-  document: ['.demo-control-search input', 'button.demo-control-option[aria-pressed=true]'],
+  document: ['.demo-control-search input'],
   photo: ['.agent-photo-actions button'],
   scanner: ['header button'],
   sketch: ['.agent-sketch-surface'],
@@ -85,14 +85,12 @@ test('all 13 widget surfaces and list states match the running Xiaoyi desktop', 
       const panelStyle = await surface(originalSurface);
       expect.soft(await surface(inline), kind + ' inline glass').toEqual(panelStyle);
       await expect(inline).toHaveCSS('width', await originalSurface.evaluate(el => getComputedStyle(el).width));
-      if (kind === 'duration' || kind === 'document') {
+      if (kind === 'duration') {
         await expect(inline).toHaveCSS('height', await originalSurface.evaluate(el => getComputedStyle(el).height));
       }
       for (const selector of detailSelectors[kind]) {
         const originalPart = originalSurface.locator(selector).first();
-        const inlineSelector = kind === 'document' && selector === 'button.demo-control-option[aria-pressed=true]'
-          ? '.ic-document-adopted' : selector.replace(/\./g, '.ic-');
-        const inlinePart = inline.locator(inlineSelector).first();
+        const inlinePart = inline.locator(selector.replace(/\./g, '.ic-')).first();
         expect.soft(await surface(inlinePart), kind + ' ' + selector).toEqual(await surface(originalPart));
       }
       await originalPanel.screenshot({path: info.outputPath(kind + '-xiaoyi.png')});

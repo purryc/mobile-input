@@ -31,3 +31,4 @@
 - Opening a camera chip with known intent starts its viewfinder immediately. A passive catalog card waits for a mode selection. Switching photo/scan reuses the stream. Existing images enter through Gallery.
 - A user-opened screen chip carries an optional explicit screenIntent (screenshot or recording). Resolved intent opens its workspace directly; an unspecified intent keeps the chooser. Starting a recording and adopting its result require separate user actions.
 - In the document picker, adopted rows and attachment cards remove the same owner-scoped material ID. Removing a sketch attachment preserves the editable canvas.
+- Adopted materials expose a visible remove action with the picker closed. The named material chip and each attachment card remove only their displayed material; keep recommendation dismissal separate.

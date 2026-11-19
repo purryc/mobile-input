@@ -184,7 +184,7 @@
   max-width: 100%;
   color: #777;
 }
-.input-controls-theme :is(.ic-demo-material, .ic-document-adopted) .ic-demo-remove {
+.input-controls-theme .ic-demo-material .ic-demo-remove {
   position: absolute;
   right: -5px;
   top: -7px;
@@ -199,7 +199,7 @@
   box-shadow: 0 2px 5px #00000010;
 }
 .input-controls-theme .ic-live-wb-photo-body {
-  padding-right: 7px;
+  padding: 8px 7px 2px 0;
 }
 .input-controls-theme .ic-live-wb-photo-body .ic-demo-material > button:first-child {
   height: 96px;

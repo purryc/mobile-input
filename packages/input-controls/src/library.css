@@ -59,6 +59,7 @@
 .input-controls-theme .ic-demo-capture-panel .ic-demo-capture-actions:empty { display:none; }
 
 /* A bound name can shrink without shrinking the icon or the extra-material count. */
+.input-controls-theme .ic-sentence-token-capsule[data-semantic-state="object-bound"],
 .input-controls-theme .ic-sentence-token-hit[data-semantic-state="object-bound"],
 .input-controls-theme .ic-sentence-token[data-semantic-state="object-bound"],
 .input-controls-theme .ic-sentence-token[data-semantic-state="object-bound"] > .ic-sentence-token-face {
@@ -97,3 +98,6 @@
 .input-controls-theme .ic-screen-source .ic-demo-capture-viewport video { width: 100%; height: auto; object-fit: contain; }
 .input-controls-theme .ic-screen-source .ic-demo-crop-box { border: 2px solid white; box-shadow: inset 0 0 0 1px #232d4a80, 0 0 0 100vmax #14203752; }
 .ic-screen-workspace > :is([role=status],[role=alert]) { position: absolute; top: 40%; width: 100%; text-align: center; }
+
+.input-controls-theme .ic-sentence-token-capsule[data-semantic-state="object-bound"] > .ic-sentence-token > .ic-sentence-token-face { border: 0; background: none; }
+.input-controls-theme .ic-sentence-token-capsule[data-semantic-state="object-bound"] > .ic-demo-chip-remove { flex: none; }

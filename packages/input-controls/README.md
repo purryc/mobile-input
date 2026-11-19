@@ -28,7 +28,7 @@ Download the `.tgz` from the top of the compact gallery. Put it in the root
 of your React 19 app and use its filename in the install command:
 
 ```sh
-npm install ./mobile-input-controls-1.4.0.tgz
+npm install ./mobile-input-controls-1.5.0.tgz
 npx --no-install input-controls-assets ./public/input-controls
 ```
 
@@ -130,7 +130,7 @@ Each entry has exported typed Props; the barrel is `src/index.ts`. You can impor
 - `needs-input`: no value/material has been bound; neutral dashed edge, entity icon, plus.
 - `default-selected`: a concrete available value/name or selected acquisition method; neutral solid edge.
 - `ambiguous-recommendation`: unresolved suggestion; blue-purple-pink border and sparkle.
-- `object-bound`: an actual file or material is bound. Set the full name in `label` and the number of remaining materials in `additionalObjectCount`. The chip opens the widget and has a neutral solid edge. Manage deletion through the material UI.
+- `object-bound`: an actual file or material is bound. Set the full name in `label` and the number of remaining materials in `additionalObjectCount`. The chip opens the widget and has a neutral solid edge. Pass `onRemoveMaterial` bound to the displayed attachment ID for an always-visible ×. Render each confirmed attachment with its own remove action outside the picker, including the additional materials counted by the chip.
 
 `origin` is `explicit | recommended | manual`. It does not infer `semanticState`. Default semantic state is `default-selected` for compatibility; new hosts should always pass it. A selected acquisition method is **not proof that any attachment exists**. Opening a chip does not change its semantic state.
 
@@ -164,7 +164,7 @@ Pass a stable `ownerId` to capture, camera, color and sketch widgets, changing i
 
 `CaptureMaterial` carries `id`, `kind`, `name`, `blob`, `size`, optional `duration`, and `confirmed`. `onAdd` emits actual bytes with `confirmed:false`; `onConfirm` asks the host to adopt. `AttachmentCard` and `CaptureTile compact` display compact removable materials. `SketchWidget` uses normalized points in [0,1]; geometry helpers preserve scale and bounded undo. Hosts choose their final image format.
 
-For the searchable document picker, give each attachment a stable ID and pass `onRemoveMaterial` to DocumentWidget. Remove that ID from the owning draft, including its selected binding or materials list.
+For the searchable document picker, give each attachment a stable ID and pass `onRemoveMaterial` to DocumentWidget. Pass `choices.onPreviewMaterial(id)` to open the corresponding document from its card. Remove that ID from the owning draft, including its selected binding or materials list.
 
 ## UI-only handoff for Gemini
 

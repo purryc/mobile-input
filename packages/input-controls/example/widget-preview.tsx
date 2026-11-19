@@ -110,7 +110,20 @@ function InteractiveWidget({
 
   const screenIntent = specimen?.screenIntent;
   const confirmedCaptures = captures.filter(item => item.confirmed);
-  const names = [...files.map(({file}) => file.name), ...(sketch ? [sketch.name] : []), ...confirmedCaptures.map(item => item.name)];
+  function removeSketch() {
+    setSketch(null);
+    emit('remove-file', sketch?.name);
+  }
+  function removeCapture(id: string) {
+    setCaptures(previous => previous.filter(item => item.id !== id));
+    emit('remove-capture', id);
+  }
+  const adopted = [
+    ...files.map(({id, file}) => ({id, name: file.name, remove: () => removeFile(id), file})),
+    ...(sketch ? [{id: 'sketch', name: sketch.name, remove: removeSketch, file: sketch}] : []),
+    ...confirmedCaptures.map(item => ({id: item.id, name: item.name, remove: () => removeCapture(item.id), capture: item})),
+  ];
+  const names = adopted.map(item => item.name);
   const state = screenIntent ? 'default-selected' : specimen && names.length ? 'object-bound' : semantic;
   const emit = (event: string, value: unknown = '') => {
     if (!specimen) setEvents(previous => [JSON.stringify({event, owner, value}), ...previous].slice(0, 8));
@@ -206,17 +219,20 @@ function InteractiveWidget({
     setFiles(previous => previous.filter(item => item.id !== id));
     emit('remove-file', files.find(item => item.id === id)?.file.name);
   }
+  function previewFile(file: File) {
+    previewTrigger.current = document.activeElement as HTMLElement | null;
+    setPreview(file);
+  }
   function fileCard(id: string, file: File, remove: () => void) {
-    return <C.AttachmentCard key={id} file={file} onRemove={remove} onPreview={() => {
-      previewTrigger.current = document.activeElement as HTMLElement | null;
-      setPreview(file);
-    }}/>;
+    return <C.AttachmentCard key={id} file={file} onRemove={remove} onPreview={() => previewFile(file)}/>;
   }
   const selectedFiles = files.map(({id, file}) => fileCard(id, file, () => removeFile(id)));
-  const adoptedSketch = sketch && fileCard('sketch', sketch, () => {
-    setSketch(null);
-    emit('remove-file', sketch.name);
-  });
+  const adoptedSketch = sketch && fileCard('sketch', sketch, removeSketch);
+  const materialStrip = adopted.length > 0 && <div className="lite-document-materials input-controls-theme">
+    {adopted.map(item => 'capture' in item
+      ? <C.CaptureTile key={item.id} compact item={item.capture} onRemove={item.remove}/>
+      : fileCard(item.id, item.file, item.remove))}
+  </div>;
 
   function widget(): ReactNode {
     if (Choice) return (
@@ -242,6 +258,10 @@ function InteractiveWidget({
           definition: {...def, options: [{id: sampleDocumentId, zh: sampleDocument.name, en: sampleDocument.name}]},
           owner,
           language,
+          onPreviewMaterial: id => {
+            const attachment = files.find(item => item.id === id);
+            if (attachment) previewFile(attachment.file);
+          },
           materials: files.filter(item => item.id !== sampleDocumentId).map(({id, file}) => ({
             id,
             name: file.name,
@@ -290,7 +310,7 @@ function InteractiveWidget({
             {...(inline && kind === 'scanner' ? {deferCameraUntilSelection: true} : {})}
             {...(kind === 'scanner' && initial === 'object-bound' ? {initialCameraMode: captures[0]?.cameraMode ?? 'scan'} : {})}
             onAdd={item => {setCaptures(previous => [...previous, item]); emit('capture', item.name);}}
-            onRemove={id => {setCaptures(previous => previous.filter(item => item.id !== id)); emit('remove-capture', id);}}
+            onRemove={removeCapture}
             onConfirm={() => {
               setCaptures(previous => previous.map(item => ({...item, confirmed: true})));
               if (specimen) adoptMaterial(captures.map(item => item.name));
@@ -310,6 +330,7 @@ function InteractiveWidget({
         }}>{specimen ? t('恢复推荐', 'Restore recommendation') : t('恢复入口', 'Restore entry')}</button>
       ) : (
         <C.InlineChip token={token} expanded={open} controlsId={panelId} describedBy={specimen ? stateLabelId : undefined} disabled={disabled}
+          onRemoveMaterial={state === 'object-bound' ? adopted[0]?.remove : undefined}
           onOpen={() => {panels.toggle(owner); emit('open', kind);}} onRemove={() => {
             setRemoved(true);
             if (!specimen || open) panels.close();
@@ -324,6 +345,10 @@ function InteractiveWidget({
       {widget()}
     </C.AuxiliaryPanel>
   );
+  const filePreview = preview && <FilePreview file={preview} language={language} onClose={() => {
+    setPreview(null);
+    if (specimen) requestAnimationFrame(() => previewTrigger.current?.focus());
+  }}/>;
   const overlays = (
     <>
       {!inline && <C.AnchoredPanel anchor={anchor} open={open} id={panelId} label={title} width={C.widgetWidths[kind]} onClose={panels.close}>
@@ -333,30 +358,25 @@ function InteractiveWidget({
         <input ref={fileInput} type="file" multiple hidden accept={kind === 'document' ? '.pdf,.txt,.md' : 'image/*'}
           onChange={event => {pick(Array.from(event.currentTarget.files ?? [])); event.currentTarget.value = '';}}/>
       )}
-      {preview && (!specimen || open || kind === 'document') && (
-        <FilePreview file={preview} language={language} onClose={() => {
-          setPreview(null);
-          if (specimen) requestAnimationFrame(() => previewTrigger.current?.focus());
-        }}/>
-      )}
     </>
   );
 
   if (inline) return (
-    <details className="lite-widget-preview" open={inlineOpen} onToggle={event => setInlineOpen(event.currentTarget.open)}>
-      <summary ref={inlineSummary}>{t('独立 Widget', 'Standalone widget')}</summary>
-      {inlineOpen && (
-        <C.WidgetProvider language={language} translate={translate(language)} assetBase={assetBase}>
-          {sampleDocument && <div className="lite-document-materials input-controls-theme">{selectedFiles}</div>}
+    <C.WidgetProvider language={language} translate={translate(language)} assetBase={assetBase}>
+      <details className="lite-widget-preview" open={inlineOpen} onToggle={event => setInlineOpen(event.currentTarget.open)}>
+        <summary ref={inlineSummary}>{t('独立 Widget', 'Standalone widget')}</summary>
+        {inlineOpen && (
           <ComposerStage kind={kind}>
             <C.WidgetSurface>
               <div className="lite-inline-panel" style={{width: C.widgetWidths[kind], maxWidth: '100%'}}>{panelContent}</div>
               {overlays}
             </C.WidgetSurface>
           </ComposerStage>
-        </C.WidgetProvider>
-      )}
-    </details>
+        )}
+      </details>
+      {!inlineOpen && materialStrip}
+      {preview && <div className="input-controls-theme">{filePreview}</div>}
+    </C.WidgetProvider>
   );
 
   if (specimen) return (
@@ -364,12 +384,9 @@ function InteractiveWidget({
       <span id={stateLabelId} className="lite-state-label">{screenIntent ? t('明确意图', 'Explicit intent') : chipStateLabels[state][en ? 1 : 0]}</span>
       <C.WidgetProvider language={language} translate={translate(language)} assetBase={assetBase}>
         {chip}
-        {screenIntent && confirmedCaptures.length > 0 && <div className="lite-document-materials ic-demo-materials">
-          {confirmedCaptures.map(item => <C.CaptureTile key={item.id} item={item} compact
-            onRemove={() => setCaptures(previous => previous.filter(other => other.id !== item.id))}/>)}
-        </div>}
-        {sampleDocument && <div className="lite-document-materials">{selectedFiles}</div>}
+        {materialStrip}
         {overlays}
+        {filePreview}
       </C.WidgetProvider>
     </div>
   );
@@ -416,6 +433,7 @@ function InteractiveWidget({
             </div>
           </div>
           {overlays}
+          {filePreview}
           <C.AnchoredPanel anchor={secondAnchor} open={panels.active === 'second'} id={panelId + 'second'} label={t('独立实例', 'Second instance')} width={288} onClose={panels.close}>
             <SecondInstance onClose={panels.close}/>
           </C.AnchoredPanel>

@@ -17,7 +17,6 @@ import {
   Shapes,
   Search,
   Plus,
-  X,
 } from "lucide-react";
 import type {
   WidgetKind as DemoControlKind,
@@ -26,6 +25,7 @@ import type {
   ChoiceEvent as ControlEvent,
 } from "./types";
 import { useWidgetEnvironment, assetUrl } from "./environment";
+import { MaterialCardView } from "./attachment-card";
 const icons = {
   duration: Timer,
   color: Palette,
@@ -102,6 +102,7 @@ export function ChoiceWidget({
   onEvent,
   onChooseFile,
   onRemoveMaterial,
+  onPreviewMaterial,
   materials = [],
   definition,
 }: {
@@ -112,6 +113,7 @@ export function ChoiceWidget({
   onEvent: (e: ControlEvent) => void;
   onChooseFile?: () => void;
   onRemoveMaterial?: (id: string) => void;
+  onPreviewMaterial?: (id: string) => void;
   materials?: { id: string; name: string }[];
 }) {
   const { assetBase } = useWidgetEnvironment();
@@ -310,22 +312,16 @@ export function ChoiceWidget({
               )}
             </strong>
             {adoptedDocuments.length > 0 && onRemoveMaterial ? (
-              <div className="ic-demo-control-options">
+              <div className="ic-document-materials">
                 {adoptedDocuments.map(({id, name}, index) => (
-                  <div key={id} className="ic-demo-control-option ic-document-adopted">
-                    <FileText size={18} aria-hidden="true"/>
-                    <span className="ic-demo-choice-label">{name}</span>
-                    <button type="button" className="ic-demo-remove" aria-label={t("移除 ", "Remove ") + name}
-                      aria-description={en ? `Item ${index + 1} of ${adoptedDocuments.length}` : `第 ${index + 1} 项，共 ${adoptedDocuments.length} 项`}
-                      onClick={event => {
-                        // Keep focus inside the picker without summoning the touch keyboard.
-                        const target = event.detail === 0 ? searchInput.current : doneButton.current;
-                        target?.focus({preventScroll: true});
-                        onRemoveMaterial(id);
-                      }}>
-                      <X size={14} aria-hidden="true"/>
-                    </button>
-                  </div>
+                  <MaterialCardView key={id} name={name} removeLabel={t("移除 ", "Remove ") + name}
+                    removeDescription={en ? `Item ${index + 1} of ${adoptedDocuments.length}` : `第 ${index + 1} 项，共 ${adoptedDocuments.length} 项`}
+                    onPreview={onPreviewMaterial ? () => onPreviewMaterial(id) : undefined}
+                    onRemove={event => {
+                      const target = event.detail === 0 ? searchInput.current : doneButton.current;
+                      target?.focus({preventScroll: true});
+                      onRemoveMaterial(id);
+                    }}/>
                 ))}
               </div>
             ) : cards(selected)}

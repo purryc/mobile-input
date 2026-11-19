@@ -164,12 +164,12 @@ test('local documents bind to the same chip, keep bytes and reset when the last 
   await expect(entry).toHaveAccessibleName(new RegExp(filename));
   await expect(entry).toHaveAttribute('title', new RegExp(filename));
   await expect(entry.locator('.ic-chip-object-count')).toHaveText('+1');
-  await expect(pending.locator('.ic-demo-chip-remove')).toHaveCount(0);
+  await expect(pending.locator('.ic-demo-chip-remove')).toHaveAccessibleName('移除 ' + filename);
   const label = entry.locator('.ic-demo-chip-label');
   expect(await label.evaluate(element => element.scrollWidth > element.clientWidth)).toBe(true);
 
   await search.fill('notes.md');
-  await expect(panel(page).locator('.ic-demo-control-option')).toHaveText('notes.md');
+  await expect(panel(page).getByRole('button', {name:'查看 notes.md'})).toBeVisible();
   await expect(panel(page)).not.toContainText('没有匹配项');
   await pendingMaterials.getByRole('button', {name: '查看 ' + filename}).click();
   await expect(page.getByRole('dialog', {name: filename})).toContainText('Reference file contents');
@@ -376,9 +376,10 @@ for (const presentation of ['chip', 'inline']) {
     const host = presentation === 'inline' ? inline : selected;
     const view = presentation === 'inline' ? inline.locator('.lite-inline-panel') : panel(page);
     if (presentation === 'chip') await selected.locator('.ic-sentence-token').click();
-    const attachments = host.locator('.lite-document-materials');
+    const attachments = presentation === 'inline' ? view.locator('.ic-document-materials') : host.locator('.lite-document-materials');
     const search = view.getByLabel('搜索候选');
     const remove = (name: string) => view.getByRole('button', {name: '移除 ' + name, exact:true});
+    await expect(view.locator('.ic-demo-material').getByRole('button',{name:'查看 产品介绍.pdf'})).toBeVisible();
     await view.screenshot({path:info.outputPath('document-' + presentation + '.png')});
     await search.fill('产品介绍');
     await remove('产品介绍.pdf').focus();
@@ -416,3 +417,63 @@ for (const presentation of ['chip', 'inline']) {
     if (presentation === 'chip') await expect(selected.locator('.ic-sentence-token')).toHaveAttribute('data-semantic-state', 'needs-input');
   });
 }
+
+test('confirmed materials expose remove without opening any picker', async ({page}, info) => {
+  await page.setViewportSize({width:390,height:844});
+  await page.goto(route + 'photo');
+  for (const kind of materials) {
+    const item = example(page, kind, 'object-bound');
+    const opener = item.locator('.ic-sentence-token');
+    const remove = item.locator('.ic-demo-chip-remove');
+    await expect(remove).toBeVisible();
+    await expect(item.locator('.lite-document-materials .ic-demo-remove')).toBeVisible();
+    await expect(opener).toHaveAttribute('aria-expanded','false');
+    if (kind === 'photo') {
+      await page.mouse.move(0,0);
+      await item.screenshot({path: info.outputPath('gallery-selected.png')});
+      await item.getByRole('button',{name:'查看 产品图片.svg'}).click();
+      await expect(page.getByRole('dialog',{name:'产品图片.svg'})).toBeVisible();
+      await page.keyboard.press('Escape');
+    }
+    await remove.focus();
+    await page.keyboard.press('Enter');
+    await expect(opener).toHaveAttribute('data-semantic-state','needs-input');
+    await expect(opener).toBeFocused();
+    await expect(panel(page)).toHaveCount(0);
+    await expect(item.locator('.ic-demo-material')).toHaveCount(0);
+  }
+});
+
+test('standalone document still exposes the adopted card while collapsed', async ({page}) => {
+  await page.goto(route + 'document');
+  const stage = card(page,'document').locator('.lite-composer-preview');
+  const example = stage.locator('details.lite-widget-preview');
+  await example.locator('summary').click();
+  const cardOutside = stage.locator('details.lite-widget-preview + .lite-document-materials');
+  await cardOutside.getByRole('button',{name:'查看 产品介绍.pdf'}).click();
+  await expect(page.getByRole('dialog',{name:'产品介绍.pdf'})).toBeVisible();
+  await page.keyboard.press('Escape');
+  await cardOutside.getByRole('button',{name:'移除 产品介绍.pdf'}).click();
+  await expect(example).not.toHaveAttribute('open','');
+  await expect(cardOutside).toHaveCount(0);
+});
+
+test('closed multi-file picker removes only the labelled attachment even with repeated names', async ({page}) => {
+  await page.goto(route + 'document');
+  const host = example(page, 'document');
+  const opener = chip(page, 'document');
+  await opener.click();
+  await host.locator('input[type=file]').setInputFiles(['first bytes', 'second bytes'].map(value => ({
+    name:'same.txt', mimeType:'text/plain', buffer:Buffer.from(value),
+  })));
+  await panel(page).getByRole('button',{name:'完成选择'}).click();
+  await expect(opener.locator('.ic-chip-object-count')).toHaveText('+1');
+  await host.locator('.ic-demo-chip-remove').click();
+  await expect(panel(page)).toHaveCount(0);
+  await expect(opener.locator('.ic-chip-object-count')).toHaveCount(0);
+  await host.getByRole('button',{name:'查看 same.txt'}).click();
+  await expect(page.getByRole('dialog',{name:'same.txt'})).toContainText('second bytes');
+  await page.keyboard.press('Escape');
+  await host.locator('.ic-demo-material .ic-demo-remove').click();
+  await expect(opener).toHaveAttribute('data-semantic-state','needs-input');
+});
