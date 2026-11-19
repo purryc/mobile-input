@@ -198,7 +198,7 @@ test('local documents bind to the same chip, keep bytes and reset when the last 
 
 test('gallery, scan, sketch and screen materials bind only on confirmation', async ({page}) => {
   await page.addInitScript(() => {
-    Object.defineProperty(navigator.mediaDevices, 'getDisplayMedia', {value: async () => {
+    const acquire = async () => {
       const canvas = document.createElement('canvas');
       canvas.width = 320;
       canvas.height = 180;
@@ -210,7 +210,9 @@ test('gallery, scan, sketch and screen materials bind only on confirmation', asy
         else context.fillRect(0, 0, 320, 180);
       }, 100);
       return stream;
-    }});
+    };
+    Object.defineProperty(navigator.mediaDevices, 'getDisplayMedia', {value: acquire});
+    Object.defineProperty(navigator.mediaDevices, 'getUserMedia', {value: acquire});
   });
   await page.goto(route + 'photo');
   const pendingImage = {name: 'image.png', mimeType: 'image/png', buffer: png};
@@ -232,7 +234,7 @@ test('gallery, scan, sketch and screen materials bind only on confirmation', asy
 
   await chip(page, 'scanner').click();
   await panel(page).getByRole('button', {name: '文档扫描', exact: true}).click();
-  await panel(page).locator('input[type=file]').setInputFiles(pendingImage);
+  await panel(page).getByRole('button', {name: '拍摄', exact: true}).click();
   await expect(chip(page, 'scanner')).toHaveAttribute('data-semantic-state', 'needs-input');
   await panel(page).getByRole('button', {name: '确认材料'}).click();
   await expect(chip(page, 'scanner')).toHaveAttribute('data-semantic-state', 'object-bound');
@@ -333,4 +335,29 @@ test('widget descriptions stay outside every live preview and draft text stays i
       expect(issues, language + ' at ' + width).toEqual([]);
     }
   }
+});
+
+test('passive catalog waits for a mode; scan intent opens directly and permits retry', async ({page}) => {
+  await page.addInitScript(() => {
+    (window as any).__cameraRequests = 0;
+    Object.defineProperty(navigator.mediaDevices, 'getUserMedia', {value: async () => {
+      (window as any).__cameraRequests++;
+      throw new DOMException('Permission denied', 'NotAllowedError');
+    }});
+  });
+  const count = () => page.evaluate(() => (window as any).__cameraRequests);
+  await page.goto(route + 'scanner');
+  const standalone = page.locator('[data-widget=scanner] .lite-inline-panel');
+  await expect(standalone.getByRole('button', {name:'文档扫描', exact:true})).toHaveAttribute('aria-pressed','false');
+  expect(await count()).toBe(0);
+  await standalone.getByRole('button', {name:'文档扫描', exact:true}).click();
+  await expect(standalone.getByRole('alert')).toBeVisible();
+  expect(await count()).toBe(1);
+  await standalone.getByRole('button', {name:'重试'}).click();
+  await expect.poll(count).toBe(2);
+  await chip(page, 'scanner', 'object-bound').click();
+  await expect(panel(page).getByRole('button', {name:'文档扫描', exact:true})).toHaveAttribute('aria-pressed','true');
+  await expect(panel(page).getByRole('alert')).toBeVisible();
+  expect(await count()).toBe(3);
+  await expect(panel(page).locator('input[type=file]')).toHaveCount(0);
 });

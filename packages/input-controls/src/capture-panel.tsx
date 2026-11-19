@@ -1,7 +1,6 @@
 import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties, type PointerEvent } from "react";
 import {
   Camera,
-  Upload,
   Square,
   Trash2,
   X,
@@ -202,6 +201,8 @@ export function CaptureTile({
 import { browserCaptureAdapter, stopMedia, waitForFrame, type CaptureAdapter } from './capture-adapter';
 export interface CapturePanelProps {
   ownerId?: string;
+  /** Passive catalogs can wait for the first mode click before requesting a camera. */
+  deferCameraUntilSelection?: boolean;
   initialCameraMode?: 'photo' | 'scan';
   onCancel?: () => void;
   mode: 'scanner' | 'capture';
@@ -215,7 +216,7 @@ export interface CapturePanelProps {
 }
 /** Acquisition state is local. Pending and confirmed bytes remain controlled by the host. */
 export function CapturePanel(props: CapturePanelProps) { return <CaptureSession key={(props.ownerId||'')+':'+props.mode} {...props}/>; }
-function CaptureSession({mode, initialCameraMode = 'photo', onCancel, items, language, adapter = browserCaptureAdapter, onAdd, onRemove, onConfirm, onBusy}: CapturePanelProps) {
+function CaptureSession({mode, initialCameraMode = 'photo', deferCameraUntilSelection = false, onCancel, items, language, adapter = browserCaptureAdapter, onAdd, onRemove, onConfirm, onBusy}: CapturePanelProps) {
   const t = (zh: string, en: string) => language === 'en' ? en : zh;
   const [phase, setPhase] = useState<'idle'|'loading'|'preview'|'recording'>('idle');
   const [kind, setKind] = useState<'screenshot'|'recording'>('screenshot');
@@ -243,7 +244,7 @@ function CaptureSession({mode, initialCameraMode = 'photo', onCancel, items, lan
   const recorder = useRef<MediaRecorder|null>(null), abort = useRef<AbortController|null>(null);
   const epoch = useRef(0), live = useRef(true), raf = useRef(0), clock = useRef<ReturnType<typeof setInterval>|undefined>(undefined);
   const replacement = useRef<string|null>(null);
-  const pointer = useRef<{x:number;y:number}|null>(null), fileInput = useRef<HTMLInputElement>(null);
+  const pointer = useRef<{x:number;y:number}|null>(null);
   const callbacks = useRef({onAdd,onRemove,onBusy}); callbacks.current = {onAdd,onRemove,onBusy};
   function release(update = true) {
     epoch.current++; pointer.current = null; abort.current?.abort(); cancelAnimationFrame(raf.current); clearInterval(clock.current);
@@ -254,6 +255,13 @@ function CaptureSession({mode, initialCameraMode = 'photo', onCancel, items, lan
   }
   useEffect(() => {
     live.current = true;
+    // Discard the first scheduled start when StrictMode replays this mount.
+    if (mode === 'scanner' && !deferCameraUntilSelection) {
+      const mountedEpoch = epoch.current;
+      queueMicrotask(() => {
+        if (live.current && epoch.current === mountedEpoch) void begin();
+      });
+    }
     const hide = () => { if (document.hidden && mode === 'scanner') release(); };
     const leave = () => release();window.addEventListener('pagehide',leave);
     document.addEventListener('visibilitychange', hide);
@@ -334,11 +342,12 @@ function CaptureSession({mode, initialCameraMode = 'photo', onCancel, items, lan
   const cancel = () => {
     release();
     setReview(null);
-    if (screenActive && onCancel) onCancel();
+    if (!review && onCancel) onCancel();
     else requestAnimationFrame(() => entry.current?.focus({preventScroll: true}));
   };
   function changeCameraMode(next: 'scan' | 'photo') {
     setCameraMode(next);
+    if (phase === 'idle') void begin();
     fullFrame();
     pointer.current = null;
   }
@@ -363,9 +372,10 @@ function CaptureSession({mode, initialCameraMode = 'photo', onCancel, items, lan
     }} style={{display: review ? 'none' : 'block'}}/>
     {canCrop && <div className="ic-demo-crop-box" style={{left:crop.x*100+'%',top:crop.y*100+'%',width:crop.w*100+'%',height:crop.h*100+'%'}}/>}
   </div>;
+  const cameraSelected = phase !== 'idle' || Boolean(error);
   const cameraModes = <div className="ic-demo-capture-modes" role="group" aria-label={t('相机模式','Camera mode')}>
-    <button type="button" aria-pressed={cameraMode === 'photo'} onClick={() => changeCameraMode('photo')}>{t('拍照','Photo')}</button>
-    <button type="button" aria-pressed={cameraMode === 'scan'} onClick={() => changeCameraMode('scan')}>{t('文档扫描','Document scan')}</button>
+    <button type="button" ref={cameraMode === 'photo' ? entry : undefined} aria-pressed={cameraSelected && cameraMode === 'photo'} onClick={() => changeCameraMode('photo')}>{t('拍照','Photo')}</button>
+    <button type="button" ref={cameraMode === 'scan' ? entry : undefined} aria-pressed={cameraSelected && cameraMode === 'scan'} onClick={() => changeCameraMode('scan')}>{t('文档扫描','Document scan')}</button>
   </div>;
   return <div className="ic-demo-capture-panel" data-mode={mode} data-camera-mode={mode === 'scanner' ? cameraMode : undefined} data-phase={phase}>
     {mode === 'capture' && !review && !screenActive && <div className="ic-demo-capture-modes">
@@ -392,27 +402,17 @@ function CaptureSession({mode, initialCameraMode = 'photo', onCancel, items, lan
     </dialog>}
     {mode === 'scanner' && !review && cameraModes}
     {!screenActive && (phase !== 'idle' || review) && viewport}
-    {!screenActive && <div className="ic-demo-capture-actions">
-      {mode === 'scanner' && phase === 'idle' && !review && <>
-        <button ref={entry} type="button" onClick={() => void begin()}><Camera size={18}/>{t('打开摄像头','Open camera')}</button>
-        {cameraMode === 'scan' && <>
-          <button type="button" onClick={() => fileInput.current?.click()}><Upload size={16}/>{t('导入扫描图片','Import scanned image')}</button>
-          <input ref={fileInput} type="file" accept="image/png,image/jpeg,image/webp" hidden onChange={event => {
-            const file = event.currentTarget.files?.[0];
-            event.currentTarget.value = '';
-            if (file) onAdd({id: crypto.randomUUID(), kind: 'scanner', cameraMode: 'scan', name: file.name, blob: file, size: file.size, confirmed: false});
-          }}/>
-        </>}
-      </>}
-      {(phase !== 'idle' || review) && <>
-        <button type="button" disabled={phase === 'loading'} onClick={() => void capture()}>{review ? t('保存裁剪','Save crop') : t('拍摄','Capture')}</button>
-        {canCrop && <button type="button" onClick={fullFrame}>{t('完整画面','Full frame')}</button>}
-        <button type="button" onClick={cancel}>{t('取消','Cancel')}</button>
-      </>}
+    {!screenActive && (phase !== 'idle' || review) && <div className="ic-demo-capture-actions">
+      <button type="button" disabled={phase === 'loading'} onClick={() => void capture()}>
+        {!review && <Camera size={18}/>}
+        {review ? t('保存裁剪','Save crop') : t('拍摄','Capture')}
+      </button>
+      {canCrop && (crop.w < 1 || crop.h < 1) && <button type="button" onClick={fullFrame}>{t('完整画面','Full frame')}</button>}
+      {(review || (mode === 'scanner' && !onCancel)) && <button type="button" onClick={cancel}>{t('取消','Cancel')}</button>}
     </div>}
     {!screenActive && phase === 'loading' && <p role="status">{t('正在等待画面…','Waiting for video…')}</p>}
-    {!screenActive&&error&&<p role="alert">{error}</p>}
-    {!!visible.length&&<div className="ic-demo-capture-items">{visible.map(item=><section key={item.id}><CaptureTile item={item} onRemove={()=>onRemove(item.id)}/>{!item.confirmed&&item.kind!=='recording'&&<div><button type="button" disabled={phase!=='idle'} onClick={()=>{release();if(mode==='scanner')setCameraMode(item.cameraMode ?? 'scan');setReview(item);setCrop({x:0,y:0,w:1,h:1});}}>{t('裁剪','Crop')}</button><button type="button" disabled={phase!=='idle'} onClick={()=>{if(mode==='scanner')setCameraMode(item.cameraMode ?? 'scan');void begin('screenshot',item.id);}}>{t('重拍','Retake')}</button></div>}<small>{item.confirmed?t('已确认','Confirmed'):t('待确认','Awaiting confirmation')}</small></section>)}</div>}
-    {visible.some(item=>!item.confirmed)&&phase==='idle'&&!review&&<button type="button" className="ic-demo-capture-confirm" onClick={onConfirm}><Check size={18}/>{t('确认材料','Confirm materials')}</button>}
+    {!screenActive && error && <><p role="alert">{error}</p>{mode === 'scanner' && phase === 'idle' && <button type="button" onClick={() => void begin()}>{t('重试','Retry')}</button>}</>}
+    {!!visible.length&&<div className="ic-demo-capture-items">{visible.map(item=><section key={item.id}><CaptureTile item={item} onRemove={()=>onRemove(item.id)}/>{!item.confirmed&&item.kind!=='recording'&&<div><button type="button" disabled={mode==='capture' && phase!=='idle'} onClick={()=>{release();if(mode==='scanner')setCameraMode(item.cameraMode ?? 'scan');setReview(item);setCrop({x:0,y:0,w:1,h:1});}}>{t('裁剪','Crop')}</button><button type="button" disabled={mode==='capture' && phase!=='idle'} onClick={()=>{if(mode==='scanner')setCameraMode(item.cameraMode ?? 'scan');void begin('screenshot',item.id);}}>{t('重拍','Retake')}</button></div>}<small>{item.confirmed?t('已确认','Confirmed'):t('待确认','Awaiting confirmation')}</small></section>)}</div>}
+    {visible.some(item=>!item.confirmed)&&(mode==='scanner'||phase==='idle')&&!review&&<button type="button" className="ic-demo-capture-confirm" onClick={() => {release();onConfirm();}}><Check size={18}/>{t('确认材料','Confirm materials')}</button>}
   </div>;
 }

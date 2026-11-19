@@ -28,7 +28,7 @@ Download the `.tgz` from the top of the compact gallery. Put it in the root
 of your React 19 app and use its filename in the install command:
 
 ```sh
-npm install ./mobile-input-controls-1.2.0.tgz
+npm install ./mobile-input-controls-1.2.1.tgz
 npx --no-install input-controls-assets ./public/input-controls
 ```
 
@@ -156,7 +156,7 @@ const adapter: CaptureAdapter = browserCaptureAdapter;
   onConfirm={confirmPending} onBusy={setCapturing} />;
 ```
 
-Photo and scan share one camera. Pass `initialCameraMode="scan"` for a scan request. New camera materials record `cameraMode`; older scanner materials are scans. Screen capture opens a light top toolbar. Pass `onCancel` to dismiss the owning popover and restore focus.
+Mount the widget when the user opens a camera chip. Its viewfinder starts immediately and both modes share the stream. In a passive catalog, set `deferCameraUntilSelection` to wait until the user chooses a mode. Starting in 1.2.1, use Gallery to import existing scan images. Pass `initialCameraMode="scan"` for a scan request. New camera materials record `cameraMode`; older scanner materials are scans. Screen capture opens a light top toolbar. Pass `onCancel` to dismiss the owning popover and restore focus.
 
 Browser adapter uses `getUserMedia` and `getDisplayMedia` only. The browser chooses tab/window/screen; rectangular crop is applied to the returned stream, not to a fake DOM screenshot. Native/freeform system selection is not implemented. Audio is off. Recording is explicit start/stop, maximum 60 seconds, and requires MediaRecorder/canvas capture support. A cancelled or failed acquisition yields no material. Closing or navigating away releases all streams and aborts pending acquisitions; hiding the page releases camera streams, while explicitly shared screen streams remain active so switching to the captured tab works; a late stream is stopped before use. Use `ScannerWidget` in photo mode for new photographs.
 

@@ -269,7 +269,9 @@ function InteractiveWidget({
         );
       default:
         return (
-          <Capture items={captures} language={language}
+          <Capture key={inline && kind === 'scanner' && panels.active ? 'background' : 'foreground'}
+            items={captures} language={language}
+            {...(inline && kind === 'scanner' ? {deferCameraUntilSelection: true} : {})}
             {...(kind === 'scanner' && initial === 'object-bound' ? {initialCameraMode: captures[0]?.cameraMode ?? 'scan'} : {})}
             onAdd={item => {setCaptures(previous => [...previous, item]); emit('capture', item.name);}}
             onRemove={id => {setCaptures(previous => previous.filter(item => item.id !== id)); emit('remove-capture', id);}}
@@ -278,7 +280,7 @@ function InteractiveWidget({
               if (specimen) adoptMaterial(captures.map(item => item.name));
               confirm();
             }}
-            onBusy={setBusy} onCancel={inline ? undefined : closePanel}/>
+            onBusy={setBusy} onCancel={kind === 'scanner' || !inline ? closePanel : undefined}/>
         );
     }
   }

@@ -28,3 +28,4 @@
 
 ## Media acquisition
 - Gallery selects existing images. Camera photos and document scans share one camera session with explicit modes. Screen capture uses a light top toolbar over the selected source; crop coordinates are relative to the displayed source frame. Acquisition, adoption and sending stay separate.
+- Opening a camera chip with known intent starts its viewfinder immediately. A passive catalog card waits for a mode selection. Switching photo/scan reuses the stream. Existing images enter through Gallery.

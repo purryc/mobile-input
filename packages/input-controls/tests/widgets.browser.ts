@@ -39,13 +39,13 @@ test('scaled sketch drawing, undo, clear and confirmation',async({page})=>{
  await page.mouse.move(r.x+10,r.y+10);await page.mouse.down();await page.mouse.move(r.x+100,r.y+80,{steps:8});await page.mouse.up();await page.getByRole('button',{name:'Adopt sketch'}).click();await expect(page.locator('.ic-demo-material')).toHaveCount(1);await page.locator('.ic-sentence-token').first().click();await expect(canvas.locator('polyline')).toHaveCount(1);await page.getByRole('button',{name:'Clear strokes'}).click();await expect(canvas.locator('polyline')).toHaveCount(0);
 });
 async function mediaFixture(page:Page){await page.addInitScript(()=>{const streams:MediaStream[]=[];(window as any).__testStreams=streams;function acquire(){const canvas=document.createElement('canvas');canvas.width=640;canvas.height=360;const ctx=canvas.getContext('2d')!;ctx.fillStyle='#426fe4';ctx.fillRect(0,0,640,360);const stream=canvas.captureStream(24);streams.push(stream);const timer=setInterval(()=>{ctx.fillRect(0,0,640,360);if(stream.getTracks().every(t=>t.readyState==='ended'))clearInterval(timer);},40);return Promise.resolve(stream);}Object.defineProperty(navigator.mediaDevices,'getUserMedia',{value:acquire});Object.defineProperty(navigator.mediaDevices,'getDisplayMedia',{value:acquire});});}
-test('scanner import/crop/confirm plus camera release; screen recording real blob via injected browser stream',async({page})=>{
- await mediaFixture(page);await open(page,'scanner');await page.getByRole('button',{name:'Document scan',exact:true}).click();await page.locator('.input-controls-popover input[type=file]').setInputFiles({name:'note.png',mimeType:'image/png',buffer:png});await expect(page.getByTestId('current-value')).toContainText('"confirmed": false');await page.getByRole('button',{name:'Confirm materials'}).click();await expect(page.getByTestId('current-value')).toContainText('"confirmed": true');await page.locator('.ic-sentence-token').first().click();await page.getByRole('button',{name:'Open camera'}).click();await expect(page.locator('[data-phase=preview]')).toBeVisible();await page.getByRole('button',{name:'Close panel'}).click();expect(await page.evaluate(()=>(window as any).__testStreams.every((s:MediaStream)=>s.getTracks().every(t=>t.readyState==='ended')))).toBe(true);
+test('scanner camera/crop/confirm plus camera release; screen recording real blob via injected browser stream',async({page})=>{
+ await mediaFixture(page);await open(page,'scanner');await page.getByRole('button',{name:'Document scan',exact:true}).click();await expect(page.locator('.input-controls-popover input[type=file]')).toHaveCount(0);await page.getByRole('button',{name:'Capture',exact:true}).click();await page.getByRole('button',{name:'Crop',exact:true}).click();await page.getByRole('button',{name:'Save crop'}).click();await expect(page.getByTestId('current-value')).toContainText('"confirmed": false');await page.getByRole('button',{name:'Confirm materials'}).click();await expect(page.getByTestId('current-value')).toContainText('"confirmed": true');await page.locator('.ic-sentence-token').first().click();await expect(page.locator('[data-phase=preview]')).toBeVisible();await page.getByRole('button',{name:'Close panel'}).click();expect(await page.evaluate(()=>(window as any).__testStreams.every((s:MediaStream)=>s.getTracks().every(t=>t.readyState==='ended')))).toBe(true);
  await open(page,'capture');await page.getByRole('button',{name:'Screenshot',exact:true}).click();await expect(page.getByRole('button',{name:'Take screenshot'})).toBeEnabled();await page.getByRole('button',{name:'Take screenshot',exact:true}).click();await expect(page.getByTestId('current-value')).toContainText('screenshot.png');await page.getByRole('button',{name:'Confirm materials'}).click();
  await page.locator('.ic-sentence-token').first().click();await page.getByRole('button',{name:'Recording',exact:true}).click();await expect(page.getByRole('button',{name:'Start recording'})).toBeEnabled();await page.getByRole('button',{name:'Start recording'}).click();await expect(page.getByRole('button',{name:/^Stop/})).toBeVisible();await page.waitForTimeout(600);await page.getByRole('button',{name:/^Stop/}).click();await expect(page.getByTestId('current-value')).toContainText('recording.webm');await expect(page.getByTestId('current-value')).toContainText('"confirmed": false');await page.getByRole('button',{name:'Confirm materials'}).click();expect(await page.evaluate(()=>(window as any).__testStreams.every((s:MediaStream)=>s.getTracks().every(t=>t.readyState==='ended')))).toBe(true);
 });
 test('permission denial is honest; late acquisition stops after closing',async({page})=>{
- await page.addInitScript(()=>Object.defineProperty(navigator.mediaDevices,'getUserMedia',{value:()=>Promise.reject(new DOMException('Denied','NotAllowedError'))}));await open(page,'scanner');await page.getByRole('button',{name:'Open camera'}).click();await expect(page.getByRole('alert')).toContainText('Check permissions');await expect(page.getByTestId('current-value')).toContainText('"captures": []');
+ await page.addInitScript(()=>Object.defineProperty(navigator.mediaDevices,'getUserMedia',{value:()=>Promise.reject(new DOMException('Denied','NotAllowedError'))}));await open(page,'scanner');await expect(page.getByRole('alert')).toContainText('Check permissions');await expect(page.getByTestId('current-value')).toContainText('"captures": []');
 });
 test('bilingual responsive layouts and loaded original assets for all 13 widgets',async({page},info)=>{
  test.setTimeout(120000);
@@ -60,8 +60,16 @@ test('bilingual responsive layouts and loaded original assets for all 13 widgets
 });
 test('late camera streams are stopped after owner changes and after hiding, including StrictMode',async({page})=>{
  await page.addInitScript(()=>{(window as any).__resolvers=[];(window as any).__lateStreams=[];Object.defineProperty(navigator.mediaDevices,'getUserMedia',{value:()=>new Promise(resolve=>(window as any).__resolvers.push(()=>{const c=document.createElement('canvas');c.width=100;c.height=100;const s=c.captureStream();(window as any).__lateStreams.push(s);resolve(s);}))});});
- await page.goto('/tests/lifecycle.html');await page.getByRole('button',{name:'Open camera'}).click();await page.getByRole('button',{name:'Switch owner'}).click();await page.evaluate(()=>{(window as any).__resolvers.splice(0).forEach((resolve:()=>void)=>resolve());});
- await expect.poll(()=>page.evaluate(()=>(window as any).__lateStreams.every((s:MediaStream)=>s.getTracks().every(t=>t.readyState==='ended')))).toBe(true);await expect(page.locator('output')).toBeEmpty();
+ await page.goto('/tests/lifecycle.html');
+ await expect.poll(() => page.evaluate(() => (window as any).__resolvers.length)).toBe(1);
+ await page.getByRole('button',{name:'Switch owner'}).click();
+ await expect.poll(() => page.evaluate(() => (window as any).__resolvers.length)).toBe(2);
+ await page.evaluate(() => (window as any).__resolvers.shift()());
+ await expect.poll(() => page.evaluate(() => (window as any).__lateStreams[0].getTracks()[0].readyState)).toBe('ended');
+ await page.getByRole('button',{name:'Hide'}).click();
+ await page.evaluate(() => (window as any).__resolvers.shift()());
+ await expect.poll(() => page.evaluate(() => (window as any).__lateStreams[1].getTracks()[0].readyState)).toBe('ended');
+ await expect(page.locator('output')).toBeEmpty();
  await page.goto('/tests/lifecycle.html?camera');await page.getByRole('button',{name:'关闭摄像头',exact:true}).click();await page.evaluate(()=>{(window as any).__resolvers.splice(0).forEach((resolve:()=>void)=>resolve());});await expect.poll(()=>page.evaluate(()=>(window as any).__lateStreams.every((s:MediaStream)=>s.getTracks().every(t=>t.readyState==='ended')))).toBe(true);await expect(page.locator('output')).toBeEmpty();
 });
 test('control actions are non-submitting buttons and reduced motion disables animation',async({page})=>{
@@ -88,7 +96,7 @@ test('gallery only picks files; photo and scan reuse the same live camera', asyn
   const mode = (name: string) => panel.getByRole('button', {name, exact: true});
   await expect(mode('Photo')).toHaveAttribute('aria-pressed', 'true');
   await panel.screenshot({path: info.outputPath('camera-entry.png')});
-  await mode('Open camera').click();
+  await expect(mode('Open camera')).toHaveCount(0);
   await expect(panel.locator('[data-phase=preview]')).toBeVisible();
   const viewport = panel.locator('.ic-demo-capture-viewport');
   const guide = () => viewport.evaluate(el => getComputedStyle(el,'::before').content);
@@ -102,7 +110,6 @@ test('gallery only picks files; photo and scan reuse the same live camera', asyn
   await mode('Capture').click();
   await expect(panel.getByText('photo.png', {exact:false}).first()).toBeVisible();
   await mode('Document scan').click();
-  await mode('Open camera').click();
   await expect(panel.locator('[data-phase=preview]')).toBeVisible();
   await mode('Capture').click();
   await expect(panel.locator('.ic-demo-capture-tile')).toHaveCount(2);
