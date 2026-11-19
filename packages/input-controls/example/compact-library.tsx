@@ -54,6 +54,7 @@ export function CompactLibrary({assetBase = ''}: {assetBase?: string}) {
                 <h2 id={'title-' + kind}>{title}</h2>
                 <a href={'#/' + kind} aria-label={en ? 'Link to ' + title : title + '链接'}><Link2 size={16}/></a>
               </header>
+              <p className="lite-widget-description">{catalog[kind].description[en ? 1 : 0]}</p>
               <div className="lite-composer-preview">
                 <div className="lite-specimens">
                   {states.map(initial => (

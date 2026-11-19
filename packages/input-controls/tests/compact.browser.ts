@@ -309,3 +309,27 @@ test('the live panel stays over its draft parameter when the gallery reflows', a
   await page.keyboard.press('Escape');
   await expect(card(page, 'photo').locator('.lite-inline-panel')).toBeVisible();
 });
+
+test('widget descriptions stay outside every live preview and draft text stays inside the glass', async ({page}) => {
+  await page.goto(route + 'skills');
+  for (const language of ['zh-CN', 'en']) {
+    if (language === 'en') await page.getByRole('button', {name: 'EN', exact: true}).click();
+    for (const width of [1440, 900, 390]) {
+      await page.setViewportSize({width, height: 960});
+      const issues = await page.locator('.lite-card').evaluateAll(cards => cards.flatMap(card => {
+        const description = card.querySelector('.lite-widget-description')!;
+        const summary = card.querySelector('.lite-widget-preview > summary')!.getBoundingClientRect();
+        const glass = card.querySelector('.lite-widget-body .ic-live-wb-aux')!;
+        const draft = card.querySelector('.lite-preview-prose')!;
+        const panel = glass.getBoundingClientRect();
+        const clip = draft.getBoundingClientRect();
+        const aligned = (['top', 'left', 'bottom', 'right'] as const).every(edge => Math.abs(clip[edge] - panel[edge]) <= 1);
+        const readable = description.textContent?.trim() && description.getBoundingClientRect().bottom < summary.top
+          && summary.bottom + 12 <= panel.top;
+        return aligned && readable && getComputedStyle(draft).overflow === 'clip'
+          && getComputedStyle(draft).borderRadius === getComputedStyle(glass).borderRadius ? [] : [card.id];
+      }));
+      expect(issues, language + ' at ' + width).toEqual([]);
+    }
+  }
+});

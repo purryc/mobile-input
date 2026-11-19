@@ -44,6 +44,7 @@ body { margin: 0; }
 
 .lite-card:target { border-color: #8386e5; }
 .lite-card h2 { margin: 0; font-size: 17px; font-weight: 650; }
+.lite-widget-description { margin: 4px 0 0; color: #59657a; font-size: 14px; }
 .lite-card-heading a { display: inline-flex; padding: 4px; color: #637086; }
 
 .lite-composer-preview {
@@ -81,17 +82,17 @@ html[lang="en"] .lite-specimen { grid-template-columns: minmax(0, 14ch) minmax(0
 }
 .lite-popover-stage { position: relative; isolation: isolate; width: 100%; max-height: inherit; }
 .lite-popover-stage > .lite-widget-body { width: 100%; max-height: inherit; }
-.lite-popover-stage > .lite-preview-prose { border-radius: 20px; }
 .lite-widget-stage {
   isolation: isolate;
   position: relative;
-  margin-top: 8px;
-  padding: 44px 12px 24px;
+  width: fit-content;
+  max-width: 100%;
+  margin: 16px auto;
 }
 .lite-preview-prose {
   position: absolute;
   inset: 0;
-  border-radius: 14px;
+  border-radius: 20px;
   overflow: clip;
   background: white;
   pointer-events: none;
@@ -144,7 +145,7 @@ html[lang="en"] .lite-specimen { grid-template-columns: minmax(0, 14ch) minmax(0
 .lite-reference-options svg { width: 16px; height: 16px; }
 .lite-reference-options svg:nth-child(even) { width: 12px; margin-right: 8px; }
 /* Opening a chip puts one live panel over the draft, without layering glass on glass. */
-.lite-card:has(.lite-specimens [aria-expanded="true"]) .lite-inline-panel { visibility: hidden; }
+.lite-card:has(.lite-specimens [aria-expanded="true"]) :is(.lite-inline-panel, .lite-widget-stage > .lite-preview-prose) { visibility: hidden; }
 .lite-widget-body { position: relative; z-index: 1; width: fit-content; max-width: 100%; margin-inline: auto; }
 .lite-document-materials {
   grid-column: 1 / -1;
@@ -187,7 +188,6 @@ html[lang="en"] .lite-specimen { grid-template-columns: minmax(0, 14ch) minmax(0
   .lite-header h1 { font-size: 21px; }
   .lite-card { padding: 12px; }
   .lite-composer-preview { padding: 8px; }
-  .lite-widget-stage { padding-inline: 0; }
 }
 
 .lite-header-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
