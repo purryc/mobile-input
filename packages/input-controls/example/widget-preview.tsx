@@ -93,10 +93,8 @@ function InteractiveWidget({
   const [captures, setCaptures] = useState<C.CaptureMaterial[]>(sample.captures ?? []);
   const [strokes, setStrokes] = useState<number[][][]>([]);
   const [sketch, setSketch] = useState<File | null>(sample.sketch ?? null);
-  const [camera, setCamera] = useState(false);
   const [busy, setBusy] = useState(false);
   const [preview, setPreview] = useState<File | null>(null);
-  const [cameraError, setCameraError] = useState('');
   const [events, setEvents] = useState<string[]>([]);
   const fileInput = useRef<HTMLInputElement>(null);
   const anchor = useRef<HTMLSpanElement>(null);
@@ -112,8 +110,6 @@ function InteractiveWidget({
   const compact = Boolean(specimen);
   useEffect(() => {
     if (compact && !open) {
-      setCamera(false);
-      setCameraError('');
       if (kind !== 'document') setPreview(null);
     }
   }, [compact, kind, open]);
@@ -125,7 +121,7 @@ function InteractiveWidget({
       return;
     }
     panels.close();
-    if (specimen) requestAnimationFrame(() => anchor.current?.querySelector('button')?.focus({preventScroll: true}));
+    requestAnimationFrame(() => anchor.current?.querySelector('button')?.focus({preventScroll: true}));
   }
   function changed(value: unknown) {
     setSemantic(Array.isArray(value) && value.length === 0 && specimen ? 'needs-input' : 'default-selected');
@@ -247,7 +243,7 @@ function InteractiveWidget({
       }
       case 'photo':
         return (
-          <C.ImageWidget canConfirm={!specimen || pending.length > 0} onChoose={chooseLocal} onCapture={() => {setCameraError(''); setCamera(true);}} onDone={() => {
+          <C.ImageWidget canConfirm={!specimen || pending.length > 0} onChoose={chooseLocal} onDone={() => {
             if (pending.length) {
               setFiles(previous => [...previous, ...pending]);
               setPending([]);
@@ -274,6 +270,7 @@ function InteractiveWidget({
       default:
         return (
           <Capture items={captures} language={language}
+            {...(kind === 'scanner' && initial === 'object-bound' ? {initialCameraMode: captures[0]?.cameraMode ?? 'scan'} : {})}
             onAdd={item => {setCaptures(previous => [...previous, item]); emit('capture', item.name);}}
             onRemove={id => {setCaptures(previous => previous.filter(item => item.id !== id)); emit('remove-capture', id);}}
             onConfirm={() => {
@@ -281,7 +278,7 @@ function InteractiveWidget({
               if (specimen) adoptMaterial(captures.map(item => item.name));
               confirm();
             }}
-            onBusy={setBusy}/>
+            onBusy={setBusy} onCancel={inline ? undefined : closePanel}/>
         );
     }
   }
@@ -307,7 +304,6 @@ function InteractiveWidget({
   const panelContent = (
     <C.AuxiliaryPanel title={title} onClose={closePanel}>
       {widget()}
-      {cameraError && <p role="alert">{cameraError}</p>}
     </C.AuxiliaryPanel>
   );
   const overlays = (
@@ -318,14 +314,6 @@ function InteractiveWidget({
       {(kind === 'document' || kind === 'photo') && (
         <input ref={fileInput} type="file" multiple hidden accept={kind === 'document' ? '.pdf,.txt,.md' : 'image/*'}
           onChange={event => {pick(Array.from(event.currentTarget.files ?? [])); event.currentTarget.value = '';}}/>
-      )}
-      {camera && (!specimen || open) && (
-        <C.CameraCapture onCapture={file => setPending(previous => [...previous, file])} onClose={() => setCamera(false)}
-          onError={message => {
-            const translated = translate(language)(message);
-            if (specimen) setCameraError(translated);
-            emit('camera-error', translated);
-          }}/>
       )}
       {preview && (!specimen || open || kind === 'document') && (
         <FilePreview file={preview} language={language} onClose={() => {

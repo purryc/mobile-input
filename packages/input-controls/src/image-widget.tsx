@@ -4,14 +4,14 @@ import { useWidgetText } from "./environment";
 export function ImageWidget({
   children,
   onChoose,
-  onCapture,
   onDone,
   busy = false,
   canConfirm = true,
 }: {
   children?: ReactNode;
   onChoose: () => void;
-  onCapture: () => void;
+  /** @deprecated Camera acquisition belongs to ScannerWidget. */
+  onCapture?: () => void;
   onDone: () => void;
   busy?: boolean;
   canConfirm?: boolean;
@@ -28,13 +28,6 @@ export function ImageWidget({
           onClick={onChoose}
         >
           {uiText("选择图片")}
-        </button>
-        <button type="button"
-          className="ic-agent-photo-source"
-          disabled={busy}
-          onClick={onCapture}
-        >
-          {uiText("拍摄")}
         </button>
         {hasPhotos && canConfirm && (
           <button type="button"

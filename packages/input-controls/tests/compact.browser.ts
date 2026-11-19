@@ -231,6 +231,7 @@ test('gallery, scan, sketch and screen materials bind only on confirmation', asy
   await panel(page).getByRole('button', {name: '关闭辅助输入'}).click();
 
   await chip(page, 'scanner').click();
+  await panel(page).getByRole('button', {name: '文档扫描', exact: true}).click();
   await panel(page).locator('input[type=file]').setInputFiles(pendingImage);
   await expect(chip(page, 'scanner')).toHaveAttribute('data-semantic-state', 'needs-input');
   await panel(page).getByRole('button', {name: '确认材料'}).click();
@@ -250,8 +251,8 @@ test('gallery, scan, sketch and screen materials bind only on confirmation', asy
 
   await chip(page, 'capture').click();
   await panel(page).getByRole('button', {name: '截图', exact: true}).click();
-  await expect(panel(page).locator('[data-phase=preview]')).toBeVisible();
-  await panel(page).getByRole('button', {name: '拍摄', exact: true}).click();
+  await expect(page.getByRole('toolbar', {name:'屏幕捕获'})).toBeVisible();
+  await panel(page).getByRole('button', {name: '开始截屏', exact: true}).click();
   await expect(chip(page, 'capture')).toHaveAttribute('data-semantic-state', 'needs-input');
   await panel(page).getByRole('button', {name: '确认材料'}).click();
   await expect(chip(page, 'capture')).toHaveAttribute('data-semantic-state', 'object-bound');

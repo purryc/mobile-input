@@ -28,7 +28,7 @@ Download the `.tgz` from the top of the compact gallery. Put it in the root
 of your React 19 app and use its filename in the install command:
 
 ```sh
-npm install ./mobile-input-controls-1.1.1.tgz
+npm install ./mobile-input-controls-1.2.0.tgz
 npx --no-install input-controls-assets ./public/input-controls
 ```
 
@@ -112,8 +112,8 @@ Each entry has exported typed Props; the barrel is `src/index.ts`. You can impor
 | Font | `src/font-widget.tsx` | `binding`, `definition`, `owner`, `onEvent` |
 | Palette | `src/palette-widget.tsx` | same choice contract |
 | Reference files | `src/document-widget.tsx` | children or controlled choices; `onChoose`, `onDone` |
-| Images | `src/image-widget.tsx` | pending children, `onChoose`, `onCapture`, `onDone` |
-| Scanner | `src/scanner-widget.tsx` | `items`, `onAdd`, `onRemove`, `onConfirm`, optional `adapter` |
+| Images | `src/image-widget.tsx` | existing images, pending children, `onChoose`, `onDone`; legacy `onCapture` is optional and ignored |
+| Photo / Document Scan | `src/scanner-widget.tsx` | `items`, `onAdd`, `onRemove`, `onConfirm`, optional `adapter` |
 | Sketch | `src/sketch-widget.tsx` | normalized `strokes`, `onChange`, `onActive`, `onAdopt` |
 | Expert | `src/expert-widget.tsx` | choice contract, single-select definition |
 | Skills | `src/skills-widget.tsx` | choice contract, multi-select definition |
@@ -140,7 +140,7 @@ Set `token.removable` and supply `onRemove` to show a separate keyboard-focusabl
 
 Use `useSinglePanel()` once per composition to keep one active ID, `AnchoredPanel` for positioning, and `AuxiliaryPanel` for chrome. The overlay anchors 8 px below the chip, clamps to viewport edges and scrolls if necessary. Escape closes and restores focus. `portalRoot` can target your overlay container. `WidgetSurface` applies scoped theme variables; `WidgetProvider.theme` also travels to portaled panels. Avoid transformed portal ancestors because fixed positioning follows their containing block.
 
-See the executable composition in `example/widget-preview.tsx`, including a second isolated instance, pending/confirmed attachments, file selection, image camera, scanner, sketch and screen material adoption.
+See the executable composition in `example/widget-preview.tsx`, including a second isolated instance, pending/confirmed attachments, file selection, gallery selection, photo / document scan, sketch and screen material adoption.
 
 ## Materials and adapters
 
@@ -156,7 +156,9 @@ const adapter: CaptureAdapter = browserCaptureAdapter;
   onConfirm={confirmPending} onBusy={setCapturing} />;
 ```
 
-Browser adapter uses `getUserMedia` and `getDisplayMedia` only. The browser chooses tab/window/screen; rectangular crop is applied to the returned stream, not to a fake DOM screenshot. Native/freeform system selection is not implemented. Audio is off. Recording is explicit start/stop, maximum 60 seconds, and requires MediaRecorder/canvas capture support. A cancelled or failed acquisition yields no material. Closing or navigating away releases all streams and aborts pending acquisitions; hiding the page releases camera streams, while explicitly shared screen streams remain active so switching to the captured tab works; a late stream is stopped before use. Use `CameraCapture` with the same optional adapter for image photography.
+Photo and scan share one camera. Pass `initialCameraMode="scan"` for a scan request. New camera materials record `cameraMode`; older scanner materials are scans. Screen capture opens a light top toolbar. Pass `onCancel` to dismiss the owning popover and restore focus.
+
+Browser adapter uses `getUserMedia` and `getDisplayMedia` only. The browser chooses tab/window/screen; rectangular crop is applied to the returned stream, not to a fake DOM screenshot. Native/freeform system selection is not implemented. Audio is off. Recording is explicit start/stop, maximum 60 seconds, and requires MediaRecorder/canvas capture support. A cancelled or failed acquisition yields no material. Closing or navigating away releases all streams and aborts pending acquisitions; hiding the page releases camera streams, while explicitly shared screen streams remain active so switching to the captured tab works; a late stream is stopped before use. Use `ScannerWidget` in photo mode for new photographs.
 
 Pass a stable `ownerId` to capture, camera, color and sketch widgets, changing it whenever the draft/target changes. These components remount their acquisition/drag/history session on that change. For any composite host state, also use `key={draftId}` and keep pending arrays scoped to that draft. The package cannot infer a new owner from changed callback functions.
 

@@ -55,6 +55,8 @@ export function ComponentSource({kind, en}: {kind: WidgetKind; en: boolean}) {
           <div><dt>{t('素材', 'Assets')}</dt><dd><code>public/assets/</code> · <code>public/reference-assets/</code></dd></div>
         </dl>
         <p>{t('向示例传入 environment。assetBase 指向素材目录，language 和 translate 用于本地化。', 'Pass your environment to the example. Set assetBase to the public assets folder and provide language and translate for localization.')}</p>
+        {kind === 'photo' && <p>{t('onChoose 选择已有图片，onDone 确认材料。', 'onChoose picks existing images. onDone confirms the selection.')}</p>}
+        {kind === 'scanner' && <p>{t('通用入口默认拍照；扫描入口传入 initialCameraMode="scan"。', 'The default is photo mode. Pass initialCameraMode="scan" for a document scan entry.')}</p>}
         {(kind === 'scanner' || kind === 'capture') && <p>{t('adapter 可替换采集实现，items 和确认回调由宿主管理。', 'Supply an adapter to replace browser acquisition. The host owns items and confirmation.')}</p>}
         <p>{t('下载的是这个组件的 TSX 入口。接入时还需要控件库的共享代码、样式和素材。', 'The download is the component TSX entry. Integration also uses the library’s shared code, styles, and assets.')}</p>
         <div className="lite-source-actions">

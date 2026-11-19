@@ -71,7 +71,7 @@ export const controlDefinitions: ChoiceDefinition[] = [
     options: [option("product-brief", "产品介绍 · Product brief.md", "产品介绍 · Product brief.md")],
   },
   { kind: "photo", zh: "图片", en: "Image", options: [] },
-  { kind: "scanner", zh: "文档扫描", en: "Document scanner", options: [] },
+  { kind: "scanner", zh: "拍照／文档扫描", en: "Photo / Document Scan", options: [] },
   { kind: "sketch", zh: "手绘画板", en: "Sketch", options: [] },
   {
     kind: "expert",

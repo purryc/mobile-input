@@ -76,3 +76,24 @@
   border-color: #a6b0bd;
   background: var(--ic-demo-tint);
 }
+
+/* Use the browser's top layer even when the host mounts inside a clipped popover. */
+.input-controls-theme dialog.ic-screen-workspace[open] {
+  position: fixed; inset: 0; box-sizing: border-box; width: 100%; height: 100%;
+  max-width: none; max-height: none; margin: 0; padding: 0; border: 0; border-radius: 0;
+  display: grid; grid-template-rows: auto minmax(0,1fr); background: #edf0f5; color: #182431;
+}
+.ic-screen-toolbar {
+  z-index: 1; justify-self: center; display: flex; align-items: center; flex-wrap: wrap;
+  justify-content: center; gap: 4px; padding: 5px; margin: 8px; max-width: calc(100% - 16px);
+  border: 1px solid #fff; border-radius: 20px; background: linear-gradient(160deg,#ffffffed,#f4f5ffdb);
+  backdrop-filter: blur(12px); box-shadow: 0 6px 24px #28375a20;
+}
+.input-controls-theme .ic-screen-toolbar button { min-height: 36px; padding: 6px 10px; border-radius: 14px; }
+.input-controls-theme .ic-screen-toolbar :is([aria-pressed=true],.ic-screen-primary),
+.input-controls-theme .ic-demo-capture-modes button[aria-pressed=true] { background: var(--ic-demo-tint); color: var(--ic-demo-ink); box-shadow: inset 0 0 0 1px var(--ic-demo-accent); }
+.ic-screen-source { min-height: 0; display: grid; place-items: center; container-type: size; }
+.input-controls-theme .ic-screen-source .ic-demo-capture-viewport { position: relative; width: min(100cqw, calc(100cqh * var(--ic-source-aspect))); height: fit-content; min-height: 0; border: 0; border-radius: 0; cursor: crosshair; padding: 0; }
+.input-controls-theme .ic-screen-source .ic-demo-capture-viewport video { width: 100%; height: auto; object-fit: contain; }
+.input-controls-theme .ic-screen-source .ic-demo-crop-box { border: 2px solid white; box-shadow: inset 0 0 0 1px #232d4a80, 0 0 0 100vmax #14203752; }
+.ic-screen-workspace > :is([role=status],[role=alert]) { position: absolute; top: 40%; width: 100%; text-align: center; }

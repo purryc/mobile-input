@@ -24,7 +24,7 @@ const detailSelectors: Record<WidgetKind, string[]> = {
   palette: ['.demo-control-option[aria-pressed=false]', '.demo-control-option[aria-pressed=true]'],
   document: ['.demo-control-search input', 'button.demo-control-option[aria-pressed=true]'],
   photo: ['.agent-photo-actions button'],
-  scanner: ['.demo-capture-panel button'],
+  scanner: ['.demo-capture-actions button'],
   sketch: ['.agent-sketch-surface'],
   expert: ['.demo-control-option[aria-pressed=false]', '.demo-control-option[aria-pressed=true]'],
   skills: ['.demo-control-option[aria-pressed=false]', '.demo-control-option[aria-pressed=true]'],
