@@ -5,7 +5,7 @@ import reactExample from './react-integration.tsx?raw';
 
 export const packageFilename = manifest.name.replace('@', '').replace('/', '-') + '-' + manifest.version + '.tgz';
 export const packageDownloadPath = 'generated/input-controls/' + packageFilename;
-export const packageReleaseUrl = 'https://github.com/purryc/mobile-input/releases/tag/input-controls-v' + manifest.version;
+export const packageReleaseUrl = import.meta.env.VITE_INPUT_CONTROLS_RELEASE_URL as string | undefined;
 
 const install = [
   'npm install ./' + packageFilename,
@@ -51,7 +51,7 @@ export function PackageIntegration({en}: {en: boolean}) {
       <p>{en
         ? 'This example is a Vite App.tsx. The host owns values and their callbacks. Each widget card has its own typed usage example.'
         : '以下可以直接作为 Vite 项目的 App.tsx。参数值和回调由你的应用控制，每张卡片还有对应 Widget 的接入示例。'}</p>
-      <a href={packageReleaseUrl}>{en ? 'GitHub Release and source ZIP' : 'GitHub Release 与源码 ZIP'}</a>
+      {packageReleaseUrl && <a href={packageReleaseUrl}>{en ? 'GitHub Release and source ZIP' : 'GitHub Release 与源码 ZIP'}</a>}
       <pre aria-label={en ? 'React integration example' : 'React 完整接入示例'}><code>{reactExample}</code></pre>
     </details>
   );

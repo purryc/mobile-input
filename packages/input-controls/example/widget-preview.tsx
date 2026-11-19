@@ -66,7 +66,13 @@ function InteractiveWidget({
   const open = inline ? inlineOpen : panels.active === owner;
   const initial = specimen?.initial ?? 'needs-input';
 
-  const [sample] = useState(() => initial === 'object-bound' ? boundSample(kind) : {});
+  const [sampleDocument] = useState(() => specimen && kind === 'document'
+    ? boundSample(kind).files?.[0]
+    : undefined);
+  const [sample] = useState(() => {
+    if (initial !== 'object-bound') return {};
+    return sampleDocument ? {files: [sampleDocument]} : boundSample(kind);
+  });
   const [semantic, setSemantic] = useState<C.ChipSemanticState>(initial === 'object-bound' ? 'needs-input' : initial);
   const [origin, setOrigin] = useState<C.ControlOrigin>(initial === 'ambiguous-recommendation' ? 'recommended' : 'explicit');
   const [disabled, setDisabled] = useState(false);
@@ -102,9 +108,9 @@ function InteractiveWidget({
     if (compact && !open) {
       setCamera(false);
       setCameraError('');
-      setPreview(null);
+      if (kind !== 'document') setPreview(null);
     }
-  }, [compact, open]);
+  }, [compact, kind, open]);
 
   function closePanel() {
     if (inline) {
@@ -211,8 +217,28 @@ function InteractiveWidget({
         return <C.DurationWidget value={duration} onChange={value => {setDuration(value); changed(value);}} onDone={confirm}/>;
       case 'color':
         return <C.ColorWidget value={color} label={title} onChange={value => {setColor(value); changed(value);}} onActive={() => {}} onDone={confirm}/>;
-      case 'document':
-        return <C.DocumentWidget onChoose={chooseLocal} onDone={confirm}>{selectedFiles}</C.DocumentWidget>;
+      case 'document': {
+        if (!sampleDocument) {
+          return <C.DocumentWidget onChoose={chooseLocal} onDone={confirm}>{selectedFiles}</C.DocumentWidget>;
+        }
+        const sampleId = 'product-brief';
+        const hasSample = files.includes(sampleDocument);
+        return <C.DocumentWidget onChoose={chooseLocal} choices={{
+          binding: {id: owner, kind, origin, value: hasSample ? [sampleId] : []},
+          definition: {...def, options: [{id: sampleId, zh: sampleDocument.name, en: sampleDocument.name}]},
+          owner,
+          language,
+          materials: files.filter(file => file !== sampleDocument).map((file, index) => ({
+            id: 'local-file-' + index,
+            name: file.name,
+          })),
+          onEvent: event => {
+            if (event.owner !== owner || event.id !== owner) return;
+            if (event.type === 'close') confirm();
+            if (event.type === 'change' && event.value?.includes(sampleId) && !hasSample) pick([sampleDocument]);
+          },
+        }}/>;
+      }
       case 'photo':
         return (
           <C.ImageWidget canConfirm={!specimen || pending.length > 0} onChoose={chooseLocal} onCapture={() => {setCameraError(''); setCamera(true);}} onDone={() => {
@@ -295,7 +321,7 @@ function InteractiveWidget({
             emit('camera-error', translated);
           }}/>
       )}
-      {preview && (!specimen || open) && (
+      {preview && (!specimen || open || kind === 'document') && (
         <FilePreview file={preview} language={language} onClose={() => {
           setPreview(null);
           if (specimen) requestAnimationFrame(() => previewTrigger.current?.focus());
@@ -309,9 +335,17 @@ function InteractiveWidget({
       <summary ref={inlineSummary}>{t('独立 Widget', 'Standalone widget')}</summary>
       {inlineOpen && (
         <C.WidgetProvider language={language} translate={translate(language)} assetBase={assetBase}>
-          <div className="lite-widget-body input-controls-theme" style={{width: C.widgetWidths[kind]}}>
-            {panelContent}
-            {overlays}
+          {sampleDocument && <div className="lite-document-materials input-controls-theme">{selectedFiles}</div>}
+          <div className="lite-widget-stage">
+            <div className="lite-preview-prose" aria-hidden="true">
+              <p>{t('先介绍产品价值、适用客户和使用场景，再说明如何创建工作空间与整理资料。', 'Introduce the product, its customers and use cases, then explain how to create a workspace and organize materials.')}</p>
+              <p>{catalog[kind].before[en ? 1 : 0]}{label}{catalog[kind].after[en ? 1 : 0]}</p>
+              <p>{t('最后总结常见问题和下一步建议，让新同事可以照着操作。', 'Close with common questions and next steps the team can follow.')}</p>
+            </div>
+            <C.WidgetSurface className="lite-widget-body">
+              <div style={{width: C.widgetWidths[kind], maxWidth: '100%'}}>{panelContent}</div>
+              {overlays}
+            </C.WidgetSurface>
           </div>
         </C.WidgetProvider>
       )}
@@ -323,6 +357,7 @@ function InteractiveWidget({
       <span id={stateLabelId} className="lite-state-label">{chipStateLabels[state][en ? 1 : 0]}</span>
       <C.WidgetProvider language={language} translate={translate(language)} assetBase={assetBase}>
         {chip}
+        {sampleDocument && <div className="lite-document-materials">{selectedFiles}</div>}
         {overlays}
       </C.WidgetProvider>
     </div>
@@ -388,6 +423,7 @@ function InteractiveWidget({
     </>
   );
 }
+
 
 function SecondInstance({onClose}: {onClose: () => void}) {
   const [value, setValue] = useState('5');

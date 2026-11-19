@@ -54,12 +54,14 @@ export function CompactLibrary({assetBase = ''}: {assetBase?: string}) {
                 <h2 id={'title-' + kind}>{title}</h2>
                 <a href={'#/' + kind} aria-label={en ? 'Link to ' + title : title + '链接'}><Link2 size={16}/></a>
               </header>
-              <div className="lite-specimens">
-                {states.map(initial => (
-                  <WidgetSpecimen key={initial} {...{kind, initial, language, assetBase, panels}}/>
-                ))}
+              <div className="lite-composer-preview">
+                <div className="lite-specimens">
+                  {states.map(initial => (
+                    <WidgetSpecimen key={initial} {...{kind, initial, language, assetBase, panels}}/>
+                  ))}
+                </div>
+                <WidgetSpecimen {...{kind, language, assetBase, panels}} initial={kind === 'document' ? 'object-bound' : isMaterial ? 'needs-input' : 'default-selected'} presentation="inline"/>
               </div>
-              <WidgetSpecimen {...{kind, language, assetBase, panels}} initial={isMaterial ? 'needs-input' : 'default-selected'} presentation="inline"/>
               <ComponentSource kind={kind} en={en}/>
             </section>
           );

@@ -44,9 +44,11 @@ test('all 13 live cards share one page and expose each typed component source', 
     const selected = materials.includes(kind) ? 'object-bound' : 'default-selected';
     await expect(chip(page, kind, selected)).toHaveAccessibleDescription('已选');
     await expect(widgetCard.locator('.lite-widget-preview[open] .lite-widget-body')).toBeVisible();
+    await expect(widgetCard.locator('.lite-composer-preview .lite-preview-prose')).toHaveAttribute('aria-hidden', 'true');
     await expect(chip(page, kind, 'ambiguous-recommendation').locator('.ic-demo-chip-smart')).toBeVisible();
     await chip(page, kind).click();
     await expect(panel(page)).toHaveCount(1);
+    await expect(panel(page)).toHaveCSS('box-shadow', 'none');
     await expect(chip(page, kind)).toHaveAttribute('aria-expanded', 'true');
     await page.keyboard.press('Escape');
     await expect(chip(page, kind)).toBeFocused();
@@ -132,17 +134,25 @@ test('keyboard recommendation removal and singleton panel preserve isolated comp
 test('local documents bind to the same chip, keep bytes and reset when the last file is removed', async ({page}) => {
   await page.goto(route + 'document');
   const pending = example(page, 'document');
+  const pendingMaterials = pending.locator('.lite-document-materials');
   const entry = chip(page, 'document');
   const filename = 'a-very-long-product-reference-attachment-name-that-does-not-fit-the-chip.txt';
   const seeded = chip(page, 'document', 'object-bound');
+  const seededMaterials = example(page, 'document', 'object-bound').locator('.lite-document-materials');
   await expect(seeded).toContainText('产品介绍.pdf');
   await seeded.click();
-  await panel(page).getByRole('button', {name: '查看 产品介绍.pdf'}).click();
+  await seededMaterials.getByRole('button', {name: '查看 产品介绍.pdf'}).click();
   await expect(page.getByRole('dialog', {name: '产品介绍.pdf'}).locator('object')).toHaveAttribute('type', 'application/pdf');
   await page.keyboard.press('Escape');
   await page.keyboard.press('Escape');
 
   await entry.click();
+  const search = panel(page).getByLabel('搜索候选');
+  await search.fill('没有这份材料');
+  await expect(panel(page)).toContainText('没有匹配项');
+  await search.fill('产品介绍');
+  await expect(panel(page).getByRole('button', {name: '产品介绍.pdf', exact: true})).toBeVisible();
+  await search.fill('');
   const localFiles = pending.locator('input[type=file]');
   await localFiles.setInputFiles([]);
   await expect(entry).toHaveAttribute('data-semantic-state', 'needs-input');
@@ -158,27 +168,32 @@ test('local documents bind to the same chip, keep bytes and reset when the last 
   const label = entry.locator('.ic-demo-chip-label');
   expect(await label.evaluate(element => element.scrollWidth > element.clientWidth)).toBe(true);
 
-  await page.keyboard.press('Escape');
-  await entry.click();
-  await panel(page).getByRole('button', {name: '查看 ' + filename}).click();
+  await search.fill('notes.md');
+  await expect(panel(page).locator('.ic-demo-control-option')).toHaveText('notes.md');
+  await expect(panel(page)).not.toContainText('没有匹配项');
+  await pendingMaterials.getByRole('button', {name: '查看 ' + filename}).click();
   await expect(page.getByRole('dialog', {name: filename})).toContainText('Reference file contents');
   await page.keyboard.press('Escape');
-  await panel(page).getByRole('button', {name: '移除 ' + filename}).click();
+  await pendingMaterials.getByRole('button', {name: '移除 ' + filename}).click();
   await expect(entry).toContainText('notes.md');
-  await panel(page).getByRole('button', {name: '移除 notes.md'}).click();
+  await pendingMaterials.getByRole('button', {name: '移除 notes.md'}).click();
   await expect(entry).toHaveAttribute('data-semantic-state', 'needs-input');
   await expect(seeded).toContainText('产品介绍.pdf');
 
-  await panel(page).getByRole('button', {name: '关闭辅助输入'}).click();
   await seeded.click();
   await example(page, 'document', 'object-bound').locator('input[type=file]').setInputFiles({
     name: 'updated-brief.txt', mimeType: 'text/plain', buffer: Buffer.from('Updated brief'),
   });
-  await panel(page).getByRole('button', {name: '移除 产品介绍.pdf'}).click();
+  await seededMaterials.getByRole('button', {name: '移除 产品介绍.pdf'}).click();
   await expect(seeded).toHaveText('updated-brief.txt');
   await expect(seeded).toHaveAccessibleDescription('已选');
-  await panel(page).getByRole('button', {name: '移除 updated-brief.txt'}).click();
+  await seededMaterials.getByRole('button', {name: '移除 updated-brief.txt'}).click();
   await expect(seeded).toHaveAccessibleDescription('待补充');
+
+  await entry.click();
+  await panel(page).getByRole('button', {name: '产品介绍.pdf', exact: true}).click();
+  await expect(entry).toHaveAttribute('data-semantic-state', 'object-bound');
+  await expect(pendingMaterials.getByRole('button', {name: '查看 产品介绍.pdf'})).toBeVisible();
 });
 
 test('gallery, scan, sketch and screen materials bind only on confirmation', async ({page}) => {

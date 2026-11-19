@@ -28,7 +28,7 @@ Download the `.tgz` from the top of the compact gallery. Put it in the root
 of your React 19 app and use its filename in the install command:
 
 ```sh
-npm install ./mobile-input-controls-1.1.0.tgz
+npm install ./mobile-input-controls-1.1.1.tgz
 npx --no-install input-controls-assets ./public/input-controls
 ```
 
@@ -58,6 +58,15 @@ For a new package release, bump the version (for example
 `npm version patch --no-git-tag-version`), run type checks and regression
 tests, then run `npm run build`. That build regenerates the tarball and
 gallery together. To rebuild only the tarball, run `npm run pack:library`.
+
+Component List uses `compact.html` as its public home. In a copy of `dist/`,
+copy `compact.html` over `index.html`, then deploy that directory to the
+existing `component-list` Vercel project. Set `VITE_INPUT_CONTROLS_RELEASE_URL`
+only for a release page that already exists for the version being built.
+
+Use `XIAOYI_DEMO_URL` with `npm run test:browser -- runtime-parity.browser.ts`
+to compare the live desktop composer with the inline and anchored specimens.
+The test captures all three for each widget and checks matching selection states.
 Both dev and production gallery builds generate the download. Run
 `npm run verify:package` to install the archive into a temporary Vite project
 and verify the example in Chrome. Give consumers

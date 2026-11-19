@@ -29,8 +29,8 @@
 .input-controls-theme .ic-demo-chip-remove {width:24px;height:30px;display:grid;place-items:center;padding:0;border:0;background:transparent;border-radius:0 8px 8px 0;}
 .input-controls-theme .ic-demo-chip-remove img {width:14px;height:14px;}
 .input-controls-theme .ic-chip-needs-plus {font-size:18px;line-height:18px;}
-.input-controls-popover {z-index:1000;overflow:auto;overscroll-behavior:contain;isolation:isolate;}
-.input-controls-popover .ic-live-wb-aux {width:100%;min-height:0;}
+.input-controls-popover {z-index:1000;overflow:visible;}
+.input-controls-popover .ic-live-wb-aux {width:100%;min-height:0;overscroll-behavior:contain;}
 .input-controls-theme .ic-demo-capture-viewport video,.input-controls-theme .ic-demo-capture-viewport img {width:100%;height:auto;display:block;}
 .input-controls-theme .ic-demo-capture-viewport {height:auto;aspect-ratio:auto;touch-action:none;}
 .input-controls-theme .ic-demo-capture-items {max-height:240px;overflow:auto;}
@@ -47,7 +47,6 @@
 .input-controls-theme .ic-sentence-token-capsule[data-semantic-state="needs-input"][data-expanded="true"],
 .input-controls-theme .ic-sentence-token-capsule[data-semantic-state="default-selected"][data-expanded="true"] {border-color:#a6b0bd;}
 
-.input-controls-popover {box-shadow:var(--ic-demo-glass-shadow);}
 /* Host typography must not change controls between standalone and documentation use. */
 .input-controls-theme {font:400 15px/1.55 system-ui,sans-serif;letter-spacing:normal;text-align:start;}
 .input-controls-theme input,.input-controls-theme select,.input-controls-theme textarea {font:inherit;letter-spacing:normal;}

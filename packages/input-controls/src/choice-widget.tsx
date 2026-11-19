@@ -120,6 +120,9 @@ export function ChoiceWidget({
   const options = d.options.filter((o) =>
     (o.zh + " " + o.en).toLowerCase().includes(query.toLowerCase()),
   );
+  const matchingMaterials = binding.kind === "document"
+    ? materials.filter((material) => material.name.toLowerCase().includes(query.toLowerCase()))
+    : [];
   const selected = options.filter((o) => binding.value.includes(o.id)),
     rest = options.filter((o) => !binding.value.includes(o.id));
   const capability = ["expert", "skills", "connectors"].includes(binding.kind);
@@ -276,19 +279,13 @@ export function ChoiceWidget({
           />
         </label>
       )}
-      {binding.kind === "document" &&
-        materials
-          .filter(
-            (m) =>
-              m.name.toLowerCase().includes(query.toLowerCase()),
-          )
-          .map((m) => (
-            <div className="ic-demo-control-option" key={m.id}>
-              <FileText size={18} />
-              <span>{m.name}</span>
-              <Check size={15} />
-            </div>
-          ))}
+      {matchingMaterials.map((material) => (
+        <div className="ic-demo-control-option" key={material.id}>
+          <FileText size={18} />
+          <span>{material.name}</span>
+          <Check size={15} />
+        </div>
+      ))}
       {(capability || ["formats", "font", "palette"].includes(binding.kind)) &&
         cards(options)}
       {!capability &&
@@ -316,7 +313,7 @@ export function ChoiceWidget({
             {cards(rest)}
           </section>
         )}
-      {!options.length && (
+      {!options.length && !matchingMaterials.length && (
         <p>
           {t(
             "没有匹配项，试试其他关键词。",

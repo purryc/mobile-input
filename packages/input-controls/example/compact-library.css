@@ -46,7 +46,15 @@ body { margin: 0; }
 .lite-card h2 { margin: 0; font-size: 17px; font-weight: 650; }
 .lite-card-heading a { display: inline-flex; padding: 4px; color: #637086; }
 
-.lite-specimens { margin-block: 12px; }
+.lite-composer-preview {
+  min-width: 0;
+  margin-block: 12px 16px;
+  padding: 12px;
+  border: 1px solid rgb(218 222 238 / 88%);
+  border-radius: 22px;
+  background: linear-gradient(180deg, rgb(255 255 255 / 92%), rgb(250 251 255 / 86%));
+  box-shadow: 0 16px 40px -12px rgb(26 34 72 / 9%), 0 2px 10px rgb(98 102 223 / 5%), inset 0 1px 0 rgb(255 255 255 / 96%);
+}
 .lite-specimen {
   display: grid;
   grid-template-columns: minmax(0, 8.2ch) minmax(0, 1fr);
@@ -64,14 +72,37 @@ html[lang="en"] .lite-specimen { grid-template-columns: minmax(0, 14ch) minmax(0
 .lite-card .ic-demo-modal { z-index: 1010; }
 .lite-adopted-sketch { display: flex; flex-wrap: wrap; gap: 8px; }
 
-.lite-widget-preview { margin: 10px 0 18px; }
+.lite-widget-preview { margin-top: 10px; }
 .lite-widget-preview > summary {
   width: fit-content;
   cursor: pointer;
   color: #59657a;
   font-size: 13px;
 }
-.lite-widget-body { max-width: 100%; margin-top: 8px; }
+.lite-widget-stage {
+  position: relative;
+  margin-top: 8px;
+  padding-block: 14px 12px;
+}
+.lite-preview-prose {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  color: #242424;
+  font-size: 15px;
+  line-height: 32px;
+  overflow-wrap: anywhere;
+}
+.lite-preview-prose p { margin: 0; }
+.lite-widget-body { position: relative; max-width: 100%; }
+.lite-document-materials {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.lite-document-materials:empty { display: none; }
 
 .lite-source { border-top: 1px solid #eceef2; padding-top: 10px; font-size: 13px; }
 .lite-source summary { cursor: pointer; width: fit-content; color: #484ec2; }
@@ -104,6 +135,8 @@ html[lang="en"] .lite-specimen { grid-template-columns: minmax(0, 14ch) minmax(0
   .lite-grid { grid-template-columns: minmax(0, 1fr); }
   .lite-library { padding-inline: 12px; }
   .lite-header h1 { font-size: 21px; }
+  .lite-card { padding: 12px; }
+  .lite-composer-preview { padding: 8px; }
 }
 
 .lite-header-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }

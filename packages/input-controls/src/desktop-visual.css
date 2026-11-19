@@ -97,7 +97,12 @@
 .input-controls-theme .ic-demo-widget-wrap .ic-live-wb-duration button { width: 40px; height: 40px; padding: 0; background: transparent; }
 .input-controls-theme .ic-demo-widget-wrap .ic-live-wb-duration label { gap: 4px; min-width: 0; }
 .input-controls-theme .ic-demo-widget-wrap .ic-live-wb-duration input { min-height: 36px; height: 36px; width: 64px; padding: 0; border: 0; background: transparent; font-size: 16px; }
-.input-controls-theme .ic-demo-widget-wrap .ic-agent-sketch-surface { border: 1px solid var(--ic-demo-glass-edge); border-radius: 14px; background: #ffffff4d; }
+.input-controls-theme .ic-demo-widget-wrap .ic-agent-sketch-surface {
+  border: 1px solid #ffffffc7;
+  border-radius: 16px;
+  background: #ffffff80;
+  box-shadow: 0 8px 22px #83a3ab12, inset 0 1px 1px #ffffffe6;
+}
 .input-controls-theme .ic-demo-widget-wrap footer.ic-live-wb-sketch-tools { height: 36px; gap: 4px; margin: 0; }
 .input-controls-theme .ic-demo-widget-wrap .ic-live-wb-sketch-tools > button[aria-pressed="true"] { background: var(--ic-demo-tint); border-color: var(--ic-demo-accent); }
 .input-controls-theme .ic-demo-widget-wrap footer.ic-agent-photo-actions { height: 36px; gap: 8px; margin: 0; }
