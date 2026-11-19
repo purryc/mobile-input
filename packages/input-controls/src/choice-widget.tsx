@@ -1,4 +1,4 @@
-import { useId, useState } from "react";
+import { useId, useRef, useState } from "react";
 import {
   Check,
   FileText,
@@ -17,6 +17,7 @@ import {
   Shapes,
   Search,
   Plus,
+  X,
 } from "lucide-react";
 import type {
   WidgetKind as DemoControlKind,
@@ -100,6 +101,7 @@ export function ChoiceWidget({
   language,
   onEvent,
   onChooseFile,
+  onRemoveMaterial,
   materials = [],
   definition,
 }: {
@@ -109,9 +111,12 @@ export function ChoiceWidget({
   language: string;
   onEvent: (e: ControlEvent) => void;
   onChooseFile?: () => void;
+  onRemoveMaterial?: (id: string) => void;
   materials?: { id: string; name: string }[];
 }) {
   const { assetBase } = useWidgetEnvironment();
+  const searchInput = useRef<HTMLInputElement>(null);
+  const doneButton = useRef<HTMLButtonElement>(null);
   const badgeId = useId();
   const [query, setQuery] = useState("");
   const en = language === "en",
@@ -125,6 +130,9 @@ export function ChoiceWidget({
     : [];
   const selected = options.filter((o) => binding.value.includes(o.id)),
     rest = options.filter((o) => !binding.value.includes(o.id));
+  const adoptedDocuments = binding.kind === "document" && onRemoveMaterial
+    ? [...selected.map(o => ({id: o.id, name: en ? o.en : o.zh})), ...matchingMaterials]
+    : [];
   const capability = ["expert", "skills", "connectors"].includes(binding.kind);
   const change = (id: string) =>
     onEvent({
@@ -272,6 +280,7 @@ export function ChoiceWidget({
           <Search aria-hidden="true" />
           <span className="sr-only">{t("搜索候选", "Search options")}</span>
           <input
+            ref={searchInput}
             aria-label={t("搜索候选", "Search options")}
             placeholder={t("搜索", "Search")}
             value={query}
@@ -279,21 +288,19 @@ export function ChoiceWidget({
           />
         </label>
       )}
-      {matchingMaterials.map((material) => (
+      {!onRemoveMaterial && matchingMaterials.map(material => (
         <div className="ic-demo-control-option" key={material.id}>
-          <FileText size={18} />
-          <span>{material.name}</span>
-          <Check size={15} />
+          <FileText size={18}/><span>{material.name}</span><Check size={15}/>
         </div>
       ))}
       {(capability || ["formats", "font", "palette"].includes(binding.kind)) &&
         cards(options)}
       {!capability &&
         !["formats", "font", "palette"].includes(binding.kind) &&
-        !!selected.length && (
+        (selected.length > 0 || adoptedDocuments.length > 0) && (
           <section>
             <strong>
-              {binding.origin === "recommended" ? (
+              {binding.origin === "recommended" && !adoptedDocuments.length ? (
                 <>
                   <Sparkles size={14} />
                   {t("推荐采用", "Recommended · in use")}
@@ -302,7 +309,26 @@ export function ChoiceWidget({
                 t("当前采用", "In use")
               )}
             </strong>
-            {cards(selected)}
+            {adoptedDocuments.length > 0 && onRemoveMaterial ? (
+              <div className="ic-demo-control-options">
+                {adoptedDocuments.map(({id, name}, index) => (
+                  <div key={id} className="ic-demo-control-option ic-document-adopted">
+                    <FileText size={18} aria-hidden="true"/>
+                    <span className="ic-demo-choice-label">{name}</span>
+                    <button type="button" className="ic-demo-remove" aria-label={t("移除 ", "Remove ") + name}
+                      aria-description={en ? `Item ${index + 1} of ${adoptedDocuments.length}` : `第 ${index + 1} 项，共 ${adoptedDocuments.length} 项`}
+                      onClick={event => {
+                        // Keep focus inside the picker without summoning the touch keyboard.
+                        const target = event.detail === 0 ? searchInput.current : doneButton.current;
+                        target?.focus({preventScroll: true});
+                        onRemoveMaterial(id);
+                      }}>
+                      <X size={14} aria-hidden="true"/>
+                    </button>
+                  </div>
+                ))}
+              </div>
+            ) : cards(selected)}
           </section>
         )}
       {!capability &&
@@ -355,6 +381,7 @@ export function ChoiceWidget({
         )}
         <button
           type="button"
+          ref={doneButton}
           aria-label={t("完成选择", "Done")}
           title={t("完成选择", "Done")}
           onClick={() => onEvent({ type: "close", owner, id: binding.id })}

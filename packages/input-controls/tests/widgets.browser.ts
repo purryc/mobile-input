@@ -199,6 +199,11 @@ test('resolved screen chips open region selection or the ready toolbar on the fi
   await workspace.getByRole('button', {name:/停止/}).click();
   await page.getByRole('button', {name:'确认材料'}).click();
   await expect(card.getByRole('button', {name:'查看 recording.webm'})).toBeVisible();
+  for (const [intent, name] of [['screenshot', 'screenshot.png'], ['recording', 'recording.webm']]) {
+    await card.getByRole('button', {name:'移除 ' + name}).click();
+    await expect(chip(intent)).toHaveAttribute('data-semantic-state','default-selected');
+    await expect(chip(intent)).toHaveText(intent === 'recording' ? '录屏' : '截图');
+  }
   expect(await streams()).toBe(3);
   expect(await page.evaluate(() => (window as any).__testStreams.every((s: MediaStream) => s.getTracks().every(t => t.readyState === 'ended')))).toBe(true);
 });

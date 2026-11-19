@@ -264,6 +264,11 @@ test('gallery, scan, sketch and screen materials bind only on confirmation', asy
     await chip(page, kind).click();
     await panel(page).getByRole('button', {name: /^移除/}).click();
     await expect(chip(page, kind)).toHaveAttribute('data-semantic-state', 'needs-input');
+    if (kind === 'sketch') {
+      await expect(canvas.locator('polyline')).toHaveCount(1);
+      await panel(page).getByRole('button', {name: '清空笔迹'}).click();
+      await expect(canvas.locator('polyline')).toHaveCount(0);
+    }
   }
 });
 
@@ -361,3 +366,53 @@ test('passive catalog waits for a mode; scan intent opens directly and permits r
   expect(await count()).toBe(3);
   await expect(panel(page).locator('input[type=file]')).toHaveCount(0);
 });
+
+for (const presentation of ['chip', 'inline']) {
+  test('remove adopted documents inside the ' + presentation + ' picker by attachment identity', async ({page}, info) => {
+    await page.goto(route + 'document');
+    const document = card(page, 'document');
+    const inline = document.locator('.lite-widget-preview');
+    const selected = example(page, 'document', 'object-bound');
+    const host = presentation === 'inline' ? inline : selected;
+    const view = presentation === 'inline' ? inline.locator('.lite-inline-panel') : panel(page);
+    if (presentation === 'chip') await selected.locator('.ic-sentence-token').click();
+    const attachments = host.locator('.lite-document-materials');
+    const search = view.getByLabel('搜索候选');
+    const remove = (name: string) => view.getByRole('button', {name: '移除 ' + name, exact:true});
+    await view.screenshot({path:info.outputPath('document-' + presentation + '.png')});
+    await search.fill('产品介绍');
+    await remove('产品介绍.pdf').focus();
+    await page.keyboard.press('Enter');
+    await expect(search).toBeFocused();
+    await expect(search).toHaveValue('产品介绍');
+    await expect(attachments.getByRole('button')).toHaveCount(0);
+    await expect(view.getByText('其他选项')).toBeVisible();
+    await view.getByRole('button', {name:'产品介绍.pdf', exact:true}).click();
+    await expect(attachments.getByRole('button', {name:'查看 产品介绍.pdf'})).toBeVisible();
+
+    const local = host.locator('input[type=file]');
+    const first = {name:'same.txt', mimeType:'text/plain', buffer:Buffer.from('first attachment')};
+    const second = {...first, buffer:Buffer.from('second attachment')};
+    await local.setInputFiles([first, second]);
+    await search.fill('same');
+    await expect(remove('same.txt')).toHaveCount(2);
+    await remove('same.txt').first().click();
+    await expect(remove('same.txt')).toHaveCount(1);
+    await expect(search).toHaveValue('same');
+    await attachments.getByRole('button', {name:'查看 same.txt'}).click();
+    await expect(page.getByRole('dialog', {name:'same.txt'})).toContainText('second attachment');
+    await page.keyboard.press('Escape');
+    if (presentation === 'chip' && !await view.isVisible()) await selected.locator('.ic-sentence-token').click();
+    await search.fill('same');
+    await remove('same.txt').click();
+    await expect(view.getByText('没有匹配项，试试其他关键词。')).toBeVisible();
+    await local.setInputFiles(first);
+    await expect(remove('same.txt')).toHaveCount(1);
+    await remove('same.txt').click();
+    await search.fill('');
+    await remove('产品介绍.pdf').click();
+    await expect(view.getByRole('button', {name:'完成选择'})).toBeVisible();
+    await expect(attachments.getByRole('button')).toHaveCount(0);
+    if (presentation === 'chip') await expect(selected.locator('.ic-sentence-token')).toHaveAttribute('data-semantic-state', 'needs-input');
+  });
+}

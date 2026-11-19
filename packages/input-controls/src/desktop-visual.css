@@ -114,7 +114,7 @@
 .input-controls-theme .ic-demo-control-search input { height: 36px; min-height: 36px; border-radius: 14px; border-color: var(--ic-demo-glass-edge); padding: 0 12px 0 38px; background: var(--ic-demo-control); font-size: 14px; }
 .input-controls-theme .ic-demo-control-options { gap: 8px; }
 .input-controls-theme .ic-demo-control-option { border-radius: 14px; padding: 12px; min-height: 48px; border-color: var(--ic-demo-glass-edge); background: var(--ic-demo-control); font-size: 14px; line-height: 20px; box-shadow: inset 0 1px 1px #ffffff80; }
-.input-controls-theme .ic-demo-control-option[aria-pressed="true"] { border-color: var(--ic-demo-accent); background: var(--ic-demo-tint); }
+.input-controls-theme .ic-demo-control-option:is([aria-pressed="true"], .ic-document-adopted) { border-color: var(--ic-demo-accent); background: var(--ic-demo-tint); }
 .input-controls-theme .ic-demo-control-option > .ic-demo-choice-label { flex: 1; overflow-wrap: anywhere; }
 .input-controls-theme .ic-demo-control-grid { grid-template-columns: repeat(3,minmax(0,1fr)); max-height: 328px; overflow: auto; }
 .input-controls-theme .ic-demo-control-grid .ic-demo-control-option { display: flex; flex-direction: column; align-items: stretch; justify-content: flex-start; gap: 8px; min-height: 104px; padding: 12px; }
@@ -265,7 +265,7 @@
 .input-controls-theme .ic-demo-control-grid .ic-demo-control-option { font-size:14px; line-height:20px; flex-wrap:nowrap; align-content:normal; }
 .input-controls-theme .ic-demo-choice-identity { height:24px; width:100% !important; }
 .input-controls-theme .ic-demo-choice-marker { color:var(--ic-demo-ink); }
-.input-controls-theme .ic-demo-control-option[aria-pressed="true"] { border-color:color-mix(in srgb,var(--ic-demo-accent) 42%,transparent); }
+.input-controls-theme .ic-demo-control-option:is([aria-pressed="true"], .ic-document-adopted) { border-color:color-mix(in srgb,var(--ic-demo-accent) 42%,transparent); }
 .input-controls-theme .ic-demo-control-option[aria-pressed="true"] .ic-demo-choice-marker { color:var(--ic-demo-accent); }
 .input-controls-theme .ic-demo-format-options .ic-demo-control-option[aria-pressed="true"] { background:var(--ic-demo-control); border-color:var(--ic-demo-glass-edge); }
 .input-controls-theme .ic-demo-widget-wrap .ic-agent-hue::-webkit-slider-runnable-track { height:12px; }
@@ -278,3 +278,9 @@
 .input-controls-theme .ic-demo-capture-panel[data-mode="scanner"][data-phase="preview"] .ic-demo-capture-actions { min-height:48px; }
 .input-controls-theme .ic-demo-capture-actions button, .input-controls-theme .ic-demo-capture-modes button { min-height:36px; height:36px; padding:6px 10px; border-radius:14px; font-size:14px; }
 .input-controls-theme .ic-demo-capture-items { max-height:246px; overflow:auto; }
+
+.input-controls-theme .ic-document-adopted { position: relative; cursor: default; }
+.input-controls-theme .ic-document-adopted .ic-demo-choice-label { margin-inline-end: 28px; }
+.input-controls-theme .ic-document-adopted .ic-demo-remove {
+  display: grid; place-items: center; right: 8px; top: 50%; transform: translateY(-50%);
+}

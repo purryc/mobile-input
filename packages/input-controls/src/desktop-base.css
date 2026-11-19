@@ -184,7 +184,7 @@
   max-width: 100%;
   color: #777;
 }
-.input-controls-theme .ic-demo-material .ic-demo-remove {
+.input-controls-theme :is(.ic-demo-material, .ic-document-adopted) .ic-demo-remove {
   position: absolute;
   right: -5px;
   top: -7px;

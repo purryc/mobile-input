@@ -11,6 +11,9 @@ const paths:Record<string,string>={duration:'M9 2h6M12 6a8 8 0 1 0 0 16 8 8 0 0 
 const translations:Record<string,string>={'关闭辅助输入':'Close panel','减少一分钟':'Decrease by one minute','增加一分钟':'Increase by one minute','演讲时长（分钟）':'Duration (minutes)','分钟':'min','选择图片':'Choose image','拍摄':'Capture','确认图片选择':'Confirm images','添加参考资料':'Add reference files','PDF、TXT、Markdown · 单份最多 8 MB':'PDF, TXT, Markdown · Max 8 MB each','布局画板':'Sketch canvas','画笔':'Pen','橡皮':'Eraser','撤销':'Undo','清空':'Clear','撤销笔迹':'Undo strokes','清空笔迹':'Clear strokes','采用布局草图':'Adopt sketch','色相':'Hue','色调':'Tone','确认布局草图':'Confirm sketch','拍摄图片':'Camera photo','关闭摄像头':'Close camera','材料预览':'Material preview','关闭预览':'Close preview','摄像头预览无法播放，请重试或选择本地图片。':'Camera preview cannot play. Retry or choose a local image.','无法打开摄像头，请允许摄像头权限，或选择本地图片。':'Unable to open camera. Allow camera permission or choose a local image.','图片保存失败，请重新拍摄。':'Image could not be saved. Please retake.','请输入六位HEX颜色值':'Enter a six-digit HEX color','查看 ':'Preview ','移除 ':'Remove '};
 export const translate=(language:string)=>(s:string)=>language==='en'?(translations[s]||s):s;
 
+type FileAttachment = {id: string; file: File};
+const sampleDocumentId = 'product-brief';
+
 export interface WidgetPreviewProps {
   kind: C.WidgetKind;
   language?: string;
@@ -89,8 +92,11 @@ function InteractiveWidget({
     if (specimen && kind === 'formats') return ['pptx', 'pdf'];
     return def.options.slice(0, 1).map(option => option.id);
   });
-  const [files, setFiles] = useState<File[]>(sample.files ?? []);
-  const [pending, setPending] = useState<File[]>([]);
+  const nextFileId = useRef(0);
+  const [files, setFiles] = useState<FileAttachment[]>(() => (sample.files ?? []).map((file, index) => ({
+    id: file === sampleDocument ? sampleDocumentId : 'sample-' + index, file,
+  })));
+  const [pending, setPending] = useState<FileAttachment[]>([]);
   const [captures, setCaptures] = useState<C.CaptureMaterial[]>(sample.captures ?? []);
   const [strokes, setStrokes] = useState<number[][][]>([]);
   const [sketch, setSketch] = useState<File | null>(sample.sketch ?? null);
@@ -104,7 +110,7 @@ function InteractiveWidget({
 
   const screenIntent = specimen?.screenIntent;
   const confirmedCaptures = captures.filter(item => item.confirmed);
-  const names = [...files.map(file => file.name), ...(sketch ? [sketch.name] : []), ...confirmedCaptures.map(item => item.name)];
+  const names = [...files.map(({file}) => file.name), ...(sketch ? [sketch.name] : []), ...confirmedCaptures.map(item => item.name)];
   const state = screenIntent ? 'default-selected' : specimen && names.length ? 'object-bound' : semantic;
   const emit = (event: string, value: unknown = '') => {
     if (!specimen) setEvents(previous => [JSON.stringify({event, owner, value}), ...previous].slice(0, 8));
@@ -187,26 +193,29 @@ function InteractiveWidget({
 
   function pick(list: File[]) {
     if (!list.length) return;
+    const attachments = list.map(file => ({
+      id: file === sampleDocument ? sampleDocumentId : 'local-' + nextFileId.current++, file,
+    }));
     if (kind === 'document') {
-      setFiles(previous => [...previous, ...list]);
+      setFiles(previous => [...previous, ...attachments]);
       adoptMaterial(list.map(file => file.name));
-    } else setPending(previous => [...previous, ...list]);
+    } else setPending(previous => [...previous, ...attachments]);
     emit('select-local-files', list.map(file => file.name));
   }
-  function cards(list: File[], remove: (index: number) => void) {
-    return list.map((file, index) => (
-      <C.AttachmentCard key={index} file={file}
-        onPreview={() => {
-          previewTrigger.current = document.activeElement as HTMLElement | null;
-          setPreview(file);
-        }}
-        onRemove={() => {remove(index); emit('remove-file', file.name);}}/>
-    ));
+  function removeFile(id: string) {
+    setFiles(previous => previous.filter(item => item.id !== id));
+    emit('remove-file', files.find(item => item.id === id)?.file.name);
   }
-  const selectedFiles = cards(files, index => setFiles(previous => previous.filter((_, position) => index !== position)));
-  const adoptedSketch = sketch && cards([sketch], () => {
+  function fileCard(id: string, file: File, remove: () => void) {
+    return <C.AttachmentCard key={id} file={file} onRemove={remove} onPreview={() => {
+      previewTrigger.current = document.activeElement as HTMLElement | null;
+      setPreview(file);
+    }}/>;
+  }
+  const selectedFiles = files.map(({id, file}) => fileCard(id, file, () => removeFile(id)));
+  const adoptedSketch = sketch && fileCard('sketch', sketch, () => {
     setSketch(null);
-    if (specimen) setStrokes([]);
+    emit('remove-file', sketch.name);
   });
 
   function widget(): ReactNode {
@@ -227,21 +236,20 @@ function InteractiveWidget({
         if (!sampleDocument) {
           return <C.DocumentWidget onChoose={chooseLocal} onDone={confirm}>{selectedFiles}</C.DocumentWidget>;
         }
-        const sampleId = 'product-brief';
-        const hasSample = files.includes(sampleDocument);
-        return <C.DocumentWidget onChoose={chooseLocal} choices={{
-          binding: {id: owner, kind, origin, value: hasSample ? [sampleId] : []},
-          definition: {...def, options: [{id: sampleId, zh: sampleDocument.name, en: sampleDocument.name}]},
+        const hasSample = files.some(item => item.id === sampleDocumentId);
+        return <C.DocumentWidget onChoose={chooseLocal} onRemoveMaterial={removeFile} choices={{
+          binding: {id: owner, kind, origin, value: hasSample ? [sampleDocumentId] : []},
+          definition: {...def, options: [{id: sampleDocumentId, zh: sampleDocument.name, en: sampleDocument.name}]},
           owner,
           language,
-          materials: files.filter(file => file !== sampleDocument).map((file, index) => ({
-            id: 'local-file-' + index,
+          materials: files.filter(item => item.id !== sampleDocumentId).map(({id, file}) => ({
+            id,
             name: file.name,
           })),
           onEvent: event => {
             if (event.owner !== owner || event.id !== owner) return;
             if (event.type === 'close') confirm();
-            if (event.type === 'change' && event.value?.includes(sampleId) && !hasSample) pick([sampleDocument]);
+            if (event.type === 'change' && event.value?.includes(sampleDocumentId) && !hasSample) pick([sampleDocument]);
           },
         }}/>;
       }
@@ -251,12 +259,15 @@ function InteractiveWidget({
             if (pending.length) {
               setFiles(previous => [...previous, ...pending]);
               setPending([]);
-              if (specimen) adoptMaterial(pending.map(file => file.name));
+              if (specimen) adoptMaterial(pending.map(({file}) => file.name));
             }
             confirm();
           }}>
             {specimen && selectedFiles}
-            {cards(pending, index => setPending(previous => previous.filter((_, position) => index !== position)))}
+            {pending.map(({id, file}) => fileCard(id, file, () => {
+              setPending(previous => previous.filter(item => item.id !== id));
+              emit('remove-file', file.name);
+            }))}
           </C.ImageWidget>
         );
       case 'sketch':
@@ -415,7 +426,7 @@ function InteractiveWidget({
         <pre data-testid="current-value">{JSON.stringify({
           kind, semanticState: semantic, origin,
           value: kind === 'duration' ? duration : kind === 'color' ? color : values,
-          files: files.map(file => file.name), pendingImages: pending.length, strokes: strokes.length,
+          files: files.map(({file}) => file.name), pendingImages: pending.length, strokes: strokes.length,
           captures: captures.map(({name, confirmed}) => ({name, confirmed})), busy,
         }, null, 2)}</pre>
         <ol aria-label="Events">{events.map((event, index) => <li key={index}>{event}</li>)}</ol>

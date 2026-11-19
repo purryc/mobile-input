@@ -28,7 +28,7 @@ Download the `.tgz` from the top of the compact gallery. Put it in the root
 of your React 19 app and use its filename in the install command:
 
 ```sh
-npm install ./mobile-input-controls-1.3.0.tgz
+npm install ./mobile-input-controls-1.4.0.tgz
 npx --no-install input-controls-assets ./public/input-controls
 ```
 
@@ -111,7 +111,7 @@ Each entry has exported typed Props; the barrel is `src/index.ts`. You can impor
 | Color | `src/color-widget.tsx` | six-digit HEX `value`, `label`, `onChange`, `onActive`, `onDone` |
 | Font | `src/font-widget.tsx` | `binding`, `definition`, `owner`, `onEvent` |
 | Palette | `src/palette-widget.tsx` | same choice contract |
-| Reference files | `src/document-widget.tsx` | children or controlled choices; `onChoose`, `onDone` |
+| Reference files | `src/document-widget.tsx` | children or controlled choices; `onChoose`, `onDone`, optional `onRemoveMaterial(id)` for adopted choice and local file rows |
 | Images | `src/image-widget.tsx` | existing images, pending children, `onChoose`, `onDone`; legacy `onCapture` is optional and ignored |
 | Photo / Document Scan | `src/scanner-widget.tsx` | `items`, `onAdd`, `onRemove`, `onConfirm`, optional `adapter` |
 | Sketch | `src/sketch-widget.tsx` | normalized `strokes`, `onChange`, `onActive`, `onAdopt` |
@@ -163,6 +163,8 @@ Browser adapter uses `getUserMedia` and `getDisplayMedia` only. The browser choo
 Pass a stable `ownerId` to capture, camera, color and sketch widgets, changing it whenever the draft/target changes. These components remount their acquisition/drag/history session on that change. For any composite host state, also use `key={draftId}` and keep pending arrays scoped to that draft. The package cannot infer a new owner from changed callback functions.
 
 `CaptureMaterial` carries `id`, `kind`, `name`, `blob`, `size`, optional `duration`, and `confirmed`. `onAdd` emits actual bytes with `confirmed:false`; `onConfirm` asks the host to adopt. `AttachmentCard` and `CaptureTile compact` display compact removable materials. `SketchWidget` uses normalized points in [0,1]; geometry helpers preserve scale and bounded undo. Hosts choose their final image format.
+
+For the searchable document picker, give each attachment a stable ID and pass `onRemoveMaterial` to DocumentWidget. Remove that ID from the owning draft, including its selected binding or materials list.
 
 ## UI-only handoff for Gemini
 

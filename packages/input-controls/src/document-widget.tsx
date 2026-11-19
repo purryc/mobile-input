@@ -3,7 +3,9 @@ import { Check, Plus } from "lucide-react";
 import { ChoiceWidget } from "./choice-widget";
 import { useWidgetEnvironment, useWidgetText } from "./environment";
 export type DocumentWidgetProps = {
-  choices?: ComponentProps<typeof ChoiceWidget>;
+  choices?: Omit<ComponentProps<typeof ChoiceWidget>, "onRemoveMaterial">;
+  /** Receives the adopted option or local material ID in the host-owned draft. */
+  onRemoveMaterial?: (id: string) => void;
   children?: ReactNode;
   onChoose: () => void;
   onDone?: () => void;
@@ -12,6 +14,7 @@ export function DocumentWidget({
   choices,
   children,
   onChoose,
+  onRemoveMaterial,
   onDone,
 }: DocumentWidgetProps) {
   const t = useWidgetText();
@@ -23,6 +26,7 @@ export function DocumentWidget({
       {...choices}
       binding={{ ...choices.binding, kind: "document" }}
       onChooseFile={onChoose}
+      onRemoveMaterial={onRemoveMaterial}
     />
   ) : (
     <>

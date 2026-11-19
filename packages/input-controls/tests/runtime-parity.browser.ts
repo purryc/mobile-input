@@ -90,7 +90,9 @@ test('all 13 widget surfaces and list states match the running Xiaoyi desktop', 
       }
       for (const selector of detailSelectors[kind]) {
         const originalPart = originalSurface.locator(selector).first();
-        const inlinePart = inline.locator(selector.replace(/\./g, '.ic-')).first();
+        const inlineSelector = kind === 'document' && selector === 'button.demo-control-option[aria-pressed=true]'
+          ? '.ic-document-adopted' : selector.replace(/\./g, '.ic-');
+        const inlinePart = inline.locator(inlineSelector).first();
         expect.soft(await surface(inlinePart), kind + ' ' + selector).toEqual(await surface(originalPart));
       }
       await originalPanel.screenshot({path: info.outputPath(kind + '-xiaoyi.png')});
