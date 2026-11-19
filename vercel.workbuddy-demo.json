@@ -1,0 +1,8 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": null,
+  "installCommand": "npm ci",
+  "buildCommand": "npm run build:workbuddy-demo",
+  "outputDirectory": "artifacts/workbuddy-demo/dist",
+  "functions": { "api/workbuddy-demo/[action].ts": { "maxDuration": 300 } }
+}

@@ -1,0 +1,321 @@
+/* Scoped base geometry for embedding the desktop controls. */
+
+/* phone-live-workbuddy.css */
+:where(.input-controls-theme) .live-wb-composer .wb-sentence-composer{min-height:80px;font-size:14px;line-height:32px;outline:none;white-space:pre-wrap;overflow-wrap:anywhere}:where(.input-controls-theme) .live-wb-composer .sentence-swatch{width:12px;height:12px;border-radius:50%;flex-shrink:0}:where(.input-controls-theme) .live-wb-composer .sentence-icon{width:16px;height:16px}:where(.input-controls-theme) .live-wb-aux footer{display:flex;justify-content:flex-end;flex-shrink:0;height:48px}:where(.input-controls-theme) .live-wb-aux{flex:0 1 288px;min-height:140px;background:#ffffff99;border:1px solid white;border-radius:20px;padding:8px;display:flex;flex-direction:column;overflow:hidden}:where(.input-controls-theme) .live-wb-aux header{display:flex;align-items:center;justify-content:space-between;flex-shrink:0;height:48px}:where(.input-controls-theme) .live-wb-aux header b{font-size:14px;padding:0 8px}:where(.input-controls-theme) .live-wb-aux header button{width:48px;border:0;background:transparent;padding:12px}:where(.input-controls-theme) .live-wb-aux-body{overflow:auto;min-height:0;flex:1}:where(.input-controls-theme) .live-wb-aux .wb-color-picker{height:120px;min-height:80px;position:relative;background-image:linear-gradient(to top,#000,transparent),linear-gradient(to right,#fff,transparent);touch-action:none;border-radius:12px}:where(.input-controls-theme) .live-wb-aux .wb-color-picker i{position:absolute;width:16px;height:16px;transform:translate(-50%,-50%);border-radius:50%;border:2px solid white}:where(.input-controls-theme) .live-wb-aux .wb-hue{width:100%;height:48px}:where(.input-controls-theme) .live-wb-aux input:not([type=range]){min-height:48px;width:100%;border:1px solid white;border-radius:12px;padding:8px;background:#ffffff9e}:where(.input-controls-theme) .live-wb-duration{display:flex;align-items:center;justify-content:space-between;min-height:56px}:where(.input-controls-theme) .live-wb-duration strong{font-size:18px}:where(.input-controls-theme) .live-wb-duration button{width:48px;font-size:24px}:where(.input-controls-theme) .live-wb-aux:has(.live-wb-duration){flex:0 0 112px;min-height:112px}:where(.input-controls-theme) .live-wb-aux>svg{flex:1;min-height:40px;width:100%;touch-action:none;background:#f7fbfa;border-radius:10px}:where(.input-controls-theme) .live-wb-sketch-tools{display:flex;flex-shrink:0;height:48px}:where(.input-controls-theme) .live-wb-sketch-tools button{padding:10px;width:48px}
+
+:where(.input-controls-theme) .live-workbuddy .live-wb-main:has(.live-wb-aux){overflow-y:auto}:where(.input-controls-theme) .live-wb-duration label{display:flex;align-items:center;gap:8px}:where(.input-controls-theme) .live-wb-duration input:not([type=range]){width:84px;text-align:center;font-size:18px}
+
+/* Shared geometry; the explicit ChatGPT theme changes semantic colors only. */
+
+:where(.input-controls-theme) .live-wb-photo-body{flex:1;min-height:0;overflow:auto;display:flex;flex-wrap:wrap;align-content:flex-start;gap:8px}:where(.input-controls-theme) .live-wb-photo-add{min-width:100px;min-height:72px;display:flex;gap:8px;align-items:center;justify-content:center;border:1px dashed var(--dock-accent);border-radius:12px;background:transparent;color:inherit}:where(.input-controls-theme) .live-wb-aux:has(svg.agent-sketch-surface){flex-shrink:0}
+/* Keep the drawable aspect ratio stable; the middle region scrolls at compact
+   heights instead of distorting strokes or clipping the confirmation control. */
+:where(.input-controls-theme) .live-workbuddy .live-wb-aux:has(svg.agent-sketch-surface){flex:0 0 auto;min-height:0}
+:where(.input-controls-theme) .live-workbuddy .live-wb-aux>svg.agent-sketch-surface{display:block;flex:none;aspect-ratio:330/240;height:auto;min-height:0;vector-effect:non-scaling-stroke}
+
+/* Figma 2316:110521 — shared color/photo/layout widgets. */
+:where(.input-controls-theme) .live-workbuddy .live-wb-aux{--widget-glass:var(--input-control,#ffffff4d);--widget-edge:var(--input-edge,#fffffffa);flex:0 0 auto;min-height:0;position:relative;border:1px solid var(--widget-edge);border-radius:16px;background:var(--widget-glass);box-shadow:0 7px 18px -3px #33617514,inset 0 1px 1px #ffffffc7;padding:8px 12px;gap:4px;overflow:visible;color:var(--dock-fg)}
+:where(.input-controls-theme) .live-workbuddy .live-wb-aux header{height:48px;flex:none;gap:0}:where(.input-controls-theme) .live-workbuddy .live-wb-aux header b{font-size:14px;font-weight:500;padding:0;line-height:22px}:where(.input-controls-theme) .live-workbuddy .live-wb-aux header button{display:flex;align-items:center;justify-content:center;width:48px;height:48px;padding:0;background:transparent;flex:none;border:0}
+:where(.input-controls-theme) .live-workbuddy .live-wb-aux .agent-widget-icon{width:24px;height:24px;max-width:none;display:block;pointer-events:none;flex:none}
+:where(.input-controls-theme) .live-workbuddy .live-wb-aux button{color:var(--dock-fg);font-family:inherit}:where(.input-controls-theme) .live-workbuddy .live-wb-aux button:disabled{opacity:.35}
+:where(.input-controls-theme) .live-workbuddy .live-wb-aux:has(.agent-color-body){height:288px;padding:0 15px 7px;gap:0}
+:where(.input-controls-theme) .live-workbuddy .live-wb-aux:has(.agent-color-body) header{height:48px}:where(.input-controls-theme) .live-workbuddy .live-wb-aux:has(.agent-color-body) header b{font-size:20px;line-height:28px}:where(.input-controls-theme) .live-workbuddy .live-wb-aux:has(.agent-color-body) header button{margin-right:-9px}
+:where(.input-controls-theme) .agent-color-body{width:100%;height:232px;display:flex;flex-direction:column;min-height:0;flex:none}
+:where(.input-controls-theme) .agent-color-presets{height:48px;display:flex;gap:8px;flex:none}:where(.input-controls-theme) .live-workbuddy .agent-color-presets button{height:48px;min-height:48px;width:58px;min-width:0;flex:1;position:relative;border:0;background:transparent;border-radius:16px;padding:0;overflow:visible}
+:where(.input-controls-theme) .live-workbuddy .agent-color-presets img{position:absolute;top:-14px;left:calc(50% - 51px);width:102px;height:92px;max-width:none;pointer-events:none}
+:where(.input-controls-theme) .agent-tone-ramp{height:72px;flex:none;margin-top:8px;position:relative;touch-action:none;border-radius:12px;cursor:crosshair;overflow:hidden}:where(.input-controls-theme) .agent-tone-ramp i{position:absolute;top:62%;transform:translate(-50%,-50%);border:3px solid white;border-radius:50%;width:18px;height:18px;box-sizing:border-box;pointer-events:none}
+:where(.input-controls-theme) .live-workbuddy .live-wb-aux input.agent-hue{display:block;appearance:none;-webkit-appearance:none;height:48px;min-height:48px;width:100%;padding:0;margin:4px 0;border:0;background:transparent;touch-action:none;flex:none}
+:where(.input-controls-theme) .agent-hue::-webkit-slider-runnable-track{height:16px;border-radius:8px;background:linear-gradient(90deg,red,#ff0,#0f0,#0ff,#00f,#f0f,red)}:where(.input-controls-theme) .agent-hue::-webkit-slider-thumb{appearance:none;-webkit-appearance:none;width:22px;height:22px;border-radius:50%;border:1px solid #bcc5c7;background:white;box-shadow:0 1px 3px #0002;margin-top:-3px}
+:where(.input-controls-theme) .agent-color-bottom{height:48px;display:flex;gap:8px;flex:none}:where(.input-controls-theme) .agent-color-bottom label{display:flex;position:relative;align-items:center;flex:1;min-width:0;height:48px;border:1px solid #ffffffc7;background:var(--widget-glass);box-shadow:0 8px 22px #83a3ab12,inset 0 1px 1px #ffffffe6;border-radius:16px;padding:0 12px}
+:where(.input-controls-theme) .live-workbuddy .agent-color-bottom label input{border:0;background:transparent;min-width:0;min-height:0;height:46px;padding:0;flex:1;font-size:16px;color:inherit;outline:none}:where(.input-controls-theme) .agent-color-bottom label i{width:20px;height:20px;border-radius:50%;flex:none;margin-left:8px}
+:where(.input-controls-theme) .live-workbuddy .agent-color-bottom>button,:where(.input-controls-theme) .live-workbuddy .agent-photo-actions>button,:where(.input-controls-theme) .live-workbuddy .live-wb-sketch-tools>button{display:flex;align-items:center;justify-content:center;padding:0;width:48px;height:48px;min-height:48px;flex:none;border:1px solid var(--widget-edge);border-radius:16px;background:var(--widget-glass);box-shadow:0 7px 18px -3px #33617514,inset 0 1px 1px #ffffffc7}
+:where(.input-controls-theme) .live-workbuddy .live-wb-aux:has(.agent-photo-actions){height:230px;padding:0 15px 12px;gap:0}:where(.input-controls-theme) .live-workbuddy .live-wb-aux:has(.agent-photo-actions) header b{font-size:16px;line-height:28px}:where(.input-controls-theme) .live-workbuddy .live-wb-aux:has(.agent-photo-actions) header button{margin-right:-9px;border:1px solid var(--widget-edge);border-radius:16px;background:var(--widget-glass);box-shadow:0 7px 18px -3px #33617514,inset 0 1px 1px #ffffffc7}
+:where(.input-controls-theme) .live-workbuddy .live-wb-photo-body{display:flex;flex-wrap:nowrap;align-items:flex-start;gap:10px;height:112px;flex:none;overflow-x:auto;overflow-y:hidden;padding-top:8px}
+:where(.input-controls-theme) .live-workbuddy .live-wb-photo-body .live-wb-material{width:100px;flex:0 0 100px;height:96px;padding:0}:where(.input-controls-theme) .live-workbuddy .live-wb-photo-body .live-wb-material>button:first-child{width:100px;height:96px;border-radius:16px;box-shadow:0 7px 18px -3px #33617514,inset 0 1px 1px #ffffffc7;border:1px solid var(--widget-edge)}:where(.input-controls-theme) .live-workbuddy .live-wb-photo-body .live-wb-material>button:last-child{right:0;top:-6px;width:48px;height:48px;border:1px solid var(--widget-edge);background:var(--widget-glass);border-radius:16px;padding:12px;box-shadow:0 7px 18px -3px #33617514,inset 0 1px 1px #ffffffc7}:where(.input-controls-theme) .live-workbuddy .live-wb-photo-body .live-wb-material>button:last-child svg{background:transparent}
+:where(.input-controls-theme) .live-workbuddy .live-wb-aux footer.agent-photo-actions{margin-top:8px;display:flex;gap:8px;height:48px}:where(.input-controls-theme) .live-workbuddy .agent-photo-actions>button.agent-photo-source{flex:1;min-width:0;font-size:14px;font-weight:500;white-space:nowrap}
+:where(.input-controls-theme) .live-workbuddy .live-wb-aux>svg.agent-sketch-surface{width:100%;height:auto;aspect-ratio:328/192;min-height:0;flex:none;background:var(--input-pad,#ffffff38);border:1px solid #ffffffc7;border-radius:16px;box-shadow:0 8px 22px #83a3ab12,inset 0 1px 1px #ffffffe6;touch-action:none;cursor:crosshair}
+:where(.input-controls-theme) .live-workbuddy .live-wb-aux footer.live-wb-sketch-tools{display:flex;gap:4px;height:48px;justify-content:flex-start;margin:0}:where(.input-controls-theme) .live-wb-sketch-tools>span{flex:1}:where(.input-controls-theme) .live-workbuddy .live-wb-sketch-tools>button[aria-pressed=true],:where(.input-controls-theme) .live-workbuddy .live-wb-sketch-tools>button:last-child{background:var(--input-soft)}
+
+:where(.input-controls-theme) .live-workbuddy .live-wb-materials .live-wb-material>button:last-child .agent-widget-icon{width:24px;height:24px;background:white;border-radius:50%}
+
+/* No reserved preview or confirmation before the first photo. */
+:where(.input-controls-theme) .live-workbuddy .live-wb-aux:has(.agent-photo-actions[data-has-photos="false"]){height:118px}
+
+/* sentence-composer.css */
+/* glass/inline-outline: content colors are swatches, never control outlines. */
+:where(.input-controls-theme) .wb-sentence-composer{--inline-accent:var(--input-accent,var(--dock-accent,#0a59f7));--glass-inline-outline:color-mix(in srgb,var(--inline-accent) 30%,transparent);line-height:32px}
+:where(.input-controls-theme) .paint-phone .wb-sentence-composer,:where(.input-controls-theme) [data-theme=dark] .wb-sentence-composer{--glass-inline-outline:color-mix(in srgb,var(--inline-accent) 44%,transparent)}
+:where(.input-controls-theme) .wb-sentence-composer .sentence-token-hit{display:inline-flex;align-items:center;vertical-align:middle;height:32px;min-height:32px;max-width:100%;padding:0 2px;white-space:nowrap;user-select:none}
+:where(.input-controls-theme) .wb-sentence-composer .sentence-token{display:inline-flex;align-items:center;justify-content:center;height:32px;min-height:32px;min-width:0;max-width:100%;padding:0;border:0;background:transparent;box-shadow:none;color:inherit;cursor:pointer;font:inherit}
+:where(.input-controls-theme) .wb-sentence-composer .sentence-token>.sentence-token-face{box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center;gap:5px;height:28px;min-height:28px;max-width:250px;padding:0 7px;border:1px solid transparent;border-radius:7px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:14px;line-height:20px;background:var(--glass-control,#ffffff99);box-shadow:inset 0 0 0 1px var(--glass-inline-outline),inset 0 1px 1px #ffffff60,0 1px 1px #14303b0a}
+:where(.input-controls-theme) .wb-sentence-composer .sentence-token[aria-pressed=true]>.sentence-token-face{background:color-mix(in srgb,var(--inline-accent) 12%,var(--glass-control,#ffffff99));box-shadow:inset 0 0 0 1px var(--inline-accent),inset 0 1px 1px #ffffff60}
+:where(.input-controls-theme) .wb-sentence-composer .sentence-token-face>span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+:where(.input-controls-theme) .wb-sentence-composer .sentence-swatch{width:12px;height:12px;border-radius:50%;flex:none;box-shadow:0 0 0 1px #122d3914}
+:where(.input-controls-theme) .wb-sentence-composer .sentence-icon{width:16px;height:16px;flex:none;object-fit:contain}
+
+/* application-action-chip.css */
+:where(.input-controls-theme) .application-action-chip.application-action-chip{display:inline-flex;align-items:center;justify-content:center;gap:6px;flex:0 0 auto;min-width:80px;min-height:48px;padding:8px 12px;border:1px solid var(--input-edge,#fffffffa);border-radius:24px;background:var(--input-control,#ffffff4d);color:inherit;box-shadow:var(--input-shadow,0 7px 9px #33617508,inset 0 1px 1px #ffffffc7);font:500 14px/22px system-ui,sans-serif;white-space:nowrap;touch-action:manipulation;backdrop-filter:blur(14px)}
+:where(.input-controls-theme) .application-action-chip.application-action-chip:active:not(:disabled){background:var(--input-soft,var(--input-control,#ffffff4d));box-shadow:inset 0 1px 4px #33617520}
+:where(.input-controls-theme) .application-action-chip.application-action-chip:disabled{opacity:.4;cursor:default}:where(.input-controls-theme) .application-action-chip[aria-busy=true]{opacity:1}
+:where(.input-controls-theme) .action-chip-loading{flex:none;animation:action-chip-spin 1s linear infinite}@keyframes action-chip-spin{to{transform:rotate(360deg)}}
+@media(prefers-reduced-motion:reduce){:where(.input-controls-theme) .action-chip-loading{animation:none}}
+
+/* ai-polish.css */
+:where(.input-controls-theme) .contextual-polish{flex:0 0 auto;min-width:0;max-width:100%;margin:0;color:var(--input-ink,var(--dock-fg,inherit));box-sizing:border-box}
+:where(.input-controls-theme) .contextual-polish-row{display:flex;align-items:center;gap:8px;min-height:48px;min-width:0}
+:where(.input-controls-theme) .contextual-polish-title{width:72px;flex:0 0 72px;display:flex;align-items:center;gap:4px;white-space:nowrap;font:500 14px/22px system-ui,sans-serif}
+:where(.input-controls-theme) .polish-smart-pencil{width:20px;height:20px;position:relative;flex:none;display:inline-flex;align-items:flex-end}:where(.input-controls-theme) .polish-smart-pencil>svg:last-child{position:absolute;right:0;top:0}
+:where(.input-controls-theme) .contextual-polish-options{display:flex;gap:8px;min-width:0;flex:1;overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:none;padding:0}
+:where(.input-controls-theme) .contextual-polish-options::-webkit-scrollbar{display:none}:where(.input-controls-theme) .polish-error{margin:4px 0 0;font-size:12px;line-height:18px;color:inherit;overflow-wrap:anywhere}
+/* Read shared dock tokens in the adapter; scene geometry and services stay independent. */
+
+/* One spacing owner, independent of controller destination or parent gap. */
+:where(.input-controls-theme) .polish-stack.polish-stack{row-gap:8px}
+:where(.input-controls-theme) .polish-stack.polish-stack:has(>.contextual-polish:last-child){padding-bottom:8px!important}
+:where(.input-controls-theme) .polish-stack.polish-stack>.contextual-polish{margin-top:0;margin-bottom:0}
+
+/* workbuddy-demo.css */
+/* Standalone Xiaoyi Work skin. Shared product themes and authored content stay unchanged. */
+.input-controls-theme .demo-composer .wb-sentence-composer {
+  min-height: 110px;
+  max-height: 260px;
+  overflow: auto;
+  font: inherit;
+  line-height: 32px;
+  outline: none;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  cursor: text;
+  caret-color: #222;
+}
+:where(.input-controls-theme) .wb-sentence-composer:empty:before {
+  content: attr(data-placeholder);
+  color: #999;
+  pointer-events: none;
+}
+.input-controls-theme .demo-composer .wb-sentence-composer:focus-visible {
+  outline: none;
+}
+:where(.input-controls-theme) .demo-widget-wrap {
+  position: fixed;
+  z-index: 20;
+  max-width: calc(100vw - 32px);
+  border-radius: 16px;
+  background: #f7f7fb;
+  box-shadow: 0 10px 35px #24214b26;
+  isolation: isolate;
+}
+:where(.input-controls-theme) .demo-widget-wrap:before {
+  content: "";
+  position: absolute;
+  left: calc(var(--anchor-offset) - 5px);
+  top: -5px;
+  width: 10px;
+  height: 10px;
+  transform: rotate(45deg);
+  background: #f7f7fb;
+  border-left: 1px solid white;
+  border-top: 1px solid white;
+  z-index: -1;
+}
+.input-controls-theme .demo-widget-wrap .live-wb-aux {
+  max-height: none;
+  width: 100%;
+  margin: 0;
+  overflow: visible;
+}
+.input-controls-theme .demo-widget-wrap .live-wb-aux > svg.agent-sketch-surface {
+  height: auto;
+  aspect-ratio: 328/192;
+  flex: none;
+}
+.input-controls-theme .demo-widget-wrap .live-wb-aux:has(.live-wb-duration) {
+  padding: 8px 12px;
+}
+.input-controls-theme .demo-widget-wrap .live-wb-duration {
+  height: 56px;
+  min-height: 56px;
+}
+.input-controls-theme .demo-widget-wrap .live-wb-duration button {
+  justify-content: center;
+}
+:where(.input-controls-theme) .demo-documents {
+  max-height: 250px;
+  overflow: auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 8px 0;
+}
+:where(.input-controls-theme) .demo-documents > button {
+  width: 100%;
+  min-height: 44px;
+  justify-content: center;
+}
+:where(.input-controls-theme) .demo-material {
+  position: relative;
+  flex: 0 0 108px;
+  width: 108px;
+  min-width: 0;
+}
+.input-controls-theme .demo-material > button:first-child {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 0;
+  padding: 0;
+  background: #f6f6f6;
+  border: 1px solid #e7e7e7;
+  border-radius: 10px;
+  overflow: hidden;
+  height: 83px;
+}
+:where(.input-controls-theme) .demo-material img {
+  width: 100%;
+  height: 57px;
+  object-fit: cover;
+}
+:where(.input-controls-theme) .demo-material span {
+  padding: 3px 7px;
+  font-size: 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  color: #777;
+}
+.input-controls-theme .demo-material .demo-remove {
+  position: absolute;
+  right: -5px;
+  top: -7px;
+  border: 1px solid #e7e7e7;
+  border-radius: 50%;
+  background: #fff;
+  min-height: 26px;
+  height: 26px;
+  width: 26px;
+  padding: 0;
+  justify-content: center;
+  box-shadow: 0 2px 5px #00000010;
+}
+.input-controls-theme .live-wb-photo-body {
+  padding-right: 7px;
+}
+.input-controls-theme .live-wb-photo-body .demo-material > button:first-child {
+  height: 96px;
+}
+:where(.input-controls-theme) .live-wb-photo-body .demo-material img {
+  height: 70px;
+}
+:where(.input-controls-theme) .demo-material[data-pending="true"] > button:first-child {
+  border-style: dashed;
+}
+:where(.input-controls-theme) .demo-modal a {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: #555;
+  text-decoration: none;
+  border: 1px solid #e7e7e7;
+  padding: 5px 10px;
+  border-radius: 8px;
+  font-size: 12px;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+:where(.input-controls-theme) .demo-modal a img {
+  width: 32px;
+  height: 32px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+:where(.input-controls-theme) .demo-modal {
+  position: fixed;
+  inset: 0;
+  background: #2323334d;
+  backdrop-filter: blur(5px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  z-index: 30;
+}
+:where(.input-controls-theme) .demo-modal > section {
+  background: #fff;
+  border-radius: 20px;
+  padding: 20px;
+  width: min(580px, 100%);
+  max-height: 90vh;
+  overflow: auto;
+  box-shadow: 0 25px 100px #23233333;
+}
+:where(.input-controls-theme) .demo-modal header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  margin-bottom: 16px;
+}
+:where(.input-controls-theme) .demo-modal header b {
+  overflow-wrap: anywhere;
+}
+:where(.input-controls-theme) .demo-modal header button {
+  min-height: 40px;
+  width: 40px;
+  justify-content: center;
+  flex: none;
+}
+:where(.input-controls-theme) .demo-modal video,
+:where(.input-controls-theme) .demo-modal > section > img {
+  width: 100%;
+  max-height: 55vh;
+  object-fit: contain;
+  background: #f4f4f7;
+  border-radius: 12px;
+  margin-bottom: 15px;
+}
+/* Match the tablet's direct-child add button; nested menus are not send buttons. */
+.input-controls-theme .demo-widget-wrap .live-wb-aux {
+  background: var(--input-control);
+}
+
+/* Client-reference layout; all overrides are scoped to this isolated demo. */
+.input-controls-theme .live-wb-aux { border-color: #e6e5ee; }
+.input-controls-theme .agent-sketch-surface { --dock-accent: #146c64; } /* Existing authored ink/export color. */
+.input-controls-theme .agent-widget-icon[src$="/check.svg"] { filter: brightness(0) saturate(100%) invert(42%) sepia(61%) saturate(980%) hue-rotate(210deg); }
+/* Stable, non-editable polish row inside the composer, above its action footer. */
+.input-controls-theme .demo-polish-slot { flex: none; position: relative; min-width: 0; padding: 8px 18px; --input-control: #f7f7fc; --input-edge: #f0eff8; }
+.input-controls-theme .demo-polish-slot .contextual-polish { padding: 0; }
+.input-controls-theme .demo-polish-slot .contextual-polish-title { width: auto; flex: 0 0 auto; font-size: 14px; margin-right: 4px; }
+.input-controls-theme .demo-polish-slot .polish-smart-pencil { color: var(--input-accent); }
+.input-controls-theme .demo-polish-slot .application-action-chip { font-size: 14px; padding: 8px 12px; min-height: 48px; }
+.input-controls-theme .demo-polish-slot .application-action-chip:hover:not(:disabled) { background: #eeedfb; }
+.input-controls-theme .polish-chip-stop {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-inline-start: 2px;
+  padding-inline-start: 8px;
+  border-inline-start: 1px solid #d6d2eb;
+  color: var(--input-accent);
+}
+.input-controls-theme .demo-polish-notice { display: block; font-size: 12px; color: #777; margin: 4px 0 0 82px; }
+.input-controls-theme .demo-task-compose:has(.demo-polish-slot) { max-height: 60%; }
+.input-controls-theme .demo-task-compose .demo-polish-slot { padding-left: 12px; padding-right: 12px; }
+
+.input-controls-theme .demo-polish-row { display: flex; align-items: flex-start; gap: 8px; min-width: 0; }
+.input-controls-theme .demo-polish-row > .contextual-polish { flex: 1; min-width: 0; }
+.input-controls-theme .demo-polish-restore { flex: 0 0 48px; width: 48px; height: 48px; margin-left: auto; display: grid; place-items: center; color: var(--input-accent); border: 0; border-radius: 50%; background: transparent; }
+.input-controls-theme .demo-polish-restore:hover:not(:disabled) { background: #eeedfb; }
+.input-controls-theme .demo-polish-restore:focus-visible { outline: 2px solid var(--input-accent); outline-offset: 2px; }
+.input-controls-theme .demo-polish-restore:disabled { opacity: .4; }
+
+.input-controls-theme .demo-polish-row.polish-stack:has(>.contextual-polish:last-child) { padding-bottom: 0 !important; }
+
+/* Confirmed capture references share the existing compact material card. */
+.input-controls-theme .demo-material-thumb {position:relative;width:100%;height:57px;flex:0 0 57px;overflow:hidden;}
+.input-controls-theme .demo-material-thumb img,.input-controls-theme .demo-material-thumb video {width:100%;height:57px;object-fit:cover;display:block;}
+.input-controls-theme .demo-material-thumb > svg {position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);color:white;fill:#2228;filter:drop-shadow(0 1px 3px #0008);}
+.input-controls-theme .demo-modal section > video {max-width:100%;max-height:70vh;}

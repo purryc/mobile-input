@@ -1,3 +1,4 @@
+import {WebDeckPageFrame} from "./web-deck-page-frame";
 import {uiText} from './i18n';
 import {DeckImage} from './web-deck-image';
 import {useRef,useState} from 'react';
@@ -18,7 +19,7 @@ const labels:Record<string,string>={cover:'封面','image-left':'左图右文','
 const pathFor=(p:DeckPage,key:string)=>`deck/${encodeURIComponent(p.id)}/${key}`;
 export function WebDeckPage({page,body,edit}:{page:DeckPage;body?:FileBody;edit?:{view:string;file:string;readonly:boolean;active?:string;photo:(id:string)=>void;selectedPhoto?:string}}){
  const field=(key:'title'|'body')=>{const path=pathFor(page,key),text=page[key],base=key==='title'?36:24;return edit?<DirectObjectText text={text} path={path} view={edit.view} file={edit.file} readonly={edit.readonly} tag={key==='title'?'h1':'div'} label={key==='title'?'网页幻灯片标题':'网页幻灯片正文'} runs={body?.textRuns?.[path]} align={body?.paragraphAlign?.[path]} base={base} active={edit.active===path}/>:key==='title'?<h1><RichObjectText text={text} runs={body?.textRuns?.[path]} align={body?.paragraphAlign?.[path]} base={base}/></h1>:<div><RichObjectText text={text} runs={body?.textRuns?.[path]} align={body?.paragraphAlign?.[path]}/></div>;};
- return <article className={'web-deck-page layout-'+page.layout} style={{background:page.background,color:page.textColor,'--deck-primary':page.primary} as React.CSSProperties}><header><span className="deck-eyebrow">PRODUCT PRESENTATION</span>{field('title')}</header><div className="deck-page-content">{!!page.photoIds.length&&<div className="deck-photos">{page.photoIds.map(id=><div key={id} className={'deck-photo-object'+(edit?.selectedPhoto===id?' selected':'')} onClick={()=>edit?.photo(id)}><DeckImage id={id} style={{objectFit:page.photoFits?.[id]||page.imageFit}} alt={uiText("用户提供的照片")}/></div>)}</div>}<div className="deck-copy">{field('body')}</div></div></article>;
+ return <WebDeckPageFrame page={page} title={field('title')} body={field('body')} photos={page.photoIds.map(id=><div key={id} className={'deck-photo-object'+(edit?.selectedPhoto===id?' selected':'')} onClick={()=>edit?.photo(id)}><DeckImage id={id} style={{objectFit:page.photoFits?.[id]||page.imageFit}} alt={uiText("用户提供的照片")}/></div>)}/>;
 }
 export function WebDeckEditor({file,view}:{file:string;view:string}){
  const {state:s}=useRuntime(),v=findFileView(s,view)!,body=fileBody(s,v,file),deck=body.webDeck!,o=objectContext(s);

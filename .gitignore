@@ -35,3 +35,7 @@ __pycache__/
 # Local source handoff archives (never public source)
 /Input-Agent-*.zip
 /Input-Agent-*.sha256
+
+# Worktree dependency link (also ignore the symlink itself).
+/node_modules
+/.playwright-cli/

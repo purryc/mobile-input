@@ -1,0 +1,346 @@
+# Xiaoyi Work standalone Web demo
+
+Production demo (no viewer login): https://xiaoyi-work.vercel.app
+
+A self-contained Web project for one computer or a Vercel deployment. It includes the Xiaoyi Work interface, bilingual multimodal composer, local draft storage, contextual prompt polishing, Gemini generation service, result editor, assets, tests and deployment configuration. No phone/tablet app, Mac bridge or original Mobile Input checkout is required.
+
+## 1. Requirements
+
+- Node.js 22 or newer and npm. Check with `node --version` and `npm --version`.
+- Current desktop Google Chrome, an internet connection, and a microphone for voice input. Camera is optional.
+- Your own Gemini API key for actual generation and prompt polishing. The UI, typed input, widgets and local drafts work without a key. Browser speech uses Chrome's online recognition service, not the Gemini key.
+- Unzip the archive, then open a terminal **inside the `workbuddy-web-demo` folder containing `package.json`**. All commands below run there.
+
+## 2. Install and open
+
+```sh
+npm ci
+npm run dev:workbuddy-demo
+```
+
+Open **http://127.0.0.1:5198** in Chrome. Keep the terminal running; press Ctrl+C to stop. If the port is occupied:
+
+```sh
+npm run dev:workbuddy-demo -- --port 5208
+```
+
+Then open http://127.0.0.1:5208. Use the same hostname and port when returning: browser storage is separate for each address. Do not double-click an HTML file.
+
+## 3. Configure Gemini privately
+
+Create a key for your own project in [Google AI Studio](https://aistudio.google.com/apikey). Your account/project must have access and sufficient quota for the configured text and image models. Follow Google's current [API-key instructions](https://ai.google.dev/gemini-api/docs/api-key).
+
+### Recommended local setup: private key file
+
+1. Stop the app if it is running.
+2. Create `artifacts/workbuddy-demo/` inside this extracted project.
+3. With a plain-text editor, create a file named **`google-api-key` with no extension** inside that folder. Paste only your actual Gemini key, without quotes, `GOOGLE_API_KEY=`, Markdown or extra text. Save as plain text. Do not use a rich-text document.
+4. On macOS/Linux, restrict the file to your account:
+
+   ```sh
+   chmod 600 artifacts/workbuddy-demo/google-api-key
+   ```
+
+   On Windows, keep the file in your own private user directory and restrict its file permissions to your account.
+5. Start again with `npm run dev:workbuddy-demo`.
+6. Open http://127.0.0.1:5198/api/workbuddy-demo/status. `configured: true` means a key was found; it does **not** validate model access or quota. Send a small fictional request to test generation using your account.
+
+The key file and the entire `artifacts/` directory are ignored by Git and excluded from the source handoff. Never distribute that file or put a key in frontend code, a `VITE_` variable, a URL, a screenshot or a new ZIP.
+
+### Alternative: environment variables
+
+You can supply `GOOGLE_API_KEY` through your terminal's private environment or secret manager. It takes precedence over files. Alternatively, set `WORKBUDDY_DEMO_KEY_FILE` to the absolute path of a private key file outside the project.
+
+macOS/Linux, using a file outside the project:
+
+```sh
+export WORKBUDDY_DEMO_KEY_FILE="$HOME/.config/workbuddy/google-api-key"
+npm run dev:workbuddy-demo
+```
+
+Windows PowerShell, after creating the private file:
+
+```powershell
+$env:WORKBUDDY_DEMO_KEY_FILE = "$env:USERPROFILE\.config\workbuddy\google-api-key"
+npm run dev:workbuddy-demo
+```
+
+This service reads the process environment and the documented private key file. A `.env` file alone is **not** the documented local configuration method.
+
+| Variable | Purpose / project default |
+| --- | --- |
+| `GOOGLE_API_KEY` | Server-only Gemini key; first priority |
+| `WORKBUDDY_DEMO_KEY_FILE` | Optional private key-file path; otherwise `artifacts/workbuddy-demo/google-api-key` |
+| `INPUT_AGENT_DECK_MODEL` | Text/planning/slides model; default `gemini-3.8-flash` |
+| `WORKBUDDY_DEMO_IMAGE_MODEL` | Image model; default `gemini-3.1-flash-image` |
+
+These are this project's defaults, not a promise of access on every account. If a model is unavailable, set an accessible compatible Gemini model and restart/redeploy. Text models must support structured JSON generation; image models must support returning image bytes. Never put a secret into any variable prefixed `VITE_`.
+
+## 4. Language and demo walkthrough
+
+Open the **gear at the top right**, then select **English** or **中文 · 普通话**. This changes interface labels and the language used for the next voice session (English `en-US`, Mandarin `zh-CN`). The preference persists on this browser. Switching ends active dictation and preserves the text already received. It never translates existing drafts, filenames or results.
+
+Typing and pasting accept both languages regardless of the interface setting. English examples:
+
+> Create a five-minute product presentation. Use a red theme, a gray background and black text. Attach my product document, add product photos, and let me sketch the layout.
+
+> Write an English product launch plan using the attached reference file.
+
+> Generate an image of a minimalist green product poster with English text.
+
+- Click the microphone to start; click again to stop. Allow microphone access. Stopping does not send.
+- After you stop recording and the text settles for about 400 ms, relevant **AI polish** chips appear inside the input box above its bottom buttons. Stable typing, pasting and selection also qualify. **Organize** and **Make concise** depend on the content; short or parameter-only requests may show neither.
+- Click a polish chip to rewrite only the selected text (or the full prompt if nothing is selected). It uses the same server-side Gemini key and text model as generation; no separate setup is needed. Parameters, manual values, negative constraints and attachments are preserved. Polishing never sends the task or generates an artifact.
+- While a rewrite is running, click **Stop** inside its active chip to cancel it and keep the original. There is no separate cancel row. After a successful changed rewrite, the polish title and suggestion chips disappear; only the small **Restore original** arrow remains at the right. It restores the latest rewrite until you edit the text or parameters again. Restoring or editing makes relevant suggestions eligible again; moving the caret alone keeps the completed state. Editing, moving the selection, restarting voice, changing drafts or hiding the page cancels a pending polish. Failures preserve your text and offer retry; unchanged output is reported honestly. Select at most 4,000 characters per polish request.
+- Color, duration, file, reference-image and layout phrases become inline chips. Click a chip to toggle its panel below it. Recognition does not open panels automatically.
+- Colors bind independently to theme, background and text, and may be scoped to a page, e.g. `On slide 2, use a blue background`. Durations accept explicit 1–60 minute values; ambiguous ranges remain prose.
+- `add product photos` opens image input. `generate an image`, `draw a chart` and `create a graph` do not imply selecting reference photos.
+- Select local files, choose images or capture a camera photo. Images and sketches enter attachments only after explicit confirmation. Unconfirmed material blocks Send until confirmed or removed.
+- Send freezes the request and confirmed attachments into the task history, clears the bottom prompt input box for clean follow-up prompts, and opens the task/results view. Requests can produce editable Web slides, Markdown documents and/or actual generated images. Output language follows the request; ask explicitly for English if your input mixes languages.
+- Stop cancels generation. Retry is explicit. Refresh preserves saved drafts/results and marks interrupted generation; it never resubmits automatically.
+- Slides export as **HTML**, documents as **Markdown**, and images in their returned image format. This demo does not export native `.pptx` or `.docx` files.
+
+## 5. Run a local production build
+
+```sh
+npm run build:workbuddy-demo
+npm run preview:workbuddy-demo
+```
+
+Open http://127.0.0.1:5198. The preview command includes the local generation API and uses the same secret configuration. Keep the process running. Files are built under `artifacts/workbuddy-demo/dist/`. Serving only that directory as static files will display the UI but will **not** provide generation. This local server binds to loopback; use the Vercel route below to share with other people.
+
+## 6. Deploy your own public Vercel app
+
+You need your own Vercel account/project and Gemini key. The recipient does not need access to the original author's account. `vercel.json` already specifies install/build/output settings and the serverless API adapter.
+
+From the extracted folder:
+
+```sh
+npx vercel login
+npx vercel link
+```
+
+Choose **your own scope** and create or link **your own project**. Use this extracted folder as the project root. Do not link to the author's existing project. No Git push is required.
+
+Add your key using Vercel's interactive secret prompt:
+
+```sh
+npx vercel env add GOOGLE_API_KEY production
+```
+
+Paste the key only at the prompt. Alternatively, use the project's **Settings → Environment Variables**, add `GOOGLE_API_KEY`, select Production and mark it sensitive/secret where available. Add the optional model variables there if needed. To use preview deployments too, add the corresponding variables to Preview separately. Local private files are not uploaded and do not configure Vercel.
+
+Deploy:
+
+```sh
+npx vercel deploy --prod
+```
+
+Environment-variable changes require a new deployment. See Vercel's [environment-variable documentation](https://vercel.com/docs/environment-variables) and [deploy command](https://vercel.com/docs/cli/deploy).
+
+For a demo that opens **without viewer login**, open project **Settings → Deployment Protection** and disable **Vercel Authentication** for the deployment you intend to share. Do not enable password protection or an application login gate. Share the production domain shown after deployment. Verify it in a private/incognito window without a Vercel session: both `/` and `/api/workbuddy-demo/status` must open without a login redirect. The status endpoint never returns the key.
+
+The server keeps the key private, but public visitors can trigger generation against your configured quota when they press Send. Monitor usage in your own Google project. This demo has per-request limits; it is not a multi-user billing/access-control system.
+
+## 7. Storage, attachments and troubleshooting
+
+- Drafts, pending/confirmed materials and results stay in browser IndexedDB `workbuddy-standalone-demo-v1`. They are not shared across computers, browsers, origins or incognito sessions. The server does not persist generated documents.
+- Clear demo affects only this demo's local data. Wait for the saved indicator before closing.
+- Supported generation materials: PDF, TXT, Markdown, PNG, JPEG and WebP; up to 12 files. Local limits: 8 MB per file, 24 MB total. Hosted requests should stay under about 3 MB total due to encoded request limits.
+- If microphone/camera is denied, allow it via Chrome's address-bar site controls and retry. Use HTTPS for a hosted deployment; localhost is supported. Online speech availability depends on browser/network service and is not promised offline.
+- `configured: false`: check the key-file name/path or server environment, then restart. `configured: true` plus a generation error: check model access, quota, billing and internet access. Status alone does not test the API.
+- Port busy: choose another port as shown above. A blank page or generation unavailable after static hosting: run the documented local server or deploy the included Vercel API.
+- If an attachment blocks sending, confirm/remove pending images or confirm/clear sketch strokes. Unsupported file formats must be converted before generation.
+
+## 8. Verification and package contents
+
+```sh
+npm run check
+npm test
+npm run test:workbuddy-demo:service
+npm run test:workbuddy-demo
+npm run build:workbuddy-demo
+```
+
+Browser regression tests use an installed Google Chrome. They mock speech, camera and model calls; they do not spend Gemini quota or establish real microphone recognition/model quality.
+
+- `apps/web/src/`: standalone entry, shared composer/widgets, result views, styles and localization.
+- `apps/web/public/`: required icons and visual assets.
+- `packages/core/`: required shared types, parsers, speech/state and generation contracts.
+- `scripts/`: local generation service, service test and source-packaging script.
+- `api/`: Vercel generation/status adapter.
+- `tests/`: standalone browser regressions.
+- `docs/`: this English guide and Chinese engineering record.
+- `package.json`, `package-lock.json`, TypeScript/Vite/Playwright/Vercel configuration: reproducible install/build/run setup.
+- `SOURCE-MANIFEST.json`, `PACKAGE-MANIFEST.json`: source provenance and per-file checksums.
+
+The ZIP contains the complete standalone source dependency closure. Node.js, downloaded `node_modules`, private keys, user drafts/photos, Git history, build caches, device binaries and other apps are intentionally excluded. `npm ci` installs pinned dependencies; the original repository is not needed.
+
+## Visual reference and compatibility
+
+![Xiaoyi Work desktop demo](docs/xiaoyi-work-preview.png)
+
+The screenshot shows the Chinese home screen at 1440 × 960. Use the top-right settings gear to switch the interface and speech language to English.
+
+The interface follows the client shown on [Huawei Xiaoyi Work](https://xiaoyi.huawei.com/work): a pale-gray sidebar, pure-white (`#ffffff`) workspace that blends seamlessly with the centered official mascot, and three supported creation shortcuts (with the presentation shortcut pre-populated with a rich multi-control product launch sample prompt). The result screen retains conversation and editable artifact panes. Screenshots from older WorkBuddy releases no longer represent this appearance. Chinese uses 小艺Work; English uses Xiaoyi Work.
+
+The official logo and client poster are bundled locally under `apps/web/public/assets/xiaoyi-work/`; `sources.json` records the source URLs and SHA-256 hashes. The mascot is framed from the unmodified official poster using CSS. These brand assets belong to Huawei; this demo does not connect to or represent the official Xiaoyi service. No runtime request to Huawei's image servers is required.
+
+Existing command names, API paths, database name and language-preference key intentionally retain `workbuddy` for compatibility. Existing drafts, attachments, authored colors and generated outputs are preserved.
+
+### Inline polish preview
+
+![Stop inside the active polish chip](docs/xiaoyi-work-polish.png)
+
+![Completed polish shows only Restore original](docs/xiaoyi-work-polish-complete.png)
+
+The same row is available in the home and result composers. The UI language changes labels, not authored text; polishing preserves the language of the supplied text. The new `/api/workbuddy-demo/polish` route is included in both the local server and Vercel adapter. Refresh retains the rewritten draft, but not an in-flight request or the transient undo action.
+
+## Dynamic input controls and mixed recommendations
+
+The standalone demo now registers 14 input controls: duration, color, font,
+palette, reference file, image, document scanner, sketch, expert, skills,
+connectors, output formats, contextual polish, and screenshot/screen recording.
+
+**Explicit intent produces an ordinary light-gray chip**, even when the user has
+not supplied its value. A vague but relevant intent can produce a concrete
+recommendation. While preparing, soft luminous particles materialize and converge;
+on reveal, they coalesce into the recommended chip with a soft blue/violet/pink border.
+They do not continuously pulse. Reduced-motion preferences disable the animation. Opening a chip does not change its
+provenance; choosing a replacement makes it a manual chip. Removing a recommendation
+suppresses it for the same intent in that draft, including after a refresh.
+
+Recommendations use deterministic Chinese/English rules, not model calls. All 13
+inline types support relevant suggestions. Image, scan, sketch and screen-reference
+suggestions open material-entry tools; they do not invent attachments. Concrete
+values and available built-in file bytes are adopted by default, replaceable and
+removable. Context sources select reference knowledge; delivery/collaboration
+instructions do not select a source automatically.
+
+Explicit chips replace the value or material noun immediately. New recommendations
+wait while the microphone is active. After recording stops and text remains stable
+for 1,000 ms, each candidate loads for 400 ms; starts are staggered by 220 ms in
+source-text order. Each suggestion is adopted only when it becomes visible.
+Typing, restarting voice, switching drafts or sending cancels the unfinished queue.
+Previously visible valid recommendations remain. Suggested chips sit directly
+after their supporting phrase. The original text remains editable and is copied as
+source text, without UI recommendation labels. The frozen Send snapshot includes
+selected values and confirmed materials, while the editable draft stays intact.
+
+Examples:
+
+- `Use a gray background and black text` → ordinary color chips.
+- `Choose an expert` → ordinary expert selector with no invented selection.
+- `Make it feel warm and natural` → recommended palette.
+- `Use relevant references` → a bundled, fictional product-brief file with actual bytes.
+- `Get professional help to make it polished and use connected reference sources`
+  → recommended expert, skill and ima context source, labeled as demonstration choices.
+- `A brief oral report` → a suggested 10-minute duration. A short written report does not imply timing.
+
+Capability lists reuse common WorkBuddy entries. They do not connect accounts,
+install tools or execute an Agent. Output formats are preferences only; the existing
+slide, document and image generator remains unchanged and does not implement all
+seven selectable output-format constraints (not seven implemented native exporters). Explicit colors always take priority over palette mood.
+
+### Run and call every control
+
+```bash
+npm ci
+npm run demo:controls -- --list
+npm run demo:controls -- --all --language en
+npm run demo:controls -- --control scanner --language en --port 5199
+```
+
+The launcher opens the Web host with a separate IndexedDB database from normal drafts. It does not start capture,
+polishing or generation automatically. The three example buttons—Explicit intent,
+Suggested intent and Mixed intent—each create a new independent draft. The approved
+Chinese sample text stays unchanged when the interface language changes. Valid identifiers are printed by `--list`. Use `--language zh` for Chinese.
+Open Settings and turn on **Show debug controls** to display the index in the
+current view. It is off by default, and the browser remembers your choice. The
+launcher uses `debug=1` to opt in on a fresh browser profile.
+
+The typed entry point is `packages/core/workbuddy-demo-controls.ts`:
+
+```ts
+import {
+  listControls, openControl, recommendControls,
+  type DemoControlBinding, type ControlEvent,
+} from './packages/core/workbuddy-demo-controls';
+
+// Use inside your browser UI host. Opening returns a binding and invokes your host.
+const controls = listControls();
+const openPanel = (binding: DemoControlBinding) => {
+  // Render the registered component in your owner-bound UI.
+  console.log(binding.kind, binding.value);
+};
+for (const { kind } of controls) {
+  openControl(kind, { owner: 'example-draft', text: '', open: openPanel });
+}
+const suggestions = recommendControls('Make it feel warm and natural', {
+  previous: [], dismissed: [],
+});
+// Components emit change / confirm / remove / close events. Validate event.owner
+// against the owning draft before applying changes; task Send stays separate.
+const receive = (event: ControlEvent) => console.log(event.type, event.owner);
+```
+
+`DemoControlChoices`, `ControlsIndex` and `DemoCapturePanel` are reusable React views.
+The Web integration provides the actual host adapters for original color/time/image/
+sketch controls and contextual polish. No native phone protocol extension is required.
+
+### Camera scanning and screen capture
+
+Screenshots and recordings are user-supplied **prompt reference materials**:
+screenshots convey visual style; recordings convey interaction flows and transitions.
+They do not ask an Agent to operate the referenced application or create a recording.
+See [three complete Chinese test scenarios](workbuddy-demo-scenarios.zh.md) for
+explicit, recommendation-focused and mixed inputs covering all 14 control types.
+
+Use desktop Chrome on localhost or HTTPS. For document scanning, click the button to request
+camera permission; it supports multiple pages, manual capture, crop, retake and explicit confirmation, and does not perform OCR. For screenshot and screen recording, clicking **Screenshot** or **Recording** collapses the popover into a Windows Snipping Tool-style **Top Floating Capture Bar** docked at the top center of the screen so you can arrange your windows first; clicking **Capture** from the top bar invokes native macOS system cross-window capture (`/usr/sbin/screencapture -i`) or direct region capture, while **Start recording** supports cross-window screen recording.
+
+Screen recording requires separate Start and Stop clicks, records no audio, and
+stops at 60 seconds or approximately 64 MiB. Stopping, closing, hiding the page or
+switching away releases streams. Captured bytes stay with their original draft;
+closing never confirms them. Unconfirmed captures must be confirmed or removed
+before Send. Confirmed screenshots/scans enter the existing image-material pipeline.
+Videos can be saved and played in their original draft. Send asks you to remove
+the recording before generation because the existing generator does not process
+video; the clip is never silently discarded or uploaded. Browser permissions and OS restrictions still apply.
+
+### Development and verification
+
+Codex implements and integrates this revision; Claude CLI reviews architecture and
+code read-only. Gemini CLI is not used for this development. The existing Gemini API
+is still used for explicit polishing/generation, with the server-only key setup
+above. Automated control tests use local fixtures and simulated media streams;
+these are separate evidence from physical camera and screen-sharing acceptance.
+
+```bash
+npm run check
+npm test
+npm run test:workbuddy-demo:service
+npm run test:workbuddy-demo
+npm run build:workbuddy-demo
+```
+
+### Compact material cards and desktop color controls
+
+Confirmed files, images, scans, sketches, screenshots and recordings share one
+compact attachment strip in both editable composers. Recordings show a thumbnail
+and play mark; clicking opens a separate preview. Capture tools retain their large
+review views and explicit confirmation. Original material types and ownership stay
+unchanged. Desktop color presets follow the actual selected color; black, white and
+gray use neutral presets. Opening a color panel never changes its value.
+
+A workspace is suggested as HTML only when the request asks to create an interactive
+workspace with filtering or viewing behavior. A written document that merely mentions
+a workspace does not select HTML. Requests to analyze feedback suggest Data Analysis.
+
+## Release references
+
+See [Implementation specification](docs/xiaoyi-work-specification.md) and [Engineering handoff](docs/xiaoyi-work-handoff.en.md) in the extracted archive. These record actual behavior and known limits. After renaming a Vercel project or its default production domain, redeploy so the server receives the new VERCEL_PROJECT_PRODUCTION_URL. A static alias change alone can leave the API rejecting the new host. Keep the same-origin check enabled.
+
+## Interactive widget library
+
+Open [the widget library](http://127.0.0.1:5198/widget-library.html) after starting the demo. The fourteen examples use the desktop widget components with isolated preview state. See the [English Gemini UI handoff](docs/gemini-ui-handoff.en.md) for the component map, direct links and review commands.

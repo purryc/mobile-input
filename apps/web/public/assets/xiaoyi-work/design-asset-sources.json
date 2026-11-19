@@ -1,0 +1,218 @@
+{
+  "fileKey": "ApFLno64NcMoA17MiPFfZh",
+  "date": "2026-11-11",
+  "assets": [
+    {
+      "file": "design-format-docx.png",
+      "nodeId": "2670:132040",
+      "sha256": "09ddec202bccfd7e2723d1a2d184a8fc15688ecec405dc1fd6b63a0621103a0a",
+      "bytes": 704
+    },
+    {
+      "file": "design-format-xlsx.png",
+      "nodeId": "2670:132043",
+      "sha256": "8dac58ada3f584e6ab7c4ec7c8c4137cc245256222d12bd0b1d2943eb62b7218",
+      "bytes": 693
+    },
+    {
+      "file": "design-format-pptx.png",
+      "nodeId": "2670:132046",
+      "sha256": "09766bb834dc4ea0b1273591cdda9b514940f8b2cc3c53c60cda88630f74150c",
+      "bytes": 617
+    },
+    {
+      "file": "design-format-pdf.png",
+      "nodeId": "2670:132049",
+      "sha256": "d1531aff66cec2ad23daad7b51b5c3c30a46cec4ac9b649c585af2bccc91ca9b",
+      "bytes": 603
+    },
+    {
+      "file": "design-format-md.png",
+      "nodeId": "2670:132052",
+      "sha256": "17f5aa747a55360e61bf46190f422b5f4df4641214baa31ed8187f905cea766b",
+      "bytes": 555
+    },
+    {
+      "file": "design-format-csv.png",
+      "nodeId": "2670:132055",
+      "sha256": "5f2c5704604cacdafec1c5666e842ba289161be05766f070935956350a4cea98",
+      "bytes": 728
+    },
+    {
+      "file": "design-format-html.png",
+      "nodeId": "2670:132058",
+      "sha256": "cdcded6aa09a822441d9bb28dca69d934a1eab2390ed336301cf664d8de16074",
+      "bytes": 592
+    },
+    {
+      "file": "design-skill-ppt.png",
+      "nodeId": "2605:116567",
+      "sha256": "d64d064a9c28951639c5c06fb65274fb2ad80555ee938e0255e53718eab3dc7a",
+      "bytes": 4949
+    },
+    {
+      "file": "design-skill-word.png",
+      "nodeId": "2605:116567",
+      "sha256": "c570c8403270a216964f81288aaccd820901409b213d3a780d9eb4ae8cdd9282",
+      "bytes": 5552
+    },
+    {
+      "file": "design-connector-tencent.png",
+      "nodeId": "2605:117152",
+      "sha256": "4b0f82d6bb5b71368e9925bd5967f7dc1888551ff5263a6b40ef58c6c4ddf379",
+      "bytes": 6636
+    },
+    {
+      "file": "design-connector-feishu.png",
+      "nodeId": "2605:117152",
+      "sha256": "e4c0a8450c9eb10679b06cb4ff57ccc718d4b25eb09d18392fa69060bac00a48",
+      "bytes": 5192
+    },
+    {
+      "file": "design-connector-ima.png",
+      "nodeId": "2605:117152",
+      "sha256": "f427fe396dff93252569f6998994baee030900b3219a7d3db6fcf31b3f01aa28",
+      "bytes": 12309
+    },
+    {
+      "file": "design-connector-wecom.png",
+      "nodeId": "2605:117152",
+      "sha256": "a5aecce5bffb7a03423a5a6c3dcef37fc94068e81ff0dc01a40beaffc1024600",
+      "bytes": 5159
+    },
+    {
+      "file": "design-inline-duration.svg",
+      "nodeId": "2609:121580",
+      "sha256": "6360e50471ea7f1ada636c7a6c8a1f38a4fba67792a3ba60741f99858e3d986d",
+      "bytes": 692
+    },
+    {
+      "file": "design-inline-document.svg",
+      "nodeId": "2609:121580",
+      "sha256": "9c0847082c339ab318f3f0bec71e5cdb953646dd5de8af3655909122dab62350",
+      "bytes": 634
+    },
+    {
+      "file": "design-inline-photo.svg",
+      "nodeId": "2609:121580",
+      "sha256": "038271310a0115098c6ee6dd4a10709741399d5b1f6a65f51d25631ca76d3fa2",
+      "bytes": 912
+    },
+    {
+      "file": "design-inline-scanner.svg",
+      "nodeId": "2609:121580",
+      "sha256": "538d16146447350309573ed1c91b6cc8c83323e4ac6928ff9e67019916c4bb6e",
+      "bytes": 1680
+    },
+    {
+      "file": "design-inline-palette.svg",
+      "nodeId": "2609:121580",
+      "sha256": "79795a09c82525befaa2d0f9b635f38fd6345e86c7c701a9ff7e265a494c276a",
+      "bytes": 2263
+    },
+    {
+      "file": "design-inline-sparkles.svg",
+      "nodeId": "2609:121580",
+      "sha256": "877acc26d6981e670a32a5251816a10ff8fe108d0fb3306ef6dfc131fd542997",
+      "bytes": 570
+    },
+    {
+      "file": "design-inline-font.svg",
+      "nodeId": "2609:121580",
+      "sha256": "1c91a7eef540ceb39e08db1e8b9932460263aab5876edefabdfa3293e338e94d",
+      "bytes": 571
+    },
+    {
+      "file": "design-inline-sketch.svg",
+      "nodeId": "2609:121580",
+      "sha256": "9e418ec4c1b96d9b813fd711e81408ca833a78426703e879a6ed78ac913466ac",
+      "bytes": 1110
+    },
+    {
+      "file": "design-inline-expert.svg",
+      "nodeId": "2609:121580",
+      "sha256": "d87f203e219d67dc301a0269a17901b1096a9928001ffbc5a8c89b62111469bf",
+      "bytes": 732
+    },
+    {
+      "file": "design-inline-skills.svg",
+      "nodeId": "2609:121580",
+      "sha256": "671de3e996a044314ce62bbda5136dd3f9ab7738a23b1ee9ee925045ff8f08da",
+      "bytes": 2106
+    },
+    {
+      "file": "design-inline-connectors.svg",
+      "nodeId": "2609:121580",
+      "sha256": "eb87014ceedd658e3a381bbd6eeefb945c77b55340a95936d71d2d5cb0a32db4",
+      "bytes": 1366
+    },
+    {
+      "file": "design-inline-formats.svg",
+      "nodeId": "2609:121580",
+      "sha256": "b40f53191a42522995271e90faf368b2cdd7575183e835ccc95311424322ce3e",
+      "bytes": 1328
+    },
+    {
+      "file": "design-inline-capture.svg",
+      "nodeId": "2609:121580",
+      "sha256": "670a9d769b247901e03a33e241d86c4266e0129435cb353465ff8e6aca86ca9d",
+      "bytes": 656
+    },
+    {
+      "file": "design-expert-design.png",
+      "source": "Original WorkBuddy artwork; cross-platform-2026-11-11/media/expert-design.png",
+      "usage": "Decorative original artwork reused for existing demo option; not a live capability identity",
+      "sha256": "025cc4d59bcdf338466fcc340d349814e087f6ab57899502c2b9083c936f7f74",
+      "bytes": 5671
+    },
+    {
+      "file": "design-expert-document.png",
+      "source": "Original WorkBuddy artwork; cross-platform-2026-11-11/media/expert-document.png",
+      "usage": "Decorative original artwork reused for existing demo option; not a live capability identity",
+      "sha256": "a0595b77c39a96aac6470d27659b4518dae0b30189d45f9d39afad3ec186235d",
+      "bytes": 5312
+    },
+    {
+      "file": "design-expert-workspace.png",
+      "source": "Original WorkBuddy artwork; cross-platform-2026-11-11/media/expert-workspace.png",
+      "usage": "Decorative original artwork reused for existing demo option; not a live capability identity",
+      "sha256": "e5c34426be30a1c161cf4ccaeef64f74ff5fc4573f9e21897f7bb17ee3c3cfe1",
+      "bytes": 21537
+    },
+    {
+      "file": "design-expert-research.png",
+      "source": "Original WorkBuddy artwork; cross-platform-2026-11-11/media/expert-research.png",
+      "usage": "Decorative original artwork reused for existing demo option; not a live capability identity",
+      "sha256": "076b5497d074e1e95e9cf0f57c82a710de71aa18e665a22bde9c22356f3a8fde",
+      "bytes": 17946
+    },
+    {
+      "file": "design-expert-senior.png",
+      "source": "Original WorkBuddy artwork; cross-platform-2026-11-11/media/expert-senior.png",
+      "usage": "Decorative original artwork reused for existing demo option; not a live capability identity",
+      "sha256": "009180609fdf238c36471241df2ce53018b6d2ac43c66e63c2415398f73e71b0",
+      "bytes": 20871
+    },
+    {
+      "file": "design-expert-fullstack.png",
+      "source": "Original WorkBuddy artwork; cross-platform-2026-11-11/media/expert-fullstack.png",
+      "usage": "Decorative original artwork reused for existing demo option; not a live capability identity",
+      "sha256": "71ff1774dee119f1382080f8fe6eb624db73a9e33aa8917d46344f9cb44803e9",
+      "bytes": 18519
+    },
+    {
+      "file": "design-skill-excel.png",
+      "source": "Original WorkBuddy artwork; cross-platform-2026-11-11/media/skill-excel.png",
+      "usage": "Decorative original artwork reused for existing demo option; not a live capability identity",
+      "sha256": "62bf236620450a0a4d9edb26631d206c971d73ea90c61b1e35c164b4532f7103",
+      "bytes": 4766
+    },
+    {
+      "file": "design-skill-web.png",
+      "source": "Original WorkBuddy artwork; cross-platform-2026-11-11/media/skill-web.png",
+      "usage": "Decorative original artwork reused for existing demo option; not a live capability identity",
+      "sha256": "1f2756674b35a153b1ba0759bb28152ad905d1539728cb44575840828b834011",
+      "bytes": 5291
+    }
+  ]
+}

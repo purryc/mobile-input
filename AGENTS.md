@@ -1,3 +1,9 @@
+# XiaoYi Work Web prototype integration
+
+- Merge codex/workbuddy-web-demo at 2c7c428 into main while keeping its ref and this repository's current Design System and published input-controls source intact.
+- The prototype owns packages/workbuddy-demo-ui and its Web-only sentence composer. Published library changes and standalone prototype updates remain separately reviewed.
+- Verify standalone build and fixture-based behavior, the clean source handoff, and existing component-library contracts before pushing only main.
+
 # Publish Xiaoyi Work input controls 1.1.0
 
 - User authorizes this GitHub source and Release update and the existing manual Design System Pages publication. Fast-forward only the reviewed library commit from this worktree, and preserve the original main worktree's local changes.
