@@ -193,3 +193,7 @@ The earlier developer playground remains at `/` with its original state tools.
 [GenUI specification](https://www.figma.com/slides/ANhVxJPGEgYRcISFmQmgyg),
 including all 325 bilingual intent examples. It can be regenerated with
 `python3 scripts/extract-intent-spec.py /path/to/alignment-final-export-text.json`.
+
+### 1.1.1 compatibility API
+
+ScannerWidget and ScreenCaptureWidget accept an optional `workspace: WorkspaceCaptureAdapter`. Use it only for a host with an existing workspace canvas or system picker. The host draws a requested region and can return a screenshot Blob, a recording request, cancellation or unavailability. Respect the supplied AbortSignal when opening the system picker. Without this option the 1.1 browser stream adapter remains the default. A host may also provide `InlineChipToken.removeLabel` for a localized dismissal action.

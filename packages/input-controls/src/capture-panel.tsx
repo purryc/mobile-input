@@ -200,7 +200,10 @@ export function CaptureTile({
 
 
 import { browserCaptureAdapter, stopMedia, waitForFrame, type CaptureAdapter } from './capture-adapter';
+import { WorkspaceCaptureSession } from "./workspace-capture-session";
+import type { WorkspaceCaptureAdapter } from "./capture-adapter";
 export interface CapturePanelProps {
+  workspace?: WorkspaceCaptureAdapter;
   ownerId?: string;
   mode: 'scanner' | 'capture';
   items: DemoCapture[];
@@ -212,7 +215,10 @@ export interface CapturePanelProps {
   onBusy?: (busy: boolean) => void;
 }
 /** Acquisition state is local. Pending and confirmed bytes remain controlled by the host. */
-export function CapturePanel(props: CapturePanelProps) { return <CaptureSession key={(props.ownerId||'')+':'+props.mode} {...props}/>; }
+export function CapturePanel(props: CapturePanelProps) { const key = (props.ownerId ?? '') + ':' + props.mode;
+  return props.workspace
+    ? <WorkspaceCaptureSession key={key} {...props} workspace={props.workspace}/>
+    : <CaptureSession key={key} {...props}/>; }
 function CaptureSession({mode, items, language, adapter = browserCaptureAdapter, onAdd, onRemove, onConfirm, onBusy}: CapturePanelProps) {
   const t = (zh: string, en: string) => language === 'en' ? en : zh;
   const [phase, setPhase] = useState<'idle'|'loading'|'preview'|'recording'>('idle');

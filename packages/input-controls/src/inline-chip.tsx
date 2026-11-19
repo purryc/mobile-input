@@ -20,6 +20,7 @@ export interface InlineChipToken {
   iconPath?: string;
   recommendationIconSrc?: string;
   removable?: boolean;
+  removeLabel?: string;
   preparing?: boolean;
   prefix?: string;
   suffix?: string;
@@ -200,8 +201,7 @@ export function renderInlineChip({
     } else remove.textContent = "×";
     remove.setAttribute(
       "aria-label",
-      (english ? "Remove " : "移除 ") +
-        token.label,
+      token.removeLabel ?? ((english ? "Remove " : "移除 ") + token.label),
     );
     remove.disabled = disabled;
     remove.onpointerdown = (e) => { if (preserveSelection) e.preventDefault(); };
