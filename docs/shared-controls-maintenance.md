@@ -13,7 +13,7 @@
 3. 小艺要跟进时，单独开应用升级提交，在根目录运行 `npm install --save-exact ./vendor/input-controls/mobile-input-controls-X.Y.Z.tgz`。随提交保存压缩包、`package.json` 和 `package-lock.json`，通过根目录 `npm run check`、`npm test`、`npm run test:workbuddy-demo:service`、`npm run test:workbuddy-demo`、`npm run build:workbuddy-demo`。再按产品自己的流程发布。回退这个升级提交即可恢复原依赖及校验值。
 4. 产品自己的改动直接进对应产品，例如“简短的演讲报告”何时出现 10 分钟推荐属于小艺的规则。Mobile Input 本轮继续使用现有控件和协议；将来接入时也单独锁版本。
 
-小艺当前锁定 **1.7.0**，npm 压缩包与控件库提交 `933901e` 的交付包一致。仓库里的同版本源码可供开发与对照。应用从安装包加载代码和桌面样式。
+小艺当前锁定 **1.7.1**，npm 压缩包与控件库提交 `6c5ac88` 的交付包一致。仓库里的同版本源码可供开发与对照。应用从安装包加载代码和桌面样式。
 
 ## 产品边界
 

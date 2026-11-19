@@ -1,6 +1,6 @@
 # Xiaoyi shared-controls adoption
 
-- Consume the exact 1.7.0 library archive built at 933901e. Open an explicitly invoked camera chip in Photo or Document Scan mode, adopt only confirmed material and keep its removable filename in the originating draft. Passive previews must wait for user interaction. Keep the workspace adapter for screen capture.
+- Consume the exact 1.7.1 library archive built at 6c5ac88. Open an explicitly invoked camera chip in Photo or Document Scan mode, adopt only confirmed material and keep its removable filename in the originating draft. Passive previews must wait for user interaction. Keep the workspace adapter for screen capture.
 
 - The 13 shared React widgets, styles and assets are authored in packages/input-controls. Xiaoyi consumes a pinned installable package. Its draft, capture services, recommendation rules, dictation and polish belong to the Web host.
 - Mobile Input retains its current UI and device contracts. Record future integration points in docs/shared-controls-maintenance.md. Keep standalone builds and tests independent.

@@ -25,7 +25,7 @@ import type {
   ChoiceEvent as ControlEvent,
 } from "./types";
 import { useWidgetEnvironment, assetUrl } from "./environment";
-import { FontSample, SelectedFontPreview } from "./font-specimen";
+import { FontSample } from "./font-specimen";
 import { DocumentFileList } from "./document-file-list";
 const icons = {
   duration: Timer,
@@ -336,9 +336,6 @@ export function ChoiceWidget({
         </p>
       )}
       <div className="ic-demo-choice-footer">
-        {binding.kind === "font" && binding.value[0] && (
-          <SelectedFontPreview key={binding.value[0]} family={binding.value[0]} en={en}/>
-        )}
         {binding.kind === "formats" && (
           <span
             title={t(
