@@ -40,7 +40,7 @@ test('all 13 live cards share one page and expose each typed component source', 
 
   for (const kind of controlKinds) {
     const widgetCard = card(page, kind);
-    await expect(widgetCard.locator('[data-example]')).toHaveCount(3);
+    await expect(widgetCard.locator('[data-example]')).toHaveCount(kind === 'capture' ? 5 : 3);
     const selected = materials.includes(kind) ? 'object-bound' : 'default-selected';
     await expect(chip(page, kind, selected)).toHaveAccessibleDescription('已选');
     await expect(widgetCard.locator('.lite-widget-preview[open] .lite-widget-body')).toBeVisible();

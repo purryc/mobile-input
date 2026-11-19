@@ -203,6 +203,8 @@ export interface CapturePanelProps {
   ownerId?: string;
   /** Passive catalogs can wait for the first mode click before requesting a camera. */
   deferCameraUntilSelection?: boolean;
+  /** Mount on a user gesture for a resolved screen intent. Omit to show the chooser. */
+  screenIntent?: 'screenshot' | 'recording';
   initialCameraMode?: 'photo' | 'scan';
   onCancel?: () => void;
   mode: 'scanner' | 'capture';
@@ -215,11 +217,14 @@ export interface CapturePanelProps {
   onBusy?: (busy: boolean) => void;
 }
 /** Acquisition state is local. Pending and confirmed bytes remain controlled by the host. */
-export function CapturePanel(props: CapturePanelProps) { return <CaptureSession key={(props.ownerId||'')+':'+props.mode} {...props}/>; }
-function CaptureSession({mode, initialCameraMode = 'photo', deferCameraUntilSelection = false, onCancel, items, language, adapter = browserCaptureAdapter, onAdd, onRemove, onConfirm, onBusy}: CapturePanelProps) {
+export function CapturePanel(props: CapturePanelProps) {
+  const screenIntent = props.mode === 'capture' ? props.screenIntent : undefined;
+  return <CaptureSession key={[props.ownerId, props.mode, screenIntent].join(':')} {...props} screenIntent={screenIntent}/>;
+}
+function CaptureSession({mode, screenIntent, initialCameraMode = 'photo', deferCameraUntilSelection = false, onCancel, items, language, adapter = browserCaptureAdapter, onAdd, onRemove, onConfirm, onBusy}: CapturePanelProps) {
   const t = (zh: string, en: string) => language === 'en' ? en : zh;
-  const [phase, setPhase] = useState<'idle'|'loading'|'preview'|'recording'>('idle');
-  const [kind, setKind] = useState<'screenshot'|'recording'>('screenshot');
+  const [phase, setPhase] = useState<'idle'|'loading'|'preview'|'recording'>(screenIntent ? 'loading' : 'idle');
+  const [kind, setKind] = useState<'screenshot'|'recording'>(screenIntent ?? 'screenshot');
   const [cameraMode, setCameraMode] = useState(initialCameraMode);
   const [sourceRatio, setSourceRatio] = useState(16 / 9);
   const dialog = useRef<HTMLDialogElement>(null);
@@ -256,7 +261,7 @@ function CaptureSession({mode, initialCameraMode = 'photo', deferCameraUntilSele
   useEffect(() => {
     live.current = true;
     // Discard the first scheduled start when StrictMode replays this mount.
-    if (mode === 'scanner' && !deferCameraUntilSelection) {
+    if ((mode === 'capture' && screenIntent) || (mode === 'scanner' && !deferCameraUntilSelection)) {
       const mountedEpoch = epoch.current;
       queueMicrotask(() => {
         if (live.current && epoch.current === mountedEpoch) void begin();
@@ -288,7 +293,12 @@ function CaptureSession({mode, initialCameraMode = 'photo', deferCameraUntilSele
       setPhase('preview');
     } catch (cause) {
       if (current !== epoch.current || !live.current) return;
-      release();setError(mode==='scanner'?t('无法打开摄像头，请检查权限后重试。','Unable to open the camera. Check permissions and retry.'):t('无法获取屏幕画面。请检查权限后重试。','Unable to acquire the screen. Check permissions and retry.'));
+      release();
+      if (mode === 'capture' && cause instanceof DOMException && cause.name === 'InvalidStateError') {
+        setError(t('请回到此标签页，再试一次。','Return to this tab and try again.'));
+      } else {
+        setError(mode==='scanner'?t('无法打开摄像头，请检查权限后重试。','Unable to open the camera. Check permissions and retry.'):t('无法获取屏幕画面。请检查权限后重试。','Unable to acquire the screen. Check permissions and retry.'));
+      }
     }
   }
   function point(e: PointerEvent<HTMLDivElement>) {const r=e.currentTarget.getBoundingClientRect();return {x:Math.max(0,Math.min(1,(e.clientX-r.left)/r.width)),y:Math.max(0,Math.min(1,(e.clientY-r.top)/r.height))};}
@@ -337,7 +347,8 @@ function CaptureSession({mode, initialCameraMode = 'photo', deferCameraUntilSele
       instance.start(250);setPhase('recording');setElapsed(0);paint();clock.current=setInterval(()=>{setElapsed(Math.floor((performance.now()-started)/1000));if(performance.now()-started>=60000&&instance.state==='recording')instance.stop();},250);
     }catch{release();setError(t('当前浏览器无法录屏，请重试或使用支持录屏的浏览器。','Recording unavailable. Retry with a supported browser.'));}
   }
-  const visible = items.filter(item => mode === 'scanner' ? item.kind === 'scanner' : item.kind !== 'scanner');
+  const visible = items.filter(item => screenIntent ? item.kind === screenIntent
+    : mode === 'scanner' ? item.kind === 'scanner' : item.kind !== 'scanner');
   const fullFrame = () => setCrop({x: 0, y: 0, w: 1, h: 1});
   const cancel = () => {
     release();
@@ -378,17 +389,24 @@ function CaptureSession({mode, initialCameraMode = 'photo', deferCameraUntilSele
     <button type="button" ref={cameraMode === 'scan' ? entry : undefined} aria-pressed={cameraSelected && cameraMode === 'scan'} onClick={() => changeCameraMode('scan')}>{t('文档扫描','Document scan')}</button>
   </div>;
   return <div className="ic-demo-capture-panel" data-mode={mode} data-camera-mode={mode === 'scanner' ? cameraMode : undefined} data-phase={phase}>
-    {mode === 'capture' && !review && !screenActive && <div className="ic-demo-capture-modes">
+    {mode === 'capture' && !screenIntent && !review && !screenActive && <div className="ic-demo-capture-modes">
       <button ref={kind === 'screenshot' ? entry : undefined} type="button" onClick={() => void begin('screenshot')}>{t('截图','Screenshot')}</button>
       <button ref={kind === 'recording' ? entry : undefined} type="button" onClick={() => void begin('recording')}>{t('录屏','Recording')}</button>
     </div>}
+    {screenIntent && phase === 'idle' && !review &&
+      (error || !visible.some(item => !item.confirmed)) &&
+      <div className="ic-demo-capture-actions"><button ref={entry} type="button" onClick={() => void begin(screenIntent)}>
+        {error ? t('重试','Retry') : screenIntent === 'recording' ? t('录屏','Recording') : t('截图','Screenshot')}
+      </button></div>}
     {screenActive && <dialog ref={dialog} className="ic-screen-workspace" aria-label={t('屏幕选区','Screen selection')}
       onCancel={event => {event.preventDefault(); cancel();}}
       onKeyDownCapture={event => {if (event.key === 'Escape') {event.preventDefault(); event.stopPropagation(); cancel();}}}>
       <div className="ic-screen-toolbar" role="toolbar" aria-label={t('屏幕捕获','Screen capture')}>
         {phase !== 'recording' ? <>
-          <button type="button" aria-pressed={kind === 'screenshot'} onClick={() => setKind('screenshot')}>{t('截图','Screenshot')}</button>
-          <button type="button" aria-pressed={kind === 'recording'} onClick={() => setKind('recording')}>{t('录屏','Recording')}</button>
+          {!screenIntent && <>
+            <button type="button" aria-pressed={kind === 'screenshot'} onClick={() => setKind('screenshot')}>{t('截图','Screenshot')}</button>
+            <button type="button" aria-pressed={kind === 'recording'} onClick={() => setKind('recording')}>{t('录屏','Recording')}</button>
+          </>}
           <button type="button" disabled={phase !== 'preview'} onClick={fullFrame}>{t('完整画面','Full frame')}</button>
           <button type="button" className="ic-screen-primary" disabled={phase !== 'preview'} onClick={() => kind === 'recording' ? record() : void capture()}>
             {kind === 'recording' ? t('开始录屏','Start recording') : t('开始截屏','Take screenshot')}
@@ -413,6 +431,6 @@ function CaptureSession({mode, initialCameraMode = 'photo', deferCameraUntilSele
     {!screenActive && phase === 'loading' && <p role="status">{t('正在等待画面…','Waiting for video…')}</p>}
     {!screenActive && error && <><p role="alert">{error}</p>{mode === 'scanner' && phase === 'idle' && <button type="button" onClick={() => void begin()}>{t('重试','Retry')}</button>}</>}
     {!!visible.length&&<div className="ic-demo-capture-items">{visible.map(item=><section key={item.id}><CaptureTile item={item} onRemove={()=>onRemove(item.id)}/>{!item.confirmed&&item.kind!=='recording'&&<div><button type="button" disabled={mode==='capture' && phase!=='idle'} onClick={()=>{release();if(mode==='scanner')setCameraMode(item.cameraMode ?? 'scan');setReview(item);setCrop({x:0,y:0,w:1,h:1});}}>{t('裁剪','Crop')}</button><button type="button" disabled={mode==='capture' && phase!=='idle'} onClick={()=>{if(mode==='scanner')setCameraMode(item.cameraMode ?? 'scan');void begin('screenshot',item.id);}}>{t('重拍','Retake')}</button></div>}<small>{item.confirmed?t('已确认','Confirmed'):t('待确认','Awaiting confirmation')}</small></section>)}</div>}
-    {visible.some(item=>!item.confirmed)&&(mode==='scanner'||phase==='idle')&&!review&&<button type="button" className="ic-demo-capture-confirm" onClick={() => {release();onConfirm();}}><Check size={18}/>{t('确认材料','Confirm materials')}</button>}
+    {visible.some(item=>!item.confirmed)&&(mode==='scanner'||phase==='idle')&&!review&&<button type="button" ref={screenIntent ? entry : undefined} className="ic-demo-capture-confirm" onClick={() => {release();onConfirm();}}><Check size={18}/>{t('确认材料','Confirm materials')}</button>}
   </div>;
 }

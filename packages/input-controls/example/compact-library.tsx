@@ -57,6 +57,9 @@ export function CompactLibrary({assetBase = ''}: {assetBase?: string}) {
               <p className="lite-widget-description">{catalog[kind].description[en ? 1 : 0]}</p>
               <div className="lite-composer-preview">
                 <div className="lite-specimens">
+                  {kind === 'capture' && (['screenshot', 'recording'] as const).map(screenIntent => (
+                    <WidgetSpecimen key={screenIntent} {...{kind, screenIntent, language, assetBase, panels}} initial="default-selected"/>
+                  ))}
                   {states.map(initial => (
                     <WidgetSpecimen key={initial} {...{kind, initial, language, assetBase, panels}}/>
                   ))}

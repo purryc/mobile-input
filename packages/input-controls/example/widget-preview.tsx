@@ -18,6 +18,7 @@ export interface WidgetPreviewProps {
 }
 
 type SpecimenOptions = {
+  screenIntent?: C.ScreenCaptureWidgetProps["screenIntent"];
   initial: C.ChipSemanticState;
   panels: ReturnType<typeof C.useSinglePanel>;
   presentation?: "chip" | "inline";
@@ -44,8 +45,8 @@ export function WidgetPreview({kind, language = 'zh-CN', assetBase = ''}: Widget
   );
 }
 
-export function WidgetSpecimen({initial, panels, presentation, ...props}: WidgetPreviewProps & SpecimenOptions) {
-  return <InteractiveWidget {...props} specimen={{initial, panels, presentation}}/>;
+export function WidgetSpecimen({initial, panels, presentation, screenIntent, ...props}: WidgetPreviewProps & SpecimenOptions) {
+  return <InteractiveWidget {...props} specimen={{initial, panels, presentation, screenIntent}}/>;
 }
 
 function InteractiveWidget({
@@ -101,9 +102,10 @@ function InteractiveWidget({
   const secondAnchor = useRef<HTMLSpanElement>(null);
   const previewTrigger = useRef<HTMLElement | null>(null);
 
+  const screenIntent = specimen?.screenIntent;
   const confirmedCaptures = captures.filter(item => item.confirmed);
   const names = [...files.map(file => file.name), ...(sketch ? [sketch.name] : []), ...confirmedCaptures.map(item => item.name)];
-  const state = specimen && names.length ? 'object-bound' : semantic;
+  const state = screenIntent ? 'default-selected' : specimen && names.length ? 'object-bound' : semantic;
   const emit = (event: string, value: unknown = '') => {
     if (!specimen) setEvents(previous => [JSON.stringify({event, owner, value}), ...previous].slice(0, 8));
   };
@@ -156,7 +158,9 @@ function InteractiveWidget({
   const resolvedLabel = kind === 'duration' ? duration + t('分钟', ' min')
     : kind === 'color' ? color
     : selected || names[0] || title;
-  const label = state === 'object-bound' ? names[0]
+  const label = screenIntent === 'screenshot' ? t('截图', 'Screenshot')
+    : screenIntent === 'recording' ? t('录屏', 'Recording')
+    : state === 'object-bound' ? names[0]
     : state === 'needs-input' ? needsLabel
     : state === 'ambiguous-recommendation' && specimen ? catalog[kind].suggestion[en ? 1 : 0]
     : resolvedLabel;
@@ -167,7 +171,7 @@ function InteractiveWidget({
   const icon = artwork ?? standardIcon;
   const token: C.InlineChipToken = {
     id: owner, kind, role: title, phrase: '', label,
-    value: state === 'needs-input' ? '' : kind === 'color' && (!specimen || state === 'default-selected') ? color : label,
+    value: screenIntent ?? (state === 'needs-input' ? '' : kind === 'color' && (!specimen || state === 'default-selected') ? color : label),
     origin, semanticState: state,
     additionalObjectCount: state === 'object-bound' ? names.length - 1 : undefined,
     removable: origin === 'recommended' && (!specimen || state === 'ambiguous-recommendation'),
@@ -271,6 +275,7 @@ function InteractiveWidget({
         return (
           <Capture key={inline && kind === 'scanner' && panels.active ? 'background' : 'foreground'}
             items={captures} language={language}
+            {...(screenIntent ? {screenIntent} : {})}
             {...(inline && kind === 'scanner' ? {deferCameraUntilSelection: true} : {})}
             {...(kind === 'scanner' && initial === 'object-bound' ? {initialCameraMode: captures[0]?.cameraMode ?? 'scan'} : {})}
             onAdd={item => {setCaptures(previous => [...previous, item]); emit('capture', item.name);}}
@@ -344,10 +349,14 @@ function InteractiveWidget({
   );
 
   if (specimen) return (
-    <div className="lite-specimen input-controls-theme" data-example={initial}>
-      <span id={stateLabelId} className="lite-state-label">{chipStateLabels[state][en ? 1 : 0]}</span>
+    <div className="lite-specimen input-controls-theme" data-example={screenIntent ?? initial}>
+      <span id={stateLabelId} className="lite-state-label">{screenIntent ? t('明确意图', 'Explicit intent') : chipStateLabels[state][en ? 1 : 0]}</span>
       <C.WidgetProvider language={language} translate={translate(language)} assetBase={assetBase}>
         {chip}
+        {screenIntent && confirmedCaptures.length > 0 && <div className="lite-document-materials ic-demo-materials">
+          {confirmedCaptures.map(item => <C.CaptureTile key={item.id} item={item} compact
+            onRemove={() => setCaptures(previous => previous.filter(other => other.id !== item.id))}/>)}
+        </div>}
         {sampleDocument && <div className="lite-document-materials">{selectedFiles}</div>}
         {overlays}
       </C.WidgetProvider>

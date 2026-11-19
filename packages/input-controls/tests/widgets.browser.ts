@@ -150,3 +150,83 @@ test('screen workspace crops pixels from the displayed source and releases on ca
   expect(await page.evaluate(() => (window as any).__testStreams.every((s: MediaStream) => s.getTracks().every(t => t.readyState === 'ended')))).toBe(true);
   await expect(page.getByTestId('current-value')).not.toContainText('recording.webm');
 });
+
+test('resolved screen chips open region selection or the ready toolbar on the first click', async ({page}, info) => {
+  await mediaFixture(page);
+  await page.addInitScript(() => {
+    const start = MediaRecorder.prototype.start;
+    (window as any).__starts = 0;
+    MediaRecorder.prototype.start = function(timeslice?: number) {
+      (window as any).__starts++;
+      return start.call(this, timeslice);
+    };
+  });
+  await page.goto('/compact.html#/capture');
+  const card = page.locator('[data-widget=capture]');
+  const chip = (intent: string) => card.locator('[data-example="' + intent + '"] .ic-sentence-token');
+  const workspace = page.locator('dialog.ic-screen-workspace[open]');
+  const streams = () => page.evaluate(() => (window as any).__testStreams.length);
+  expect(await streams()).toBe(0);
+
+  await chip('screenshot').click();
+  await expect(workspace.getByRole('button', {name:'开始截屏'})).toBeEnabled();
+  await expect(workspace.getByRole('button', {name:'录屏', exact:true})).toHaveCount(0);
+  expect(await streams()).toBe(1);
+  const frame = (await workspace.locator('video').boundingBox())!;
+  await page.mouse.move(frame.x + frame.width / 4, frame.y + frame.height / 4);
+  await page.mouse.down();
+  await page.mouse.move(frame.x + frame.width * .75, frame.y + frame.height * .75, {steps:6});
+  await page.mouse.up();
+  await workspace.screenshot({path:info.outputPath('resolved-screenshot.png')});
+  await workspace.getByRole('button', {name:'开始截屏'}).click();
+  await page.getByRole('button', {name:'确认材料'}).click();
+  await expect(chip('screenshot')).toHaveText('截图');
+  await expect(card.getByRole('button', {name:'查看 screenshot.png'})).toBeVisible();
+
+  await chip('recording').focus();
+  await page.keyboard.press('Enter');
+  await expect(workspace.getByRole('button', {name:'开始录屏'})).toBeEnabled();
+  await expect(workspace.getByRole('button', {name:'截图', exact:true})).toHaveCount(0);
+  expect(await page.evaluate(() => (window as any).__starts)).toBe(0);
+  await workspace.screenshot({path:info.outputPath('resolved-recording-ready.png')});
+  await workspace.getByRole('button', {name:'取消'}).click();
+  await expect(chip('recording')).toBeFocused();
+  expect(await page.evaluate(() => (window as any).__testStreams.every((s: MediaStream) => s.getTracks().every(t => t.readyState === 'ended')))).toBe(true);
+  await chip('recording').click();
+  await workspace.getByRole('button', {name:'开始录屏'}).click();
+  expect(await page.evaluate(() => (window as any).__starts)).toBe(1);
+  await expect(workspace.getByRole('button', {name:/停止.*1s/})).toBeVisible();
+  await workspace.getByRole('button', {name:/停止/}).click();
+  await page.getByRole('button', {name:'确认材料'}).click();
+  await expect(card.getByRole('button', {name:'查看 recording.webm'})).toBeVisible();
+  expect(await streams()).toBe(3);
+  expect(await page.evaluate(() => (window as any).__testStreams.every((s: MediaStream) => s.getTracks().every(t => t.readyState === 'ended')))).toBe(true);
+});
+
+test('retry keeps the resolved screen intent and cancelling releases a late stream', async ({page}) => {
+  await page.addInitScript(() => {
+    let attempt = 0;
+    Object.defineProperty(navigator.mediaDevices, 'getDisplayMedia', {value: async () => {
+      if (++attempt === 1) throw new DOMException('Denied', 'NotAllowedError');
+      return new Promise(resolve => {
+        (window as any).__finishSharing = () => {
+          const stream = document.createElement('canvas').captureStream();
+          (window as any).__lateTrack = stream.getVideoTracks()[0];
+          resolve(stream);
+        };
+      });
+    }});
+  });
+  await page.goto('/compact.html#/capture');
+  const chip = page.locator('[data-widget=capture] [data-example=recording] .ic-sentence-token');
+  await chip.click();
+  const panel = page.locator('.input-controls-popover');
+  await expect(panel.getByRole('alert')).toBeVisible();
+  await panel.getByRole('button', {name:'重试'}).click();
+  const workspace = page.locator('dialog.ic-screen-workspace[open]');
+  await expect(workspace.getByRole('button', {name:'开始录屏'})).toBeDisabled();
+  await workspace.getByRole('button', {name:'取消'}).click();
+  await page.evaluate(() => (window as any).__finishSharing());
+  await expect.poll(() => page.evaluate(() => (window as any).__lateTrack.readyState)).toBe('ended');
+  await expect(chip).toBeFocused();
+});
