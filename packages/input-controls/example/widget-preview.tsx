@@ -4,6 +4,7 @@ import {definition} from './choices';
 import {catalog} from './compact-catalog';
 import {boundSample, materialKinds} from './material-samples';
 import {createSketchFile} from '../src/sketch-geometry';
+import {ComposerStage} from './composer-stage';
 import './preview.css';
 const choices={font:C.FontWidget,palette:C.PaletteWidget,expert:C.ExpertWidget,skills:C.SkillsWidget,connectors:C.ConnectorsWidget,formats:C.FormatsWidget};
 const paths:Record<string,string>={duration:'M9 2h6M12 6a8 8 0 1 0 0 16 8 8 0 0 0 0-16M12 10v4l3-2',font:'M4 4h16M12 4v16M8 20h8',palette:'M12 3a9 9 0 1 0 0 18c3 0 1-4 4-4h2a4 4 0 0 0 4-4c0-6-5-10-10-10',expert:'M7 7a5 5 0 1 0 10 0 5 5 0 0 0-10 0M3 22a9 9 0 0 1 18 0',skills:'M3 20l9-9M14 3a5 5 0 0 0 7 7L18 7l2-4-4 2z',connectors:'M10 14l4-4M8 16l-2 2a4 4 0 0 1-6-6l5-5M16 8l2-2a4 4 0 0 1 6 6l-5 5',formats:'M5 2h10l4 4v16H5zM14 2v5h5',scanner:'M2 8V2h6M16 2h6v6M22 16v6h-6M8 22H2v-6M7 12h10',capture:'M3 3h18v14H3zM12 17v5M8 22h8'};
@@ -80,8 +81,13 @@ function InteractiveWidget({
   const [removed, setRemoved] = useState(false);
   const [duration, setDuration] = useState('10');
   const [color, setColor] = useState('#356FE4');
-  const [values, setValues] = useState<string[]>(() =>
-    initial === 'default-selected' && !isMaterial ? def.options.slice(0, 1).map(option => option.id) : []);
+  const [values, setValues] = useState<string[]>(() => {
+    if (initial !== 'default-selected' || isMaterial) return [];
+    if (specimen && kind === 'palette') return ['calm'];
+    if (specimen && kind === 'connectors') return ['ima'];
+    if (specimen && kind === 'formats') return ['pptx', 'pdf'];
+    return def.options.slice(0, 1).map(option => option.id);
+  });
   const [files, setFiles] = useState<File[]>(sample.files ?? []);
   const [pending, setPending] = useState<File[]>([]);
   const [captures, setCaptures] = useState<C.CaptureMaterial[]>(sample.captures ?? []);
@@ -307,7 +313,7 @@ function InteractiveWidget({
   const overlays = (
     <>
       {!inline && <C.AnchoredPanel anchor={anchor} open={open} id={panelId} label={title} width={C.widgetWidths[kind]} onClose={panels.close}>
-        {panelContent}
+        {specimen ? <ComposerStage kind={kind} popover>{panelContent}</ComposerStage> : panelContent}
       </C.AnchoredPanel>}
       {(kind === 'document' || kind === 'photo') && (
         <input ref={fileInput} type="file" multiple hidden accept={kind === 'document' ? '.pdf,.txt,.md' : 'image/*'}
@@ -336,17 +342,12 @@ function InteractiveWidget({
       {inlineOpen && (
         <C.WidgetProvider language={language} translate={translate(language)} assetBase={assetBase}>
           {sampleDocument && <div className="lite-document-materials input-controls-theme">{selectedFiles}</div>}
-          <div className="lite-widget-stage">
-            <div className="lite-preview-prose" aria-hidden="true">
-              <p>{t('先介绍产品价值、适用客户和使用场景，再说明如何创建工作空间与整理资料。', 'Introduce the product, its customers and use cases, then explain how to create a workspace and organize materials.')}</p>
-              <p>{catalog[kind].before[en ? 1 : 0]}{label}{catalog[kind].after[en ? 1 : 0]}</p>
-              <p>{t('最后总结常见问题和下一步建议，让新同事可以照着操作。', 'Close with common questions and next steps the team can follow.')}</p>
-            </div>
-            <C.WidgetSurface className="lite-widget-body">
-              <div style={{width: C.widgetWidths[kind], maxWidth: '100%'}}>{panelContent}</div>
+          <ComposerStage kind={kind}>
+            <C.WidgetSurface>
+              <div className="lite-inline-panel" style={{width: C.widgetWidths[kind], maxWidth: '100%'}}>{panelContent}</div>
               {overlays}
             </C.WidgetSurface>
-          </div>
+          </ComposerStage>
         </C.WidgetProvider>
       )}
     </details>

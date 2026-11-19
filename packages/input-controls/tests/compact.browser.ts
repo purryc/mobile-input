@@ -288,3 +288,24 @@ test('responsive cards keep the native time panel geometry and original playgrou
   await page.goto('/#/duration');
   await expect(page.getByRole('button', {name: 'Second instance'})).toBeVisible();
 });
+
+test('the live panel stays over its draft parameter when the gallery reflows', async ({page}) => {
+  await page.goto(route + 'photo');
+  for (const width of [1440, 900, 390]) {
+    await page.setViewportSize({width, height: 960});
+    await page.evaluate(() => document.fonts.ready);
+    const gallery = card(page, 'photo');
+    const backdrop = gallery.locator('.lite-preview-prose');
+    await expect(backdrop).toHaveAttribute('inert', '');
+    await expect.poll(() => gallery.evaluate(el => {
+      const anchor = el.querySelector('.lite-reference-composer [data-kind="photo"]')!.getBoundingClientRect();
+      const panel = el.querySelector('.lite-widget-body .ic-live-wb-aux')!.getBoundingClientRect();
+      return Math.max(Math.abs(anchor.left - panel.left), Math.abs(anchor.bottom + 8 - panel.top));
+    })).toBeLessThan(1);
+  }
+  await chip(page, 'photo').click();
+  await expect(panel(page)).toBeVisible();
+  await expect(card(page, 'photo').locator('.lite-inline-panel')).toBeHidden();
+  await page.keyboard.press('Escape');
+  await expect(card(page, 'photo').locator('.lite-inline-panel')).toBeVisible();
+});
