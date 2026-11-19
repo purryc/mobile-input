@@ -126,7 +126,7 @@ export const controlDefinitions: ControlDefinition[] = [
     options: [option("product-brief", "产品介绍 · Product brief.md", "产品介绍 · Product brief.md")],
   },
   { kind: "photo", zh: "图片", en: "Image", options: [] },
-  { kind: "scanner", zh: "文档扫描", en: "Document scanner", options: [] },
+  { kind: "scanner", zh: "拍照／文档扫描", en: "Photo / Document Scan", options: [] },
   { kind: "sketch", zh: "手绘画板", en: "Sketch", options: [] },
   {
     kind: "expert",
@@ -417,10 +417,10 @@ type Rule = {kind: DemoControlKind; pattern: RegExp; value?: string[]; role?: st
 // Specific values precede category invitations; recommendations never consume their evidence.
 const explicitRules: Rule[] = [
   {kind:"duration",pattern:/(?:演讲时长|演讲时间|汇报时长|培训时长)(?:设为|设置为|为|是|用)?(\d{1,2})分钟/g,group:1,origin:"explicit"},
-  {kind:"font",pattern:/微软雅黑|\bArial\b|\bHelvetica\b|\bTimes New Roman\b|系统无衬线|系统衬线|等宽字体/gi,origin:"explicit"},
+  {kind:"font",pattern:/微软雅黑|宋体|黑体|楷体|仿宋|\b(?:Microsoft YaHei|Arial|Helvetica|Times New Roman|SimSun|SimHei|KaiTi|FangSong|Calibri|Georgia|Consolas)\b|系统无衬线|系统衬线|等宽字体/gi,origin:"explicit"},
   {kind:"palette",pattern:/(?:配色方案|调色板)(?:选择|用|采用|设为)(沉静专业|温暖自然|清新简洁)/g,group:1,origin:"explicit"},
   {kind:"document",pattern:/内置产品介绍/g,value:["product-brief"],origin:"explicit"},
-  {kind:"scanner",pattern:/扫描件|扫描(?:文档|票据|收据)?|scan(?:ning)?\s+(?:a\s+)?(?:document|receipt|pages?)/gi,origin:"explicit"},
+  {kind:"scanner",pattern:/拍照|拍(?:一张|张)照片|\btake\s+(?:a\s+)?photo\b|扫描件|扫描(?:文档|票据|收据)?|scan(?:ning)?\s+(?:a\s+)?(?:document|receipt|pages?)/gi,origin:"explicit"},
   {kind:"sketch",pattern:/手绘草图|手绘画板/g,origin:"explicit"},
   {kind:"expert",pattern:/演示设计专家|内容创作专家|销售方案专家|财务分析专家|采购分析专家|交付项目经理|presentation designer|content writer|sales specialist|finance specialist/gi,origin:"explicit"},
   {kind:"skills",pattern:/演示文稿制作|办公文档|数据分析|深度研究|presentation creation|office documents|data analysis|deep research/gi,origin:"explicit"},

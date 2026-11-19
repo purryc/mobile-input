@@ -1,4 +1,4 @@
-import { useWidgetText } from "./environment";
+import { useWidgetText } from "@mobile-input/controls";
 import { useLayoutEffect, useRef } from "react";
 import { Pencil, Sparkles, Square, Undo2 } from "lucide-react";
 import { ApplicationActionChip } from "./application-action-chip";

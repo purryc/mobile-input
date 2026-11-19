@@ -1,15 +1,15 @@
+import {DemoGallery} from "./workbuddy-demo-gallery";
+import {WorkspaceScreenCapture} from "./workbuddy-demo-screen-session";
+import {DemoScanner} from "./workbuddy-demo-scanner";
 import type { ReactNode, RefObject } from "react";
 import {
   AuxiliaryPanel,
   ColorWidget,
   DurationWidget,
-  ImageWidget,
   SketchWidget,
   DocumentWidget,
-  ScannerWidget,
-  ScreenCaptureWidget,
   widgetWidths,
-} from "../../../packages/workbuddy-demo-ui/src";
+} from "@mobile-input/controls";
 import {
   controlLabel,
   definition,
@@ -64,16 +64,20 @@ export function WorkbuddyWidgetHost({
     ...draft.pendingPhotos,
   ];
 
+  const existingScan = draft.captures?.find(item => item.kind === "scanner");
+  const cameraMode = existingScan
+    ? existingScan.cameraMode ?? "scan"
+    : extended && !/拍照|拍(?:一张|张)照片|take\s+(?:a\s+)?photo/i.test(extended.phrase) ? "scan" : "photo";
   const Choice = extended && choiceViews[extended.kind];
   const Capture =
-    panel.kind === "scanner" ? ScannerWidget : ScreenCaptureWidget;
+    panel.kind === "scanner" ? DemoScanner : WorkspaceScreenCapture;
   return (
     <WorkBuddyDemoPopover
       key={`${draft.id}:${panel.id || panel.kind + panel.scope}`}
       anchorId={panel.id}
       anchorRoot={anchorRoot}
       id={controlsId}
-      preferredWidth={widgetWidths[panel.kind]}
+      preferredWidth={panel.kind === "polish" ? 432 : widgetWidths[panel.kind]}
       onClose={() => {
         setPanel(null);
         setDrawing(false);
@@ -107,19 +111,21 @@ export function WorkbuddyWidgetHost({
           setDrawing(false);
         }}
       >
-        {extended && Choice && (
+        {extended && extended.kind !== "polish" && Choice && (
           <Choice
-            binding={extended}
+            binding={{...extended,kind:extended.kind}}
             owner={draft.id}
             language={language}
             onEvent={controlEvent}
-            definition={definition(extended.kind)}
+            definition={{...definition(extended.kind),kind:extended.kind}}
             onChooseFile={() => pick("document", panel.scope)}
             materials={draft.materials.filter((m) => m.kind === "document")}
           />
         )}
         {(panel.kind === "scanner" || panel.kind === "capture") && (
           <Capture
+            initialCameraMode={cameraMode}
+            deferCameraUntilSelection={panel.deferCamera || Boolean(existingScan)}
             key={draft.id + panel.kind + language}
             items={draft.captures || []}
             language={language}
@@ -155,13 +161,13 @@ export function WorkbuddyWidgetHost({
           />
         )}
         {panel.kind === "photo" && (
-          <ImageWidget
+          <DemoGallery
             onChoose={() => pick("photo", panel.scope)}
             onCapture={() => setCamera({ owner: draft.id, scope: panel.scope })}
             onDone={() => confirmPhotos(draft.id)}
           >
             {photos.map((m) => materialTile(m, true))}
-          </ImageWidget>
+          </DemoGallery>
         )}
         {panel.kind === "sketch" && (
           <SketchWidget

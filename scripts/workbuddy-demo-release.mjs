@@ -12,6 +12,9 @@ const target = resolve(
 );
 if (!target.startsWith(resolve(root, "artifacts/workbuddy-demo/release") + "/"))
   throw Error("Release output must stay in the ignored release directory");
+const pkg = JSON.parse(await readFile(resolve(root, "package.json"), "utf8"));
+const controlsDependency = pkg.dependencies["@mobile-input/controls"];
+const bundledControls = controlsDependency.startsWith("file:") ? [controlsDependency.slice(5)] : [];
 const roots = [
   "scripts/demo-input-controls.ts",
   "packages/core/workbuddy-demo-controls.test.ts",
@@ -24,8 +27,7 @@ const roots = [
   "apps/web/workbuddy-demo.html",
   "apps/web/widget-library.html",
   "apps/web/src/workbuddy-demo-library.tsx",
-  "packages/workbuddy-demo-ui/AGENTS.md",
-  "packages/workbuddy-demo-ui/package.json",
+  ...bundledControls,
   "docs/gemini-ui-handoff.en.md",
   "tests/workbuddy-widget-library.spec.ts",
   "vite.workbuddy-demo.config.ts",
@@ -99,7 +101,6 @@ for (const asset of [
   await mkdir(dirname(dest), { recursive: true });
   await cp(resolve(root, "apps/web/public", asset), dest, { recursive: true });
 }
-const pkg = JSON.parse(await readFile(resolve(root, "package.json"), "utf8"));
 pkg.scripts = {
   "demo:controls": "tsx scripts/demo-input-controls.ts",
   dev: "vite --config vite.workbuddy-demo.config.ts",

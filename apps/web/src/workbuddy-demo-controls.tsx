@@ -1,12 +1,13 @@
 import {
   DocumentWidget,
   FontWidget,
+  windowsFonts,
   PaletteWidget,
   ExpertWidget,
   SkillsWidget,
   ConnectorsWidget,
   FormatsWidget,
-} from "../../../packages/workbuddy-demo-ui/src";
+} from "@mobile-input/controls";
 import { demoScenarios } from "../../../packages/core/workbuddy-demo-scenarios";
 import {
   controlLabel,
@@ -14,12 +15,24 @@ import {
 } from "../../../packages/core/workbuddy-demo-controls";
 import {
   ChoiceWidget,
-  ControlIcon,
-  controlOptionArtwork,
-} from "../../../packages/workbuddy-demo-ui/src/choice-widget";
-import { controlKinds } from "../../../packages/workbuddy-demo-ui/src/types";
+  ControlIcon as SharedIcon,
+  controlOptionArtwork as artworkPath,
+} from "@mobile-input/controls";
+import { demoKinds as controlKinds } from "./workbuddy-demo-widget-catalog";
+import {WandSparkles} from "lucide-react";
 import type { ComponentProps, ComponentType } from "react";
-export { ControlIcon, controlOptionArtwork };
+export function controlOptionArtwork(...args: Parameters<typeof artworkPath>) {
+  return artworkPath(...args)?.replace(/^\.\//, "./input-controls/");
+}
+export function ControlIcon({kind}: {kind: DemoControlKind}) {
+  return kind === "polish" ? <WandSparkles size={18}/> : <SharedIcon kind={kind}/>;
+}
+export function DemoFontWidget({definition: _hostDefinition, binding, ...props}: ComponentProps<typeof ChoiceWidget>) {
+  // Older drafts store Chinese family names; the shared font picker uses Windows IDs.
+  const value = binding.value.map(name => windowsFonts.find(font => font.zh === name)?.id ?? name);
+  return <FontWidget {...props} binding={{...binding, value}}/>;
+}
+
 const DocumentChoices = (props: ComponentProps<typeof ChoiceWidget>) => (
   <DocumentWidget choices={props} onChoose={props.onChooseFile ?? (() => {})} />
 );
@@ -27,7 +40,7 @@ export const choiceViews: Partial<
   Record<DemoControlKind, ComponentType<ComponentProps<typeof ChoiceWidget>>>
 > = {
   document: DocumentChoices,
-  font: FontWidget,
+  font: DemoFontWidget,
   palette: PaletteWidget,
   expert: ExpertWidget,
   skills: SkillsWidget,

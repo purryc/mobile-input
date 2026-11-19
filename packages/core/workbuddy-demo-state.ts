@@ -22,6 +22,7 @@ export interface DemoMaterial extends TargetMaterial {
 export interface DemoCapture {
   id: string;
   kind: "scanner" | "screenshot" | "recording";
+  cameraMode?: "photo" | "scan";
   name: string;
   blob: Blob;
   size: number;

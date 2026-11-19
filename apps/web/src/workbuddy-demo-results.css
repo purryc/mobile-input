@@ -39,10 +39,10 @@
 .demo-app .demo-task-compose .live-wb-scroll {
   padding: 14px;
 }
-.demo-app .demo-task-compose .demo-attachments .demo-material {
+.demo-app .demo-task-compose .demo-attachments :is(.demo-material,.ic-demo-material) {
   width: 90px;
 }
-.demo-app .demo-task-compose .demo-attachments .demo-material img {
+.demo-app .demo-task-compose .demo-attachments :is(.demo-material,.ic-demo-material) img {
   height: 45px;
 }
 .demo-app .demo-task-compose .demo-attachments {

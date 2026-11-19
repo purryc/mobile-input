@@ -158,40 +158,6 @@ button:disabled {
   border-top: 1px solid white;
   z-index: -1;
 }
-.demo-app .demo-widget-wrap .live-wb-aux {
-  max-height: none;
-  width: 100%;
-  margin: 0;
-  overflow: visible;
-}
-.demo-app .demo-widget-wrap .live-wb-aux > svg.agent-sketch-surface {
-  height: auto;
-  aspect-ratio: 328/192;
-  flex: none;
-}
-.demo-app .demo-widget-wrap .live-wb-aux:has(.live-wb-duration) {
-  padding: 8px 12px;
-}
-.demo-app .demo-widget-wrap .live-wb-duration {
-  height: 56px;
-  min-height: 56px;
-}
-.demo-app .demo-widget-wrap .live-wb-duration button {
-  justify-content: center;
-}
-.demo-documents {
-  max-height: 250px;
-  overflow: auto;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  padding: 8px 0;
-}
-.demo-documents > button {
-  width: 100%;
-  min-height: 44px;
-  justify-content: center;
-}
 .demo-attachments {
   display: flex;
   gap: 8px;
@@ -200,13 +166,13 @@ button:disabled {
   padding-top: 7px;
   padding-right: 7px;
 }
-.demo-material {
+:is(.demo-material,.ic-demo-material) {
   position: relative;
   flex: 0 0 108px;
   width: 108px;
   min-width: 0;
 }
-.demo-app .demo-material > button:first-child {
+.demo-app :is(.demo-material,.ic-demo-material) > button:first-child {
   width: 100%;
   display: flex;
   align-items: center;
@@ -220,12 +186,12 @@ button:disabled {
   overflow: hidden;
   height: 83px;
 }
-.demo-material img {
+:is(.demo-material,.ic-demo-material) img {
   width: 100%;
   height: 57px;
   object-fit: cover;
 }
-.demo-material span {
+:is(.demo-material,.ic-demo-material) span {
   padding: 3px 7px;
   font-size: 10px;
   white-space: nowrap;
@@ -234,7 +200,7 @@ button:disabled {
   max-width: 100%;
   color: #777;
 }
-.demo-app .demo-material .demo-remove {
+.demo-app :is(.demo-material,.ic-demo-material) :is(.demo-remove,.ic-demo-remove) {
   position: absolute;
   right: -5px;
   top: -7px;
@@ -248,16 +214,16 @@ button:disabled {
   justify-content: center;
   box-shadow: 0 2px 5px #00000010;
 }
-.demo-app .live-wb-photo-body {
+.demo-app .ic-live-wb-photo-body {
   padding-right: 7px;
 }
-.demo-app .live-wb-photo-body .demo-material > button:first-child {
+.demo-app .ic-live-wb-photo-body :is(.demo-material,.ic-demo-material) > button:first-child {
   height: 96px;
 }
-.live-wb-photo-body .demo-material img {
+.ic-live-wb-photo-body :is(.demo-material,.ic-demo-material) img {
   height: 70px;
 }
-.demo-material[data-pending="true"] > button:first-child {
+:is(.demo-material,.ic-demo-material)[data-pending="true"] > button:first-child {
   border-style: dashed;
 }
 .demo-pending {
@@ -338,7 +304,7 @@ button:disabled {
   gap: 10px;
 }
 .demo-result-materials a,
-.demo-modal a {
+:is(.demo-modal,.ic-demo-modal) a {
   display: flex;
   align-items: center;
   gap: 9px;
@@ -352,7 +318,7 @@ button:disabled {
   overflow-wrap: anywhere;
 }
 .demo-result-materials img,
-.demo-modal a img {
+:is(.demo-modal,.ic-demo-modal) a img {
   width: 32px;
   height: 32px;
   object-fit: cover;
@@ -396,7 +362,7 @@ button:disabled {
   color: #805e19;
   margin-left: 8px;
 }
-.demo-modal {
+:is(.demo-modal,.ic-demo-modal) {
   position: fixed;
   inset: 0;
   background: #2323334d;
@@ -407,7 +373,7 @@ button:disabled {
   padding: 24px;
   z-index: 30;
 }
-.demo-modal > section {
+:is(.demo-modal,.ic-demo-modal) > section {
   background: #fff;
   border-radius: 20px;
   padding: 20px;
@@ -416,24 +382,24 @@ button:disabled {
   overflow: auto;
   box-shadow: 0 25px 100px #23233333;
 }
-.demo-modal header {
+:is(.demo-modal,.ic-demo-modal) header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 15px;
   margin-bottom: 16px;
 }
-.demo-modal header b {
+:is(.demo-modal,.ic-demo-modal) header b {
   overflow-wrap: anywhere;
 }
-.demo-modal header button {
+:is(.demo-modal,.ic-demo-modal) header button {
   min-height: 40px;
   width: 40px;
   justify-content: center;
   flex: none;
 }
-.demo-modal video,
-.demo-modal > section > img {
+:is(.demo-modal,.ic-demo-modal) video,
+:is(.demo-modal,.ic-demo-modal) > section > img {
   width: 100%;
   max-height: 55vh;
   object-fit: contain;
@@ -441,7 +407,7 @@ button:disabled {
   border-radius: 12px;
   margin-bottom: 15px;
 }
-.demo-app .demo-primary {
+.demo-app .ic-demo-primary {
   background: #222;
   color: #fff;
   padding: 10px 18px;
@@ -474,7 +440,7 @@ button:disabled {
   color: #222;
   border-radius: 50%;
 }
-.demo-app .demo-widget-wrap .live-wb-aux {
+.demo-app .demo-widget-wrap .ic-live-wb-aux {
   background: var(--input-control);
 }
 
@@ -610,8 +576,8 @@ button:disabled {
 .demo-app .wb-composer-options { background: #f7f7f9; color: #777782; border-color: #e7e7ec; }
 .demo-app button:focus-visible { outline-color: #7370e5; }
 .demo-app input:focus, .demo-app select:focus { border-color: #8580df; }
-.demo-app .live-wb-aux { border-color: #e6e5ee; }
-.demo-app .agent-sketch-surface { --dock-accent: #146c64; } /* Existing authored ink/export color. */
+.demo-app .ic-live-wb-aux { border-color: #e6e5ee; }
+.demo-app .ic-agent-sketch-surface { --dock-accent: #146c64; } /* Existing authored ink/export color. */
 .demo-app .deck-job, .demo-app .deck-file { color: #6460be; }
 .demo-app .deck-job button, .demo-app .deck-editor-toolbar button, .demo-app .deck-page-actions button { background: #f2f1f9; }
 .demo-app .deck-editor-body > aside button.active { border-color: #7771df; color: #5853ac; }
@@ -630,7 +596,7 @@ button:disabled {
   .demo-app .wb-home { padding-top: 48px; }
   .demo-app .xiaoyi-mascot { margin-bottom: 4px; }
 }
-.demo-app .agent-widget-icon[src$="/check.svg"] { filter: brightness(0) saturate(100%) invert(42%) sepia(61%) saturate(980%) hue-rotate(210deg); }
+.demo-app .ic-agent-widget-icon[src$="/check.svg"] { filter: brightness(0) saturate(100%) invert(42%) sepia(61%) saturate(980%) hue-rotate(210deg); }
 .demo-app .demo-request-materials a { color: #6a6593; }
 .demo-app .wb-preview-tabs [aria-selected="true"] { box-shadow: inset 0 -2px #7771df; }
 /* Stable, non-editable polish row inside the composer, above its action footer. */
@@ -663,7 +629,7 @@ button:disabled {
 .demo-app .demo-polish-row.polish-stack:has(>.contextual-polish:last-child) { padding-bottom: 0 !important; }
 
 /* Confirmed capture references share the existing compact material card. */
-.demo-app .demo-material-thumb {position:relative;width:100%;height:57px;flex:0 0 57px;overflow:hidden;}
-.demo-app .demo-material-thumb img,.demo-app .demo-material-thumb video {width:100%;height:57px;object-fit:cover;display:block;}
-.demo-app .demo-material-thumb > svg {position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);color:white;fill:#2228;filter:drop-shadow(0 1px 3px #0008);}
-.demo-app .demo-modal section > video {max-width:100%;max-height:70vh;}
+.demo-app :is(.demo-material-thumb,.ic-demo-material-thumb) {position:relative;width:100%;height:57px;flex:0 0 57px;overflow:hidden;}
+.demo-app :is(.demo-material-thumb,.ic-demo-material-thumb) img,.demo-app :is(.demo-material-thumb,.ic-demo-material-thumb) video {width:100%;height:57px;object-fit:cover;display:block;}
+.demo-app :is(.demo-material-thumb,.ic-demo-material-thumb) > svg {position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);color:white;fill:#2228;filter:drop-shadow(0 1px 3px #0008);}
+.demo-app :is(.demo-modal,.ic-demo-modal) section > video {max-width:100%;max-height:70vh;}

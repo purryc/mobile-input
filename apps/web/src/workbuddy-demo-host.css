@@ -1,0 +1,113 @@
+/* Product-only debug controls and polish actions. Widget styles ship with the package. */
+:where(.input-controls-theme) .application-action-chip.application-action-chip{display:inline-flex;align-items:center;justify-content:center;gap:6px;flex:0 0 auto;min-width:80px;min-height:48px;padding:8px 12px;border:1px solid var(--input-edge,#fffffffa);border-radius:24px;background:var(--input-control,#ffffff4d);color:inherit;box-shadow:var(--input-shadow,0 7px 9px #33617508,inset 0 1px 1px #ffffffc7);font:500 14px/22px system-ui,sans-serif;white-space:nowrap;touch-action:manipulation;backdrop-filter:blur(14px)}
+:where(.input-controls-theme) .application-action-chip.application-action-chip:active:not(:disabled){background:var(--input-soft,var(--input-control,#ffffff4d));box-shadow:inset 0 1px 4px #33617520}
+:where(.input-controls-theme) .application-action-chip.application-action-chip:disabled{opacity:.4;cursor:default}:where(.input-controls-theme) .application-action-chip[aria-busy=true]{opacity:1}
+:where(.input-controls-theme) .contextual-polish{flex:0 0 auto;min-width:0;max-width:100%;margin:0;color:var(--input-ink,var(--dock-fg,inherit));box-sizing:border-box}
+:where(.input-controls-theme) .contextual-polish-row{display:flex;align-items:center;gap:8px;min-height:48px;min-width:0}
+:where(.input-controls-theme) .contextual-polish-title{width:72px;flex:0 0 72px;display:flex;align-items:center;gap:4px;white-space:nowrap;font:500 14px/22px system-ui,sans-serif}
+:where(.input-controls-theme) .polish-smart-pencil{width:20px;height:20px;position:relative;flex:none;display:inline-flex;align-items:flex-end}:where(.input-controls-theme) .polish-smart-pencil>svg:last-child{position:absolute;right:0;top:0}
+:where(.input-controls-theme) .contextual-polish-options{display:flex;gap:8px;min-width:0;flex:1;overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:none;padding:0}
+:where(.input-controls-theme) .contextual-polish-options::-webkit-scrollbar{display:none}:where(.input-controls-theme) .polish-error{margin:4px 0 0;font-size:12px;line-height:18px;color:inherit;overflow-wrap:anywhere}
+:where(.input-controls-theme) .polish-stack.polish-stack{row-gap:8px}
+:where(.input-controls-theme) .polish-stack.polish-stack:has(>.contextual-polish:last-child){padding-bottom:8px!important}
+:where(.input-controls-theme) .polish-stack.polish-stack>.contextual-polish{margin-top:0;margin-bottom:0}
+.input-controls-theme .demo-polish-slot { flex: none; position: relative; min-width: 0; padding: 8px 18px; --input-control: #f7f7fc; --input-edge: #f0eff8; }
+.input-controls-theme .demo-polish-slot .contextual-polish { padding: 0; }
+.input-controls-theme .demo-polish-slot .contextual-polish-title { width: auto; flex: 0 0 auto; font-size: 14px; margin-right: 4px; }
+.input-controls-theme .demo-polish-slot .polish-smart-pencil { color: var(--input-accent); }
+.input-controls-theme .demo-polish-slot .application-action-chip { font-size: 14px; padding: 8px 12px; min-height: 48px; }
+.input-controls-theme .demo-polish-slot .application-action-chip:hover:not(:disabled) { background: #eeedfb; }
+.input-controls-theme .polish-chip-stop {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-inline-start: 2px;
+  padding-inline-start: 8px;
+  border-inline-start: 1px solid #d6d2eb;
+  color: var(--input-accent);
+}
+.input-controls-theme .demo-polish-notice { display: block; font-size: 12px; color: #777; margin: 4px 0 0 82px; }
+.input-controls-theme .demo-task-compose:has(.demo-polish-slot) { max-height: 60%; }
+.input-controls-theme .demo-task-compose .demo-polish-slot { padding-left: 12px; padding-right: 12px; }
+
+.input-controls-theme .demo-polish-row { display: flex; align-items: flex-start; gap: 8px; min-width: 0; }
+.input-controls-theme .demo-polish-row > .contextual-polish { flex: 1; min-width: 0; }
+.input-controls-theme .demo-polish-restore { flex: 0 0 48px; width: 48px; height: 48px; margin-left: auto; display: grid; place-items: center; color: var(--input-accent); border: 0; border-radius: 50%; background: transparent; }
+.input-controls-theme .demo-polish-restore:hover:not(:disabled) { background: #eeedfb; }
+.input-controls-theme .demo-polish-restore:focus-visible { outline: 2px solid var(--input-accent); outline-offset: 2px; }
+.input-controls-theme .demo-polish-restore:disabled { opacity: .4; }
+
+.input-controls-theme .demo-polish-row.polish-stack:has(>.contextual-polish:last-child) { padding-bottom: 0 !important; }
+.input-controls-theme .demo-polish-slot { padding: 8px 18px; --input-edge: #d5dae1; --input-control: #f5f6f9b8; }
+.input-controls-theme .demo-polish-slot .contextual-polish-row { min-height: 36px; gap: 8px; align-items: center; }
+.input-controls-theme .demo-polish-slot .contextual-polish-title { font-size: 14px; line-height: 22px; margin: 0; font-weight: 400; }
+.input-controls-theme .demo-polish-slot .contextual-polish-options { gap: 8px; padding: 2px 0; }
+.input-controls-theme .demo-polish-slot .application-action-chip { min-height: 36px; height: 36px; min-width: 100px; border: 1px solid var(--ic-demo-edge); border-radius: 18px; padding: 6px 16px; font: 500 14px/22px system-ui,sans-serif; background: #f5f6f9b8; box-shadow: 0 2px 6px #1f293b12,inset 0 1px 1px #ffffffd9; backdrop-filter: blur(12px); }
+.input-controls-theme .demo-polish-slot .polish-smart-pencil { color: var(--ic-demo-ink); }
+.input-controls-theme .demo-polish-row { align-items: center; }
+.input-controls-theme .demo-polish-restore { width: 48px; height: 48px; flex-basis: 48px; }
+.input-controls-theme .demo-polish-slot .application-action-chip:disabled { opacity: .4; }
+.input-controls-theme .demo-polish-slot .application-action-chip[aria-busy="true"] { opacity: 1; }
+.input-controls-theme .demo-polish-slot .polish-chip-stop { border-color: var(--ic-demo-edge); }
+@media (max-width: 900px) {
+  .input-controls-theme .demo-polish-slot .contextual-polish-row { flex-wrap: wrap; }
+  .input-controls-theme .demo-polish-slot .contextual-polish-options { flex: 1 1 auto; }
+}
+
+.input-controls-theme .demo-task-compose .demo-polish-slot { padding-left:12px; padding-right:12px; }
+
+@font-face { font-family:"Demo Noto Sans SC"; src:url('/assets/figma/presentation/noto-sans-sc-400.woff2') format('woff2'); font-weight:400; font-display:swap; }
+@font-face { font-family:"Demo Noto Sans SC"; src:url('/assets/figma/presentation/noto-sans-sc-500.woff2') format('woff2'); font-weight:500; font-display:swap; }
+.input-controls-theme .demo-controls-index small {
+  font-size: 12px;
+  color: #717580;
+  line-height: 18px;
+}
+.input-controls-theme .demo-controls-index {
+  padding: 16px;
+  background: #faf9ff;
+  border: 1px solid #e4e0f3;
+  border-radius: 16px;
+  margin-bottom: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.input-controls-theme .demo-controls-index > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.input-controls-theme .demo-controls-index button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 10px;
+  border: 1px solid #dfdeea;
+  border-radius: 9px;
+  background: white;
+  cursor: pointer;
+  font-size: 13px;
+}
+.input-controls-theme .demo-controls-index .demo-control-example {
+  align-self: flex-start;
+  background: #eee9fc;
+}
+
+/* The add menu opens above the composer and scrolls within the viewport. */
+.demo-app .demo-add-menu {max-height:360px;overflow:auto;}
+.demo-app .ic-wb-sentence-composer .ic-sentence-token-capsule[data-semantic-state] .ic-sentence-token > .ic-sentence-token-face {height:32px;}
+
+.demo-app .deck-composer {overflow:visible;}
+.demo-app .demo-snapshot-capture {width:220px;}
+.demo-app .wb-home h1 {font-weight:500;letter-spacing:0;}
+@media (max-width:900px) {
+  .demo-app .wb-home {padding-inline:16px;}
+  .demo-app .wb-home h1 {font-size:24px;}
+}
+
+.input-controls-theme .demo-gallery {
+  display: grid; grid-template-columns: minmax(0,1fr) auto; gap: 8px;
+}
+.input-controls-theme .demo-gallery > .ic-live-wb-photo-body { grid-column: 1 / -1; }
+.input-controls-theme .demo-gallery > .ic-agent-photo-source { height: 36px; padding-inline: 12px; }

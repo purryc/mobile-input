@@ -149,11 +149,11 @@ test("Send opens tablet task/results layout; slides, document and image edit, un
   });
   // The accepted chip still toggles below itself in the task composer.
   await editor(page).fill("追问补充，主题色用绿色。");
-  await page.locator(".sentence-token[data-kind=color]").click();
+  await page.locator(".ic-sentence-token[data-kind=color]").click();
   await expect(
     page.getByRole("button", { name: "完成颜色选择" }),
   ).toBeInViewport();
-  const chip = (await page.locator('.sentence-token[data-kind="color"] .sentence-token-face').boundingBox())!,
+  const chip = (await page.locator('.ic-sentence-token[data-kind="color"] .ic-sentence-token-face').boundingBox())!,
     widget = (await page.locator(".demo-widget-wrap").boundingBox())!;
   expect(Math.abs(widget.y - chip.y - chip.height - 8)).toBeLessThan(2);
   await page.getByRole("button", { name: "关闭辅助输入" }).click();
@@ -281,7 +281,7 @@ test("unsupported attachments fail before network submission and can be removed 
   });
   await page.goto("/");
   await editor(page).fill("参考本地文件写一份方案");
-  await page.locator(".sentence-token[data-kind=document]").click();
+  await page.locator(".ic-sentence-token[data-kind=document]").click();
   const chooser = page.waitForEvent("filechooser");
   await page.getByRole("button", { name: "添加参考资料" }).click();
   await (
@@ -349,24 +349,24 @@ for (const size of [{width:1440,height:960},{width:1280,height:800},{width:1024,
       expect(settings.x+settings.width).toBeLessThanOrEqual(size.width);
       await page.screenshot({path:`artifacts/workbuddy-demo/evidence/xiaoyi-settings-${size.width}-${language}.png`});
       await page.locator('.demo-settings header button').click();
-      await page.locator('.sentence-token[data-kind=color]').first().click();
-      const hex=page.locator('.agent-color-bottom input');
+      await page.locator('.ic-sentence-token[data-kind=color]').first().click();
+      const hex=page.locator('.ic-agent-color-bottom input');
       await hex.fill('#A51124');
-      await page.locator('.agent-color-bottom > button').click();
+      await page.locator('.ic-agent-color-bottom > button').click();
       await expect(input).toContainText('#A51124');
       await page.locator('.demo-add > button').click();
       const chooser=page.waitForEvent('filechooser');
       await page.locator('.demo-add-menu button').first().click();
       await (await chooser).setFiles({name:'reference.txt',mimeType:'text/plain',buffer:Buffer.from('Fictional material')});
       await expect(page.locator('.demo-attachments')).toContainText('reference.txt');
-      await page.locator('.sentence-token[data-kind=color]').first().click();
-      await expect(page.locator('.agent-color-bottom > button')).toBeInViewport();
-      const chip=(await page.locator('.sentence-token-face').first().boundingBox())!;
+      await page.locator('.ic-sentence-token[data-kind=color]').first().click();
+      await expect(page.locator('.ic-agent-color-bottom > button')).toBeInViewport();
+      const chip=(await page.locator('.ic-sentence-token-face').first().boundingBox())!;
       const panel=(await page.locator('.demo-widget-wrap').boundingBox())!;
       expect(Math.abs(panel.x-chip.x)).toBeLessThan(1);
       expect(Math.abs(panel.y-chip.y-chip.height-8)).toBeLessThan(1);
       await page.screenshot({path:`artifacts/workbuddy-demo/evidence/xiaoyi-widget-${size.width}-${language}.png`});
-      await page.locator('.agent-color-bottom > button').click();
+      await page.locator('.ic-agent-color-bottom > button').click();
       await page.locator('.demo-send').click();
       await expect(page.locator('.wb-task-layout')).toBeVisible();
       await expect(page.getByRole('tab')).toHaveCount(3);

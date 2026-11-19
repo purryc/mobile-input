@@ -80,10 +80,10 @@ test("standalone entry renders all parameter types without bridge or model reque
   await editor(page).fill(prompt);
   for (const kind of ["document", "color", "duration", "photo", "sketch"])
     await expect(
-      page.locator(`.sentence-token[data-kind=${kind}]`).first(),
+      page.locator(`.ic-sentence-token[data-kind=${kind}]`).first(),
     ).toBeVisible();
-  await expect(page.locator(".live-wb-aux")).toHaveCount(0);
-  await expect(page.locator(".sentence-token[data-kind=color]")).toHaveCount(3);
+  await expect(page.locator(".ic-live-wb-aux")).toHaveCount(0);
+  await expect(page.locator(".ic-sentence-token[data-kind=color]")).toHaveCount(3);
   expect(
     requests.filter((url) =>
       /\/api\/|5189|5191|runtime\.ts|mac-link/.test(url),
@@ -103,8 +103,8 @@ test("browser speech adapter receives progressive/revised transcripts and stops 
   await page.getByRole("button", { name: "开始语音输入", exact: true }).click();
   await emit(page, "主题色用红");
   await emit(page, "主题色用红色，", "讲五分钟");
-  await expect(page.locator(".sentence-token[data-kind=color]")).toHaveCount(1);
-  await expect(page.locator(".sentence-token[data-kind=duration]")).toHaveCount(
+  await expect(page.locator(".ic-sentence-token[data-kind=color]")).toHaveCount(1);
+  await expect(page.locator(".ic-sentence-token[data-kind=duration]")).toHaveCount(
     1,
   );
   await emit(page, "主题色用蓝色，讲六分钟");
@@ -112,7 +112,7 @@ test("browser speech adapter receives progressive/revised transcripts and stops 
     "data-value",
     "主题色用蓝色，讲六分钟",
   );
-  await page.locator(".sentence-token[data-kind=color]").click();
+  await page.locator(".ic-sentence-token[data-kind=color]").click();
   // Opening a chip panel keeps dictation live; only the microphone stops it.
   await expect(
     page.getByRole("button", { name: "停止语音输入", exact: true }),
@@ -140,7 +140,7 @@ test("photos remain pending through close, switching and refresh; confirmed chip
 }) => {
   await open(page);
   await editor(page).fill("加入产品图片。");
-  await page.locator(".sentence-token[data-kind=photo]").click();
+  await page.locator(".ic-sentence-token[data-kind=photo]").click();
   await expect(page.getByRole("button", { name: "确认图片选择" })).toHaveCount(
     0,
   );
@@ -168,14 +168,14 @@ test("photos remain pending through close, switching and refresh; confirmed chip
   await expect(page.getByRole("alert")).toContainText("图片未确认");
   await page.getByRole("button", { name: "确认图片选择" }).click();
   await expect(page.getByLabel("已确认的材料")).toBeVisible();
-  await expect(page.locator(".sentence-token[data-kind=photo]")).toBeVisible();
+  await expect(page.locator(".ic-sentence-token[data-kind=photo]")).toBeVisible();
   await page.getByRole("button", { name: "发送请求", exact: true }).click();
   await expect(
     page.getByRole("region", { name: "发送的请求" }).getByRole("link"),
   ).toContainText("product.png");
   // Send clears the composer; the sent snapshot keeps its confirmed material.
   await expect(editor(page)).toHaveAttribute("data-value", "");
-  await expect(page.locator(".sentence-token[data-kind=photo]")).toHaveCount(0);
+  await expect(page.locator(".ic-sentence-token[data-kind=photo]")).toHaveCount(0);
   await expect(page.getByLabel("保存状态")).toHaveText("保存在这台电脑");
   await page.reload();
   await expect(
@@ -187,7 +187,7 @@ test("sketch coordinates, undo, confirmation, documents and stored snapshots", a
 }) => {
   await open(page);
   await editor(page).fill(prompt);
-  await page.locator(".sentence-token[data-kind=sketch]").click();
+  await page.locator(".ic-sentence-token[data-kind=sketch]").click();
   const canvas = page.getByLabel("布局画板"),
     bounds = (await canvas.boundingBox())!;
   await page.mouse.move(
@@ -217,7 +217,7 @@ test("sketch coordinates, undo, confirmation, documents and stored snapshots", a
   await expect(page.getByRole("alert")).toContainText("草图未确认");
   await page.getByRole("button", { name: "采用布局草图" }).click();
   await expect(page.getByLabel("已确认的材料")).toContainText("布局草图.png");
-  await page.locator(".sentence-token[data-kind=document]").click();
+  await page.locator(".ic-sentence-token[data-kind=document]").click();
   const chooser = page.waitForEvent("filechooser");
   await page.getByRole("button", { name: "添加参考资料" }).click();
   await (
@@ -232,7 +232,7 @@ test("sketch coordinates, undo, confirmation, documents and stored snapshots", a
   await documents.getByRole("button", { name: "完成选择", exact: true }).click();
   await expect(documents).toHaveCount(0);
   await expect(page.getByLabel("已确认的材料")).toContainText("brief.txt");
-  await page.locator(".sentence-token[data-kind=document]").click();
+  await page.locator(".ic-sentence-token[data-kind=document]").click();
   await expect(documents).toContainText("brief.txt");
   await documents.getByRole("button", { name: "关闭辅助输入" }).click();
   await page.getByRole("button", { name: "发送请求", exact: true }).click();
@@ -284,10 +284,10 @@ test("clear is isolated; negative recognition and tablet-sized layout remain usa
     localStorage.setItem("mobile-input-state-v1", "keep-original"),
   );
   await editor(page).fill("不要图片，不用布局，不要主题色用红色。图表和画图。");
-  await expect(page.locator(".sentence-token")).toHaveCount(0);
+  await expect(page.locator(".ic-sentence-token")).toHaveCount(0);
   await editor(page).fill(prompt);
   await page.setViewportSize({ width: 1024, height: 768 });
-  await page.locator(".sentence-token[data-kind=color]").first().click();
+  await page.locator(".ic-sentence-token[data-kind=color]").first().click();
   await expect(
     page.getByRole("button", { name: "完成颜色选择" }),
   ).toBeInViewport();
@@ -358,7 +358,7 @@ test("camera permission failure preserves pending photos and allows local select
   });
   await open(page);
   await editor(page).fill("加产品图片");
-  await page.locator(".sentence-token[data-kind=photo]").click();
+  await page.locator(".ic-sentence-token[data-kind=photo]").click();
   await page.getByRole("button", { name: "拍摄", exact: true }).click();
   await expect(page.getByRole("alert")).toContainText("无法打开摄像头");
   await expect(page.getByRole("dialog")).toHaveCount(0);
@@ -393,7 +393,7 @@ test("camera capture stays pending, persists and releases video tracks", async (
   });
   await open(page);
   await editor(page).fill("加产品图片");
-  await page.locator(".sentence-token[data-kind=photo]").click();
+  await page.locator(".ic-sentence-token[data-kind=photo]").click();
   await page.getByRole("button", { name: "拍摄", exact: true }).click();
   const dialog = page.getByRole("dialog", { name: "拍摄图片" });
   await expect(dialog).toBeVisible();
@@ -425,7 +425,7 @@ test("final speech correction cannot open an obsolete provisional widget", async
   });
   await page.getByRole("button", { name: "停止语音输入", exact: true }).click();
   await expect(editor(page)).toHaveAttribute("data-value", "不要主题色用红色");
-  await expect(page.locator(".live-wb-aux")).toHaveCount(0);
+  await expect(page.locator(".ic-live-wb-aux")).toHaveCount(0);
   await expect(
     page.getByRole("button", { name: "开始语音输入", exact: true }),
   ).toBeVisible();
@@ -454,7 +454,7 @@ test("tablet shell and icon-only microphone; each chip toggles its own anchored 
   await editor(page).fill(
     "背景呢用灰色字体呢用黑色主题色呢是用红色需要参考一个我的一个本地的文件",
   );
-  const chips = page.locator(".sentence-token[data-kind=color]");
+  const chips = page.locator(".ic-sentence-token[data-kind=color]");
   await expect(chips).toHaveCount(3);
   const first = chips.first();
   await first.click();
@@ -464,7 +464,7 @@ test("tablet shell and icon-only microphone; each chip toggles its own anchored 
   await expect(first).toHaveAttribute("aria-controls", (await popup.getAttribute("id"))!);
   await expect(popup).toBeVisible();
   async function aligned() {
-    const chip = (await first.locator(".sentence-token-face").boundingBox())!,
+    const chip = (await first.locator(".ic-sentence-token-face").boundingBox())!,
       box = (await popup.boundingBox())!;
     expect(Math.abs(box.x - chip.x)).toBeLessThan(1);
     expect(Math.abs(box.y - (chip.y + chip.height + 8))).toBeLessThan(1);
@@ -489,7 +489,7 @@ test("tablet shell and icon-only microphone; each chip toggles its own anchored 
   await page.setViewportSize({ width: 1280, height: 800 });
   await expect
     .poll(async () => {
-      const chip = (await first.locator(".sentence-token-face").boundingBox())!,
+      const chip = (await first.locator(".ic-sentence-token-face").boundingBox())!,
         box = (await popup.boundingBox())!;
       return (
         Math.abs(box.x - chip.x) < 1 &&
@@ -500,7 +500,7 @@ test("tablet shell and icon-only microphone; each chip toggles its own anchored 
   await page.locator(".wb-home").evaluate((el) => (el.scrollTop += 60));
   await expect
     .poll(async () => {
-      const chip = (await first.locator(".sentence-token-face").boundingBox())!,
+      const chip = (await first.locator(".ic-sentence-token-face").boundingBox())!,
         box = (await popup.boundingBox())!;
       return Math.abs(box.y - chip.y - chip.height - 8) < 1;
     })
@@ -557,8 +557,8 @@ test("existing saved ASR draft reparses colors without losing materials or sourc
   });
   await page.reload();
   await expect(editor(page)).toHaveAttribute("data-value", text);
-  await expect(page.locator(".sentence-token[data-kind=color]")).toHaveCount(3);
-  await expect(page.locator(".sentence-token[data-kind=document]")).toHaveText(
+  await expect(page.locator(".ic-sentence-token[data-kind=color]")).toHaveCount(3);
+  await expect(page.locator(".ic-sentence-token[data-kind=document]")).toHaveText(
     "本地的文件",
   );
   await expect(
@@ -571,7 +571,7 @@ test("black font and generic black chips open neutral palettes and keep independ
 }) => {
   await open(page);
   await editor(page).fill("主题色是用红色，字体适用黑色的微软雅黑");
-  const chips = page.locator(".sentence-token[data-kind=color]");
+  const chips = page.locator(".ic-sentence-token[data-kind=color]");
   await expect(chips).toHaveCount(2);
   await chips.last().click();
   await expect(
@@ -594,7 +594,7 @@ test("black font and generic black chips open neutral palettes and keep independ
   ).toBeVisible();
   await page.getByRole("button", { name: "关闭辅助输入" }).click();
   await editor(page).fill("用黑色");
-  await page.locator(".sentence-token[data-kind=color]").click();
+  await page.locator(".ic-sentence-token[data-kind=color]").click();
   await expect(
     page.getByRole("button", { name: "颜色 #000000", exact: true }),
   ).toBeVisible();
@@ -616,8 +616,8 @@ test('top-right language settings preserve content, isolate preferences and use 
   await expect(input).toContainText('保留这段文字。');
   expect(await page.evaluate(()=>localStorage.getItem('input-agent:ui-language'))).toBe('zh-CN');
   await input.fill('Create a five-minute presentation. Use a red theme, a gray background and black text. Attach my product document, add product photos, and sketch the layout.');
-  for(const kind of ['color','duration','document','photo','sketch'])await expect(page.locator(`.sentence-token[data-kind=${kind}]`).first()).toBeVisible();
-  await page.locator('.sentence-token[data-kind=photo]').click();
+  for(const kind of ['color','duration','document','photo','sketch'])await expect(page.locator(`.ic-sentence-token[data-kind=${kind}]`).first()).toBeVisible();
+  await page.locator('.ic-sentence-token[data-kind=photo]').click();
   await expect(page.getByRole('button',{name:'Choose images',exact:true})).toBeVisible();
   await page.getByRole('button',{name:'Close input tool'}).click();
   await input.fill('');

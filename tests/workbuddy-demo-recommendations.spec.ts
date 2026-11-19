@@ -1,7 +1,7 @@
 import {test, expect} from '@playwright/test';
 import {demoScenarios} from '../packages/core/workbuddy-demo-scenarios';
 const editor=(page:any)=>page.locator('.wb-sentence-composer');
-const recommended=(page:any)=>page.locator('.sentence-token-capsule[data-origin="recommended"]:not([data-preparing])');
+const recommended=(page:any)=>page.locator('.ic-sentence-token-capsule[data-origin="recommended"]:not([data-preparing])');
 async function open(page:any){await page.goto('/?controls=all&debug=1&language=zh');await expect(editor(page)).toBeVisible();await page.clock.install();}
 for(const scenario of demoScenarios)test('pause and source-only copy '+scenario.id,async({page})=>{
  await open(page);await editor(page).fill(scenario.text);
@@ -16,7 +16,7 @@ for(const scenario of demoScenarios)test('pause and source-only copy '+scenario.
  await page.clock.runFor(Math.max(0,expected-1)*220);
  await expect(pending).toHaveCount(0);await expect(recommended(page)).toHaveCount(expected);
  expect(await editor(page).textContent()).not.toContain('（推荐');
- expect(await page.locator('.sentence-token-hit > .demo-chip-remove').count()).toBe(0);
+ expect(await page.locator('.ic-sentence-token-hit > .ic-demo-chip-remove').count()).toBe(0);
  const copied=await editor(page).evaluate((el:any)=>{const r=document.createRange();r.selectNodeContents(el);getSelection()!.removeAllRanges();getSelection()!.addRange(r);const data=new DataTransfer();el.dispatchEvent(new ClipboardEvent('copy',{clipboardData:data,bubbles:true,cancelable:true}));return data.getData('text/plain')});
  expect(copied).toBe(scenario.text);
  await page.clock.runFor(1500);await page.reload();await expect(editor(page)).toBeVisible();await expect(recommended(page)).toHaveCount(expected);
@@ -25,7 +25,7 @@ for(const scenario of demoScenarios)test('pause and source-only copy '+scenario.
 test('continued input cancels loading and switching drafts never adopts late candidates',async({page})=>{
  await open(page);await editor(page).fill('请准备简短的演讲报告。');await page.clock.runFor(1100);await expect(page.locator('[data-preparing=true]')).toHaveCount(1);
  await editor(page).fill('请准备10分钟的演讲报告。');await page.clock.runFor(1600);
- await expect(recommended(page)).toHaveCount(0);await expect(page.locator('.sentence-token[data-kind=duration]')).toBeVisible();
+ await expect(recommended(page)).toHaveCount(0);await expect(page.locator('.ic-sentence-token[data-kind=duration]')).toBeVisible();
  await editor(page).fill('请准备简短的演讲报告，内容需要可靠的产品资料支撑。');await page.clock.runFor(1100);
  await page.getByRole('button',{name:'新建演示',exact:true}).click();await page.clock.runFor(1500);
  await expect(recommended(page)).toHaveCount(0);await expect(page.locator('.demo-materials')).toHaveCount(0);await expect(editor(page)).toHaveAttribute('data-value','');
@@ -42,7 +42,7 @@ test('send during loading excludes hidden suggestions and real sample bytes',asy
 test('internal remove is independently keyboard operable and does not open a panel',async({page})=>{
  await open(page);await editor(page).fill('请准备简短的演讲报告。');await page.clock.runFor(1400);
  const capsule=recommended(page).first();expect(await capsule.locator('button').count()).toBe(2);
- await capsule.locator('.sentence-token').focus();await page.keyboard.press('Tab');await expect(capsule.locator('.demo-chip-remove')).toBeFocused();await page.keyboard.press('Enter');
+ await capsule.locator('.ic-sentence-token').focus();await page.keyboard.press('Tab');await expect(capsule.locator('.ic-demo-chip-remove')).toBeFocused();await page.keyboard.press('Enter');
  await expect(recommended(page)).toHaveCount(0);await expect(page.locator('.demo-widget-wrap')).toHaveCount(0);await expect(editor(page)).toHaveAttribute('data-value','请准备简短的演讲报告。');
  await page.clock.runFor(3000);await expect(recommended(page)).toHaveCount(0);
 });
@@ -62,7 +62,7 @@ test('visibility resumes pending suggestions and rephrasing retains visible valu
  await page.clock.runFor(3000);await expect(page.locator('[data-preparing=true]')).toHaveCount(0);
 });
 test('blocked send resumes suggestions while pending materials stay owned',async({page})=>{
- await open(page);await editor(page).fill('添加产品图片。');await page.locator('.sentence-token[data-kind=photo]').click();
+ await open(page);await editor(page).fill('添加产品图片。');await page.locator('.ic-sentence-token[data-kind=photo]').click();
  const choose=page.waitForEvent('filechooser');await page.getByRole('button',{name:'选择图片',exact:true}).click();
  await (await choose).setFiles({name:'pending.png',mimeType:'image/png',buffer:Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+a8i8AAAAASUVORK5CYII=','base64')});
  await page.getByRole('button',{name:'关闭辅助输入',exact:true}).click();
@@ -75,7 +75,7 @@ test('one continuous utterance keeps explicit chips live and releases recommenda
  await open(page);await page.locator('.demo-voice').click();
  const firstSentence='准备简短培训，主题色用蓝色';
  await page.evaluate(t=>(window as any).__voice.at(-1).onresult({results:[{0:{transcript:t},isFinal:false}]}),firstSentence);
- await expect(page.locator('.sentence-token[data-kind=color]')).toBeVisible();
+ await expect(page.locator('.ic-sentence-token[data-kind=color]')).toBeVisible();
  await page.clock.runFor(1000);await expect(page.locator('[data-preparing=true]')).toHaveCount(1);
  const fullText='准备简短培训，主题色用蓝色，整体沉静专业，希望直观看到产品的样子。';
  await page.evaluate(t=>(window as any).__voice.at(-1).onresult({results:[{0:{transcript:t},isFinal:false}]}),fullText);
@@ -91,9 +91,9 @@ test('pasted and IME-composed text recognizes product intro recommendations with
  const box=editor(page);await box.click();
  await box.evaluate((el:any)=>{const data=new DataTransfer();data.setData('text/plain','我想做一个简短的演讲报告，介绍今年要发布的产品。');el.dispatchEvent(new ClipboardEvent('paste',{clipboardData:data,bubbles:true,cancelable:true}));});
  await page.clock.runFor(3000);
- await expect(page.locator('.sentence-token[data-kind=skills][data-origin=recommended]')).toBeVisible();
- await expect(page.locator('.sentence-token[data-kind=expert][data-origin=recommended]')).toBeVisible();
- await expect(page.locator('.sentence-token[data-kind=duration][data-origin=recommended]')).toBeVisible();
+ await expect(page.locator('.ic-sentence-token[data-kind=skills][data-origin=recommended]')).toBeVisible();
+ await expect(page.locator('.ic-sentence-token[data-kind=expert][data-origin=recommended]')).toBeVisible();
+ await expect(page.locator('.ic-sentence-token[data-kind=duration][data-origin=recommended]')).toBeVisible();
  await page.getByRole('button',{name:'新建演示',exact:true}).click();
  await box.click();
  await box.evaluate((el:any)=>{el.dispatchEvent(new CompositionEvent('compositionstart',{bubbles:true}));el.textContent='介绍今年的产品';el.dispatchEvent(new InputEvent('input',{bubbles:true,isComposing:true}));});
@@ -103,17 +103,17 @@ test('pasted and IME-composed text recognizes product intro recommendations with
  await box.evaluate((el:any)=>el.dispatchEvent(new CompositionEvent('compositionend',{bubbles:true,data:'介绍今年的产品'})));
  await page.clock.runFor(3000);
  await expect(box).toHaveAttribute('data-value','介绍今年的产品');
- await expect(page.locator('.sentence-token[data-kind=skills][data-origin=recommended]')).toBeVisible();
- await expect(page.locator('.sentence-token[data-kind=expert][data-origin=recommended]')).toBeVisible();
+ await expect(page.locator('.ic-sentence-token[data-kind=skills][data-origin=recommended]')).toBeVisible();
+ await expect(page.locator('.ic-sentence-token[data-kind=expert][data-origin=recommended]')).toBeVisible();
 });
 test('desktop color opens the actual blue, including background and text bindings, without changing the draft',async({page})=>{
  await open(page);
  for(const [color,hex]of [['蓝色','#356FE4'],['红色','#C92A2A'],['黑色','#182431'],['白色','#FFFFFF'],['灰色','#D9DEDF']]){
   const text=`主题色用${color}，背景用${color}，文字用${color}。`;await editor(page).fill(text);
-  const chips=page.locator('.sentence-token[data-kind=color]');await expect(chips).toHaveCount(3);
+  const chips=page.locator('.ic-sentence-token[data-kind=color]');await expect(chips).toHaveCount(3);
   for(let i=0;i<3;i++){
-   await chips.nth(i).click();await expect(page.locator('.agent-color-bottom input')).toHaveValue(hex);
-   const swatches=await page.locator('.agent-color-swatch').evaluateAll(es=>es.map(e=>getComputedStyle(e).backgroundColor));
+   await chips.nth(i).click();await expect(page.locator('.ic-agent-color-bottom input')).toHaveValue(hex);
+   const swatches=await page.locator('.ic-agent-color-swatch').evaluateAll(es=>es.map(e=>getComputedStyle(e).backgroundColor));
    if(color==='蓝色')expect(swatches.every(c=>{const n=c.match(/\d+/g)!.map(Number);return n[2]>n[0]})).toBe(true);
    await page.getByRole('button',{name:'关闭辅助输入',exact:true}).click();await expect(editor(page)).toHaveAttribute('data-value',text);
   }
@@ -133,12 +133,12 @@ test('successive IME rounds continue after a newly rendered chip and preserve ma
   await dictate(first);
   await expect(box).toHaveAttribute('data-value', first);
   await page.clock.runFor(2000);
-  const chip = box.locator('.sentence-token[data-kind="duration"]');
+  const chip = box.locator('.ic-sentence-token[data-kind="duration"]');
   await expect(chip).toHaveText('10分钟');
   const afterChip = () => chip.evaluate((button: HTMLElement) => {
     const range = getSelection()?.getRangeAt(0);
     const chipRange = document.createRange();
-    chipRange.setStartAfter(button.closest('.sentence-token-hit')!);
+    chipRange.setStartAfter(button.closest('.ic-sentence-token-hit')!);
     chipRange.collapse(true);
     return Boolean(range?.collapsed && range.compareBoundaryPoints(Range.START_TO_START, chipRange) >= 0);
   });
@@ -148,8 +148,8 @@ test('successive IME rounds continue after a newly rendered chip and preserve ma
   await dictate(second);
   await expect(box).toHaveAttribute('data-value', first + second);
   await page.clock.runFor(2100);
-  await expect(box.locator('.sentence-token[data-kind="skills"]')).toBeVisible();
-  await expect(box.locator('.sentence-token[data-kind="expert"]')).toBeVisible();
+  await expect(box.locator('.ic-sentence-token[data-kind="skills"]')).toBeVisible();
+  await expect(box.locator('.ic-sentence-token[data-kind="expert"]')).toBeVisible();
   const third = '。先讲产品价值。';
   await dictate(third);
   await expect(box).toHaveAttribute('data-value', first + second + third);

@@ -1,7 +1,15 @@
+# Xiaoyi shared-controls adoption
+
+- Consume the exact 1.7.1 library archive built at 6c5ac88. Open an explicitly invoked camera chip in Photo or Document Scan mode, adopt only confirmed material and keep its removable filename in the originating draft. Passive previews must wait for user interaction. Keep the workspace adapter for screen capture.
+
+- The 13 shared React widgets, styles and assets are authored in packages/input-controls. Xiaoyi consumes a pinned installable package. Its draft, capture services, recommendation rules, dictation and polish belong to the Web host.
+- Mobile Input retains its current UI and device contracts. Record future integration points in docs/shared-controls-maintenance.md. Keep standalone builds and tests independent.
+- Start the migration from fe8abc8 and the 1.1 release line. Preserve subsequent main and library releases. The 1.7.1 delivery includes the independent GitHub branch, integration into main, and a production update to the existing xiaoyi-work Vercel project. Verify the public font picker after deployment.
+
 # XiaoYi Work Web prototype integration
 
 - Merge codex/workbuddy-web-demo at 2c7c428 into main while keeping its ref and this repository's current Design System and published input-controls source intact.
-- The prototype owns packages/workbuddy-demo-ui and its Web-only sentence composer. Published library changes and standalone prototype updates remain separately reviewed.
+- The prototype owns its Web-only sentence composer and product polish. Published library changes and standalone prototype updates remain separately reviewed.
 - Verify standalone build and fixture-based behavior, the clean source handoff, and existing component-library contracts before pushing only main.
 
 # Publish Xiaoyi Work input controls 1.1.0

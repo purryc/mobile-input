@@ -18,7 +18,7 @@ test("all fourteen deep links render the real control without a draft or model r
     const example = page.locator(`.widget-example[data-widget="${kind}"]`);
     await expect(example).toBeVisible();
     await expect(
-      example.locator(kind === "polish" ? ".demo-polish-slot" : ".live-wb-aux"),
+      example.locator(kind === "polish" ? ".demo-polish-slot" : ".ic-live-wb-aux"),
     ).toBeVisible();
     await expect
       .poll(() =>
@@ -55,38 +55,38 @@ test("two duration and color specimens keep independent values and panel ids", a
   const first = examples.nth(0),
     second = examples.nth(1);
   const firstId = await first
-    .locator(".sentence-token")
+    .locator(".ic-sentence-token")
     .getAttribute("aria-controls");
   expect(firstId).toBeTruthy();
   expect(firstId).not.toBe(
-    await second.locator(".sentence-token").getAttribute("aria-controls"),
+    await second.locator(".ic-sentence-token").getAttribute("aria-controls"),
   );
-  const trigger = first.locator(".sentence-token");
+  const trigger = first.locator(".ic-sentence-token");
   await trigger.press("Enter");
   await expect(trigger).toBeFocused();
-  await expect(first.locator(".live-wb-aux")).toHaveCount(0);
+  await expect(first.locator(".ic-live-wb-aux")).toHaveCount(0);
   await trigger.press("Enter");
   await expect(trigger).toBeFocused();
-  await expect(first.locator(".live-wb-aux")).toBeVisible();
+  await expect(first.locator(".ic-live-wb-aux")).toBeVisible();
   await first.locator("input[type=number]").fill("23");
-  await expect(first.locator(".sentence-token")).toContainText("23");
+  await expect(first.locator(".ic-sentence-token")).toContainText("23");
   await expect(second.locator("input[type=number]")).toHaveValue("10");
   await first.getByRole("button", { name: "Done", exact: true }).click();
-  await expect(first.locator(".live-wb-aux")).toHaveCount(0);
-  await expect(second.locator(".live-wb-aux")).toBeVisible();
+  await expect(first.locator(".ic-live-wb-aux")).toHaveCount(0);
+  await expect(second.locator(".ic-live-wb-aux")).toBeVisible();
   await page
     .getByRole("navigation")
     .getByRole("button", { name: "Color", exact: true })
     .click();
   await first.locator('input[aria-label$="HEX"]').fill("#442288");
-  await expect(first.locator(".sentence-token")).toContainText("#442288");
+  await expect(first.locator(".ic-sentence-token")).toContainText("#442288");
   await expect(second.locator('input[aria-label$="HEX"]')).toHaveValue(
     "#356FE4",
   );
   await page.getByLabel("State").selectOption("recommended");
-  await first.getByRole("button", { name: /Remove recommendation/ }).click();
-  await expect(first.locator(".live-wb-aux")).toHaveCount(0);
-  await expect(second.locator(".sentence-token")).toHaveAttribute(
+  await first.getByRole("button", { name: /^Remove / }).click();
+  await expect(first.locator(".ic-live-wb-aux")).toHaveCount(0);
+  await expect(second.locator(".ic-sentence-token")).toHaveAttribute(
     "data-origin",
     "recommended",
   );
@@ -104,17 +104,17 @@ test("choice widgets write controlled selections and support searching", async (
     "formats",
   ]) {
     await page.goto(path(kind));
-    const panel = page.locator(".live-wb-aux");
+    const panel = page.locator(".ic-live-wb-aux");
     if (["font", "expert", "skills", "connectors"].includes(kind)) {
       await panel.locator("input").fill("zz no match");
-      await expect(panel.locator("button.demo-control-option")).toHaveCount(0);
+      await expect(panel.locator("button.ic-demo-control-option")).toHaveCount(0);
       await panel.locator("input").clear();
     }
-    const option = panel.locator("button.demo-control-option").first();
+    const option = panel.locator("button.ic-demo-control-option").first();
     const label = await option.getAttribute("aria-label");
     await option.click();
     await expect(option).toHaveAttribute("aria-pressed", "true");
-    await expect(page.locator(".sentence-token")).toContainText(label!);
+    await expect(page.locator(".ic-sentence-token")).toContainText(label!);
   }
 });
 
@@ -147,18 +147,18 @@ test("file and image selection, sketch adoption, and capture confirmation update
     mimeType: "image/png",
     buffer: png,
   });
-  await page.locator(".agent-photo-actions button").last().click();
+  await page.locator(".ic-agent-photo-actions button").last().click();
   await expect(page.locator(".widget-example-files")).toContainText(
     "reference.png",
   );
   await page.goto(path("sketch"));
-  const sketch = page.locator(".agent-sketch-surface");
+  const sketch = page.locator(".ic-agent-sketch-surface");
   const box = (await sketch.boundingBox())!;
   await page.mouse.move(box.x + 20, box.y + 20);
   await page.mouse.down();
   await page.mouse.move(box.x + 80, box.y + 35, { steps: 4 });
   await page.mouse.up();
-  await page.locator(".live-wb-sketch-tools button").last().click();
+  await page.locator(".ic-live-wb-sketch-tools button").last().click();
   await expect(page.locator(".widget-sketch-result polyline")).toHaveCount(1);
   for (const kind of ["scanner", "capture"]) {
     await page.goto(path(kind));
@@ -166,7 +166,7 @@ test("file and image selection, sketch adoption, and capture confirmation update
       await page
         .getByRole("button", { name: "Screenshot", exact: true })
         .click();
-      const selector = page.locator(".demo-screen-selector-overlay");
+      const selector = page.locator(".ic-demo-screen-selector-overlay");
       await expect(selector).toBeVisible();
       await expect(selector).toHaveAttribute(
         "data-capture-cursor",
@@ -182,11 +182,11 @@ test("file and image selection, sketch adoption, and capture confirmation update
     }
     await expect(page.getByText("Awaiting confirmation")).toBeVisible();
     await page.getByRole("button", { name: "Confirm materials" }).click();
-    await expect(page.locator(".demo-attachments .demo-material")).toHaveCount(
+    await expect(page.locator(".demo-attachments :is(.demo-material,.ic-demo-material)")).toHaveCount(
       1,
     );
     await page
-      .locator(".demo-attachments .demo-material button")
+      .locator(".demo-attachments :is(.demo-material,.ic-demo-material) button")
       .first()
       .click();
     await expect(page.getByRole("dialog")).toBeVisible();

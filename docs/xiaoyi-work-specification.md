@@ -87,9 +87,9 @@
 flowchart LR
   Shell["apps/web/src/workbuddy-demo-shell.tsx\n(通透感环境光工作区)"] --> Composer["apps/web/src/workbuddy-demo-composer.tsx\n(Liquid Glass 输入舱)"]
   Composer --> Host["apps/web/src/workbuddy-demo-widget-host.tsx\n(控件浮层宿主)"]
-  Host --> Controls["packages/workbuddy-demo-ui/src/*\n(14类受控桌面组件)"]
-  Controls --> Capture["packages/workbuddy-demo-ui/src/capture-panel.tsx\n(全屏直接框选截图/录屏 + 专属光标)"]
-  Controls --> Chip["packages/workbuddy-demo-ui/src/inline-chip.tsx\n(柔和珠光微光推荐芯片)"]
+  Host --> Controls["@mobile-input/controls\n(13类共享控件，润色由产品提供)"]
+  Controls --> Capture["packages/input-controls/src/capture-panel.tsx\n(全屏直接框选截图/录屏 + 专属光标)"]
+  Controls --> Chip["packages/input-controls/src/inline-chip.tsx\n(柔和珠光微光推荐芯片)"]
 ```
 
 ### 2. 直接框选截图/录屏关键流程

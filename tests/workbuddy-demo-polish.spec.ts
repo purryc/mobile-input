@@ -54,18 +54,18 @@ test('explicit rewrite, undo, unchanged result and failure retry retain draft wi
 test('selection-only polish and manual parameter values survive; changed parameters are rejected',async({page})=>{
  let mode='good';await page.route('**/api/workbuddy-demo/polish',r=>{const b=r.request().postDataJSON();const text=b.selection.end>b.selection.start?edited:b.text.replace('重点说明','着重说明').replace(mode==='bad'?'红色':'__never__','蓝色');return r.fulfill({json:{id:b.id,text}});});
  await open(page);await composer(page).fill('主题色用红色。'+source);
- await page.locator('.sentence-token[data-kind=color]').click();await page.locator('.agent-color-bottom input').fill('#A51124');await page.locator('.agent-color-bottom > button').click();
- await expect(action(page)).toBeEnabled();await action(page).click();await expect(composer(page)).toContainText('着重说明');await expect(page.locator('.sentence-token')).toContainText('#A51124');
+ await page.locator('.ic-sentence-token[data-kind=color]').click();await page.locator('.ic-agent-color-bottom input').fill('#A51124');await page.locator('.ic-agent-color-bottom > button').click();
+ await expect(action(page)).toBeEnabled();await action(page).click();await expect(composer(page)).toContainText('着重说明');await expect(page.locator('.ic-sentence-token')).toContainText('#A51124');
  await page.getByRole('button',{name:'恢复原文',exact:true}).click();
  await expect(composer(page)).toHaveAttribute('data-value','主题色用红色。'+source);
  await expect.poll(()=>page.evaluate(()=>getSelection()?.toString())).toBe('');
  // Select the prose text node, leaving the preceding parameter and punctuation outside it.
  await composer(page).evaluate((el,text)=>{el.focus();const walker=document.createTreeWalker(el,NodeFilter.SHOW_TEXT);let node:Node|null;while(node=walker.nextNode()){const at=(node.textContent||'').indexOf(text);if(at>=0){const range=document.createRange();range.setStart(node,at);range.setEnd(node,at+text.length);getSelection()!.removeAllRanges();getSelection()!.addRange(range);break;}}},source);
  await expect.poll(()=>page.evaluate(()=>getSelection()?.toString())).toBe(source);
- await expect(action(page)).toBeEnabled();await action(page).click();await expect(composer(page)).toContainText(edited);await expect(page.locator('.sentence-token')).toContainText('#A51124');
+ await expect(action(page)).toBeEnabled();await action(page).click();await expect(composer(page)).toContainText(edited);await expect(page.locator('.ic-sentence-token')).toContainText('#A51124');
  await page.getByRole('button',{name:'恢复原文',exact:true}).click();
  await expect.poll(()=>page.evaluate(()=>getSelection()?.toString())).toBe(source);
- await composer(page).press('ArrowRight');await expect.poll(()=>page.evaluate(()=>getSelection()?.toString())).toBe('');mode='bad';await expect(action(page)).toBeEnabled();await action(page).click();await expect(page.locator('.polish-error')).toBeVisible();await expect(page.locator('.sentence-token')).toContainText('#A51124');
+ await composer(page).press('ArrowRight');await expect.poll(()=>page.evaluate(()=>getSelection()?.toString())).toBe('');mode='bad';await expect(action(page)).toBeEnabled();await action(page).click();await expect(page.locator('.polish-error')).toBeVisible();await expect(page.locator('.ic-sentence-token')).toContainText('#A51124');
 });
 test('typing, draft switching, explicit cancel and page hiding invalidate pending responses',async({page})=>{
  let finish:()=>Promise<void>=async()=>{};
@@ -124,8 +124,8 @@ test('polish preserves confirmed files and unconfirmed photos on the original dr
  await page.route('**/api/workbuddy-demo/polish',r=>{const b=r.request().postDataJSON();return r.fulfill({json:{id:b.id,text:b.text.replace('重点说明','着重说明')}});});
  await open(page);await composer(page).fill(source+'添加产品图片。');
  await page.locator('.demo-add > button').click();let chooser=page.waitForEvent('filechooser');await page.getByRole('button',{name:'参考文件',exact:true}).click();await (await chooser).setFiles({name:'reference.txt',mimeType:'text/plain',buffer:Buffer.from('Fictional file')});
- await page.locator('.sentence-token[data-kind=photo]').click();chooser=page.waitForEvent('filechooser');await page.getByRole('button',{name:'选择图片',exact:true}).click();await (await chooser).setFiles({name:'pending.png',mimeType:'image/png',buffer:Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jRZkAAAAASUVORK5CYII=','base64')});
+ await page.locator('.ic-sentence-token[data-kind=photo]').click();chooser=page.waitForEvent('filechooser');await page.getByRole('button',{name:'选择图片',exact:true}).click();await (await chooser).setFiles({name:'pending.png',mimeType:'image/png',buffer:Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jRZkAAAAASUVORK5CYII=','base64')});
  await page.getByRole('button',{name:'关闭辅助输入'}).click();await action(page).click();await expect(composer(page)).toContainText('着重说明');
  await expect(page.locator('.demo-attachments')).toContainText('reference.txt');await expect(page.locator('.demo-attachments')).not.toContainText('pending.png');await expect(page.locator('.demo-pending')).toContainText('1 张图片待确认');
- await page.locator('.sentence-token[data-kind=photo]').click();await expect(page.locator('.live-wb-photo-body')).toContainText('pending.png');
+ await page.locator('.ic-sentence-token[data-kind=photo]').click();await expect(page.locator('.ic-live-wb-photo-body')).toContainText('pending.png');
 });
