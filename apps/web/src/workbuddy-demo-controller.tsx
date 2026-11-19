@@ -35,6 +35,7 @@ import {
 import type { LiveInputKind } from "../../../packages/core/live-workbuddy";
 const debugControlsStorageKey = "workbuddy-standalone-demo:debug-controls";
 type Panel = {
+  deferCamera?: boolean;
   kind: DemoControlKind;
   scope: string;
   id?: string;

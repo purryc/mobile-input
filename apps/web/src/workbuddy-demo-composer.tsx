@@ -83,6 +83,7 @@ export function WorkbuddyDemoComposer({
   } = model;
   const anchorRoot = useRef<HTMLDivElement>(null);
   const controlsId = useId();
+  const boundScans = draft.captures?.filter(item => item.kind === "scanner" && item.confirmed) ?? [];
   const pendingSketch = Object.entries(draft.sketches).find(
     ([, lines]) => lines.length,
   );
@@ -126,7 +127,10 @@ export function WorkbuddyDemoComposer({
       {showDebugControls && (
         <ControlsIndex
           language={language}
-          onOpen={invokeControl}
+          onOpen={kind => {
+            if (kind === "scanner") openPanel({kind, scope: "全文", deferCamera: true});
+            else invokeControl(kind);
+          }}
           onExample={createExample}
         />
       )}
@@ -271,7 +275,11 @@ export function WorkbuddyDemoComposer({
               renderChip: (token, events) =>
                 renderInlineChip({
                   ...events,
-                  token: {...token, removeLabel: (language === "en" ? "Remove recommendation " : "移除推荐 ") + token.label, semanticState: token.origin === "recommended" ? "ambiguous-recommendation" : "default-selected"},
+                  token: {
+                    ...token,
+                    semanticState: token.semanticState ?? (token.origin === "recommended" ? "ambiguous-recommendation" : "default-selected"),
+                  },
+                  onRemoveMaterial: token.boundMaterialId ? () => removeCapture(draft.id, token.boundMaterialId!) : undefined,
                   expanded: panel?.id === token.id,
                   controlsId,
                   disabled: busy,
@@ -311,6 +319,12 @@ export function WorkbuddyDemoComposer({
                   ...recommendations.loading,
                 ].map(
                   (c) => ({
+                    ...(c.kind === "scanner" ? {
+                      boundMaterialId: boundScans[0]?.id,
+                      additionalObjectCount: Math.max(0, boundScans.length - 1),
+                      semanticState: boundScans.length ? "object-bound" as const
+                        : c.origin === "recommended" ? "ambiguous-recommendation" as const : "needs-input" as const,
+                    } : {}),
                     preparing: recommendations.loading.includes(c),
                     id: c.id,
                     kind: c.kind,
@@ -328,7 +342,11 @@ export function WorkbuddyDemoComposer({
                         : c.end,
                     phrase:
                       c.detached || c.presentation === "append" ? "" : c.phrase,
-                    label: c.value.length
+                    label: c.kind === "scanner"
+                      ? boundScans[0]?.name ?? (c.origin === "recommended"
+                        ? (language === "en" ? "Capture a reference" : "拍摄参考材料")
+                        : c.phrase || controlLabel(c.kind, language))
+                      : c.value.length
                       ? valueLabel(c, language) +
                         (c.kind === "duration" && c.presentation === "append"
                           ? language === "en"

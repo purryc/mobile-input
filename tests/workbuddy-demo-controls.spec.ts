@@ -116,7 +116,7 @@ test("explicit user intent and inferred recommendations coexist, animate once an
   await expect(chip(page, "expert")).toHaveAttribute("data-origin", "manual");
   await page.getByRole("button", { name: "关闭辅助输入" }).click();
   await page
-    .getByRole("button", { name: "移除推荐 温暖自然", exact: true })
+    .getByRole("button", { name: "移除 温暖自然", exact: true })
     .click();
   await expect(chip(page, "palette")).toHaveCount(0);
   await editor(page).fill(mixedExample.zh + "再讲一下优势。补充受众。");
@@ -184,7 +184,6 @@ test("capture permissions fail safely and repeated cancel keeps input", async ({
     };
   });
   await chip(page, "scanner").click();
-  await page.getByRole("button", { name: "打开摄像头", exact: true }).click();
   await expect(page.locator(".ic-demo-capture-panel [role=alert]")).toBeVisible();
   await expect(page.locator(".demo-send")).toBeEnabled();
   await page.getByRole("button", { name: "关闭辅助输入" }).click();
@@ -225,7 +224,6 @@ test("mock real media adapters produce owner-bound bytes and confirmed snapshots
   });
   await editor(page).fill("Scan a document and record the screen.");
   await chip(page, "scanner").click();
-  await page.getByRole("button", { name: "Open camera", exact: true }).click();
   await expect(
     page.getByRole("button", { name: "Capture", exact: true }),
   ).toBeEnabled();
@@ -385,7 +383,6 @@ test("cancelling an asynchronous capture ignores late bytes", async ({
   });
   await editor(page).fill("Scan a document.");
   await chip(page, "scanner").click();
-  await page.getByRole("button", { name: "Open camera", exact: true }).click();
   await page.getByRole("button", { name: "Capture", exact: true }).click();
   await page.waitForFunction(
     () => typeof (window as any).finishCapture === "function",
@@ -497,7 +494,7 @@ test('suggested values remain editable and reach a frozen mocked Send with actua
  await expect(editor(page)).toHaveAttribute('data-value','');
  await editor(page).fill(demoScenarios[1].text);
  await expect(page.locator('.ic-sentence-token-capsule[data-origin=recommended]:not([data-preparing])')).toHaveCount(15);
- await page.getByRole('button',{name:'移除推荐 手绘画板',exact:true}).click();
+ await page.getByRole('button',{name:'移除 手绘画板',exact:true}).click();
  await expect(chip(page,'sketch')).toHaveCount(0);
  await editor(page).press('End');await page.keyboard.type('补充说明。');
  await expect(chip(page,'sketch')).toHaveCount(0);
@@ -547,6 +544,39 @@ test('removing an explicit built-in material keeps its input entry and no stale 
  await expect(chip(page,'document')).not.toContainText('training-reference.md');
 });
 
+test("paper references and photo requests open the shared camera with distinct modes", async ({page}) => {
+  await open(page);
+  await page.evaluate(() => {
+    navigator.mediaDevices.getUserMedia = async () => {throw new DOMException("Denied","NotAllowedError");};
+  });
+  const text = "我手头还有纸质培训提纲，想把里面的内容提供给你参考。";
+  await editor(page).fill(text);
+  const scanner = chip(page, "scanner");
+  await expect(scanner).toHaveText("拍摄参考材料");
+  await scanner.click();
+  const panel = page.locator(".ic-demo-capture-panel");
+  await expect(panel.getByRole("button", {name: "文档扫描", exact: true})).toHaveAttribute("aria-pressed","true");
+  await expect(panel.getByRole("alert")).toBeVisible();
+  await page.locator(".ic-live-wb-aux input[type=file]").setInputFiles({
+    name: "培训提纲.png", mimeType: "image/png",
+    buffer: Buffer.from("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aX1sAAAAASUVORK5CYII=", "base64")
+  });
+  await expect(scanner).toHaveText("拍摄参考材料");
+  await panel.getByRole("button", {name: "确认材料"}).click();
+  await expect(scanner).toHaveText("培训提纲.png");
+  await page.reload();
+  await expect(scanner).toHaveAttribute("data-semantic-state","object-bound");
+  await expect(editor(page)).toHaveAttribute("data-value",text);
+  await editor(page).getByRole("button",{name:"移除 培训提纲.png",exact:true}).click();
+  await expect(page.locator(".demo-attachments")).toHaveCount(0);
+  await expect(scanner).toHaveText("拍摄参考材料");
+  await editor(page).fill("我来拍照。");
+  await scanner.click();
+  await expect(panel.getByRole("button",{name:"拍照",exact:true})).toHaveAttribute("aria-pressed","true");
+  await panel.getByRole("button",{name:"文档扫描",exact:true}).click();
+  await expect(panel).toHaveAttribute("data-camera-mode","scan");
+});
+
 test("scanner recovers when the camera grants a stream but delivers no frame", async ({ page }) => {
   await open(page, "en");
   await editor(page).fill("Scan a document.");
@@ -560,15 +590,14 @@ test("scanner recovers when the camera grants a stream but delivers no frame", a
   });
   await chip(page, "scanner").click();
   const panel = page.locator(".ic-demo-capture-panel");
-  await panel.getByRole("button", { name: "Open camera" }).click();
-  await expect(panel.getByRole("status")).toContainText("Waiting for the camera preview");
+  await expect(panel.getByRole("status")).toContainText("Waiting for video");
   await expect(panel.getByRole("button", { name: "Capture", exact: true })).toBeDisabled();
-  await expect(panel.getByRole("alert")).toContainText("sent no frames", { timeout: 8000 });
-  await expect(panel.getByRole("button", { name: "Open camera" })).toBeEnabled();
+  await expect(page.getByText("The camera connected but sent no frames.",{exact:true})).toBeVisible({ timeout: 8000 });
+  await expect(panel.getByRole("button", { name: "Retry" })).toBeEnabled();
   expect(await page.evaluate(() => (window as Window & { stalledScan?: MediaStream })
     .stalledScan?.getVideoTracks()[0]?.readyState)).toBe("ended");
 
-  await panel.locator('input[type="file"]').setInputFiles({
+  await page.locator('.ic-live-wb-aux input[type="file"]').setInputFiles({
     name: "scan.png",
     mimeType: "image/png",
     buffer: Buffer.from("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aX1sAAAAASUVORK5CYII=", "base64"),
@@ -590,7 +619,7 @@ test("scanner recovers when the camera grants a stream but delivers no frame", a
     };
   });
   await panel.getByRole("button", { name: "Retake" }).click();
-  await expect(panel.getByRole("alert")).toContainText("Could not start the camera");
+  await expect(page.getByText("Could not start the camera.",{exact:true})).toBeVisible();
   await expect(panel.getByText("scan.png", { exact: true })).toBeVisible();
   await panel.getByRole("button", { name: "Confirm materials" }).click();
   await expect(page.locator(".demo-attachments [data-capture-kind=scanner]")).toContainText("scan.png");

@@ -1,4 +1,4 @@
-import type {Crop, WorkspaceCaptureAdapter} from "@mobile-input/controls";
+import type {Crop} from "@mobile-input/controls";
 
 function drawRegion(
   canvas: HTMLCanvasElement,
@@ -141,6 +141,14 @@ function drawRegion(
   }
   ctx.restore();
   return true;
+}
+
+interface WorkspaceCaptureAdapter {
+  readonly useSystemToolbar: boolean;
+  drawRegion(canvas: HTMLCanvasElement, region: Crop, elapsedSeconds?: number): boolean;
+  requestSystemCapture(options?: {mode: 'screenshot' | 'recording'; language: 'en' | 'zh'}, signal?: AbortSignal): Promise<
+    {kind: 'screenshot'; blob: Blob} | {kind: 'cancelled' | 'record' | 'unavailable'}
+  >;
 }
 
 export const workspaceCapture: WorkspaceCaptureAdapter = {

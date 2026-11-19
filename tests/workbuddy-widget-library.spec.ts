@@ -84,7 +84,7 @@ test("two duration and color specimens keep independent values and panel ids", a
     "#356FE4",
   );
   await page.getByLabel("State").selectOption("recommended");
-  await first.getByRole("button", { name: /Remove recommendation/ }).click();
+  await first.getByRole("button", { name: /^Remove / }).click();
   await expect(first.locator(".ic-live-wb-aux")).toHaveCount(0);
   await expect(second.locator(".ic-sentence-token")).toHaveAttribute(
     "data-origin",

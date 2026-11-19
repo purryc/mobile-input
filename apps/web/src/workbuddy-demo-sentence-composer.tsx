@@ -10,7 +10,7 @@ const sourceText=(node:Node):string=>{
  if(node.nodeName==='BR')return node.nextSibling?'\n':'';
  return Array.from(node.childNodes).map((child,i)=>((child.nodeName==='DIV'||child.nodeName==='P')&&i>0?'\n':'')+sourceText(child)).join('');
 };
-export interface ComposerLiveToken extends Omit<importLiveParameter,'kind'> {kind:string;origin?:'explicit'|'recommended'|'manual';sweepKey?:string;animate?:boolean;iconPath?:string;iconSrc?:string;recommendationIconSrc?:string;removable?:boolean;preparing?:boolean;prefix?:string;suffix?:string;}
+export interface ComposerLiveToken extends Omit<importLiveParameter,'kind'> {kind:string;semanticState?:import('@mobile-input/controls').ChipSemanticState;boundMaterialId?:string;additionalObjectCount?:number;origin?:'explicit'|'recommended'|'manual';sweepKey?:string;animate?:boolean;iconPath?:string;iconSrc?:string;recommendationIconSrc?:string;removable?:boolean;preparing?:boolean;prefix?:string;suffix?:string;}
 type importLiveParameter=import('../../../packages/core/live-workbuddy').LiveParameter;
 export interface SentenceComposerProps {label?:string;inputMode?:'text'|'none';preserveSourceClipboard?:boolean;preserveCaretAfterInlineChips?:boolean;text:string;disabled:boolean;placeholder:string;loading?:{start:number;end:number};onChange:(text:string)=>void;onSelect:()=>void;onFocus:()=>void;live:{renderChip:(token:ComposerLiveToken,options:{preserveSelection:()=>void;onOpen:()=>void;onRemove?:()=>void;sweepStarts:Map<string,number>})=>HTMLElement;containedRemove?:boolean;controlsId?:string;parameters:ComposerLiveToken[];active:string|null;open:(id:string)=>void;remove?:(id:string)=>void};}
 /** The DOM is editable, but the authority remains plain text + task-owned parameter bindings. */

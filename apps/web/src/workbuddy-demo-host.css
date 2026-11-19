@@ -105,3 +105,9 @@
   .demo-app .wb-home {padding-inline:16px;}
   .demo-app .wb-home h1 {font-size:24px;}
 }
+
+.input-controls-theme .demo-gallery {
+  display: grid; grid-template-columns: minmax(0,1fr) auto; gap: 8px;
+}
+.input-controls-theme .demo-gallery > .ic-live-wb-photo-body { grid-column: 1 / -1; }
+.input-controls-theme .demo-gallery > .ic-agent-photo-source { height: 36px; padding-inline: 12px; }

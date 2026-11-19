@@ -1,4 +1,7 @@
-import {workspaceCapture} from "./workbuddy-demo-workspace-capture";
+import {DemoFontWidget} from "./workbuddy-demo-controls";
+import {DemoGallery} from "./workbuddy-demo-gallery";
+import {WorkspaceScreenCapture} from "./workbuddy-demo-screen-session";
+import {DemoScanner} from "./workbuddy-demo-scanner";
 import { useEffect, useId, useRef, useState } from "react";
 import { Undo2 } from "lucide-react";
 import {
@@ -13,18 +16,14 @@ import {
   InlineChip,
   DurationWidget,
   ColorWidget,
-  FontWidget,
   PaletteWidget,
   DocumentWidget,
-  ImageWidget,
-  ScannerWidget,
   SketchWidget,
   ExpertWidget,
   SkillsWidget,
   ConnectorsWidget,
   FormatsWidget,
   PolishWidget,
-  ScreenCaptureWidget,
   CaptureTile,
   CameraCapture,
   type CaptureMaterial,
@@ -38,7 +37,7 @@ type PreviewEnvironment = {
 };
 type Scenario = "default" | "recommended" | "preparing" | "disabled";
 const choiceWidgets = {
-  font: FontWidget,
+  font: DemoFontWidget,
   palette: PaletteWidget,
   expert: ExpertWidget,
   skills: SkillsWidget,
@@ -147,7 +146,7 @@ function WidgetExample({
   };
   const choiceKind = kind as keyof typeof choiceWidgets;
   const Choices = choiceWidgets[choiceKind];
-  const Capture = kind === "scanner" ? ScannerWidget : ScreenCaptureWidget;
+  const Capture = kind === "scanner" ? DemoScanner : WorkspaceScreenCapture;
   const isCapture = kind === "scanner" || kind === "capture";
   const selectedText = choices
     .map((value) => {
@@ -155,7 +154,10 @@ function WidgetExample({
       return option ? t(option.zh, option.en) : value;
     })
     .join(" / ");
+  const confirmedScans = captures.filter(item => item.kind === "scanner" && item.confirmed);
+  const firstScan = confirmedScans[0];
   const chipLabel =
+    kind === "scanner" ? firstScan?.name ?? (origin === "recommended" ? t("拍摄参考材料", "Capture a reference") : title) :
     kind === "duration"
       ? `${duration} ${t("分钟", "min")}`
       : kind === "color"
@@ -245,8 +247,8 @@ function WidgetExample({
                     value: kind === "color" ? color : "",
                     phrase: "",
                     origin,
-                    removeLabel: t("移除推荐 ", "Remove recommendation ") + chipLabel,
-                    semanticState: origin === "recommended" ? "ambiguous-recommendation" : "default-selected",
+                    additionalObjectCount: Math.max(0, confirmedScans.length - 1),
+                    semanticState: firstScan ? "object-bound" : origin === "recommended" ? "ambiguous-recommendation" : kind === "scanner" ? "needs-input" : "default-selected",
                     preparing,
                     animate: origin === "recommended" && !preparing,
                     sweepKey: owner,
@@ -262,6 +264,7 @@ function WidgetExample({
                   controlsId={panelId}
                   disabled={disabled}
                   onOpen={() => setOpen((v) => !v)}
+                  onRemoveMaterial={firstScan ? () => setCaptures(list => list.filter(item => item.id !== firstScan.id)) : undefined}
                   onRemove={() => {
                     setDismissed(true);
                     setChoices([]);
@@ -319,9 +322,12 @@ function WidgetExample({
                     />
                   )}
                   {kind === "photo" && (
-                    <ImageWidget
+                    <DemoGallery
                       onChoose={pick}
-                      onCapture={() => setCameraOpen(true)}
+                      onCapture={() => {
+                        if (typeof navigator.mediaDevices?.getUserMedia === "function") setCameraOpen(true);
+                        else setStatus(t("当前浏览器无法打开摄像头，请选择本地图片。", "Camera is unavailable. Choose a local image."));
+                      }}
                       onDone={() => {
                         setConfirmedPhotos((old) => [...old, ...files]);
                         setFiles([]);
@@ -357,7 +363,7 @@ function WidgetExample({
                           </button>
                         </div>
                       ))}
-                    </ImageWidget>
+                    </DemoGallery>
                   )}
                   {kind === "sketch" && (
                     <SketchWidget
@@ -373,7 +379,7 @@ function WidgetExample({
                   {isCapture && (
                     <>
                       <Capture
-            workspace={workspaceCapture}
+                        deferCameraUntilSelection
                         items={captures}
                         language={language}
                         onBusy={setCaptureBusy}

@@ -3,6 +3,8 @@ import { defineConfig } from "vite";
 import { cp, mkdir } from "node:fs/promises";
 import { createRequire } from "node:module";
 import { dirname, resolve } from "node:path";
+const require = createRequire(import.meta.url);
+const controlsAssets = resolve(dirname(require.resolve("@mobile-input/controls")), "../public");
 const output = resolve("artifacts/workbuddy-demo/dist");
 let building = false;
 export default defineConfig({
@@ -19,13 +21,19 @@ export default defineConfig({
   plugins: [
     {
       name: "standalone-workbuddy-entry",
-      async configResolved(config) {
-        const require = createRequire(import.meta.url);
-        const assets = resolve(dirname(require.resolve("@mobile-input/controls")), "../public");
-        await cp(assets, resolve("apps/web/public/input-controls"), {recursive:true});
+      configResolved(config) {
         building = config.command === "build";
       },
       configureServer(server) {
+        // Serve the installed version directly. Multiple dev servers can share this checkout.
+        server.middlewares.use((req, _res, next) => {
+          const parsed = new URL(req.url ?? "/", "http://localhost");
+          const prefix = "/input-controls/";
+          if (parsed.pathname.startsWith(prefix)) {
+            req.url = "/@fs" + controlsAssets + "/" + parsed.pathname.slice(prefix.length) + parsed.search;
+          }
+          next();
+        });
         server.middlewares.use(workbuddyDemoMiddleware);
         server.middlewares.use((req, _res, next) => {
           if (req.url === "/" || req.url?.startsWith("/?"))
@@ -47,8 +55,8 @@ export default defineConfig({
           resolve(output, "workbuddy-demo.html"),
           resolve(output, "index.html"),
         );
+        await cp(controlsAssets, resolve(output, "input-controls"), {recursive: true});
         for (const path of [
-          "input-controls",
           "assets/xiaoyi-work",
           "assets/figma/sentence-parameters",
           "assets/figma/presentation/noto-sans-sc-400.woff2",
