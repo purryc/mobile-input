@@ -1,0 +1,40 @@
+/* Extracted from the real Xiaoyi Work host (workbuddy.css, 2c7c428).
+   Widgets previously inherited these rules from .workbuddy. Keep them scoped and
+   load before widget-specific styles so standalone/portal usage has the same base. */
+.input-controls-theme button {
+  font: inherit;
+  text-align: left;
+  color: inherit;
+  border: 0;
+  background: transparent;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 7px;
+  cursor: pointer;
+  min-height: 30px;
+  padding: 6px 9px;
+}
+.input-controls-theme button:hover { background: #ececec; }
+.input-controls-theme button:disabled { opacity: .4; cursor: default; }
+.input-controls-theme button:focus-visible { outline: 2px solid #3388b9; outline-offset: 2px; }
+.input-controls-theme input,
+.input-controls-theme textarea,
+.input-controls-theme select {
+  font: inherit;
+  color: inherit;
+  box-sizing: border-box;
+  border: 1px solid #e2e2e2;
+  outline: none;
+  background: white;
+  border-radius: 7px;
+  padding: 9px 12px;
+  min-width: 0;
+}
+.input-controls-theme input:focus,
+.input-controls-theme textarea:focus,
+.input-controls-theme select:focus { border-color: #8baca0; }
+.input-controls-theme textarea { resize: none; white-space: pre-wrap; }
+.input-controls-theme svg { flex-shrink: 0; }
+.input-controls-theme h1,.input-controls-theme h2,.input-controls-theme h3,.input-controls-theme h4 { margin:0;font-weight:600;line-height:1.45; }

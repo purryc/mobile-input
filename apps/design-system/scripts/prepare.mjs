@@ -3,6 +3,7 @@ import {createHash} from 'node:crypto';
 import {execFileSync} from 'node:child_process';
 import {fileURLToPath} from 'node:url';
 import path from 'node:path';
+import {packLibrary} from '../../../packages/input-controls/scripts/pack-library.mjs';
 const site=fileURLToPath(new URL('..',import.meta.url)),repo=path.resolve(site,'../..');
 const read=p=>JSON.parse(readFileSync(path.join(repo,p),'utf8'));
 const definitions=read('docs/input-design-contract/definitions.json'), bindings=read('apps/design-system/content/component-bindings.json'),rules=read('apps/design-system/content/rules-snapshot.json');
@@ -26,7 +27,13 @@ let commit='unknown';try{commit=execFileSync('git',['rev-parse','HEAD'],{cwd:rep
 const hash=p=>createHash('sha256').update(readFileSync(path.join(repo,p))).digest('hex');
 const sharedFiles=readdirSync(path.join(repo,'packages/ui/src')).sort();
 const sharedHash=createHash('sha256');for(const file of sharedFiles){sharedHash.update(file);sharedHash.update(readFileSync(path.join(repo,'packages/ui/src',file)));}
-cpSync(path.join(repo,'packages/input-controls/public'),path.join(site,'public/input-controls'),{recursive:true});
+const widgetPublic = path.join(repo, 'packages/input-controls/public');
+for (const name of ['assets', 'reference-assets', 'ASSET-SOURCES.md']) {
+  const target = path.join(site, 'public/input-controls', name);
+  mkdirSync(path.dirname(target), {recursive: true});
+  cpSync(path.join(widgetPublic, name), target, {recursive: true});
+}
+packLibrary({destination: path.join(publicDir, 'input-controls'), toolingDirectory: site});
 const sourceDirty=execFileSync('git',['status','--porcelain','--','apps/design-system','packages/ui','packages/input-controls','apps/web/src'],{cwd:repo,encoding:'utf8'}).trim().length>0;
 const provenance={sourceDirty,sharedUiHash:sharedHash.digest('hex'),release:rules.release+' · Input controls '+inputControls.version,inputControls,sourceCommit:commit,registryVersion:definitions.version,registryHash:hash('docs/input-design-contract/definitions.json'),ruleHash:hash('apps/design-system/content/rules-snapshot.json'),polishHash:hash('packages/core/polish-actions.ts'),notion:rules.source,protocol:'v0.9.1',reactRenderer:'0.15.0',generatedBy:'scripts/prepare.mjs'};
 const data={components,icons:definitions.icons,provenance,rules:rules.rules};

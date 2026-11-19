@@ -18,3 +18,12 @@ const inputKinds=['duration','color','font','palette','document','photo','scanne
 const registry=JSON.parse(readFileSync(path.join(root,'generated/registry.json'),'utf8'));
 for(const kind of inputKinds)if(!registry.components.some(c=>c.id==='input-'+kind))throw Error('Missing independent widget '+kind);
 for(const name of ['design-expert-design.png','design-skill-ppt.png','design-format-pptx.png'])if(!existsSync(path.join(root,'input-controls/assets/xiaoyi-work',name)))throw Error('Missing input library asset '+name);
+
+const compactHtml=readFileSync(path.join(root,'xiaoyi-controls.html'),'utf8');
+if(!compactHtml.includes('/mobile-input/assets/'))throw Error('Incorrect compact library base path.');
+for(const match of compactHtml.matchAll(/(?:src|href)="(\/mobile-input\/assets\/[^"]+)"/g))if(!existsSync(path.join(root,match[1].replace('/mobile-input/',''))))throw Error('Missing compact entry resource '+match[1]);
+const {version} = JSON.parse(readFileSync(new URL('../../../packages/input-controls/package.json', import.meta.url), 'utf8'));
+if (!existsSync(path.join(root, 'generated/input-controls', 'mobile-input-controls-' + version + '.tgz'))) {
+  throw Error('Missing Xiaoyi npm download ' + version);
+}
+console.log('Verified standalone Xiaoyi compact entry and its resources.');

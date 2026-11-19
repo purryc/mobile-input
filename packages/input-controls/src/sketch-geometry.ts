@@ -10,3 +10,13 @@ export function eraseSketchAt(lines:number[][][],point:number[],radius=9):number
  }
  return changed?out:lines;
 }
+
+/** Serialize the normalized canvas strokes after the user adopts the drawing. */
+export function createSketchFile(strokes: number[][][], name = "sketch.svg"): File {
+  const lines = strokes.map(line => {
+    const points = line.map(([x, y]) => `${x * SKETCH_WIDTH},${y * SKETCH_HEIGHT}`).join(" ");
+    return `<polyline points="${points}" fill="none" stroke="#182431" stroke-width="2"/>`;
+  }).join("");
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${SKETCH_WIDTH}" height="${SKETCH_HEIGHT}">${lines}</svg>`;
+  return new File([svg], name, {type: "image/svg+xml"});
+}

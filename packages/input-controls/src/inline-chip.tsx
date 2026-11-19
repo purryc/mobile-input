@@ -10,6 +10,8 @@ export interface InlineChipToken {
   phrase: string;
   label: string;
   value: string;
+  /** Additional bound materials after the name displayed on the chip. */
+  additionalObjectCount?: number;
   manual?: boolean;
   origin?: "explicit" | "recommended" | "manual";
   sweepKey?: string;
@@ -27,6 +29,7 @@ export interface InlineChipOptions {
   disabled?: boolean;
   expanded: boolean;
   controlsId?: string;
+  describedBy?: string;
   containedRemove?: boolean;
   language: string;
   uiText: (label: string) => string;
@@ -42,6 +45,7 @@ export function renderInlineChip({
   disabled = false,
   expanded,
   controlsId,
+  describedBy,
   containedRemove = true,
   language,
   uiText,
@@ -52,6 +56,14 @@ export function renderInlineChip({
   preserveSelection,
 }: InlineChipOptions): HTMLSpanElement {
   const semanticState = token.semanticState ?? "default-selected";
+  const removable = semanticState !== "object-bound" && token.removable;
+  const additionalCount = semanticState === "object-bound" ? token.additionalObjectCount ?? 0 : 0;
+  const english = language.startsWith("en");
+  const additionalLabel = additionalCount > 0
+    ? english ? ` and ${additionalCount} more` : `，另有 ${additionalCount} 项`
+    : "";
+  const role = uiText(token.role);
+  const description = (role && role !== token.label ? role + " " : "") + token.label + additionalLabel;
   const hit = document.createElement("span");
   hit.dataset.semanticState = semanticState;
   hit.className = "ic-sentence-token-hit";
@@ -68,10 +80,8 @@ export function renderInlineChip({
   button.dataset.state = semanticState;
   button.dataset.semanticState = semanticState;
   if (token.origin) button.dataset.origin = token.origin;
-  button.setAttribute(
-    "aria-label",
-    `${uiText(token.kind === "photo" ? "图片" : token.role)} ${token.label}`,
-  );
+  button.setAttribute("aria-label", description);
+  if (describedBy) button.setAttribute("aria-describedby", describedBy);
   const face = document.createElement("span");
   face.className = "ic-sentence-token-face";
   if (token.kind === "color" && /^#[0-9A-Fa-f]{6}$/.test(token.value)) {
@@ -114,6 +124,13 @@ export function renderInlineChip({
   label.className = "ic-demo-chip-label";
   label.textContent = token.label;
   face.append(label);
+  if (additionalCount > 0) {
+    const count = document.createElement("span");
+    count.className = "ic-chip-object-count";
+    count.textContent = `+${additionalCount}`;
+    count.setAttribute("aria-hidden", "true");
+    face.append(count);
+  }
   if (semanticState === "ambiguous-recommendation") {
     const star = document.createElement("span");
     star.className = "ic-demo-chip-smart";
@@ -130,10 +147,10 @@ export function renderInlineChip({
     const plus = document.createElement("span"); plus.className = "ic-chip-needs-plus"; plus.textContent = "+"; plus.setAttribute("aria-hidden", "true"); face.append(plus);
   }
   button.append(face);
-  button.title = containedRemove
+  button.title = semanticState === "object-bound" ? description : containedRemove
     ? `${uiText(token.role)} ${token.label}`
     : token.label;
-  if (!token.preparing && token.animate && token.sweepKey) {
+  if (semanticState !== "object-bound" && !token.preparing && token.animate && token.sweepKey) {
     const key = token.sweepKey;
     let started = sweepStarts.get(key);
     if (started === undefined) {
@@ -151,7 +168,7 @@ export function renderInlineChip({
   };
   button.onclick = () => onOpen();
   if (token.prefix) hit.append(document.createTextNode(token.prefix));
-  const contained = containedRemove && (token.removable || token.preparing);
+  const contained = containedRemove && (removable || token.preparing);
   const capsule = contained ? document.createElement("span") : hit;
   if (contained) {
     capsule.className = "ic-sentence-token-capsule";
@@ -168,7 +185,7 @@ export function renderInlineChip({
     hit.append(capsule);
   }
   capsule.append(button);
-  if (token.removable && onRemove) {
+  if (removable && onRemove) {
     const remove = document.createElement("button");
     remove.type = "button";
     remove.className = "ic-demo-chip-remove";
@@ -183,7 +200,7 @@ export function renderInlineChip({
     } else remove.textContent = "×";
     remove.setAttribute(
       "aria-label",
-      (language === "en" ? "Remove " : "移除 ") +
+      (english ? "Remove " : "移除 ") +
         token.label,
     );
     remove.disabled = disabled;
@@ -196,7 +213,7 @@ export function renderInlineChip({
     capsule.setAttribute("role", "img");
     capsule.setAttribute(
       "aria-label",
-      language === "en" ? "Preparing suggestion" : "正在整理建议",
+      english ? "Preparing suggestion" : "正在整理建议",
     );
     capsule.setAttribute("aria-busy", "true");
     capsule.querySelectorAll("button").forEach((b) => {
@@ -220,7 +237,7 @@ export function InlineChip(
     sweepStarts = useRef(new Map<string, number>());
   const { language, translate, assetBase } = useWidgetEnvironment();
   const latest = useRef(props); latest.current = props;
-  const visualKey = JSON.stringify([props.token, props.disabled, props.expanded, props.controlsId, props.containedRemove, Boolean(props.onRemove), Boolean(props.preserveSelection), language, assetBase, translate(props.token.role)]);
+  const visualKey = JSON.stringify([props.token, props.disabled, props.expanded, props.controlsId, props.describedBy, props.containedRemove, Boolean(props.onRemove), Boolean(props.preserveSelection), language, assetBase, translate(props.token.role)]);
   useLayoutEffect(() => {
     const node = root.current;
     if (!node) return;

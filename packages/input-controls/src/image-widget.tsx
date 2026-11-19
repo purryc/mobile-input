@@ -7,12 +7,14 @@ export function ImageWidget({
   onCapture,
   onDone,
   busy = false,
+  canConfirm = true,
 }: {
   children?: ReactNode;
   onChoose: () => void;
   onCapture: () => void;
   onDone: () => void;
   busy?: boolean;
+  canConfirm?: boolean;
 }) {
   const uiText = useWidgetText();
   const hasPhotos = Children.toArray(children).length > 0;
@@ -34,7 +36,7 @@ export function ImageWidget({
         >
           {uiText("拍摄")}
         </button>
-        {hasPhotos && (
+        {hasPhotos && canConfirm && (
           <button type="button"
             aria-label={uiText("确认图片选择")}
             disabled={busy}

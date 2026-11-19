@@ -1,0 +1,2440 @@
+{
+  "source": "https://www.figma.com/slides/ANhVxJPGEgYRcISFmQmgyg",
+  "thread": "codex://threads/01a1cb4f-8039-7270-afac-c53047a7dc92",
+  "version": "2026-11-16-final-31-pages",
+  "sourceSha256": "64adfa005728e2495139a143d73f417a69e5abe982a3abcb77d640ddb4db319e",
+  "note": "Derived read-only snapshot. Example clarity is independent of runtime support; these are not parser tests.",
+  "controls": [
+    {
+      "kind": "document",
+      "priority": "P0",
+      "page": 6,
+      "nodeId": "6:180",
+      "examplesNodeId": "2029:255",
+      "name": "File Picker",
+      "purpose": "Select existing documents and media from folders or accessible file sources.",
+      "rule": "Confirm the file you want to use; a name in the request alone is not an attachment.",
+      "cases": [
+        {
+          "id": 1,
+          "clarity": "explicit",
+          "zh": "用电脑桌面上的产品照片做参考。",
+          "en": "Use the product photo on my computer desktop as a reference.",
+          "unsupported": false
+        },
+        {
+          "id": 2,
+          "clarity": "explicit",
+          "zh": "把下载文件夹里的演示视频加进来。",
+          "en": "Add the demo video from my downloads folder.",
+          "unsupported": false
+        },
+        {
+          "id": 3,
+          "clarity": "explicit",
+          "zh": "从预算文件夹选一份Excel预算表，汇总成CSV。",
+          "en": "Pick an Excel budget sheet from the budget folder and summarize it as a CSV.",
+          "unsupported": false
+        },
+        {
+          "id": 4,
+          "clarity": "explicit",
+          "zh": "把项目文件夹里的访谈录音加进来。",
+          "en": "Add the interview recording from the project folder.",
+          "unsupported": false
+        },
+        {
+          "id": 5,
+          "clarity": "explicit",
+          "zh": "从下载文件夹找一份PDF合同，帮我看下条款。",
+          "en": "Find a PDF contract in my downloads folder and review the terms.",
+          "unsupported": false
+        },
+        {
+          "id": 6,
+          "clarity": "explicit",
+          "zh": "用项目文件夹里的销售表看看各季度的趋势。",
+          "en": "Use the sales spreadsheet in the project folder to look at quarterly trends.",
+          "unsupported": false
+        },
+        {
+          "id": 7,
+          "clarity": "explicit",
+          "zh": "把电脑桌面上的旁白录音加进来，做视频配音。",
+          "en": "Add the narration recording from my computer desktop for the video voice-over.",
+          "unsupported": false
+        },
+        {
+          "id": 8,
+          "clarity": "explicit",
+          "zh": "项目文件夹里有张首页布局草图，做网页时参考一下。",
+          "en": "There is a homepage layout sketch in the project folder. Use it for the website.",
+          "unsupported": false
+        },
+        {
+          "id": 9,
+          "clarity": "explicit",
+          "zh": "从下载文件夹找份Word访谈记录，帮我归纳用户需求。",
+          "en": "Find a Word interview transcript in my downloads folder and summarize user needs.",
+          "unsupported": false
+        },
+        {
+          "id": 10,
+          "clarity": "explicit",
+          "zh": "做这个App时，参考工程文件夹里的需求文档。",
+          "en": "Use the requirements document in the project folder when building this App.",
+          "unsupported": false
+        },
+        {
+          "id": 11,
+          "clarity": "partial",
+          "zh": "参考上次那份产品资料。",
+          "en": "Refer to the product brief from last time.",
+          "unsupported": false
+        },
+        {
+          "id": 12,
+          "clarity": "partial",
+          "zh": "把刚才说的那几个表加进来。",
+          "en": "Add those tables we just discussed.",
+          "unsupported": false
+        },
+        {
+          "id": 13,
+          "clarity": "partial",
+          "zh": "用小艺知识库里那份竞品报告。",
+          "en": "Use that competitor report in the Xiaoyi Knowledge Base.",
+          "unsupported": false
+        },
+        {
+          "id": 14,
+          "clarity": "partial",
+          "zh": "电脑里之前存的那份产品资料，找出来参考一下。",
+          "en": "Find the product brief I saved on my computer before and use it as a reference.",
+          "unsupported": false
+        },
+        {
+          "id": 15,
+          "clarity": "partial",
+          "zh": "找一下之前用于预算的那个表格。",
+          "en": "Find the spreadsheet we used for the budget before.",
+          "unsupported": false
+        },
+        {
+          "id": 16,
+          "clarity": "goal",
+          "zh": "电脑里攒了不少资料，这次报告不想再从零开始。",
+          "en": "I have plenty of material saved on my computer. I do not want to start this report from scratch.",
+          "unsupported": false
+        },
+        {
+          "id": 17,
+          "clarity": "goal",
+          "zh": "以前好像整理过类似内容。",
+          "en": "I think we organized something similar before.",
+          "unsupported": false
+        },
+        {
+          "id": 18,
+          "clarity": "goal",
+          "zh": "这份方案缺点依据，电脑里存的资料应该能派上用场。",
+          "en": "This proposal needs more evidence. The material saved on my computer might help.",
+          "unsupported": false
+        },
+        {
+          "id": 19,
+          "clarity": "goal",
+          "zh": "做这个App时用上我们已有的东西。",
+          "en": "Use what we already have when making this App.",
+          "unsupported": false
+        },
+        {
+          "id": 20,
+          "clarity": "goal",
+          "zh": "我记得这些信息可能已经整理过。",
+          "en": "I think this information may have been organized already.",
+          "unsupported": false
+        },
+        {
+          "id": 21,
+          "clarity": "negative",
+          "zh": "从相册选两张产品照片。",
+          "en": "Select two product photos from the gallery.",
+          "unsupported": false
+        },
+        {
+          "id": 22,
+          "clarity": "negative",
+          "zh": "现在拍一张产品照片给你参考。",
+          "en": "I will take a product photo now for reference.",
+          "unsupported": false
+        },
+        {
+          "id": 23,
+          "clarity": "negative",
+          "zh": "把结果保存为PDF。",
+          "en": "Save the result as a PDF.",
+          "unsupported": false
+        },
+        {
+          "id": 24,
+          "clarity": "negative",
+          "zh": "生成一段产品演示视频。",
+          "en": "Generate a product demo video.",
+          "unsupported": false
+        },
+        {
+          "id": 25,
+          "clarity": "negative",
+          "zh": "把结果保存成一个文件。",
+          "en": "Save the result as a file.",
+          "unsupported": false
+        }
+      ]
+    },
+    {
+      "kind": "photo",
+      "priority": "P0",
+      "page": 8,
+      "nodeId": "6:201",
+      "examplesNodeId": "2029:318",
+      "name": "Media Gallery",
+      "purpose": "Choose existing photos and videos to add to the task.",
+      "rule": "Confirm the chosen items to attach them. Opening the picker does not select or send anything.",
+      "cases": [
+        {
+          "id": 1,
+          "clarity": "explicit",
+          "zh": "我有一些产品图片需要参考。",
+          "en": "I have some product images I want to use as references.",
+          "unsupported": false
+        },
+        {
+          "id": 2,
+          "clarity": "explicit",
+          "zh": "把昨天拍好的产品演示视频加进来。",
+          "en": "Add the product demo video I filmed yesterday.",
+          "unsupported": false
+        },
+        {
+          "id": 3,
+          "clarity": "explicit",
+          "zh": "我有几张产品照片，要放在文档里。",
+          "en": "I have a few product photos I want to put in the document.",
+          "unsupported": false
+        },
+        {
+          "id": 4,
+          "clarity": "explicit",
+          "zh": "从相册选张手绘草图，做App时参考一下。",
+          "en": "Pick a hand-drawn sketch from my gallery as a reference for the App.",
+          "unsupported": false
+        },
+        {
+          "id": 5,
+          "clarity": "explicit",
+          "zh": "开会拍的白板照片还在，拿来整理一下结论。",
+          "en": "I still have the whiteboard photo from the meeting. Use it to summarize the conclusions.",
+          "unsupported": false
+        },
+        {
+          "id": 6,
+          "clarity": "explicit",
+          "zh": "用之前拍好的门店视频看看顾客怎么走。",
+          "en": "Use the store video I filmed earlier to see how customers move around.",
+          "unsupported": false
+        },
+        {
+          "id": 7,
+          "clarity": "explicit",
+          "zh": "报销要用的收据照片我已经拍好了，帮我加进去。",
+          "en": "I have already photographed the receipts for my expenses. Add the photos.",
+          "unsupported": false
+        },
+        {
+          "id": 8,
+          "clarity": "explicit",
+          "zh": "我存了三张包装图，放一起比较一下设计。",
+          "en": "I saved three packaging images. Put them together to compare the designs.",
+          "unsupported": false
+        },
+        {
+          "id": 9,
+          "clarity": "explicit",
+          "zh": "从相册选登录页面截图，作为App改版参考。",
+          "en": "Choose the login screenshot from the gallery as an App redesign reference.",
+          "unsupported": false
+        },
+        {
+          "id": 10,
+          "clarity": "explicit",
+          "zh": "我这儿有段采访视频，帮我提炼一下产品反馈。",
+          "en": "I have an interview video. Help me pull out the product feedback.",
+          "unsupported": false
+        },
+        {
+          "id": 11,
+          "clarity": "partial",
+          "zh": "把刚才那张照片放上去。",
+          "en": "Add that photo from a moment ago.",
+          "unsupported": false
+        },
+        {
+          "id": 12,
+          "clarity": "partial",
+          "zh": "插入上次那段视频。",
+          "en": "Add that video from last time.",
+          "unsupported": false
+        },
+        {
+          "id": 13,
+          "clarity": "partial",
+          "zh": "给这个App加一张参考图。",
+          "en": "Add a reference image for this App.",
+          "unsupported": false
+        },
+        {
+          "id": 14,
+          "clarity": "partial",
+          "zh": "用手机里那个视频。",
+          "en": "Use that video on my phone.",
+          "unsupported": false
+        },
+        {
+          "id": 15,
+          "clarity": "partial",
+          "zh": "封面就用上次挑的那张。",
+          "en": "Use the one we picked last time for the cover.",
+          "unsupported": false
+        },
+        {
+          "id": 16,
+          "clarity": "goal",
+          "zh": "我已经拍了些产品细节照片，想让客户看得更明白。",
+          "en": "I have already taken some product-detail photos. I want customers to understand the product better.",
+          "unsupported": false
+        },
+        {
+          "id": 17,
+          "clarity": "goal",
+          "zh": "这份文档全是文字，想穿插些产品照片。",
+          "en": "This document is all text. I would like some product photos throughout it.",
+          "unsupported": false
+        },
+        {
+          "id": 18,
+          "clarity": "goal",
+          "zh": "网站想用一些真实的使用场景照片，别全是文字。",
+          "en": "I want photos of real use cases on the website, not just text.",
+          "unsupported": false
+        },
+        {
+          "id": 19,
+          "clarity": "goal",
+          "zh": "前后效果想用照片对比，光写文字不太直观。",
+          "en": "I want photos to compare the before-and-after results. Text alone is hard to picture.",
+          "unsupported": false
+        },
+        {
+          "id": 20,
+          "clarity": "goal",
+          "zh": "这款产品的几种用法，想用图片让人一眼看懂。",
+          "en": "I want pictures that show the different ways to use this product at a glance.",
+          "unsupported": false
+        },
+        {
+          "id": 21,
+          "clarity": "negative",
+          "zh": "用电脑桌面上的产品照片。",
+          "en": "Use the product photo on my computer desktop.",
+          "unsupported": false
+        },
+        {
+          "id": 22,
+          "clarity": "negative",
+          "zh": "打开相机拍一下样机。",
+          "en": "Open the camera so I can photograph the prototype.",
+          "unsupported": false
+        },
+        {
+          "id": 23,
+          "clarity": "negative",
+          "zh": "生成一张产品照片。",
+          "en": "Generate a product photo.",
+          "unsupported": false
+        },
+        {
+          "id": 24,
+          "clarity": "negative",
+          "zh": "录下现在的屏幕操作。",
+          "en": "Record the current screen interaction.",
+          "unsupported": false
+        },
+        {
+          "id": 25,
+          "clarity": "negative",
+          "zh": "现在拍一段产品视频。",
+          "en": "Film a product video now.",
+          "unsupported": false
+        }
+      ]
+    },
+    {
+      "kind": "scanner",
+      "priority": "P0",
+      "page": 10,
+      "nodeId": "6:222",
+      "examplesNodeId": "2029:381",
+      "name": "Photo / Document Scan",
+      "purpose": "Photograph objects or scan paper pages and sketches, then review and attach them.",
+      "rule": "Choose Photo for an object or scene; choose Scan for a paper page.",
+      "cases": [
+        {
+          "id": 1,
+          "clarity": "explicit",
+          "zh": "我把产品侧面照下来给你，帮我看看接口。",
+          "en": "I will take a photo of the product's side for you. Help me check the ports.",
+          "unsupported": false
+        },
+        {
+          "id": 2,
+          "clarity": "explicit",
+          "zh": "打开相机，我把会议室现在的布置照给你看。",
+          "en": "Open the camera. I will take a photo of the room's current setup for you.",
+          "unsupported": false
+        },
+        {
+          "id": 3,
+          "clarity": "explicit",
+          "zh": "这些手写笔记和便签作参考，帮我整理会议结论。",
+          "en": "Use these handwritten notes and sticky notes to summarize the meeting conclusions.",
+          "unsupported": false
+        },
+        {
+          "id": 4,
+          "clarity": "explicit",
+          "zh": "纸上已经有角色动作草图了，用这张。",
+          "en": "The character-pose sketch is already on paper. Use this one.",
+          "unsupported": false
+        },
+        {
+          "id": 5,
+          "clarity": "explicit",
+          "zh": "我这张手绘草图给你作参考，照这个做产品图。",
+          "en": "Use my hand-drawn sketch as a reference to make the product image.",
+          "unsupported": false
+        },
+        {
+          "id": 6,
+          "clarity": "explicit",
+          "zh": "按纸上这张手绘流程图，帮我写操作说明。",
+          "en": "Use this hand-drawn flowchart on paper to write the instructions.",
+          "unsupported": false
+        },
+        {
+          "id": 7,
+          "clarity": "explicit",
+          "zh": "这份手写试卷给你看看，帮我讲讲错题。",
+          "en": "Take a look at this handwritten exam paper and explain the answers I got wrong.",
+          "unsupported": false
+        },
+        {
+          "id": 8,
+          "clarity": "explicit",
+          "zh": "把打印稿上的手写批注带上，一起参考。",
+          "en": "Include the handwritten comments on the printout as a reference too.",
+          "unsupported": false
+        },
+        {
+          "id": 9,
+          "clarity": "explicit",
+          "zh": "帮我调出相机，我把设备铭牌照给你看。",
+          "en": "Bring up the camera so I can show you a photo of the equipment label.",
+          "unsupported": false
+        },
+        {
+          "id": 10,
+          "clarity": "explicit",
+          "zh": "打开相机，录一段产品演示给你参考。",
+          "en": "Open the camera and record a product demo video for reference.",
+          "unsupported": true
+        },
+        {
+          "id": 11,
+          "clarity": "partial",
+          "zh": "手写笔记给你参考一下。",
+          "en": "Use the handwritten notes as a reference.",
+          "unsupported": false
+        },
+        {
+          "id": 12,
+          "clarity": "partial",
+          "zh": "这张纸上的内容我想录下来给你。",
+          "en": "I want to record what is on this sheet of paper for you.",
+          "unsupported": false
+        },
+        {
+          "id": 13,
+          "clarity": "partial",
+          "zh": "把我那张手绘草图用上。",
+          "en": "Use my hand-drawn sketch.",
+          "unsupported": false
+        },
+        {
+          "id": 14,
+          "clarity": "partial",
+          "zh": "这个设备的异常，我录下来给你还是照张图？",
+          "en": "Should I record a video of the equipment problem or take a photo for you?",
+          "unsupported": false
+        },
+        {
+          "id": 15,
+          "clarity": "partial",
+          "zh": "我想给你看它怎么运转，弄段视频过来。",
+          "en": "I want to show you how it runs. Let me get you a video.",
+          "unsupported": false
+        },
+        {
+          "id": 16,
+          "clarity": "goal",
+          "zh": "这个实物的质感用文字说不清。",
+          "en": "The texture of this object is hard to describe in words.",
+          "unsupported": false
+        },
+        {
+          "id": 17,
+          "clarity": "goal",
+          "zh": "现在这个展台怎么摆的，光说你可能想象不出来。",
+          "en": "You might not be able to picture this display setup from words alone.",
+          "unsupported": false
+        },
+        {
+          "id": 18,
+          "clarity": "goal",
+          "zh": "这几页手写试卷，想弄清楚自己老错在哪。",
+          "en": "I want to understand my recurring mistakes in these handwritten exam pages.",
+          "unsupported": false
+        },
+        {
+          "id": 19,
+          "clarity": "goal",
+          "zh": "这些手写便签最好能整理成一份待办。",
+          "en": "I would like to turn these handwritten sticky notes into a to-do list.",
+          "unsupported": false
+        },
+        {
+          "id": 20,
+          "clarity": "goal",
+          "zh": "纸上这些手写批注，我不想对着电脑再抄一遍。",
+          "en": "I do not want to retype these handwritten comments from the paper into my computer.",
+          "unsupported": false
+        },
+        {
+          "id": 21,
+          "clarity": "negative",
+          "zh": "只用我上传的包装照片，不用再拍。",
+          "en": "Use only the packaging photo I uploaded; do not take another.",
+          "unsupported": false
+        },
+        {
+          "id": 22,
+          "clarity": "negative",
+          "zh": "从相册选那张产品侧面照片。",
+          "en": "Choose the product side-view photo from the gallery.",
+          "unsupported": false
+        },
+        {
+          "id": 23,
+          "clarity": "negative",
+          "zh": "录下我在屏幕上操作的过程。",
+          "en": "Record the steps I perform on the screen.",
+          "unsupported": false
+        },
+        {
+          "id": 24,
+          "clarity": "negative",
+          "zh": "分析我刚传上来的那份扫描合同。",
+          "en": "Analyze the scanned contract I just uploaded.",
+          "unsupported": false
+        },
+        {
+          "id": 25,
+          "clarity": "negative",
+          "zh": "我还没画流程图，想现在手绘一张给你。",
+          "en": "I have not drawn the flowchart yet. I want to sketch one for you now.",
+          "unsupported": false
+        }
+      ]
+    },
+    {
+      "kind": "sketch",
+      "priority": "P0",
+      "page": 12,
+      "nodeId": "6:159",
+      "examplesNodeId": "2029:444",
+      "name": "Sketchpad",
+      "purpose": "Draw a sketch to explain shapes, layouts or relationships for the task.",
+      "rule": "Drawing is optional: keep the written description, or add a sketch to make it clearer.",
+      "cases": [
+        {
+          "id": 1,
+          "clarity": "explicit",
+          "zh": "我画个猫的轮廓，照这个生成插画。",
+          "en": "I will sketch a cat outline. Use it to make an illustration.",
+          "unsupported": false
+        },
+        {
+          "id": 2,
+          "clarity": "explicit",
+          "zh": "我来新画一张App页面关系草图。",
+          "en": "Let me draw a new rough sketch of how the App screens connect.",
+          "unsupported": false
+        },
+        {
+          "id": 3,
+          "clarity": "explicit",
+          "zh": "产品剖面我手绘一下，再帮我解释结构。",
+          "en": "Let me sketch the product cross-section, then help me explain its structure.",
+          "unsupported": false
+        },
+        {
+          "id": 4,
+          "clarity": "explicit",
+          "zh": "先给你个操作流程示意，我现在勾出来。",
+          "en": "Let me sketch out the workflow for you first.",
+          "unsupported": false
+        },
+        {
+          "id": 5,
+          "clarity": "explicit",
+          "zh": "网页左边放文字，右边放图片。",
+          "en": "Put the text on the left and the image on the right of the webpage.",
+          "unsupported": false
+        },
+        {
+          "id": 6,
+          "clarity": "explicit",
+          "zh": "我想在这张照片上圈出要改的地方。 ‡",
+          "en": "I want to circle the areas I would like changed on this photo. ‡",
+          "unsupported": false
+        },
+        {
+          "id": 7,
+          "clarity": "explicit",
+          "zh": "我想先搭个数据库关系草图。",
+          "en": "I want to rough out a sketch of the database relationships first.",
+          "unsupported": false
+        },
+        {
+          "id": 8,
+          "clarity": "explicit",
+          "zh": "桌子靠左墙，沙发放右边，中间留条过道。",
+          "en": "Put the desk against the left wall and the sofa on the right. Leave a walkway between them.",
+          "unsupported": false
+        },
+        {
+          "id": 9,
+          "clarity": "explicit",
+          "zh": "镜头里产品居中，文字留在右上角。",
+          "en": "Center the product in the shot and leave room for text at the top right.",
+          "unsupported": false
+        },
+        {
+          "id": 10,
+          "clarity": "explicit",
+          "zh": "电源在上面，两块主板并排，线从下面走。",
+          "en": "Put the power supply above the two side-by-side boards, with the cables below.",
+          "unsupported": false
+        },
+        {
+          "id": 11,
+          "clarity": "partial",
+          "zh": "还没画，我想先把它的大概形状弄出来。",
+          "en": "Nothing is drawn yet. I want to work out its rough shape first.",
+          "unsupported": false
+        },
+        {
+          "id": 12,
+          "clarity": "partial",
+          "zh": "我想先给你个示意，手头还没有图。",
+          "en": "I want to give you a rough visual reference first, but I do not have one yet.",
+          "unsupported": false
+        },
+        {
+          "id": 13,
+          "clarity": "partial",
+          "zh": "这个结构我想比划一下给你看。",
+          "en": "Let me roughly show you how this structure goes.",
+          "unsupported": false
+        },
+        {
+          "id": 14,
+          "clarity": "partial",
+          "zh": "这个布局我想自己试着摆一摆。",
+          "en": "I want to try arranging this layout myself.",
+          "unsupported": false
+        },
+        {
+          "id": 15,
+          "clarity": "partial",
+          "zh": "先把这几个关系理成图吧，现在还没有。",
+          "en": "Let's map out these relationships first; there is no diagram yet.",
+          "unsupported": false
+        },
+        {
+          "id": 16,
+          "clarity": "goal",
+          "zh": "我脑子里有个样子，但说不出来。",
+          "en": "I have a rough picture in mind but cannot describe it.",
+          "unsupported": false
+        },
+        {
+          "id": 17,
+          "clarity": "goal",
+          "zh": "这几个页面怎么跳转我心里有谱，还没画成图，光说不明白。",
+          "en": "I know how these screens should link up, but I have no diagram and cannot explain it in words.",
+          "unsupported": false
+        },
+        {
+          "id": 18,
+          "clarity": "goal",
+          "zh": "流程的几个分叉都在我脑子里，还没画出来，光说容易绕。",
+          "en": "The workflow branches are still in my head, not drawn yet, and hard to explain in words.",
+          "unsupported": false
+        },
+        {
+          "id": 19,
+          "clarity": "goal",
+          "zh": "产品内部结构我有个想法，还没图，打字跟你讲不清。",
+          "en": "I have an idea for the product's internal structure, but no diagram, and cannot explain it in text.",
+          "unsupported": false
+        },
+        {
+          "id": 20,
+          "clarity": "goal",
+          "zh": "这个形状太难用文字说明了。",
+          "en": "This shape is too hard to explain in words.",
+          "unsupported": false
+        },
+        {
+          "id": 21,
+          "clarity": "negative",
+          "zh": "直接生成流程图，不用我补草图。",
+          "en": "Generate the flowchart directly; I do not need to add a sketch.",
+          "unsupported": false
+        },
+        {
+          "id": 22,
+          "clarity": "negative",
+          "zh": "用我已经上传的那张草图。",
+          "en": "Use the sketch I already uploaded.",
+          "unsupported": false
+        },
+        {
+          "id": 23,
+          "clarity": "negative",
+          "zh": "解释一下什么是手绘草图。",
+          "en": "Explain what a hand-drawn sketch is.",
+          "unsupported": false
+        },
+        {
+          "id": 24,
+          "clarity": "negative",
+          "zh": "纸上已经有角色动作草图了，用这张。",
+          "en": "The character-pose sketch is already on paper. Use this one.",
+          "unsupported": false
+        },
+        {
+          "id": 25,
+          "clarity": "negative",
+          "zh": "把网页背景改成手绘风格。",
+          "en": "Give the webpage background a hand-drawn style.",
+          "unsupported": false
+        }
+      ]
+    },
+    {
+      "kind": "color",
+      "priority": "P1",
+      "page": 14,
+      "nodeId": "6:138",
+      "examplesNodeId": "2029:3",
+      "name": "Color",
+      "purpose": "Specify one object’s color, such as a button, title, icon, line or product part.",
+      "rule": "A known swatch can be used by default. An unresolved color description remains a choice to make.",
+      "cases": [
+        {
+          "id": 1,
+          "clarity": "explicit",
+          "zh": "把App的主按钮设成#000000。",
+          "en": "Set the App's main button to #000000.",
+          "unsupported": false
+        },
+        {
+          "id": 2,
+          "clarity": "explicit",
+          "zh": "按钮用红色，深深的红。",
+          "en": "Make the button red, a really deep red.",
+          "unsupported": false
+        },
+        {
+          "id": 3,
+          "clarity": "explicit",
+          "zh": "分隔线用 RGB 245,245,245。",
+          "en": "Use RGB 245,245,245 for the divider line.",
+          "unsupported": false
+        },
+        {
+          "id": 4,
+          "clarity": "explicit",
+          "zh": "浅浅的灰。",
+          "en": "A really light gray.",
+          "unsupported": false
+        },
+        {
+          "id": 5,
+          "clarity": "explicit",
+          "zh": "生成一张红色跑车的照片。",
+          "en": "Generate a photo of a red sports car.",
+          "unsupported": false
+        },
+        {
+          "id": 6,
+          "clarity": "explicit",
+          "zh": "标题用 TIFFINY 蓝。",
+          "en": "Use TIFFINY blue for the title.",
+          "unsupported": false
+        },
+        {
+          "id": 7,
+          "clarity": "explicit",
+          "zh": "杯子奶油白。",
+          "en": "Creamy white for the cup.",
+          "unsupported": false
+        },
+        {
+          "id": 8,
+          "clarity": "explicit",
+          "zh": "像橄榄那样的绿。",
+          "en": "Green like an olive.",
+          "unsupported": false
+        },
+        {
+          "id": 9,
+          "clarity": "explicit",
+          "zh": "蓝一点点，别发紫。",
+          "en": "A tiny bit bluer; do not let it turn purple.",
+          "unsupported": false
+        },
+        {
+          "id": 10,
+          "clarity": "explicit",
+          "zh": "还是刚才选中的那块蓝。",
+          "en": "Still the blue swatch selected just now.",
+          "unsupported": false
+        },
+        {
+          "id": 11,
+          "clarity": "partial",
+          "zh": "这个图标的颜色再深一点。",
+          "en": "Make this icon’s color a little darker.",
+          "unsupported": false
+        },
+        {
+          "id": 12,
+          "clarity": "partial",
+          "zh": "换成那个红。",
+          "en": "Change it to that red.",
+          "unsupported": false
+        },
+        {
+          "id": 13,
+          "clarity": "partial",
+          "zh": "这里的文字颜色换成莫兰迪那种。",
+          "en": "Give the text here that muted Morandi kind of color.",
+          "unsupported": false
+        },
+        {
+          "id": 14,
+          "clarity": "partial",
+          "zh": "这个标题的颜色按我们品牌来。",
+          "en": "Use our brand color for this title.",
+          "unsupported": false
+        },
+        {
+          "id": 15,
+          "clarity": "partial",
+          "zh": "按钮的颜色换成刚才看过的那种。",
+          "en": "Change the button color to the one we looked at earlier.",
+          "unsupported": false
+        },
+        {
+          "id": 16,
+          "clarity": "goal",
+          "zh": "生物科普页面的主按钮，要有植物生长的感觉。",
+          "en": "The main button on the biology page should suggest plants and growth.",
+          "unsupported": false
+        },
+        {
+          "id": 17,
+          "clarity": "goal",
+          "zh": "科技展的标题，要有未来感。",
+          "en": "Give the technology exhibition title a futuristic feel.",
+          "unsupported": false
+        },
+        {
+          "id": 18,
+          "clarity": "goal",
+          "zh": "活动海报的报名按钮，要让人觉得热情、有活力。",
+          "en": "Make the sign-up button on the event poster feel warm and energetic.",
+          "unsupported": false
+        },
+        {
+          "id": 19,
+          "clarity": "goal",
+          "zh": "海洋科普里的海豚图标，想要清爽、宁静的感觉。",
+          "en": "Give the dolphin icon in the ocean guide a fresh, peaceful feel.",
+          "unsupported": false
+        },
+        {
+          "id": 20,
+          "clarity": "goal",
+          "zh": "婴儿护理产品的瓶盖，要有柔软、温和的感觉。",
+          "en": "Give the baby-care product’s bottle cap a soft, gentle feel.",
+          "unsupported": false
+        },
+        {
+          "id": 21,
+          "clarity": "negative",
+          "zh": "App名字叫Red Ledger。",
+          "en": "Name the App Red Ledger.",
+          "unsupported": false
+        },
+        {
+          "id": 22,
+          "clarity": "negative",
+          "zh": "分析红色系列产品的销售额。",
+          "en": "Analyze sales of the red product range.",
+          "unsupported": false
+        },
+        {
+          "id": 23,
+          "clarity": "negative",
+          "zh": "别改颜色，只修复登录按钮。",
+          "en": "Keep the colors; just fix the login button.",
+          "unsupported": false
+        },
+        {
+          "id": 24,
+          "clarity": "negative",
+          "zh": "统计比赛中的红牌次数。",
+          "en": "Count the red cards in the match.",
+          "unsupported": false
+        },
+        {
+          "id": 25,
+          "clarity": "negative",
+          "zh": "给报告起名叫“蓝色计划”。",
+          "en": "Name the report Blue Plan.",
+          "unsupported": false
+        }
+      ]
+    },
+    {
+      "kind": "duration",
+      "priority": "P1",
+      "page": 16,
+      "nodeId": "6:117",
+      "examplesNodeId": "2029:66",
+      "name": "Time",
+      "purpose": "Specify a duration or duration limit for the task or its output.",
+      "rule": "No exact duration? Offer choices. Keep stated limits and intervals in the request.",
+      "cases": [
+        {
+          "id": 1,
+          "clarity": "explicit",
+          "zh": "产品视频控制在30秒以内。",
+          "en": "Keep the product video at or under 30 seconds.",
+          "unsupported": false
+        },
+        {
+          "id": 2,
+          "clarity": "explicit",
+          "zh": "这场培训按45分钟准备。",
+          "en": "Prepare this training session to last 45 minutes.",
+          "unsupported": false
+        },
+        {
+          "id": 3,
+          "clarity": "explicit",
+          "zh": "App开场那个动画，两秒就好。",
+          "en": "Make the App's opening animation two seconds long.",
+          "unsupported": false
+        },
+        {
+          "id": 4,
+          "clarity": "explicit",
+          "zh": "这期访谈播客准备聊一个小时。",
+          "en": "Plan to talk for an hour in this interview podcast.",
+          "unsupported": false
+        },
+        {
+          "id": 5,
+          "clarity": "explicit",
+          "zh": "帮我准备一段产品的 elevator pitch。",
+          "en": "Help me prepare an elevator pitch for the product.",
+          "unsupported": false
+        },
+        {
+          "id": 6,
+          "clarity": "explicit",
+          "zh": "做个简短的口头自我介绍。",
+          "en": "Prepare a brief spoken self-introduction.",
+          "unsupported": false
+        },
+        {
+          "id": 7,
+          "clarity": "explicit",
+          "zh": "这个视频的播放时间再长一点。",
+          "en": "Make this video's running time a little longer.",
+          "unsupported": false
+        },
+        {
+          "id": 8,
+          "clarity": "explicit",
+          "zh": "这期播客想做长一点，慢慢聊。",
+          "en": "I'd like this podcast episode to be longer, with time to talk things through.",
+          "unsupported": false
+        },
+        {
+          "id": 9,
+          "clarity": "explicit",
+          "zh": "这段讲解多留点时间，别匆匆带过。",
+          "en": "Allow more time for this explanation; don't rush through it.",
+          "unsupported": false
+        },
+        {
+          "id": 10,
+          "clarity": "explicit",
+          "zh": "视频保持在一到两分钟之间。",
+          "en": "Keep the video between one and two minutes.",
+          "unsupported": true
+        },
+        {
+          "id": 11,
+          "clarity": "partial",
+          "zh": "简短一点。",
+          "en": "A bit shorter.",
+          "unsupported": false
+        },
+        {
+          "id": 12,
+          "clarity": "partial",
+          "zh": "这个压到30。",
+          "en": "Bring this down to 30.",
+          "unsupported": false
+        },
+        {
+          "id": 13,
+          "clarity": "partial",
+          "zh": "就用一两分钟那个。",
+          "en": "Use that one-to-two-minute one.",
+          "unsupported": false
+        },
+        {
+          "id": 14,
+          "clarity": "partial",
+          "zh": "这个拉长一点。",
+          "en": "Make this a little longer.",
+          "unsupported": false
+        },
+        {
+          "id": 15,
+          "clarity": "partial",
+          "zh": "按刚才那个时长。",
+          "en": "Use that duration from just now.",
+          "unsupported": false
+        },
+        {
+          "id": 16,
+          "clarity": "goal",
+          "zh": "让视频节奏轻快些。",
+          "en": "Give the video a livelier pace.",
+          "unsupported": false
+        },
+        {
+          "id": 17,
+          "clarity": "goal",
+          "zh": "这个内容是给领导快速过一遍的。",
+          "en": "This is for a quick review by management.",
+          "unsupported": false
+        },
+        {
+          "id": 18,
+          "clarity": "goal",
+          "zh": "我不想让听众觉得累。",
+          "en": "I do not want the audience to feel tired.",
+          "unsupported": false
+        },
+        {
+          "id": 19,
+          "clarity": "goal",
+          "zh": "这个App操作起来要利落。",
+          "en": "Make this App feel snappy to use.",
+          "unsupported": false
+        },
+        {
+          "id": 20,
+          "clarity": "goal",
+          "zh": "观众可能没耐心看完整个介绍。",
+          "en": "The audience may not have the patience to watch the whole introduction.",
+          "unsupported": false
+        },
+        {
+          "id": 21,
+          "clarity": "negative",
+          "zh": "把这篇稿子压到一千字。",
+          "en": "Shorten this draft to 1,000 Chinese characters.",
+          "unsupported": false
+        },
+        {
+          "id": 22,
+          "clarity": "negative",
+          "zh": "明天下午三点提醒我开会。",
+          "en": "Remind me about the meeting at 3 p.m. tomorrow.",
+          "unsupported": false
+        },
+        {
+          "id": 23,
+          "clarity": "negative",
+          "zh": "做10页的PPT。",
+          "en": "Make a 10-slide presentation.",
+          "unsupported": false
+        },
+        {
+          "id": 24,
+          "clarity": "negative",
+          "zh": "分析过去30天的订单。",
+          "en": "Analyze orders from the past 30 days.",
+          "unsupported": false
+        },
+        {
+          "id": 25,
+          "clarity": "negative",
+          "zh": "有个视频叫“三十秒演示”，把它加进来。",
+          "en": "Add the video called Thirty-Second Demo.",
+          "unsupported": false
+        }
+      ]
+    },
+    {
+      "kind": "capture",
+      "priority": "P1",
+      "page": 18,
+      "nodeId": "120:5",
+      "examplesNodeId": "2029:507",
+      "name": "Screenshot / Recording",
+      "purpose": "Capture a screen image or record on-screen actions as task references.",
+      "rule": "Start and stop recording explicitly. Confirming a capture and sending the task are separate actions.",
+      "cases": [
+        {
+          "id": 1,
+          "clarity": "explicit",
+          "zh": "把屏幕上这块给你看看，帮我找找问题。",
+          "en": "Let me show you this part of the screen so you can help spot the problem.",
+          "unsupported": false
+        },
+        {
+          "id": 2,
+          "clarity": "explicit",
+          "zh": "右上角这个报错，留张图给你分析。",
+          "en": "Keep an image of the error at the top right for you to analyze.",
+          "unsupported": false
+        },
+        {
+          "id": 3,
+          "clarity": "explicit",
+          "zh": "我把登录步骤走一遍给你看，不用带我的声音。",
+          "en": "I will go through the login steps for you to see, without my voice.",
+          "unsupported": false
+        },
+        {
+          "id": 4,
+          "clarity": "explicit",
+          "zh": "我操作一遍给你看，就这个窗口。",
+          "en": "I will walk through it for you in this window.",
+          "unsupported": false
+        },
+        {
+          "id": 5,
+          "clarity": "explicit",
+          "zh": "把现在整个屏幕截下来，记录测试环境。",
+          "en": "Take a screenshot of the full screen to document the test environment.",
+          "unsupported": false
+        },
+        {
+          "id": 6,
+          "clarity": "explicit",
+          "zh": "这张图表现在就在屏幕上，留个画面放进报告。",
+          "en": "This chart is on screen now. Save an image of it for the report.",
+          "unsupported": false
+        },
+        {
+          "id": 7,
+          "clarity": "explicit",
+          "zh": "网页底部这块价格表，存成一张图给你参考。",
+          "en": "Save the pricing table at the bottom of the webpage as an image for reference.",
+          "unsupported": false
+        },
+        {
+          "id": 8,
+          "clarity": "explicit",
+          "zh": "把我接下来拖动列表的过程存成视频，别开麦。",
+          "en": "Save my next drag-and-drop actions in the list as a video, with the microphone off.",
+          "unsupported": false
+        },
+        {
+          "id": 9,
+          "clarity": "explicit",
+          "zh": "我边点这个窗口边讲，帮我留成一段带声音的视频。",
+          "en": "I will click through this window and explain it. Save the walkthrough as a video with my voice.",
+          "unsupported": false
+        },
+        {
+          "id": 10,
+          "clarity": "explicit",
+          "zh": "我现在从搜索走到下单页，把这段屏幕操作存下来。",
+          "en": "I will go from search to the order page now. Save this sequence of screen actions.",
+          "unsupported": false
+        },
+        {
+          "id": 11,
+          "clarity": "partial",
+          "zh": "这块给你看看。",
+          "en": "Let me show you this part.",
+          "unsupported": false
+        },
+        {
+          "id": 12,
+          "clarity": "partial",
+          "zh": "把这个页面留下来。",
+          "en": "Keep a copy of this page.",
+          "unsupported": false
+        },
+        {
+          "id": 13,
+          "clarity": "partial",
+          "zh": "我操作一遍给你看。",
+          "en": "I will walk through it for you.",
+          "unsupported": false
+        },
+        {
+          "id": 14,
+          "clarity": "partial",
+          "zh": "刚才出错的过程能给你看一下吗？",
+          "en": "Can I show you what happened when it went wrong just now?",
+          "unsupported": false
+        },
+        {
+          "id": 15,
+          "clarity": "partial",
+          "zh": "屏幕上这段变化，你要看一张图还是整个过程？",
+          "en": "Would you like an image of this on-screen change or the whole sequence?",
+          "unsupported": false
+        },
+        {
+          "id": 16,
+          "clarity": "goal",
+          "zh": "现在这个页面排版挤在一起，想让你看到实际样子。",
+          "en": "The layout on this page is cramped. I want you to see how it actually looks.",
+          "unsupported": false
+        },
+        {
+          "id": 17,
+          "clarity": "goal",
+          "zh": "屏幕上这个弹窗的状态，靠文字实在说不清。",
+          "en": "I cannot explain the state of this on-screen dialog clearly in words.",
+          "unsupported": false
+        },
+        {
+          "id": 18,
+          "clarity": "goal",
+          "zh": "这个页面的动画只有动起来才看得出问题。",
+          "en": "The problem with this page's animation is only visible while it moves.",
+          "unsupported": false
+        },
+        {
+          "id": 19,
+          "clarity": "goal",
+          "zh": "我接下来会在App里重现那个卡顿，想让你看清整个过程。",
+          "en": "I will reproduce the lag in the App. I want you to see the whole sequence.",
+          "unsupported": false
+        },
+        {
+          "id": 20,
+          "clarity": "goal",
+          "zh": "刚才那个错误没留下视频，我能再操作一遍，想把问题说清。",
+          "en": "There is no video of that error. I can repeat the steps to make the problem clear.",
+          "unsupported": false
+        },
+        {
+          "id": 21,
+          "clarity": "negative",
+          "zh": "从相册加入昨天保存的截图。",
+          "en": "Add yesterday's saved screenshot from the gallery.",
+          "unsupported": false
+        },
+        {
+          "id": 22,
+          "clarity": "negative",
+          "zh": "我已经有昨天演示操作的视频，放在电脑桌面，帮我加进来。",
+          "en": "I already have yesterday's walkthrough video on my computer desktop. Add it here.",
+          "unsupported": false
+        },
+        {
+          "id": 23,
+          "clarity": "negative",
+          "zh": "把手机相册里已经录好的操作视频加进来。",
+          "en": "Add the walkthrough video already recorded in my phone's gallery.",
+          "unsupported": false
+        },
+        {
+          "id": 24,
+          "clarity": "negative",
+          "zh": "别留视频或图片，只用文字描述这段操作。",
+          "en": "Do not save a video or image. Just describe the steps in text.",
+          "unsupported": false
+        },
+        {
+          "id": 25,
+          "clarity": "negative",
+          "zh": "打开相机，录一下这台设备怎么转。",
+          "en": "Open the camera and record how this device rotates.",
+          "unsupported": false
+        }
+      ]
+    },
+    {
+      "kind": "formats",
+      "priority": "P1",
+      "page": 20,
+      "nodeId": "6:279",
+      "examplesNodeId": "2029:759",
+      "name": "Output Format",
+      "purpose": "Choose the file formats required for delivery.",
+      "rule": "Formats describe delivery requirements; choosing them does not create the output files.",
+      "cases": [
+        {
+          "id": 1,
+          "clarity": "explicit",
+          "zh": "给我Word和PDF两个版本。",
+          "en": "Give me both Word and PDF versions.",
+          "unsupported": false
+        },
+        {
+          "id": 2,
+          "clarity": "explicit",
+          "zh": "分析结果给我Excel，也留一份CSV。",
+          "en": "Give me the analysis in Excel and keep a CSV copy too.",
+          "unsupported": false
+        },
+        {
+          "id": 3,
+          "clarity": "explicit",
+          "zh": "网页给我HTML文件，说明用Markdown。",
+          "en": "Give me the webpage as an HTML file and the guide in Markdown.",
+          "unsupported": false
+        },
+        {
+          "id": 4,
+          "clarity": "explicit",
+          "zh": "汇报做成PPT，另外给个PDF。",
+          "en": "Make the presentation a PowerPoint and give me a PDF too.",
+          "unsupported": false
+        },
+        {
+          "id": 5,
+          "clarity": "explicit",
+          "zh": "调研结论给我一份Word就行。",
+          "en": "A Word document is fine for the research findings.",
+          "unsupported": false
+        },
+        {
+          "id": 6,
+          "clarity": "explicit",
+          "zh": "会议记录就用Markdown吧。",
+          "en": "Use Markdown for the meeting notes.",
+          "unsupported": false
+        },
+        {
+          "id": 7,
+          "clarity": "explicit",
+          "zh": "海报最后给我PNG图片。",
+          "en": "Deliver the final poster as a PNG image.",
+          "unsupported": true
+        },
+        {
+          "id": 8,
+          "clarity": "explicit",
+          "zh": "分镜清单给我做成Excel表。",
+          "en": "Put the shot list in an Excel spreadsheet for me.",
+          "unsupported": false
+        },
+        {
+          "id": 9,
+          "clarity": "explicit",
+          "zh": "App接口的字段清单给我CSV就好。",
+          "en": "A CSV is fine for the App's API field list.",
+          "unsupported": false
+        },
+        {
+          "id": 10,
+          "clarity": "explicit",
+          "zh": "交互演示给我一个单页HTML文件。",
+          "en": "Give me the interactive demo as a single HTML file.",
+          "unsupported": false
+        },
+        {
+          "id": 11,
+          "clarity": "partial",
+          "zh": "给我能继续修改正文的版本。",
+          "en": "Give me a version whose text I can keep editing.",
+          "unsupported": false
+        },
+        {
+          "id": 12,
+          "clarity": "partial",
+          "zh": "整理成那个工具能用的样子。",
+          "en": "Put it into a form that tool can use.",
+          "unsupported": false
+        },
+        {
+          "id": 13,
+          "clarity": "partial",
+          "zh": "这个App给我可点击的版本。",
+          "en": "Give me a clickable version of this App.",
+          "unsupported": false
+        },
+        {
+          "id": 14,
+          "clarity": "partial",
+          "zh": "网页给我能自己部署的版本。",
+          "en": "Give me a version of the website I can deploy myself.",
+          "unsupported": false
+        },
+        {
+          "id": 15,
+          "clarity": "partial",
+          "zh": "给客户一个不用改、直接能看的版本。",
+          "en": "Give the client a version they can view without editing.",
+          "unsupported": false
+        },
+        {
+          "id": 16,
+          "clarity": "goal",
+          "zh": "整理好后发我就行。",
+          "en": "Just send it to me when it is ready.",
+          "unsupported": false
+        },
+        {
+          "id": 17,
+          "clarity": "goal",
+          "zh": "我想方便给同事看。",
+          "en": "I want an easy way to show it to colleagues.",
+          "unsupported": false
+        },
+        {
+          "id": 18,
+          "clarity": "goal",
+          "zh": "这个小程序之后还要继续做。",
+          "en": "I will keep working on this mini program later.",
+          "unsupported": false
+        },
+        {
+          "id": 19,
+          "clarity": "goal",
+          "zh": "这个本地工具要好用。",
+          "en": "Make this local tool easy to use.",
+          "unsupported": false
+        },
+        {
+          "id": 20,
+          "clarity": "goal",
+          "zh": "做完之后我还要拿去别处用。",
+          "en": "I will need to use it somewhere else when it is done.",
+          "unsupported": false
+        },
+        {
+          "id": 21,
+          "clarity": "negative",
+          "zh": "参考我上传的PDF。",
+          "en": "Refer to the PDF I uploaded.",
+          "unsupported": false
+        },
+        {
+          "id": 22,
+          "clarity": "negative",
+          "zh": "把报告里的“CSV”解释一下。",
+          "en": "Explain “CSV” in the report.",
+          "unsupported": false
+        },
+        {
+          "id": 23,
+          "clarity": "negative",
+          "zh": "从桌面打开PPT再分析。",
+          "en": "Open the PPT on the Desktop and analyze it.",
+          "unsupported": false
+        },
+        {
+          "id": 24,
+          "clarity": "negative",
+          "zh": "生成一张产品图，不用做文档。",
+          "en": "Generate a product image, not a document.",
+          "unsupported": false
+        },
+        {
+          "id": 25,
+          "clarity": "negative",
+          "zh": "读取这个JSON里的配置。",
+          "en": "Read the configuration in this JSON.",
+          "unsupported": false
+        }
+      ]
+    },
+    {
+      "kind": "skills",
+      "priority": "P2",
+      "page": 22,
+      "nodeId": "52:172",
+      "examplesNodeId": "2029:633",
+      "name": "Skills",
+      "purpose": "Choose available skills for the work the task requires.",
+      "rule": "Selecting skills records the task’s choices; it does not install or run them.",
+      "cases": [
+        {
+          "id": 1,
+          "clarity": "explicit",
+          "zh": "用处理Word文档的技能整理这份报告。",
+          "en": "Use a Word document skill to organize this report.",
+          "unsupported": false
+        },
+        {
+          "id": 2,
+          "clarity": "explicit",
+          "zh": "表格分析和做图表的技能一起用。",
+          "en": "Use the spreadsheet-analysis and chart-making skills together.",
+          "unsupported": false
+        },
+        {
+          "id": 3,
+          "clarity": "explicit",
+          "zh": "用Frontend Design这个技能做网页App界面。",
+          "en": "Use the Frontend Design skill for the web App interface.",
+          "unsupported": false
+        },
+        {
+          "id": 4,
+          "clarity": "explicit",
+          "zh": "刚才处理PDF的那个技能留着。",
+          "en": "Keep the PDF skill we just picked.",
+          "unsupported": false
+        },
+        {
+          "id": 5,
+          "clarity": "explicit",
+          "zh": "安装一个网上找到的陌生技能。",
+          "en": "Install an unfamiliar skill found online.",
+          "unsupported": true
+        },
+        {
+          "id": 6,
+          "clarity": "explicit",
+          "zh": "找个处理图片的技能，改一下产品图尺寸。",
+          "en": "Find an image-processing skill to resize the product photo.",
+          "unsupported": false
+        },
+        {
+          "id": 7,
+          "clarity": "explicit",
+          "zh": "找个能做音频转写的技能。",
+          "en": "Choose a skill for audio transcription.",
+          "unsupported": false
+        },
+        {
+          "id": 8,
+          "clarity": "explicit",
+          "zh": "用用户研究的技能整理下访谈主题。",
+          "en": "Use a user-research skill to organize the interview themes.",
+          "unsupported": false
+        },
+        {
+          "id": 9,
+          "clarity": "explicit",
+          "zh": "代码审查和测试设计这两个技能都用上。",
+          "en": "Use both the code-review and test-design skills.",
+          "unsupported": false
+        },
+        {
+          "id": 10,
+          "clarity": "explicit",
+          "zh": "选一个网页研究技能来比较竞品。",
+          "en": "Choose a web-research skill to compare competitors.",
+          "unsupported": false
+        },
+        {
+          "id": 11,
+          "clarity": "partial",
+          "zh": "用代码审查那个处理一下。",
+          "en": "Use that code-review one to handle this.",
+          "unsupported": false
+        },
+        {
+          "id": 12,
+          "clarity": "partial",
+          "zh": "用做界面的那个。",
+          "en": "Use the one for making interfaces.",
+          "unsupported": false
+        },
+        {
+          "id": 13,
+          "clarity": "partial",
+          "zh": "调用上次做报告的那组技能。",
+          "en": "Use the skill set from the last report.",
+          "unsupported": false
+        },
+        {
+          "id": 14,
+          "clarity": "partial",
+          "zh": "把刚才那组加上。",
+          "en": "Add that group from just now.",
+          "unsupported": false
+        },
+        {
+          "id": 15,
+          "clarity": "partial",
+          "zh": "就用音频转写那个。",
+          "en": "Use that audio-transcription one.",
+          "unsupported": false
+        },
+        {
+          "id": 16,
+          "clarity": "goal",
+          "zh": "把这份资料整理成汇报。",
+          "en": "Turn this material into a report for a meeting.",
+          "unsupported": false
+        },
+        {
+          "id": 17,
+          "clarity": "goal",
+          "zh": "这些数据太乱了，帮我处理一下。",
+          "en": "These data are messy; help me process them.",
+          "unsupported": false
+        },
+        {
+          "id": 18,
+          "clarity": "goal",
+          "zh": "这个App界面还需要完善。",
+          "en": "This App interface needs more work.",
+          "unsupported": false
+        },
+        {
+          "id": 19,
+          "clarity": "goal",
+          "zh": "帮我把这件事做得更好。",
+          "en": "Help me do this better.",
+          "unsupported": false
+        },
+        {
+          "id": 20,
+          "clarity": "goal",
+          "zh": "这份访谈内容我不知道从哪里整理。",
+          "en": "I do not know where to start organizing this interview.",
+          "unsupported": false
+        },
+        {
+          "id": 21,
+          "clarity": "negative",
+          "zh": "写一份员工技能培训计划。",
+          "en": "Write an employee skills-training plan.",
+          "unsupported": false
+        },
+        {
+          "id": 22,
+          "clarity": "negative",
+          "zh": "选择“文档专家”。",
+          "en": "Select Document Expert.",
+          "unsupported": false
+        },
+        {
+          "id": 23,
+          "clarity": "negative",
+          "zh": "不要调用额外技能，直接回答。",
+          "en": "Do not use extra skills; answer directly.",
+          "unsupported": false
+        },
+        {
+          "id": 24,
+          "clarity": "negative",
+          "zh": "根据这份员工技能表统计培训人数。",
+          "en": "Count the trainees using this employee skills table.",
+          "unsupported": false
+        },
+        {
+          "id": 25,
+          "clarity": "negative",
+          "zh": "在App里增加一个“技能”页面。",
+          "en": "Add a Skills page to the App.",
+          "unsupported": false
+        }
+      ]
+    },
+    {
+      "kind": "palette",
+      "priority": "P2",
+      "page": 24,
+      "nodeId": "52:164",
+      "examplesNodeId": "2029:129",
+      "name": "Color Palette",
+      "purpose": "Choose a coordinated color scheme for a page, poster, package or set of materials.",
+      "rule": "Use a palette to coordinate several elements; use Color to change one object.",
+      "cases": [
+        {
+          "id": 1,
+          "clarity": "explicit",
+          "zh": "App 用我上次存的那套配色。",
+          "en": "Use the palette I saved last time for the App.",
+          "unsupported": false
+        },
+        {
+          "id": 2,
+          "clarity": "explicit",
+          "zh": "露营网站的颜色像森林那样自然，背景、文字和按钮一起搭一下。",
+          "en": "Give the camping site natural, forest-like colors; coordinate the background, text and buttons.",
+          "unsupported": false
+        },
+        {
+          "id": 3,
+          "clarity": "explicit",
+          "zh": "海报就用品牌手册里那套标准色。",
+          "en": "Use the standard palette from the brand guide for the poster.",
+          "unsupported": false
+        },
+        {
+          "id": 4,
+          "clarity": "explicit",
+          "zh": "科技 App 的颜色搭得冷静一点，有未来感。",
+          "en": "Give the tech App a calm, futuristic mix of colors.",
+          "unsupported": false
+        },
+        {
+          "id": 5,
+          "clarity": "explicit",
+          "zh": "亲子活动海报的颜色活泼一点，但别太刺眼。",
+          "en": "Make the family event poster’s colors lively, but not too bright.",
+          "unsupported": false
+        },
+        {
+          "id": 6,
+          "clarity": "explicit",
+          "zh": "博物馆导览页的颜色，像旧纸和铜器那种感觉。",
+          "en": "Give the museum guide page colors that evoke aged paper and bronze.",
+          "unsupported": false
+        },
+        {
+          "id": 7,
+          "clarity": "explicit",
+          "zh": "咖啡包装的几种颜色搭得温暖、朴素一点。",
+          "en": "Give the coffee packaging a warm, understated mix of colors.",
+          "unsupported": false
+        },
+        {
+          "id": 8,
+          "clarity": "explicit",
+          "zh": "视频封面的颜色做出复古胶片的感觉。",
+          "en": "Give the video cover’s colors a vintage film feel.",
+          "unsupported": false
+        },
+        {
+          "id": 9,
+          "clarity": "explicit",
+          "zh": "报告里这些图表的颜色柔和一点，放一起要协调。",
+          "en": "Soften the report charts’ colors and make them work together.",
+          "unsupported": false
+        },
+        {
+          "id": 10,
+          "clarity": "explicit",
+          "zh": "小程序别用太多颜色，文字和按钮的颜色别抢。",
+          "en": "Keep the mini program’s colors restrained; text and buttons should not compete.",
+          "unsupported": false
+        },
+        {
+          "id": 11,
+          "clarity": "partial",
+          "zh": "这几块颜色再暖一点。",
+          "en": "Make the colors in these areas a little warmer.",
+          "unsupported": false
+        },
+        {
+          "id": 12,
+          "clarity": "partial",
+          "zh": "还是用上次那套颜色。",
+          "en": "Use that set of colors from last time again.",
+          "unsupported": false
+        },
+        {
+          "id": 13,
+          "clarity": "partial",
+          "zh": "整套颜色按品牌那版来。",
+          "en": "Use the brand’s version for the whole color scheme.",
+          "unsupported": false
+        },
+        {
+          "id": 14,
+          "clarity": "partial",
+          "zh": "这几个的颜色搭得协调一点。",
+          "en": "Make the colors of these elements work together better.",
+          "unsupported": false
+        },
+        {
+          "id": 15,
+          "clarity": "partial",
+          "zh": "这里想要莫兰迪那种配色。",
+          "en": "I want a muted Morandi-style palette here.",
+          "unsupported": false
+        },
+        {
+          "id": 16,
+          "clarity": "goal",
+          "zh": "生物科普网站，整体想要植物生长的感觉。",
+          "en": "Give the biology website an overall sense of plants and growth.",
+          "unsupported": false
+        },
+        {
+          "id": 17,
+          "clarity": "goal",
+          "zh": "科技展这套物料，要有未来感。",
+          "en": "Give this set of technology exhibition materials a futuristic feel.",
+          "unsupported": false
+        },
+        {
+          "id": 18,
+          "clarity": "goal",
+          "zh": "活动海报整体要热情、有活力。",
+          "en": "Make the event poster feel warm and energetic overall.",
+          "unsupported": false
+        },
+        {
+          "id": 19,
+          "clarity": "goal",
+          "zh": "海洋科普页面，想要清爽、宁静的感觉。",
+          "en": "Give the ocean education page a fresh, peaceful feel.",
+          "unsupported": false
+        },
+        {
+          "id": 20,
+          "clarity": "goal",
+          "zh": "婴儿护理页面，要有柔软、温和的感觉。",
+          "en": "Give the baby-care page a soft, gentle feel.",
+          "unsupported": false
+        },
+        {
+          "id": 21,
+          "clarity": "negative",
+          "zh": "只把标题换成深红色，其他颜色不动。",
+          "en": "Only change the title to deep red; leave the other colors unchanged.",
+          "unsupported": false
+        },
+        {
+          "id": 22,
+          "clarity": "negative",
+          "zh": "把文案里的“配色方案”翻译成英文。",
+          "en": "Translate the words “配色方案” into English.",
+          "unsupported": false
+        },
+        {
+          "id": 23,
+          "clarity": "negative",
+          "zh": "不要改配色，调整表格列宽。",
+          "en": "Keep the palette and adjust the table column widths.",
+          "unsupported": false
+        },
+        {
+          "id": 24,
+          "clarity": "negative",
+          "zh": "列出去年卖出的黑白两款产品。",
+          "en": "List sales of the black and white product variants last year.",
+          "unsupported": false
+        },
+        {
+          "id": 25,
+          "clarity": "negative",
+          "zh": "解释一下什么是互补配色。",
+          "en": "Explain what complementary colors are.",
+          "unsupported": false
+        }
+      ]
+    },
+    {
+      "kind": "connectors",
+      "priority": "P2",
+      "page": 26,
+      "nodeId": "6:258",
+      "examplesNodeId": "2029:696",
+      "name": "Connectors",
+      "purpose": "Choose available external services for the task, such as document, data or messaging tools.",
+      "rule": "Selection records services for this task. Authorization and service operations are separate.",
+      "cases": [
+        {
+          "id": 1,
+          "clarity": "explicit",
+          "zh": "去飞书里找一下项目资料。",
+          "en": "Look up the project materials in Feishu.",
+          "unsupported": false
+        },
+        {
+          "id": 2,
+          "clarity": "explicit",
+          "zh": "这次同时用腾讯文档和飞书。",
+          "en": "Use both Tencent Docs and Feishu for this task.",
+          "unsupported": false
+        },
+        {
+          "id": 3,
+          "clarity": "explicit",
+          "zh": "把飞书取消，只用腾讯文档。",
+          "en": "Remove Feishu and use only Tencent Docs.",
+          "unsupported": false
+        },
+        {
+          "id": 4,
+          "clarity": "explicit",
+          "zh": "授权一个尚未连接的新服务。",
+          "en": "Authorize a new service that is not connected.",
+          "unsupported": true
+        },
+        {
+          "id": 5,
+          "clarity": "explicit",
+          "zh": "查一下TAPD里这周的缺陷。",
+          "en": "Look up this week's bugs in TAPD.",
+          "unsupported": false
+        },
+        {
+          "id": 6,
+          "clarity": "explicit",
+          "zh": "把腾讯网盘里的报告移到归档文件夹。",
+          "en": "Move the report in Tencent Drive to the archive folder.",
+          "unsupported": false
+        },
+        {
+          "id": 7,
+          "clarity": "explicit",
+          "zh": "用企业微信通知一下项目群。",
+          "en": "Notify the project group through WeCom.",
+          "unsupported": false
+        },
+        {
+          "id": 8,
+          "clarity": "explicit",
+          "zh": "用腾讯会议建个评审会议。",
+          "en": "Set up a review meeting in Tencent Meeting.",
+          "unsupported": false
+        },
+        {
+          "id": 9,
+          "clarity": "explicit",
+          "zh": "用ima查一下知识库里的术语。",
+          "en": "Look up the terms in the ima knowledge base.",
+          "unsupported": false
+        },
+        {
+          "id": 10,
+          "clarity": "explicit",
+          "zh": "用QQ邮箱把这份报告发出去。",
+          "en": "Send this report through QQ Mail.",
+          "unsupported": false
+        },
+        {
+          "id": 11,
+          "clarity": "partial",
+          "zh": "用团队共享的那些。",
+          "en": "Use those shared by the team.",
+          "unsupported": false
+        },
+        {
+          "id": 12,
+          "clarity": "partial",
+          "zh": "连接上次查项目数据的那个平台。",
+          "en": "Use the platform we used for project data last time.",
+          "unsupported": false
+        },
+        {
+          "id": 13,
+          "clarity": "partial",
+          "zh": "去团队那边查一下。",
+          "en": "Look it up on the team's side.",
+          "unsupported": false
+        },
+        {
+          "id": 14,
+          "clarity": "partial",
+          "zh": "把那个接进来。",
+          "en": "Bring that in.",
+          "unsupported": false
+        },
+        {
+          "id": 15,
+          "clarity": "partial",
+          "zh": "用上次查需求的那个。",
+          "en": "Use the one we looked up requirements with last time.",
+          "unsupported": false
+        },
+        {
+          "id": 16,
+          "clarity": "goal",
+          "zh": "资料散在好几个地方。",
+          "en": "The references are scattered across several places.",
+          "unsupported": false
+        },
+        {
+          "id": 17,
+          "clarity": "goal",
+          "zh": "这个报告需要更完整的信息。",
+          "en": "This report needs more complete information.",
+          "unsupported": false
+        },
+        {
+          "id": 18,
+          "clarity": "goal",
+          "zh": "想结合团队已有的知识。",
+          "en": "I want to use the team's existing knowledge.",
+          "unsupported": false
+        },
+        {
+          "id": 19,
+          "clarity": "goal",
+          "zh": "帮我把不同地方的内容串起来。",
+          "en": "Help connect the information from different places.",
+          "unsupported": false
+        },
+        {
+          "id": 20,
+          "clarity": "goal",
+          "zh": "我希望这份方案能结合公司内部情况。",
+          "en": "I want this proposal to reflect our company's internal context.",
+          "unsupported": false
+        },
+        {
+          "id": 21,
+          "clarity": "negative",
+          "zh": "设计一个飞书登录按钮的图标。",
+          "en": "Design an icon for a Feishu sign-in button.",
+          "unsupported": false
+        },
+        {
+          "id": 22,
+          "clarity": "negative",
+          "zh": "使用我从飞书导出并上传的CSV。",
+          "en": "Use the CSV I exported from Feishu and uploaded.",
+          "unsupported": false
+        },
+        {
+          "id": 23,
+          "clarity": "negative",
+          "zh": "在文档里解释什么是连接器。",
+          "en": "Explain what a connector is in the document.",
+          "unsupported": false
+        },
+        {
+          "id": 24,
+          "clarity": "negative",
+          "zh": "只使用本地资料，不访问外部服务。",
+          "en": "Use only local references; do not access external services.",
+          "unsupported": false
+        },
+        {
+          "id": 25,
+          "clarity": "negative",
+          "zh": "帮我画一个USB连接器的示意图。",
+          "en": "Draw a diagram of a USB connector.",
+          "unsupported": false
+        }
+      ]
+    },
+    {
+      "kind": "font",
+      "priority": "P2",
+      "page": 28,
+      "nodeId": "52:154",
+      "examplesNodeId": "2029:192",
+      "name": "Font",
+      "purpose": "Choose a font family for the intended text.",
+      "rule": "This control selects font families. Size and weight requests stay in the text until supported.",
+      "cases": [
+        {
+          "id": 1,
+          "clarity": "explicit",
+          "zh": "Word报告正文就用微软雅黑。",
+          "en": "Use Microsoft YaHei for the body of the Word report.",
+          "unsupported": false
+        },
+        {
+          "id": 2,
+          "clarity": "explicit",
+          "zh": "App标题用Inter。",
+          "en": "Use Inter for the App headings.",
+          "unsupported": false
+        },
+        {
+          "id": 3,
+          "clarity": "explicit",
+          "zh": "网页代码示例用JetBrains Mono。",
+          "en": "Use JetBrains Mono for the website's code examples.",
+          "unsupported": false
+        },
+        {
+          "id": 4,
+          "clarity": "explicit",
+          "zh": "标题字号设为24。",
+          "en": "Set the title font size to 24.",
+          "unsupported": true
+        },
+        {
+          "id": 5,
+          "clarity": "explicit",
+          "zh": "标题选一种圆润的字体。",
+          "en": "Choose a rounded font for the title.",
+          "unsupported": false
+        },
+        {
+          "id": 6,
+          "clarity": "explicit",
+          "zh": "代码示例换成等宽字体。",
+          "en": "Use a monospaced font for the code examples.",
+          "unsupported": false
+        },
+        {
+          "id": 7,
+          "clarity": "explicit",
+          "zh": "视频字幕使用思源黑体。",
+          "en": "Use Source Han Sans for the video subtitles.",
+          "unsupported": false
+        },
+        {
+          "id": 8,
+          "clarity": "explicit",
+          "zh": "小程序里的金额数字用Roboto。",
+          "en": "Use Roboto for the amounts in the mini program.",
+          "unsupported": false
+        },
+        {
+          "id": 9,
+          "clarity": "explicit",
+          "zh": "网页上的引文用Georgia。",
+          "en": "Use Georgia for the quotes on the webpage.",
+          "unsupported": false
+        },
+        {
+          "id": 10,
+          "clarity": "explicit",
+          "zh": "把标题加粗一点。",
+          "en": "Make the title bolder.",
+          "unsupported": true
+        },
+        {
+          "id": 11,
+          "clarity": "partial",
+          "zh": "圆一点。",
+          "en": "A bit rounder.",
+          "unsupported": false
+        },
+        {
+          "id": 12,
+          "clarity": "partial",
+          "zh": "跟品牌手册一致。",
+          "en": "Match the brand guide.",
+          "unsupported": false
+        },
+        {
+          "id": 13,
+          "clarity": "partial",
+          "zh": "换成代码那种。",
+          "en": "Change it to the code kind.",
+          "unsupported": false
+        },
+        {
+          "id": 14,
+          "clarity": "partial",
+          "zh": "像手写的那样。",
+          "en": "Like handwriting.",
+          "unsupported": false
+        },
+        {
+          "id": 15,
+          "clarity": "partial",
+          "zh": "用刚才第二个。",
+          "en": "Use the second one from just now.",
+          "unsupported": false
+        },
+        {
+          "id": 16,
+          "clarity": "goal",
+          "zh": "这个App读起来舒服一点。",
+          "en": "Make this App more comfortable to read.",
+          "unsupported": false
+        },
+        {
+          "id": 17,
+          "clarity": "goal",
+          "zh": "报告排版显得正式一点。",
+          "en": "Make the report typography feel more formal.",
+          "unsupported": false
+        },
+        {
+          "id": 18,
+          "clarity": "goal",
+          "zh": "标题看起来太普通了。",
+          "en": "The headline looks too ordinary.",
+          "unsupported": false
+        },
+        {
+          "id": 19,
+          "clarity": "goal",
+          "zh": "网站内容要适合老年人阅读。",
+          "en": "Make the website content easy for older adults to read.",
+          "unsupported": false
+        },
+        {
+          "id": 20,
+          "clarity": "goal",
+          "zh": "这份内容读起来有点费劲。",
+          "en": "This content feels difficult to read.",
+          "unsupported": false
+        },
+        {
+          "id": 21,
+          "clarity": "negative",
+          "zh": "把正文里的英文翻译成中文。",
+          "en": "Translate the English body text into Chinese.",
+          "unsupported": false
+        },
+        {
+          "id": 22,
+          "clarity": "negative",
+          "zh": "解释什么是无衬线字体。",
+          "en": "Explain what a sans-serif font is.",
+          "unsupported": false
+        },
+        {
+          "id": 23,
+          "clarity": "negative",
+          "zh": "不要换字体，只纠正错别字。",
+          "en": "Keep the font; only correct typos.",
+          "unsupported": false
+        },
+        {
+          "id": 24,
+          "clarity": "negative",
+          "zh": "读取fonts文件夹里的许可文件。",
+          "en": "Read the license file in the fonts folder.",
+          "unsupported": false
+        },
+        {
+          "id": 25,
+          "clarity": "negative",
+          "zh": "把标题里的“黑体”两个字删掉。",
+          "en": "Remove the word “黑体” from the title.",
+          "unsupported": false
+        }
+      ]
+    },
+    {
+      "kind": "expert",
+      "priority": "P2",
+      "page": 30,
+      "nodeId": "6:241",
+      "examplesNodeId": "2029:570",
+      "name": "Expert",
+      "purpose": "Choose an expert (agent) or expert team with a domain-specific role, methods and tools.",
+      "rule": "Choose one expert or team for the task. Selecting another replaces the current choice.",
+      "cases": [
+        {
+          "id": 1,
+          "clarity": "explicit",
+          "zh": "让文档专家处理这份报告。",
+          "en": "Have the Document Expert handle this report.",
+          "unsupported": false
+        },
+        {
+          "id": 2,
+          "clarity": "explicit",
+          "zh": "这次就用你推荐的数据分析专家。",
+          "en": "Use the data-analysis expert you suggested for this task.",
+          "unsupported": false
+        },
+        {
+          "id": 3,
+          "clarity": "explicit",
+          "zh": "换个做产品设计的专家来。",
+          "en": "Switch to a product-design expert.",
+          "unsupported": false
+        },
+        {
+          "id": 4,
+          "clarity": "explicit",
+          "zh": "刚才那个研究专家留着。",
+          "en": "Keep the research expert we just picked.",
+          "unsupported": false
+        },
+        {
+          "id": 5,
+          "clarity": "explicit",
+          "zh": "让品牌设计专家团看看这张海报。",
+          "en": "Have the brand-design expert team review this poster.",
+          "unsupported": false
+        },
+        {
+          "id": 6,
+          "clarity": "explicit",
+          "zh": "让代码审查专家看看这个网页App方案。",
+          "en": "Have a code-review expert look at this web App proposal.",
+          "unsupported": false
+        },
+        {
+          "id": 7,
+          "clarity": "explicit",
+          "zh": "选个擅长视频策划的专家。",
+          "en": "Choose an expert who specializes in video planning.",
+          "unsupported": false
+        },
+        {
+          "id": 8,
+          "clarity": "explicit",
+          "zh": "让用户研究专家分析下访谈。",
+          "en": "Have a user-research expert analyze the interviews.",
+          "unsupported": false
+        },
+        {
+          "id": 9,
+          "clarity": "explicit",
+          "zh": "找个信息架构专家梳理网站导航。",
+          "en": "Find an information-architecture expert to organize the website navigation.",
+          "unsupported": false
+        },
+        {
+          "id": 10,
+          "clarity": "explicit",
+          "zh": "让财务评审专家团看看预算表。",
+          "en": "Have the financial-review expert team look at the budget.",
+          "unsupported": false
+        },
+        {
+          "id": 11,
+          "clarity": "partial",
+          "zh": "用代码审查那个处理一下。",
+          "en": "Use that code-review one to handle this.",
+          "unsupported": false
+        },
+        {
+          "id": 12,
+          "clarity": "partial",
+          "zh": "让懂App交互的人看看。",
+          "en": "Have someone who understands App interaction look at it.",
+          "unsupported": false
+        },
+        {
+          "id": 13,
+          "clarity": "partial",
+          "zh": "用上次那个专家处理。",
+          "en": "Use the expert from last time.",
+          "unsupported": false
+        },
+        {
+          "id": 14,
+          "clarity": "partial",
+          "zh": "用做界面的那个。",
+          "en": "Use the one for making interfaces.",
+          "unsupported": false
+        },
+        {
+          "id": 15,
+          "clarity": "partial",
+          "zh": "还是上次那个团队。",
+          "en": "The same team as last time.",
+          "unsupported": false
+        },
+        {
+          "id": 16,
+          "clarity": "goal",
+          "zh": "这份分析需要更专业。",
+          "en": "This analysis needs to be more professional.",
+          "unsupported": false
+        },
+        {
+          "id": 17,
+          "clarity": "goal",
+          "zh": "我对这个行业不太熟。",
+          "en": "I am not familiar with this industry.",
+          "unsupported": false
+        },
+        {
+          "id": 18,
+          "clarity": "goal",
+          "zh": "帮我把方案把把关。",
+          "en": "Help me check this proposal.",
+          "unsupported": false
+        },
+        {
+          "id": 19,
+          "clarity": "goal",
+          "zh": "做App这块我没经验。",
+          "en": "I have no experience making Apps.",
+          "unsupported": false
+        },
+        {
+          "id": 20,
+          "clarity": "goal",
+          "zh": "这份方案我自己没有把握。",
+          "en": "I am not confident about this proposal.",
+          "unsupported": false
+        },
+        {
+          "id": 21,
+          "clarity": "negative",
+          "zh": "给专家写一封邀请邮件。",
+          "en": "Write an invitation email to an expert.",
+          "unsupported": false
+        },
+        {
+          "id": 22,
+          "clarity": "negative",
+          "zh": "使用表格分析技能。",
+          "en": "Use the spreadsheet-analysis skill.",
+          "unsupported": false
+        },
+        {
+          "id": 23,
+          "clarity": "negative",
+          "zh": "去飞书里读一下资料。",
+          "en": "Read the materials in Feishu.",
+          "unsupported": false
+        },
+        {
+          "id": 24,
+          "clarity": "negative",
+          "zh": "不要切换专家，继续当前任务。",
+          "en": "Do not switch experts; continue the current task.",
+          "unsupported": false
+        },
+        {
+          "id": 25,
+          "clarity": "negative",
+          "zh": "在网站上展示专家介绍。",
+          "en": "Show expert biographies on the website.",
+          "unsupported": false
+        }
+      ]
+    }
+  ]
+}

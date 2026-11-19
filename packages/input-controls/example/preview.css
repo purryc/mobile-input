@@ -10,3 +10,10 @@
 .controls-preview-values pre {max-height:220px;overflow:auto;white-space:pre-wrap;background:#f6f7f9;padding:12px;border-radius:8px;}
 .controls-preview-values ol {max-height:160px;overflow:auto;}
 @media(max-width:600px){.controls-preview-stage{padding:12px}.controls-preview-options{align-items:flex-start}}
+.input-controls-theme .controls-file-text {
+  max-height: 60vh;
+  overflow: auto;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.input-controls-theme .controls-file-pdf { width: 100%; min-height: min(52vh, 440px); }

@@ -29,3 +29,7 @@
 - This scoped integration supersedes the old cleanup no-merge/no-push rule: user authorized main integration and manual Pages publication after validation.
 - New desktop controls live in packages/input-controls. Its 13 standalone widgets exclude text polish; existing catalog and A2UI entries retain their actual status.
 - New previews import the package and its isolated example host; never the Xiaoyi runtime. Do not infer A2UI support from React availability.
+
+## Compact Xiaoyi entry · 2026-11-16
+- xiaoyi-controls.html is a separate build entry using packages/input-controls/example/compact-library. Render the 13 live cards on one page with independent source examples. No full documentation shell or A2UI imports in this entry.
+- The explicit 1.1.0 release uses the existing manual Pages workflow. Build the downloadable package from the same commit and preserve the full site.

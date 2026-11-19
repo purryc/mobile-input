@@ -70,4 +70,8 @@ export const widgetWidths: Record<WidgetKind, number> = {
   capture: 320,
 };
 
-export type ChipSemanticState = "needs-input" | "default-selected" | "ambiguous-recommendation";
+export type ChipSemanticState =
+  | "needs-input"
+  | "default-selected"
+  | "ambiguous-recommendation"
+  | "object-bound";

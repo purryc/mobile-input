@@ -1,3 +1,31 @@
+# Publish Xiaoyi Work input controls 1.1.0
+
+- User authorizes this GitHub source and Release update and the existing manual Design System Pages publication. Fast-forward only the reviewed library commit from this worktree, and preserve the original main worktree's local changes.
+- Tag the exact release source as input-controls-v1.1.0. Include the installable npm archive, standalone editable source ZIP, and SHA-256 checksums. Verify the public download and copyable integration code.
+
+# Xiaoyi Work single-page component library
+
+- The approved single-page follow-up supersedes compact sidebar, priority navigation, and on-page intent examples. Keep the underlying 325-case source snapshot and existing package and site entry URLs.
+- Show 13 independent React widgets with live chip examples and per-widget source, Props and copyable integration code. Use a shared popover controller across cards.
+- Each compact card shows 3 chip states, a separate expanded widget, and a download of its exact TSX entry. Selected means a resolved value or a confirmed material. Material filenames use the existing additive object-bound token internally, with the same Selected presentation. Seed selected examples with local sample bytes.
+- Keep this change in codex/xiaoyi-controls-lite. Preserve in-progress work and product callers. Validate the package and site locally, with read-only Claude CLI review.
+
+## Installable npm distribution
+
+- Generate a versioned local-install tarball for the same 13-widget source. Ship download and copyable install/integration on both compact entries. No npm registry publication.
+- Document how to bump the package version and regenerate the gallery and tarball together. Verify an isolated consumer installation and the generated download.
+
+# Xiaoyi Work compact library · 2026-11-16
+
+- Visual parity follow-up: compare actual source demo controls, including descendant actions and browser reset styles; container-only parity is insufficient. Fix missing inherited styles inside the independent package, preserving original demo and all in-progress work. Save before/after evidence in existing lite QA directory.
+
+- Build a separate, focused 13-widget library entry from the existing input-controls package. Exclude text polish, legacy controls, A2UI and device scenarios from this entry; preserve the complete library and Xiaoyi demo.
+- Follow the final 31-page GenUI spec (Figma ANhVxJPGEgYRcISFmQmgyg; final export 2026-11-16), P0/P1/P2 ordering and all 325 bilingual intent examples. Derive data from the verified export, retain source links and explicitly separate design intent from implemented capability.
+- Work on codex/xiaoyi-controls-lite. No automatic push, merge or deployment in this follow-up. Do not alter the dirty original main worktree.
+- Use packages/input-controls/example for the compact host, source snapshot and scoped shell CSS. Add a separate apps/design-system/xiaoyi-controls.html entry using the same host; do not duplicate widgets or change default previews.
+- Keep actual widget geometry/materials intact. State toggles are demonstrations, not automatic intent recognition. Missing support is documented, never simulated as successful capture or execution.
+- QA stays in artifacts/design-system/xiaoyi-controls-lite-2026-11-16/. Verify 13 entries, bilingual cases, chip state/interaction, narrow layouts, runtime isolation, package and site builds. Claude CLI reviews read-only.
+
 # Independent input controls integration · 2026-11-16
 
 - Approved implementation extracts 13 widgets, inline chip semantic and interaction states, and interactive examples from Xiaoyi Work into packages/input-controls. Text polish is excluded from this new library and handoff.

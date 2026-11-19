@@ -51,3 +51,29 @@
 /* Host typography must not change controls between standalone and documentation use. */
 .input-controls-theme {font:400 15px/1.55 system-ui,sans-serif;letter-spacing:normal;text-align:start;}
 .input-controls-theme input,.input-controls-theme select,.input-controls-theme textarea {font:inherit;letter-spacing:normal;}
+/* Real desktop host typography, including portalled panels. */
+.input-controls-theme .ic-demo-widget-wrap { font-size:14px; line-height:1.55; }
+.input-controls-theme .ic-demo-widget-wrap .ic-live-wb-aux > header button { justify-content:center; }
+.input-controls-theme .ic-live-wb-aux footer.ic-live-wb-sketch-tools { justify-content:flex-start; }
+.input-controls-theme .ic-demo-widget-wrap .ic-live-wb-aux:has(.ic-agent-photo-actions[data-has-photos="false"]) { height:118px; }
+/* Empty live-capture actions have no reserved row in the real desktop demo. */
+.input-controls-theme .ic-demo-capture-panel .ic-demo-capture-actions:empty { display:none; }
+
+/* A bound name can shrink without shrinking the icon or the extra-material count. */
+.input-controls-theme .ic-sentence-token-hit[data-semantic-state="object-bound"],
+.input-controls-theme .ic-sentence-token[data-semantic-state="object-bound"],
+.input-controls-theme .ic-sentence-token[data-semantic-state="object-bound"] > .ic-sentence-token-face {
+  min-width: 0;
+  max-width: 100%;
+}
+.input-controls-theme .ic-sentence-token[data-semantic-state="object-bound"] .ic-demo-chip-label {
+  min-width: 0;
+  max-width: 24ch;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.input-controls-theme .ic-chip-object-count { flex: none; font-size: 12px; }
+.input-controls-theme .ic-sentence-token[data-semantic-state="object-bound"][aria-expanded="true"] > .ic-sentence-token-face {
+  border-color: #a6b0bd;
+  background: var(--ic-demo-tint);
+}
