@@ -25,9 +25,11 @@ export * from "./inline-chip";
 export * from "./photo-camera";
 export * from './capture-adapter';
 export * from './anchored-panel';
-export * from './attachment-card';
+export {AttachmentCard, type AttachmentCardProps} from './attachment-card';
 export type {CapturePanelProps} from './capture-panel';
 export {normalizedCrop} from './capture-panel';
 export type {Crop} from './capture-panel';
 
 export type {ChoiceWidgetProps} from "./choice-widget";
+
+export * from "./document-file-list";

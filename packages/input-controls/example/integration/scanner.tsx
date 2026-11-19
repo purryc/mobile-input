@@ -4,7 +4,7 @@ import {WidgetProvider, WidgetSurface, type WidgetEnvironment} from '@mobile-inp
 import '@mobile-input/controls/desktop.css';
 
 export function ScannerExample({environment, ...props}: {environment: WidgetEnvironment} & ScannerWidgetProps) {
-  // The host owns items, confirmation and removal.
+  // Pass initialCameraMode="scan" for a scan request. The generic entry starts in photo mode.
   // Pass a different adapter to use your host's acquisition implementation.
   return (
     <WidgetProvider {...environment}>

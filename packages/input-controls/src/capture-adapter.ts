@@ -30,12 +30,3 @@ export function waitForFrame(video: HTMLVideoElement, signal: AbortSignal, timeo
     signal.addEventListener('abort', cancel, {once: true}); check();
   });
 }
-
-/** Optional host-rendered workspace with its own system toolbar and canvas source. */
-export interface WorkspaceCaptureAdapter {
-  readonly useSystemToolbar: boolean;
-  drawRegion(canvas: HTMLCanvasElement, region: import('./capture-panel').Crop, elapsedSeconds?: number): boolean;
-  requestSystemCapture(options?: {mode: 'screenshot' | 'recording'; language: 'en' | 'zh'}, signal?: AbortSignal): Promise<
-    {kind: 'screenshot'; blob: Blob} | {kind: 'cancelled' | 'record' | 'unavailable'}
-  >;
-}

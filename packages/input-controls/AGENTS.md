@@ -19,3 +19,18 @@
 - The tarball includes compiled ESM, declaration files, editable sources, all desktop CSS, public artwork/fonts, and an asset-copy command. Keep React, React DOM and Lucide as host peers.
 - Build artifacts go to public/generated/input-controls/ and are ignored; never recursively add generated downloads to the tarball. The compact page ships a download and copyable install and React examples.
 - Verify the tarball by installing it in an isolated React host, importing its public entries, type checking and building the host.
+
+## Xiaoyi desktop visual parity
+- Keep readable widget descriptions in normal page flow. Clip the decorative composer backdrop to the live panel’s rounded bounds, including after responsive reflow.
+- Compare Component List with the running Xiaoyi Work desktop composer using the same widget state, values and viewport. The translucent panel, its background context, and inner cards are separate parts of the comparison.
+- Keep preview backdrop and sample data in `example/`. Shared panel, list, and canvas styles belong in `src/`. Use fictional local file bytes and keep attached-file actions in the example's owning draft.
+- Keep parity screenshots and release checks under the existing ignored Design System artifacts. Publish the verified compact build and versioned tarball to the existing Component List Vercel project.
+
+## Media acquisition
+- Gallery selects existing images. Camera photos and document scans share one camera session with explicit modes. Screen capture uses a light top toolbar over the selected source; crop coordinates are relative to the displayed source frame. Acquisition, adoption and sending stay separate.
+- Opening a camera chip with known intent starts its viewfinder immediately. A passive catalog card waits for a mode selection. Switching photo/scan reuses the stream. Existing images enter through Gallery.
+- A user-opened screen chip carries an optional explicit screenIntent (screenshot or recording). Resolved intent opens its workspace directly; an unspecified intent keeps the chooser. Starting a recording and adopting its result require separate user actions.
+- In the document picker, adopted rows and attachment cards remove the same owner-scoped material ID. Removing a sketch attachment preserves the editable canvas.
+- Adopted materials expose a visible remove action with the picker closed. The named material chip and each attachment card remove only their displayed material; keep recommendation dismissal separate.
+- The reference-file entry and standalone document example start empty. Only files the user adds appear in the document list. Each adopted file has its own always-visible trailing remove button. Keep media thumbnails for Gallery.
+- FontWidget defaults to ten named Windows families. Keep family IDs usable in CSS and preserve host-defined choices. Store only rendered phrase specimens in public/assets/xiaoyi-work, with the samples and sources recorded in public/ASSET-SOURCES.md.

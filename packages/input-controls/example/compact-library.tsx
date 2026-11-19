@@ -47,19 +47,27 @@ export function CompactLibrary({assetBase = ''}: {assetBase?: string}) {
         {controlKinds.map((kind: WidgetKind) => {
           const title = catalog[kind].title[en ? 1 : 0];
           const isMaterial = materialKinds.includes(kind);
-          const states: ChipSemanticState[] = ['needs-input', isMaterial ? 'object-bound' : 'default-selected', 'ambiguous-recommendation'];
+          const states: ChipSemanticState[] = kind === 'document'
+            ? ['needs-input', 'ambiguous-recommendation']
+            : ['needs-input', isMaterial ? 'object-bound' : 'default-selected', 'ambiguous-recommendation'];
           return (
             <section id={'/' + kind} key={kind} className="lite-card" aria-labelledby={'title-' + kind} data-widget={kind}>
               <header className="lite-card-heading">
                 <h2 id={'title-' + kind}>{title}</h2>
                 <a href={'#/' + kind} aria-label={en ? 'Link to ' + title : title + '链接'}><Link2 size={16}/></a>
               </header>
-              <div className="lite-specimens">
-                {states.map(initial => (
-                  <WidgetSpecimen key={initial} {...{kind, initial, language, assetBase, panels}}/>
-                ))}
+              <p className="lite-widget-description">{catalog[kind].description[en ? 1 : 0]}</p>
+              <div className="lite-composer-preview">
+                <div className="lite-specimens">
+                  {kind === 'capture' && (['screenshot', 'recording'] as const).map(screenIntent => (
+                    <WidgetSpecimen key={screenIntent} {...{kind, screenIntent, language, assetBase, panels}} initial="default-selected"/>
+                  ))}
+                  {states.map(initial => (
+                    <WidgetSpecimen key={initial} {...{kind, initial, language, assetBase, panels}}/>
+                  ))}
+                </div>
+                <WidgetSpecimen {...{kind, language, assetBase, panels}} initial={isMaterial ? 'needs-input' : 'default-selected'} presentation="inline"/>
               </div>
-              <WidgetSpecimen {...{kind, language, assetBase, panels}} initial={isMaterial ? 'needs-input' : 'default-selected'} presentation="inline"/>
               <ComponentSource kind={kind} en={en}/>
             </section>
           );

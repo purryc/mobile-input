@@ -31,6 +31,13 @@ try {
   cpSync(join(host, 'node_modules/@mobile-input/controls/examples/react-integration.tsx'), join(host, 'App.tsx'));
   cpSync(join(host, 'node_modules/@mobile-input/controls/examples/widgets'), join(host, 'examples'), {recursive: true});
   assert.ok(readFileSync(join(host, 'public/input-controls/assets/figma/presentation/noto-sans-sc-400.woff2')).length > 0);
+  const {windowsFonts} = await import(join(host, 'node_modules/@mobile-input/controls/dist/font-widget.js'));
+  assert.equal(windowsFonts.length, 10);
+  for (const font of windowsFonts) {
+    const slug = font.id.toLowerCase().replaceAll(' ', '-');
+    const sample = readFileSync(join(host, 'public/input-controls/assets/xiaoyi-work/font-' + slug + '.png'));
+    assert.equal(sample.readUint32BE(0), 0x89504e47);
+  }
   writeFileSync(join(host, 'index.html'), '<!doctype html><html><head><meta charset="UTF-8"><title>Package smoke test</title></head><body><div id="root"></div><script type="module" src="/main.tsx"></script></body></html>');
   writeFileSync(join(host, 'main.tsx'),
     "import {createRoot} from 'react-dom/client'; import App from './App'; createRoot(document.getElementById('root')!).render(<App/>);");

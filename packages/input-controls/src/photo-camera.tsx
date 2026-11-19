@@ -31,12 +31,6 @@ function CameraSession({
     let alive = true;
     mounted.current = true;
     const hide = () => {if(document.hidden){alive=false;abort.abort();close();}};document.addEventListener("visibilitychange",hide);
-    if (adapter === browserCaptureAdapter && !navigator.mediaDevices?.getUserMedia) {
-      callbacks.current.onError(translate("当前浏览器无法打开摄像头，请选择本地图片。"));
-      close();
-      document.removeEventListener("visibilitychange", hide);
-      return;
-    }
     void adapter.openCamera()
       .then(async (next) => {
         if (!alive || !mounted.current) {

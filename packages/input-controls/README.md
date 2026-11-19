@@ -28,7 +28,7 @@ Download the `.tgz` from the top of the compact gallery. Put it in the root
 of your React 19 app and use its filename in the install command:
 
 ```sh
-npm install ./mobile-input-controls-1.1.0.tgz
+npm install ./mobile-input-controls-1.7.0.tgz
 npx --no-install input-controls-assets ./public/input-controls
 ```
 
@@ -58,6 +58,15 @@ For a new package release, bump the version (for example
 `npm version patch --no-git-tag-version`), run type checks and regression
 tests, then run `npm run build`. That build regenerates the tarball and
 gallery together. To rebuild only the tarball, run `npm run pack:library`.
+
+Component List uses `compact.html` as its public home. In a copy of `dist/`,
+copy `compact.html` over `index.html`, then deploy that directory to the
+existing `component-list` Vercel project. Set `VITE_INPUT_CONTROLS_RELEASE_URL`
+only for a release page that already exists for the version being built.
+
+Use `XIAOYI_DEMO_URL` with `npm run test:browser -- runtime-parity.browser.ts`
+to compare the live desktop composer with the inline and anchored specimens.
+The test captures all three for each widget and checks matching selection states.
 Both dev and production gallery builds generate the download. Run
 `npm run verify:package` to install the archive into a temporary Vite project
 and verify the example in Chrome. Give consumers
@@ -102,9 +111,9 @@ Each entry has exported typed Props; the barrel is `src/index.ts`. You can impor
 | Color | `src/color-widget.tsx` | six-digit HEX `value`, `label`, `onChange`, `onActive`, `onDone` |
 | Font | `src/font-widget.tsx` | `binding`, `definition`, `owner`, `onEvent` |
 | Palette | `src/palette-widget.tsx` | same choice contract |
-| Reference files | `src/document-widget.tsx` | children or controlled choices; `onChoose`, `onDone` |
-| Images | `src/image-widget.tsx` | pending children, `onChoose`, `onCapture`, `onDone` |
-| Scanner | `src/scanner-widget.tsx` | `items`, `onAdd`, `onRemove`, `onConfirm`, optional `adapter` |
+| Reference files | `src/document-widget.tsx` | controlled `materials`, `onChoose`, optional `onDone`, `onPreviewMaterial(id)` and `onRemoveMaterial(id)`; also supports explicit catalog choices or custom children |
+| Images | `src/image-widget.tsx` | existing images, pending children, `onChoose`, `onDone`; legacy `onCapture` is optional and ignored |
+| Photo / Document Scan | `src/scanner-widget.tsx` | `items`, `onAdd`, `onRemove`, `onConfirm`, optional `adapter` |
 | Sketch | `src/sketch-widget.tsx` | normalized `strokes`, `onChange`, `onActive`, `onAdopt` |
 | Expert | `src/expert-widget.tsx` | choice contract, single-select definition |
 | Skills | `src/skills-widget.tsx` | choice contract, multi-select definition |
@@ -121,7 +130,7 @@ Each entry has exported typed Props; the barrel is `src/index.ts`. You can impor
 - `needs-input`: no value/material has been bound; neutral dashed edge, entity icon, plus.
 - `default-selected`: a concrete available value/name or selected acquisition method; neutral solid edge.
 - `ambiguous-recommendation`: unresolved suggestion; blue-purple-pink border and sparkle.
-- `object-bound`: an actual file or material is bound. Set the full name in `label` and the number of remaining materials in `additionalObjectCount`. The chip opens the widget and has a neutral solid edge. Manage deletion through the material UI.
+- `object-bound`: an actual file or material is bound. Set the full name in `label` and the number of remaining materials in `additionalObjectCount`. The chip opens the widget and has a neutral solid edge. Pass `onRemoveMaterial` bound to the displayed attachment ID for an always-visible ×. Render each confirmed attachment with its own remove action outside the picker, including the additional materials counted by the chip.
 
 `origin` is `explicit | recommended | manual`. It does not infer `semanticState`. Default semantic state is `default-selected` for compatibility; new hosts should always pass it. A selected acquisition method is **not proof that any attachment exists**. Opening a chip does not change its semantic state.
 
@@ -131,7 +140,7 @@ Set `token.removable` and supply `onRemove` to show a separate keyboard-focusabl
 
 Use `useSinglePanel()` once per composition to keep one active ID, `AnchoredPanel` for positioning, and `AuxiliaryPanel` for chrome. The overlay anchors 8 px below the chip, clamps to viewport edges and scrolls if necessary. Escape closes and restores focus. `portalRoot` can target your overlay container. `WidgetSurface` applies scoped theme variables; `WidgetProvider.theme` also travels to portaled panels. Avoid transformed portal ancestors because fixed positioning follows their containing block.
 
-See the executable composition in `example/widget-preview.tsx`, including a second isolated instance, pending/confirmed attachments, file selection, image camera, scanner, sketch and screen material adoption.
+See the executable composition in `example/widget-preview.tsx`, including a second isolated instance, pending/confirmed attachments, file selection, gallery selection, photo / document scan, sketch and screen material adoption.
 
 ## Materials and adapters
 
@@ -147,11 +156,15 @@ const adapter: CaptureAdapter = browserCaptureAdapter;
   onConfirm={confirmPending} onBusy={setCapturing} />;
 ```
 
-Browser adapter uses `getUserMedia` and `getDisplayMedia` only. The browser chooses tab/window/screen; rectangular crop is applied to the returned stream, not to a fake DOM screenshot. Native/freeform system selection is not implemented. Audio is off. Recording is explicit start/stop, maximum 60 seconds, and requires MediaRecorder/canvas capture support. A cancelled or failed acquisition yields no material. Closing or navigating away releases all streams and aborts pending acquisitions; hiding the page releases camera streams, while explicitly shared screen streams remain active so switching to the captured tab works; a late stream is stopped before use. Use `CameraCapture` with the same optional adapter for image photography.
+Mount the widget when the user opens a camera chip. Its viewfinder starts immediately and both modes share the stream. In a passive catalog, set `deferCameraUntilSelection` to wait until the user chooses a mode. Starting in 1.2.1, use Gallery to import existing scan images. Pass `initialCameraMode="scan"` for a scan request. New camera materials record `cameraMode`; older scanner materials are scans. Mount `ScreenCaptureWidget` directly from the chip click or keyboard activation handler, before awaiting other work, so the browser can open its sharing prompt. Pass `screenIntent="screenshot"` for region selection or `screenIntent="recording"` for the ready toolbar. The user selects a sharing source when prompted and explicitly starts recording. Omit the prop for the generic chooser. Pass `onCancel` to dismiss the owning popover and restore focus.
+
+Browser adapter uses `getUserMedia` and `getDisplayMedia` only. The browser chooses tab/window/screen; rectangular crop is applied to the returned stream, not to a fake DOM screenshot. Native/freeform system selection is not implemented. Audio is off. Recording is explicit start/stop, maximum 60 seconds, and requires MediaRecorder/canvas capture support. A cancelled or failed acquisition yields no material. Closing or navigating away releases all streams and aborts pending acquisitions; hiding the page releases camera streams, while explicitly shared screen streams remain active so switching to the captured tab works; a late stream is stopped before use. Use `ScannerWidget` in photo mode for new photographs.
 
 Pass a stable `ownerId` to capture, camera, color and sketch widgets, changing it whenever the draft/target changes. These components remount their acquisition/drag/history session on that change. For any composite host state, also use `key={draftId}` and keep pending arrays scoped to that draft. The package cannot infer a new owner from changed callback functions.
 
 `CaptureMaterial` carries `id`, `kind`, `name`, `blob`, `size`, optional `duration`, and `confirmed`. `onAdd` emits actual bytes with `confirmed:false`; `onConfirm` asks the host to adopt. `AttachmentCard` and `CaptureTile compact` display compact removable materials. `SketchWidget` uses normalized points in [0,1]; geometry helpers preserve scale and bounded undo. Hosts choose their final image format.
+
+Start a new reference-file picker with `materials={[]}`. Append manually selected files to the owning draft with stable IDs. Pass their IDs and names to `DocumentWidget`, with `onPreviewMaterial(id)` and `onRemoveMaterial(id)`. Each file occupies one list row with a visible remove action. Use `DocumentFileList` for the same rows outside the picker. Hosts with a searchable catalog can still supply explicit `choices`.
 
 ## UI-only handoff for Gemini
 
@@ -173,8 +186,7 @@ All 13 interactive widgets are on one page. Direct links such as
 
 Each card has a standalone widget expanded by default and independent chip
 examples for Needs input, Selected, and Recommendation. Selected shows the
-resolved value or the name of the confirmed material. The prefilled material
-examples include local files. Selecting a document updates the chip immediately.
+resolved value or the name of the confirmed material. The document examples start empty and reach Selected when the user picks local files.
 Photos, scans, drawings, and screen materials update it on confirmation.
 Opening a different chip closes the previous floating panel.
 
@@ -194,6 +206,4 @@ The earlier developer playground remains at `/` with its original state tools.
 including all 325 bilingual intent examples. It can be regenerated with
 `python3 scripts/extract-intent-spec.py /path/to/alignment-final-export-text.json`.
 
-### 1.1.1 compatibility API
-
-ScannerWidget and ScreenCaptureWidget accept an optional `workspace: WorkspaceCaptureAdapter`. Use it only for a host with an existing workspace canvas or system picker. The host draws a requested region and can return a screenshot Blob, a recording request, cancellation or unavailability. Respect the supplied AbortSignal when opening the system picker. Without this option the 1.1 browser stream adapter remains the default. A host may also provide `InlineChipToken.removeLabel` for a localized dismissal action.
+FontWidget defaults to ten named Windows families. Selection returns the CSS family name (for example, `Microsoft YaHei`). Each preset has a rasterized phrase specimen for cross-device comparison. The target editor or exporter needs access to the selected font for document layout. Pass a custom `definition` to use your own catalog.

@@ -4,8 +4,8 @@ import {WidgetProvider, WidgetSurface, type WidgetEnvironment} from '@mobile-inp
 import '@mobile-input/controls/desktop.css';
 
 export function DocumentExample({
-  children, onDone, onSelect, environment,
-}: Pick<DocumentWidgetProps, 'children' | 'onDone'> & {onSelect: (files: File[]) => void; environment: WidgetEnvironment}) {
+  onSelect, environment, ...widgetProps
+}: Omit<DocumentWidgetProps, 'onChoose'> & {onSelect: (files: File[]) => void; environment: WidgetEnvironment}) {
   const input = useRef<HTMLInputElement>(null);
   return (
     <WidgetProvider {...environment}>
@@ -15,7 +15,7 @@ export function DocumentExample({
           if (files.length) onSelect(files);
           event.currentTarget.value = '';
         }}/>
-        <DocumentWidget onChoose={() => input.current?.click()} onDone={onDone}>{children}</DocumentWidget>
+        <DocumentWidget {...widgetProps} onChoose={() => input.current?.click()}/>
       </WidgetSurface>
     </WidgetProvider>
   );

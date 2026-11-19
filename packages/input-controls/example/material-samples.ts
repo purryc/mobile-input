@@ -1,4 +1,3 @@
-import brief from './fixtures/product-brief.pdf?inline';
 import type { CaptureMaterial, WidgetKind } from '../src/types';
 
 export const materialKinds: readonly WidgetKind[] = ['document', 'photo', 'scanner', 'sketch', 'capture'];
@@ -17,11 +16,6 @@ function imageSample(kind: keyof typeof sampleArtwork, name: string) {
 
 export function boundSample(kind: WidgetKind): { files?: File[]; sketch?: File; captures?: CaptureMaterial[] } {
   switch (kind) {
-    case 'document':
-      return { files: [new File(
-        [Uint8Array.from(atob(brief.slice(brief.indexOf(',') + 1)), byte => byte.charCodeAt(0))],
-        '产品介绍.pdf', { type: 'application/pdf' },
-      )] };
     case 'photo':
       return { files: [imageSample(kind, '产品图片.svg')] };
     case 'sketch':

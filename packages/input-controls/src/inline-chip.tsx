@@ -20,7 +20,6 @@ export interface InlineChipToken {
   iconPath?: string;
   recommendationIconSrc?: string;
   removable?: boolean;
-  removeLabel?: string;
   preparing?: boolean;
   prefix?: string;
   suffix?: string;
@@ -38,6 +37,8 @@ export interface InlineChipOptions {
   sweepStarts: Map<string, number>;
   onOpen: () => void;
   onRemove?: () => void;
+  /** Removes only the material named by an object-bound chip. */
+  onRemoveMaterial?: () => void;
   preserveSelection?: () => void;
 }
 /** Mount inside the editor-owned DOM without letting React rewrite selection offsets. */
@@ -54,10 +55,13 @@ export function renderInlineChip({
   sweepStarts,
   onOpen,
   onRemove,
+  onRemoveMaterial,
   preserveSelection,
 }: InlineChipOptions): HTMLSpanElement {
   const semanticState = token.semanticState ?? "default-selected";
-  const removable = semanticState !== "object-bound" && token.removable;
+  const removeItem = semanticState === "object-bound"
+    ? onRemoveMaterial
+    : token.removable ? onRemove : undefined;
   const additionalCount = semanticState === "object-bound" ? token.additionalObjectCount ?? 0 : 0;
   const english = language.startsWith("en");
   const additionalLabel = additionalCount > 0
@@ -169,7 +173,7 @@ export function renderInlineChip({
   };
   button.onclick = () => onOpen();
   if (token.prefix) hit.append(document.createTextNode(token.prefix));
-  const contained = containedRemove && (removable || token.preparing);
+  const contained = containedRemove && (removeItem || token.preparing);
   const capsule = contained ? document.createElement("span") : hit;
   if (contained) {
     capsule.className = "ic-sentence-token-capsule";
@@ -186,7 +190,7 @@ export function renderInlineChip({
     hit.append(capsule);
   }
   capsule.append(button);
-  if (removable && onRemove) {
+  if (removeItem) {
     const remove = document.createElement("button");
     remove.type = "button";
     remove.className = "ic-demo-chip-remove";
@@ -201,11 +205,15 @@ export function renderInlineChip({
     } else remove.textContent = "×";
     remove.setAttribute(
       "aria-label",
-      token.removeLabel ?? ((english ? "Remove " : "移除 ") + token.label),
+      (english ? "Remove " : "移除 ") +
+        token.label,
     );
     remove.disabled = disabled;
     remove.onpointerdown = (e) => { if (preserveSelection) e.preventDefault(); };
-    remove.onclick = () => onRemove?.();
+    remove.onclick = event => {
+      if (semanticState === "object-bound") event.stopPropagation();
+      removeItem();
+    };
     capsule.append(remove);
   }
   if (token.preparing) {
@@ -237,7 +245,7 @@ export function InlineChip(
     sweepStarts = useRef(new Map<string, number>());
   const { language, translate, assetBase } = useWidgetEnvironment();
   const latest = useRef(props); latest.current = props;
-  const visualKey = JSON.stringify([props.token, props.disabled, props.expanded, props.controlsId, props.describedBy, props.containedRemove, Boolean(props.onRemove), Boolean(props.preserveSelection), language, assetBase, translate(props.token.role)]);
+  const visualKey = JSON.stringify([props.token, props.disabled, props.expanded, props.controlsId, props.describedBy, props.containedRemove, Boolean(props.onRemove), Boolean(props.onRemoveMaterial), Boolean(props.preserveSelection), language, assetBase, translate(props.token.role)]);
   useLayoutEffect(() => {
     const node = root.current;
     if (!node) return;
@@ -252,6 +260,7 @@ export function InlineChip(
         ...latest.current,
         onOpen: () => latest.current.onOpen(),
         onRemove: latest.current.onRemove ? () => latest.current.onRemove?.() : undefined,
+        onRemoveMaterial: latest.current.onRemoveMaterial ? () => latest.current.onRemoveMaterial?.() : undefined,
         preserveSelection: latest.current.preserveSelection ? () => latest.current.preserveSelection?.() : undefined,
         language,
         uiText: translate,
@@ -260,8 +269,7 @@ export function InlineChip(
       }),
     );
     if (focused)
-      node
-        .querySelector<HTMLElement>(focusSelector)
+      (node.querySelector<HTMLElement>(focusSelector) ?? node.querySelector<HTMLElement>(".ic-sentence-token"))
         ?.focus({ preventScroll: true });
   }, [visualKey]);
   return <span ref={root} />;

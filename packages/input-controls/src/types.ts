@@ -47,6 +47,8 @@ export interface ChoiceEvent {
 export interface CaptureMaterial {
   id: string;
   kind: "scanner" | "screenshot" | "recording";
+  /** For camera materials. Older scanner items represent document scans. */
+  cameraMode?: "photo" | "scan";
   name: string;
   blob: Blob;
   size: number;

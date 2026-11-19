@@ -1,28 +1,50 @@
-import type { ComponentProps, ReactNode } from "react";
+import { useId, type ComponentProps, type ReactNode } from "react";
 import { Check, Plus } from "lucide-react";
 import { ChoiceWidget } from "./choice-widget";
 import { useWidgetEnvironment, useWidgetText } from "./environment";
+import type { DocumentFile } from "./document-file-list";
+
 export type DocumentWidgetProps = {
-  choices?: ComponentProps<typeof ChoiceWidget>;
+  choices?: Omit<ComponentProps<typeof ChoiceWidget>, "onRemoveMaterial">;
+  /** Receives the adopted option or local material ID in the host-owned draft. */
+  onRemoveMaterial?: (id: string) => void;
+  materials?: DocumentFile[];
+  onPreviewMaterial?: (id: string) => void;
   children?: ReactNode;
   onChoose: () => void;
   onDone?: () => void;
 };
 export function DocumentWidget({
   choices,
+  materials,
+  onPreviewMaterial,
   children,
   onChoose,
+  onRemoveMaterial,
   onDone,
 }: DocumentWidgetProps) {
   const t = useWidgetText();
-  const doneLabel = useWidgetEnvironment().language.startsWith("en")
+  const {language} = useWidgetEnvironment();
+  const doneLabel = language.startsWith("en")
     ? "Done"
     : "完成选择";
+  const owner = useId();
+  if (!choices && (materials || children == null)) {
+    return <ChoiceWidget
+      definition={{kind: "document", zh: "文件选择", en: "File picker", options: []}}
+      binding={{id: owner, kind: "document", origin: "manual", value: []}}
+      owner={owner} language={language}
+      materials={materials} onChooseFile={onChoose} showDone={Boolean(onDone)}
+      onPreviewMaterial={onPreviewMaterial} onRemoveMaterial={onRemoveMaterial}
+      onEvent={event => { if (event.type === "close") onDone?.(); }}
+    />;
+  }
   return choices ? (
     <ChoiceWidget
       {...choices}
       binding={{ ...choices.binding, kind: "document" }}
       onChooseFile={onChoose}
+      onRemoveMaterial={onRemoveMaterial}
     />
   ) : (
     <>

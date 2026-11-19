@@ -4,12 +4,12 @@ import {WidgetProvider, WidgetSurface, type WidgetEnvironment} from '@mobile-inp
 import '@mobile-input/controls/desktop.css';
 
 export function FontExample({definition, environment, onDone}: {
-  definition: FontWidgetProps['definition'];
+  definition?: FontWidgetProps['definition'];
   environment: WidgetEnvironment;
   onDone: (selected: string[]) => void;
 }) {
   const owner = useId();
-  const [value, setValue] = useState<string[]>([]);
+  const [value, setValue] = useState<FontWidgetProps['binding']['value']>([]);
   return (
     <WidgetProvider {...environment}>
       <WidgetSurface>

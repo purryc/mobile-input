@@ -1,3 +1,4 @@
+import {windowsFontDefinition} from "../src/windows-fonts";
 import type {ChoiceDefinition, WidgetKind, ControlOption} from "../src/types";
 const option = (
   id: string,
@@ -15,16 +16,7 @@ const option = (
 export const controlDefinitions: ChoiceDefinition[] = [
   { kind: "duration", zh: "时间", en: "Duration", options: [] },
   { kind: "color", zh: "颜色", en: "Color", options: [] },
-  {
-    kind: "font",
-    zh: "字体",
-    en: "Font",
-    options: [
-      option("sans-serif", "系统无衬线", "System sans"),
-      option("serif", "系统衬线", "System serif"),
-      option("monospace", "等宽字体", "Monospace"),
-    ],
-  },
+  windowsFontDefinition,
   {
     kind: "palette",
     zh: "配色方案",
@@ -68,10 +60,10 @@ export const controlDefinitions: ChoiceDefinition[] = [
     kind: "document",
     zh: "参考文件",
     en: "Reference file",
-    options: [option("product-brief", "产品介绍 · Product brief.md", "产品介绍 · Product brief.md")],
+    options: [],
   },
   { kind: "photo", zh: "图片", en: "Image", options: [] },
-  { kind: "scanner", zh: "文档扫描", en: "Document scanner", options: [] },
+  { kind: "scanner", zh: "拍照／文档扫描", en: "Photo / Document Scan", options: [] },
   { kind: "sketch", zh: "手绘画板", en: "Sketch", options: [] },
   {
     kind: "expert",
