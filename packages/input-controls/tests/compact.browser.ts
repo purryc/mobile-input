@@ -454,3 +454,33 @@ test('closed multi-file picker removes only the labelled attachment even with re
   await host.getByRole('listitem').getByRole('button',{name:'移除 same.txt'}).click();
   await expect(opener).toHaveAttribute('data-semantic-state','needs-input');
 });
+
+test('Windows font picker shows ten real specimens and retains the selected family', async ({page}) => {
+  await page.goto(route + 'font');
+  const entry = chip(page, 'font');
+  await entry.click();
+  const picker = panel(page);
+  const options = picker.locator('.ic-demo-control-option');
+  await expect(options).toHaveCount(10);
+  await expect.poll(() => options.locator('img').evaluateAll(images => images.filter(
+    img => img instanceof HTMLImageElement && img.complete && img.naturalWidth > 0
+  ).length)).toBe(10);
+  const sources = await options.locator('img').evaluateAll(images => images.map(img => img.getAttribute('src')));
+  expect(new Set(sources).size).toBe(10);
+  const search = picker.getByRole('textbox');
+  await search.fill('KaiTi');
+  await expect(options).toHaveCount(1);
+  await options.click();
+  await expect(picker.getByRole('status')).toHaveText(/楷体 · (当前浏览器可用|此浏览器仅预览字样)/);
+  await expect(options).toHaveAccessibleName('楷体');
+  await expect(options).toHaveAttribute('aria-pressed', 'true');
+  await picker.getByRole('button', {name:'完成选择'}).click();
+  await expect(entry).toContainText('楷体');
+  await entry.click();
+  await expect(picker.getByRole('button', {name:'楷体', exact:true})).toHaveAttribute('aria-pressed', 'true');
+  await page.keyboard.press('Escape');
+  await page.getByRole('button', {name:'EN', exact:true}).click();
+  await chip(page, 'font').click();
+  await picker.getByRole('textbox').fill('仿宋');
+  await expect(picker.getByRole('button', {name:'FangSong', exact:true})).toBeVisible();
+});

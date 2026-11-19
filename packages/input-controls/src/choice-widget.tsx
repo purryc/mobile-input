@@ -25,6 +25,7 @@ import type {
   ChoiceEvent as ControlEvent,
 } from "./types";
 import { useWidgetEnvironment, assetUrl } from "./environment";
+import { FontSample, SelectedFontPreview } from "./font-specimen";
 import { DocumentFileList } from "./document-file-list";
 const icons = {
   duration: Timer,
@@ -233,7 +234,7 @@ export function ChoiceWidget({
           ) : null}
           <span
             className="ic-demo-choice-label"
-            style={binding.kind === "font" ? { fontFamily: o.id } : undefined}
+            style={binding.kind === "font" ? {fontFamily: o.id} : undefined}
           >
             <span className="ic-demo-choice-title">{en ? o.en : o.zh}</span>
             {capability && (o.detail || o.detailEn) && (
@@ -242,9 +243,7 @@ export function ChoiceWidget({
               </small>
             )}
             {binding.kind === "font" && (
-              <span className="ic-demo-font-example">
-                {t("让想法清晰可见", "Make your ideas clear")}
-              </span>
+              <FontSample family={o.id} fallback={t("让想法清晰可见", "Make your ideas clear")}/>
             )}
             {binding.kind === "formats" && <small>.{o.id}</small>}
           </span>
@@ -336,15 +335,10 @@ export function ChoiceWidget({
           )}
         </p>
       )}
-      {binding.kind === "font" && (
-        <p style={{ fontFamily: binding.value[0] || "sans-serif" }}>
-          {t(
-            "字体预览：让想法清晰呈现。",
-            "Font preview: Make your ideas clear.",
-          )}
-        </p>
-      )}
       <div className="ic-demo-choice-footer">
+        {binding.kind === "font" && binding.value[0] && (
+          <SelectedFontPreview key={binding.value[0]} family={binding.value[0]} en={en}/>
+        )}
         {binding.kind === "formats" && (
           <span
             title={t(

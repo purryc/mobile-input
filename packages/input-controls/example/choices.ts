@@ -1,3 +1,4 @@
+import {windowsFontDefinition} from "../src/windows-fonts";
 import type {ChoiceDefinition, WidgetKind, ControlOption} from "../src/types";
 const option = (
   id: string,
@@ -15,16 +16,7 @@ const option = (
 export const controlDefinitions: ChoiceDefinition[] = [
   { kind: "duration", zh: "时间", en: "Duration", options: [] },
   { kind: "color", zh: "颜色", en: "Color", options: [] },
-  {
-    kind: "font",
-    zh: "字体",
-    en: "Font",
-    options: [
-      option("sans-serif", "系统无衬线", "System sans"),
-      option("serif", "系统衬线", "System serif"),
-      option("monospace", "等宽字体", "Monospace"),
-    ],
-  },
+  windowsFontDefinition,
   {
     kind: "palette",
     zh: "配色方案",

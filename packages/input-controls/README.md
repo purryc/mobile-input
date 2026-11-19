@@ -28,7 +28,7 @@ Download the `.tgz` from the top of the compact gallery. Put it in the root
 of your React 19 app and use its filename in the install command:
 
 ```sh
-npm install ./mobile-input-controls-1.6.0.tgz
+npm install ./mobile-input-controls-1.7.0.tgz
 npx --no-install input-controls-assets ./public/input-controls
 ```
 
@@ -205,3 +205,5 @@ The earlier developer playground remains at `/` with its original state tools.
 [GenUI specification](https://www.figma.com/slides/ANhVxJPGEgYRcISFmQmgyg),
 including all 325 bilingual intent examples. It can be regenerated with
 `python3 scripts/extract-intent-spec.py /path/to/alignment-final-export-text.json`.
+
+FontWidget defaults to ten named Windows families. Selection returns the CSS family name (for example, `Microsoft YaHei`). Each preset has a rasterized phrase specimen for cross-device comparison. The target editor or exporter needs access to the selected font for document layout. Pass a custom `definition` to use your own catalog.

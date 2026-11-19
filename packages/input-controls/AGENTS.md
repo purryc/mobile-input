@@ -33,3 +33,4 @@
 - In the document picker, adopted rows and attachment cards remove the same owner-scoped material ID. Removing a sketch attachment preserves the editable canvas.
 - Adopted materials expose a visible remove action with the picker closed. The named material chip and each attachment card remove only their displayed material; keep recommendation dismissal separate.
 - The reference-file entry and standalone document example start empty. Only files the user adds appear in the document list. Each adopted file has its own always-visible trailing remove button. Keep media thumbnails for Gallery.
+- FontWidget defaults to ten named Windows families. Keep family IDs usable in CSS and preserve host-defined choices. Store only rendered phrase specimens in public/assets/xiaoyi-work, with the samples and sources recorded in public/ASSET-SOURCES.md.
