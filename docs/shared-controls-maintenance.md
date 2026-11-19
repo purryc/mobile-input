@@ -30,7 +30,6 @@ flowchart TB
     Native --> Phone
     Phone <--> Bridge
   end
-  Phone --> UI
 ```
 
 要改字体面板的底部或勾选标记，从共享控件库开始。要改说完多久推荐字体，改小艺的推荐调度。要改手机点选后如何控制平板，改 Mobile Input 的控制器与桥接。小艺独立构建使用 `vite.workbuddy-demo.config.ts`，部署到 `xiaoyi-work.vercel.app`。
