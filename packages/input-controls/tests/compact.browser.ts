@@ -471,7 +471,7 @@ test('Windows font picker shows ten real specimens and retains the selected fami
   await search.fill('KaiTi');
   await expect(options).toHaveCount(1);
   await options.click();
-  await expect(picker.getByRole('status')).toHaveText(/楷体 · (当前浏览器可用|此浏览器仅预览字样)/);
+  await expect(picker.locator('.ic-demo-choice-footer')).toHaveText('');
   await expect(options).toHaveAccessibleName('楷体');
   await expect(options).toHaveAttribute('aria-pressed', 'true');
   await picker.getByRole('button', {name:'完成选择'}).click();
