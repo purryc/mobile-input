@@ -12,7 +12,6 @@ const translations:Record<string,string>={'关闭辅助输入':'Close panel','�
 export const translate=(language:string)=>(s:string)=>language==='en'?(translations[s]||s):s;
 
 type FileAttachment = {id: string; file: File};
-const sampleDocumentId = 'product-brief';
 
 export interface WidgetPreviewProps {
   kind: C.WidgetKind;
@@ -71,13 +70,7 @@ function InteractiveWidget({
   const open = inline ? inlineOpen : panels.active === owner;
   const initial = specimen?.initial ?? 'needs-input';
 
-  const [sampleDocument] = useState(() => specimen && kind === 'document'
-    ? boundSample(kind).files?.[0]
-    : undefined);
-  const [sample] = useState(() => {
-    if (initial !== 'object-bound') return {};
-    return sampleDocument ? {files: [sampleDocument]} : boundSample(kind);
-  });
+  const [sample] = useState(() => initial === 'object-bound' ? boundSample(kind) : {});
   const [semantic, setSemantic] = useState<C.ChipSemanticState>(initial === 'object-bound' ? 'needs-input' : initial);
   const [origin, setOrigin] = useState<C.ControlOrigin>(initial === 'ambiguous-recommendation' ? 'recommended' : 'explicit');
   const [disabled, setDisabled] = useState(false);
@@ -94,7 +87,7 @@ function InteractiveWidget({
   });
   const nextFileId = useRef(0);
   const [files, setFiles] = useState<FileAttachment[]>(() => (sample.files ?? []).map((file, index) => ({
-    id: file === sampleDocument ? sampleDocumentId : 'sample-' + index, file,
+    id: 'sample-' + index, file,
   })));
   const [pending, setPending] = useState<FileAttachment[]>([]);
   const [captures, setCaptures] = useState<C.CaptureMaterial[]>(sample.captures ?? []);
@@ -207,7 +200,7 @@ function InteractiveWidget({
   function pick(list: File[]) {
     if (!list.length) return;
     const attachments = list.map(file => ({
-      id: file === sampleDocument ? sampleDocumentId : 'local-' + nextFileId.current++, file,
+      id: 'local-' + nextFileId.current++, file,
     }));
     if (kind === 'document') {
       setFiles(previous => [...previous, ...attachments]);
@@ -216,6 +209,7 @@ function InteractiveWidget({
     emit('select-local-files', list.map(file => file.name));
   }
   function removeFile(id: string) {
+    if (kind === 'document' && files.length === 1 && files[0].id === id) setSemantic('needs-input');
     setFiles(previous => previous.filter(item => item.id !== id));
     emit('remove-file', files.find(item => item.id === id)?.file.name);
   }
@@ -226,10 +220,17 @@ function InteractiveWidget({
   function fileCard(id: string, file: File, remove: () => void) {
     return <C.AttachmentCard key={id} file={file} onRemove={remove} onPreview={() => previewFile(file)}/>;
   }
-  const selectedFiles = files.map(({id, file}) => fileCard(id, file, () => removeFile(id)));
+  const documentFiles = files.map(({id, file}) => ({id, name: file.name}));
+  function previewDocument(id: string) {
+    const attachment = files.find(item => item.id === id);
+    if (attachment) previewFile(attachment.file);
+  }
+  const selectedFiles = kind === 'document'
+    ? <C.DocumentFileList files={documentFiles} onPreview={previewDocument} onRemove={removeFile}/>
+    : files.map(({id, file}) => fileCard(id, file, () => removeFile(id)));
   const adoptedSketch = sketch && fileCard('sketch', sketch, removeSketch);
   const materialStrip = adopted.length > 0 && <div className="lite-document-materials input-controls-theme">
-    {adopted.map(item => 'capture' in item
+    {kind === 'document' ? selectedFiles : adopted.map(item => 'capture' in item
       ? <C.CaptureTile key={item.id} compact item={item.capture} onRemove={item.remove}/>
       : fileCard(item.id, item.file, item.remove))}
   </div>;
@@ -248,31 +249,9 @@ function InteractiveWidget({
         return <C.DurationWidget value={duration} onChange={value => {setDuration(value); changed(value);}} onDone={confirm}/>;
       case 'color':
         return <C.ColorWidget value={color} label={title} onChange={value => {setColor(value); changed(value);}} onActive={() => {}} onDone={confirm}/>;
-      case 'document': {
-        if (!sampleDocument) {
-          return <C.DocumentWidget onChoose={chooseLocal} onDone={confirm}>{selectedFiles}</C.DocumentWidget>;
-        }
-        const hasSample = files.some(item => item.id === sampleDocumentId);
-        return <C.DocumentWidget onChoose={chooseLocal} onRemoveMaterial={removeFile} choices={{
-          binding: {id: owner, kind, origin, value: hasSample ? [sampleDocumentId] : []},
-          definition: {...def, options: [{id: sampleDocumentId, zh: sampleDocument.name, en: sampleDocument.name}]},
-          owner,
-          language,
-          onPreviewMaterial: id => {
-            const attachment = files.find(item => item.id === id);
-            if (attachment) previewFile(attachment.file);
-          },
-          materials: files.filter(item => item.id !== sampleDocumentId).map(({id, file}) => ({
-            id,
-            name: file.name,
-          })),
-          onEvent: event => {
-            if (event.owner !== owner || event.id !== owner) return;
-            if (event.type === 'close') confirm();
-            if (event.type === 'change' && event.value?.includes(sampleDocumentId) && !hasSample) pick([sampleDocument]);
-          },
-        }}/>;
-      }
+      case 'document':
+        return <C.DocumentWidget materials={documentFiles} onChoose={chooseLocal} onDone={confirm}
+          onRemoveMaterial={removeFile} onPreviewMaterial={previewDocument}/>;
       case 'photo':
         return (
           <C.ImageWidget canConfirm={!specimen || pending.length > 0} onChoose={chooseLocal} onDone={() => {

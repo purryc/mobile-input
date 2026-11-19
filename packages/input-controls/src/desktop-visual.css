@@ -92,7 +92,7 @@
 .input-controls-theme .ic-demo-widget-wrap .ic-agent-color-bottom > button,
 .input-controls-theme .ic-demo-widget-wrap .ic-live-wb-sketch-tools > button:last-child,
 .input-controls-theme .ic-demo-widget-wrap .ic-agent-photo-actions > button:last-child:not(.ic-agent-photo-source),
-.input-controls-theme .ic-demo-choice-footer > button:last-child { background: var(--ic-demo-tint); border-color: color-mix(in srgb,var(--ic-demo-accent) 42%,transparent); }
+.input-controls-theme .ic-demo-choice-footer > button:last-child:not(.ic-demo-local-file) { background: var(--ic-demo-tint); border-color: color-mix(in srgb,var(--ic-demo-accent) 42%,transparent); }
 .input-controls-theme .ic-demo-widget-wrap .ic-live-wb-duration { height: 48px; min-height: 48px; border: 1px solid var(--ic-demo-glass-edge); border-radius: 14px; background: var(--ic-demo-control); }
 .input-controls-theme .ic-demo-widget-wrap .ic-live-wb-duration button { width: 40px; height: 40px; padding: 0; background: transparent; }
 .input-controls-theme .ic-demo-widget-wrap .ic-live-wb-duration label { gap: 4px; min-width: 0; }
@@ -279,4 +279,28 @@
 .input-controls-theme .ic-demo-capture-actions button, .input-controls-theme .ic-demo-capture-modes button { min-height:36px; height:36px; padding:6px 10px; border-radius:14px; font-size:14px; }
 .input-controls-theme .ic-demo-capture-items { max-height:246px; overflow:auto; }
 
-.input-controls-theme .ic-document-materials { display: flex; flex-wrap: wrap; gap: 12px; padding: 8px 7px 2px 0; }
+
+
+.input-controls-theme .ic-document-file-list {
+  display: grid; gap: 6px; width: 100%; min-width: 0; margin: 0; padding: 0; list-style: none;
+}
+.input-controls-theme .ic-document-file-list li {
+  display: flex; align-items: center; gap: 8px; min-width: 0; min-height: 44px;
+  padding: 2px 4px 2px 12px; border: 1px solid var(--ic-demo-glass-edge);
+  background: var(--ic-demo-control); border-radius: 12px;
+}
+.input-controls-theme .ic-document-file-list li > svg { opacity: .8; flex: none; }
+.input-controls-theme .ic-document-file-list button {
+  appearance: none; background: transparent; color: inherit; border: 0; font: inherit; cursor: pointer;
+}
+.input-controls-theme .ic-document-file-list .ic-document-name {
+  flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  text-align: start; padding: 6px 0;
+}
+.input-controls-theme .ic-document-file-list .ic-document-remove {
+  display: grid; place-items: center; flex: none; width: 36px; height: 36px; border-radius: 50%;
+}
+.input-controls-theme .ic-document-file-list .ic-document-remove:hover { background: var(--ic-demo-tint); }
+@media (pointer: coarse) {
+  .input-controls-theme .ic-document-file-list .ic-document-remove { width: 48px; height: 48px; }
+}

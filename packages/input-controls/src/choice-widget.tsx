@@ -1,4 +1,4 @@
-import { useId, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import {
   Check,
   FileText,
@@ -25,7 +25,7 @@ import type {
   ChoiceEvent as ControlEvent,
 } from "./types";
 import { useWidgetEnvironment, assetUrl } from "./environment";
-import { MaterialCardView } from "./attachment-card";
+import { DocumentFileList } from "./document-file-list";
 const icons = {
   duration: Timer,
   color: Palette,
@@ -101,6 +101,7 @@ export function ChoiceWidget({
   language,
   onEvent,
   onChooseFile,
+  showDone = true,
   onRemoveMaterial,
   onPreviewMaterial,
   materials = [],
@@ -111,6 +112,7 @@ export function ChoiceWidget({
   owner: string;
   language: string;
   onEvent: (e: ControlEvent) => void;
+  showDone?: boolean;
   onChooseFile?: () => void;
   onRemoveMaterial?: (id: string) => void;
   onPreviewMaterial?: (id: string) => void;
@@ -118,12 +120,14 @@ export function ChoiceWidget({
 }) {
   const { assetBase } = useWidgetEnvironment();
   const searchInput = useRef<HTMLInputElement>(null);
-  const doneButton = useRef<HTMLButtonElement>(null);
+  const chooseButton = useRef<HTMLButtonElement>(null);
   const badgeId = useId();
   const [query, setQuery] = useState("");
-  const en = language === "en",
+  const en = language.startsWith("en"),
     d = definition,
     t = (zh: string, enText: string) => (en ? enText : zh);
+  const emptyDocument = binding.kind === "document" && !d.options.length && !materials.length;
+  useEffect(() => { if (emptyDocument) setQuery(""); }, [emptyDocument]);
   const options = d.options.filter((o) =>
     (o.zh + " " + o.en).toLowerCase().includes(query.toLowerCase()),
   );
@@ -277,7 +281,7 @@ export function ChoiceWidget({
           )}
         </small>
       )}
-      {binding.kind !== "formats" && (
+      {binding.kind !== "formats" && !emptyDocument && (
         <label className="ic-demo-control-search">
           <Search aria-hidden="true" />
           <span className="sr-only">{t("搜索候选", "Search options")}</span>
@@ -290,11 +294,7 @@ export function ChoiceWidget({
           />
         </label>
       )}
-      {!onRemoveMaterial && matchingMaterials.map(material => (
-        <div className="ic-demo-control-option" key={material.id}>
-          <FileText size={18}/><span>{material.name}</span><Check size={15}/>
-        </div>
-      ))}
+      {!onRemoveMaterial && <DocumentFileList files={matchingMaterials} onPreview={onPreviewMaterial}/>}
       {(capability || ["formats", "font", "palette"].includes(binding.kind)) &&
         cards(options)}
       {!capability &&
@@ -312,18 +312,11 @@ export function ChoiceWidget({
               )}
             </strong>
             {adoptedDocuments.length > 0 && onRemoveMaterial ? (
-              <div className="ic-document-materials">
-                {adoptedDocuments.map(({id, name}, index) => (
-                  <MaterialCardView key={id} name={name} removeLabel={t("移除 ", "Remove ") + name}
-                    removeDescription={en ? `Item ${index + 1} of ${adoptedDocuments.length}` : `第 ${index + 1} 项，共 ${adoptedDocuments.length} 项`}
-                    onPreview={onPreviewMaterial ? () => onPreviewMaterial(id) : undefined}
-                    onRemove={event => {
-                      const target = event.detail === 0 ? searchInput.current : doneButton.current;
-                      target?.focus({preventScroll: true});
-                      onRemoveMaterial(id);
-                    }}/>
-                ))}
-              </div>
+              <DocumentFileList files={adoptedDocuments} onPreview={onPreviewMaterial} onRemove={id => {
+                const last = d.options.length === 0 && materials.length === 1;
+                (last ? chooseButton.current : searchInput.current)?.focus({preventScroll: true});
+                onRemoveMaterial(id);
+              }}/>
             ) : cards(selected)}
           </section>
         )}
@@ -335,7 +328,7 @@ export function ChoiceWidget({
             {cards(rest)}
           </section>
         )}
-      {!options.length && !matchingMaterials.length && (
+      {!options.length && !matchingMaterials.length && (binding.kind !== "document" || query.trim()) && (
         <p>
           {t(
             "没有匹配项，试试其他关键词。",
@@ -368,6 +361,7 @@ export function ChoiceWidget({
         {binding.kind === "document" && onChooseFile && (
           <button
             type="button"
+            ref={chooseButton}
             className="ic-demo-local-file"
             onClick={onChooseFile}
           >
@@ -375,15 +369,14 @@ export function ChoiceWidget({
             {t("选择本地文件", "Choose a local file")}
           </button>
         )}
-        <button
+        {showDone && !emptyDocument && <button
           type="button"
-          ref={doneButton}
           aria-label={t("完成选择", "Done")}
           title={t("完成选择", "Done")}
           onClick={() => onEvent({ type: "close", owner, id: binding.id })}
         >
           <Check size={24} />
-        </button>
+        </button>}
       </div>
     </div>
   );

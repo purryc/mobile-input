@@ -32,3 +32,4 @@
 - A user-opened screen chip carries an optional explicit screenIntent (screenshot or recording). Resolved intent opens its workspace directly; an unspecified intent keeps the chooser. Starting a recording and adopting its result require separate user actions.
 - In the document picker, adopted rows and attachment cards remove the same owner-scoped material ID. Removing a sketch attachment preserves the editable canvas.
 - Adopted materials expose a visible remove action with the picker closed. The named material chip and each attachment card remove only their displayed material; keep recommendation dismissal separate.
+- The reference-file entry and standalone document example start empty. Only files the user adds appear in the document list. Each adopted file has its own always-visible trailing remove button. Keep media thumbnails for Gallery.

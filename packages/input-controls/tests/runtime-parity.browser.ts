@@ -22,7 +22,7 @@ const detailSelectors: Record<WidgetKind, string[]> = {
   color: ['.agent-color-presets button:not([aria-pressed=true])', '.agent-color-bottom label'],
   font: ['.demo-control-option[aria-pressed=false]', '.demo-control-option[aria-pressed=true]'],
   palette: ['.demo-control-option[aria-pressed=false]', '.demo-control-option[aria-pressed=true]'],
-  document: ['.demo-control-search input'],
+  document: ['.demo-local-file'],
   photo: ['.agent-photo-actions button'],
   scanner: ['header button'],
   sketch: ['.agent-sketch-surface'],
@@ -96,7 +96,7 @@ test('all 13 widget surfaces and list states match the running Xiaoyi desktop', 
       await originalPanel.screenshot({path: info.outputPath(kind + '-xiaoyi.png')});
       await card.screenshot({path: info.outputPath(kind + '-inline.png')});
 
-      const selectedChip = card.locator('[data-example="default-selected"], [data-example="object-bound"]').locator('.ic-sentence-token');
+      const selectedChip = card.locator(kind === 'document' ? '[data-example=needs-input]' : '[data-example="default-selected"], [data-example="object-bound"]').locator('.ic-sentence-token');
       await selectedChip.click();
       const popover = page.locator('.input-controls-popover');
       await expect(popover).toHaveCSS('box-shadow', 'none');

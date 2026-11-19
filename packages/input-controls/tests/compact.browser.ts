@@ -40,9 +40,10 @@ test('all 13 live cards share one page and expose each typed component source', 
 
   for (const kind of controlKinds) {
     const widgetCard = card(page, kind);
-    await expect(widgetCard.locator('[data-example]')).toHaveCount(kind === 'capture' ? 5 : 3);
+    await expect(widgetCard.locator('[data-example]')).toHaveCount(kind === 'capture' ? 5 : kind === 'document' ? 2 : 3);
     const selected = materials.includes(kind) ? 'object-bound' : 'default-selected';
-    await expect(chip(page, kind, selected)).toHaveAccessibleDescription('已选');
+    if (kind === 'document') await expect(chip(page, kind)).toHaveAccessibleDescription('待补充');
+    else await expect(chip(page, kind, selected)).toHaveAccessibleDescription('已选');
     await expect(widgetCard.locator('.lite-widget-preview[open] .lite-widget-body')).toBeVisible();
     await expect(widgetCard.locator('.lite-composer-preview .lite-preview-prose')).toHaveAttribute('aria-hidden', 'true');
     await expect(chip(page, kind, 'ambiguous-recommendation').locator('.ic-demo-chip-smart')).toBeVisible();
@@ -137,22 +138,12 @@ test('local documents bind to the same chip, keep bytes and reset when the last 
   const pendingMaterials = pending.locator('.lite-document-materials');
   const entry = chip(page, 'document');
   const filename = 'a-very-long-product-reference-attachment-name-that-does-not-fit-the-chip.txt';
-  const seeded = chip(page, 'document', 'object-bound');
-  const seededMaterials = example(page, 'document', 'object-bound').locator('.lite-document-materials');
-  await expect(seeded).toContainText('产品介绍.pdf');
-  await seeded.click();
-  await seededMaterials.getByRole('button', {name: '查看 产品介绍.pdf'}).click();
-  await expect(page.getByRole('dialog', {name: '产品介绍.pdf'}).locator('object')).toHaveAttribute('type', 'application/pdf');
-  await page.keyboard.press('Escape');
-  await page.keyboard.press('Escape');
-
   await entry.click();
+  await expect(panel(page).getByRole('listitem')).toHaveCount(0);
+  await expect(panel(page).getByRole('button', {name: /^移除 /})).toHaveCount(0);
+  await expect(panel(page)).not.toContainText('产品介绍.pdf');
   const search = panel(page).getByLabel('搜索候选');
-  await search.fill('没有这份材料');
-  await expect(panel(page)).toContainText('没有匹配项');
-  await search.fill('产品介绍');
-  await expect(panel(page).getByRole('button', {name: '产品介绍.pdf', exact: true})).toBeVisible();
-  await search.fill('');
+  await expect(search).toHaveCount(0);
   const localFiles = pending.locator('input[type=file]');
   await localFiles.setInputFiles([]);
   await expect(entry).toHaveAttribute('data-semantic-state', 'needs-input');
@@ -178,22 +169,7 @@ test('local documents bind to the same chip, keep bytes and reset when the last 
   await expect(entry).toContainText('notes.md');
   await pendingMaterials.getByRole('button', {name: '移除 notes.md'}).click();
   await expect(entry).toHaveAttribute('data-semantic-state', 'needs-input');
-  await expect(seeded).toContainText('产品介绍.pdf');
-
-  await seeded.click();
-  await example(page, 'document', 'object-bound').locator('input[type=file]').setInputFiles({
-    name: 'updated-brief.txt', mimeType: 'text/plain', buffer: Buffer.from('Updated brief'),
-  });
-  await seededMaterials.getByRole('button', {name: '移除 产品介绍.pdf'}).click();
-  await expect(seeded).toHaveText('updated-brief.txt');
-  await expect(seeded).toHaveAccessibleDescription('已选');
-  await seededMaterials.getByRole('button', {name: '移除 updated-brief.txt'}).click();
-  await expect(seeded).toHaveAccessibleDescription('待补充');
-
-  await entry.click();
-  await panel(page).getByRole('button', {name: '产品介绍.pdf', exact: true}).click();
-  await expect(entry).toHaveAttribute('data-semantic-state', 'object-bound');
-  await expect(pendingMaterials.getByRole('button', {name: '查看 产品介绍.pdf'})).toBeVisible();
+  await expect(card(page, 'document').getByRole('listitem')).toHaveCount(0);
 });
 
 test('gallery, scan, sketch and screen materials bind only on confirmation', async ({page}) => {
@@ -372,29 +348,24 @@ for (const presentation of ['chip', 'inline']) {
     await page.goto(route + 'document');
     const document = card(page, 'document');
     const inline = document.locator('.lite-widget-preview');
-    const selected = example(page, 'document', 'object-bound');
+    const selected = example(page, 'document');
     const host = presentation === 'inline' ? inline : selected;
     const view = presentation === 'inline' ? inline.locator('.lite-inline-panel') : panel(page);
     if (presentation === 'chip') await selected.locator('.ic-sentence-token').click();
-    const attachments = presentation === 'inline' ? view.locator('.ic-document-materials') : host.locator('.lite-document-materials');
+    const attachments = presentation === 'inline' ? view.locator('.ic-document-file-list') : host.locator('.lite-document-materials');
     const search = view.getByLabel('搜索候选');
     const remove = (name: string) => view.getByRole('button', {name: '移除 ' + name, exact:true});
-    await expect(view.locator('.ic-demo-material').getByRole('button',{name:'查看 产品介绍.pdf'})).toBeVisible();
-    await view.screenshot({path:info.outputPath('document-' + presentation + '.png')});
-    await search.fill('产品介绍');
-    await remove('产品介绍.pdf').focus();
-    await page.keyboard.press('Enter');
-    await expect(search).toBeFocused();
-    await expect(search).toHaveValue('产品介绍');
-    await expect(attachments.getByRole('button')).toHaveCount(0);
-    await expect(view.getByText('其他选项')).toBeVisible();
-    await view.getByRole('button', {name:'产品介绍.pdf', exact:true}).click();
-    await expect(attachments.getByRole('button', {name:'查看 产品介绍.pdf'})).toBeVisible();
-
+    await expect(view.getByRole('listitem')).toHaveCount(0);
+    await expect(view.getByRole('button', {name:/^移除 /})).toHaveCount(0);
+    await expect(view.getByRole('button', {name:'选择本地文件'})).toBeVisible();
+    await view.screenshot({path:info.outputPath('document-' + presentation + '-empty.png')});
     const local = host.locator('input[type=file]');
     const first = {name:'same.txt', mimeType:'text/plain', buffer:Buffer.from('first attachment')};
     const second = {...first, buffer:Buffer.from('second attachment')};
     await local.setInputFiles([first, second]);
+    await expect(view.getByRole('listitem')).toHaveCount(2);
+    await expect(remove('same.txt').first()).toBeVisible();
+    await view.screenshot({path:info.outputPath('document-' + presentation + '-selected.png')});
     await search.fill('same');
     await expect(remove('same.txt')).toHaveCount(2);
     await remove('same.txt').first().click();
@@ -405,14 +376,14 @@ for (const presentation of ['chip', 'inline']) {
     await page.keyboard.press('Escape');
     if (presentation === 'chip' && !await view.isVisible()) await selected.locator('.ic-sentence-token').click();
     await search.fill('same');
-    await remove('same.txt').click();
-    await expect(view.getByText('没有匹配项，试试其他关键词。')).toBeVisible();
+    await remove('same.txt').focus();
+    await page.keyboard.press('Enter');
+    await expect(view.getByRole('button', {name:'选择本地文件'})).toBeFocused();
+    await expect(view.getByRole('listitem')).toHaveCount(0);
     await local.setInputFiles(first);
-    await expect(remove('same.txt')).toHaveCount(1);
+    await expect(search).toHaveValue('');
+    await expect(remove('same.txt')).toBeVisible();
     await remove('same.txt').click();
-    await search.fill('');
-    await remove('产品介绍.pdf').click();
-    await expect(view.getByRole('button', {name:'完成选择'})).toBeVisible();
     await expect(attachments.getByRole('button')).toHaveCount(0);
     if (presentation === 'chip') await expect(selected.locator('.ic-sentence-token')).toHaveAttribute('data-semantic-state', 'needs-input');
   });
@@ -422,11 +393,16 @@ test('confirmed materials expose remove without opening any picker', async ({pag
   await page.setViewportSize({width:390,height:844});
   await page.goto(route + 'photo');
   for (const kind of materials) {
-    const item = example(page, kind, 'object-bound');
+    const item = example(page, kind, kind === 'document' ? 'needs-input' : 'object-bound');
+    if (kind === 'document') {
+      await item.locator('.ic-sentence-token').click();
+      await item.locator('input[type=file]').setInputFiles({name:'manual.txt',mimeType:'text/plain',buffer:Buffer.from('Manual')});
+      await panel(page).getByRole('button', {name:'完成选择'}).click();
+    }
     const opener = item.locator('.ic-sentence-token');
     const remove = item.locator('.ic-demo-chip-remove');
     await expect(remove).toBeVisible();
-    await expect(item.locator('.lite-document-materials .ic-demo-remove')).toBeVisible();
+    await expect(item.locator('.lite-document-materials').getByRole('button', {name:/^移除 /})).toBeVisible();
     await expect(opener).toHaveAttribute('aria-expanded','false');
     if (kind === 'photo') {
       await page.mouse.move(0,0);
@@ -444,16 +420,17 @@ test('confirmed materials expose remove without opening any picker', async ({pag
   }
 });
 
-test('standalone document still exposes the adopted card while collapsed', async ({page}) => {
+test('standalone document still exposes the selected row while collapsed', async ({page}) => {
   await page.goto(route + 'document');
   const stage = card(page,'document').locator('.lite-composer-preview');
   const example = stage.locator('details.lite-widget-preview');
+  await example.locator('input[type=file]').setInputFiles({name:'manual.txt', mimeType:'text/plain',buffer:Buffer.from('Manual')});
   await example.locator('summary').click();
   const cardOutside = stage.locator('details.lite-widget-preview + .lite-document-materials');
-  await cardOutside.getByRole('button',{name:'查看 产品介绍.pdf'}).click();
-  await expect(page.getByRole('dialog',{name:'产品介绍.pdf'})).toBeVisible();
+  await cardOutside.getByRole('button',{name:'查看 manual.txt'}).click();
+  await expect(page.getByRole('dialog',{name:'manual.txt'})).toBeVisible();
   await page.keyboard.press('Escape');
-  await cardOutside.getByRole('button',{name:'移除 产品介绍.pdf'}).click();
+  await cardOutside.getByRole('button',{name:'移除 manual.txt'}).click();
   await expect(example).not.toHaveAttribute('open','');
   await expect(cardOutside).toHaveCount(0);
 });
@@ -474,6 +451,6 @@ test('closed multi-file picker removes only the labelled attachment even with re
   await host.getByRole('button',{name:'查看 same.txt'}).click();
   await expect(page.getByRole('dialog',{name:'same.txt'})).toContainText('second bytes');
   await page.keyboard.press('Escape');
-  await host.locator('.ic-demo-material .ic-demo-remove').click();
+  await host.getByRole('listitem').getByRole('button',{name:'移除 same.txt'}).click();
   await expect(opener).toHaveAttribute('data-semantic-state','needs-input');
 });

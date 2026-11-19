@@ -47,7 +47,9 @@ export function CompactLibrary({assetBase = ''}: {assetBase?: string}) {
         {controlKinds.map((kind: WidgetKind) => {
           const title = catalog[kind].title[en ? 1 : 0];
           const isMaterial = materialKinds.includes(kind);
-          const states: ChipSemanticState[] = ['needs-input', isMaterial ? 'object-bound' : 'default-selected', 'ambiguous-recommendation'];
+          const states: ChipSemanticState[] = kind === 'document'
+            ? ['needs-input', 'ambiguous-recommendation']
+            : ['needs-input', isMaterial ? 'object-bound' : 'default-selected', 'ambiguous-recommendation'];
           return (
             <section id={'/' + kind} key={kind} className="lite-card" aria-labelledby={'title-' + kind} data-widget={kind}>
               <header className="lite-card-heading">
@@ -64,7 +66,7 @@ export function CompactLibrary({assetBase = ''}: {assetBase?: string}) {
                     <WidgetSpecimen key={initial} {...{kind, initial, language, assetBase, panels}}/>
                   ))}
                 </div>
-                <WidgetSpecimen {...{kind, language, assetBase, panels}} initial={kind === 'document' ? 'object-bound' : isMaterial ? 'needs-input' : 'default-selected'} presentation="inline"/>
+                <WidgetSpecimen {...{kind, language, assetBase, panels}} initial={isMaterial ? 'needs-input' : 'default-selected'} presentation="inline"/>
               </div>
               <ComponentSource kind={kind} en={en}/>
             </section>

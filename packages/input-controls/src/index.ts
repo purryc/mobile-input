@@ -31,3 +31,5 @@ export {normalizedCrop} from './capture-panel';
 export type {Crop} from './capture-panel';
 
 export type {ChoiceWidgetProps} from "./choice-widget";
+
+export * from "./document-file-list";

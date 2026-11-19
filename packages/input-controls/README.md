@@ -28,7 +28,7 @@ Download the `.tgz` from the top of the compact gallery. Put it in the root
 of your React 19 app and use its filename in the install command:
 
 ```sh
-npm install ./mobile-input-controls-1.5.0.tgz
+npm install ./mobile-input-controls-1.6.0.tgz
 npx --no-install input-controls-assets ./public/input-controls
 ```
 
@@ -111,7 +111,7 @@ Each entry has exported typed Props; the barrel is `src/index.ts`. You can impor
 | Color | `src/color-widget.tsx` | six-digit HEX `value`, `label`, `onChange`, `onActive`, `onDone` |
 | Font | `src/font-widget.tsx` | `binding`, `definition`, `owner`, `onEvent` |
 | Palette | `src/palette-widget.tsx` | same choice contract |
-| Reference files | `src/document-widget.tsx` | children or controlled choices; `onChoose`, `onDone`, optional `onRemoveMaterial(id)` for adopted choice and local file rows |
+| Reference files | `src/document-widget.tsx` | controlled `materials`, `onChoose`, optional `onDone`, `onPreviewMaterial(id)` and `onRemoveMaterial(id)`; also supports explicit catalog choices or custom children |
 | Images | `src/image-widget.tsx` | existing images, pending children, `onChoose`, `onDone`; legacy `onCapture` is optional and ignored |
 | Photo / Document Scan | `src/scanner-widget.tsx` | `items`, `onAdd`, `onRemove`, `onConfirm`, optional `adapter` |
 | Sketch | `src/sketch-widget.tsx` | normalized `strokes`, `onChange`, `onActive`, `onAdopt` |
@@ -164,7 +164,7 @@ Pass a stable `ownerId` to capture, camera, color and sketch widgets, changing i
 
 `CaptureMaterial` carries `id`, `kind`, `name`, `blob`, `size`, optional `duration`, and `confirmed`. `onAdd` emits actual bytes with `confirmed:false`; `onConfirm` asks the host to adopt. `AttachmentCard` and `CaptureTile compact` display compact removable materials. `SketchWidget` uses normalized points in [0,1]; geometry helpers preserve scale and bounded undo. Hosts choose their final image format.
 
-For the searchable document picker, give each attachment a stable ID and pass `onRemoveMaterial` to DocumentWidget. Pass `choices.onPreviewMaterial(id)` to open the corresponding document from its card. Remove that ID from the owning draft, including its selected binding or materials list.
+Start a new reference-file picker with `materials={[]}`. Append manually selected files to the owning draft with stable IDs. Pass their IDs and names to `DocumentWidget`, with `onPreviewMaterial(id)` and `onRemoveMaterial(id)`. Each file occupies one list row with a visible remove action. Use `DocumentFileList` for the same rows outside the picker. Hosts with a searchable catalog can still supply explicit `choices`.
 
 ## UI-only handoff for Gemini
 
@@ -186,8 +186,7 @@ All 13 interactive widgets are on one page. Direct links such as
 
 Each card has a standalone widget expanded by default and independent chip
 examples for Needs input, Selected, and Recommendation. Selected shows the
-resolved value or the name of the confirmed material. The prefilled material
-examples include local files. Selecting a document updates the chip immediately.
+resolved value or the name of the confirmed material. The document examples start empty and reach Selected when the user picks local files.
 Photos, scans, drawings, and screen materials update it on confirmation.
 Opening a different chip closes the previous floating panel.
 
