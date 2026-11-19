@@ -1,7 +1,13 @@
+# Xiaoyi shared-controls adoption
+
+- The 13 shared React widgets, styles and assets are authored in packages/input-controls. Xiaoyi consumes a pinned installable package. Its draft, capture services, recommendation rules, dictation and polish belong to the Web host.
+- Mobile Input retains its current UI and device contracts. Record future integration points in docs/shared-controls-maintenance.md. Keep standalone builds and tests independent.
+- Start the migration from fe8abc8 and the 1.1 release line. Preserve subsequent main and library releases. Validate locally without deployment or push.
+
 # XiaoYi Work Web prototype integration
 
 - Merge codex/workbuddy-web-demo at 2c7c428 into main while keeping its ref and this repository's current Design System and published input-controls source intact.
-- The prototype owns packages/workbuddy-demo-ui and its Web-only sentence composer. Published library changes and standalone prototype updates remain separately reviewed.
+- The prototype owns its Web-only sentence composer and product polish. Published library changes and standalone prototype updates remain separately reviewed.
 - Verify standalone build and fixture-based behavior, the clean source handoff, and existing component-library contracts before pushing only main.
 
 # Publish Xiaoyi Work input controls 1.1.0

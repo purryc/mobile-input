@@ -1,5 +1,8 @@
 # Input Agent 双设备原型
 
+[控件库、小艺 Work 与 Mobile Input 的更新入口、版本升级和回退](docs/shared-controls-maintenance.md)
+
+
 **2026-11-03 当前源码交接：[中文](docs/handoff-2026-11-03-zh.md) / [English](docs/handoff-2026-11-03-en.md)。** 本次为包含未提交改动的工作区快照；最新行为与验收以交接文档及 AGENTS.md 顶部规则为准，下方较早记录保留作历史参考。
 
 当前版本 **v1.4.0** · [版本更新说明](CHANGELOG.md) · [2026-10-14 开发进展](docs/development-progress-2026-10-14.md) · [最新分层验收](docs/runtime-design-sync-2026-10-14.md)

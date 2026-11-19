@@ -2,7 +2,8 @@ import { createRoot } from "react-dom/client";
 import { XiaoyiControlsPreview } from "./workbuddy-demo-widget-preview";
 import { uiText, configureUILanguageStorage, setUILanguage } from "./i18n";
 import "./workbuddy-demo-i18n";
-import "../../../packages/workbuddy-demo-ui/src/desktop.css";
+import "@mobile-input/controls/desktop.css";
+import "./workbuddy-demo-host.css";
 import "./workbuddy-demo-library.css";
 
 configureUILanguageStorage("xiaoyi-widget-library:language");

@@ -2,7 +2,7 @@ import { X } from "lucide-react";
 import {
   WidgetProvider,
   CameraCapture,
-} from "../../../packages/workbuddy-demo-ui/src";
+} from "@mobile-input/controls";
 import {
   newDemoState,
   editDemoText as parseDemoText,
@@ -87,7 +87,7 @@ export function WorkbuddyDemoApp() {
   const latestRequest = draft.requests[0];
 
   return (
-    <WidgetProvider language={language} translate={uiText} assetBase=".">
+    <WidgetProvider language={language} translate={uiText} assetBase="./input-controls">
       <XiaoyiWorkShell
         collapsed={collapsed}
         sidebar={
@@ -172,7 +172,7 @@ export function WorkbuddyDemoApp() {
                 onClose={() => setCamera(null)}
                 onError={report}
                 onCapture={(file) =>
-                  void receiveFiles([file], { ...camera, kind: "photo" })
+                  void receiveFiles([new File([file], "拍摄图片.jpg", {type:file.type})], { ...camera, kind: "photo" })
                 }
               />
             )}

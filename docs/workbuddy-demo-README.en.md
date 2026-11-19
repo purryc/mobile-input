@@ -344,3 +344,7 @@ See [Implementation specification](docs/xiaoyi-work-specification.md) and [Engin
 ## Interactive widget library
 
 Open [the widget library](http://127.0.0.1:5198/widget-library.html) after starting the demo. The fourteen examples use the desktop widget components with isolated preview state. See the [English Gemini UI handoff](docs/gemini-ui-handoff.en.md) for the component map, direct links and review commands.
+
+## Shared controls dependency
+
+This handoff includes the exact @mobile-input/controls npm archive under vendor/input-controls. npm ci verifies and installs it from the ZIP. The Web build copies the installed assets into the standalone app. To upgrade, install the new versioned archive and keep the updated manifest and lockfile together.

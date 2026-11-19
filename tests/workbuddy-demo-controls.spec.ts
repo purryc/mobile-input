@@ -7,7 +7,7 @@ import {
 } from "../packages/core/workbuddy-demo-controls";
 const editor = (page: any) => page.locator(".wb-sentence-composer");
 const chip = (page: any, kind: string) =>
-  page.locator(`.sentence-token[data-kind="${kind}"]`).first();
+  page.locator(`.ic-sentence-token[data-kind="${kind}"]`).first();
 for (const language of ["zh", "en"]) for (const [width, height] of [[1440, 960], [1280, 800], [1024, 768], [800, 800]]) {
   test(`desktop visual geometry and original assets ${language} ${width}`, async ({ page }) => {
     await page.setViewportSize({ width, height });
@@ -15,9 +15,9 @@ for (const language of ["zh", "en"]) for (const [width, height] of [[1440, 960],
     const doc = readFileSync(new URL("../docs/workbuddy-demo-scenarios.zh.md", import.meta.url), "utf8");
     await editor(page).fill([...doc.matchAll(/```text\n([\s\S]*?)\n```/g)][2][1]);
     await expect(page.locator('.demo-polish-slot')).toBeVisible();
-    await expect(page.locator('.sentence-token[data-origin="recommended"]')).toHaveCount(3);
+    await expect(page.locator('.ic-sentence-token[data-origin="recommended"]')).toHaveCount(3);
     await expect(page.locator('[data-preparing="true"]')).toHaveCount(0);
-    const faces = await page.locator('.sentence-token-face').evaluateAll(nodes => nodes.map(node => ({ height:node.getBoundingClientRect().height, font:getComputedStyle(node).fontSize })));
+    const faces = await page.locator('.ic-sentence-token-face').evaluateAll(nodes => nodes.map(node => ({ height:node.getBoundingClientRect().height, font:getComputedStyle(node).fontSize })));
     expect(faces.length).toBeGreaterThan(12);
     expect(faces.every(face => face.height === 32 && face.font === '15px')).toBe(true);
     expect(await page.locator('.demo-polish-slot .application-action-chip').first().evaluate(node=>node.getBoundingClientRect().height)).toBe(36);
@@ -36,7 +36,7 @@ for (const language of ["zh", "en"]) for (const [width, height] of [[1440, 960],
           box.y >= 15 && box.y + box.height <= height - 15;
       }).toBe(true);
       expect(await panel.locator('[aria-describedby]').evaluateAll(nodes => nodes.every(node => node.getAttribute('aria-describedby')!.split(/\s+/).every(id => document.getElementById(id))))).toBe(true);
-      expect(await panel.locator('.live-wb-aux').evaluate(node=>getComputedStyle(node).padding)).toBe('16px');
+      expect(await panel.locator('.ic-live-wb-aux').evaluate(node=>getComputedStyle(node).padding)).toBe('16px');
       const images=panel.locator('img');
       await expect.poll(async()=>images.evaluateAll(nodes=>nodes.every(node=>(node as HTMLImageElement).complete&&(node as HTMLImageElement).naturalWidth>0))).toBe(true);
       await panel.screenshot({path:`artifacts/workbuddy-demo/visual-consistency-2026-11-11/after/${language}-${width}-${control.kind}.png`});
@@ -80,7 +80,7 @@ test("documented scenarios expose all controls with captures as prompt reference
       await expect(chip(page, control.kind)).toBeVisible();
     }
     await expect(page.locator(".demo-polish-slot")).toContainText("整理结构");
-    const kinds = await page.locator('.sentence-token[data-origin="recommended"]').evaluateAll(nodes => [...new Set(nodes.map(node => (node as HTMLElement).dataset.kind))].sort());
+    const kinds = await page.locator('.ic-sentence-token[data-origin="recommended"]').evaluateAll(nodes => [...new Set(nodes.map(node => (node as HTMLElement).dataset.kind))].sort());
     expect(kinds).toEqual([...recommended[index]].sort());
     await chip(page, "capture").click();
     await expect(page.getByRole("button", { name: "截图", exact: true })).toBeVisible();
@@ -94,14 +94,14 @@ test("explicit user intent and inferred recommendations coexist, animate once an
   await open(page);
   await editor(page).fill(mixedExample.zh);
   await expect(
-    page.locator(".sentence-token[data-origin=recommended]"),
+    page.locator(".ic-sentence-token[data-origin=recommended]"),
   ).toHaveCount(5);
   await expect(chip(page, "duration")).toHaveAttribute(
     "data-origin",
     "explicit",
   );
   await expect(
-    page.locator(".sentence-token[data-kind=color][data-origin=explicit]"),
+    page.locator(".ic-sentence-token[data-kind=color][data-origin=explicit]"),
   ).toHaveCount(2);
   await expect(chip(page, "expert")).toHaveAttribute("data-sweep", "true");
   await expect(chip(page, "expert")).not.toHaveAttribute("data-sweep", "true", {
@@ -110,7 +110,7 @@ test("explicit user intent and inferred recommendations coexist, animate once an
   await editor(page).fill(mixedExample.zh + "再讲一下优势。");
   await expect(chip(page, "expert")).not.toHaveAttribute("data-sweep", "true");
   await chip(page, "expert").click();
-  await expect(page.locator(".demo-control-grid").first()).toBeVisible();
+  await expect(page.locator(".ic-demo-control-grid").first()).toBeVisible();
   await expect(chip(page, "expert")).toHaveAttribute("aria-expanded", "true");
   await page.getByRole("button", { name: "内容创作专家", exact: true }).click();
   await expect(chip(page, "expert")).toHaveAttribute("data-origin", "manual");
@@ -166,7 +166,7 @@ test("explicit incomplete selectors remain normal; negation does not suggest; la
   for (const kind of ["expert", "skills", "connectors", "font"])
     await expect(chip(page, kind)).toHaveAttribute("data-origin", "explicit");
   await expect(
-    page.locator(".sentence-token[data-origin=recommended]"),
+    page.locator(".ic-sentence-token[data-origin=recommended]"),
   ).toHaveCount(0);
   await page.locator(".demo-settings > button").click();
   await page.locator(".demo-settings select").selectOption("zh-CN");
@@ -185,13 +185,13 @@ test("capture permissions fail safely and repeated cancel keeps input", async ({
   });
   await chip(page, "scanner").click();
   await page.getByRole("button", { name: "打开摄像头", exact: true }).click();
-  await expect(page.locator(".demo-capture-panel [role=alert]")).toBeVisible();
+  await expect(page.locator(".ic-demo-capture-panel [role=alert]")).toBeVisible();
   await expect(page.locator(".demo-send")).toBeEnabled();
   await page.getByRole("button", { name: "关闭辅助输入" }).click();
 
   await chip(page, "capture").click();
   await page.getByRole("button", { name: "截图", exact: true }).click();
-  const selector = page.locator(".demo-screen-selector-overlay");
+  const selector = page.locator(".ic-demo-screen-selector-overlay");
   await expect(selector).toBeVisible();
   await expect(selector).toHaveAttribute("data-capture-cursor", "screenshot");
   await page.getByRole("button", { name: "取消", exact: true }).click();
@@ -231,7 +231,7 @@ test("mock real media adapters produce owner-bound bytes and confirmed snapshots
   ).toBeEnabled();
   await page.screenshot({path:"artifacts/workbuddy-demo/visual-consistency-2026-11-11/after/scanner-live.png"});
   await page.getByRole("button", { name: "Capture", exact: true }).click();
-  await expect(page.locator(".demo-capture-items img")).toHaveCount(1);
+  await expect(page.locator(".ic-demo-capture-items img")).toHaveCount(1);
   await page.screenshot({path:"artifacts/workbuddy-demo/visual-consistency-2026-11-11/after/scanner-review.png"});
   await expect(
     page.getByRole("button", { name: "Confirm materials" }),
@@ -247,7 +247,7 @@ test("mock real media adapters produce owner-bound bytes and confirmed snapshots
   await expect(page.locator(".demo-attachments [data-capture-kind=scanner] img")).toHaveCount(1);
   await chip(page, "capture").click();
   await page.getByRole("button", { name: "Recording", exact: true }).click();
-  await expect(page.locator(".demo-screen-selector-overlay")).toHaveAttribute(
+  await expect(page.locator(".ic-demo-screen-selector-overlay")).toHaveAttribute(
     "data-capture-cursor",
     "recording",
   );
@@ -258,12 +258,12 @@ test("mock real media adapters produce owner-bound bytes and confirmed snapshots
   await page.screenshot({path:'artifacts/workbuddy-demo/visual-consistency-2026-11-11/after/capture-recording.png'});
   await page.waitForTimeout(400);
   await page.getByRole("button", { name: /Stop ·/ }).click();
-  await expect(page.locator(".demo-capture-items video")).toHaveCount(1);
+  await expect(page.locator(".ic-demo-capture-items video")).toHaveCount(1);
   await page.screenshot({path:'artifacts/workbuddy-demo/visual-consistency-2026-11-11/after/capture-review.png'});
   await page.getByRole("button", { name: "Confirm materials" }).click();
   await page.reload();
   await expect(page.locator(".demo-attachments [data-capture-kind] video")).toHaveCount(1);
-  const cards=page.locator('.demo-attachments .demo-material');await expect(cards).toHaveCount(2);
+  const cards=page.locator('.demo-attachments :is(.demo-material,.ic-demo-material)');await expect(cards).toHaveCount(2);
   const heights=await cards.locator('> button:first-child').evaluateAll(ns=>ns.map(n=>n.getBoundingClientRect().height));expect(new Set(heights).size).toBe(1);
   expect(await cards.locator('video').getAttribute('controls')).toBeNull();
   await cards.last().locator('> button:first-child').click();await expect(page.getByRole('dialog').locator('video[controls]')).toBeVisible();
@@ -350,7 +350,7 @@ test("old drafts do not silently acquire recommended materials on upgrade", asyn
     "需要一些相关资料，专业人士帮我看看",
   );
   await expect(
-    page.locator(".sentence-token[data-origin=recommended]"),
+    page.locator(".ic-sentence-token[data-origin=recommended]"),
   ).toHaveCount(0);
   await expect(page.locator(".demo-attachments")).toHaveCount(0);
 });
@@ -392,7 +392,7 @@ test("cancelling an asynchronous capture ignores late bytes", async ({
   );
   await page.getByRole("button", { name: "Cancel", exact: true }).click();
   await page.evaluate(() => (window as any).finishCapture());
-  await expect(page.locator(".demo-capture-items img")).toHaveCount(0);
+  await expect(page.locator(".ic-demo-capture-items img")).toHaveCount(0);
   await expect(page.locator(".demo-send")).toBeEnabled();
 });
 
@@ -404,10 +404,10 @@ for (const language of ["zh", "en"]) {
       ["skills", language === "en" ? "Skills" : "技能", 20],
     ] as const) {
       await page.locator(".demo-controls-index").getByRole("button", {name:label,exact:true}).click();
-      const cards = page.locator(".demo-control-grid .demo-control-option");
+      const cards = page.locator(".ic-demo-control-grid .ic-demo-control-option");
       await expect(cards).toHaveCount(count);
-      await expect(page.locator(".demo-control-grid .demo-choice-art")).toHaveCount(count);
-      expect(await page.locator(".demo-choice-art").evaluateAll(nodes => nodes.every(node => {
+      await expect(page.locator(".ic-demo-control-grid .ic-demo-choice-art")).toHaveCount(count);
+      expect(await page.locator(".ic-demo-choice-art").evaluateAll(nodes => nodes.every(node => {
         const img=node as HTMLImageElement;
         return img.complete && img.naturalWidth > 0 && img.getBoundingClientRect().width === 24 && img.getBoundingClientRect().height === 24;
       }))).toBe(true);
@@ -419,14 +419,14 @@ for (const language of ["zh", "en"]) {
         if(kind==='skills' && i<count-1) await cards.nth(i).click();
       }
       const selectedName=await cards.last().getAttribute('aria-label');
-      const source=await cards.last().locator('img.demo-choice-art').getAttribute('src');
+      const source=await cards.last().locator('img.ic-demo-choice-art').getAttribute('src');
       await page.getByRole('button',{name:language==='en'?'Done':'完成选择',exact:true}).click();
       await expect(chip(page,kind)).toContainText(selectedName!);
-      await expect(chip(page,kind).locator('.sentence-icon')).toHaveAttribute('src',source!);
-      expect(await chip(page,kind).locator('.sentence-icon').evaluate(node=>node.getBoundingClientRect().width)).toBe(18);
-      expect(await chip(page,kind).locator('.sentence-icon').evaluate(node=>getComputedStyle(node).filter)).toBe('none');
+      await expect(chip(page,kind).locator('.ic-sentence-icon')).toHaveAttribute('src',source!);
+      expect(await chip(page,kind).locator('.ic-sentence-icon').evaluate(node=>node.getBoundingClientRect().width)).toBe(18);
+      expect(await chip(page,kind).locator('.ic-sentence-icon').evaluate(node=>getComputedStyle(node).filter)).toBe('none');
       await page.reload();
-      await expect(chip(page,kind).locator('.sentence-icon')).toHaveAttribute('src',source!);
+      await expect(chip(page,kind).locator('.ic-sentence-icon')).toHaveAttribute('src',source!);
     }
   });
 }
@@ -482,9 +482,9 @@ test('three debug examples create distinct drafts; paste, copy and edits retain 
 
 test('suggested values remain editable and reach a frozen mocked Send with actual reference bytes only',async({page})=>{
  await open(page);await page.getByRole('button',{name:'模糊推荐',exact:true}).click();
- await expect(page.locator('.sentence-token-capsule[data-origin=recommended]:not([data-preparing])')).toHaveCount(15);
+ await expect(page.locator('.ic-sentence-token-capsule[data-origin=recommended]:not([data-preparing])')).toHaveCount(15);
  await chip(page,'duration').click();
- const number=page.locator('.demo-duration-row input');await number.fill('14');await number.blur();
+ const number=page.locator('.ic-demo-duration-row input');await number.fill('14');await number.blur();
  await page.getByRole('button',{name:'关闭辅助输入',exact:true}).click();
  await expect(chip(page,'duration')).toContainText('14分钟');
  await expect(chip(page,'duration')).toHaveAttribute('data-origin','manual');
@@ -496,7 +496,7 @@ test('suggested values remain editable and reach a frozen mocked Send with actua
  expect(payloads[0].sources).toHaveLength(1);
  await expect(editor(page)).toHaveAttribute('data-value','');
  await editor(page).fill(demoScenarios[1].text);
- await expect(page.locator('.sentence-token-capsule[data-origin=recommended]:not([data-preparing])')).toHaveCount(15);
+ await expect(page.locator('.ic-sentence-token-capsule[data-origin=recommended]:not([data-preparing])')).toHaveCount(15);
  await page.getByRole('button',{name:'移除推荐 手绘画板',exact:true}).click();
  await expect(chip(page,'sketch')).toHaveCount(0);
  await editor(page).press('End');await page.keyboard.type('补充说明。');
@@ -519,7 +519,7 @@ test('all official scenarios survive progressive and revised browser speech call
      await page.evaluate(text=>(window as any).__scenarioSpeech.onresult({resultIndex:0,results:[{isFinal:false,0:{transcript:text}}]}),scenario.text.slice(0,i));
    }
    await expect(editor(page)).toHaveAttribute('data-value',scenario.text);
-   await expect(page.locator('.sentence-token[data-origin=recommended]')).toHaveCount(0);
+   await expect(page.locator('.ic-sentence-token[data-origin=recommended]')).toHaveCount(0);
    const revised=scenario.text.replace('客户成功团队','销售培训团队');
    for(let i=0;i<2;i++)await page.evaluate(text=>(window as any).__scenarioSpeech.onresult({resultIndex:0,results:[{isFinal:false,0:{transcript:text}}]}),revised);
    await expect(editor(page)).toHaveAttribute('data-value',revised);
@@ -559,7 +559,7 @@ test("scanner recovers when the camera grants a stream but delivers no frame", a
     navigator.mediaDevices.getUserMedia = async () => stream;
   });
   await chip(page, "scanner").click();
-  const panel = page.locator(".demo-capture-panel");
+  const panel = page.locator(".ic-demo-capture-panel");
   await panel.getByRole("button", { name: "Open camera" }).click();
   await expect(panel.getByRole("status")).toContainText("Waiting for the camera preview");
   await expect(panel.getByRole("button", { name: "Capture", exact: true })).toBeDisabled();
@@ -594,4 +594,51 @@ test("scanner recovers when the camera grants a stream but delivers no frame", a
   await expect(panel.getByText("scan.png", { exact: true })).toBeVisible();
   await panel.getByRole("button", { name: "Confirm materials" }).click();
   await expect(page.locator(".demo-attachments [data-capture-kind=scanner]")).toContainText("scan.png");
+});
+
+test("the host system toolbar returns a real screenshot or falls back to the in-page selector", async ({page}) => {
+  await page.addInitScript(() => Object.defineProperty(navigator, "webdriver", {get: () => false}));
+  const requests: unknown[] = [];
+  const png = "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jGAAAAABJRU5ErkJggg==";
+  await page.route("**/api/workbuddy-demo/system-capture", async route => {
+    requests.push(route.request().postDataJSON());
+    if (requests.length === 1) await route.fulfill({json:{ok:true,data:png}});
+    else await route.fulfill({status:503,body:""});
+  });
+  await open(page, "en");
+  await editor(page).fill("I will provide a reference screenshot.");
+  const trigger = chip(page, "capture");
+  await trigger.click();
+  await page.getByRole("button",{name:"Screenshot",exact:true}).click();
+  await expect(page.locator(".demo-attachments")).toContainText(/Screenshot-.*\.png/);
+  expect(requests[0]).toEqual({mode:"screenshot",lang:"en",showTopBar:true});
+  await trigger.click();
+  await page.getByRole("button",{name:"Screenshot",exact:true}).click();
+  const selector = page.getByRole("region",{name:"Screenshot region selector"});
+  await expect(selector).toHaveAttribute("data-interactive","true");
+  await page.keyboard.press("Escape");
+  await expect(selector).toHaveCount(0);
+});
+
+test("closing a pending system toolbar ignores its late capture", async ({page}) => {
+  await page.addInitScript(() => Object.defineProperty(navigator, "webdriver", {get: () => false}));
+  let finish!: () => void;
+  const blocked = new Promise<void>(resolve => {finish = resolve;});
+  await page.route("**/api/workbuddy-demo/system-capture", async route => {
+    await blocked;
+    await route.fulfill({json:{ok:true,data:"AA=="}}).catch(() => {});
+  });
+  await open(page, "en");
+  await editor(page).fill("I will provide a reference screenshot.");
+  await chip(page,"capture").click();
+  const requested = page.waitForRequest("**/api/workbuddy-demo/system-capture");
+  await page.getByRole("button",{name:"Screenshot",exact:true}).click();
+  await requested;
+  const aborted = page.waitForEvent("requestfailed", request =>
+    request.url().endsWith("/system-capture"));
+  await page.keyboard.press("Escape");
+  finish();
+  await aborted;
+  await expect(page.locator(".ic-demo-screen-selector-overlay")).toHaveCount(0);
+  await expect(page.locator(".demo-attachments")).toHaveCount(0);
 });

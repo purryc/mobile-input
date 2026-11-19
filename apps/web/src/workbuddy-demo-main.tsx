@@ -1,3 +1,4 @@
+import "@mobile-input/controls/desktop.css";
 import { createRoot } from "react-dom/client";
 import { configureUILanguageStorage, setUILanguage } from "./i18n";
 import "./workbuddy-demo-i18n";
@@ -7,8 +8,7 @@ import "./phone-live-workbuddy.css";
 import "./web-deck.css";
 import "./application-action-chip.css";
 import "./workbuddy-demo.css";
-import "./workbuddy-demo-controls.css";
-import "./workbuddy-demo-visual.css";
+import "./workbuddy-demo-host.css";
 configureUILanguageStorage("workbuddy-standalone-demo:language");
 if (new URLSearchParams(location.search).get("language") === "en")
   setUILanguage("en");

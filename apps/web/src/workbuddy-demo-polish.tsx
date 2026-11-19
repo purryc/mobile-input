@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, type RefObject } from 'react';
-import {PolishWidget} from '../../../packages/workbuddy-demo-ui/src/polish-widget';
+import {PolishWidget} from './workbuddy-demo-polish-widget';
 import { uiText } from './i18n';
 import type { TextInputHandle } from './text-input-handle';
 import type { DemoDraft } from '../../../packages/core/workbuddy-demo-state';

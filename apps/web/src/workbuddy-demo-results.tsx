@@ -1,5 +1,5 @@
 import {controlLabel,valueLabel} from "../../../packages/core/workbuddy-demo-controls";
-import {CaptureTile} from "./workbuddy-demo-capture";
+import {CaptureTile} from "@mobile-input/controls";
 import {uiText, uiLanguage} from "./i18n";
 import {
   createElement,

@@ -1,7 +1,8 @@
 import { workbuddyDemoMiddleware } from "./scripts/workbuddy-demo-service";
 import { defineConfig } from "vite";
 import { cp, mkdir } from "node:fs/promises";
-import { resolve } from "node:path";
+import { createRequire } from "node:module";
+import { dirname, resolve } from "node:path";
 const output = resolve("artifacts/workbuddy-demo/dist");
 let building = false;
 export default defineConfig({
@@ -18,7 +19,10 @@ export default defineConfig({
   plugins: [
     {
       name: "standalone-workbuddy-entry",
-      configResolved(config) {
+      async configResolved(config) {
+        const require = createRequire(import.meta.url);
+        const assets = resolve(dirname(require.resolve("@mobile-input/controls")), "../public");
+        await cp(assets, resolve("apps/web/public/input-controls"), {recursive:true});
         building = config.command === "build";
       },
       configureServer(server) {
@@ -44,6 +48,7 @@ export default defineConfig({
           resolve(output, "index.html"),
         );
         for (const path of [
+          "input-controls",
           "assets/xiaoyi-work",
           "assets/figma/sentence-parameters",
           "assets/figma/presentation/noto-sans-sc-400.woff2",

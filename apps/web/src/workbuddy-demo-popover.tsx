@@ -32,9 +32,9 @@ export function WorkBuddyDemoPopover({
     const getHost=()=>anchorRoot.current;
     const findAnchor = () =>
       anchorId
-        ? Array.from(getHost()?.querySelectorAll<HTMLElement>(".sentence-token") ?? [])
+        ? Array.from(getHost()?.querySelectorAll<HTMLElement>(".ic-sentence-token") ?? [])
             .find((el) => el.dataset.parameterId === anchorId)
-            ?.querySelector<HTMLElement>(".sentence-token-face")
+            ?.querySelector<HTMLElement>(".ic-sentence-token-face")
         : getHost()?.querySelector<HTMLElement>(".demo-add>button");
     const measure = () => {
       if (!alive || !root.current) return;

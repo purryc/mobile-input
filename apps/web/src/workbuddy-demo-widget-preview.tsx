@@ -1,3 +1,4 @@
+import {workspaceCapture} from "./workbuddy-demo-workspace-capture";
 import { useEffect, useId, useRef, useState } from "react";
 import { Undo2 } from "lucide-react";
 import {
@@ -28,7 +29,7 @@ import {
   CameraCapture,
   type CaptureMaterial,
   type ChoiceEvent,
-  type WidgetKind,
+  type DemoWidgetKind as WidgetKind,
 } from "./workbuddy-demo-widget-catalog";
 
 type PreviewEnvironment = {
@@ -120,7 +121,7 @@ function WidgetExample({
     : scenario === "recommended" || preparing
       ? "recommended"
       : "explicit";
-  const binding = { id: owner, kind, origin, value: choices } as const;
+  const binding = kind === "polish" ? null : { id: owner, kind, origin, value: choices } as const;
   const confirm = (message = t("已确认", "Confirmed")) => {
     setStatus(message);
     setOpen(false);
@@ -137,9 +138,9 @@ function WidgetExample({
     }
   }
   const pick = () => picker.current?.click();
-  const choiceProps = {
+  const choiceProps = binding && {
     binding,
-    definition: def,
+    definition: {...def,kind:binding.kind},
     owner,
     language,
     onEvent: onChoice,
@@ -187,7 +188,7 @@ function WidgetExample({
       <WidgetProvider
         language={language}
         translate={translate}
-        assetBase="."
+        assetBase="./input-controls"
         portalRoot={portalRoot}
       >
         {kind === "polish" ? (
@@ -229,7 +230,7 @@ function WidgetExample({
           </div>
         ) : (
           <>
-            <div className="widget-example-anchor wb-sentence-composer">
+            <div className="widget-example-anchor wb-sentence-composer ic-wb-sentence-composer">
               {dismissed ? (
                 <button onClick={() => setDismissed(false)}>
                   {t("恢复示例建议", "Restore sample suggestion")}
@@ -244,6 +245,8 @@ function WidgetExample({
                     value: kind === "color" ? color : "",
                     phrase: "",
                     origin,
+                    removeLabel: t("移除推荐 ", "Remove recommendation ") + chipLabel,
+                    semanticState: origin === "recommended" ? "ambiguous-recommendation" : "default-selected",
                     preparing,
                     animate: origin === "recommended" && !preparing,
                     sweepKey: owner,
@@ -251,9 +254,9 @@ function WidgetExample({
                     iconSrc:
                       kind === "color"
                         ? undefined
-                        : `./assets/xiaoyi-work/design-inline-${kind}.svg`,
+                        : `./input-controls/assets/xiaoyi-work/design-inline-${kind}.svg`,
                     recommendationIconSrc:
-                      "./assets/xiaoyi-work/design-inline-sparkles.svg",
+                      "./input-controls/assets/xiaoyi-work/design-inline-sparkles.svg",
                   }}
                   expanded={open}
                   controlsId={panelId}
@@ -302,8 +305,8 @@ function WidgetExample({
                       onDone={() => confirm()}
                     />
                   )}
-                  {Choices && <Choices {...choiceProps} />}
-                  {kind === "document" && (
+                  {Choices && choiceProps && <Choices {...choiceProps} />}
+                  {kind === "document" && choiceProps && (
                     <DocumentWidget
                       choices={{
                         ...choiceProps,
@@ -370,6 +373,7 @@ function WidgetExample({
                   {isCapture && (
                     <>
                       <Capture
+            workspace={workspaceCapture}
                         items={captures}
                         language={language}
                         onBusy={setCaptureBusy}

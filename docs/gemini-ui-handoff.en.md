@@ -18,21 +18,21 @@ npm run dev:workbuddy-demo
 | Shell, sidebar, settings, home | `apps/web/src/workbuddy-demo-shell.tsx`, `apps/web/src/workbuddy-demo.css` |
 | Composer layout, toolbar and attachments | `apps/web/src/workbuddy-demo-composer.tsx`, `apps/web/src/workbuddy-demo-material-views.tsx` |
 | Results and artifact editing layout | `apps/web/src/workbuddy-demo-results.tsx`, `apps/web/src/workbuddy-demo-results.css` |
-| Shared desktop widget appearance | `packages/workbuddy-demo-ui/src/desktop-controls.css`, `desktop-visual.css` in the same directory |
-| Inline chip | `packages/workbuddy-demo-ui/src/inline-chip.tsx` and the chip selectors in desktop styles |
-| Panel frame | `packages/workbuddy-demo-ui/src/auxiliary-panel.tsx` and the desktop panel selectors |
+| Shared desktop widget appearance | `packages/input-controls/src/desktop-controls.css`, `desktop-visual.css` in the same directory |
+| Inline chip | `packages/input-controls/src/inline-chip.tsx` and the chip selectors in desktop styles |
+| Panel frame | `packages/input-controls/src/auxiliary-panel.tsx` and the desktop panel selectors |
 | Gallery layout and fixtures | `apps/web/src/workbuddy-demo-library.css`, `apps/web/src/workbuddy-demo-widget-preview.tsx` |
 
-Each widget has an export in `packages/workbuddy-demo-ui/src/index.ts`. Use the file below for widget-specific layout. Scope CSS to `.input-controls-theme` and the widget's class or `data-kind`. Keep the original colors on artwork, thumbnails and user-selected swatches. For a change to a shared choice or capture layout, check every widget listed in that row.
+Each of the 13 shared widgets has an export in `packages/input-controls/src/index.ts`. Use the file below for widget-specific layout. Scope CSS to `.input-controls-theme` and the widget's class or `data-kind`. Keep the original colors on artwork, thumbnails and user-selected swatches. For a change to a shared choice or capture layout, check every widget listed in that row.
 
-| URL `widget` | View file under `packages/workbuddy-demo-ui/src/` |
+| URL `widget` | View file under `packages/input-controls/src/` |
 | --- | --- |
 | `duration`, `color` | `duration-widget.tsx`, `color-widget.tsx` |
 | `font`, `palette`, `document` | `font-widget.tsx`, `palette-widget.tsx`, `document-widget.tsx`, with `choice-widget.tsx` for shared choices |
 | `expert`, `skills`, `connectors`, `formats` | Their matching `*-widget.tsx` files and `choice-widget.tsx` |
 | `photo`, `sketch` | `image-widget.tsx`, `sketch-widget.tsx` |
 | `scanner`, `capture` | `scanner-widget.tsx`, `capture-widget.tsx`, with `capture-panel.tsx` for shared media UI |
-| `polish` | `polish-widget.tsx` |
+| `polish` (product only) | `apps/web/src/workbuddy-demo-polish-widget.tsx` |
 
 ## Preserve these interfaces
 
@@ -44,10 +44,10 @@ Each widget has an export in `packages/workbuddy-demo-ui/src/index.ts`. Use the 
 
 ## Embed in another host
 
-Import the desired view and `WidgetProvider` from `packages/workbuddy-demo-ui/src/index.ts`, and load `packages/workbuddy-demo-ui/src/desktop.css` once. Wrap each surface in `.input-controls-theme` and provide the language, translation function, and asset base. Supply an instance-local portal root for dialogs. For example, a controlled duration view can be mounted inside any desktop host:
+Import the desired view and `WidgetProvider` from `@mobile-input/controls`, and load `@mobile-input/controls/desktop.css` once. Wrap each surface in `.input-controls-theme` and provide the language, translation function, and asset base. Supply an instance-local portal root for dialogs. For example, a controlled duration view can be mounted inside any desktop host:
 
 ```tsx
-<WidgetProvider language="en" translate={translate} assetBase="/static">
+<WidgetProvider language="en" translate={translate} assetBase="./input-controls">
   <div className="input-controls-theme">
     <AuxiliaryPanel title="Duration" onClose={close}>
       <DurationWidget value={minutes} onChange={setMinutes} onDone={close} />
@@ -58,7 +58,7 @@ Import the desired view and `WidgetProvider` from `packages/workbuddy-demo-ui/sr
 
 The auxiliary frame is available separately from widget content. The Xiaoyi widget host adds the chip-anchored popover when used in the composer.
 
-The desktop skin uses assets under `apps/web/public`. Serve `assets/xiaoyi-work/`, `assets/figma/sentence-parameters/`, and `reference-assets/workbuddy-widgets/` from the location resolved by `assetBase`. Keep the paths and reviewed artwork when copying the source library to another application. The standalone build and source packager already include these directories. A future mainline catalog should resolve the preview URLs relative to its own hosted entry.
+The installed package supplies its widget assets. In this app Vite copies them under `input-controls/`. Other hosts can use `npx --no-install input-controls-assets ./public/input-controls`. The app owns its mascot and product branding.
 
 ## Review before returning a patch
 

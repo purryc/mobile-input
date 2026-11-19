@@ -1,3 +1,4 @@
+import {AgentComposer} from "./agent-input-view";
 import { useId, useRef, type ReactNode } from "react";
 import {
   ArrowUp,
@@ -13,10 +14,10 @@ import {
   X,
 } from "lucide-react";
 import {
-  ComposerFrame as AgentComposer,
+
   CaptureTile,
   renderInlineChip,
-} from "../../../packages/workbuddy-demo-ui/src";
+} from "@mobile-input/controls";
 import {
   demoNativeParameters,
   demoControlAnchor,
@@ -27,7 +28,6 @@ import {
   controlLabel,
   valueLabel,
 } from "../../../packages/core/workbuddy-demo-controls";
-import { initialWbInput } from "../../../packages/core/workbuddy-input";
 import { SentenceComposer } from "./workbuddy-demo-sentence-composer";
 import { uiText } from "./i18n";
 import {
@@ -38,7 +38,6 @@ import {
 import { MaterialImage } from "./workbuddy-demo-material-views";
 import { WorkbuddyWidgetHost } from "./workbuddy-demo-widget-host";
 import type { ReadyDemoController } from "./workbuddy-demo-controller";
-const noInput = initialWbInput();
 export function WorkbuddyDemoComposer({
   model,
 }: {
@@ -138,7 +137,7 @@ export function WorkbuddyDemoComposer({
         materialTile={materialTile}
       />
       <AgentComposer
-        className="deck-composer demo-composer"
+        className="deck-composer demo-composer ic-demo-composer"
         label={uiText("小艺Work 任务输入区")}
         afterContent={polish.row}
         footer={
@@ -254,10 +253,10 @@ export function WorkbuddyDemoComposer({
             preserveCaretAfterInlineChips
             inputMode="text"
             text={draft.text}
-            parameters={[]}
-            input={noInput}
-            files={[]}
-            active={null}
+
+
+
+
             disabled={busy}
             placeholder={uiText("今天帮你做些什么？")}
             onFocus={stopForTyping}
@@ -265,20 +264,20 @@ export function WorkbuddyDemoComposer({
             onChange={(text) => {
               editText(draft.id, text);
             }}
-            onOpen={() => {}}
+
             live={{
               controlsId,
               containedRemove: true,
               renderChip: (token, events) =>
                 renderInlineChip({
                   ...events,
-                  token,
+                  token: {...token, removeLabel: (language === "en" ? "Remove recommendation " : "移除推荐 ") + token.label, semanticState: token.origin === "recommended" ? "ambiguous-recommendation" : "default-selected"},
                   expanded: panel?.id === token.id,
                   controlsId,
                   disabled: busy,
                   language,
                   uiText,
-                  assetBase: ".",
+                  assetBase: "./input-controls",
                 }),
               parameters: [
                 ...demoNativeParameters(draft).map((parameter) => {
@@ -296,7 +295,7 @@ export function WorkbuddyDemoComposer({
                     iconSrc:
                       parameter.kind === "color"
                         ? undefined
-                        : "./assets/xiaoyi-work/design-inline-" +
+                        : "./input-controls/assets/xiaoyi-work/design-inline-" +
                           parameter.kind +
                           ".svg",
                   };
@@ -352,11 +351,11 @@ export function WorkbuddyDemoComposer({
                           c.value.length === 1
                             ? controlOptionArtwork(c.kind, c.value[0])
                             : undefined) ||
-                          "./assets/xiaoyi-work/design-inline-" +
+                          "./input-controls/assets/xiaoyi-work/design-inline-" +
                             c.kind +
                             ".svg",
                     recommendationIconSrc:
-                      "./assets/xiaoyi-work/design-inline-sparkles.svg",
+                      "./input-controls/assets/xiaoyi-work/design-inline-sparkles.svg",
                   }),
                 ),
               ].sort((a, b) => a.start - b.start),
