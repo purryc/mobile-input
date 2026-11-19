@@ -4,7 +4,8 @@ import {WidgetProvider, WidgetSurface, type WidgetEnvironment} from '@mobile-inp
 import '@mobile-input/controls/desktop.css';
 
 export function ScreenCaptureExample({environment, ...props}: {environment: WidgetEnvironment} & ScreenCaptureWidgetProps) {
-  // The host owns items, confirmation and removal.
+  // Mount on chip activation with screenIntent="screenshot" or "recording".
+  // Omit screenIntent for the generic chooser. Start recording remains an explicit user action.
   // Pass a different adapter to use your host's acquisition implementation.
   return (
     <WidgetProvider {...environment}>

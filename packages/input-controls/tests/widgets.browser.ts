@@ -39,13 +39,13 @@ test('scaled sketch drawing, undo, clear and confirmation',async({page})=>{
  await page.mouse.move(r.x+10,r.y+10);await page.mouse.down();await page.mouse.move(r.x+100,r.y+80,{steps:8});await page.mouse.up();await page.getByRole('button',{name:'Adopt sketch'}).click();await expect(page.locator('.ic-demo-material')).toHaveCount(1);await page.locator('.ic-sentence-token').first().click();await expect(canvas.locator('polyline')).toHaveCount(1);await page.getByRole('button',{name:'Clear strokes'}).click();await expect(canvas.locator('polyline')).toHaveCount(0);
 });
 async function mediaFixture(page:Page){await page.addInitScript(()=>{const streams:MediaStream[]=[];(window as any).__testStreams=streams;function acquire(){const canvas=document.createElement('canvas');canvas.width=640;canvas.height=360;const ctx=canvas.getContext('2d')!;ctx.fillStyle='#426fe4';ctx.fillRect(0,0,640,360);const stream=canvas.captureStream(24);streams.push(stream);const timer=setInterval(()=>{ctx.fillRect(0,0,640,360);if(stream.getTracks().every(t=>t.readyState==='ended'))clearInterval(timer);},40);return Promise.resolve(stream);}Object.defineProperty(navigator.mediaDevices,'getUserMedia',{value:acquire});Object.defineProperty(navigator.mediaDevices,'getDisplayMedia',{value:acquire});});}
-test('scanner import/crop/confirm plus camera release; screen recording real blob via injected browser stream',async({page})=>{
- await mediaFixture(page);await open(page,'scanner');await page.locator('.input-controls-popover input[type=file]').setInputFiles({name:'note.png',mimeType:'image/png',buffer:png});await expect(page.getByTestId('current-value')).toContainText('"confirmed": false');await page.getByRole('button',{name:'Confirm materials'}).click();await expect(page.getByTestId('current-value')).toContainText('"confirmed": true');await page.locator('.ic-sentence-token').first().click();await page.getByRole('button',{name:'Open camera'}).click();await expect(page.locator('[data-phase=preview]')).toBeVisible();await page.getByRole('button',{name:'Close panel'}).click();expect(await page.evaluate(()=>(window as any).__testStreams.every((s:MediaStream)=>s.getTracks().every(t=>t.readyState==='ended')))).toBe(true);
- await open(page,'capture');await page.getByRole('button',{name:'Screenshot',exact:true}).click();await expect(page.locator('[data-phase=preview]')).toBeVisible();await page.getByRole('button',{name:'Capture',exact:true}).click();await expect(page.getByTestId('current-value')).toContainText('screenshot.png');await page.getByRole('button',{name:'Confirm materials'}).click();
- await page.locator('.ic-sentence-token').first().click();await page.getByRole('button',{name:'Recording',exact:true}).click();await expect(page.locator('[data-phase=preview]')).toBeVisible();await page.getByRole('button',{name:'Start recording'}).click();await expect(page.locator('[data-phase=recording]')).toBeVisible();await page.waitForTimeout(600);await page.getByRole('button',{name:/^Stop/}).click();await expect(page.getByTestId('current-value')).toContainText('recording.webm');await expect(page.getByTestId('current-value')).toContainText('"confirmed": false');await page.getByRole('button',{name:'Confirm materials'}).click();expect(await page.evaluate(()=>(window as any).__testStreams.every((s:MediaStream)=>s.getTracks().every(t=>t.readyState==='ended')))).toBe(true);
+test('scanner camera/crop/confirm plus camera release; screen recording real blob via injected browser stream',async({page})=>{
+ await mediaFixture(page);await open(page,'scanner');await page.getByRole('button',{name:'Document scan',exact:true}).click();await expect(page.locator('.input-controls-popover input[type=file]')).toHaveCount(0);await page.getByRole('button',{name:'Capture',exact:true}).click();await page.getByRole('button',{name:'Crop',exact:true}).click();await page.getByRole('button',{name:'Save crop'}).click();await expect(page.getByTestId('current-value')).toContainText('"confirmed": false');await page.getByRole('button',{name:'Confirm materials'}).click();await expect(page.getByTestId('current-value')).toContainText('"confirmed": true');await page.locator('.ic-sentence-token').first().click();await expect(page.locator('[data-phase=preview]')).toBeVisible();await page.getByRole('button',{name:'Close panel'}).click();expect(await page.evaluate(()=>(window as any).__testStreams.every((s:MediaStream)=>s.getTracks().every(t=>t.readyState==='ended')))).toBe(true);
+ await open(page,'capture');await page.getByRole('button',{name:'Screenshot',exact:true}).click();await expect(page.getByRole('button',{name:'Take screenshot'})).toBeEnabled();await page.getByRole('button',{name:'Take screenshot',exact:true}).click();await expect(page.getByTestId('current-value')).toContainText('screenshot.png');await page.getByRole('button',{name:'Confirm materials'}).click();
+ await page.locator('.ic-sentence-token').first().click();await page.getByRole('button',{name:'Recording',exact:true}).click();await expect(page.getByRole('button',{name:'Start recording'})).toBeEnabled();await page.getByRole('button',{name:'Start recording'}).click();await expect(page.getByRole('button',{name:/^Stop/})).toBeVisible();await page.waitForTimeout(600);await page.getByRole('button',{name:/^Stop/}).click();await expect(page.getByTestId('current-value')).toContainText('recording.webm');await expect(page.getByTestId('current-value')).toContainText('"confirmed": false');await page.getByRole('button',{name:'Confirm materials'}).click();expect(await page.evaluate(()=>(window as any).__testStreams.every((s:MediaStream)=>s.getTracks().every(t=>t.readyState==='ended')))).toBe(true);
 });
 test('permission denial is honest; late acquisition stops after closing',async({page})=>{
- await page.addInitScript(()=>Object.defineProperty(navigator.mediaDevices,'getUserMedia',{value:()=>Promise.reject(new DOMException('Denied','NotAllowedError'))}));await open(page,'scanner');await page.getByRole('button',{name:'Open camera'}).click();await expect(page.getByRole('alert')).toContainText('Check permissions');await expect(page.getByTestId('current-value')).toContainText('"captures": []');
+ await page.addInitScript(()=>Object.defineProperty(navigator.mediaDevices,'getUserMedia',{value:()=>Promise.reject(new DOMException('Denied','NotAllowedError'))}));await open(page,'scanner');await expect(page.getByRole('alert')).toContainText('Check permissions');await expect(page.getByTestId('current-value')).toContainText('"captures": []');
 });
 test('bilingual responsive layouts and loaded original assets for all 13 widgets',async({page},info)=>{
  test.setTimeout(120000);
@@ -60,8 +60,16 @@ test('bilingual responsive layouts and loaded original assets for all 13 widgets
 });
 test('late camera streams are stopped after owner changes and after hiding, including StrictMode',async({page})=>{
  await page.addInitScript(()=>{(window as any).__resolvers=[];(window as any).__lateStreams=[];Object.defineProperty(navigator.mediaDevices,'getUserMedia',{value:()=>new Promise(resolve=>(window as any).__resolvers.push(()=>{const c=document.createElement('canvas');c.width=100;c.height=100;const s=c.captureStream();(window as any).__lateStreams.push(s);resolve(s);}))});});
- await page.goto('/tests/lifecycle.html');await page.getByRole('button',{name:'Open camera'}).click();await page.getByRole('button',{name:'Switch owner'}).click();await page.evaluate(()=>{(window as any).__resolvers.splice(0).forEach((resolve:()=>void)=>resolve());});
- await expect.poll(()=>page.evaluate(()=>(window as any).__lateStreams.every((s:MediaStream)=>s.getTracks().every(t=>t.readyState==='ended')))).toBe(true);await expect(page.locator('output')).toBeEmpty();
+ await page.goto('/tests/lifecycle.html');
+ await expect.poll(() => page.evaluate(() => (window as any).__resolvers.length)).toBe(1);
+ await page.getByRole('button',{name:'Switch owner'}).click();
+ await expect.poll(() => page.evaluate(() => (window as any).__resolvers.length)).toBe(2);
+ await page.evaluate(() => (window as any).__resolvers.shift()());
+ await expect.poll(() => page.evaluate(() => (window as any).__lateStreams[0].getTracks()[0].readyState)).toBe('ended');
+ await page.getByRole('button',{name:'Hide'}).click();
+ await page.evaluate(() => (window as any).__resolvers.shift()());
+ await expect.poll(() => page.evaluate(() => (window as any).__lateStreams[1].getTracks()[0].readyState)).toBe('ended');
+ await expect(page.locator('output')).toBeEmpty();
  await page.goto('/tests/lifecycle.html?camera');await page.getByRole('button',{name:'关闭摄像头',exact:true}).click();await page.evaluate(()=>{(window as any).__resolvers.splice(0).forEach((resolve:()=>void)=>resolve());});await expect.poll(()=>page.evaluate(()=>(window as any).__lateStreams.every((s:MediaStream)=>s.getTracks().every(t=>t.readyState==='ended')))).toBe(true);await expect(page.locator('output')).toBeEmpty();
 });
 test('control actions are non-submitting buttons and reduced motion disables animation',async({page})=>{
@@ -70,4 +78,160 @@ test('control actions are non-submitting buttons and reduced motion disables ani
 });
 test('host-owned external preview portal retains theme, fixed overlay and keyboard close',async({page})=>{
  await page.goto('/tests/portal.html');await page.getByRole('button',{name:'查看 reference.svg'}).click();const modal=page.locator('#overlay [role=dialog]');await expect(modal).toBeVisible();expect(await modal.evaluate(e=>getComputedStyle(e).position)).toBe('fixed');expect(await modal.evaluate(e=>getComputedStyle(e).getPropertyValue('--controls-accent'))).toBe('#aa3300');await page.keyboard.press('Escape');await expect(modal).toHaveCount(0);await expect(page.getByRole('button',{name:'查看 reference.svg'})).toBeFocused();
+});
+
+test('gallery only picks files; photo and scan reuse the same live camera', async ({page}, info) => {
+  await mediaFixture(page);
+  await open(page, 'photo');
+  const panel = page.locator('.input-controls-popover');
+  await expect(panel.getByRole('button', {name: 'Capture', exact: true})).toHaveCount(0);
+  const chooser = page.waitForEvent('filechooser');
+  await panel.getByRole('button', {name: 'Choose image'}).click();
+  await (await chooser).setFiles({name: 'existing.png', mimeType: 'image/png', buffer: png});
+  expect(await page.evaluate(() => (window as any).__testStreams.length)).toBe(0);
+  await panel.getByRole('button', {name: 'Confirm images'}).click();
+  await expect(page.getByTestId('current-value')).toContainText('existing.png');
+
+  await open(page, 'scanner');
+  const mode = (name: string) => panel.getByRole('button', {name, exact: true});
+  await expect(mode('Photo')).toHaveAttribute('aria-pressed', 'true');
+  await panel.screenshot({path: info.outputPath('camera-entry.png')});
+  await expect(mode('Open camera')).toHaveCount(0);
+  await expect(panel.locator('[data-phase=preview]')).toBeVisible();
+  const viewport = panel.locator('.ic-demo-capture-viewport');
+  const guide = () => viewport.evaluate(el => getComputedStyle(el,'::before').content);
+  expect(await guide()).toBe('none');
+  await panel.screenshot({path: info.outputPath('camera-photo.png')});
+  await mode('Document scan').click();
+  expect(await guide()).toContain('+');
+  await panel.screenshot({path: info.outputPath('camera-scan.png')});
+  expect(await page.evaluate(() => (window as any).__testStreams.length)).toBe(1);
+  await mode('Photo').click();
+  await mode('Capture').click();
+  await expect(panel.getByText('photo.png', {exact:false}).first()).toBeVisible();
+  await mode('Document scan').click();
+  await expect(panel.locator('[data-phase=preview]')).toBeVisible();
+  await mode('Capture').click();
+  await expect(panel.locator('.ic-demo-capture-tile')).toHaveCount(2);
+  await panel.screenshot({path: info.outputPath('camera-results.png')});
+  expect(await page.evaluate(() => (window as any).__testStreams.every((s: MediaStream) => s.getTracks().every(t => t.readyState === 'ended')))).toBe(true);
+  await mode('Confirm materials').click();
+  await expect(page.locator('.controls-preview-stage > .ic-demo-materials .ic-demo-material')).toHaveCount(2);
+});
+
+test('screen workspace crops pixels from the displayed source and releases on cancel', async ({page}, info) => {
+  await mediaFixture(page);
+  await open(page,'capture');
+  const panel = page.locator('.input-controls-popover');
+  await panel.screenshot({path: info.outputPath('screen-entry.png')});
+  await panel.getByRole('button',{name:'Screenshot',exact:true}).click();
+  const workspace = page.getByRole('dialog',{name:'Screen selection'});
+  const take = workspace.getByRole('button',{name:'Take screenshot'});
+  await expect(take).toBeEnabled();
+  const frame = workspace.locator('video');
+  const r = (await frame.boundingBox())!;
+  await page.mouse.move(r.x+r.width*.25,r.y+r.height*.25);
+  await page.mouse.down();
+  await page.mouse.move(r.x+r.width*.75,r.y+r.height*.75,{steps:8});
+  await page.mouse.up();
+  await page.screenshot({path: info.outputPath('screen-selecting.png')});
+  await take.click();
+  const image = panel.locator('.ic-demo-capture-tile img').first();
+  await expect.poll(() => image.evaluate(e => [(e as HTMLImageElement).naturalWidth,(e as HTMLImageElement).naturalHeight])).toEqual([320,180]);
+  await panel.screenshot({path: info.outputPath('screen-result.png')});
+  await panel.getByRole('button',{name:'Recording',exact:true}).click();
+  await workspace.getByRole('button',{name:'Start recording'}).click();
+  await expect(workspace.getByRole('button',{name:/^Stop/})).toBeVisible();
+  await page.screenshot({path: info.outputPath('screen-recording.png')});
+  await page.keyboard.press('Escape');
+  await expect(workspace).toHaveCount(0);
+  await expect(panel).toHaveCount(0);
+  await expect(page.locator('.ic-sentence-token').first()).toBeFocused();
+  expect(await page.evaluate(() => (window as any).__testStreams.every((s: MediaStream) => s.getTracks().every(t => t.readyState === 'ended')))).toBe(true);
+  await expect(page.getByTestId('current-value')).not.toContainText('recording.webm');
+});
+
+test('resolved screen chips open region selection or the ready toolbar on the first click', async ({page}, info) => {
+  await mediaFixture(page);
+  await page.addInitScript(() => {
+    const start = MediaRecorder.prototype.start;
+    (window as any).__starts = 0;
+    MediaRecorder.prototype.start = function(timeslice?: number) {
+      (window as any).__starts++;
+      return start.call(this, timeslice);
+    };
+  });
+  await page.goto('/compact.html#/capture');
+  const card = page.locator('[data-widget=capture]');
+  const chip = (intent: string) => card.locator('[data-example="' + intent + '"] .ic-sentence-token');
+  const workspace = page.locator('dialog.ic-screen-workspace[open]');
+  const streams = () => page.evaluate(() => (window as any).__testStreams.length);
+  expect(await streams()).toBe(0);
+
+  await chip('screenshot').click();
+  await expect(workspace.getByRole('button', {name:'开始截屏'})).toBeEnabled();
+  await expect(workspace.getByRole('button', {name:'录屏', exact:true})).toHaveCount(0);
+  expect(await streams()).toBe(1);
+  const frame = (await workspace.locator('video').boundingBox())!;
+  await page.mouse.move(frame.x + frame.width / 4, frame.y + frame.height / 4);
+  await page.mouse.down();
+  await page.mouse.move(frame.x + frame.width * .75, frame.y + frame.height * .75, {steps:6});
+  await page.mouse.up();
+  await workspace.screenshot({path:info.outputPath('resolved-screenshot.png')});
+  await workspace.getByRole('button', {name:'开始截屏'}).click();
+  await page.getByRole('button', {name:'确认材料'}).click();
+  await expect(chip('screenshot')).toHaveText('截图');
+  await expect(card.getByRole('button', {name:'查看 screenshot.png'})).toBeVisible();
+
+  await chip('recording').focus();
+  await page.keyboard.press('Enter');
+  await expect(workspace.getByRole('button', {name:'开始录屏'})).toBeEnabled();
+  await expect(workspace.getByRole('button', {name:'截图', exact:true})).toHaveCount(0);
+  expect(await page.evaluate(() => (window as any).__starts)).toBe(0);
+  await workspace.screenshot({path:info.outputPath('resolved-recording-ready.png')});
+  await workspace.getByRole('button', {name:'取消'}).click();
+  await expect(chip('recording')).toBeFocused();
+  expect(await page.evaluate(() => (window as any).__testStreams.every((s: MediaStream) => s.getTracks().every(t => t.readyState === 'ended')))).toBe(true);
+  await chip('recording').click();
+  await workspace.getByRole('button', {name:'开始录屏'}).click();
+  expect(await page.evaluate(() => (window as any).__starts)).toBe(1);
+  await expect(workspace.getByRole('button', {name:/停止.*1s/})).toBeVisible();
+  await workspace.getByRole('button', {name:/停止/}).click();
+  await page.getByRole('button', {name:'确认材料'}).click();
+  await expect(card.getByRole('button', {name:'查看 recording.webm'})).toBeVisible();
+  for (const [intent, name] of [['screenshot', 'screenshot.png'], ['recording', 'recording.webm']]) {
+    await card.getByRole('button', {name:'移除 ' + name}).click();
+    await expect(chip(intent)).toHaveAttribute('data-semantic-state','default-selected');
+    await expect(chip(intent)).toHaveText(intent === 'recording' ? '录屏' : '截图');
+  }
+  expect(await streams()).toBe(3);
+  expect(await page.evaluate(() => (window as any).__testStreams.every((s: MediaStream) => s.getTracks().every(t => t.readyState === 'ended')))).toBe(true);
+});
+
+test('retry keeps the resolved screen intent and cancelling releases a late stream', async ({page}) => {
+  await page.addInitScript(() => {
+    let attempt = 0;
+    Object.defineProperty(navigator.mediaDevices, 'getDisplayMedia', {value: async () => {
+      if (++attempt === 1) throw new DOMException('Denied', 'NotAllowedError');
+      return new Promise(resolve => {
+        (window as any).__finishSharing = () => {
+          const stream = document.createElement('canvas').captureStream();
+          (window as any).__lateTrack = stream.getVideoTracks()[0];
+          resolve(stream);
+        };
+      });
+    }});
+  });
+  await page.goto('/compact.html#/capture');
+  const chip = page.locator('[data-widget=capture] [data-example=recording] .ic-sentence-token');
+  await chip.click();
+  const panel = page.locator('.input-controls-popover');
+  await expect(panel.getByRole('alert')).toBeVisible();
+  await panel.getByRole('button', {name:'重试'}).click();
+  const workspace = page.locator('dialog.ic-screen-workspace[open]');
+  await expect(workspace.getByRole('button', {name:'开始录屏'})).toBeDisabled();
+  await workspace.getByRole('button', {name:'取消'}).click();
+  await page.evaluate(() => (window as any).__finishSharing());
+  await expect.poll(() => page.evaluate(() => (window as any).__lateTrack.readyState)).toBe('ended');
+  await expect(chip).toBeFocused();
 });

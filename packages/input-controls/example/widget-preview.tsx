@@ -4,11 +4,14 @@ import {definition} from './choices';
 import {catalog} from './compact-catalog';
 import {boundSample, materialKinds} from './material-samples';
 import {createSketchFile} from '../src/sketch-geometry';
+import {ComposerStage} from './composer-stage';
 import './preview.css';
 const choices={font:C.FontWidget,palette:C.PaletteWidget,expert:C.ExpertWidget,skills:C.SkillsWidget,connectors:C.ConnectorsWidget,formats:C.FormatsWidget};
 const paths:Record<string,string>={duration:'M9 2h6M12 6a8 8 0 1 0 0 16 8 8 0 0 0 0-16M12 10v4l3-2',font:'M4 4h16M12 4v16M8 20h8',palette:'M12 3a9 9 0 1 0 0 18c3 0 1-4 4-4h2a4 4 0 0 0 4-4c0-6-5-10-10-10',expert:'M7 7a5 5 0 1 0 10 0 5 5 0 0 0-10 0M3 22a9 9 0 0 1 18 0',skills:'M3 20l9-9M14 3a5 5 0 0 0 7 7L18 7l2-4-4 2z',connectors:'M10 14l4-4M8 16l-2 2a4 4 0 0 1-6-6l5-5M16 8l2-2a4 4 0 0 1 6 6l-5 5',formats:'M5 2h10l4 4v16H5zM14 2v5h5',scanner:'M2 8V2h6M16 2h6v6M22 16v6h-6M8 22H2v-6M7 12h10',capture:'M3 3h18v14H3zM12 17v5M8 22h8'};
 const translations:Record<string,string>={'关闭辅助输入':'Close panel','减少一分钟':'Decrease by one minute','增加一分钟':'Increase by one minute','演讲时长（分钟）':'Duration (minutes)','分钟':'min','选择图片':'Choose image','拍摄':'Capture','确认图片选择':'Confirm images','添加参考资料':'Add reference files','PDF、TXT、Markdown · 单份最多 8 MB':'PDF, TXT, Markdown · Max 8 MB each','布局画板':'Sketch canvas','画笔':'Pen','橡皮':'Eraser','撤销':'Undo','清空':'Clear','撤销笔迹':'Undo strokes','清空笔迹':'Clear strokes','采用布局草图':'Adopt sketch','色相':'Hue','色调':'Tone','确认布局草图':'Confirm sketch','拍摄图片':'Camera photo','关闭摄像头':'Close camera','材料预览':'Material preview','关闭预览':'Close preview','摄像头预览无法播放，请重试或选择本地图片。':'Camera preview cannot play. Retry or choose a local image.','无法打开摄像头，请允许摄像头权限，或选择本地图片。':'Unable to open camera. Allow camera permission or choose a local image.','图片保存失败，请重新拍摄。':'Image could not be saved. Please retake.','请输入六位HEX颜色值':'Enter a six-digit HEX color','查看 ':'Preview ','移除 ':'Remove '};
 export const translate=(language:string)=>(s:string)=>language==='en'?(translations[s]||s):s;
+
+type FileAttachment = {id: string; file: File};
 
 export interface WidgetPreviewProps {
   kind: C.WidgetKind;
@@ -17,6 +20,7 @@ export interface WidgetPreviewProps {
 }
 
 type SpecimenOptions = {
+  screenIntent?: C.ScreenCaptureWidgetProps["screenIntent"];
   initial: C.ChipSemanticState;
   panels: ReturnType<typeof C.useSinglePanel>;
   presentation?: "chip" | "inline";
@@ -43,8 +47,8 @@ export function WidgetPreview({kind, language = 'zh-CN', assetBase = ''}: Widget
   );
 }
 
-export function WidgetSpecimen({initial, panels, presentation, ...props}: WidgetPreviewProps & SpecimenOptions) {
-  return <InteractiveWidget {...props} specimen={{initial, panels, presentation}}/>;
+export function WidgetSpecimen({initial, panels, presentation, screenIntent, ...props}: WidgetPreviewProps & SpecimenOptions) {
+  return <InteractiveWidget {...props} specimen={{initial, panels, presentation, screenIntent}}/>;
 }
 
 function InteractiveWidget({
@@ -74,37 +78,55 @@ function InteractiveWidget({
   const [removed, setRemoved] = useState(false);
   const [duration, setDuration] = useState('10');
   const [color, setColor] = useState('#356FE4');
-  const [values, setValues] = useState<string[]>(() =>
-    initial === 'default-selected' && !isMaterial ? def.options.slice(0, 1).map(option => option.id) : []);
-  const [files, setFiles] = useState<File[]>(sample.files ?? []);
-  const [pending, setPending] = useState<File[]>([]);
+  const [values, setValues] = useState<string[]>(() => {
+    if (initial !== 'default-selected' || isMaterial) return [];
+    if (specimen && kind === 'palette') return ['calm'];
+    if (specimen && kind === 'connectors') return ['ima'];
+    if (specimen && kind === 'formats') return ['pptx', 'pdf'];
+    return def.options.slice(0, 1).map(option => option.id);
+  });
+  const nextFileId = useRef(0);
+  const [files, setFiles] = useState<FileAttachment[]>(() => (sample.files ?? []).map((file, index) => ({
+    id: 'sample-' + index, file,
+  })));
+  const [pending, setPending] = useState<FileAttachment[]>([]);
   const [captures, setCaptures] = useState<C.CaptureMaterial[]>(sample.captures ?? []);
   const [strokes, setStrokes] = useState<number[][][]>([]);
   const [sketch, setSketch] = useState<File | null>(sample.sketch ?? null);
-  const [camera, setCamera] = useState(false);
   const [busy, setBusy] = useState(false);
   const [preview, setPreview] = useState<File | null>(null);
-  const [cameraError, setCameraError] = useState('');
   const [events, setEvents] = useState<string[]>([]);
   const fileInput = useRef<HTMLInputElement>(null);
   const anchor = useRef<HTMLSpanElement>(null);
   const secondAnchor = useRef<HTMLSpanElement>(null);
   const previewTrigger = useRef<HTMLElement | null>(null);
 
+  const screenIntent = specimen?.screenIntent;
   const confirmedCaptures = captures.filter(item => item.confirmed);
-  const names = [...files.map(file => file.name), ...(sketch ? [sketch.name] : []), ...confirmedCaptures.map(item => item.name)];
-  const state = specimen && names.length ? 'object-bound' : semantic;
+  function removeSketch() {
+    setSketch(null);
+    emit('remove-file', sketch?.name);
+  }
+  function removeCapture(id: string) {
+    setCaptures(previous => previous.filter(item => item.id !== id));
+    emit('remove-capture', id);
+  }
+  const adopted = [
+    ...files.map(({id, file}) => ({id, name: file.name, remove: () => removeFile(id), file})),
+    ...(sketch ? [{id: 'sketch', name: sketch.name, remove: removeSketch, file: sketch}] : []),
+    ...confirmedCaptures.map(item => ({id: item.id, name: item.name, remove: () => removeCapture(item.id), capture: item})),
+  ];
+  const names = adopted.map(item => item.name);
+  const state = screenIntent ? 'default-selected' : specimen && names.length ? 'object-bound' : semantic;
   const emit = (event: string, value: unknown = '') => {
     if (!specimen) setEvents(previous => [JSON.stringify({event, owner, value}), ...previous].slice(0, 8));
   };
   const compact = Boolean(specimen);
   useEffect(() => {
     if (compact && !open) {
-      setCamera(false);
-      setCameraError('');
-      setPreview(null);
+      if (kind !== 'document') setPreview(null);
     }
-  }, [compact, open]);
+  }, [compact, kind, open]);
 
   function closePanel() {
     if (inline) {
@@ -113,7 +135,7 @@ function InteractiveWidget({
       return;
     }
     panels.close();
-    if (specimen) requestAnimationFrame(() => anchor.current?.querySelector('button')?.focus({preventScroll: true}));
+    requestAnimationFrame(() => anchor.current?.querySelector('button')?.focus({preventScroll: true}));
   }
   function changed(value: unknown) {
     setSemantic(Array.isArray(value) && value.length === 0 && specimen ? 'needs-input' : 'default-selected');
@@ -148,7 +170,9 @@ function InteractiveWidget({
   const resolvedLabel = kind === 'duration' ? duration + t('分钟', ' min')
     : kind === 'color' ? color
     : selected || names[0] || title;
-  const label = state === 'object-bound' ? names[0]
+  const label = screenIntent === 'screenshot' ? t('截图', 'Screenshot')
+    : screenIntent === 'recording' ? t('录屏', 'Recording')
+    : state === 'object-bound' ? names[0]
     : state === 'needs-input' ? needsLabel
     : state === 'ambiguous-recommendation' && specimen ? catalog[kind].suggestion[en ? 1 : 0]
     : resolvedLabel;
@@ -159,7 +183,7 @@ function InteractiveWidget({
   const icon = artwork ?? standardIcon;
   const token: C.InlineChipToken = {
     id: owner, kind, role: title, phrase: '', label,
-    value: state === 'needs-input' ? '' : kind === 'color' && (!specimen || state === 'default-selected') ? color : label,
+    value: screenIntent ?? (state === 'needs-input' ? '' : kind === 'color' && (!specimen || state === 'default-selected') ? color : label),
     origin, semanticState: state,
     additionalObjectCount: state === 'object-bound' ? names.length - 1 : undefined,
     removable: origin === 'recommended' && (!specimen || state === 'ambiguous-recommendation'),
@@ -175,27 +199,41 @@ function InteractiveWidget({
 
   function pick(list: File[]) {
     if (!list.length) return;
+    const attachments = list.map(file => ({
+      id: 'local-' + nextFileId.current++, file,
+    }));
     if (kind === 'document') {
-      setFiles(previous => [...previous, ...list]);
+      setFiles(previous => [...previous, ...attachments]);
       adoptMaterial(list.map(file => file.name));
-    } else setPending(previous => [...previous, ...list]);
+    } else setPending(previous => [...previous, ...attachments]);
     emit('select-local-files', list.map(file => file.name));
   }
-  function cards(list: File[], remove: (index: number) => void) {
-    return list.map((file, index) => (
-      <C.AttachmentCard key={index} file={file}
-        onPreview={() => {
-          previewTrigger.current = document.activeElement as HTMLElement | null;
-          setPreview(file);
-        }}
-        onRemove={() => {remove(index); emit('remove-file', file.name);}}/>
-    ));
+  function removeFile(id: string) {
+    if (kind === 'document' && files.length === 1 && files[0].id === id) setSemantic('needs-input');
+    setFiles(previous => previous.filter(item => item.id !== id));
+    emit('remove-file', files.find(item => item.id === id)?.file.name);
   }
-  const selectedFiles = cards(files, index => setFiles(previous => previous.filter((_, position) => index !== position)));
-  const adoptedSketch = sketch && cards([sketch], () => {
-    setSketch(null);
-    if (specimen) setStrokes([]);
-  });
+  function previewFile(file: File) {
+    previewTrigger.current = document.activeElement as HTMLElement | null;
+    setPreview(file);
+  }
+  function fileCard(id: string, file: File, remove: () => void) {
+    return <C.AttachmentCard key={id} file={file} onRemove={remove} onPreview={() => previewFile(file)}/>;
+  }
+  const documentFiles = files.map(({id, file}) => ({id, name: file.name}));
+  function previewDocument(id: string) {
+    const attachment = files.find(item => item.id === id);
+    if (attachment) previewFile(attachment.file);
+  }
+  const selectedFiles = kind === 'document'
+    ? <C.DocumentFileList files={documentFiles} onPreview={previewDocument} onRemove={removeFile}/>
+    : files.map(({id, file}) => fileCard(id, file, () => removeFile(id)));
+  const adoptedSketch = sketch && fileCard('sketch', sketch, removeSketch);
+  const materialStrip = adopted.length > 0 && <div className="lite-document-materials input-controls-theme">
+    {kind === 'document' ? selectedFiles : adopted.map(item => 'capture' in item
+      ? <C.CaptureTile key={item.id} compact item={item.capture} onRemove={item.remove}/>
+      : fileCard(item.id, item.file, item.remove))}
+  </div>;
 
   function widget(): ReactNode {
     if (Choice) return (
@@ -212,19 +250,23 @@ function InteractiveWidget({
       case 'color':
         return <C.ColorWidget value={color} label={title} onChange={value => {setColor(value); changed(value);}} onActive={() => {}} onDone={confirm}/>;
       case 'document':
-        return <C.DocumentWidget onChoose={chooseLocal} onDone={confirm}>{selectedFiles}</C.DocumentWidget>;
+        return <C.DocumentWidget materials={documentFiles} onChoose={chooseLocal} onDone={confirm}
+          onRemoveMaterial={removeFile} onPreviewMaterial={previewDocument}/>;
       case 'photo':
         return (
-          <C.ImageWidget canConfirm={!specimen || pending.length > 0} onChoose={chooseLocal} onCapture={() => {setCameraError(''); setCamera(true);}} onDone={() => {
+          <C.ImageWidget canConfirm={!specimen || pending.length > 0} onChoose={chooseLocal} onDone={() => {
             if (pending.length) {
               setFiles(previous => [...previous, ...pending]);
               setPending([]);
-              if (specimen) adoptMaterial(pending.map(file => file.name));
+              if (specimen) adoptMaterial(pending.map(({file}) => file.name));
             }
             confirm();
           }}>
             {specimen && selectedFiles}
-            {cards(pending, index => setPending(previous => previous.filter((_, position) => index !== position)))}
+            {pending.map(({id, file}) => fileCard(id, file, () => {
+              setPending(previous => previous.filter(item => item.id !== id));
+              emit('remove-file', file.name);
+            }))}
           </C.ImageWidget>
         );
       case 'sketch':
@@ -241,15 +283,19 @@ function InteractiveWidget({
         );
       default:
         return (
-          <Capture items={captures} language={language}
+          <Capture key={inline && kind === 'scanner' && panels.active ? 'background' : 'foreground'}
+            items={captures} language={language}
+            {...(screenIntent ? {screenIntent} : {})}
+            {...(inline && kind === 'scanner' ? {deferCameraUntilSelection: true} : {})}
+            {...(kind === 'scanner' && initial === 'object-bound' ? {initialCameraMode: captures[0]?.cameraMode ?? 'scan'} : {})}
             onAdd={item => {setCaptures(previous => [...previous, item]); emit('capture', item.name);}}
-            onRemove={id => {setCaptures(previous => previous.filter(item => item.id !== id)); emit('remove-capture', id);}}
+            onRemove={removeCapture}
             onConfirm={() => {
               setCaptures(previous => previous.map(item => ({...item, confirmed: true})));
               if (specimen) adoptMaterial(captures.map(item => item.name));
               confirm();
             }}
-            onBusy={setBusy}/>
+            onBusy={setBusy} onCancel={kind === 'scanner' || !inline ? closePanel : undefined}/>
         );
     }
   }
@@ -263,6 +309,7 @@ function InteractiveWidget({
         }}>{specimen ? t('恢复推荐', 'Restore recommendation') : t('恢复入口', 'Restore entry')}</button>
       ) : (
         <C.InlineChip token={token} expanded={open} controlsId={panelId} describedBy={specimen ? stateLabelId : undefined} disabled={disabled}
+          onRemoveMaterial={state === 'object-bound' ? adopted[0]?.remove : undefined}
           onOpen={() => {panels.toggle(owner); emit('open', kind);}} onRemove={() => {
             setRemoved(true);
             if (!specimen || open) panels.close();
@@ -275,55 +322,50 @@ function InteractiveWidget({
   const panelContent = (
     <C.AuxiliaryPanel title={title} onClose={closePanel}>
       {widget()}
-      {cameraError && <p role="alert">{cameraError}</p>}
     </C.AuxiliaryPanel>
   );
+  const filePreview = preview && <FilePreview file={preview} language={language} onClose={() => {
+    setPreview(null);
+    if (specimen) requestAnimationFrame(() => previewTrigger.current?.focus());
+  }}/>;
   const overlays = (
     <>
       {!inline && <C.AnchoredPanel anchor={anchor} open={open} id={panelId} label={title} width={C.widgetWidths[kind]} onClose={panels.close}>
-        {panelContent}
+        {specimen ? <ComposerStage kind={kind} popover>{panelContent}</ComposerStage> : panelContent}
       </C.AnchoredPanel>}
       {(kind === 'document' || kind === 'photo') && (
         <input ref={fileInput} type="file" multiple hidden accept={kind === 'document' ? '.pdf,.txt,.md' : 'image/*'}
           onChange={event => {pick(Array.from(event.currentTarget.files ?? [])); event.currentTarget.value = '';}}/>
       )}
-      {camera && (!specimen || open) && (
-        <C.CameraCapture onCapture={file => setPending(previous => [...previous, file])} onClose={() => setCamera(false)}
-          onError={message => {
-            const translated = translate(language)(message);
-            if (specimen) setCameraError(translated);
-            emit('camera-error', translated);
-          }}/>
-      )}
-      {preview && (!specimen || open) && (
-        <FilePreview file={preview} language={language} onClose={() => {
-          setPreview(null);
-          if (specimen) requestAnimationFrame(() => previewTrigger.current?.focus());
-        }}/>
-      )}
     </>
   );
 
   if (inline) return (
-    <details className="lite-widget-preview" open={inlineOpen} onToggle={event => setInlineOpen(event.currentTarget.open)}>
-      <summary ref={inlineSummary}>{t('独立 Widget', 'Standalone widget')}</summary>
-      {inlineOpen && (
-        <C.WidgetProvider language={language} translate={translate(language)} assetBase={assetBase}>
-          <div className="lite-widget-body input-controls-theme" style={{width: C.widgetWidths[kind]}}>
-            {panelContent}
-            {overlays}
-          </div>
-        </C.WidgetProvider>
-      )}
-    </details>
+    <C.WidgetProvider language={language} translate={translate(language)} assetBase={assetBase}>
+      <details className="lite-widget-preview" open={inlineOpen} onToggle={event => setInlineOpen(event.currentTarget.open)}>
+        <summary ref={inlineSummary}>{t('独立 Widget', 'Standalone widget')}</summary>
+        {inlineOpen && (
+          <ComposerStage kind={kind}>
+            <C.WidgetSurface>
+              <div className="lite-inline-panel" style={{width: C.widgetWidths[kind], maxWidth: '100%'}}>{panelContent}</div>
+              {overlays}
+            </C.WidgetSurface>
+          </ComposerStage>
+        )}
+      </details>
+      {!inlineOpen && materialStrip}
+      {preview && <div className="input-controls-theme">{filePreview}</div>}
+    </C.WidgetProvider>
   );
 
   if (specimen) return (
-    <div className="lite-specimen input-controls-theme" data-example={initial}>
-      <span id={stateLabelId} className="lite-state-label">{chipStateLabels[state][en ? 1 : 0]}</span>
+    <div className="lite-specimen input-controls-theme" data-example={screenIntent ?? initial}>
+      <span id={stateLabelId} className="lite-state-label">{screenIntent ? t('明确意图', 'Explicit intent') : chipStateLabels[state][en ? 1 : 0]}</span>
       <C.WidgetProvider language={language} translate={translate(language)} assetBase={assetBase}>
         {chip}
+        {materialStrip}
         {overlays}
+        {filePreview}
       </C.WidgetProvider>
     </div>
   );
@@ -370,6 +412,7 @@ function InteractiveWidget({
             </div>
           </div>
           {overlays}
+          {filePreview}
           <C.AnchoredPanel anchor={secondAnchor} open={panels.active === 'second'} id={panelId + 'second'} label={t('独立实例', 'Second instance')} width={288} onClose={panels.close}>
             <SecondInstance onClose={panels.close}/>
           </C.AnchoredPanel>
@@ -380,7 +423,7 @@ function InteractiveWidget({
         <pre data-testid="current-value">{JSON.stringify({
           kind, semanticState: semantic, origin,
           value: kind === 'duration' ? duration : kind === 'color' ? color : values,
-          files: files.map(file => file.name), pendingImages: pending.length, strokes: strokes.length,
+          files: files.map(({file}) => file.name), pendingImages: pending.length, strokes: strokes.length,
           captures: captures.map(({name, confirmed}) => ({name, confirmed})), busy,
         }, null, 2)}</pre>
         <ol aria-label="Events">{events.map((event, index) => <li key={index}>{event}</li>)}</ol>
@@ -388,6 +431,7 @@ function InteractiveWidget({
     </>
   );
 }
+
 
 function SecondInstance({onClose}: {onClose: () => void}) {
   const [value, setValue] = useState('5');

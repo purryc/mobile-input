@@ -13,7 +13,7 @@
 
 - The approved single-page follow-up supersedes compact sidebar, priority navigation, and on-page intent examples. Keep the underlying 325-case source snapshot and existing package and site entry URLs.
 - Show 13 independent React widgets with live chip examples and per-widget source, Props and copyable integration code. Use a shared popover controller across cards.
-- Each compact card shows 3 chip states, a separate expanded widget, and a download of its exact TSX entry. Selected means a resolved value or a confirmed material. Material filenames use the existing additive object-bound token internally, with the same Selected presentation. Seed selected examples with local sample bytes.
+- Each compact card shows a separate expanded widget and a download of its exact TSX entry. Show three chip states up front except for reference files. Selected means a resolved value or a confirmed material. Material filenames use the existing additive object-bound token internally, with the same Selected presentation. Seed selected media examples with local sample bytes. The reference-file card starts empty across its chip and standalone entries. Its Selected state appears only after a user picks files; show these as rows with individual remove buttons.
 - Keep this change in codex/xiaoyi-controls-lite. Preserve in-progress work and product callers. Validate the package and site locally, with read-only Claude CLI review.
 
 ## Installable npm distribution
