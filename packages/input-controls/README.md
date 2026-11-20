@@ -28,7 +28,7 @@ Download the `.tgz` from the top of the compact gallery. Put it in the root
 of your React 19 app and use its filename in the install command:
 
 ```sh
-npm install ./mobile-input-controls-1.7.1.tgz
+npm install ./mobile-input-controls-1.8.0.tgz
 npx --no-install input-controls-assets ./public/input-controls
 ```
 
@@ -107,7 +107,7 @@ Each entry has exported typed Props; the barrel is `src/index.ts`. You can impor
 
 | Widget | Source | Controlled input / host callback |
 |---|---|---|
-| Duration | `src/duration-widget.tsx` | `value` (minutes, 1–60), `onChange`, `onDone` |
+| Duration | `src/duration-widget.tsx` | `value`, `onChange`, `onDone`; optional controlled `unit` and `onUnitChange` enable seconds (1–120), minutes (1–60) and hours (1–24). Existing minute-only callers keep minutes. |
 | Color | `src/color-widget.tsx` | six-digit HEX `value`, `label`, `onChange`, `onActive`, `onDone` |
 | Font | `src/font-widget.tsx` | `binding`, `definition`, `owner`, `onEvent` |
 | Palette | `src/palette-widget.tsx` | same choice contract |
@@ -129,14 +129,14 @@ Each entry has exported typed Props; the barrel is `src/index.ts`. You can impor
 
 - `needs-input`: no value/material has been bound; neutral dashed edge, entity icon, plus.
 - `default-selected`: a concrete available value/name or selected acquisition method; neutral solid edge.
-- `ambiguous-recommendation`: unresolved suggestion; blue-purple-pink border and sparkle.
+- `ambiguous-recommendation`: unresolved suggestion; ice-cyan to pale violet border and sparkle.
 - `object-bound`: an actual file or material is bound. Set the full name in `label` and the number of remaining materials in `additionalObjectCount`. The chip opens the widget and has a neutral solid edge. Pass `onRemoveMaterial` bound to the displayed attachment ID for an always-visible ×. Render each confirmed attachment with its own remove action outside the picker, including the additional materials counted by the chip.
 
 `origin` is `explicit | recommended | manual`. It does not infer `semanticState`. Default semantic state is `default-selected` for compatibility; new hosts should always pass it. A selected acquisition method is **not proof that any attachment exists**. Opening a chip does not change its semantic state.
 
 Set `token.removable` and supply `onRemove` to show a separate keyboard-focusable removal action. Per the approved extraction contract, a recommended-origin default value may retain a removal button even with neutral selected styling. This differs from the 2026-11-16 Notion selected-no-cross rule; the host can set `removable={false}` to follow that rule. No removal changes original text or deletes source files automatically.
 
-`expanded`, `disabled`, and `token.preparing` are separate flags. Hover, pressed and focus-visible use CSS. Loading suppresses interaction and exposes `aria-busy`. `animate` plus stable `sweepKey` enables the existing recommendation sweep; reduced-motion disables animation. Retain the component instance/key to avoid replay. `renderInlineChip` can mount in an editor-owned DOM; the editor owns original-text offsets, copying and selection. `preserveSelection` is optional and prevents pointer focus only for that editor use case.
+`expanded`, `disabled`, and `token.preparing` are separate flags. Hover, pressed and focus-visible use CSS. Loading suppresses interaction and exposes `aria-busy`. `animate` plus stable `sweepKey` uses the original recommendation timeline (7.6 s reflection, 5.4 s light-well and 4.2 s sparkle). The preparing state has a separate 2 s shimmer. Reduced motion retains the static visual. Retain the component instance/key to avoid replay. `renderInlineChip` can mount in an editor-owned DOM; the editor owns original-text offsets, copying and selection. `preserveSelection` is optional and prevents pointer focus only for that editor use case.
 
 Use `useSinglePanel()` once per composition to keep one active ID, `AnchoredPanel` for positioning, and `AuxiliaryPanel` for chrome. The overlay anchors 8 px below the chip, clamps to viewport edges and scrolls if necessary. Escape closes and restores focus. `portalRoot` can target your overlay container. `WidgetSurface` applies scoped theme variables; `WidgetProvider.theme` also travels to portaled panels. Avoid transformed portal ancestors because fixed positioning follows their containing block.
 
@@ -186,7 +186,7 @@ All 13 interactive widgets are on one page. Direct links such as
 
 Each card has a standalone widget expanded by default and independent chip
 examples for Needs input, Selected, and Recommendation. Selected shows the
-resolved value or the name of the confirmed material. The document examples start empty and reach Selected when the user picks local files.
+resolved value or the name of the confirmed material. The add-file and standalone entries start empty. A separate Selected entry contains a readable example PDF.
 Photos, scans, drawings, and screen materials update it on confirmation.
 Opening a different chip closes the previous floating panel.
 
@@ -207,3 +207,7 @@ including all 325 bilingual intent examples. It can be regenerated with
 `python3 scripts/extract-intent-spec.py /path/to/alignment-final-export-text.json`.
 
 FontWidget defaults to ten named Windows families. Selection returns the CSS family name (for example, `Microsoft YaHei`). Each preset has a rasterized phrase specimen for cross-device comparison. The target editor or exporter needs access to the selected font for document layout. Pass a custom `definition` to use your own catalog.
+
+The local optical review is available at /optical-review.html in the package dev server. Run `npm run prepare:lumina -- "/path/to/reference.zip"` in the package directory once to build its independent reference iframe. The public chip defaults to 32 px; pass `size="specimen"` for the 38 px board or `surfaceContext="artifact"` on colored artwork.
+
+Compact examples open with a snapshot of the current control. Reset restores that snapshot, including material identity. Confirm applies the widget’s existing completion action. For a custom material host, supply `onReset` and `canReset` alongside its adoption callback. The separate selected reference-file sample is backed by a local PDF.

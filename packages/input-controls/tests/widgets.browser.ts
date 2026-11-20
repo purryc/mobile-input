@@ -5,12 +5,12 @@ async function open(page:Page,kind:string){await page.goto('/#/'+kind);await pag
 for(const kind of controlKinds)test(kind+' semantic states, keyboard, disabled, reset and isolated second instance',async({page})=>{
  await page.goto('/#/'+kind);const token=page.locator('.ic-sentence-token').first();
  await expect(token).toHaveAttribute('data-semantic-state','needs-input');await expect(token.locator('.ic-chip-needs-plus')).toBeVisible();
- const face=token.locator('.ic-sentence-token-face');expect(await face.evaluate(e=>getComputedStyle(e).borderTopStyle)).toBe('dashed');
+ await expect(page.locator('.ic-optical-dash rect').first()).toHaveAttribute('stroke-dasharray','4 3.2');
  await page.getByLabel('Semantic state',{exact:true}).selectOption('ambiguous-recommendation');await page.getByLabel('Origin',{exact:true}).selectOption('recommended');await expect(token.locator('.ic-demo-chip-smart')).toBeVisible();
  await token.focus();await page.keyboard.press('Enter');await expect(page.locator('.input-controls-popover')).toHaveCount(1);await page.keyboard.press('Escape');await expect(page.locator('.input-controls-popover')).toHaveCount(0);await expect(token).toBeFocused();
  await page.locator('.ic-demo-chip-remove').focus();await page.keyboard.press('Enter');await expect(page.locator('.input-controls-popover')).toHaveCount(0);await page.getByRole('button',{name:'Restore entry'}).click();
  await page.getByLabel('Semantic state',{exact:true}).selectOption('default-selected');await expect(token.locator('.ic-demo-chip-smart')).toHaveCount(0);await expect(page.locator('.ic-demo-chip-remove')).toHaveCount(1);
- await token.click();await page.locator('.ic-sentence-token').nth(1).click();await expect(page.locator('.input-controls-popover')).toHaveCount(1);await expect(page.locator('.input-controls-popover input')).toHaveValue('5');
+ await token.click();await page.locator('.ic-sentence-token').nth(1).click();await expect(page.locator('.input-controls-popover')).toHaveCount(1);await expect(page.getByRole('spinbutton')).toHaveValue('5');
  await page.getByRole('button',{name:'Increase by one minute'}).click();await page.keyboard.press('Escape');await token.click();
  if(kind==='duration')await expect(page.getByRole('spinbutton')).toHaveValue('10');
  await page.getByLabel('Disabled',{exact:true}).check();await expect(token).toBeDisabled();await expect(page.locator('.input-controls-popover')).toHaveCount(0);
@@ -18,7 +18,7 @@ for(const kind of controlKinds)test(kind+' semantic states, keyboard, disabled, 
  await page.getByRole('button',{name:'Reset',exact:true}).click();await expect(token).toHaveAttribute('data-semantic-state','needs-input');
 });
 test('duration and independent color values are controlled; opening never changes blue',async({page})=>{
- await open(page,'duration');await page.getByRole('spinbutton').fill('23');await page.getByRole('button',{name:'Done',exact:true}).click();await expect(page.locator('.ic-sentence-token').first()).toContainText('23');
+ await open(page,'duration');await page.getByRole('spinbutton').fill('23');await page.getByRole('button',{name:'Confirm',exact:true}).click();await expect(page.locator('.ic-sentence-token').first()).toContainText('23');
  await open(page,'color');await expect(page.locator('.ic-agent-color-bottom input')).toHaveValue('#356FE4');const initial=await page.getByTestId('current-value').innerText();await page.getByRole('button',{name:'Close panel'}).click();expect(await page.getByTestId('current-value').innerText()).toBe(initial);
  await page.locator('.ic-sentence-token').first().click();await page.locator('.ic-agent-color-presets button').last().click();await expect(page.getByTestId('current-value')).not.toContainText('"color": "#356FE4"');
 });
@@ -26,17 +26,17 @@ for(const kind of ['font','palette','expert','skills','connectors','formats'] as
  await open(page,kind);const options=page.locator('.ic-demo-control-option');await options.first().click();await expect(options.first()).toHaveAttribute('aria-pressed','true');
  if(definition(kind).multiple){await options.nth(1).click();await expect(options.nth(1)).toHaveAttribute('aria-pressed','true');await expect(options.first()).toHaveAttribute('aria-pressed','true');}
  if(kind==='expert'){await options.nth(1).click();await expect(options.first()).toHaveAttribute('aria-pressed','false');await page.getByLabel('Search options').fill('no-such-person');await expect(page.getByText('No matches. Try another keyword.')).toBeVisible();await page.getByLabel('Search options').fill('');}
- await page.getByRole('button',{name:'Done',exact:true}).click();await expect(page.locator('.input-controls-popover')).toHaveCount(0);await expect(page.locator('.ic-sentence-token').first()).toHaveAttribute('data-semantic-state','default-selected');
+ await page.getByRole('button',{name:'Confirm',exact:true}).click();await expect(page.locator('.input-controls-popover')).toHaveCount(0);await expect(page.locator('.ic-sentence-token').first()).toHaveAttribute('data-semantic-state','default-selected');
 });
 const png=Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQIHWP4z8DwHwAFgAI/ScLbtAAAAABJRU5ErkJggg==','base64');
 test('files and images keep real bytes; images require confirmation and survive closing',async({page})=>{
- await open(page,'document');await page.locator('input[type=file]').setInputFiles({name:'a-very-long-product-reference-file-name.md',mimeType:'text/markdown',buffer:Buffer.from('# Fictional product\nLocal fixture')});await expect(page.getByTestId('current-value')).toContainText('a-very-long-product-reference-file-name.md');await page.getByRole('button',{name:'Done',exact:true}).click();
+ await open(page,'document');await page.locator('input[type=file]').setInputFiles({name:'a-very-long-product-reference-file-name.md',mimeType:'text/markdown',buffer:Buffer.from('# Fictional product\nLocal fixture')});await expect(page.getByTestId('current-value')).toContainText('a-very-long-product-reference-file-name.md');await page.getByRole('button',{name:'Confirm',exact:true}).click();
  await open(page,'photo');await page.locator('input[type=file]').setInputFiles({name:'product.png',mimeType:'image/png',buffer:png});await expect(page.getByTestId('current-value')).toContainText('"pendingImages": 1');await expect(page.locator('.controls-preview-stage>.ic-demo-materials .ic-demo-material')).toHaveCount(0);await page.getByRole('button',{name:'Close panel'}).click();await page.locator('.ic-sentence-token').first().click();await page.getByRole('button',{name:'Confirm images'}).click();await expect(page.getByTestId('current-value')).toContainText('product.png');await expect(page.getByTestId('current-value')).toContainText('"pendingImages": 0');
  await page.getByRole('button',{name:'Preview product.png'}).click();await expect(page.getByRole('dialog',{name:'product.png'})).toBeVisible();await page.keyboard.press('Escape');await page.getByRole('button',{name:'Remove product.png'}).click();await expect(page.getByTestId('current-value')).not.toContainText('product.png');
 });
 test('scaled sketch drawing, undo, clear and confirmation',async({page})=>{
  await open(page,'sketch');const canvas=page.locator('.ic-agent-sketch-surface');const r=(await canvas.boundingBox())!;await page.mouse.move(r.x+15,r.y+20);await page.mouse.down();await page.mouse.move(r.x+r.width*.7,r.y+r.height*.7,{steps:10});await page.mouse.up();await expect(canvas.locator('polyline')).toHaveCount(1);await page.getByRole('button',{name:'Undo strokes'}).click();await expect(canvas.locator('polyline')).toHaveCount(0);
- await page.mouse.move(r.x+10,r.y+10);await page.mouse.down();await page.mouse.move(r.x+100,r.y+80,{steps:8});await page.mouse.up();await page.getByRole('button',{name:'Adopt sketch'}).click();await expect(page.locator('.ic-demo-material')).toHaveCount(1);await page.locator('.ic-sentence-token').first().click();await expect(canvas.locator('polyline')).toHaveCount(1);await page.getByRole('button',{name:'Clear strokes'}).click();await expect(canvas.locator('polyline')).toHaveCount(0);
+ await page.mouse.move(r.x+10,r.y+10);await page.mouse.down();await page.mouse.move(r.x+100,r.y+80,{steps:8});await page.mouse.up();await page.getByRole('button',{name:'Confirm'}).click();await expect(page.locator('.ic-demo-material')).toHaveCount(1);await page.locator('.ic-sentence-token').first().click();await expect(canvas.locator('polyline')).toHaveCount(1);await page.getByRole('button',{name:'Clear strokes'}).click();await expect(canvas.locator('polyline')).toHaveCount(0);
 });
 async function mediaFixture(page:Page){await page.addInitScript(()=>{const streams:MediaStream[]=[];(window as any).__testStreams=streams;function acquire(){const canvas=document.createElement('canvas');canvas.width=640;canvas.height=360;const ctx=canvas.getContext('2d')!;ctx.fillStyle='#426fe4';ctx.fillRect(0,0,640,360);const stream=canvas.captureStream(24);streams.push(stream);const timer=setInterval(()=>{ctx.fillRect(0,0,640,360);if(stream.getTracks().every(t=>t.readyState==='ended'))clearInterval(timer);},40);return Promise.resolve(stream);}Object.defineProperty(navigator.mediaDevices,'getUserMedia',{value:acquire});Object.defineProperty(navigator.mediaDevices,'getDisplayMedia',{value:acquire});});}
 test('scanner camera/crop/confirm plus camera release; screen recording real blob via injected browser stream',async({page})=>{
@@ -179,7 +179,7 @@ test('resolved screen chips open region selection or the ready toolbar on the fi
   await page.mouse.up();
   await workspace.screenshot({path:info.outputPath('resolved-screenshot.png')});
   await workspace.getByRole('button', {name:'开始截屏'}).click();
-  await page.getByRole('button', {name:'确认材料'}).click();
+  await page.locator('.input-controls-popover').getByRole('button', {name:'确认材料'}).click();
   await expect(chip('screenshot')).toHaveText('截图');
   await expect(card.getByRole('button', {name:'查看 screenshot.png'})).toBeVisible();
 
@@ -197,7 +197,7 @@ test('resolved screen chips open region selection or the ready toolbar on the fi
   expect(await page.evaluate(() => (window as any).__starts)).toBe(1);
   await expect(workspace.getByRole('button', {name:/停止.*1s/})).toBeVisible();
   await workspace.getByRole('button', {name:/停止/}).click();
-  await page.getByRole('button', {name:'确认材料'}).click();
+  await page.locator('.input-controls-popover').getByRole('button', {name:'确认材料'}).click();
   await expect(card.getByRole('button', {name:'查看 recording.webm'})).toBeVisible();
   for (const [intent, name] of [['screenshot', 'screenshot.png'], ['recording', 'recording.webm']]) {
     await card.getByRole('button', {name:'移除 ' + name}).click();

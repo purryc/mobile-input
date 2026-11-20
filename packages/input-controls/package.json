@@ -1,6 +1,6 @@
 {
   "name": "@mobile-input/controls",
-  "version": "1.7.1",
+  "version": "1.8.0",
   "private": true,
   "type": "module",
   "exports": {
@@ -13,9 +13,9 @@
     "./sketch-geometry": "./src/sketch-geometry.ts"
   },
   "peerDependencies": {
+    "lucide-react": "^0.468.0",
     "react": "^19.1.0",
-    "react-dom": "^19.1.0",
-    "lucide-react": "^0.468.0"
+    "react-dom": "^19.1.0"
   },
   "scripts": {
     "pack:library": "node scripts/pack-library.mjs",
@@ -26,18 +26,19 @@
     "check": "tsc --noEmit",
     "test": "tsx --test tests/*.test.ts",
     "build": "tsc --noEmit && vite build",
-    "test:browser": "playwright test"
+    "test:browser": "playwright test",
+    "prepare:lumina": "node scripts/prepare-lumina-reference.mjs"
   },
   "devDependencies": {
-    "vite": "6.3.6",
-    "typescript": "5.8.3",
-    "tsx": "4.19.4",
+    "@playwright/test": "1.51.1",
+    "@types/node": "22.19.0",
     "@types/react": "19.1.0",
     "@types/react-dom": "19.1.0",
-    "@types/node": "22.19.0",
-    "@playwright/test": "1.51.1",
+    "lucide-react": "0.468.0",
     "react": "19.1.0",
     "react-dom": "19.1.0",
-    "lucide-react": "0.468.0"
+    "tsx": "4.19.4",
+    "typescript": "5.8.3",
+    "vite": "6.3.6"
   }
 }

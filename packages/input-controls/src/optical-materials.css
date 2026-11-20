@@ -1,0 +1,81 @@
+/* Calibrated directly from OpticalChip, morning-frost 0.42 / 0.72. */
+.input-controls-theme .ic-chip-surface[data-optical="needs-input"] {
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.62) 0%, rgba(240, 249, 255, 0.54) 100%);
+  box-shadow: rgba(255, 255, 255, 0.94) 0px 1.5px 0px inset, rgba(148, 197, 248, 0.16) 0px -1px 0px inset, rgba(30, 64, 120, 0.03) 0px 1px 3px;
+  backdrop-filter: blur(17px) saturate(180%);
+}
+
+.input-controls-theme .ic-chip-surface:is([data-optical="default-selected"],[data-optical="object-bound"]) {
+  background: linear-gradient(155deg, rgba(255, 255, 255, 0.83) 0%, rgba(244, 250, 255, 0.72) 100%);
+  box-shadow: rgba(255, 255, 255, 0.98) 0px 1.5px 0px inset, rgba(140, 206, 255, 0.2) 0px -1px 0px inset, rgba(46, 112, 198, 0.07) 0px 2px 6px -2px;
+  backdrop-filter: blur(17px) saturate(180%);
+  border: 1px solid rgba(136, 186, 236, 0.36);
+}
+
+.input-controls-theme .ic-chip-surface[data-optical="ambiguous-recommendation"] {
+  background: linear-gradient(122deg, rgb(86 199 249 / calc(0.47 * var(--ic-recommendation-pigment))) 0%, rgb(110 169 255 / calc(0.44 * var(--ic-recommendation-pigment))) 40%, rgb(162 150 255 / calc(0.42 * var(--ic-recommendation-pigment))) 76%, rgb(224 179 249 / calc(0.35 * var(--ic-recommendation-pigment))) 100%);
+  box-shadow: rgb(86 178 255 / calc(0.17 * var(--ic-recommendation-pigment))) 0px 4px 14px -3px, rgb(156 149 255 / calc(0.06 * var(--ic-recommendation-pigment))) 0px 1px 4px;
+}
+@media (hover: hover) and (pointer: fine) {
+  .input-controls-theme .ic-chip-surface[data-optical="ambiguous-recommendation"]:has(.ic-sentence-token:enabled:hover) {
+    background: linear-gradient(122deg, rgb(86 199 249 / calc(0.59 * var(--ic-recommendation-pigment))) 0%, rgb(110 169 255 / calc(0.56 * var(--ic-recommendation-pigment))) 40%, rgb(162 150 255 / calc(0.53 * var(--ic-recommendation-pigment))) 76%, rgb(224 179 249 / calc(0.44 * var(--ic-recommendation-pigment))) 100%);
+    box-shadow: rgb(86 178 255 / calc(0.216 * var(--ic-recommendation-pigment))) 0px 4px 14px -3px, rgb(156 149 255 / calc(0.06 * var(--ic-recommendation-pigment))) 0px 1px 4px;
+  }
+}
+.input-controls-theme .ic-chip-surface[data-optical="ambiguous-recommendation"] > .ic-optical-core {
+  background: linear-gradient(140deg, rgba(255, 255, 255, 0.76) 0%, rgba(239, 249, 255, 0.66) 56%, rgba(246, 241, 255, 0.66) 100%);
+  box-shadow: rgba(255, 255, 255, 0.96) 0px 1.5px 0px inset, rgba(255, 255, 255, 0.65) 1px 0px 0px inset, rgb(111 205 255 / calc(0.247 * var(--ic-recommendation-pigment))) 0px -1px 0px inset;
+  backdrop-filter: blur(21px) saturate(190%);
+}
+.input-controls-theme .ic-chip-surface[data-optical="expanded"] {
+  background: linear-gradient(142deg, rgba(232, 247, 255, 0.88) 0%, rgba(242, 243, 255, 0.84) 58%, rgba(255, 255, 255, 0.92) 100%);
+  box-shadow: rgba(56, 189, 248, 0.16) 0px 0px 0px 3px, rgba(255, 255, 255, 0.98) 0px 1.5px 0px inset, rgba(72, 196, 255, 0.3) 0px -1px 0px inset, rgba(42, 138, 232, 0.22) 0px 6px 16px -4px;
+  backdrop-filter: blur(19px) saturate(180%);
+  border: 1px solid rgba(56, 182, 255, 0.68);
+}
+.input-controls-theme .ic-chip-surface[data-optical="preparing"] {
+  background: linear-gradient(122deg, rgba(56, 189, 248, 0.29), rgba(91, 157, 255, 0.29), rgba(156, 136, 255, 0.29));
+}
+.input-controls-theme .ic-chip-surface[data-optical="preparing"] > .ic-optical-core {
+  background: linear-gradient(142deg, rgba(255, 255, 255, 0.82), rgba(244, 249, 255, 0.72));
+  box-shadow: rgba(255, 255, 255, 0.96) 0px 1px 0px inset;
+  backdrop-filter: blur(17px) saturate(180%);
+}
+.input-controls-theme .ic-chip-surface[data-optical="needs-input"][data-context="artifact"] {
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.72) 0%, rgba(236, 248, 255, 0.58) 100%);
+  box-shadow: rgba(255, 255, 255, 0.94) 0px 1.5px 0px inset, rgba(125, 204, 255, 0.22) 0px -1px 0px inset, rgba(32, 86, 178, 0.2) 0px 10px 24px -8px, rgba(15, 23, 42, 0.08) 0px 2px 8px -1px;
+  backdrop-filter: blur(21px) saturate(180%);
+}
+
+.input-controls-theme .ic-chip-surface:is([data-optical="default-selected"],[data-optical="object-bound"])[data-context="artifact"] {
+  background: linear-gradient(155deg, rgba(255, 255, 255, 0.88) 0%, rgba(244, 250, 255, 0.76) 100%);
+  box-shadow: rgba(255, 255, 255, 0.98) 0px 1.5px 0px inset, rgba(125, 206, 255, 0.24) 0px -1px 0px inset, rgba(32, 86, 178, 0.2) 0px 10px 24px -8px, rgba(15, 23, 42, 0.08) 0px 2px 8px -1px;
+  backdrop-filter: blur(21px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.88);
+}
+
+.input-controls-theme .ic-chip-surface[data-optical="ambiguous-recommendation"][data-context="artifact"] {
+  background: linear-gradient(122deg, rgb(86 199 249 / calc(0.59 * var(--ic-recommendation-pigment))) 0%, rgb(110 169 255 / calc(0.56 * var(--ic-recommendation-pigment))) 40%, rgb(162 150 255 / calc(0.53 * var(--ic-recommendation-pigment))) 76%, rgb(224 179 249 / calc(0.44 * var(--ic-recommendation-pigment))) 100%);
+  box-shadow: rgb(74 150 235 / calc(0.28 * var(--ic-recommendation-pigment))) 0px 10px 26px -6px, rgba(51, 58, 74, 0.09) 0px 2px 8px;
+}
+@media (hover: hover) and (pointer: fine) {
+  .input-controls-theme .ic-chip-surface[data-optical="ambiguous-recommendation"][data-context="artifact"]:has(.ic-sentence-token:enabled:hover) {
+    box-shadow: rgb(74 150 235 / calc(.28 * var(--ic-recommendation-pigment))) 0 10px 26px -6px, rgba(51, 58, 74, .09) 0 2px 8px;
+    background: linear-gradient(122deg, rgb(86 199 249 / calc(0.71 * var(--ic-recommendation-pigment))) 0%, rgb(110 169 255 / calc(0.67 * var(--ic-recommendation-pigment))) 40%, rgb(162 150 255 / calc(0.64 * var(--ic-recommendation-pigment))) 76%, rgb(224 179 249 / calc(0.52 * var(--ic-recommendation-pigment))) 100%);
+  }
+}
+.input-controls-theme .ic-chip-surface[data-optical="ambiguous-recommendation"][data-context="artifact"] > .ic-optical-core {
+  background: linear-gradient(140deg, rgba(255, 255, 255, 0.84) 0%, rgba(239, 249, 255, 0.72) 56%, rgba(246, 241, 255, 0.72) 100%);
+  backdrop-filter: blur(25px) saturate(190%);
+}
+.input-controls-theme .ic-chip-surface[data-optical="expanded"][data-context="artifact"] {
+  box-shadow: rgba(56, 189, 248, 0.25) 0px 0px 0px 3px, rgba(255, 255, 255, 0.98) 0px 1.5px 0px inset, rgba(72, 196, 255, 0.36) 0px -1px 0px inset, rgba(32, 92, 198, 0.26) 0px 14px 30px -8px, rgba(15, 23, 42, 0.1) 0px 4px 10px -1px;
+  backdrop-filter: blur(23px) saturate(180%);
+}
+.input-controls-theme .ic-chip-surface[data-optical="preparing"][data-context="artifact"] {
+  box-shadow: rgba(32, 86, 178, 0.2) 0px 10px 24px -8px, rgba(15, 23, 42, 0.08) 0px 2px 8px -1px;
+}
+.input-controls-theme .ic-chip-surface[data-optical="preparing"][data-context="artifact"] > .ic-optical-core {
+  background: linear-gradient(142deg, rgba(255, 255, 255, 0.86), rgba(242, 248, 255, 0.78));
+  backdrop-filter: blur(21px) saturate(180%);
+}

@@ -40,10 +40,10 @@ test('all 13 live cards share one page and expose each typed component source', 
 
   for (const kind of controlKinds) {
     const widgetCard = card(page, kind);
-    await expect(widgetCard.locator('[data-example]')).toHaveCount(kind === 'capture' ? 5 : kind === 'document' ? 2 : 3);
+    await expect(widgetCard.locator('[data-example]')).toHaveCount(kind === 'capture' ? 5 : 3);
     const selected = materials.includes(kind) ? 'object-bound' : 'default-selected';
     if (kind === 'document') await expect(chip(page, kind)).toHaveAccessibleDescription('待补充');
-    else await expect(chip(page, kind, selected)).toHaveAccessibleDescription('已选');
+    await expect(chip(page, kind, selected)).toHaveAccessibleDescription('已选');
     await expect(widgetCard.locator('.lite-widget-preview[open] .lite-widget-body')).toBeVisible();
     await expect(widgetCard.locator('.lite-composer-preview .lite-preview-prose')).toHaveAttribute('aria-hidden', 'true');
     await expect(chip(page, kind, 'ambiguous-recommendation').locator('.ic-demo-chip-smart')).toBeVisible();
@@ -99,15 +99,15 @@ test('keyboard recommendation removal and singleton panel preserve isolated comp
   await page.keyboard.press('Escape');
 
   const standalone = card(page, 'duration').locator('.lite-widget-preview');
-  await standalone.getByRole('button', {name: '增加一分钟'}).click();
-  await expect(standalone.getByRole('spinbutton')).toHaveValue('11');
-  await standalone.getByRole('button', {name: '增加一分钟'}).click();
-  await expect(standalone.getByRole('spinbutton')).toHaveValue('12');
-  await standalone.getByRole('button', {name: '完成选择'}).click();
+  await standalone.getByRole('button', {name: '增加一秒'}).click();
+  await expect(standalone.getByRole('spinbutton')).toHaveValue('16');
+  await standalone.getByRole('button', {name: '增加一秒'}).click();
+  await expect(standalone.getByRole('spinbutton')).toHaveValue('17');
+  await standalone.getByRole('button', {name: '确认'}).click();
   await expect(standalone).not.toHaveAttribute('open', '');
   await expect(selectedTime).toContainText('11分钟');
   await standalone.locator('summary').click();
-  await expect(standalone.getByRole('spinbutton')).toHaveValue('12');
+  await expect(standalone.getByRole('spinbutton')).toHaveValue('17');
   await standalone.getByRole('button', {name: '关闭辅助输入'}).click();
   await expect(standalone).not.toHaveAttribute('open', '');
   await selectedTime.click();
@@ -135,7 +135,7 @@ test('keyboard recommendation removal and singleton panel preserve isolated comp
 test('local documents bind to the same chip, keep bytes and reset when the last file is removed', async ({page}) => {
   await page.goto(route + 'document');
   const pending = example(page, 'document');
-  const pendingMaterials = pending.locator('.lite-document-materials');
+  const pendingMaterials = panel(page).getByRole('list', {name:'已选文件'});
   const entry = chip(page, 'document');
   const filename = 'a-very-long-product-reference-attachment-name-that-does-not-fit-the-chip.txt';
   await entry.click();
@@ -157,19 +157,21 @@ test('local documents bind to the same chip, keep bytes and reset when the last 
   await expect(entry.locator('.ic-chip-object-count')).toHaveText('+1');
   await expect(pending.locator('.ic-demo-chip-remove')).toHaveAccessibleName('移除 ' + filename);
   const label = entry.locator('.ic-demo-chip-label');
-  expect(await label.evaluate(element => element.scrollWidth > element.clientWidth)).toBe(true);
+  await expect(label).toHaveText('a-very...');
 
   await search.fill('notes.md');
   await expect(panel(page).getByRole('button', {name:'查看 notes.md'})).toBeVisible();
   await expect(panel(page)).not.toContainText('没有匹配项');
+  await search.fill('');
   await pendingMaterials.getByRole('button', {name: '查看 ' + filename}).click();
   await expect(page.getByRole('dialog', {name: filename})).toContainText('Reference file contents');
   await page.keyboard.press('Escape');
   await pendingMaterials.getByRole('button', {name: '移除 ' + filename}).click();
-  await expect(entry).toContainText('notes.md');
+  await expect(entry).toContainText('notes....');
   await pendingMaterials.getByRole('button', {name: '移除 notes.md'}).click();
   await expect(entry).toHaveAttribute('data-semantic-state', 'needs-input');
-  await expect(card(page, 'document').getByRole('listitem')).toHaveCount(0);
+  await expect(pending.getByRole('listitem')).toHaveCount(0);
+  await expect(example(page,'document','object-bound').getByRole('listitem')).toHaveCount(0);
 });
 
 test('gallery, scan, sketch and screen materials bind only on confirmation', async ({page}) => {
@@ -198,14 +200,14 @@ test('gallery, scan, sketch and screen materials bind only on confirmation', asy
   await page.keyboard.press('Escape');
   await chip(page, 'photo').click();
   await panel(page).getByRole('button', {name: '确认图片选择'}).click();
-  await expect(chip(page, 'photo')).toContainText('image.png');
+  await expect(chip(page, 'photo')).toContainText('image....');
   await expect(chip(page, 'photo')).toHaveAttribute('data-semantic-state', 'object-bound');
   await chip(page, 'photo').click();
-  await expect(panel(page).getByRole('button', {name: '确认图片选择'})).toHaveCount(0);
+  await expect(panel(page).getByRole('button', {name: '确认图片选择'})).toBeDisabled();
   await example(page, 'photo').locator('input[type=file]').setInputFiles({...pendingImage, name: 'new-preview.png'});
-  await expect(chip(page, 'photo')).toHaveText('image.png');
+  await expect(chip(page, 'photo')).toHaveText('image....');
   await panel(page).getByRole('button', {name: '移除 new-preview.png'}).click();
-  await expect(chip(page, 'photo')).toHaveText('image.png');
+  await expect(chip(page, 'photo')).toHaveText('image....');
   await panel(page).getByRole('button', {name: '关闭辅助输入'}).click();
 
   await chip(page, 'scanner').click();
@@ -218,13 +220,18 @@ test('gallery, scan, sketch and screen materials bind only on confirmation', asy
   await chip(page, 'sketch').click();
   const canvas = panel(page).locator('.ic-agent-sketch-surface');
   await canvas.scrollIntoViewIfNeeded();
-  const box = (await canvas.boundingBox())!;
-  await page.mouse.move(box.x + 14, box.y + 14);
+  // Near the viewport bottom the panel scrolls. Draw inside the visible canvas.
+  const point = await canvas.evaluate(el => {
+    const box = el.getBoundingClientRect();
+    const clip = el.closest('.ic-live-wb-aux')!.getBoundingClientRect();
+    return {x:box.left+box.width/2, y:(Math.max(0,box.top,clip.top)+Math.min(innerHeight,box.bottom,clip.bottom))/2};
+  });
+  await page.mouse.move(point.x-20, point.y);
   await page.mouse.down();
-  await page.mouse.move(box.x + 65, box.y + 55, {steps: 6});
+  await page.mouse.move(point.x+20, point.y+4, {steps:6});
   await page.mouse.up();
   await expect(chip(page, 'sketch')).toHaveAttribute('data-semantic-state', 'needs-input');
-  await panel(page).getByRole('button', {name: '采用布局草图'}).click();
+  await panel(page).getByRole('button', {name: '确认'}).click();
   await expect(chip(page, 'sketch')).toHaveAttribute('data-semantic-state', 'object-bound');
 
   await chip(page, 'capture').click();
@@ -234,7 +241,7 @@ test('gallery, scan, sketch and screen materials bind only on confirmation', asy
   await expect(chip(page, 'capture')).toHaveAttribute('data-semantic-state', 'needs-input');
   await panel(page).getByRole('button', {name: '确认材料'}).click();
   await expect(chip(page, 'capture')).toHaveAttribute('data-semantic-state', 'object-bound');
-  await expect(chip(page, 'capture')).toContainText('screenshot.png');
+  await expect(chip(page, 'capture')).toContainText('screen...');
 
   for (const kind of ['photo', 'scanner', 'sketch', 'capture'] as const) {
     await chip(page, kind).click();
@@ -253,14 +260,14 @@ test('responsive cards keep the native time panel geometry and original playgrou
     await page.setViewportSize({width, height: 960});
     await page.goto('/compact.html?qaWidth=' + width + '#/duration');
     await chip(page, 'duration', 'default-selected').click();
-    const anchor = (await chip(page, 'duration', 'default-selected').boundingBox())!;
+    const anchor = (await example(page, 'duration', 'default-selected').locator('.controls-chip-anchor').boundingBox())!;
     const box = (await panel(page).boundingBox())!;
-    const left = Math.max(8, Math.min(anchor.x - 2, width - box.width - 8));
+    const left = Math.max(8, Math.min(anchor.x, width - box.width - 8));
     expect(box.x).toBeCloseTo(left, 0);
     expect(box.y).toBeCloseTo(anchor.y + anchor.height + 8, 0);
-    expect(box.width).toBe(288);
+    expect(box.width).toBe(Math.min(width-16,432));
     expect(box.x + box.width).toBeLessThanOrEqual(width);
-    await expect(panel(page).locator('.ic-live-wb-duration button').first()).toHaveCSS('border-top-style', 'none');
+    await expect(panel(page).locator('.ic-time-stepper button').first()).toHaveCSS('border-top-style', 'none');
     if (width === 1280) await page.screenshot({path: info.outputPath('duration-open.png')});
     await page.keyboard.press('Escape');
 
@@ -318,6 +325,43 @@ test('widget descriptions stay outside every live preview and draft text stays i
   }
 });
 
+for (const width of [1440, 390]) {
+  test('camera waiting message and shutter are centered at ' + width, async ({page}, info) => {
+    await page.setViewportSize({width, height: 960});
+    await page.addInitScript(() => Object.defineProperty(navigator.mediaDevices, 'getUserMedia', {
+      value: () => new Promise<MediaStream>(() => {}),
+    }));
+    await page.goto(route + 'scanner');
+    const standalone = page.locator('[data-widget=scanner] .lite-inline-panel');
+    for (const surface of ['standalone', 'chip']) {
+      const host = surface === 'standalone' ? standalone : panel(page);
+      if (surface === 'chip') await chip(page, 'scanner', 'object-bound').click();
+      for (const mode of ['拍照', '文档扫描']) {
+        await host.getByRole('button', {name: mode, exact: true}).click();
+        const frame = host.locator('.ic-demo-capture-viewport');
+        const status = frame.getByRole('status');
+        const shutter = host.getByRole('button', {name: '拍摄', exact: true});
+        await expect(status).toHaveText('正在等待画面…');
+        await expect(shutter).toBeDisabled();
+        const bounds = (await frame.boundingBox())!;
+        const button = (await shutter.boundingBox())!;
+        const message = await status.evaluate(node => {
+          const range = document.createRange();
+          range.selectNodeContents(node);
+          return range.getBoundingClientRect().toJSON();
+        });
+        const center = bounds.x + bounds.width / 2;
+        expect(Math.abs(message.x + message.width / 2 - center)).toBeLessThan(1);
+        expect(Math.abs(message.y + message.height / 2 - bounds.y - bounds.height / 2)).toBeLessThan(2);
+        expect(Math.abs(button.x + button.width / 2 - center)).toBeLessThan(1);
+        expect(button.y).toBeGreaterThanOrEqual(bounds.y + bounds.height);
+        expect(await frame.evaluate(node => getComputedStyle(node, '::before').content)).toBe('none');
+      }
+      await host.locator('.ic-demo-capture-panel').screenshot({path: info.outputPath(surface + '-camera-waiting.png')});
+    }
+  });
+}
+
 test('passive catalog waits for a mode; scan intent opens directly and permits retry', async ({page}) => {
   await page.addInitScript(() => {
     (window as any).__cameraRequests = 0;
@@ -352,7 +396,7 @@ for (const presentation of ['chip', 'inline']) {
     const host = presentation === 'inline' ? inline : selected;
     const view = presentation === 'inline' ? inline.locator('.lite-inline-panel') : panel(page);
     if (presentation === 'chip') await selected.locator('.ic-sentence-token').click();
-    const attachments = presentation === 'inline' ? view.locator('.ic-document-file-list') : host.locator('.lite-document-materials');
+    const attachments = view.locator('.ic-document-file-list');
     const search = view.getByLabel('搜索候选');
     const remove = (name: string) => view.getByRole('button', {name: '移除 ' + name, exact:true});
     await expect(view.getByRole('listitem')).toHaveCount(0);
@@ -397,12 +441,13 @@ test('confirmed materials expose remove without opening any picker', async ({pag
     if (kind === 'document') {
       await item.locator('.ic-sentence-token').click();
       await item.locator('input[type=file]').setInputFiles({name:'manual.txt',mimeType:'text/plain',buffer:Buffer.from('Manual')});
-      await panel(page).getByRole('button', {name:'完成选择'}).click();
+      await panel(page).getByRole('button', {name:'确认'}).click();
     }
     const opener = item.locator('.ic-sentence-token');
     const remove = item.locator('.ic-demo-chip-remove');
     await expect(remove).toBeVisible();
-    await expect(item.locator('.lite-document-materials').getByRole('button', {name:/^移除 /})).toBeVisible();
+    if (kind === 'document') await expect(item.getByRole('listitem')).toHaveCount(0);
+    else await expect(item.locator('.lite-document-materials').getByRole('button', {name:/^移除 /})).toBeVisible();
     await expect(opener).toHaveAttribute('aria-expanded','false');
     if (kind === 'photo') {
       await page.mouse.move(0,0);
@@ -420,19 +465,32 @@ test('confirmed materials expose remove without opening any picker', async ({pag
   }
 });
 
-test('standalone document still exposes the selected row while collapsed', async ({page}) => {
+test('standalone document keeps files inside the picker across collapse and reopen', async ({page}) => {
   await page.goto(route + 'document');
   const stage = card(page,'document').locator('.lite-composer-preview');
   const example = stage.locator('details.lite-widget-preview');
   await example.locator('input[type=file]').setInputFiles({name:'manual.txt', mimeType:'text/plain',buffer:Buffer.from('Manual')});
   await example.locator('summary').click();
   const cardOutside = stage.locator('details.lite-widget-preview + .lite-document-materials');
-  await cardOutside.getByRole('button',{name:'查看 manual.txt'}).click();
-  await expect(page.getByRole('dialog',{name:'manual.txt'})).toBeVisible();
-  await page.keyboard.press('Escape');
-  await cardOutside.getByRole('button',{name:'移除 manual.txt'}).click();
   await expect(example).not.toHaveAttribute('open','');
   await expect(cardOutside).toHaveCount(0);
+  await example.locator('summary').click();
+  const row = example.getByRole('listitem');
+  const preview = row.getByRole('button',{name:'查看 manual.txt'});
+  const remove = row.getByRole('button',{name:'移除 manual.txt'});
+  const bounds = (await row.boundingBox())!;
+  const hit = (await preview.boundingBox())!;
+  expect(bounds.width - hit.width).toBeLessThanOrEqual(2);
+  expect(bounds.height - hit.height).toBeLessThanOrEqual(2);
+  await preview.focus();
+  await page.keyboard.press('Enter');
+  await expect(page.getByRole('dialog',{name:'manual.txt'})).toContainText('Manual');
+  await page.keyboard.press('Escape');
+  await expect(preview).toBeFocused();
+  await page.keyboard.press('Tab');
+  await expect(remove).toBeFocused();
+  await page.keyboard.press('Enter');
+  await expect(row).toHaveCount(0);
 });
 
 test('closed multi-file picker removes only the labelled attachment even with repeated names', async ({page}) => {
@@ -443,15 +501,17 @@ test('closed multi-file picker removes only the labelled attachment even with re
   await host.locator('input[type=file]').setInputFiles(['first bytes', 'second bytes'].map(value => ({
     name:'same.txt', mimeType:'text/plain', buffer:Buffer.from(value),
   })));
-  await panel(page).getByRole('button',{name:'完成选择'}).click();
+  await panel(page).getByRole('button',{name:'确认'}).click();
   await expect(opener.locator('.ic-chip-object-count')).toHaveText('+1');
   await host.locator('.ic-demo-chip-remove').click();
   await expect(panel(page)).toHaveCount(0);
   await expect(opener.locator('.ic-chip-object-count')).toHaveCount(0);
-  await host.getByRole('button',{name:'查看 same.txt'}).click();
+  await expect(host.getByRole('listitem')).toHaveCount(0);
+  await opener.click();
+  await panel(page).getByRole('button',{name:'查看 same.txt'}).click();
   await expect(page.getByRole('dialog',{name:'same.txt'})).toContainText('second bytes');
   await page.keyboard.press('Escape');
-  await host.getByRole('listitem').getByRole('button',{name:'移除 same.txt'}).click();
+  await panel(page).getByRole('listitem').getByRole('button',{name:'移除 same.txt'}).click();
   await expect(opener).toHaveAttribute('data-semantic-state','needs-input');
 });
 
@@ -474,7 +534,7 @@ test('Windows font picker shows ten real specimens and retains the selected fami
   await expect(picker.locator('.ic-demo-choice-footer')).toHaveText('');
   await expect(options).toHaveAccessibleName('楷体');
   await expect(options).toHaveAttribute('aria-pressed', 'true');
-  await picker.getByRole('button', {name:'完成选择'}).click();
+  await picker.getByRole('button', {name:'确认'}).click();
   await expect(entry).toContainText('楷体');
   await entry.click();
   await expect(picker.getByRole('button', {name:'楷体', exact:true})).toHaveAttribute('aria-pressed', 'true');
@@ -483,4 +543,39 @@ test('Windows font picker shows ten real specimens and retains the selected fami
   await chip(page, 'font').click();
   await picker.getByRole('textbox').fill('仿宋');
   await expect(picker.getByRole('button', {name:'FangSong', exact:true})).toBeVisible();
+});
+
+test('mixed sentence generates recommendations without replacing resolved values or files', async ({page}) => {
+  await page.goto('/compact.html');
+  const scene = page.locator('.lite-sentence-example');
+  await expect(scene.locator('[data-optical=preparing]')).toHaveCount(3);
+  const file = scene.locator('[data-kind=document]');
+  await expect(file).toContainText('+2');
+  await expect(scene.locator('[data-optical=ambiguous-recommendation]')).toHaveCount(3);
+  await scene.getByRole('button',{name:'重播生成'}).click();
+  await expect(scene.locator('[data-optical=preparing]')).toHaveCount(3);
+  await expect(file).toContainText('产品资料.p...');
+  await expect(scene.locator('[data-optical=preparing]')).toHaveCount(0);
+  await file.click();
+  await expect(panel(page).getByRole('listitem')).toHaveCount(3);
+  await panel(page).getByRole('button',{name:'移除 演讲提纲.txt'}).click();
+  await expect(file).toContainText('+1');
+  await panel(page).getByRole('button',{name:'重置'}).click();
+  await expect(file).toContainText('+2');
+});
+
+test('each standalone footer is labelled and format reset restores the opening selection', async ({page}) => {
+  await page.goto('/compact.html#/formats');
+  for (const kind of controlKinds) {
+    const footer=card(page, kind).locator('.lite-inline-panel .ic-widget-footer');
+    await expect(footer.getByRole('button').first()).toHaveText('重置');
+    await expect(footer.getByRole('button').last()).toHaveText('确认');
+  }
+  const view=card(page,'formats').locator('.lite-inline-panel');
+  const word=view.getByRole('button',{name:'Word',exact:true});
+  await word.click();
+  await expect(word).toHaveAttribute('aria-pressed','true');
+  await view.getByRole('button',{name:'重置'}).click();
+  await expect(word).toHaveAttribute('aria-pressed','false');
+  await expect(view.getByRole('button',{name:'PDF',exact:true})).toHaveAttribute('aria-pressed','true');
 });

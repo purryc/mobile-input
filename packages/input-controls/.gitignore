@@ -7,3 +7,6 @@ playwright-report/
 !.env.example
 .DS_Store
 public/generated/
+
+# Built locally from the supplied Lumina reference archive.
+tests/lumina-reference/

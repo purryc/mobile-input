@@ -80,7 +80,7 @@ try {
   await expect(increment).toHaveCSS('border-top-style', 'none');
   await increment.click();
   await expect(panel.getByRole('spinbutton')).toHaveValue('11');
-  await panel.getByRole('button', {name: '完成选择'}).click();
+  await panel.getByRole('button', {name: '确认', exact: true}).click();
   await expect(page.getByRole('button', {name: '演讲时长 11分钟'})).toBeVisible();
   console.log('Verified npm installation, 13 imports, types, assets and the production React example.');
 } finally {

@@ -1,0 +1,220 @@
+/* Layout and light layers of OpticalChip at its morning-frost default. */
+.input-controls-theme .ic-sentence-token-hit {
+  display: inline-flex; align-items: center; vertical-align: middle; max-width: 100%;
+  height: auto; padding: 0; user-select: none; white-space: nowrap;
+}
+.input-controls-theme .ic-chip-surface {
+  --ic-h: 32px; --ic-type: 15px; --ic-leading: 22px; --ic-pad: 8px; --ic-entity: 18px; --ic-swatch: 18px; --ic-star: 14px; --ic-close: 24px;
+  display: inline-flex; position: relative; align-items: stretch; vertical-align: middle;
+  height: var(--ic-h); max-width: 100%; min-width: 0; border-radius: 12px;
+  font-family: "Noto Sans SC","InputControls Noto Sans SC","Plus Jakarta Sans",-apple-system,BlinkMacSystemFont,sans-serif;
+  transition: var(--ic-glass-transition);
+}
+.input-controls-theme .ic-chip-surface[data-size="specimen"] {
+  --ic-h: 38px; --ic-type: 14px; --ic-leading: 21px; --ic-pad: 12px; --ic-badge-offset: 2px; --ic-entity: 17px; --ic-swatch: 12px; --ic-star: 16px; --ic-close: 26px;
+}
+.ic-chip-surface > .ic-optical-core {
+  display: flex; align-items: center; position: relative; min-width: 0; max-width: 100%;
+  border-radius: inherit; overflow: hidden;
+}
+.input-controls-theme .ic-chip-surface .ic-sentence-token {
+  appearance: none; display: inline-flex; align-items: center; justify-content: center; position: relative; z-index: 1;
+  gap: 6px; height: 100%; min-height: 0; min-width: 0; padding: 0 var(--ic-pad); margin: 0;
+  color: #14203c; border: 0; border-radius: inherit; background: transparent; box-shadow: none;
+  font: 500 var(--ic-type)/var(--ic-leading) "Noto Sans SC","InputControls Noto Sans SC","Plus Jakarta Sans",-apple-system,BlinkMacSystemFont,sans-serif;
+  letter-spacing: -.01em; white-space: nowrap;
+}
+.input-controls-theme .ic-chip-surface .ic-sentence-token > .ic-sentence-token-face {display: contents;}
+.input-controls-theme .ic-chip-surface .ic-sentence-token-face > * {position: relative; flex: none;}
+.input-controls-theme .ic-chip-surface .ic-sentence-token-face > .ic-demo-chip-label {
+  flex: 0 1 auto; line-height: var(--ic-leading); min-width: 0; overflow: visible;
+}
+.input-controls-theme [data-optical="object-bound"] .ic-demo-chip-label,
+.input-controls-theme [data-optical="default-selected"] .ic-demo-chip-label {max-width: 168px; overflow: hidden; text-overflow: ellipsis;}
+.input-controls-theme .ic-chip-surface[data-dismiss] .ic-sentence-token,
+.input-controls-theme .ic-chip-surface:is([data-optical="ambiguous-recommendation"],[data-optical="preparing"][data-semantic-state="ambiguous-recommendation"]) .ic-sentence-token {padding-right: 6px;}
+.ic-chip-surface .ic-optical-entity {width: var(--ic-entity); height: var(--ic-entity); object-fit: contain; color: #2d5086;}
+.ic-chip-surface .ic-optical-swatch {box-sizing: border-box; width: var(--ic-swatch); height: var(--ic-swatch); border: 1px solid #18243126; border-radius: 50%; box-shadow: inset 0 1px 1px #ffffff73;}
+.ic-optical-dash,.ic-optical-fresnel,.ic-optical-envelope {
+  position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none;
+}
+.ic-optical-dash rect {width: calc(100% - 1.5px); height: calc(100% - 1.5px); stroke-width: 1.15px;}
+.ic-optical-dash stop:first-child {stop-color: #7caad8; stop-opacity: .52;}
+.ic-optical-dash stop:last-child {stop-color: #95a7cb; stop-opacity: .46;}
+[data-context="artifact"] .ic-optical-dash stop:first-child {stop-opacity: .68;}
+[data-context="artifact"] .ic-optical-dash stop:last-child {stop-opacity: .60;}
+.input-controls-theme [data-optical="needs-input"] .ic-sentence-token {color: #394c6e;}
+[data-optical="needs-input"] .ic-optical-entity {color: #4b6488;}
+.input-controls-theme .ic-chip-surface .ic-chip-needs-plus {width: 13px; height: 13px; margin-inline-start: var(--ic-badge-offset, 0px); color: #7390b8;}
+.ic-optical-fresnel {background:linear-gradient(132deg,rgba(255,255,255,.58),rgba(255,255,255,.08) 38%,transparent 56%,rgba(96,198,255,.08));}
+.input-controls-theme .ic-chip-surface .ic-chip-object-count {
+  color: #2a7be4; margin-inline-start: var(--ic-badge-offset, 0px); font: 500 12px/1.5 "JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace; font-variant-numeric: tabular-nums;
+}
+.ic-optical-divider {position:relative; flex:none; width:1px; height:12px; background:rgba(147,184,226,.35);}
+.input-controls-theme .ic-sentence-token-hit .ic-demo-chip-remove {
+  display:inline-flex; align-items:center; justify-content:center; position:relative; flex:none;
+  width:var(--ic-close,24px); height:var(--ic-close,24px); min-width:0; min-height:0;
+  margin:0 4px; padding:0; border:0; border-radius:8px; z-index:1; font:inherit; color:#7892b5; background:transparent;
+}
+.ic-optical-close {width:12px;height:12px;}
+.input-controls-theme .ic-chip-surface[data-optical="ambiguous-recommendation"],
+.input-controls-theme .ic-chip-surface[data-optical="preparing"] {padding:1px;}
+.ic-chip-surface:is([data-optical="ambiguous-recommendation"],[data-optical="preparing"]) > .ic-optical-core {border-radius:11px;}
+.input-controls-theme [data-optical="ambiguous-recommendation"] .ic-sentence-token {color:#152444;}
+[data-optical="ambiguous-recommendation"] .ic-optical-entity {color:#1f4a84;}
+[data-optical="ambiguous-recommendation"] .ic-optical-divider {background:#7fb6ea4d;}
+[data-optical="ambiguous-recommendation"] .ic-optical-fresnel {background:linear-gradient(132deg,#ffffff9e,#ffffff1f 36%,transparent 56%,rgb(86 196 255 / calc(0.102 * var(--ic-recommendation-pigment))));}
+.ic-optical-well,.ic-optical-mist,.ic-optical-drift,.ic-optical-beam {position:absolute;pointer-events:none;}
+.ic-optical-well {right:-4px;top:50%;translate:0 -50%;width:96px;height:52px;border-radius:999px;filter:blur(12px);background:radial-gradient(circle at 38% 50%,rgb(86 199 249 / calc(.262 * var(--ic-recommendation-pigment))),rgb(156 149 255 / calc(.201 * var(--ic-recommendation-pigment))) 48%,rgb(225 179 249 / calc(.122 * var(--ic-recommendation-pigment))) 78%,transparent);}
+.ic-optical-mist {left:-12px;top:-16px;width:72px;height:34px;border-radius:999px;filter:blur(10px);background:radial-gradient(circle,rgb(111 212 255 / calc(.168 * var(--ic-recommendation-pigment))),transparent 72%);}
+.ic-optical-drift {inset:0 auto 0 0;width:44%;--sheen-peak:.49;background:linear-gradient(90deg,transparent,#ffffffeb 48%,rgb(165 232 255 / calc(.55 * var(--ic-recommendation-pigment))) 62%,transparent);}
+.input-controls-theme .ic-chip-surface .ic-demo-chip-smart {display:inline-flex;align-items:center;justify-content:center;width:var(--ic-star);height:var(--ic-star);}
+.input-controls-theme .ic-chip-surface .ic-demo-chip-smart > * {width:100%;height:100%;}
+.input-controls-theme [data-optical="expanded"] .ic-sentence-token {color:#143066;}
+[data-optical="expanded"] .ic-optical-entity {color:#1a84f0;}
+/* Invisible content reserves the resolved label and dismissal width during generation. */
+[data-optical="preparing"] :is(.ic-sentence-token,.ic-optical-divider),
+.ic-demo-chip-remove[aria-hidden="true"] {visibility:hidden;}
+.ic-optical-loading {position:absolute;inset:0;pointer-events:none;}
+.ic-optical-skeleton {position:absolute;inset:0;display:flex;align-items:center;gap:8px;padding:0 10px;pointer-events:none;}
+.ic-optical-skeleton .ic-optical-bar {flex:1;}
+
+.ic-optical-dot,.ic-optical-bar {border-radius:999px;}
+.ic-optical-dot {width:14px;height:14px;background:#cbd5e1a6;}
+.ic-optical-bar {width:64px;height:10px;background:#e2e8f0cc;}
+.ic-optical-prep-star {width:14px;height:14px;opacity:.8;}
+.ic-optical-envelope {overflow:hidden;}
+.ic-optical-beam {inset:0 auto 0 0;width:64%;background:linear-gradient(90deg,transparent,#ffffffeb 42%,rgba(125,211,252,.38) 60%,transparent);}
+.input-controls-theme .ic-chip-surface [hidden] {display:none;}
+.input-controls-theme .ic-chip-surface button:focus-visible {outline:2px solid #409fdd;outline-offset:-2px;}
+.ic-chip-surface:has(button:focus-visible) {outline:2px solid #38bdf873;outline-offset:2px;}
+@media(prefers-reduced-motion:no-preference) {
+  .ic-chip-surface button:active:not(:disabled) {scale:.985;}
+  .ic-chip-surface[data-optical="ambiguous-recommendation"][data-motion="true"] {animation:ic-chip-fade-in 650ms ease-in-out var(--ic-phase,0ms) both;}
+  .ic-chip-surface[data-optical="preparing"][data-motion="true"] {animation:ic-preparing-fade-in 320ms ease-out var(--ic-shell-phase,0ms) both;}
+  [data-motion="true"] :is(.ic-optical-envelope,.ic-optical-skeleton) {
+    animation:ic-preparing-glow-fade-in 220ms ease calc(320ms + var(--ic-loading-phase,var(--ic-shell-phase,0ms))) both;
+  }
+  .ic-chip-surface[data-from-loading][data-motion="true"] {
+    animation:ic-preparing-fade-in 320ms ease-out var(--ic-shell-phase,0ms) both;
+  }
+  [data-from-loading][data-motion="true"] :is(.ic-optical-skeleton,.ic-optical-envelope,.ic-optical-beam) {animation-play-state:paused;}
+  [data-from-loading][data-motion="true"] .ic-optical-loading {
+    animation:ic-loading-exit 260ms ease var(--ic-phase,0ms) both;
+  }
+  [data-from-loading][data-motion="true"] :is(.ic-sentence-token,.ic-optical-divider,.ic-demo-chip-remove) {
+    animation:ic-preparing-glow-fade-in 260ms ease var(--ic-phase,0ms) both;
+  }
+  [data-motion="true"] .ic-optical-beam {animation:ic-preparing-shimmer 2s cubic-bezier(.37,0,.25,1) calc(320ms + var(--ic-loading-phase,var(--ic-shell-phase,0ms))) infinite backwards;}
+  [data-motion="true"] .ic-optical-drift {animation:ic-optical-sheen-sweep 7.6s cubic-bezier(.22,1,.36,1) var(--ic-phase,0ms) infinite;}
+  [data-motion="true"] .ic-optical-well {animation:ic-caustics-breath 5.4s ease-in-out var(--ic-phase,0ms) infinite;}
+  [data-optical="ambiguous-recommendation"][data-motion="true"] .ic-demo-chip-smart {animation:ic-star-glint 4.2s ease-in-out var(--ic-phase,0ms) infinite;}
+}
+.ic-chip-surface[data-motion="false"] :is(.ic-optical-drift,.ic-optical-envelope) {display:none;}
+[data-from-loading][data-motion="false"] .ic-optical-loading {display:none;}
+@keyframes ic-loading-exit { from {opacity:1;} to {opacity:0;visibility:hidden;} }
+@media(prefers-reduced-motion:reduce) {
+  [data-from-loading] .ic-optical-loading {display:none;}
+  .ic-optical-drift,.ic-optical-envelope {display:none;}
+}
+@keyframes ic-optical-sheen-sweep {
+  0%, 62% {
+    transform: translateX(-140%) skewX(-18deg);
+    opacity: 0;
+  }
+  74% {
+    opacity: var(--sheen-peak, 0.55);
+  }
+  92% {
+    transform: translateX(260%) skewX(-18deg);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(260%) skewX(-18deg);
+    opacity: 0;
+  }
+}
+
+/* Smooth entrance fade-in for generating / preparing optical chip */
+@keyframes ic-preparing-fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* Delayed fade-in envelope specifically for the flowing shimmer light stream */
+@keyframes ic-preparing-glow-fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* Smooth settle fade-in when generating shimmer resolves into recommended chip */
+@keyframes ic-chip-fade-in {
+  0% { opacity: 0; }
+  30% { opacity: .2; }
+  100% { opacity: 1; }
+}
+
+/* Silky fade-in/fade-out shimmer for data-preparing="true" hydrating chip */
+@keyframes ic-preparing-shimmer {
+  0% {
+    transform: translateX(-130%) skewX(-14deg);
+    opacity: 0;
+  }
+  26% {
+    opacity: 1;
+  }
+  74% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(230%) skewX(-14deg);
+    opacity: 0;
+  }
+}
+
+/* Slow, barely-perceptible caustics breathing around the wisdom sparkle */
+@keyframes ic-caustics-breath {
+  0%, 100% {
+    opacity: 0.72;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.06);
+  }
+}
+
+/* Gentle sparkle micro-pulse */
+@keyframes ic-star-glint {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.92;
+  }
+  50% {
+    transform: scale(1.08);
+    opacity: 1;
+  }
+}
+
+@font-face {font-family:"JetBrains Mono";src:url("../public/assets/xiaoyi-work/jetbrains-mono-latin.woff2") format("woff2");font-weight:100 800;font-display:swap;}
+@font-face {font-family:"Plus Jakarta Sans";src:url("../public/assets/xiaoyi-work/plus-jakarta-sans-latin.woff2") format("woff2");font-weight:200 800;font-display:swap;}
+.input-controls-theme .ic-screen-toolbar {background:var(--ic-demo-glass);backdrop-filter:var(--ic-glass-backdrop);box-shadow:var(--ic-demo-glass-shadow);}
+.input-controls-theme .ic-demo-widget-wrap :is(.ic-document-file-list li,.ic-demo-control-option[aria-pressed="true"]) {
+  border-color:rgba(56,164,248,.32);background:linear-gradient(155deg,rgba(255,255,255,.98),rgba(238,248,255,.90));
+  box-shadow:0 3px 10px -3px rgba(42,123,228,.14),inset 0 1.5px 0 #fff,inset 0 -1px 0 rgba(125,206,255,.20);
+}
+.input-controls-theme .ic-demo-widget-wrap .ic-live-wb-aux :is(.ic-widget-confirm,.ic-demo-duration-done,.ic-demo-capture-confirm) {
+  border:1px solid transparent;border-radius:12px;color:var(--ic-demo-accent);
+  background:radial-gradient(72px circle at 84% 50%,rgba(56,189,248,.22),rgba(139,130,255,.16) 54%,transparent 80%) padding-box,
+    linear-gradient(135deg,rgba(255,255,255,.92),rgba(234,248,255,.84) 55%,rgba(241,236,255,.86)) padding-box,
+    linear-gradient(122deg,rgba(56,189,248,.47),rgba(84,154,255,.45) 40%,rgba(146,132,255,.42) 76%,rgba(218,166,248,.35)) border-box;
+  box-shadow:0 4px 14px -3px rgba(56,164,255,.17),inset 0 1.5px 0 #fff,inset 0 -1px 0 rgba(86,196,255,.24);
+}

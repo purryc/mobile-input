@@ -1,4 +1,5 @@
-import {useEffect, useId, useRef, useState, type ReactNode} from 'react';
+import {useEffect, useId, useLayoutEffect, useRef, useState, type ReactNode} from 'react';
+import {createPortal} from 'react-dom';
 import * as C from '../src';
 import {definition} from './choices';
 import {catalog} from './compact-catalog';
@@ -7,8 +8,7 @@ import {createSketchFile} from '../src/sketch-geometry';
 import {ComposerStage} from './composer-stage';
 import './preview.css';
 const choices={font:C.FontWidget,palette:C.PaletteWidget,expert:C.ExpertWidget,skills:C.SkillsWidget,connectors:C.ConnectorsWidget,formats:C.FormatsWidget};
-const paths:Record<string,string>={duration:'M9 2h6M12 6a8 8 0 1 0 0 16 8 8 0 0 0 0-16M12 10v4l3-2',font:'M4 4h16M12 4v16M8 20h8',palette:'M12 3a9 9 0 1 0 0 18c3 0 1-4 4-4h2a4 4 0 0 0 4-4c0-6-5-10-10-10',expert:'M7 7a5 5 0 1 0 10 0 5 5 0 0 0-10 0M3 22a9 9 0 0 1 18 0',skills:'M3 20l9-9M14 3a5 5 0 0 0 7 7L18 7l2-4-4 2z',connectors:'M10 14l4-4M8 16l-2 2a4 4 0 0 1-6-6l5-5M16 8l2-2a4 4 0 0 1 6 6l-5 5',formats:'M5 2h10l4 4v16H5zM14 2v5h5',scanner:'M2 8V2h6M16 2h6v6M22 16v6h-6M8 22H2v-6M7 12h10',capture:'M3 3h18v14H3zM12 17v5M8 22h8'};
-const translations:Record<string,string>={'关闭辅助输入':'Close panel','减少一分钟':'Decrease by one minute','增加一分钟':'Increase by one minute','演讲时长（分钟）':'Duration (minutes)','分钟':'min','选择图片':'Choose image','拍摄':'Capture','确认图片选择':'Confirm images','添加参考资料':'Add reference files','PDF、TXT、Markdown · 单份最多 8 MB':'PDF, TXT, Markdown · Max 8 MB each','布局画板':'Sketch canvas','画笔':'Pen','橡皮':'Eraser','撤销':'Undo','清空':'Clear','撤销笔迹':'Undo strokes','清空笔迹':'Clear strokes','采用布局草图':'Adopt sketch','色相':'Hue','色调':'Tone','确认布局草图':'Confirm sketch','拍摄图片':'Camera photo','关闭摄像头':'Close camera','材料预览':'Material preview','关闭预览':'Close preview','摄像头预览无法播放，请重试或选择本地图片。':'Camera preview cannot play. Retry or choose a local image.','无法打开摄像头，请允许摄像头权限，或选择本地图片。':'Unable to open camera. Allow camera permission or choose a local image.','图片保存失败，请重新拍摄。':'Image could not be saved. Please retake.','请输入六位HEX颜色值':'Enter a six-digit HEX color','查看 ':'Preview ','移除 ':'Remove '};
+const translations:Record<string,string>={'关闭辅助输入':'Close panel','减少一分钟':'Decrease by one minute','增加一分钟':'Increase by one minute','演讲时长（分钟）':'Duration (minutes)','分钟':'min','选择图片':'Choose image','拍摄':'Capture','确认图片选择':'Confirm images','添加参考资料':'Add reference files','PDF、TXT、Markdown · 单份最多 8 MB':'PDF, TXT, Markdown · Max 8 MB each','布局画板':'Sketch canvas','绘画工具':'Drawing tools','画笔':'Pen','橡皮':'Eraser','撤销':'Undo','清空':'Clear','撤销笔迹':'Undo strokes','清空笔迹':'Clear strokes','采用布局草图':'Adopt sketch','色相':'Hue','色调':'Tone','确认布局草图':'Confirm sketch','拍摄图片':'Camera photo','关闭摄像头':'Close camera','材料预览':'Material preview','关闭预览':'Close preview','摄像头预览无法播放，请重试或选择本地图片。':'Camera preview cannot play. Retry or choose a local image.','无法打开摄像头，请允许摄像头权限，或选择本地图片。':'Unable to open camera. Allow camera permission or choose a local image.','图片保存失败，请重新拍摄。':'Image could not be saved. Please retake.','请输入六位HEX颜色值':'Enter a six-digit HEX color','查看 ':'Preview ','移除 ':'Remove '};
 export const translate=(language:string)=>(s:string)=>language==='en'?(translations[s]||s):s;
 
 type FileAttachment = {id: string; file: File};
@@ -20,10 +20,13 @@ export interface WidgetPreviewProps {
 }
 
 type SpecimenOptions = {
+  generating?: boolean;
+  sceneLabel?: string;
+  initialColor?: string;
   screenIntent?: C.ScreenCaptureWidgetProps["screenIntent"];
   initial: C.ChipSemanticState;
   panels: ReturnType<typeof C.useSinglePanel>;
-  presentation?: "chip" | "inline";
+  presentation?: "chip" | "inline" | "sentence";
 };
 
 export const chipStateLabels = {
@@ -47,8 +50,8 @@ export function WidgetPreview({kind, language = 'zh-CN', assetBase = ''}: Widget
   );
 }
 
-export function WidgetSpecimen({initial, panels, presentation, screenIntent, ...props}: WidgetPreviewProps & SpecimenOptions) {
-  return <InteractiveWidget {...props} specimen={{initial, panels, presentation, screenIntent}}/>;
+export function WidgetSpecimen({initial, panels, presentation, screenIntent, generating, sceneLabel, initialColor, ...props}: WidgetPreviewProps & SpecimenOptions) {
+  return <InteractiveWidget {...props} specimen={{initial, panels, presentation, screenIntent, generating, sceneLabel, initialColor}}/>;
 }
 
 function InteractiveWidget({
@@ -70,18 +73,26 @@ function InteractiveWidget({
   const open = inline ? inlineOpen : panels.active === owner;
   const initial = specimen?.initial ?? 'needs-input';
 
-  const [sample] = useState(() => initial === 'object-bound' ? boundSample(kind) : {});
+  const [sample] = useState(() => {
+    if(initial !== 'object-bound') return {};
+    const sample = boundSample(kind);
+    if(kind === 'document' && specimen?.presentation === 'sentence') {
+      sample.files = [...(sample.files ?? []), new File(['面向新用户介绍产品。'],'演讲提纲.txt',{type:'text/plain'}), new File(['# 产品亮点'],'功能说明.md',{type:'text/markdown'})];
+    }
+    return sample;
+  });
   const [semantic, setSemantic] = useState<C.ChipSemanticState>(initial === 'object-bound' ? 'needs-input' : initial);
   const [origin, setOrigin] = useState<C.ControlOrigin>(initial === 'ambiguous-recommendation' ? 'recommended' : 'explicit');
   const [disabled, setDisabled] = useState(false);
   const [loading, setLoading] = useState(false);
   const [removed, setRemoved] = useState(false);
-  const [duration, setDuration] = useState('10');
-  const [color, setColor] = useState('#356FE4');
+  const [duration, setDuration] = useState(inline && kind==='duration' ? '15' : '10');
+  const [unit,setUnit] = useState<C.DurationUnit>(inline && kind==='duration' ? 's' : 'm');
+  const [color, setColor] = useState(specimen?.initialColor ?? '#356FE4');
   const [values, setValues] = useState<string[]>(() => {
     if (initial !== 'default-selected' || isMaterial) return [];
     if (specimen && kind === 'palette') return ['calm'];
-    if (specimen && kind === 'connectors') return ['ima'];
+    if (specimen && kind === 'connectors') return [specimen.presentation==='sentence' ? 'tencent-docs' : 'ima'];
     if (specimen && kind === 'formats') return ['pptx', 'pdf'];
     return def.options.slice(0, 1).map(option => option.id);
   });
@@ -101,6 +112,20 @@ function InteractiveWidget({
   const secondAnchor = useRef<HTMLSpanElement>(null);
   const previewTrigger = useRef<HTMLElement | null>(null);
 
+  const current = {duration,unit,color,values,files,pending,captures,strokes,sketch,semantic,origin};
+  const [before,setBefore] = useState(current);
+  // Each opening takes its own snapshot, including the actual attachment IDs and bytes.
+  useLayoutEffect(() => {if(open) setBefore(current);}, [open]);
+  const reset = {
+    canReset: duration!==before.duration || unit!==before.unit || color!==before.color ||
+      values.join()!==before.values.join() || files!==before.files || pending!==before.pending ||
+      captures!==before.captures || strokes!==before.strokes || sketch!==before.sketch || semantic!==before.semantic || origin!==before.origin,
+    onReset: () => {
+      setDuration(before.duration);setUnit(before.unit);setColor(before.color);setValues(before.values);
+      setFiles(before.files);setPending(before.pending);setCaptures(before.captures);setStrokes(before.strokes);
+      setSketch(before.sketch);setOrigin(before.origin);setSemantic(before.semantic);setPreview(null);
+    },
+  };
   const screenIntent = specimen?.screenIntent;
   const confirmedCaptures = captures.filter(item => item.confirmed);
   function removeSketch() {
@@ -167,31 +192,26 @@ function InteractiveWidget({
     return option ? t(option.zh, option.en) : value;
   }).join(' / ');
   const needsLabel = specimen && kind === 'document' ? t('参考文件', 'Reference file') : title;
-  const resolvedLabel = kind === 'duration' ? duration + t('分钟', ' min')
+  const resolvedLabel = kind === 'duration' ? duration + ({s:t('秒',' sec'),m:t('分钟',' min'),h:t('小时',' hr')})[unit]
     : kind === 'color' ? color
     : selected || names[0] || title;
-  const label = screenIntent === 'screenshot' ? t('截图', 'Screenshot')
+  const sceneLabel = specimen?.sceneLabel && state===initial && origin!=='manual' ? specimen.sceneLabel : undefined;
+  const label = sceneLabel ?? (screenIntent === 'screenshot' ? t('截图', 'Screenshot')
     : screenIntent === 'recording' ? t('录屏', 'Recording')
     : state === 'object-bound' ? names[0]
     : state === 'needs-input' ? needsLabel
-    : state === 'ambiguous-recommendation' && specimen ? catalog[kind].suggestion[en ? 1 : 0]
-    : resolvedLabel;
+    : state === 'ambiguous-recommendation' ? catalog[kind].suggestion[en ? 1 : 0]
+    : resolvedLabel);
   const artwork = values[0] ? C.controlOptionArtwork(kind, values[0]) : undefined;
-  const standardIcon = specimen && (kind !== 'color' || state !== 'default-selected')
-    ? 'assets/xiaoyi-work/design-inline-' + (kind === 'color' ? 'palette' : kind) + '.svg'
-    : undefined;
-  const icon = artwork ?? standardIcon;
   const token: C.InlineChipToken = {
     id: owner, kind, role: title, phrase: '', label,
     value: screenIntent ?? (state === 'needs-input' ? '' : kind === 'color' && (!specimen || state === 'default-selected') ? color : label),
     origin, semanticState: state,
     additionalObjectCount: state === 'object-bound' ? names.length - 1 : undefined,
     removable: origin === 'recommended' && (!specimen || state === 'ambiguous-recommendation'),
-    preparing: loading,
-    iconPath: specimen ? undefined : paths[kind] || (kind === 'color' ? paths.palette : undefined),
-    iconSrc: icon ? C.assetUrl(assetBase, icon) : undefined,
-    recommendationIconSrc: specimen ? C.assetUrl(assetBase, 'assets/xiaoyi-work/design-inline-sparkles.svg') : undefined,
-    animate: state === 'ambiguous-recommendation', sweepKey: owner + state,
+    preparing: loading || (specimen?.generating && state==='ambiguous-recommendation'),
+    iconSrc: artwork ? C.assetUrl(assetBase, artwork) : undefined,
+    animate: true, sweepKey: owner + state,
   };
   const Choice = choices[kind as keyof typeof choices];
   const Capture = kind === 'scanner' ? C.ScannerWidget : C.ScreenCaptureWidget;
@@ -225,19 +245,17 @@ function InteractiveWidget({
     const attachment = files.find(item => item.id === id);
     if (attachment) previewFile(attachment.file);
   }
-  const selectedFiles = kind === 'document'
-    ? <C.DocumentFileList files={documentFiles} onPreview={previewDocument} onRemove={removeFile}/>
-    : files.map(({id, file}) => fileCard(id, file, () => removeFile(id)));
+  const selectedPhotos = kind === 'photo' && files.map(({id, file}) => fileCard(id, file, () => removeFile(id)));
   const adoptedSketch = sketch && fileCard('sketch', sketch, removeSketch);
-  const materialStrip = adopted.length > 0 && <div className="lite-document-materials input-controls-theme">
-    {kind === 'document' ? selectedFiles : adopted.map(item => 'capture' in item
+  const materialStrip = kind !== 'document' && adopted.length > 0 && <div className="lite-document-materials input-controls-theme">
+    {adopted.map(item => 'capture' in item
       ? <C.CaptureTile key={item.id} compact item={item.capture} onRemove={item.remove}/>
       : fileCard(item.id, item.file, item.remove))}
   </div>;
 
   function widget(): ReactNode {
     if (Choice) return (
-      <Choice binding={{id: owner, kind, origin, value: values}} definition={def} owner={owner} language={language}
+      <Choice {...reset} binding={{id: owner, kind, origin, value: values}} definition={def} owner={owner} language={language}
         onEvent={event => {
           if (event.owner !== owner || event.id !== owner) return;
           if (event.type === 'close') confirm();
@@ -246,15 +264,15 @@ function InteractiveWidget({
     );
     switch (kind) {
       case 'duration':
-        return <C.DurationWidget value={duration} onChange={value => {setDuration(value); changed(value);}} onDone={confirm}/>;
+        return <C.DurationWidget {...reset} unit={unit} onUnitChange={setUnit} value={duration} onChange={value => {setDuration(value); changed(value);}} onDone={confirm}/>;
       case 'color':
-        return <C.ColorWidget value={color} label={title} onChange={value => {setColor(value); changed(value);}} onActive={() => {}} onDone={confirm}/>;
+        return <C.ColorWidget {...reset} value={color} label={title} onChange={value => {setColor(value); changed(value);}} onActive={() => {}} onDone={confirm}/>;
       case 'document':
-        return <C.DocumentWidget materials={documentFiles} onChoose={chooseLocal} onDone={confirm}
+        return <C.DocumentWidget {...reset} materials={documentFiles} onChoose={chooseLocal} onDone={confirm}
           onRemoveMaterial={removeFile} onPreviewMaterial={previewDocument}/>;
       case 'photo':
         return (
-          <C.ImageWidget canConfirm={!specimen || pending.length > 0} onChoose={chooseLocal} onDone={() => {
+          <C.ImageWidget {...reset} canConfirm={!specimen || pending.length > 0} onChoose={chooseLocal} onDone={() => {
             if (pending.length) {
               setFiles(previous => [...previous, ...pending]);
               setPending([]);
@@ -262,7 +280,7 @@ function InteractiveWidget({
             }
             confirm();
           }}>
-            {specimen && selectedFiles}
+            {specimen && selectedPhotos}
             {pending.map(({id, file}) => fileCard(id, file, () => {
               setPending(previous => previous.filter(item => item.id !== id));
               emit('remove-file', file.name);
@@ -273,7 +291,7 @@ function InteractiveWidget({
         return (
           <>
             {specimen && sketch && <div className="lite-adopted-sketch">{adoptedSketch}</div>}
-            <C.SketchWidget strokes={strokes} onChange={setStrokes} onActive={() => {}} onAdopt={() => {
+            <C.SketchWidget {...reset} strokes={strokes} onChange={setStrokes} onActive={() => {}} onAdopt={() => {
               const adopted = createSketchFile(strokes, specimen ? '布局草图.svg' : undefined);
               setSketch(adopted);
               if (specimen) adoptMaterial(adopted.name);
@@ -283,7 +301,7 @@ function InteractiveWidget({
         );
       default:
         return (
-          <Capture key={inline && kind === 'scanner' && panels.active ? 'background' : 'foreground'}
+          <Capture {...reset} key={inline && kind === 'scanner' && panels.active ? 'background' : 'foreground'}
             items={captures} language={language}
             {...(screenIntent ? {screenIntent} : {})}
             {...(inline && kind === 'scanner' ? {deferCameraUntilSelection: true} : {})}
@@ -308,7 +326,7 @@ function InteractiveWidget({
           requestAnimationFrame(() => anchor.current?.querySelector('button')?.focus());
         }}>{specimen ? t('恢复推荐', 'Restore recommendation') : t('恢复入口', 'Restore entry')}</button>
       ) : (
-        <C.InlineChip token={token} expanded={open} controlsId={panelId} describedBy={specimen ? stateLabelId : undefined} disabled={disabled}
+        <C.InlineChip token={token} expanded={open} controlsId={panelId} describedBy={specimen && specimen.presentation !== "sentence" ? stateLabelId : undefined} disabled={disabled}
           onRemoveMaterial={state === 'object-bound' ? adopted[0]?.remove : undefined}
           onOpen={() => {panels.toggle(owner); emit('open', kind);}} onRemove={() => {
             setRemoved(true);
@@ -326,7 +344,9 @@ function InteractiveWidget({
   );
   const filePreview = preview && <FilePreview file={preview} language={language} onClose={() => {
     setPreview(null);
-    if (specimen) requestAnimationFrame(() => previewTrigger.current?.focus());
+    if (specimen) requestAnimationFrame(() => {
+      if (document.activeElement === document.body) previewTrigger.current?.focus({preventScroll:true});
+    });
   }}/>;
   const overlays = (
     <>
@@ -343,7 +363,7 @@ function InteractiveWidget({
   if (inline) return (
     <C.WidgetProvider language={language} translate={translate(language)} assetBase={assetBase}>
       <details className="lite-widget-preview" open={inlineOpen} onToggle={event => setInlineOpen(event.currentTarget.open)}>
-        <summary ref={inlineSummary}>{t('独立 Widget', 'Standalone widget')}</summary>
+        <summary className="ic-glass-action" ref={inlineSummary}>{t('独立 Widget', 'Standalone widget')}</summary>
         {inlineOpen && (
           <ComposerStage kind={kind}>
             <C.WidgetSurface>
@@ -355,6 +375,14 @@ function InteractiveWidget({
       </details>
       {!inlineOpen && materialStrip}
       {preview && <div className="input-controls-theme">{filePreview}</div>}
+    </C.WidgetProvider>
+  );
+
+  if (specimen?.presentation === "sentence") return (
+    <C.WidgetProvider language={language} translate={translate(language)} assetBase={assetBase}>
+      {chip}
+      {overlays}
+      {filePreview && createPortal(<div className="input-controls-theme">{filePreview}</div>,document.body)}
     </C.WidgetProvider>
   );
 
@@ -399,7 +427,7 @@ function InteractiveWidget({
       <div className="controls-preview-stage input-controls-theme">
         <C.WidgetProvider language={language} translate={translate(language)} assetBase={assetBase}>
           <div className="ic-demo-materials">
-            {selectedFiles}
+            {selectedPhotos}
             {adoptedSketch}
             {confirmedCaptures.map(item => <C.CaptureTile key={item.id} item={item} compact onRemove={() => setCaptures(previous => previous.filter(entry => entry.id !== item.id))}/>)}
           </div>
@@ -407,7 +435,7 @@ function InteractiveWidget({
             <div className="ic-wb-sentence-composer">
               {t('准备产品介绍，使用', 'Prepare a product introduction using ')}{chip}{t('作为输入。', ' as input.')}{' '}
               <span ref={secondAnchor}>
-                <C.InlineChip token={{id: owner + 'second', kind: 'duration', role: t('独立实例', 'Second instance'), label: t('独立实例', 'Second instance'), value: '5', phrase: '', semanticState: 'default-selected', iconPath: paths.duration}} expanded={panels.active === 'second'} onOpen={() => panels.toggle('second')}/>
+                <C.InlineChip token={{id: owner + 'second', kind: 'duration', role: t('独立实例', 'Second instance'), label: t('独立实例', 'Second instance'), value: '5', phrase: '', semanticState: 'default-selected'}} expanded={panels.active === 'second'} onOpen={() => panels.toggle('second')}/>
               </span>
             </div>
           </div>
