@@ -63,8 +63,59 @@
   background: #ffffff80;
   box-shadow: 0 8px 22px #83a3ab12, inset 0 1px 1px #ffffffe6;
 }
-.input-controls-theme .ic-demo-widget-wrap .ic-live-wb-sketch-tools { height: 36px; gap: 4px; margin: 0; }
-.input-controls-theme .ic-demo-widget-wrap .ic-live-wb-sketch-tools > button[aria-pressed="true"] { background: var(--ic-demo-tint); border-color: var(--ic-demo-accent); }
+.input-controls-theme .ic-sketch-toolbar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+}
+.input-controls-theme .ic-sketch-inks { display: flex; align-items: center; }
+.input-controls-theme .ic-sketch-inks > button {
+  display: grid; place-items: center;
+  width: 32px; min-width: 0; height: 36px; min-height: 0;
+  padding: 0; border: 0; border-radius: 8px; background: transparent; box-shadow: none;
+}
+.input-controls-theme .ic-sketch-inks span {
+  width: 16px; height: 16px; border-radius: 50%;
+}
+.input-controls-theme .ic-sketch-inks [aria-pressed="true"] span {
+  box-shadow: 0 0 0 2px white, 0 0 0 3px var(--ic-demo-ink);
+}
+@media (pointer: coarse) {
+  .input-controls-theme .ic-sketch-inks > button { width: 44px; height: 44px; }
+}
+.input-controls-theme .ic-demo-widget-wrap .ic-live-wb-sketch-tools {
+  --sketch-hit-size: 36px;
+  align-self: flex-start;
+  width: fit-content;
+  height: var(--sketch-hit-size);
+  gap: 0;
+  margin: 0;
+  border-radius: 12px;
+  background: var(--ic-demo-control);
+  box-shadow: inset 0 0 0 1px var(--ic-demo-glass-edge);
+}
+.input-controls-theme .ic-demo-widget-wrap .ic-live-wb-sketch-tools > button {
+  width: var(--sketch-hit-size);
+  height: var(--sketch-hit-size);
+  min-height: var(--sketch-hit-size);
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+.input-controls-theme .ic-demo-widget-wrap .ic-live-wb-sketch-tools > button + button {
+  border-inline-start: 1px solid var(--ic-demo-glass-edge);
+}
+.input-controls-theme .ic-demo-widget-wrap .ic-live-wb-sketch-tools > button:first-child { border-radius: 12px 0 0 12px; }
+.input-controls-theme .ic-demo-widget-wrap .ic-live-wb-sketch-tools > button:last-child { border-radius: 0 12px 12px 0; }
+.input-controls-theme .ic-demo-widget-wrap .ic-live-wb-sketch-tools > button[aria-pressed="true"] {
+  background: var(--ic-demo-tint);
+  box-shadow: inset 0 0 0 1px var(--ic-demo-accent);
+}
+@media (pointer: coarse) {
+  .input-controls-theme .ic-demo-widget-wrap .ic-live-wb-sketch-tools { --sketch-hit-size: 44px; }
+}
 .input-controls-theme .ic-demo-widget-wrap footer.ic-agent-photo-actions { height: 36px; gap: 8px; margin: 0; }
 .input-controls-theme .ic-demo-widget-wrap .ic-agent-photo-actions > .ic-agent-photo-source { flex: 1; min-width: 0; width: auto; font-size: 14px; padding: 6px 8px; }
 /* Choices share the desktop card geometry, not their selection semantics. */

@@ -286,13 +286,17 @@ test('sketch tools precede the canvas visually and in keyboard order',async({pag
   await entry.click();
   const panel=page.locator('.input-controls-popover');
   const tools=panel.getByRole('group',{name:'绘画工具'});
+  const inks = panel.getByRole('group', {name:'画笔颜色'}).getByRole('button');
+  expect(await inks.evaluateAll(buttons => buttons.map(button => button.getAttribute('aria-label'))))
+    .toEqual(['黑色', '红色', '黄色', '蓝色']);
+  await expect(inks.first()).toHaveAttribute('aria-pressed', 'true');
   const canvas=panel.locator('.ic-agent-sketch-surface');
   const footer=panel.locator('.ic-widget-footer');
   const [toolbarBox,canvasBox,footerBox]=await Promise.all([tools,canvas,footer].map(el=>el.boundingBox()));
   expect(toolbarBox!.y+toolbarBox!.height).toBeLessThanOrEqual(canvasBox!.y);
   expect(canvasBox!.y+canvasBox!.height).toBeLessThanOrEqual(footerBox!.y);
   await panel.getByRole('button',{name:'关闭辅助输入'}).focus();
-  for (const item of [tools.getByRole('button',{name:'画笔'}),tools.getByRole('button',{name:'橡皮'}),canvas]){
+  for (const item of [tools.getByRole('button',{name:'画笔'}),tools.getByRole('button',{name:'橡皮'}),...await inks.all(),canvas]){
     await page.keyboard.press('Tab');
     await expect(item).toBeFocused();
   }

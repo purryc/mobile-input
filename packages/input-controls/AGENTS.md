@@ -48,7 +48,7 @@
 
 ## Compact Chip density
 - Render inline and card chips at 32 px. Use six graphemes plus three dots for long bound material labels; retain full accessible names and attachment identities. Reserve the named recommendation's width through loading and its 650 ms entrance.
-- Keep 32 px prose lines, 2 px side spacing, translucent white/pale violet widget glass and a 12 px backdrop blur. Compress backdrop contrast on the glass surface so dense text and artwork underneath cannot leave dark patches. Keep foreground swatches, media and text at their original contrast. Place sketch tools before the canvas in DOM order. Keep the optical reference internal.
+- Keep 32 px prose lines, 2 px side spacing, translucent white/pale violet widget glass and a 12 px backdrop blur. Compress backdrop contrast on the glass surface so dense text and artwork underneath cannot leave dark patches. Keep foreground swatches, media and text at their original contrast. Place sketch tools before the canvas in DOM order. Join Pen, Eraser, Undo and Clear into one compact segmented strip, with individual hit targets and persistent tool selection. Use four round ink swatches ordered black, red, yellow, blue, default to black, separate them from the joined tool buttons by 16 px (8 px between wrapped rows), and retain each stroke’s ink through erasing, undo and SVG adoption. Keep the optical reference internal.
 
 ## Shared glass interactions
 - Scale recommendation pigment and colored glow alpha to 90% of the previous local skin. Preserve the 32 px inline silhouette and the 650 ms entrance.
