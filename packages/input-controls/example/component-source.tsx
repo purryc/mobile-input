@@ -46,7 +46,7 @@ export function ComponentSource({kind, en}: {kind: WidgetKind; en: boolean}) {
 
   return (
     <details className="lite-source">
-      <summary>{t('源码与用法', 'Source & usage')}</summary>
+      <summary className="ic-glass-action">{t('源码与用法', 'Source & usage')}</summary>
       <div className="lite-source-content">
         <dl>
           <div><dt>{t('源码', 'Source')}</dt><dd><code>src/{filename}</code></dd></div>
@@ -61,8 +61,8 @@ export function ComponentSource({kind, en}: {kind: WidgetKind; en: boolean}) {
         {(kind === 'scanner' || kind === 'capture') && <p>{t('adapter 可替换采集实现，items 和确认回调由宿主管理。', 'Supply an adapter to replace browser acquisition. The host owns items and confirmation.')}</p>}
         <p>{t('下载的是这个组件的 TSX 入口。接入时还需要控件库的共享代码、样式和素材。', 'The download is the component TSX entry. Integration also uses the library’s shared code, styles, and assets.')}</p>
         <div className="lite-source-actions">
-          <button type="button" onClick={() => void downloadSource()}>{t('下载 ' + filename, 'Download ' + filename)}</button>
-          <button type="button" onClick={async () => {
+          <button className="ic-glass-action" type="button" onClick={() => void downloadSource()}>{t('下载 ' + filename, 'Download ' + filename)}</button>
+          <button className="ic-glass-action" type="button" onClick={async () => {
             try {
               await navigator.clipboard.writeText(example);
               setStatus('copied');
@@ -70,7 +70,7 @@ export function ComponentSource({kind, en}: {kind: WidgetKind; en: boolean}) {
               setStatus('copy-error');
             }
           }}>{t('复制示例', 'Copy example')}</button>
-          <button type="button" aria-expanded={Boolean(code)} onClick={async () => {
+          <button className="ic-glass-action" type="button" aria-expanded={Boolean(code)} onClick={async () => {
             if (code) {setCode(''); return;}
             try {
               setCode(await loadSource());

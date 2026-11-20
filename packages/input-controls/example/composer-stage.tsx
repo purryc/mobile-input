@@ -1,4 +1,4 @@
-import {ArrowUp, ChevronDown, Folder, Mic, Pencil, Plus, ShieldCheck} from 'lucide-react';
+import {ChevronDown, Folder, Pencil, ShieldCheck} from 'lucide-react';
 import {useLayoutEffect, useRef, type ReactNode} from 'react';
 import {assetUrl, InlineChip, useWidgetEnvironment, type WidgetKind} from '../src';
 
@@ -67,11 +67,11 @@ export function ComposerStage({kind, children, popover = false}: {kind: WidgetKi
             const label = language === 'en' ? en : zh;
             if (!tokenKind) return label;
             const artwork = tokenKind === 'expert' ? 'design-expert-design.png'
-              : tokenKind === 'skills' ? 'design-skill-ppt.png' : 'design-inline-' + tokenKind + '.svg';
+              : tokenKind === 'skills' ? 'design-skill-ppt.png' : undefined;
             return <InlineChip key={index} token={{
               id: 'backdrop-' + index, kind: tokenKind, role: '', label, phrase: '', value: value ?? label,
               origin: 'explicit', semanticState: 'default-selected',
-              iconSrc: value ? undefined : assetUrl(assetBase, 'assets/xiaoyi-work/' + artwork),
+              iconSrc: artwork ? assetUrl(assetBase, 'assets/xiaoyi-work/' + artwork) : undefined,
             }} expanded={false} onOpen={() => {}}/>;
           })}
         </div>
@@ -79,9 +79,6 @@ export function ComposerStage({kind, children, popover = false}: {kind: WidgetKi
           <Pencil size={18}/>{language === 'en' ? 'AI polish' : 'AI润色'}
           <span>{language === 'en' ? 'Organize' : '整理结构'}</span>
           <span>{language === 'en' ? 'Shorten' : '精简表达'}</span>
-        </div>
-        <div className="lite-reference-tools">
-          <Plus/><Mic/><span><ArrowUp/></span>
         </div>
         <div className="lite-reference-options">
           <Folder/>{language === 'en' ? 'Select workspace' : '选择工作空间'}<ChevronDown/>

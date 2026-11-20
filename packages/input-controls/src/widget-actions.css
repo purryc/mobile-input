@@ -1,0 +1,45 @@
+.input-controls-theme .ic-widget-footer {
+  display:flex; align-items:center; justify-content:space-between; gap:12px; width:100%;
+  margin:12px 0 0; padding:12px 0 0; border-top:1px solid #dbeafb; background:transparent; box-sizing:border-box;
+}
+.input-controls-theme .ic-widget-footer button {
+  display:inline-flex; align-items:center; justify-content:center; gap:6px;
+  min-width:0; min-height:32px; height:32px; padding:0 10px; border-radius:11px; font-family:inherit;font-size:13px;font-weight:500;line-height:1.2;
+}
+.input-controls-theme .ic-widget-footer .ic-footer-reset {color:#506888;border:0;background:transparent;box-shadow:none}
+.input-controls-theme .ic-widget-footer .ic-footer-confirm {
+  border:1px solid transparent; color:#172742;
+  background:linear-gradient(135deg,#f8fdff,#e6f1ff 50%,#eeebff) padding-box,linear-gradient(120deg,#abe1ff,#c9c4ff) border-box;
+  box-shadow:inset 0 1px 0 #fff,0 2px 4px #589dcc1c;
+}
+.input-controls-theme .ic-footer-confirm svg {color:#2a7be4}
+.input-controls-theme .ic-widget-footer button:disabled {opacity:.4;cursor:default}
+.input-controls-theme .ic-widget-footer button:focus-visible,.input-controls-theme .ic-duration-picker :focus-visible {outline:2px solid #2a7be4;outline-offset:2px}
+.input-controls-theme .ic-demo-choice-footer:empty {display:none}
+.input-controls-theme .ic-demo-widget-wrap .ic-live-wb-aux:has(.ic-agent-photo-actions[data-has-photos="false"]) {height:auto}
+.input-controls-theme .ic-duration-picker {display:grid; gap:12px;min-width:0;color:#14203c}
+.ic-duration-top,.ic-time-stepper,.ic-duration-units,.ic-duration-ticks {display:flex;align-items:center}
+.ic-duration-top,.ic-duration-ticks {justify-content:space-between;gap:4px}
+.input-controls-theme .ic-time-stepper,.input-controls-theme .ic-duration-units {height:32px;padding:2px;border-radius:11px;box-sizing:border-box}
+.input-controls-theme .ic-time-stepper {border:1px solid #daeafa;background:#fff}
+.input-controls-theme .ic-duration-units {background:#eef4fb;box-shadow:inset 0 1px 3px #4f719014}
+.input-controls-theme .ic-duration-picker button,.input-controls-theme .ic-time-stepper input {font:inherit;color:inherit}
+.input-controls-theme .ic-time-stepper button,.input-controls-theme .ic-duration-units button,.input-controls-theme .ic-duration-ticks button {
+  width:auto; min-height:26px; height:26px; padding:0 8px; border:0; border-radius:8px; background:transparent; box-shadow:none; font-size:13px
+}
+.input-controls-theme .ic-time-stepper input {width:35px; min-height:24px; padding:0; border:0; text-align:center; font-weight:650; background:transparent; appearance:textfield}
+.ic-time-stepper input::-webkit-inner-spin-button {appearance:none}
+.input-controls-theme .ic-duration-units button[aria-pressed=true] {background:linear-gradient(150deg,white,#f5faff);box-shadow:0 0 0 1px #cee5fb,0 2px 4px #488bc320}
+.input-controls-theme .ic-duration-ticks button {color:#6987aa; font:500 11px 'JetBrains Mono',monospace; padding:0 4px}
+.input-controls-theme .ic-duration-ticks button[aria-pressed=true] {color:#2a7be4;font-weight:bold}
+.input-controls-theme .ic-duration-picker input[type=range] {appearance:none;width:calc(100% - 6px);height:6px;min-height:0;border:0;padding:0;margin:17px 3px 0;border-radius:8px;background:#e0eaf6 linear-gradient(90deg,#38bcf8,#2a7be4) no-repeat;cursor:pointer}
+.ic-time-range::-webkit-slider-thumb {appearance:none;width:16px;height:16px;border:1.5px solid #a8cbff;border-radius:50%;background:white;box-shadow:0 2px 5px #4e759244}
+.ic-time-range::-moz-range-thumb {width:14px;height:14px;border:1.5px solid #a8cbff;border-radius:50%;background:white}
+.ic-duration-picker .ic-widget-footer {margin-top:0}
+.input-controls-theme .ic-demo-format-options {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+.input-controls-theme .ic-demo-format-options .ic-demo-control-option {height:36px;min-height:36px;display:flex;align-items:center;border-radius:12px;border:1px solid #e1edfa;background:#ffffffc7}
+.input-controls-theme .ic-demo-format-options .ic-demo-control-option[aria-pressed=true] {border-color:#b6dcff;background:linear-gradient(140deg,#fff,#eff8ff)}
+.input-controls-theme .ic-format-check {display:grid;place-items:center;margin-left:auto;width:16px;height:16px;flex:none;border:1px solid #c6dff9;border-radius:4px;color:#fff}
+.input-controls-theme [aria-pressed=true] .ic-format-check {background:#2a7be4;border-color:#2a7be4}
+
+.input-controls-theme .ic-format-badge {display:grid;place-items:center;width:20px;height:20px;border-radius:5px;font:600 10px/1 monospace;color:white}

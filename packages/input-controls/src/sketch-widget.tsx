@@ -1,3 +1,4 @@
+import {WidgetFooter, type WidgetResetProps} from "./widget-footer";
 import { useEffect, useRef, useState } from "react";
 import { WidgetIcon } from "./widget-icon";
 import { useWidgetText } from "./environment";
@@ -8,7 +9,7 @@ import {
 } from "./sketch-geometry";
 export function SketchWidget(props: SketchWidgetProps) { return <SketchSession key={props.ownerId} {...props}/>; }
 function SketchSession({
-  strokes,
+  strokes, onReset, canReset,
   onChange,
   onEnd,
   onActive,
@@ -22,7 +23,8 @@ function SketchSession({
   onActive: (active: boolean) => void;
   onAdopt: () => void;
   busy?: boolean;
-}) {
+} & WidgetResetProps) {
+  const initialStrokes = useRef(strokes).current;
   const uiText = useWidgetText();
   const lines = useRef(strokes),
     drawing = useRef(false),
@@ -63,7 +65,48 @@ function SketchSession({
   };
   return (
     <>
-      <svg
+      <div role="group" aria-label={uiText("绘画工具")} className="ic-live-wb-sketch-tools" data-history={revision}>
+        <button type="button"
+          disabled={busy}
+          aria-label={uiText("画笔")}
+          aria-pressed={tool === "pen"}
+          onClick={() => setTool("pen")}
+        >
+          <WidgetIcon name="pen" />
+        </button>
+        <button type="button"
+          disabled={busy}
+          aria-label={uiText("橡皮")}
+          aria-pressed={tool === "eraser"}
+          onClick={() => setTool("eraser")}
+        >
+          <WidgetIcon name="eraser" />
+        </button>
+        <button type="button"
+          aria-label={uiText("撤销笔迹")}
+          disabled={busy || (!strokes.length && !history.current.length)}
+          onClick={() => {
+            const next = history.current.pop() ?? lines.current.slice(0, -1);
+            update(next);
+            setRevision((n) => n + 1);
+            onEnd?.(next);
+          }}
+        >
+          <WidgetIcon name="undo" />
+        </button>
+        <button type="button"
+          aria-label={uiText("清空笔迹")}
+          disabled={!strokes.length || busy}
+          onClick={() => {
+            remember(lines.current);
+            update([]);
+            onEnd?.([]);
+          }}
+        >
+          <WidgetIcon name="clear" />
+        </button>
+      </div>
+      <svg role="img" tabIndex={0}
         className="ic-agent-sketch-surface"
         viewBox={`0 0 ${SKETCH_WIDTH} ${SKETCH_HEIGHT}`}
         preserveAspectRatio="none"
@@ -115,53 +158,8 @@ function SketchSession({
           />
         ))}
       </svg>
-      <footer className="ic-live-wb-sketch-tools" data-history={revision}>
-        <button type="button"
-          aria-label={uiText("画笔")}
-          aria-pressed={tool === "pen"}
-          onClick={() => setTool("pen")}
-        >
-          <WidgetIcon name="pen" />
-        </button>
-        <button type="button"
-          aria-label={uiText("橡皮")}
-          aria-pressed={tool === "eraser"}
-          onClick={() => setTool("eraser")}
-        >
-          <WidgetIcon name="eraser" />
-        </button>
-        <button type="button"
-          aria-label={uiText("撤销笔迹")}
-          disabled={busy || (!strokes.length && !history.current.length)}
-          onClick={() => {
-            const next = history.current.pop() ?? lines.current.slice(0, -1);
-            update(next);
-            setRevision((n) => n + 1);
-            onEnd?.(next);
-          }}
-        >
-          <WidgetIcon name="undo" />
-        </button>
-        <button type="button"
-          aria-label={uiText("清空笔迹")}
-          disabled={!strokes.length || busy}
-          onClick={() => {
-            remember(lines.current);
-            update([]);
-            onEnd?.([]);
-          }}
-        >
-          <WidgetIcon name="clear" />
-        </button>
-        <span />
-        <button type="button"
-          aria-label={uiText("采用布局草图")}
-          disabled={busy || !strokes.some((s) => s.length > 1)}
-          onClick={onAdopt}
-        >
-          <WidgetIcon name="check" />
-        </button>
-      </footer>
+      <WidgetFooter onReset={() => {remember(lines.current); if (onReset) onReset(); else {update(initialStrokes);onEnd?.(initialStrokes);} setTool("pen");}}
+        canReset={!busy && (canReset ?? (strokes !== initialStrokes))} onConfirm={onAdopt} confirmLabel={uiText("采用布局草图")} disabled={busy || !strokes.some(s => s.length > 1)}/>
     </>
   );
 }

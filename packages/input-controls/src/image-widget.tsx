@@ -1,8 +1,8 @@
+import {WidgetFooter, type WidgetResetProps} from "./widget-footer";
 import { Children, type ReactNode } from "react";
-import { WidgetIcon } from "./widget-icon";
 import { useWidgetText } from "./environment";
 export function ImageWidget({
-  children,
+  children, onReset, canReset,
   onChoose,
   onDone,
   busy = false,
@@ -15,7 +15,7 @@ export function ImageWidget({
   onDone: () => void;
   busy?: boolean;
   canConfirm?: boolean;
-}) {
+} & WidgetResetProps) {
   const uiText = useWidgetText();
   const hasPhotos = Children.toArray(children).length > 0;
   return (
@@ -29,16 +29,8 @@ export function ImageWidget({
         >
           {uiText("选择图片")}
         </button>
-        {hasPhotos && canConfirm && (
-          <button type="button"
-            aria-label={uiText("确认图片选择")}
-            disabled={busy}
-            onClick={onDone}
-          >
-            <WidgetIcon name="check" />
-          </button>
-        )}
       </footer>
+      <WidgetFooter onReset={onReset} canReset={canReset} onConfirm={onDone} disabled={!hasPhotos || !canConfirm || busy} confirmLabel={uiText("确认图片选择")}/>
     </>
   );
 }

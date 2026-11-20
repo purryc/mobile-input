@@ -1,0 +1,9 @@
+@font-face{font-family:"Noto Sans SC";src:url("/assets/figma/presentation/noto-sans-sc-500.woff2");font-weight:500}
+@font-face{font-family:"JetBrains Mono";src:url("/assets/xiaoyi-work/jetbrains-mono-latin.woff2");font-weight:100 800}
+@font-face{font-family:"Plus Jakarta Sans";src:url("/assets/xiaoyi-work/plus-jakarta-sans-latin.woff2");font-weight:200 800}
+body:has(.optical-scene){margin:0;background:white}
+.optical-scene {display:grid;margin:0;padding:0;font:400 16px/1.5 "Noto Sans SC","Plus Jakarta Sans",-apple-system,BlinkMacSystemFont,sans-serif;-webkit-font-smoothing:antialiased}
+.optical-scene section {display:flex;align-items:center;gap:12px;height:72px;padding:0 16px;background:white;box-sizing:border-box}
+.optical-scene[data-background=artifact] section {background:linear-gradient(108deg,#c4e5f5,#e1d7f5 70%,#f4d7ee)}
+.optical-scene small {font:12px/1.5 system-ui,sans-serif;color:#556780;width:44px;flex:none}
+.optical-scene .optical-frame-host {display:contents}

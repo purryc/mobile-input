@@ -1,0 +1,74 @@
+/* Catalog chrome opts into the same tokens without inheriting widget typography. */
+:where(.input-controls-theme, .ic-glass-tokens) {
+  --ic-recommendation-pigment: 0.90;
+  --ic-glass-pointer-strength: .78;
+  --ic-glass-hover-edge: rgb(102 192 237 / 72%);
+  --ic-glass-hover-light: inset 0 1px 0 rgb(255 255 255 / 94%);
+  --ic-glass-press-light: inset 0 0 0 1px rgb(64 155 208 / 70%);
+  --ic-glass-focus: var(--controls-accent, #2777bf);
+  --ic-glass-time: 150ms;
+  --ic-glass-transition: outline-color var(--ic-glass-time) ease,
+    border-color var(--ic-glass-time) ease, box-shadow var(--ic-glass-time) ease;
+}
+
+.input-controls-theme button:not(.ic-sentence-token),
+.ic-glass-tokens .ic-glass-action {
+  transition: var(--ic-glass-transition);
+}
+
+:where(.input-controls-theme) :where(.ic-chip-surface, .ic-demo-chip-remove, .ic-live-wb-aux button, .ic-screen-toolbar button),
+:where(.ic-glass-tokens) .ic-glass-action {
+  outline: 1px solid transparent;
+  outline-offset: -1px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .ic-chip-surface .ic-optical-core::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    border-radius: inherit;
+    background: radial-gradient(88px circle at var(--ic-light-x, 50%) var(--ic-light-y, 50%),
+      rgb(255 255 255 / 90%), rgb(72 196 255 / 16%) 45%, transparent 72%);
+    opacity: 0;
+    transition: opacity var(--ic-glass-time) ease;
+  }
+  .ic-chip-surface .ic-optical-core[data-pointer-light]::before {
+    opacity: var(--ic-glass-pointer-strength);
+  }
+
+  .input-controls-theme button:not(.ic-sentence-token):enabled:hover:not(:focus-visible),
+  .ic-glass-tokens .ic-glass-action:not(:disabled):hover:not(:focus-visible) {
+    outline: 1px solid var(--ic-glass-hover-edge);
+    outline-offset: -1px;
+    box-shadow: var(--ic-glass-hover-light);
+  }
+
+  .input-controls-theme .ic-chip-surface:has(.ic-sentence-token:enabled:hover):not([data-optical="needs-input"]):not(:has(:focus-visible)) {
+    outline: 1px solid var(--ic-glass-hover-edge);
+    outline-offset: -1px;
+  }
+
+  .ic-chip-surface:has(.ic-sentence-token:enabled:hover) .ic-optical-dash stop {
+    stop-color: var(--ic-glass-hover-edge);
+    stop-opacity: 1;
+  }
+}
+
+.input-controls-theme button:not(.ic-sentence-token):enabled:active,
+.input-controls-theme .ic-chip-surface:has(button:enabled:active),
+.ic-glass-tokens .ic-glass-action:not(:disabled):active {
+  box-shadow: var(--ic-glass-press-light);
+}
+
+.input-controls-theme :is(.ic-live-wb-aux, .ic-screen-toolbar, .ic-demo-modal)
+  :is(button, input, [tabindex]):focus-visible,
+.ic-glass-tokens .ic-glass-action:focus-visible {
+  outline: 2px solid var(--ic-glass-focus);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ic-glass-tokens .ic-glass-action { transition: none; }
+}

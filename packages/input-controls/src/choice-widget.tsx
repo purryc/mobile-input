@@ -1,3 +1,4 @@
+import {WidgetFooter, type WidgetResetProps} from "./widget-footer";
 import { useEffect, useId, useRef, useState } from "react";
 import {
   Check,
@@ -102,7 +103,7 @@ export function ChoiceWidget({
   language,
   onEvent,
   onChooseFile,
-  showDone = true,
+  showDone = true, onReset, canReset,
   onRemoveMaterial,
   onPreviewMaterial,
   materials = [],
@@ -118,8 +119,9 @@ export function ChoiceWidget({
   onRemoveMaterial?: (id: string) => void;
   onPreviewMaterial?: (id: string) => void;
   materials?: { id: string; name: string }[];
-}) {
+} & WidgetResetProps) {
   const { assetBase } = useWidgetEnvironment();
+  const initialValue = useRef(binding.value).current;
   const searchInput = useRef<HTMLInputElement>(null);
   const chooseButton = useRef<HTMLButtonElement>(null);
   const badgeId = useId();
@@ -215,14 +217,7 @@ export function ChoiceWidget({
               </span>
             </span>
           ) : binding.kind === "formats" ? (
-            <img
-              className="ic-demo-format-icon"
-              src={assetUrl(
-                assetBase,
-                "assets/xiaoyi-work/design-format-" + o.id + ".png",
-              )}
-              alt=""
-            />
+            <span aria-hidden="true" className="ic-format-badge" style={{backgroundColor:o.color}}>{o.id.slice(0,2).toUpperCase()}</span>
           ) : binding.kind === "palette" ? (
             <span className="ic-demo-palette-swatches">
               {o.swatches?.map((color) => (
@@ -245,9 +240,9 @@ export function ChoiceWidget({
             {binding.kind === "font" && (
               <FontSample family={o.id} fallback={t("让想法清晰可见", "Make your ideas clear")}/>
             )}
-            {binding.kind === "formats" && <small>.{o.id}</small>}
+
           </span>
-          {!capability && binding.value.includes(o.id) && (
+          {binding.kind === "formats" ? <span className="ic-format-check">{binding.value.includes(o.id) && <Check size={13}/>}</span> : !capability && binding.value.includes(o.id) && (
             <Check className="ic-demo-choice-marker" size={16} />
           )}
         </button>
@@ -336,19 +331,6 @@ export function ChoiceWidget({
         </p>
       )}
       <div className="ic-demo-choice-footer">
-        {binding.kind === "formats" && (
-          <span
-            title={t(
-              "输出偏好，不提供全部格式下载",
-              "Output preferences; not all formats can be downloaded",
-            )}
-          >
-            {t(
-              `输出偏好 · 已选${binding.value.length}种`,
-              `Preferences · ${binding.value.length} selected`,
-            )}
-          </span>
-        )}
         {binding.kind === "document" && onChooseFile && (
           <button
             type="button"
@@ -360,15 +342,11 @@ export function ChoiceWidget({
             {t("选择本地文件", "Choose a local file")}
           </button>
         )}
-        {showDone && !emptyDocument && <button
-          type="button"
-          aria-label={t("完成选择", "Done")}
-          title={t("完成选择", "Done")}
-          onClick={() => onEvent({ type: "close", owner, id: binding.id })}
-        >
-          <Check size={24} />
-        </button>}
       </div>
+      {showDone && <WidgetFooter
+        onReset={onReset ?? (() => onEvent({type:"change", owner, id:binding.id, value:initialValue}))}
+        canReset={canReset ?? (initialValue.join() !== binding.value.join())}
+        onConfirm={() => onEvent({type:"close", owner, id:binding.id})} confirmLabel={t("完成选择","Done")}/>}
     </div>
   );
 }

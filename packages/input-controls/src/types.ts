@@ -57,7 +57,7 @@ export interface CaptureMaterial {
 }
 
 export const widgetWidths: Record<WidgetKind, number> = {
-  duration: 288,
+  duration: 432,
   color: 320,
   font: 320,
   palette: 320,
@@ -68,7 +68,7 @@ export const widgetWidths: Record<WidgetKind, number> = {
   expert: 432,
   skills: 432,
   connectors: 432,
-  formats: 320,
+  formats: 432,
   capture: 320,
 };
 

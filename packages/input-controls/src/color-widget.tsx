@@ -1,8 +1,9 @@
+import {WidgetFooter, type WidgetResetProps} from "./widget-footer";
 import { useEffect, useRef, useState, type PointerEvent } from "react";
 import { fromHex, toHex } from "./color-math";
 import { WidgetIcon } from "./widget-icon";
 import { useWidgetText } from "./environment";
-export interface ColorWidgetProps {
+export interface ColorWidgetProps extends WidgetResetProps {
   ownerId?: string;
   value: string;
   label: string;
@@ -31,9 +32,10 @@ function ColorSession({
   label,
   onChange,
   onActive,
-  onDone,
+  onDone, onReset, canReset,
 }: ColorWidgetProps) {
   const uiText = useWidgetText();
+  const initialValue = useRef(value).current;
   const [hex, setHex] = useState(value),
     [base, setBase] = useState(value);
   const [hue, setHue] = useState(() => fromHex(value).h);
@@ -209,10 +211,8 @@ function ColorSession({
             }}
           />
         </label>
-        <button type="button" aria-label={uiText("完成颜色选择")} onClick={onDone}>
-          <WidgetIcon name="check" />
-        </button>
       </div>
+      <WidgetFooter onReset={onReset ?? (() => choose(initialValue))} canReset={canReset ?? (initialValue !== value)} onConfirm={onDone} confirmLabel={uiText("完成颜色选择")}/>
     </div>
   );
 }

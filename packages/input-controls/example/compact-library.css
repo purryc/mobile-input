@@ -105,7 +105,8 @@ html[lang="en"] .lite-specimen { grid-template-columns: minmax(0, 14ch) minmax(0
   position: absolute;
   box-sizing: border-box;
   width: 830px;
-  padding: 16px 18px 0;
+  /* Reserve the composer action row without painting controls beneath the glass. */
+  padding: 16px 18px 52px;
   isolation: isolate;
   border: 1px solid rgb(218 222 238 / 88%);
   border-radius: 22px;
@@ -124,10 +125,6 @@ html[lang="en"] .lite-specimen { grid-template-columns: minmax(0, 14ch) minmax(0
   display: grid; place-items: center; min-width: 100px; height: 36px;
   border: 1px solid #d5dbea; border-radius: 18px; background: rgb(245 246 249 / 72%);
 }
-.lite-reference-tools { height: 52px; display: flex; align-items: center; gap: 20px; margin-inline: 4px -6px; }
-.lite-reference-tools > svg:first-child { margin-right: auto; }
-.lite-reference-tools svg { width: 20px; height: 20px; }
-.lite-reference-tools span { width: 40px; height: 40px; display: grid; place-items: center; border-radius: 50%; color: white; background: #222; }
 .lite-reference-options {
   position: absolute;
   top: 100%;
@@ -212,3 +209,21 @@ html[lang="en"] .lite-specimen { grid-template-columns: minmax(0, 14ch) minmax(0
   border-radius: 10px;
   background: #fff;
 }
+
+.lite-sentence-example {
+  margin-block: 16px 20px;
+  padding: 16px 20px;
+  border: 1px solid #d5dfe4;
+  border-radius: 20px;
+  background: linear-gradient(145deg, white 50%, #f5f9fa);
+}
+.lite-sentence-example h2 {margin: 0; font-size: 14px; font-weight: 550; color: #475966;}
+.lite-sentence-example {padding:0;border:0;background:none}
+.lite-sentence-example > header {display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 10px}
+.lite-sentence-example header button {display:inline-flex;align-items:center;gap:6px;border:1px solid #d7e2ef;color:#486583;background:white;padding:6px 10px;border-radius:9px;cursor:pointer}
+.lite-sentence-example header button:disabled {opacity:.58}
+.lite-sentence-example p {padding:20px 24px;margin:0;background:linear-gradient(155deg,#fff 45%,#f6f9fc);border:1px solid #dae3ed;border-radius:20px;box-shadow:0 5px 18px #24406508;color:#14203c;font-size:16px;line-height:32px}
+@media(max-width:550px){.lite-sentence-example p {padding:12px;font-size:15px;line-height:32px}}
+
+.lite-sentence-example .controls-chip-anchor {display:inline-flex;vertical-align:middle;margin-inline:2px;max-width:calc(100% - 4px);line-height:1}
+.lite-sentence-example .controls-chip-anchor > span {display:inline-flex;min-width:0;max-width:100%}

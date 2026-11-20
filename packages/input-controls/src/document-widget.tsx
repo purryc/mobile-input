@@ -1,10 +1,11 @@
+import {WidgetFooter, type WidgetResetProps} from "./widget-footer";
 import { useId, type ComponentProps, type ReactNode } from "react";
-import { Check, Plus } from "lucide-react";
+import { Plus } from "lucide-react";
 import { ChoiceWidget } from "./choice-widget";
 import { useWidgetEnvironment, useWidgetText } from "./environment";
 import type { DocumentFile } from "./document-file-list";
 
-export type DocumentWidgetProps = {
+export type DocumentWidgetProps = WidgetResetProps & {
   choices?: Omit<ComponentProps<typeof ChoiceWidget>, "onRemoveMaterial">;
   /** Receives the adopted option or local material ID in the host-owned draft. */
   onRemoveMaterial?: (id: string) => void;
@@ -15,7 +16,7 @@ export type DocumentWidgetProps = {
   onDone?: () => void;
 };
 export function DocumentWidget({
-  choices,
+  choices, onReset, canReset,
   materials,
   onPreviewMaterial,
   children,
@@ -31,7 +32,7 @@ export function DocumentWidget({
   const owner = useId();
   if (!choices && (materials || children == null)) {
     return <ChoiceWidget
-      definition={{kind: "document", zh: "文件选择", en: "File picker", options: []}}
+      onReset={onReset} canReset={canReset} definition={{kind: "document", zh: "文件选择", en: "File picker", options: []}}
       binding={{id: owner, kind: "document", origin: "manual", value: []}}
       owner={owner} language={language}
       materials={materials} onChooseFile={onChoose} showDone={Boolean(onDone)}
@@ -41,7 +42,7 @@ export function DocumentWidget({
   }
   return choices ? (
     <ChoiceWidget
-      {...choices}
+      {...choices} onReset={onReset ?? choices.onReset} canReset={canReset ?? choices.canReset}
       binding={{ ...choices.binding, kind: "document" }}
       onChooseFile={onChoose}
       onRemoveMaterial={onRemoveMaterial}
@@ -55,14 +56,7 @@ export function DocumentWidget({
           {t("添加参考资料")}
         </button>
       </div>
-      <div className="ic-demo-choice-footer">
-        <span>{t("PDF、TXT、Markdown · 单份最多 8 MB")}</span>
-        {onDone && (
-          <button type="button" aria-label={doneLabel} title={doneLabel} onClick={onDone}>
-            <Check size={24} />
-          </button>
-        )}
-      </div>
+      <WidgetFooter onReset={onReset} canReset={canReset} onConfirm={onDone} confirmLabel={doneLabel}/>
     </>
   );
 }

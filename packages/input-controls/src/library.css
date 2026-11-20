@@ -1,25 +1,8 @@
 /* Semantic state, provenance and interaction are independent. */
-.input-controls-theme {--input-accent:var(--controls-accent,#6266df);--dock-accent:var(--input-accent);font-family:system-ui,sans-serif;color:var(--ic-demo-ink,#182431);}
+.input-controls-theme {--input-accent:var(--controls-accent,#2a7be4);--dock-accent:var(--input-accent);font-family:system-ui,sans-serif;color:var(--ic-demo-ink,#182431);}
 .input-controls-theme *, .input-controls-theme *::before, .input-controls-theme *::after {box-sizing:border-box;}
 .input-controls-theme button {cursor:pointer;font-family:inherit;color:inherit;}
 .input-controls-theme button:disabled {cursor:default;}
-.input-controls-theme .ic-sentence-token-hit {display:inline-flex;vertical-align:middle;height:32px;padding:0 2px;}
-.input-controls-theme .ic-sentence-token, .input-controls-theme .ic-sentence-token-capsule {height:32px;min-height:32px;border-radius:9px;position:relative;display:inline-flex;align-items:center;vertical-align:middle;padding:0;}
-.input-controls-theme .ic-sentence-token {border:0;background:transparent;}
-.input-controls-theme .ic-sentence-token > .ic-sentence-token-face {display:inline-flex;align-items:center;justify-content:center;height:32px;min-height:32px;padding:0 8px;gap:6px;border:1px solid #D5DAE1;border-radius:9px;font:400 15px/22px system-ui,sans-serif;background:rgba(255,255,255,.48);white-space:nowrap;}
-.input-controls-theme .ic-sentence-token[data-semantic-state]::after {display:none;}
-.input-controls-theme .ic-sentence-token[data-semantic-state="needs-input"]>.ic-sentence-token-face {border:1px dashed #D5DAE1;background:#ffffff7a;}
-.input-controls-theme .ic-sentence-token[data-semantic-state="default-selected"]>.ic-sentence-token-face {border:1px solid #D5DAE1;background:#ffffff7a;}
-.input-controls-theme .ic-sentence-token-capsule[data-semantic-state] {border:1px solid #D5DAE1;background:#ffffff7a;box-shadow:none;}
-.input-controls-theme .ic-sentence-token-capsule[data-semantic-state]::before,.input-controls-theme .ic-sentence-token-capsule[data-semantic-state]::after {display:none;}
-.input-controls-theme .ic-sentence-token-capsule[data-semantic-state="needs-input"] {border-style:dashed;}
-.input-controls-theme .ic-sentence-token-capsule[data-semantic-state] .ic-sentence-token>.ic-sentence-token-face {border:0;background:transparent;height:30px;min-height:30px;}
-.input-controls-theme .ic-sentence-token[data-semantic-state="ambiguous-recommendation"]>.ic-sentence-token-face,
-.input-controls-theme .ic-sentence-token-capsule[data-semantic-state="ambiguous-recommendation"] {border:1.5px solid transparent;background:linear-gradient(#fafaff,#fafaff) padding-box,linear-gradient(110deg,#6288F5,#8C68E8,#D878B6) border-box;box-shadow:0 0 4px #8c68e826;}
-.input-controls-theme .ic-sentence-token-capsule[data-semantic-state="ambiguous-recommendation"] .ic-sentence-token>.ic-sentence-token-face {border:0;background:transparent;box-shadow:none;}
-.input-controls-theme .ic-sentence-token[aria-expanded="true"]>.ic-sentence-token-face,.input-controls-theme .ic-sentence-token-capsule[data-expanded="true"] {background-color:var(--ic-demo-tint,#6266df12);}
-.input-controls-theme .ic-sentence-token:hover:not(:disabled)>.ic-sentence-token-face {box-shadow:inset 0 0 0 1px #7e87a533;}
-.input-controls-theme .ic-sentence-token:active:not(:disabled) {transform:translateY(1px);}
 .input-controls-theme button:focus-visible {outline:2px solid var(--input-accent);outline-offset:2px;}
 .input-controls-theme .ic-sentence-token:disabled {opacity:.5;}
 .input-controls-theme .ic-demo-chip-icon,.input-controls-theme .ic-sentence-icon,.input-controls-theme .ic-sentence-swatch {width:18px;height:18px;flex:none;object-fit:contain;}
@@ -42,18 +25,13 @@
 .input-controls-popover {display:flex;border-radius:20px;}
 .input-controls-popover .controls-panel-shell {max-height:inherit;min-height:0;}
 .input-controls-popover .controls-panel-shell .ic-live-wb-aux {max-height:inherit;}
-.input-controls-theme .ic-sentence-token[data-semantic-state="needs-input"][aria-expanded="true"]>.ic-sentence-token-face,
-.input-controls-theme .ic-sentence-token[data-semantic-state="default-selected"][aria-expanded="true"]>.ic-sentence-token-face {border-color:#a6b0bd;background:var(--ic-demo-tint);}
-.input-controls-theme .ic-sentence-token-capsule[data-semantic-state="needs-input"][data-expanded="true"],
-.input-controls-theme .ic-sentence-token-capsule[data-semantic-state="default-selected"][data-expanded="true"] {border-color:#a6b0bd;}
-
 /* Host typography must not change controls between standalone and documentation use. */
 .input-controls-theme {font:400 15px/1.55 system-ui,sans-serif;letter-spacing:normal;text-align:start;}
 .input-controls-theme input,.input-controls-theme select,.input-controls-theme textarea {font:inherit;letter-spacing:normal;}
 /* Real desktop host typography, including portalled panels. */
 .input-controls-theme .ic-demo-widget-wrap { font-size:14px; line-height:1.55; }
 .input-controls-theme .ic-demo-widget-wrap .ic-live-wb-aux > header button { justify-content:center; }
-.input-controls-theme .ic-live-wb-aux footer.ic-live-wb-sketch-tools { justify-content:flex-start; }
+.input-controls-theme .ic-live-wb-aux .ic-live-wb-sketch-tools { display:flex;align-items:center;justify-content:flex-start; }
 .input-controls-theme .ic-demo-widget-wrap .ic-live-wb-aux:has(.ic-agent-photo-actions[data-has-photos="false"]) { height:118px; }
 /* Empty live-capture actions have no reserved row in the real desktop demo. */
 .input-controls-theme .ic-demo-capture-panel .ic-demo-capture-actions:empty { display:none; }
@@ -73,11 +51,6 @@
   text-overflow: ellipsis;
 }
 .input-controls-theme .ic-chip-object-count { flex: none; font-size: 12px; }
-.input-controls-theme .ic-sentence-token[data-semantic-state="object-bound"][aria-expanded="true"] > .ic-sentence-token-face {
-  border-color: #a6b0bd;
-  background: var(--ic-demo-tint);
-}
-
 /* Use the browser's top layer even when the host mounts inside a clipped popover. */
 .input-controls-theme dialog.ic-screen-workspace[open] {
   position: fixed; inset: 0; box-sizing: border-box; width: 100%; height: 100%;

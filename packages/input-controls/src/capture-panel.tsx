@@ -1,3 +1,4 @@
+import {WidgetFooter, type WidgetResetProps} from "./widget-footer";
 import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties, type PointerEvent } from "react";
 import {
   Camera,
@@ -199,7 +200,7 @@ export function CaptureTile({
 
 
 import { browserCaptureAdapter, stopMedia, waitForFrame, type CaptureAdapter } from './capture-adapter';
-export interface CapturePanelProps {
+export interface CapturePanelProps extends WidgetResetProps {
   ownerId?: string;
   /** Passive catalogs can wait for the first mode click before requesting a camera. */
   deferCameraUntilSelection?: boolean;
@@ -221,7 +222,7 @@ export function CapturePanel(props: CapturePanelProps) {
   const screenIntent = props.mode === 'capture' ? props.screenIntent : undefined;
   return <CaptureSession key={[props.ownerId, props.mode, screenIntent].join(':')} {...props} screenIntent={screenIntent}/>;
 }
-function CaptureSession({mode, screenIntent, initialCameraMode = 'photo', deferCameraUntilSelection = false, onCancel, items, language, adapter = browserCaptureAdapter, onAdd, onRemove, onConfirm, onBusy}: CapturePanelProps) {
+function CaptureSession({onReset, canReset, mode, screenIntent, initialCameraMode = 'photo', deferCameraUntilSelection = false, onCancel, items, language, adapter = browserCaptureAdapter, onAdd, onRemove, onConfirm, onBusy}: CapturePanelProps) {
   const t = (zh: string, en: string) => language === 'en' ? en : zh;
   const [phase, setPhase] = useState<'idle'|'loading'|'preview'|'recording'>(screenIntent ? 'loading' : 'idle');
   const [kind, setKind] = useState<'screenshot'|'recording'>(screenIntent ?? 'screenshot');
@@ -363,6 +364,7 @@ function CaptureSession({mode, screenIntent, initialCameraMode = 'photo', deferC
     pointer.current = null;
   }
   const canCrop = Boolean(review) || mode === 'capture' || cameraMode === 'scan';
+  const cameraWaiting = mode === 'scanner' && phase === 'loading';
   const viewport = <div className="ic-demo-capture-viewport"
     style={screenActive ? {'--ic-source-aspect': sourceRatio} as CSSProperties : undefined}
     onPointerDown={event => {
@@ -381,7 +383,8 @@ function CaptureSession({mode, screenIntent, initialCameraMode = 'photo', deferC
       const {videoWidth, videoHeight} = event.currentTarget;
       if (videoWidth && videoHeight) setSourceRatio(videoWidth / videoHeight);
     }} style={{display: review ? 'none' : 'block'}}/>
-    {canCrop && <div className="ic-demo-crop-box" style={{left:crop.x*100+'%',top:crop.y*100+'%',width:crop.w*100+'%',height:crop.h*100+'%'}}/>}
+    {cameraWaiting && <span className="ic-camera-status" role="status">{t('正在等待画面…','Waiting for video…')}</span>}
+    {canCrop && !cameraWaiting && <div className="ic-demo-crop-box" style={{left:crop.x*100+'%',top:crop.y*100+'%',width:crop.w*100+'%',height:crop.h*100+'%'}}/>}
   </div>;
   const cameraSelected = phase !== 'idle' || Boolean(error);
   const cameraModes = <div className="ic-demo-capture-modes" role="group" aria-label={t('相机模式','Camera mode')}>
@@ -421,16 +424,20 @@ function CaptureSession({mode, screenIntent, initialCameraMode = 'photo', deferC
     {mode === 'scanner' && !review && cameraModes}
     {!screenActive && (phase !== 'idle' || review) && viewport}
     {!screenActive && (phase !== 'idle' || review) && <div className="ic-demo-capture-actions">
-      <button type="button" disabled={phase === 'loading'} onClick={() => void capture()}>
+      <button className={review ? "ic-widget-confirm" : "ic-widget-confirm ic-camera-shutter"} type="button" disabled={phase === 'loading'} onClick={() => void capture()}>
         {!review && <Camera size={18}/>}
         {review ? t('保存裁剪','Save crop') : t('拍摄','Capture')}
       </button>
       {canCrop && (crop.w < 1 || crop.h < 1) && <button type="button" onClick={fullFrame}>{t('完整画面','Full frame')}</button>}
       {(review || (mode === 'scanner' && !onCancel)) && <button type="button" onClick={cancel}>{t('取消','Cancel')}</button>}
     </div>}
-    {!screenActive && phase === 'loading' && <p role="status">{t('正在等待画面…','Waiting for video…')}</p>}
     {!screenActive && error && <><p role="alert">{error}</p>{mode === 'scanner' && phase === 'idle' && <button type="button" onClick={() => void begin()}>{t('重试','Retry')}</button>}</>}
     {!!visible.length&&<div className="ic-demo-capture-items">{visible.map(item=><section key={item.id}><CaptureTile item={item} onRemove={()=>onRemove(item.id)}/>{!item.confirmed&&item.kind!=='recording'&&<div><button type="button" disabled={mode==='capture' && phase!=='idle'} onClick={()=>{release();if(mode==='scanner')setCameraMode(item.cameraMode ?? 'scan');setReview(item);setCrop({x:0,y:0,w:1,h:1});}}>{t('裁剪','Crop')}</button><button type="button" disabled={mode==='capture' && phase!=='idle'} onClick={()=>{if(mode==='scanner')setCameraMode(item.cameraMode ?? 'scan');void begin('screenshot',item.id);}}>{t('重拍','Retake')}</button></div>}<small>{item.confirmed?t('已确认','Confirmed'):t('待确认','Awaiting confirmation')}</small></section>)}</div>}
-    {visible.some(item=>!item.confirmed)&&(mode==='scanner'||phase==='idle')&&!review&&<button type="button" ref={screenIntent ? entry : undefined} className="ic-demo-capture-confirm" onClick={() => {release();onConfirm();}}><Check size={18}/>{t('确认材料','Confirm materials')}</button>}
+    {!screenActive && <WidgetFooter confirmRef={screenIntent && visible.some(item=>!item.confirmed) ? entry : undefined}
+      onReset={() => {release();setReview(null);setError('');fullFrame();setCameraMode(initialCameraMode);
+        if(onReset)onReset();else visible.filter(item=>!item.confirmed).forEach(item=>onRemove(item.id));}}
+      canReset={Boolean(canReset || review || cameraMode!==initialCameraMode || visible.some(item=>!item.confirmed) || error || phase==='preview')}
+      disabled={!visible.some(item=>!item.confirmed) || Boolean(review) || phase==='loading'}
+      onConfirm={() => {release();onConfirm();}} confirmLabel={t('确认材料','Confirm materials')}/>}
   </div>;
 }
