@@ -595,3 +595,58 @@ test("scanner recovers when the camera grants a stream but delivers no frame", a
   await panel.getByRole("button", { name: "Confirm materials" }).click();
   await expect(page.locator(".demo-attachments [data-capture-kind=scanner]")).toContainText("scan.png");
 });
+
+test("widget toggles keep the paragraph in place and only adopted files occupy the top row", async ({page}) => {
+  await page.setViewportSize({width: 1489, height: 875});
+  await page.goto("/?language=zh");
+  const field = page.locator(".wb-sentence-composer");
+  const home = page.locator(".wb-home");
+  const panel = page.locator(".demo-widget-wrap");
+  const materials = page.locator(".demo-attachments");
+  const trigger = (kind: string) => page.locator(`button[data-parameter-id][data-kind="${kind}"]`).first();
+  const paragraphTop = () => field.evaluate(el => el.getBoundingClientRect().top);
+  const paddingAboveText = () => field.evaluate(el =>
+    el.getBoundingClientRect().top - el.closest(".demo-composer")!.getBoundingClientRect().top);
+  const shortcutOffset = () => home.evaluate(el =>
+    el.querySelector(".wb-scenes")!.getBoundingClientRect().top - el.querySelector(".wb-home-entry")!.getBoundingClientRect().top);
+  const emptyGap = await paddingAboveText();
+  const shortcutGap = await shortcutOffset();
+  const prompt = "演讲时长设为10分钟，主题色用蓝色。我有一些本地文档作为大纲参考，还有老板写的一些重点我扫描给你。";
+  await field.fill(prompt);
+  await expect(trigger("scanner")).toBeVisible();
+  await expect(materials).toHaveCount(0);
+  expect(await paddingAboveText()).toBeCloseTo(emptyGap, 0);
+  expect(await shortcutOffset()).toBeCloseTo(shortcutGap, 0);
+  const toggle = async (kind: string) => {
+    const before = await paragraphTop();
+    await trigger(kind).click();
+    await expect(panel).toBeInViewport();
+    const bounds = (await panel.boundingBox())!;
+    expect(bounds.y + bounds.height).toBeLessThanOrEqual(875);
+    expect(Math.abs(await paragraphTop() - before)).toBeLessThanOrEqual(1);
+    await page.keyboard.press("Escape");
+    await expect(panel).toHaveCount(0);
+    expect(Math.abs(await paragraphTop() - before)).toBeLessThanOrEqual(1);
+  };
+  for (const kind of ["duration", "color", "document", "scanner"]) await toggle(kind);
+  await expect(materials).toHaveCount(0);
+  await trigger("document").click();
+  const choice = page.waitForEvent("filechooser");
+  await panel.getByRole("button", {name: /选择本地文件|添加参考资料/}).last().click();
+  await (await choice).setFiles({name:"widget-spacing.txt", mimeType:"text/plain", buffer:Buffer.from("Spacing test")});
+  await expect(materials).toContainText("widget-spacing.txt");
+  await page.keyboard.press("Escape");
+  expect(await paddingAboveText()).toBeGreaterThan(emptyGap + 20);
+  await materials.getByRole("button", {name:/移除|删除/}).click();
+  await expect(materials).toHaveCount(0);
+  expect(await paddingAboveText()).toBeCloseTo(emptyGap, 0);
+  await page.route("**/api/workbuddy-demo/generate", route => route.fulfill({
+    contentType:"application/x-ndjson",
+    body:JSON.stringify({artifact:{id:"layout-test",kind:"document",title:"Layout test",model:"fixture",markdown:"Test"}}) + '\n{"done":true}\n',
+  }));
+  await page.locator(".demo-send").click();
+  await expect(page.locator(".demo-task-compose")).toBeVisible();
+  await field.fill(prompt);
+  await expect(trigger("scanner")).toBeVisible();
+  for (const kind of ["duration", "color", "scanner"]) await toggle(kind);
+});

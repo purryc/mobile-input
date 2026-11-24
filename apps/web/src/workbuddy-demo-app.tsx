@@ -266,7 +266,8 @@ export function WorkbuddyDemoApp() {
           />
         ) : (
           <XiaoyiHome
-            panel={panel}
+            key={draft.id}
+            readyToFill={model.phase === "idle" && Boolean(draft.controls?.length || draft.parameters.length)}
             composer={composer}
             onPrompt={(prompt) =>
               void afterSpeech(() =>

@@ -36,8 +36,9 @@ button:disabled {
 .demo-app .wb-home {
   flex-shrink: 0;
 }
-.demo-app .wb-home.has-open-widget {
-  padding-bottom: 420px;
+.demo-app .wb-home:has(button[data-parameter-id]) {
+  padding-bottom: min(62dvh, 540px);
+  overflow-anchor: none;
 }
 .demo-app .wb-home-entry {
   flex-shrink: 0;
@@ -137,6 +138,7 @@ button:disabled {
   background: #f4f4f4 !important;
 }
 .demo-widget-wrap {
+  overscroll-behavior: contain;
   position: fixed;
   z-index: 20;
   max-width: calc(100vw - 32px);

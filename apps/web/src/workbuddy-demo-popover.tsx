@@ -24,17 +24,17 @@ export function WorkBuddyDemoPopover({
     top: number;
     width: number;
     arrow: number;
+    maxHeight: number;
   } | null>(null);
   useLayoutEffect(() => {
     let frame = 0,
       alive = true,
-      reveal = true, missing = 0;
+      missing = 0;
     const getHost=()=>anchorRoot.current;
     const findAnchor = () =>
       anchorId
-        ? Array.from(getHost()?.querySelectorAll<HTMLElement>(".sentence-token") ?? [])
+        ? Array.from(getHost()?.querySelectorAll<HTMLButtonElement>("button[data-parameter-id]") ?? [])
             .find((el) => el.dataset.parameterId === anchorId)
-            ?.querySelector<HTMLElement>(".sentence-token-face")
         : getHost()?.querySelector<HTMLElement>(".demo-add>button");
     const measure = () => {
       if (!alive || !root.current) return;
@@ -47,9 +47,16 @@ export function WorkBuddyDemoPopover({
       const rect = anchor.getBoundingClientRect(),
         width = Math.min(preferredWidth, innerWidth - 32);
       const left = Math.max(16, Math.min(rect.left, innerWidth - width - 16));
+      const below = Math.max(16, rect.bottom + 8);
+      const roomBelow = innerHeight - below - 16;
+      // At the bottom edge, keep the panel usable without scrolling the draft.
+      const above = roomBelow < 120 && rect.top - 24 > roomBelow;
+      const maxHeight = Math.max(0, above ? rect.top - 24 : roomBelow);
+      const top = above ? Math.max(16, rect.top - 8 - Math.min(root.current.scrollHeight, maxHeight)) : below;
       const next = {
         left,
-        top: Math.max(16,Math.min(rect.bottom + 8,innerHeight-root.current.getBoundingClientRect().height-16)),
+        top,
+        maxHeight,
         width,
         arrow: Math.max(
           12,
@@ -68,21 +75,6 @@ export function WorkBuddyDemoPopover({
           ? previous
           : next,
       );
-      if (reveal) {
-        const height = root.current.getBoundingClientRect().height;
-        if (height > 0) {
-          reveal = false;
-          const overflow = rect.bottom + 8 + height - (innerHeight - 16);
-          if (overflow > 0) {
-            const scroller =
-              getHost()?.closest<HTMLElement>(".wb-home, .demo-task-compose");
-            scroller?.scrollBy({
-              top: Math.min(overflow, Math.max(0, rect.top - 24)),
-              behavior: "instant",
-            });
-          }
-        }
-      }
     };
     const schedule = () => {
       cancelAnimationFrame(frame);
@@ -92,6 +84,8 @@ export function WorkBuddyDemoPopover({
     for (const node of [
       root.current,
       getHost()?.querySelector(".wb-sentence-composer"),
+      findAnchor(),
+      getHost()?.querySelector(".demo-capabilities"),
       getHost()?.closest(".wb-home-entry"),
     ])
       if (node) observer.observe(node);
@@ -99,6 +93,8 @@ export function WorkBuddyDemoPopover({
       composer = getHost()?.querySelector(".wb-sentence-composer");
     if (composer)
       mutations.observe(composer, { childList: true, subtree: true });
+    const trigger = findAnchor();
+    const panelNode = root.current;
     const key = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
         event.preventDefault();
@@ -111,6 +107,7 @@ export function WorkBuddyDemoPopover({
     measure();
     schedule();
     return () => {
+      if (panelNode?.contains(document.activeElement)) trigger?.focus({preventScroll: true});
       alive = false;
       cancelAnimationFrame(frame);
       observer.disconnect();
@@ -133,6 +130,8 @@ export function WorkBuddyDemoPopover({
           left: position?.left ?? 0,
           top: position?.top ?? 0,
           width: position?.width ?? 360,
+          maxHeight: position?.maxHeight,
+          overflow: "auto",
           visibility: position ? "visible" : "hidden",
           "--anchor-offset": `${position?.arrow ?? 18}px`,
         } as React.CSSProperties

@@ -1,3 +1,7 @@
+# Xiaoyi Work desktop widget placement
+
+- Frame the chip rows once per draft. Opening or closing a widget preserves the reading position. Reserve space for materials above the text only after a real attachment exists.
+
 # Reference document confirmation and source delivery
 
 - Restore the desktop reference document panel’s Done action. Choosing a local file continues to add it to the owning draft. Done closes the panel without resubmitting or altering attachments.

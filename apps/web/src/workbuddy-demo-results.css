@@ -52,12 +52,9 @@
 .demo-app .demo-task-compose .wb-composer-options {
   font-size: 11px;
 }
-.demo-app .wb-task-chat:has(.demo-widget-wrap) .demo-task-compose {
-  max-height: 80%;
-  padding-bottom: 390px;
-}
-.demo-app .wb-task-chat:has(.demo-widget-wrap) .wb-messages {
-  min-height: 80px;
+.demo-app .demo-task-compose:has(button[data-parameter-id]) {
+  margin-bottom: min(34dvh, 320px);
+  overflow-anchor: none;
 }
 .demo-request-details {
   font-size: 11px;
