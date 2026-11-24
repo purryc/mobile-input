@@ -1,3 +1,7 @@
+# Xiaoyi Work desktop widget placement
+
+- Frame the chip rows once per draft. Opening or closing a widget preserves the reading position. Reserve space for materials above the text only after a real attachment exists.
+
 # Xiaoyi shared-controls adoption
 
 - Consume the exact 1.7.1 library archive built at 6c5ac88. Open an explicitly invoked camera chip in Photo or Document Scan mode, adopt only confirmed material and keep its removable filename in the originating draft. Passive previews must wait for user interaction. Keep the workspace adapter for screen capture.

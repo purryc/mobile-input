@@ -11,7 +11,7 @@ import {
   ImagePlus,
 } from "lucide-react";
 import { uiText } from "./i18n";
-import type { ReactNode } from "react";
+import { useLayoutEffect, useRef, type ReactNode } from "react";
 import type {
   DemoState,
   DemoDraft,
@@ -248,16 +248,40 @@ export function XiaoyiSettings({
   );
 }
 export function XiaoyiHome({
-  panel,
+  readyToFill,
   composer,
   onPrompt,
 }: {
-  panel: unknown;
+  readyToFill: boolean;
   composer: ReactNode;
   onPrompt: (text: string) => void;
 }) {
+  const home = useRef<HTMLDivElement>(null);
+  const framed = useRef(false);
+  useLayoutEffect(() => {
+    const view = home.current;
+    if (!readyToFill || !view || framed.current) return;
+    const composer = view.querySelector(".demo-composer");
+    if (!composer) return;
+    // Frame the chip rows once, including room for their panels.
+    const chips = [...composer.querySelectorAll<HTMLElement>("button[data-parameter-id]")];
+    if (!chips.length) return;
+    const panelDepth = (kind?: string) => {
+      if (kind === "scanner") return 454;
+      if (kind === "duration") return 248;
+      if (kind === "capture") return 192;
+      return 416;
+    };
+    const start = Math.min(...chips.map(chip => chip.getBoundingClientRect().top));
+    const bottom = Math.max(composer.getBoundingClientRect().bottom,
+      ...chips.map(chip => chip.getBoundingClientRect().bottom + 8 + panelDepth(chip.dataset.kind)));
+    const height = bottom - start;
+    const margin = Math.max(16, (view.clientHeight - height) / 2);
+    view.scrollTop += start - view.getBoundingClientRect().top - margin;
+    framed.current = true;
+  }, [readyToFill]);
   return (
-    <div className={"wb-home" + (panel ? " has-open-widget" : "")}>
+    <div ref={home} className="wb-home">
       <div className="xiaoyi-mascot" role="img" aria-label={uiText("小艺形象")}>
         <img src="./assets/xiaoyi-work/client-poster.webp" alt="" />
       </div>
