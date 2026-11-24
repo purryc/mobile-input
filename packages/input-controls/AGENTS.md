@@ -1,3 +1,7 @@
+# Local scanner revision
+
+- Develop local 1.8.3 from the released 1.8.2 controls. Keep live and frozen scanner frames in the same viewport. Retake replaces only the pending image after success; the host adopts on confirmation.
+
 # Input controls source library
 
 - `src/`: independent React views, props, geometry, styles and optional browser capture adapters. No imports outside this package.
@@ -42,7 +46,7 @@
 - Store local before/after screenshots and the recorded flow in the existing compact QA directory. Keep the 1.7.1 production deployment separate from this local review.
 
 ## Mixed composer review
-- Use the mixed product-introduction sentence at the top of the compact gallery. Only simulated unresolved recommendations enter the replayable preparing animation. Fade recommendation pigments by 15%, preserving text contrast.
+- Use the mixed product-introduction sentence at the top of the compact gallery. Place expert, skill and connector chips together below the prose, inside the same composer, preserving their individual selection states. Only simulated unresolved recommendations enter the replayable preparing animation. Fade recommendation pigments by 15%, preserving text contrast.
 - Show a separate bound document specimen backed by real bytes. Empty document entry points stay empty.
 - Use a common Reset / Confirm footer across the 13 controls. Reset is scoped to this control; confirmation follows the control's material/adoption contract. The duration control supports seconds, minutes and hours with a numeric stepper, slider and presets; minute-only callers retain their units.
 

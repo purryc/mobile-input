@@ -305,6 +305,7 @@ function InteractiveWidget({
             items={captures} language={language}
             {...(screenIntent ? {screenIntent} : {})}
             {...(inline && kind === 'scanner' ? {deferCameraUntilSelection: true} : {})}
+            {...(kind === 'scanner' && specimen?.presentation === 'sentence' ? {initialCameraMode: 'scan' as const} : {})}
             {...(kind === 'scanner' && initial === 'object-bound' ? {initialCameraMode: captures[0]?.cameraMode ?? 'scan'} : {})}
             onAdd={item => {setCaptures(previous => [...previous, item]); emit('capture', item.name);}}
             onRemove={removeCapture}

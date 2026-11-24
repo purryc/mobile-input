@@ -24,10 +24,18 @@ test('matches the Lumina preparing, recommendation and reduced-motion timelines'
   await expect(surface).toHaveCSS('animation-name','none');
 });
 
-test('multiple inline recommendations open, resolve and dismiss independently', async ({page}) => {
+test('agent capabilities appear below prose and resolve and dismiss independently', async ({page}) => {
   await page.goto('/compact.html');
   const sentence = page.locator('.lite-sentence-example');
-  const chip = sentence.locator('[data-kind=expert]');
+  const capabilities = sentence.getByRole('group', {name:'Agent 能力推荐'});
+  const prose = sentence.locator('p');
+  for (const kind of ['expert', 'skills', 'connectors']) {
+    await expect(prose.locator('[data-kind='+kind+']')).toHaveCount(0);
+    await expect(capabilities.locator('[data-kind='+kind+']')).toHaveCount(1);
+  }
+  const [body, row] = await Promise.all([prose.boundingBox(), capabilities.boundingBox()]);
+  expect(row!.y).toBeGreaterThanOrEqual(body!.y + body!.height - 1);
+  const chip = capabilities.locator('[data-kind=expert]');
   await expect(chip.locator('.ic-demo-chip-smart svg')).toHaveCSS('width', '14px');
   const dismiss = sentence.locator('[data-optical=ambiguous-recommendation] .ic-demo-chip-remove').first();
   await expect(dismiss).toHaveCSS('border-top-style', 'none');

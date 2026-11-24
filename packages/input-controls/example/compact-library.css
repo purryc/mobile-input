@@ -210,20 +210,17 @@ html[lang="en"] .lite-specimen { grid-template-columns: minmax(0, 14ch) minmax(0
   background: #fff;
 }
 
-.lite-sentence-example {
-  margin-block: 16px 20px;
-  padding: 16px 20px;
-  border: 1px solid #d5dfe4;
-  border-radius: 20px;
-  background: linear-gradient(145deg, white 50%, #f5f9fa);
-}
-.lite-sentence-example h2 {margin: 0; font-size: 14px; font-weight: 550; color: #475966;}
-.lite-sentence-example {padding:0;border:0;background:none}
+.lite-sentence-example { margin-block:16px 20px; }
+.lite-sentence-example h2 {margin:0;font-size:14px;font-weight:550;color:#475966}
 .lite-sentence-example > header {display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 10px}
 .lite-sentence-example header button {display:inline-flex;align-items:center;gap:6px;border:1px solid #d7e2ef;color:#486583;background:white;padding:6px 10px;border-radius:9px;cursor:pointer}
 .lite-sentence-example header button:disabled {opacity:.58}
-.lite-sentence-example p {padding:20px 24px;margin:0;background:linear-gradient(155deg,#fff 45%,#f6f9fc);border:1px solid #dae3ed;border-radius:20px;box-shadow:0 5px 18px #24406508;color:#14203c;font-size:16px;line-height:32px}
-@media(max-width:550px){.lite-sentence-example p {padding:12px;font-size:15px;line-height:32px}}
+.lite-sample-composer {padding:20px 24px;background:linear-gradient(155deg,#fff 45%,#f6f9fc);border:1px solid #dae3ed;border-radius:20px;box-shadow:0 5px 18px #24406508;color:#14203c;font-size:16px;line-height:32px}
+.lite-sample-composer > p { margin:0; line-height:32px; }
+.lite-capabilities { display:flex; flex-wrap:wrap; align-items:center; gap:6px 8px; padding-top:8px; }
+.lite-capabilities-title { color:#545668; font-size:13px; font-weight:600; line-height:20px; }
+.lite-sentence-example .lite-capabilities .controls-chip-anchor { margin-inline:0; }
+@media(max-width:550px){.lite-sample-composer {padding:12px;font-size:15px}}
 
 .lite-sentence-example .controls-chip-anchor {display:inline-flex;vertical-align:middle;margin-inline:2px;max-width:calc(100% - 4px);line-height:1}
 .lite-sentence-example .controls-chip-anchor > span {display:inline-flex;min-width:0;max-width:100%}

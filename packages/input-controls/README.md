@@ -28,7 +28,7 @@ Download the `.tgz` from the top of the compact gallery. Put it in the root
 of your React 19 app and use its filename in the install command:
 
 ```sh
-npm install ./mobile-input-controls-1.8.2.tgz
+npm install ./mobile-input-controls-1.8.3.tgz
 npx --no-install input-controls-assets ./public/input-controls
 ```
 

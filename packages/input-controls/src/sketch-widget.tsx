@@ -9,7 +9,7 @@ import {
 } from "./sketch-geometry";
 export function SketchWidget(props: SketchWidgetProps) { return <SketchSession key={props.ownerId} {...props}/>; }
 function SketchSession({
-  strokes, onReset, canReset,
+  strokes, onReset, canReset, legacyInk,
   onChange,
   onEnd,
   onActive,
@@ -18,6 +18,8 @@ function SketchSession({
 }: {
   ownerId?: string;
   strokes: number[][][];
+  /** Original host ink for saved strokes that carry no RGB value. */
+  legacyInk?: {rgb: number; zh: string; en: string};
   onChange: (strokes: number[][][]) => void;
   onEnd?: (strokes: number[][][]) => void;
   onActive: (active: boolean) => void;
@@ -27,7 +29,9 @@ function SketchSession({
   const initialStrokes = useRef(strokes).current;
   const uiText = useWidgetText();
   const en = useWidgetEnvironment().language.startsWith("en");
-  const [ink, setInk] = useState<number>(defaultSketchInk);
+  const initialInk = legacyInk?.rgb ?? defaultSketchInk;
+  const palette = legacyInk ? [legacyInk, ...sketchInks] : sketchInks;
+  const [ink, setInk] = useState<number>(initialInk);
   const lines = useRef(strokes),
     drawing = useRef(false),
     pointer = useRef<number | null>(null),
@@ -110,7 +114,7 @@ function SketchSession({
           </button>
         </div>
         <div className="ic-sketch-inks" role="group" aria-label={en ? "Pen color" : "画笔颜色"}>
-          {sketchInks.map(({rgb, zh, en: name}) => (
+          {palette.map(({rgb, zh, en: name}) => (
             <button key={rgb} type="button" disabled={busy}
               aria-label={en ? name : zh} title={en ? name : zh} aria-pressed={ink === rgb}
               onClick={() => { setInk(rgb); setTool("pen"); }}>
@@ -138,7 +142,7 @@ function SketchSession({
           update(
             tool === "eraser"
               ? eraseSketchAt(lines.current, p)
-              : [...lines.current, [ink === defaultSketchInk ? p : [...p, ink]]],
+              : [...lines.current, [ink === initialInk ? p : [...p, ink]]],
           );
         }}
         onPointerMove={(e) => {
@@ -164,14 +168,14 @@ function SketchSession({
               .map(([x, y]) => `${x * SKETCH_WIDTH},${y * SKETCH_HEIGHT}`)
               .join(" ")}
             fill="none"
-            stroke={inkHex(s[0]?.[2])}
+            stroke={inkHex(s[0]?.[2] ?? initialInk)}
             strokeWidth="1.5"
             strokeLinecap="round"
             strokeLinejoin="round"
           />
         ))}
       </svg>
-      <WidgetFooter onReset={() => {remember(lines.current); if (onReset) onReset(); else {update(initialStrokes);onEnd?.(initialStrokes);} setTool("pen");setInk(defaultSketchInk);}}
+      <WidgetFooter onReset={() => {remember(lines.current); if (onReset) onReset(); else {update(initialStrokes);onEnd?.(initialStrokes);} setTool("pen");setInk(initialInk);}}
         canReset={!busy && (canReset ?? (strokes !== initialStrokes))} onConfirm={onAdopt} confirmLabel={uiText("采用布局草图")} disabled={busy || !strokes.some(s => s.length > 1)}/>
     </>
   );

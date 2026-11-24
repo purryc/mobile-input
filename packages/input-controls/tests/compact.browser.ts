@@ -243,7 +243,12 @@ test('gallery, scan, sketch and screen materials bind only on confirmation', asy
   await expect(chip(page, 'capture')).toHaveAttribute('data-semantic-state', 'object-bound');
   await expect(chip(page, 'capture')).toContainText('screen...');
 
-  for (const kind of ['photo', 'scanner', 'sketch', 'capture'] as const) {
+  // Confirmed scans are removed from the host attachment strip after the viewfinder closes.
+  const scans = example(page, 'scanner').locator('.lite-document-materials');
+  await scans.getByRole('button', {name: /^移除/}).click();
+  await expect(chip(page, 'scanner')).toHaveAttribute('data-semantic-state', 'needs-input');
+
+  for (const kind of ['photo', 'sketch', 'capture'] as const) {
     await chip(page, kind).click();
     await panel(page).getByRole('button', {name: /^移除/}).click();
     await expect(chip(page, kind)).toHaveAttribute('data-semantic-state', 'needs-input');

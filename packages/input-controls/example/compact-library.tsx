@@ -38,6 +38,7 @@ export function CompactLibrary({assetBase = ''}: {assetBase?: string}) {
   }, [generation]);
   const sceneChip = (kind: WidgetKind, initial: ChipSemanticState, sceneLabel?: string, initialColor?: string) =>
     <WidgetSpecimen {...{kind,initial,sceneLabel,initialColor,generating,panels,language,assetBase}} presentation="sentence"/>;
+  const capabilityTitle = en ? 'Agent capability recommendations' : 'Agent 能力推荐';
   const selected = 'default-selected', missing = 'needs-input', suggested = 'ambiguous-recommendation';
   return (
     <main className="lite-library ic-glass-tokens">
@@ -55,22 +56,27 @@ export function CompactLibrary({assetBase = ''}: {assetBase?: string}) {
         <header><h2 id="sentence-heading">{en ? 'Product introduction · Mixed inputs' : '产品介绍 · 句内混排'}</h2>
           <button className="ic-glass-action" type="button" disabled={generating} onClick={() => {setGenerating(true);setGeneration(n=>n+1);}}>
             <RotateCcw aria-hidden size={14}/>{generating ? (en ? 'Generating…' : '生成中…') : (en ? 'Replay generation' : '重播生成')}</button></header>
-        <p className="input-controls-theme" aria-busy={generating}>
-          {en?'Prepare a product presentation lasting ':'做一份产品介绍 PPT，讲'}{sceneChip('duration',selected)}
-          {en?'. Refer to ':'。参考'}{sceneChip('document','object-bound')}
-          {en?', include ':'，放入'}{sceneChip('photo',missing,en?'Photos':'实拍照片')}
-          {en?' and add ':'，补充'}{sceneChip('scanner',missing,en?'Scan a document':'扫描文档')}
-          {en?'. Use ':'。背景用'}{sceneChip('color',selected,en?'Gray':'灰色','#CBD5E1')}
-          {en?' for the background, ':'，主色用'}{sceneChip('color',selected,en?'Red':'红色','#DC3538')}
-          {en?' as the accent and ':'，文字用'}{sceneChip('color',selected,en?'Black':'黑色','#1E293B')}
-          {en?' for text. Choose ':'。整体'}{sceneChip('palette',suggested,en?'Warm and natural':'温暖自然')}
-          {en?' and set the ':'，使用'}{sceneChip('font',missing,en?'Font':'字体')}
-          {en?'. Sketch the product page ':'。产品展示页'}{sceneChip('sketch',missing,en?'Sketch':'画一下')}
-          {en?'. Work with an ':'。请'}{sceneChip('expert',suggested,en?'Expert':'专家')}
-          {en?', use a ':'协助，用'}{sceneChip('skills',suggested,en?'Skill':'技能')}
-          {en?', connect ':'，连接'}{sceneChip('connectors',selected)}
-          {en?' and deliver ':'，输出'}{sceneChip('formats',selected)}{en?'.':'。'}
-        </p>
+        <div className="lite-sample-composer input-controls-theme">
+          <p aria-busy={generating}>
+            {en?'Prepare a product presentation lasting ':'做一份产品介绍 PPT，讲'}{sceneChip('duration',selected)}
+            {en?'. Refer to ':'。参考'}{sceneChip('document','object-bound')}
+            {en?', include ':'，放入'}{sceneChip('photo',missing,en?'Photos':'实拍照片')}
+            {en?' and add ':'，补充'}{sceneChip('scanner',missing,en?'Scan a document':'扫描文档')}
+            {en?'. Use ':'。背景用'}{sceneChip('color',selected,en?'Gray':'灰色','#CBD5E1')}
+            {en?' for the background, ':'，主色用'}{sceneChip('color',selected,en?'Red':'红色','#DC3538')}
+            {en?' as the accent and ':'，文字用'}{sceneChip('color',selected,en?'Black':'黑色','#1E293B')}
+            {en?' for text. Choose ':'。整体'}{sceneChip('palette',suggested,en?'Warm and natural':'温暖自然')}
+            {en?' and set the ':'，使用'}{sceneChip('font',missing,en?'Font':'字体')}
+            {en?'. Sketch the product page ':'。产品展示页'}{sceneChip('sketch',missing,en?'Sketch':'画一下')}
+            {en?'. Deliver as ':'。输出'}{sceneChip('formats',selected)}{en?'.':'。'}
+          </p>
+          <div className="lite-capabilities" role="group" aria-label={capabilityTitle} aria-busy={generating}>
+            <span className="lite-capabilities-title">{capabilityTitle}</span>
+            {sceneChip('expert',suggested,en?'Expert':'专家')}
+            {sceneChip('skills',suggested,en?'Skill':'技能')}
+            {sceneChip('connectors',selected)}
+          </div>
+        </div>
       </section>
       <PackageIntegration en={en}/>
       <div className="lite-grid">
